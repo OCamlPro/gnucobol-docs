@@ -1,0 +1,182 @@
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                    C:/Users/tda010/Documents/Programs/Samples/DAY-FROM-DATE.cbl
+Line   Statement                                                                         Page: 1
+====== =========================================================================================
+     1        >>SOURCE FORMAT IS FIXED
+     2        IDENTIFICATION DIVISION.
+     3        FUNCTION-ID. DAY-FROM-DATE.
+     4       *>****************************************************************
+     5       *> This GNU COBOL user-defined function converts a Gregorian or **
+     6       *> Julian date into a numeric day of the week.                  **
+     7       *>****************************************************************
+     8       *> Arguments:                                                   **
+     9       *>                                                              **
+    10       *> Calendar-Date    A PIC 9 data item or numeric literal which  **
+    11       *>                  will be treated as a calendar date as fol-  **
+    12       *>                  lows:                                       **
+    13       *>                                                              **
+    14       *>                  7-digit value: Interpreted as a Julian date **
+    15       *>                                 in the form yyyyddd          **
+    16       *>                  8-digit value: Interpreted as a Gregorian   **
+    17       *>                                 date in the form yyyymmdd    **
+    18       *>                                                              **
+    19       *> The result returned will be one of the following:            **
+    20       *>                                                              **
+    21       *> 0:  The supplied date is invalid                             **
+    22       *> 1:  The supplied date is a Sunday                            **
+    23       *> 2:  The supplied date is a Monday                            **
+    24       *> .                                                            **
+    25       *> .                                                            **
+    26       *> .                                                            **
+    27       *> 7:  The supplied date is a Saturday                          **
+    28       *>****************************************************************
+    29        ENVIRONMENT DIVISION.
+    30        CONFIGURATION SECTION.
+    31        REPOSITORY.
+    32            FUNCTION ALL INTRINSIC.
+    33        DATA DIVISION.
+    34        WORKING-STORAGE SECTION.
+    35        01  WS-Input-Date-DT.
+    36            05 WS-ID-YYYY-NUM                     PIC 9(4).
+    37            05 WS-ID-MM-NUM                       PIC 9(2).
+    38            05 WS-ID-DD-NUM                       PIC 9(2).
+    39        01  WS-Y-NUM                              BINARY-LONG.
+    40        01  WS-M-NUM                              BINARY-LONG.
+    41        01  WS-Temp-NUM                           BINARY-LONG.
+    42        LINKAGE SECTION.
+    43        01  L-Input-Date-DT                       PIC 9 ANY LENGTH.
+    44        01  L-Output-Day-NUM                      USAGE BINARY-LONG
+    45                                                  SIGNED.
+    46        PROCEDURE DIVISION USING L-Input-Date-DT
+    47                       RETURNING L-Output-Day-NUM.
+    48        000-Main SECTION.
+    49            CALL "C$PARAMSIZE" USING 1
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 1
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                    C:/Users/tda010/Documents/Programs/Samples/DAY-FROM-DATE.cbl
+Line   Statement                                                                         Page: 2
+====== =========================================================================================
+    50            EVALUATE RETURN-CODE
+    51            WHEN 7
+    52                IF TEST-DAY-YYYYDDD(L-Input-Date-DT) > 0
+    53                    MOVE 0 TO L-Output-Day-NUM
+    54                    GOBACK
+    55                END-IF
+    56                MOVE DATE-OF-INTEGER(INTEGER-OF-DAY(L-Input-Date-DT))
+    57                  TO WS-Input-Date-DT
+    58            WHEN 8
+    59                IF TEST-DATE-YYYYMMDD(L-Input-Date-DT) > 0
+    60                    MOVE 0 TO L-Output-Day-NUM
+    61                    GOBACK
+    62                END-IF
+    63                MOVE L-Input-Date-DT TO WS-Input-Date-DT
+    64            WHEN OTHER
+    65                MOVE 0 TO L-Output-Day-NUM
+    66                GOBACK
+    67            END-EVALUATE
+    68       *> IF january OR february
+    69       *>     y = year - 1
+    70       *>     m = month + 10
+    71       *> ELSE
+    72       *>     y = year
+    73       *>     m = month - 2
+    74       *> END-IF
+    75       *> For Gregorian calendar:
+    76       *>     result = (day + y + y/4 - y/100 + y/400 + (31*m)/12) mod 7
+    77       *> (All divisions are integer divisions, discarding any remainder)
+    78            IF WS-ID-MM-NUM = 1 OR 2
+    79                SUBTRACT 1 FROM WS-ID-YYYY-NUM GIVING WS-Y-NUM
+    80                ADD WS-ID-MM-NUM, 10 GIVING WS-M-NUM
+    81            ELSE
+    82                MOVE WS-ID-YYYY-NUM TO WS-Y-NUM
+    83                SUBTRACT 2 FROM WS-ID-MM-NUM GIVING WS-M-NUM
+    84            END-IF
+    85            COMPUTE L-Output-Day-NUM =
+    86                WS-ID-DD-NUM
+    87              + WS-Y-NUM
+    88              + INTEGER(WS-Y-NUM/4)
+    89              - INTEGER(WS-Y-NUM/100)
+    90              + INTEGER(WS-Y-NUM/400)
+    91              + INTEGER((31*WS-M-NUM)/12)
+    92            DIVIDE L-Output-Day-NUM BY 7
+    93                GIVING WS-Temp-NUM
+    94                REMAINDER L-Output-Day-NUM
+    95            ADD 1 TO L-Output-Day-NUM
+    96            GOBACK
+    97            .
+    98
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 2
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Cross-Reference Listing                                       2014/03/27
+                                    C:/Users/tda010/Documents/Programs/Samples/DAY-FROM-DATE.cbl
+PROGRAM-ID      Identifier/Register/Function     Defn   Where Defined   References       Page: 3
+=============== ================================ ====== =============== ========================
+DAY-FROM-DATE   000-Main                             48 PROCEDURE
+DAY-FROM-DATE   L-Input-Date-DT                      43 LINKAGE             46      52      56
+                                                                            59      63
+DAY-FROM-DATE   L-Output-Day-NUM                     44 LINKAGE             47      53*     60*
+                                                                            65*     85*     92
+                                                                            94*     95*
+DAY-FROM-DATE   RETURN-CODE                             PROCEDURE           50
+DAY-FROM-DATE   WS-ID-DD-NUM                         38 WORKING-STORAGE     86
+DAY-FROM-DATE   WS-ID-MM-NUM                         37 WORKING-STORAGE     78      80      83
+DAY-FROM-DATE   WS-ID-YYYY-NUM                       36 WORKING-STORAGE     79      82
+DAY-FROM-DATE   WS-Input-Date-DT                     35 WORKING-STORAGE     57*     63*
+DAY-FROM-DATE   WS-M-NUM                             40 WORKING-STORAGE     80*     83*     91
+DAY-FROM-DATE   WS-Temp-NUM                          41 WORKING-STORAGE     93*
+DAY-FROM-DATE   WS-Y-NUM                             39 WORKING-STORAGE     79*     82*     87
+                                                                            88      89      90
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 3
+@end verbatim
+@end smallformat

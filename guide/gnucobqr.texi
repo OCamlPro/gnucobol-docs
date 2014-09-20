@@ -1,0 +1,475 @@
+@comment %**start of header
+@comment *********************************************************************
+@comment ** DOCUMENT HEADER                                                 **
+@comment *********************************************************************
+@comment ** SPECIAL INSTRUCTIONS WHEN RUNNING "MAKEINFO":                   **
+@comment ** --------------------------------------------------------------- **
+@comment ** Use the command "makeinfo --no-split gnucobqr.texi" to build    **
+@comment ** an INFO file from this source.                                  **
+@comment *********************************************************************
+@comment ** SPECIAL INSTRUCTIONS WHEN RUNNING "TEXI2PDF":                   **
+@comment ** --------------------------------------------------------------- **
+@comment ** Use the command "texi2pdf -q -c gnucobqr-xx.texi" to build a    **
+@comment ** PDF (xx="a4" or "letter")                                       **
+@comment *********************************************************************
+@set CHAPNAME Contents
+@setfilename gnucobqr.info
+@finalout
+@include Macros.texi
+@paragraphindent 0
+@set BUILD 23NOV2013
+@set VERSION 2.1
+@comment %**end of header
+@setchapternewpage odd
+@comment *********************************************************************
+@comment ** COPYING POLICY STATEMENT                                        **
+@comment *********************************************************************
+@copying
+This manual documents GNU COBOL @value{VERSION}, @value{BUILD} build.
+
+@verbatim
+GNU-COBOL Copyright 2002-2007 Keisuke Nishida
+          Copyright 2007-2012 Roger While
+          Copyright 2013-2013 Ron Norman (RWCS for GNU COBOL)
+Document  Copyright 2009-2014 Gary L. Cutler
+@end verbatim
+@quotation
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License [FDL], Version 1.3 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled ''GNU Free Documentation License''.
+@end quotation
+@end copying
+@dircategory GNU-COBOL
+@direntry
+* GNU-COBOL: (gnucobqr)        GNU COBOL Quick Reference
+@end direntry
+@comment *********************************************************************
+@comment ** TITLE PAGE (WHEN GENERATING PDF VIA TeX)                        **
+@comment *********************************************************************
+@titlepage
+@title GNU COBOL Quick Reference
+@subtitle For Version @value{VERSION} [@value{BUILD}]
+@author Gary L. Cutler (@email{cutlergl@@gmail.com}).
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+@comment *********************************************************************
+@comment ** TABLE OF CONTENTS (WHEN GENERATING PDF VIA TeX)                 **
+@comment *********************************************************************
+@headings off
+@oddheading GNU COBOL @value{VERSION} [@value{BUILD}] Quick Reference @| @| @thispage
+@oddfooting @today{} @| @| @value{CHAPNAME}
+@evenheading @thispage @| @| GNU COBOL @value{VERSION} [@value{BUILD}] Quick Reference
+@evenfooting @value{CHAPNAME} @| @| @today{}
+@contents
+@comment *********************************************************************
+@comment ** TOP NODE POINT (Ignore if running TeX)                          **
+@comment *********************************************************************
+@ifinfo
+@node Top
+@top GNU COBOL Quick Reference
+This manual x documents the 23NOV2013 build of GNU COBOL 2.1.
+@menu
+* 1: CDF.
+* 2: IDENTIFICATION DIVISION Syntax.
+* 3: ENVIRONMENT DIVISION Syntax.
+* 4: DATA DIVISION Syntax.
+* 5: PROCEDURE DIVISION Syntax.
+* 6: Intrinsic Functions Syntax.
+* 7: Built-In Subroutines Syntax.
+* 8: GNU Free Documentation License.
+@end menu
+@end ifinfo
+@settitle GNU COBOL Quick Reference @value{VERSION} [@value{BUILD}]
+@comment *********************************************************************
+@comment ** Document Body                                                   **
+@comment *********************************************************************
+@set SKELETON Y
+@comment *********************************************************************
+@comment ** 1 CDF                                                           **
+@comment *********************************************************************
+@newchapter{1,CDF}
+@diagram{CDF COPY Statement,                       CDF-COPY,                 CDF-COPY,                None}
+@diagram{CDF COPY Phrase-Clause,                   CDF-COPY-Phrase,          CDF-COPY-Phrase,         None}
+@diagram{CDF COPY String-Clause,                   CDF-COPY-String,          CDF-COPY-String,         None}
+@diagram{CDF REPLACE Statement (Format 1),         CDF-REPLACE-1,            CDF-REPLACE-1,           None}
+@diagram{CDF REPLACE Statement (Format 2),         CDF-REPLACE-2,            CDF-REPLACE-2,           None}
+@diagram{CDF REPLACE Phrase-Clause,                CDF-REPLACE-Phrase,       CDF-REPLACE-Phrase,      None}
+@diagram{CDF REPLACE String-Clause,                CDF-REPLACE-String,       CDF-REPLACE-String,      None}
+@page
+@diagram{CDF >>DEFINE Directive,                   CDF-DEFINE,               CDF-DEFINE,              None}
+@diagram{CDF >>IF Directive,                       CDF-IF,                   CDF-IF,                  None}
+@diagram{CDF-Conditional-Expression,               CDF-Cond-Expr,            CDF-Cond-Expr,           None}
+@diagram{CDF-RelOp,                                CDF-RelOp,                CDF-RelOp,               None}
+@page
+@diagram{CDF >>SET Directive,                      CDF-SET,                  CDF-SET,                 None}
+@diagram{CDF >>SOURCE Directive,                   CDF-SOURCE,               CDF-SOURCE,              None}
+@diagram{CDF >>TURN Directive,                     CDF-TURN,                 CDF-TURN,                CDF-TURN}
+@comment *********************************************************************
+@comment ** 2 IDENTIFICATION DIVISION Syntax                                **
+@comment *********************************************************************
+@newchapter{2,IDENTIFICATION DIVISION Syntax}
+@diagram{IDENTIFICATION DIVISION,                  ID-Overview,              ID-Overview,             ID-Overview}
+@diagram{PROGRAM-ID Type Clause,                   ID-PROGRAM-ID-Type,       ID-PROGRAM-ID-Type,      None}
+@comment *********************************************************************
+@comment ** 3 ENVIRONMENT DIVISION Syntax                                   **
+@comment *********************************************************************
+@newchapter{3,ENVIRONMENT DIVISION Syntax}
+@diagram{ENVIRONMENT DIVISION,                     ED-Overview,              ED-Overview,             None}
+@diagram{CONFIGURATION SECTION,                    ED-CONFIG-SECTION,        ED-CONFIG-SECTION,       None}
+@diagram{SOURCE-COMPUTER,                          ED-SOURCE-COMPUTER,       ED-SOURCE-COMPUTER,      None}
+@page
+@diagram{OBJECT-COMPUTER,                          ED-OBJECT-COMPUTER,       ED-OBJECT-COMPUTER,      ED-OBJECT-COMPUTER}
+@diagram{REPOSITORY,                               ED-REPOSITORY,            ED-REPOSITORY,           None}
+@page
+@diagram{SPECIAL-NAMES,                            ED-SPECIAL-NAMES-Info,    ED-SPECIAL-NAMES-TeX,    ED-SPECIAL-NAMES}
+@page
+@diagram{SPECIAL-NAMES Alphabet-Clause,            ED-SPECIAL-NAMES-AN-Info, ED-SPECIAL-NAMES-AN-TeX, None}
+@diagram{SPECIAL-NAMES ALPHABET Literal-Clause,    ED-SPECIAL-NAMES-L-Info,  ED-SPECIAL-NAMES-L-TeX,  None}
+@diagram{SPECIAL-NAMES Class-Definition-Clause,    ED-SPECIAL-NAMES-CD,      ED-SPECIAL-NAMES-CD,     None}
+@diagram{SPECIAL-NAMES Switch-Definition-Clause,   ED-SPECIAL-NAMES-SD,      ED-SPECIAL-NAMES-SD,     None}
+@diagram{SPECIAL-NAMES-Symbolic-Characters-Clause, ED-SPECIAL-NAMES-SC,      ED-SPECIAL-NAMES-SC,     None}
+@page
+@diagram{INPUT-OUTPUT SECTION,                     ED-IO-SECTION,            ED-IO-SECTION,           None}
+@diagram{I-O-CONTROL MULTIPLE FILE,                ED-IO-CONTROL-MULT,       ED-IO-CONTROL-MULT,      ED-IO-CONTROL-MULT}
+@diagram{I-O-CONTROL SAME AREA,                    ED-IO-CONTROL-SAME,       ED-IO-CONTROL-SAME,      ED-IO-CONTROL-SAME}
+@page
+@diagram{SELECT Statement,                         ED-SELECT,                ED-SELECT,               ED-SELECT}
+@page
+@diagram{ORGANIZATION SEQUENTIAL Clause,           ED-SELECT-ORG-SEQ,        ED-SELECT-ORG-SEQ,       None}
+@diagram{ORGANIZATION LINE SEQUENTIAL Clause,      ED-SELECT-ORG-L-SEQ,      ED-SELECT-ORG-L-SEQ,     ED-SELECT-ORG-L-SEQ}
+@diagram{ORGANIZATION RELATIVE Clause,             ED-SELECT-ORG-REL,        ED-SELECT-ORG-REL,       None}
+@page
+@diagram{ORGANIZATION INDEXED Clause,              ED-SELECT-ORG-IDX,        ED-SELECT-ORG-IDX,       ED-SELECT-ORG-IDX-S}
+@comment *********************************************************************
+@comment ** 4 DATA DIVISION Syntax                                          **
+@comment *********************************************************************
+@newchapter{4,DATA DIVISION Syntax}
+@diagram{DATA DIVISION,                            DD-Overview-Info,         DD-Overview-TeX,         None}
+@page
+@diagram{File/Sort-Description,                    DD-FD-SD,                 DD-FD-SD,                DD-FD-SD}
+@page
+@diagram{FILE-SECTION-Data-Item,                   DD-FS-Data-Item,          DD-FS-Data-Item,         DD-SYNC-LEFT-RIGHT}
+@page
+@diagram{WORKING-STORAGE-SECTION-Data-Item,        DD-WSS-Data-Item,         DD-WSS-Data-Item,        DD-SYNC-LEFT-RIGHT}
+@page
+@diagram{LOCAL-STORAGE-SECTION-Data-Item,          DD-LSS-Data-Item,         DD-LSS-Data-Item,        DD-SYNC-LEFT-RIGHT}
+@page
+@diagram{LINKAGE-SECTION-Data-Item,                DD-LS-Data-Item,          DD-LS-Data-Item,         DD-SYNC-LEFT-RIGHT}
+@page
+@diagram{Report-Description (RD),                  DD-RS-RD,                 DD-RS-RD,                DD-RS-RD}
+@page
+@diagram{Report-Group-Definition,                  DD-RS-Report-Group,       DD-RS-Report-Group,      None}
+@page
+@diagram{REPORT-SECTION-Data-Item,                 DD-RS-Data-Item-Info,     DD-RS-Data-Item-TeX,     None}
+@page
+@diagram{SCREEN-SECTION-Data-Item,                 DD-SS-Data-Item,          DD-SS-Data-Item,         None}
+@page
+@diagram{01-Level-Constant,                        DD-01-Constant,           DD-01-Constant,          None}
+@diagram{66-Level-Data-Item,                       DD-66-Data-Item,          DD-66-Data-Item,         None}
+@diagram{77-Level-Data-Item,                       DD-77-Data-Item,          DD-77-Data-Item,         DD-SYNC-LEFT-RIGHT}
+@diagram{78-Level-Constant,                        DD-78-Constant,           DD-78-Constant,          None}
+@page
+@diagram{88-Level-Data-Item,                       DD-88-Data-Item,          DD-88-Data-Item,         None}
+@comment *********************************************************************
+@comment ** 5 PROCEDURE DIVISION Syntax                                     **
+@comment *********************************************************************
+@newchapter{5,PROCEDURE DIVISION Syntax}
+@diagram{PROCEDURE DIVISION,                       PD-Overview-Info,         PD-Overview-TeX,         None}
+@diagram{PROCEDURE DIVISION Subprogram-Argument,   PD-USING,                 PD-USING,                None}
+@diagram{PROCEDURE DIVISION Main-Program-Argument, PD-CHAINING,              PD-CHAINING,             None}
+@diagram{PROCEDURE DIVISION RETURNING,             PD-RETURNING,             PD-RETURNING,            None}
+@page
+@diagram{DECLARATIVES,                             PD-DECLARATIVES,          PD-DECLARATIVES,         PD-DECLARATIVES}
+@diagram{LENGTH OF,                                PD-LENGTH-OF,             PD-LENGTH-OF,            None}
+@diagram{Reference Modifier (Format 1),            PD-Ref-Mod-1,             PD-Ref-Mod-1,            None}
+@diagram{Reference Modifier (Format 2),            PD-Ref-Mod-2,             PD-Ref-Mod-2,            None}
+@diagram{Arithmetic-Expression,                    PD-Arith-Expr,            PD-Arith-Expr,           None}
+@page
+@diagram{Unary-Expression,                         PD-Unary-Expr,            PD-Unary-Expr,           None}
+@diagram{Class-Condition,                          PD-Class-Cond,            PD-Class-Cond,           None}
+@diagram{Sign-Condition,                           PD-Sign-Cond,             PD-Sign-Cond,            None}
+@diagram{Relation-Condition,                       PD-Rel-Cond,              PD-Rel-Cond,             None}
+@page
+@diagram{RelOp,                                    PD-RelOp,                 PD-RelOp,                None}
+@diagram{Combined Condition,                       PD-Comb-Cond,             PD-Comb-Cond,            None}
+@diagram{Negated Condition,                        PD-Neg-Cond,              PD-Neg-Cond,             None}
+@diagram{ACCEPT FROM CONSOLE,                      PD-ACCEPT-1,              PD-ACCEPT-1,             None}
+@page
+@diagram{ACCEPT FROM COMMAND-LINE,                 PD-ACCEPT-2,              PD-ACCEPT-2,             None}
+@diagram{ACCEPT FROM ENVIRONMENT,                  PD-ACCEPT-3,              PD-ACCEPT-3,             None}
+@page
+@diagram{ACCEPT screen-data-item,                  PD-ACCEPT-4,              PD-ACCEPT-4,             PD-ACCEPT-4}
+@page
+@diagram{ACCEPT FROM DATE/TIME,                    PD-ACCEPT-5,              PD-ACCEPT-5,             None}
+@diagram{ACCEPT FROM Screen-Info,                  PD-ACCEPT-6,              PD-ACCEPT-6,             None}
+@diagram{ACCEPT FROM Runtime-Info,                 PD-ACCEPT-7,              PD-ACCEPT-7,             None}
+@page
+@diagram{ADD TO,                                   PD-ADD-1,                 PD-ADD-1,                None}
+@page
+@diagram{ADD GIVING,                               PD-ADD-2,                 PD-ADD-2,                None}
+@page
+@diagram{ADD CORRESPONDING,                        PD-ADD-3,                 PD-ADD-3,                None}
+@diagram{ALLOCATE,                                 PD-ALLOCATE,              PD-ALLOCATE,             None}
+@diagram{ALTER,                                    PD-ALTER,                 PD-ALTER,                None}
+@page
+@diagram{CALL,                                     PD-CALL,                  PD-CALL,                 None}
+@diagram{CALL Argument,                            PD-CALL-Arg,              PD-CALL-Arg,             None}
+@diagram{CANCEL,                                   PD-CANCEL,                PD-CANCEL,               None}
+@page
+@diagram{CLOSE,                                    PD-CLOSE,                 PD-CLOSE,                PD-CLOSE}
+@diagram{COMMIT,                                   PD-COMMIT,                PD-COMMIT,               None}
+@diagram{COMPUTE,                                  PD-COMPUTE,               PD-COMPUTE,              None}
+@page
+@diagram{CONTINUE,                                 PD-CONTINUE,              PD-CONTINUE,             None}
+@diagram{DELETE,                                   PD-DELETE,                PD-DELETE,               None}
+@diagram{DISPLAY UPON device,                      PD-DISPLAY-1,             PD-DISPLAY-1,            None}
+@diagram{DISPLAY UPON COMMAND-LINE,                PD-DISPLAY-2,             PD-DISPLAY-2,            None}
+@page
+@diagram{DISPLAY UPON ENVIRONMENT-NAME,            PD-DISPLAY-3-Info,        PD-DISPLAY-3-TeX,        None}
+@diagram{DISPLAY screen-data-item,                 PD-DISPLAY-4,             PD-DISPLAY-4,            PD-DISPLAY-4}
+@page
+@diagram{DIVIDE INTO,                              PD-DIVIDE-1,              PD-DIVIDE-1,             None}
+@page
+@diagram{DIVIDE INTO GIVING,                       PD-DIVIDE-2,              PD-DIVIDE-2,             None}
+@page
+@diagram{DIVIDE BY GIVING,                         PD-DIVIDE-3,              PD-DIVIDE-3,             None}
+@diagram{ENTRY,                                    PD-ENTRY,                 PD-ENTRY,                None}
+@diagram{ENTRY-Argument,                           PD-ENTRY-Arg,             PD-ENTRY-Arg,            None}
+@page
+@diagram{EVALUATE,                                 PD-EVALUATE,              PD-EVALUATE,             None}
+@diagram{EVALUATE Selection Subject,               PD-EVALUATE-SS,           PD-EVALUATE-SS,          None}
+@diagram{EVALUATE Selection Object,                PD-EVALUATE-SO,           PD-EVALUATE-SO,          None}
+@page
+@diagram{EXIT,                                     PD-EXIT,                  PD-EXIT,                 None}
+@diagram{FREE,                                     PD-FREE,                  PD-FREE,                 None}
+@diagram{GENERATE,                                 PD-GENERATE,              PD-GENERATE,             None}
+@diagram{GOBACK,                                   PD-GOBACK,                PD-GOBACK,               None}
+@diagram{Simple GO TO,                             PD-GO-TO-1,               PD-GO-TO-1,              None}
+@diagram{GO TO DEPENDING ON,                       PD-GO-TO-2,               PD-GO-TO-2,              None}
+@page
+@diagram{IF,                                       PD-IF,                    PD-IF,                   None}
+@diagram{INITIALIZE,                               PD-INITIALIZE,            PD-INITIALIZE,           None}
+@diagram{INITIATE,                                 PD-INITIATE,              PD-INITIATE,             None}
+@page
+@diagram{INSPECT,                                  PD-INSPECT,               PD-INSPECT,              None}
+@page
+@diagram{MERGE,                                    PD-MERGE-Info,            PD-MERGE-TeX,            PD-DUPLICATES}
+@diagram{Simple MOVE,                              PD-MOVE-1,                PD-MOVE-1,               None}
+@diagram{MOVE CORRESPONDING,                       PD-MOVE-2,                PD-MOVE-2,               None}
+@page
+@diagram{MULTIPLY BY,                              PD-MULTIPLY-1,            PD-MULTIPLY-1,           None}
+@page
+@diagram{MULTIPLY GIVING,                          PD-MULTIPLY-2,            PD-MULTIPLY-2,           None}
+@diagram{OPEN,                                     PD-OPEN,                  PD-OPEN,                 PD-OPEN}
+@page
+@diagram{Procedural PERFORM,                       PD-PERFORM-1,             PD-PERFORM-1,            None}
+@diagram{Inline PERFORM,                           PD-PERFORM-2,             PD-PERFORM-2,            None}
+@diagram{VARYING,                                  PD-PERFORM-VARYING,       PD-PERFORM-VARYING,      None}
+@page
+@diagram{Sequential READ,                          PD-READ-1,                PD-READ-1,               None}
+@diagram{Random READ,                              PD-READ-2,                PD-READ-2,               None}
+@page
+@diagram{READY TRACE,                              PD-READY-TRACE,           PD-READY-TRACE,          None}
+@diagram{RELEASE,                                  PD-RELEASE,               PD-RELEASE,              None}
+@diagram{RESET TRACE,                              PD-RESET-TRACE,           PD-RESET-TRACE,          None}
+@diagram{RETURN,                                   PD-RETURN,                PD-RETURN,               None}
+@diagram{REWRITE,                                  PD-REWRITE,               PD-REWRITE,              None}
+@page
+@diagram{ROLLBACK,                                 PD-ROLLBACK,              PD-ROLLBACK,             None}
+@diagram{SEARCH,                                   PD-SEARCH,                PD-SEARCH,               None}
+@diagram{SEARCH ALL,                               PD-SEARCH-ALL,            PD-SEARCH-ALL,           None}
+@diagram{SET ENVIRONMENT,                          PD-SET-1,                 PD-SET-1,                None}
+@diagram{SET Program-Pointer,                      PD-SET-2,                 PD-SET-2,                None}
+@diagram{SET ADDRESS,                              PD-SET-3,                 PD-SET-3,                None}
+@page
+@diagram{SET Index,                                PD-SET-4,                 PD-SET-4,                None}
+@diagram{SET UP/DOWN,                              PD-SET-5,                 PD-SET-5,                None}
+@diagram{SET Condition Name,                       PD-SET-6-Info,            PD-SET-6-TeX,            None}
+@diagram{SET Switch,                               PD-SET-7-Info,            PD-SET-7-TeX,            None}
+@diagram{SET ATTRIBUTE,                            PD-SET-8,                 PD-SET-8,                None}
+@page
+@diagram{File-Based SORT,                          PD-SORT-1-Info,           PD-SORT-1-TeX,           PD-DUPLICATES}
+@diagram{Table SORT,                               PD-SORT-2,                PD-SORT-2,               PD-DUPLICATES}
+@page
+@diagram{START,                                    PD-START,                 PD-START,                None}
+@diagram{STOP,                                     PD-STOP,                  PD-STOP,                 None}
+@page
+@diagram{STRING,                                   PD-STRING,                PD-STRING,               None}
+@diagram{SUBTRACT FROM,                            PD-SUBTRACT-1-Info,       PD-SUBTRACT-1-TeX,       None}
+@page
+@diagram{SUBTRACT GIVING,                          PD-SUBTRACT-2-Info,       PD-SUBTRACT-2-TeX,       None}
+@page
+@diagram{SUBTRACT CORRESPONDING,                   PD-SUBTRACT-3,            PD-SUBTRACT-3,           None}
+@diagram{SUPPRESS,                                 PD-SUPPRESS,              PD-SUPPRESS,             None}
+@diagram{TERMINATE,                                PD-TERMINATE,             PD-TERMINATE,            None}
+@diagram{TRANSFORM,                                PD-TRANSFORM,             PD-TRANSFORM,            None}
+@diagram{UNLOCK,                                   PD-UNLOCK,                PD-UNLOCK,               None}
+@page
+@diagram{UNSTRING,                                 PD-UNSTRING,              PD-UNSTRING,             None}
+@diagram{WRITE,                                    PD-WRITE,                 PD-WRITE,                None}
+@comment *********************************************************************
+@comment ** 6 Intrinsic Functions Syntax                                    **
+@comment *********************************************************************
+@newchapter{6,Intrinsic Functions Syntax}
+@diagram{ABS Function,                             FN-ABS,                   FN-ABS,                  None}
+@diagram{ACOS Function,                            FN-ACOS,                  FN-ACOS,                 None}
+@diagram{ANNUITY Function,                         FN-ANNUITY,               FN-ANNUITY,              None}
+@diagram{ASIN Function,                            FN-ASIN,                  FN-ASIN,                 None}
+@diagram{ATAN Function,                            FN-ATAN,                  FN-ATAN,                 None}
+@diagram{BYTE-LENGTH Function,                     FN-BYTE-LENGTH,           FN-BYTE-LENGTH,          None}
+@diagram{CHAR Function,                            FN-CHAR,                  FN-CHAR,                 None}
+@diagram{COMBINED-DATETIME Function,               FN-COMBINED-DATETIME,     FN-COMBINED-DATETIME,    None}
+@page
+@diagram{CONCATENATE Function,                     FN-CONCATENATE,           FN-CONCATENATE,          None}
+@diagram{COS Function,                             FN-COS,                   FN-COS,                  None}
+@diagram{CURRENCY-SYMBOL Function,                 FN-CURRENCY-SYMBOL,       FN-CURRENCY-SYMBOL,      None}
+@diagram{CURRENT-DATE Function,                    FN-CURRENT-DATE,          FN-CURRENT-DATE,         None}
+@diagram{DATE-OF-INTEGER Function,                 FN-DATE-OF-INTEGER,       FN-DATE-OF-INTEGER,      None}
+@diagram{DATE-TO-YYYYMMDD Function,                FN-DATE-TO-YYYYMMDD,      FN-DATE-TO-YYYYMMDD,     None}
+@diagram{DAY-OF-INTEGER Function,                  FN-DAY-OF-INTEGER,        FN-DAY-OF-INTEGER,       None}
+@diagram{DAY-TO-YYYYDDD Function,                  FN-DAY-TO-YYYYDDD,        FN-DAY-TO-YYYYDDD,       None}
+@diagram{E Function,                               FN-E,                     FN-E,                    None}
+@page
+@diagram{EXCEPTION-FILE Function,                  FN-EXCEPTION-FILE,        FN-EXCEPTION-FILE,       None}
+@diagram{EXCEPTION-LOCATION Function,              FN-EXCEPTION-LOCATION,    FN-EXCEPTION-LOCATION,   None}
+@diagram{EXCEPTION-STATEMENT Function,             FN-EXCEPTION-STMT,        FN-EXCEPTION-STMT,       None}
+@diagram{EXCEPTION-STATUS Function,                FN-EXCEPTION-STATUS,      FN-EXCEPTION-STATUS,     None}
+@diagram{EXP Function,                             FN-EXP,                   FN-EXP,                  None}
+@diagram{EXP10 Function,                           FN-EXP10,                 FN-EXP10,                None}
+@diagram{FACTORIAL Function,                       FN-FACTORIAL,             FN-FACTORIAL,            None}
+@diagram{FRACTION-PART Function,                   FN-FRACTION-PART,         FN-FRACTION-PART,        None}
+@diagram{HIGHEST-ALGEBRAIC Function,               FN-HIGHEST-ALGEBRAIC,     FN-HIGHEST-ALGEBRAIC,    None}
+@page
+@diagram{INTEGER Function,                         FN-INTEGER,               FN-INTEGER,              None}
+@diagram{INTEGER-OF-DATE Function,                 FN-INTEGER-OF-DATE,       FN-INTEGER-OF-DATE,      None}
+@diagram{INTEGER-OF-DAY Function,                  FN-INTEGER-OF-DAY,        FN-INTEGER-OF-DAY,       None}
+@diagram{INTEGER-PART Function,                    FN-INTEGER-PART,          FN-INTEGER-PART,         None}
+@diagram{LENGTH Function,                          FN-LENGTH,                FN-LENGTH,               None}
+@diagram{LENGTH-AN Function,                       FN-LENGTH-AN,             FN-LENGTH-AN,            None}
+@diagram{LOCALE-COMPARE Function,                  FN-LOCALE-COMPARE,        FN-LOCALE-COMPARE,       None}
+@diagram{LOCALE-DATE Function,                     FN-LOCALE-DATE,           FN-LOCALE-DATE,          None}
+@diagram{LOCALE-TIME Function,                     FN-LOCALE-TIME,           FN-LOCALE-TIME,          None}
+@page
+@diagram{LOCALE-TIME-FROM-SECONDS Function,        FN-LOC-TM-FROM-SECS,      FN-LOC-TM-FROM-SECS,     None}
+@diagram{LOG Function,                             FN-LOG,                   FN-LOG,                  None}
+@diagram{LOG10 Function,                           FN-LOG10,                 FN-LOG10,                None}
+@diagram{LOWER-CASE Function,                      FN-LOWER-CASE,            FN-LOWER-CASE,           None}
+@diagram{LOWEST-ALGEBRAIC Function,                FN-LOWEST-ALGEBRAIC,      FN-LOWEST-ALGEBRAIC,     None}
+@diagram{MAX Function,                             FN-MAX,                   FN-MAX,                  None}
+@diagram{MEAN Function,                            FN-MEAN,                  FN-MEAN,                 None}
+@diagram{MEDIAN Function,                          FN-MEDIAN,                FN-MEDIAN,               None}
+@diagram{MIDRANGE Function,                        FN-MIDRANGE,              FN-MIDRANGE,             None}
+@page
+@diagram{MIN Function,                             FN-MIN,                   FN-MIN,                  None}
+@diagram{MOD Function,                             FN-MOD,                   FN-MOD,                  None}
+@diagram{MODULE-CALLER-ID Function,                FN-MODULE-CALLER-ID,      FN-MODULE-CALLER-ID,     None}
+@diagram{MODULE-DATE Function,                     FN-MODULE-DATE,           FN-MODULE-DATE,          None}
+@diagram{MODULE-FORMATTED-DATE Function,           FN-MODULE-FMTD-DATE,      FN-MODULE-FMTD-DATE,     None}
+@diagram{MODULE-ID Function,                       FN-MODULE-ID,             FN-MODULE-ID,            None}
+@diagram{MODULE-PATH Function,                     FN-MODULE-PATH,           FN-MODULE-PATH,          None}
+@diagram{MODULE-SOURCE Function,                   FN-MODULE-SOURCE,         FN-MODULE-SOURCE,        None}
+@diagram{MODULE-TIME Function,                     FN-MODULE-TIME,           FN-MODULE-TIME,          None}
+@page
+@diagram{MONETARY-DECIMAL-POINT Function,          FN-MON-DECIMAL-POINT,     FN-MON-DECIMAL-POINT,    None}
+@diagram{MONETARY-THOUSANDS-SEPARATOR Function,    FN-MON-THOUSANDS-SEP,     FN-MON-THOUSANDS-SEP,    None}
+@diagram{NUMERIC-DECIMAL-POINT Function,           FN-NUM-DECIMAL-POINT,     FN-NUM-DECIMAL-POINT,    None}
+@diagram{NUMERIC-THOUSANDS-SEPARATOR Function,     FN-NUM-THOUSANDS-SEP,     FN-NUM-THOUSANDS-SEP,    None}
+@diagram{NUMVAL Function,                          FN-NUMVAL,                FN-NUMVAL,               None}
+@diagram{NUMVAL-C Function,                        FN-NUMVAL-C,              FN-NUMVAL-C,             None}
+@diagram{NUMVAL-F Function,                        FN-NUMVAL-F,              FN-NUMVAL-F,             None}
+@diagram{ORD Function,                             FN-ORD,                   FN-ORD,                  None}
+@diagram{ORD-MAX Function,                         FN-ORD-MAX,               FN-ORD-MAX,              None}
+@page
+@diagram{ORD-MIN Function,                         FN-ORD-MIN,               FN-ORD-MIN,              None}
+@diagram{PI Function,                              FN-PI,                    FN-PI,                   None}
+@diagram{PRESENT-VALUE Function,                   FN-PRESENT-VALUE,         FN-PRESENT-VALUE,        None}
+@diagram{RANDOM Function,                          FN-RANDOM,                FN-RANDOM,               None}
+@diagram{RANGE Function,                           FN-RANGE,                 FN-RANGE,                None}
+@diagram{REM Function,                             FN-REM,                   FN-REM,                  None}
+@diagram{REVERSE Function,                         FN-REVERSE,               FN-REVERSE,              None}
+@diagram{SECONDS-FROM-FORMATTED-TIME Function,     FN-SECS-FROM-FMTD-TM,     FN-SECS-FROM-FMTD-TM,    None}
+@diagram{SECONDS-PAST-MIDNIGHT Function,           FN-SECS-PAST-MIDNIGHT,    FN-SECS-PAST-MIDNIGHT,   None}
+@page
+@diagram{SIGN Function,                            FN-SIGN,                  FN-SIGN,                 None}
+@diagram{SIN Function,                             FN-SIN,                   FN-SIN,                  None}
+@diagram{SQRT Function,                            FN-SQRT,                  FN-SQRT,                 None}
+@diagram{STANDARD-DEVIATION Function,              FN-STANDARD-DEVIATION,    FN-STANDARD-DEVIATION,   None}
+@diagram{STORED-CHAR-LENGTH Function,              FN-STORED-CHAR-LENGTH,    FN-STORED-CHAR-LENGTH,   None}
+@diagram{SUBSTITUTE Function,                      FN-SUBSTITUTE,            FN-SUBSTITUTE,           None}
+@diagram{SUBSTITUTE-CASE Function,                 FN-SUBSTITUTE-CASE,       FN-SUBSTITUTE-CASE,      None}
+@diagram{SUM Function,                             FN-SUM,                   FN-SUM,                  None}
+@diagram{TAN Function,                             FN-TAN,                   FN-TAN,                  None}
+@page
+@diagram{TEST-DATE-YYYYMMDD Function,              FN-TEST-DATE-YYYYMMDD,    FN-TEST-DATE-YYYYMMDD,   None}
+@diagram{TEST-DAY-YYYYDDD Function,                FN-TEST-DAY-YYYYDDD,      FN-TEST-DAY-YYYYDDD,     None}
+@diagram{TEST-NUMVAL Function,                     FN-TEST-NUMVAL,           FN-TEST-NUMVAL,          None}
+@diagram{TEST-NUMVAL-C Function,                   FN-TEST-NUMVAL-C,         FN-TEST-NUMVAL-C,        None}
+@diagram{TEST-NUMVAL-F Function,                   FN-TEST-NUMVAL-F,         FN-TEST-NUMVAL-F,        None}
+@diagram{TRIM Function,                            FN-TRIM,                  FN-TRIM,                 None}
+@diagram{UPPER-CASE Function,                      FN-UPPER-CASE,            FN-UPPER-CASE,           None}
+@diagram{VARIANCE Function,                        FN-VARIANCE,              FN-VARIANCE,             None}
+@diagram{WHEN-COMPILED Function,                   FN-WHEN-COMPILED,         FN-WHEN-COMPILED,        None}
+@page
+@diagram{YEAR-TO-YYYY Function,                    FN-YEAR-TO-YYYY,          FN-YEAR-TO-YYYY,         None}
+@comment *********************************************************************
+@comment ** 7 Built-In Subroutines Syntax}                                  **
+@comment *********************************************************************
+@newchapter{7,Built-In Subroutines Syntax}
+@diagram{C$CALLEDBY Built-In Subroutine,           SS-C$CALLEDBY,         SS-C$CALLEDBY,         None}
+@diagram{C$CHDIR Built-In Subroutine,              SS-C$CHDIR,            SS-C$CHDIR,            None}
+@diagram{C$COPY Built-In Subroutine,               SS-C$COPY,             SS-C$COPY,             None}
+@diagram{C$DELETE Built-In Subroutine,             SS-C$DELETE,           SS-C$DELETE,           None}
+@diagram{C$FILEINFO Built-In Subroutine,           SS-C$FILEINFO,         SS-C$FILEINFO,         None}
+@diagram{C$GETPID Built-In Subroutine,             SS-C$GETPID,           SS-C$GETPID,           None}
+@diagram{C$JUSTIFY Built-In Subroutine,            SS-C$JUSTIFY,          SS-C$JUSTIFY,          None}
+@diagram{C$MAKEDIR Built-In Subroutine,            SS-C$MAKEDIR,          SS-C$MAKEDIR,          None}
+@page
+@diagram{C$NARG Built-In Subroutine,               SS-C$NARG,             SS-C$NARG,             None}
+@diagram{C$PARAMSIZE Built-In Subroutine,          SS-C$PARAMSIZE,        SS-C$PARAMSIZE,        None}
+@diagram{C$PRINTABLE Built-In Subroutine,          SS-C$PRINTABLE,        SS-C$PRINTABLE,        None}
+@diagram{C$SLEEP Built-In Subroutine,              SS-C$SLEEP,            SS-C$SLEEP,            None}
+@diagram{C$TOLOWER Built-In Subroutine,            SS-C$TOLOWER,          SS-C$TOLOWER,          None}
+@diagram{C$TOUPPER Built-In Subroutine,            SS-C$TOUPPER,          SS-C$TOUPPER,          None}
+@diagram{CBL_AND Built-In Subroutine,              SS-CBL_AND,            SS-CBL_AND,            None}
+@diagram{CBL_CHANGE_DIR Built-In Subroutine,       SS-CBL_CHANGE_DIR,     SS-CBL_CHANGE_DIR,     None}
+@diagram{CBL_CHECK_FILE_EXIST Built-In Subroutine, SS-CBL_CHK_FILE_EX,    SS-CBL_CHK_FILE_EX,    None}
+@page
+@diagram{CBL_CLOSE_FILE Built-In Subroutine,       SS-CBL_CLOSE_FILE,     SS-CBL_CLOSE_FILE,     None}
+@diagram{CBL_COPY_FILE Built-In Subroutine,        SS-CBL_COPY_FILE,      SS-CBL_COPY_FILE,      None}
+@diagram{CBL_CREATE_DIR Built-In Subroutine,       SS-CBL_CREATE_DIR,     SS-CBL_CREATE_DIR,     None}
+@diagram{CBL_CREATE_FILE Built-In Subroutine,      SS-CBL_CREATE_FILE,    SS-CBL_CREATE_FILE,    None}
+@diagram{CBL_DELETE_DIR Built-In Subroutine,       SS-CBL_DELETE_DIR,     SS-CBL_DELETE_DIR,     None}
+@diagram{CBL_DELETE_FILE Built-In Subroutine,      SS-CBL_DELETE_FILE,    SS-CBL_DELETE_FILE,    None}
+@diagram{CBL_EQ Built-In Subroutine,               SS-CBL_EQ,             SS-CBL_EQ,             None}
+@diagram{CBL_ERROR_PROC Built-In Subroutine,       SS-CBL_ERROR_PROC,     SS-CBL_ERROR_PROC,     None}
+@diagram{CBL_EXIT_PROC Built-In Subroutine,        SS-CBL_EXIT_PROC,      SS-CBL_EXIT_PROC,      None}
+@page
+@diagram{CBL_FLUSH_FILE Built-In Subroutine,       SS-CBL_FLUSH_FILE,     SS-CBL_FLUSH_FILE,     None}
+@diagram{CBL_GET_CSR_POS Built-In Subroutine,      SS-CBL_GET_CSR_POS,    SS-CBL_GET_CSR_POS,    None}
+@diagram{CBL_GET_CURRENT_DIR Built-In Subroutine,  SS-CBL_GET_CURR_DIR,   SS-CBL_GET_CURR_DIR,   None}
+@diagram{CBL_GET_SCR_SIZE Built-In Subroutine,     SS-CBL_GET_SCR_SIZE,   SS-CBL_GET_SCR_SIZE,   None}
+@diagram{CBL_IMP Built-In Subroutine,              SS-CBL_IMP,            SS-CBL_IMP,            None}
+@diagram{CBL_NIMP Built-In Subroutine,             SS-CBL_NIMP,           SS-CBL_NIMP,           None}
+@diagram{CBL_NOR Built-In Subroutine,              SS-CBL_NOR,            SS-CBL_NOR,            None}
+@diagram{CBL_NOT Built-In Subroutine,              SS-CBL_NOT,            SS-CBL_NOT,            None}
+@page
+@diagram{CBL_OC_NANOSLEEP Built-In Subroutine,     SS-CBL_OC_NANOSLEEP,   SS-CBL_OC_NANOSLEEP,   None}
+@diagram{CBL_OPEN_FILE Built-In Subroutine,        SS-CBL_OPEN_FILE,      SS-CBL_OPEN_FILE,      None}
+@diagram{CBL_OR Built-In Subroutine,               SS-CBL_OR,             SS-CBL_OR,             None}
+@diagram{CBL_READ_FILE Built-In Subroutine,        SS-CBL_READ_FILE,      SS-CBL_READ_FILE,      None}
+@diagram{CBL_RENAME_FILE Built-In Subroutine,      SS-CBL_RENAME_FILE,    SS-CBL_RENAME_FILE,    None}
+@diagram{CBL_TOLOWER Built-In Subroutine,          SS-CBL_TOLOWER,        SS-CBL_TOLOWER,        None}
+@diagram{CBL_TOUPPER Built-In Subroutine,          SS-CBL_TOUPPER,        SS-CBL_TOUPPER,        None}
+@diagram{CBL_WRITE_FILE Built-In Subroutine,       SS-CBL_WRITE_FILE,     SS-CBL_WRITE_FILE,     None}
+@diagram{CBL_XOR Built-In Subroutine,              SS-CBL_XOR,            SS-CBL_XOR,            None}
+@page
+@diagram{SYSTEM Built-In Subroutine,               SS-SYSTEM,             SS-SYSTEM,             None}
+@diagram{X"91" Built-In Subroutine,                SS-X91,                SS-X91,                None}
+@diagram{X"E4" Built-In Subroutine,                SS-XE4,                SS-XE4,                None}
+@diagram{X"E5" Built-In Subroutine,                SS-XE5,                SS-XE5,                None}
+@diagram{X"F4" Built-In Subroutine,                SS-XF4,                SS-XF4,                None}
+@diagram{X"F5" Built-In Subroutine,                SS-XF5,                SS-XF5,                None}
+@newchapter{8,GNU Free Documentation License}
+@include fdl.texi
+@bye

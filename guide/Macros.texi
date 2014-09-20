@@ -1,0 +1,420 @@
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: anchoridx{xxxxx}                                           |
+@comment |                                                                   |
+@comment | Adds "xxxxx" to the concept index and also creates a "xxxxx"      |
+@comment | @anchor.                                                          |
+@comment +-------------------------------------------------------------------+
+@macro anchoridx {term}
+@anchor{\term\}@idx{\term\}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: clause{xxxxx}                                              |
+@comment |                                                                   |
+@comment | Adds a double angle-bracket delimited and italicized term to the  |
+@comment | document.                                                         |
+@comment +-------------------------------------------------------------------+
+@macro clause {arg}
+<<@i{\arg\}>>
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: define{xxxxx}                                              |
+@comment |                                                                   |
+@comment | Adds "xxxxx" to the concept index and also puts "'xxxxx'"         |
+@comment | into the document.                                                |
+@comment +-------------------------------------------------------------------+
+@macro define {term}
+'@i{\term\}'@idx{\term\}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: diagram{title,fileinfo,filetex,note                        |
+@comment |                                                                   |
+@comment | Insert a syntax diagram.  Arguments are as follows:               |
+@comment | title     Title of Diagram                                        |
+@comment | fileinfo  "INFO" Format filename : SYN-<fileinfo>.texi            |
+@comment | filetex   "TeX" Format filename  : SYN-<filetex>.texi             |
+@comment | note      Notes filename         : NOTE-<note>.texi               |
+@comment +-------------------------------------------------------------------+
+@macro diagram{title,fileinfo,filetex,note}
+@ifnottex
+@ifset SKELETON
+@sp 1
+@center =======================================================================
+@end ifset
+@center \title\ Syntax
+@center =======================================================================
+@sp 1
+@verbatiminclude SYN-\fileinfo\.texi
+@include NOTE-\note\.texi
+@end ifnottex
+@iftex
+@cartouche
+@smallformat
+@center @b{\title\ Syntax}
+@end smallformat
+@end cartouche
+@verbatiminclude SYN-\filetex\.texi
+@include NOTE-\note\.texi
+@end iftex
+@ifnottex
+@ifclear SKELETON
+@sp 1
+@center =======================================================================
+@end ifclear
+@end ifnottex
+@iftex
+@ifclear SKELETON
+@sp 1
+@center ------------------------------------------------------------------------------------------------------------------------
+@end ifclear
+@end iftex
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: directive{xxxxx}                                           |
+@comment |                                                                   |
+@comment | Adds language syntax '"xxxxx" CDF directive' (with quotations) to |
+@comment | the document.                                                     |
+@comment +-------------------------------------------------------------------+
+@macro directive {text}
+@syntax{\text\} CDF directive
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: directiveref{xxxxx}                                        |
+@comment |                                                                   |
+@comment | Adds '"xxxxxx" CDF directive' to the document along with a        |
+@comment | following parenthetic reference to that directive's documentation.|
+@comment +-------------------------------------------------------------------+
+@macro directiveref {text}
+@directive{\text\} (@pxref{\text\})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: envvarcompile{xxxxx}                                       |
+@comment |                                                                   |
+@comment | Adds "xxxxx Environment Variable" and "Environment Variables,     |
+@comment | xxxxx" to the concept index and also puts "xxxxx " into the       |
+@comment | document along with a reference to the "Compilation Time Environ- |
+@comment | ment Variables" topic.                                            |
+@comment +-------------------------------------------------------------------+
+@macro envvarcompile {v}
+@syntax{\v\} compilation-time environment variable@idx{\v\ Environment Variable}@idx{Environment Variables, \v\} (@pxref{Compilation Time Environment Variables})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: envvarruntime{xxxxx}                                       |
+@comment |                                                                   |
+@comment | Adds "xxxxx Environment Variable" and "Environment Variables,     |
+@comment | xxxxx" to the concept index and also puts "xxxxx " into the       |
+@comment | document.                                                         |
+@comment +-------------------------------------------------------------------+
+@macro envvarruntime {v}
+@idx{\v\ Environment Variable}@idx{Environment Variables, \v\}@syntax{\v\} run-time environment variable
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: envvarruntimeref{xxxxx}                                    |
+@comment |                                                                   |
+@comment | Adds "xxxxx Environment Variable" and "Environment Variables,     |
+@comment | xxxxx" to the concept index and also puts "xxxxx " into the       |
+@comment | document along with a reference to the "Run Time Environment      |
+@comment | Variables" topic.                                                 |
+@comment +-------------------------------------------------------------------+
+@macro envvarruntimeref {v}
+@envvarruntime{\v\} (@pxref{Run Time Environment Variables})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: envvarruntimerefs{xxxxx}                                   |
+@comment |                                                                   |
+@comment | Adds "xxxxx Environment Variable" and "Environment Variables,     |
+@comment | xxxxx" to the concept index and also puts "xxxxx " into the       |
+@comment | document along with a reference to the "Run Time Environment      |
+@comment | Variables" topic.                                                 |
+@comment +-------------------------------------------------------------------+
+@macro envvarruntimerefs {v}
+@envvarruntime{\v\} run-time environment variables (@pxref{Run Time Environment Variables})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: idx{xxxxx}                                                 |
+@comment |                                                                   |
+@comment | Adds "xxxxx" to the concept index.                                |
+@comment +-------------------------------------------------------------------+
+@macro idx {text}
+@cindex \text\
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: intrinsic{xxxxx}                                           |
+@comment |                                                                   |
+@comment | Adds '"xxxxxx" intrinsic function' to the document as a @syntax{} |
+@comment | element.                                                          |
+@comment +-------------------------------------------------------------------+
+@macro intrinsic {function}
+@syntax{\function\} intrinsic function
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: intrinsicref{xxxxx}                                        |
+@comment |                                                                   |
+@comment | Adds '"xxxxxx" intrinsic function' to the document as a @syntax{} |
+@comment | element with a following parenthetic reference to that function's |
+@comment | documentation.                                                    |
+@comment +-------------------------------------------------------------------+
+@macro intrinsicref {function}
+@intrinsic{\function\} (@pxref{\function\})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: newappendix{letter,nodename}                               |
+@comment |                                                                   |
+@comment | Start a new appendix.  The appendix will be given the specified   |
+@comment | "nodename" as a title and will have a node named "nodename"       |
+@comment | created for it.  In addition, "nodename" will be added to the     |
+@comment | concept index and page headings and footings will be updated to   |
+@comment | reflect the new appendix.                                         |
+@comment +-------------------------------------------------------------------+
+@macro newappendix {letter,name}
+
+@set NEWSYNTAX On
+@node Appendix \letter\ - \name\
+@unnumbered Appendix \letter\ - \name\
+@idx{\name\}
+@set CHAPNAME Appendix \letter\ - \name\
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: newappsec{no,nodename}                                     |
+@comment |                                                                   |
+@comment | Start a new section within an appendix.  The section will be      |
+@comment | given the specified "nodename" as it's title and will have a node |
+@comment | named "nodename" created for it.                                  |
+@comment +-------------------------------------------------------------------+
+@macro newappsec {no,name}
+@sp 1
+@set NEWSYNTAX On
+@node \name\
+@unnumberedsec \no\. \name\
+@idx{\name\}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: newchapter{no,nodename}                                    |
+@comment |                                                                   |
+@comment | Start a new chapter.  The chapter will be given the specified     |
+@comment | "nodename" as a title and will have a node named "nodename"       |
+@comment | created for it.  In  addition, "title" will be added to the       |
+@comment | concept index and page headings and footings will be updated to   |
+@comment | reflect the new chapter.                                          |
+@comment +-------------------------------------------------------------------+
+@macro newchapter {no,name}
+
+@set NEWSYNTAX On
+@node \name\
+@unnumbered \no\. \name\
+@idx{\name\}
+@set CHAPNAME Chapter \no\ - \name\
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: newsection{no,nodename}                                    |
+@comment |                                                                   |
+@comment | Start a new section.  The section will be given the specified     |
+@comment | "nodename" as it's title and will have a node named "nodename"    |
+@comment | created for it.                                                   |
+@comment +-------------------------------------------------------------------+
+@macro newsection {no,name}
+@sp 1
+@set NEWSYNTAX On
+@node \name\
+@unnumberedsec \no\. \name\
+@idx{\name\}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: newsubsection{no,nodename}                                 |
+@comment |                                                                   |
+@comment | Start a new subsection.  The subsection will be given the         |
+@comment | specified "nodename" as it's title and will have a node named     |
+@comment | "nodename" created for it.                                        |
+@comment +-------------------------------------------------------------------+
+@macro newsubsection {no,name}
+@sp 1
+@set NEWSYNTAX On
+@node \name\
+@unnumberedsubsec \no\. \name\
+@idx{\name\}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: newunit{no,nodename}                                       |
+@comment |                                                                   |
+@comment | Start a new subsubsection.  The subsubsection will be given the   |
+@comment | specified "nodename" as it's title and will have a node named     |
+@comment | "nodename" created for it.                                        |
+@comment +-------------------------------------------------------------------+
+@macro newunit {no,name}
+@sp 1
+@set NEWSYNTAX On
+@node \name\
+@unnumberedsubsubsec \no\. \name\
+@idx{\name\}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: p                                                          |
+@comment |                                                                   |
+@comment | Begin a new paragraph in a manner appropriate for either INFO or  |
+@comment | TeX.                                                              |
+@comment +-------------------------------------------------------------------+
+@macro p
+@ifinfo
+@sp 1
+@end ifinfo
+@iftex
+@sp 0.5
+@end iftex
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: register{xxxxx}                                            |
+@comment |                                                                   |
+@comment | Adds "xxxxx Special register" and "Special Registers, xxxxx" to   |
+@comment | the concept index and also puts "xxxxx" into the via a @syntax    |
+@comment | macro.                                                            |
+@comment +-------------------------------------------------------------------+
+@macro register {v}
+@syntax{\v\} special register@idx{\v\ Special Register}@idx{Special Registers, \v\}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: registerref{xxxxx}                                         |
+@comment |                                                                   |
+@comment | Adds "xxxxx Special register" and "Special Registers, xxxxx" to   |
+@comment | the concept index, puts "xxxxx" into the via a @syntax macro and  |
+@comment | adds a cross-reference to "Special Registers".                    |
+@comment +-------------------------------------------------------------------+
+@macro registerref {v}
+@syntax{\v\} special register@idx{\v\ Special Register}@idx{Special Registers, \v\} (@pxref{Special Registers})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: registerrefalt{xxxxx,ref}                                  |
+@comment |                                                                   |
+@comment | Adds "xxxxx Special register" and "Special Registers, xxxxx" to   |
+@comment | the concept index, puts "xxxxx" into the via a @syntax macro and  |
+@comment | adds a cross-reference to ref.                                    |
+@comment +-------------------------------------------------------------------+
+@macro registerrefalt {v,ref}
+@syntax{\v\} special register@idx{\v\ Special Register}@idx{Special Registers, \v\} (@pxref{\ref\})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: statement{xxxxx}                                           |
+@comment |                                                                   |
+@comment | Adds language syntax '"xxxxx" statement' (with quotations) to the |
+@comment | document.                                                         |
+@comment +-------------------------------------------------------------------+
+@macro statement {text}
+@syntax{\text\} statement
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: statementref{xxxxx}                                        |
+@comment |                                                                   |
+@comment | Adds '"xxxxxx" statement' to the document along with a following  |
+@comment | parenthetic reference to that statement's documentation.          |
+@comment +-------------------------------------------------------------------+
+@macro statementref {text}
+@statement{\text\} (@pxref{\text\})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: statementrefalt{xxxxx,ref}                                 |
+@comment |                                                                   |
+@comment | Adds '"xxxxxx" statement' to the document along with a following  |
+@comment | parenthetic reference to ref's documentation.                     |
+@comment +-------------------------------------------------------------------+
+@macro statementrefalt {text,ref}
+@statement{\text\} (@pxref{\ref\})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: subpgm{xxxxx}                                              |
+@comment |                                                                   |
+@comment | Adds '"xxxxxx" built-in system subroutine' to the document as a   |
+@comment | @syntax{} element.                                                |
+@comment +-------------------------------------------------------------------+
+@macro subpgm {name}
+@syntax{\name\} built-in system subroutine
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: subpgmref{xxxxx}                                           |
+@comment |                                                                   |
+@comment | Adds '"xxxxxx" built-in system subroutine' to the document as a   |
+@comment | @syntax{} element with a following parenthetic reference to that  |
+@comment | subroutine's documentation.                                       |
+@comment +-------------------------------------------------------------------+
+@macro subpgmref {name}
+@subpgm{\name\} (@pxref{\name\})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: switch{xxxxx}                                              |
+@comment |                                                                   |
+@comment | Puts "xxxxx switch" into the document.                            |
+@comment +-------------------------------------------------------------------+
+@macro switch {text}
+@syntax{\text\} switch
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: switchidx{xxxxx}                                           |
+@comment |                                                                   |
+@comment | Adds "xxxxx Compiler Switch" and "Compiler Switches, xxxxx" to    |
+@comment | the concept index and also puts "xxxxx switch" into the document. |
+@comment +-------------------------------------------------------------------+
+@macro switchidx {text}
+@switch{\text\}@idx{Compiler Switches, \text\}@idx{\text\ Compiler Switch}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: syntax{xxxxx}                                              |
+@comment |                                                                   |
+@comment | Adds language syntax "xxxxx" (with quotations) to the document.   |
+@comment +-------------------------------------------------------------------+
+@macro syntax {text}
+"@t{\text\}"
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: syntaxidx{xxxxx}                                           |
+@comment |                                                                   |
+@comment | Adds language syntax "xxxxx" (with quotations) to the document    |
+@comment | and to the concept index.                                         |
+@comment +-------------------------------------------------------------------+
+@macro syntaxidx {text}
+@syntax{\text\}@idx{\text\}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: syntaxref{xxxxx}                                           |
+@comment |                                                                   |
+@comment | Adds "xxxxxx" to the document along with a following parenthetic  |
+@comment | reference to that statement's documentation.                      |
+@comment +-------------------------------------------------------------------+
+@macro syntaxref {text}
+@syntax{\text\} (@pxref{\text\})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: syntaxrefalt{xxxxx,ref}                                    |
+@comment |                                                                   |
+@comment | Adds "xxxxxx" to the document along with a following parenthetic  |
+@comment | reference to ref's documentation.                                 |
+@comment +-------------------------------------------------------------------+
+@macro syntaxrefalt {text,ref}
+@syntax{\text\} (@pxref{\ref\})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: term{xxxxx}                                                |
+@comment |                                                                   |
+@comment | Adds an angle-bracket delimited and italicized term to the docu - |
+@comment | ment.                                                             |
+@comment +-------------------------------------------------------------------+
+@macro term {arg}
+<@i{\arg\}>
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: termrefalt{xxxxx,topic}                                    |
+@comment |                                                                   |
+@comment | Adds an angle-bracket delimited and italicized term to the docu - |
+@comment | ment along with a parenthetic cross-reference to it's topic.      |                                                             |
+@comment +-------------------------------------------------------------------+
+@macro termrefalt {arg,topic}
+@term{\arg\} (@pxref{\topic\})
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: topic{text}                                                |
+@comment |                                                                   |
+@comment | Adds "text" to the document along with a following parenthetic    |
+@comment | reference to text's documentation.                                |
+@comment +-------------------------------------------------------------------+
+@macro topic {text}
+\text\ (@pxref{\text\})
+@end macro
+@comment *********************************************************************
+@comment ** END OF MACRO DECLARATIONS                                       **
+@comment *********************************************************************

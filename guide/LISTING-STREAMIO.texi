@@ -1,0 +1,975 @@
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 1
+====== =========================================================================================
+     1        >>SOURCE FORMAT IS FIXED
+     2        IDENTIFICATION DIVISION.
+     3        PROGRAM-ID. STREAMIO.
+     4       *>****************************************************************
+     5       *> Author: Gary L. Cutler                                       **
+     6       *>                                                              **
+     7       *> This routine centralizes all bytestream file I/O  functions  **
+     8       *> into one routine.  The manner in which this routine is       **
+     9       *> CALLed is as follows:                                        **
+    10       *>                                                              **
+    11       *>           CALL "STREAMIO" USING control-block [ , arg2 ]     **
+    12       *>                                                              **
+    13       *> where 'control-block' is defined by the "STREAMIOcb.cpy"     **
+    14       *> copybook and 'arg2' will vary, depending upon the function   **
+    15       *> specified in the control block.                              **
+    16       *>                                                              **
+    17       *> The STREAMIO routine has an advantage over the various       **
+    18       *> "CBL_xxxxxx_FILE" routines in that:                          **
+    19       *>                                                              **
+    20       *> 1. It automates the establishment and on-going adjustment of **
+    21       *>    the file-offset value in such a way as to simplify the    **
+    22       *>    sequential processing of a bytestream file (you may still **
+    23       *>    specify a file-offset manually on each read or write, if  **
+    24       *>    you wish)                                                 **
+    25       *>                                                              **
+    26       *> 2. It auto-detects the size of the I/O buffer you supply to  **
+    27       *>    STREAMIO, using that as the byte-count of all read and    **
+    28       *>    write operations.                                         **
+    29       *>                                                              **
+    30       *> 3. Not only does it support the raw input and output of data **
+    31       *>    that the CBL_READ_FILE and CBL_WRITE_FILE routines do,    **
+    32       *>    but on input it is also capable of delivering just a      **
+    33       *>    single newline-delimited or carriage-return/newline de-   **
+    34       *>    limited record to the caller.                             **
+    35       *>                                                              **
+    36       *> 4. On output, STREAMIO can optionally append either a new-   **
+    37       *>    line or carriage-return/newline sequence (your choice) to **
+    38       *>    the end of every record it writes.                        **
+    39       *>                                                              **
+    40       *> 5. STREAMIO can automatically generate filenames for output  **
+    41       *>    files if you wish, simplifying the process of creating    **
+    42       *>    scratch or work files.                                    **
+    43       *>                                                              **
+    44       *> 6. The STREAMIO routine also allows you to (optionally) re-  **
+    45       *>    gister a general error-handling routine to be given con-  **
+    46       *>    trol should a fatal error be detected with STREAMIO.      **
+    47       *>                                                              **
+    48       *>    This routine can be "turned on" and "turned off" at will. **
+    49       *>                                                              **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 1
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 2
+====== =========================================================================================
+    50       *> The control block format is as follows.  This structure must **
+    51       *> be defined under an 01-level data item of your creation and  **
+    52       *> should be INITIALIZEd before any items within it are used.   **
+    53       *>                                                              **
+    54       *> 05 SCB-Handle-NUM                   PIC X(4) COMP-X.         **
+    55       *> 05 SCB-Mode-CD                      PIC X(1).                **
+    56       *>    88 SCB-Mode-Input-BOOL           VALUE 'I', 'i'.          **
+    57       *>    88 SCB-Mode-Output-BOOL          VALUE 'O', 'o'.          **
+    58       *>    88 SCB-Mode-Both-BOOL            VALUE 'B', 'b'.          **
+    59       *> 05 SCB-Function-CD                  PIC X(2).                **
+    60       *>    88 SCB-Func-CLOSE-BOOL           VALUE 'C ', 'c '.        **
+    61       *>    88 SCB-Func-DELETE-BOOL          VALUE 'D ', 'd '.        **
+    62       *>    88 SCB-Func-OPEN-BOOL            VALUE 'O ', 'o '.        **
+    63       *>    88 SCB-Func-READ-BOOL            VALUE 'R ', 'r '.        **
+    64       *>    88 SCB-Func-READ-Delim-BOOL      VALUE 'RD', 'rd',        **
+    65       *>                                           'rD', 'Rd'.        **
+    66       *>    88 SCB-Func-WRITE-BOOL           VALUE 'W ', 'w '.        **
+    67       *>    88 SCB-Func-WRITE-Delim-BOOL     VALUE 'WD', 'wd',        **
+    68       *>                                           'wD', 'Wd'.        **
+    69       *> 05 SCB-Delimiter-Mode-CD            PIC X(1).                **
+    70       *>    88 SCB-Delim-Unix-BOOL           VALUE 'U', 'u'.          **
+    71       *>    88 SCB-Delim-Windows-BOOL        VALUE 'W', 'w'.          **
+    72       *> 05 SCB-Offset-NUM                   PIC X(8) COMP-X.         **
+    73       *> 05 SCB-Error-Routine-PTR            USAGE PROGRAM-POINTER.   **
+    74       *> 05 SCB-Error-Routine-NUM REDEFINES SCB-Error-Routine-PTR     **
+    75       *>                                     USAGE BINARY-LONG.       **
+    76       *> 05 SCB-Return-CD                    USAGE BINARY-LONG.       **
+    77       *> 05 SCB-Filename-TXT                 PIC X(256).              **
+    78       *>                                                              **
+    79       *> Such a structure is defined for your use using the copybook  **
+    80       *> "STREAMIOcb.cpy" (you may also define your own, provided it  **
+    81       *> conforms to the above layout).                               **
+    82       *>--------------------------------------------------------------**
+    83       *> SCB-Handle-NUM                                               **
+    84       *>--------------------------------------------------------------**
+    85       *>                                                              **
+    86       *> Serves as a file handle to the file once it has been opened  **
+    87       *> (via the "SCB-Func-OPEN-BOOL" function).                     **
+    88       *>                                                              **
+    89       *>--------------------------------------------------------------**
+    90       *> SCB-Mode-CD                                                  **
+    91       *>--------------------------------------------------------------**
+    92       *>                                                              **
+    93       *> Prior to calling "STREAMIO" for the first time for a file,   **
+    94       *> the appropriate subordinate level-88 must be set to TRUE to  **
+    95       *> select an I/O mode.  You may also simply move one of the     **
+    96       *> string values listed on the level-88 items to "SCB-Mode-CD". **
+    97       *>                                                              **
+    98       *>--------------------------------------------------------------**
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 2
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 3
+====== =========================================================================================
+    99       *> SCB-Function-CD                                              **
+   100       *>--------------------------------------------------------------**
+   101       *>                                                              **
+   102       *> The appropriate subordinate level-88 must be set to TRUE to  **
+   103       *> select a function you'd like to execute against a file.  You **
+   104       *> may also simply move one of the string values listed on the  **
+   105       *> level-88 items to "SCB-Function-CD".                         **
+   106       *>                                                              **
+   107       *> Available functions are as follows:                          **
+   108       *>                                                              **
+   109       *> SCB-Func-OPEN-BOOL                                           **
+   110       *>                                                              **
+   111       *>      This must be the function specified the first time you  **
+   112       *>      call STREAMIO for any given file.  It opens the file &  **
+   113       *>      makes it available for use according to the             **
+   114       *>      "SCB-Mode-CD" specification.                            **
+   115       *>                                                              **
+   116       *>      The filename being opened must be specified in the      **
+   117       *>      "SCB-Filename-TXT" field.                               **
+   118       *>                                                              **
+   119       *>      The SCB-Offset-NUM field will be initialized to ZERO.   **
+   120       *>                                                              **
+   121       *>      If "arg2" is specified in conjunction with this funct-  **
+   122       *>      ion, it will be ignored.                                **
+   123       *>                                                              **
+   124       *> SCB-Func-CLOSE-BOOL                                          **
+   125       *>                                                              **
+   126       *>      This function should be the one specified the LAST time **
+   127       *>      you call STREAMIO against a specific file.  After this  **
+   128       *>      function has been executed, you'll have to re-open the  **
+   129       *>      file if you wish to use it with STREAMIO again.         **
+   130       *>                                                              **
+   131       *>      The SCB-Handle-NUM item will be reset to ZERO.          **
+   132       *>                                                              **
+   133       *>      If "arg2" is specified in conjunction with this funct-  **
+   134       *>      ion, it will be ignored.                                **
+   135       *>                                                              **
+   136       *> SCB-Func-DELETE-BOOL                                         **
+   137       *>                                                              **
+   138       *>      This function will delete the file specified in the     **
+   139       *>      control block (see SCB-Filename-TXT).                   **
+   140       *>                                                              **
+   141       *>      This function should not be performed against a file    **
+   142       *>      that is open.                                           **
+   143       *>                                                              **
+   144       *>      If "arg2" is specified in conjunction with this funct-  **
+   145       *>      ion, it will be ignored.                                **
+   146       *>                                                              **
+   147       *> SCB-Func-READ-BOOL                                           **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 3
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 4
+====== =========================================================================================
+   148       *>                                                              **
+   149       *>      This function invokes a standard CBL_READ_FILE against  **
+   150       *>      the file specified in the control block (see            **
+   151       *>      SCB-Filename-TXT).                                      **
+   152       *>                                                              **
+   153       *>      The buffer into which you wish to read data must be     **
+   154       *>      supplied as "arg2".  The size of that buffer, in bytes, **
+   155       *>      will define the "byte-count" value supplied to the      **
+   156       *>      CBL_READ_FILE subroutine.  The buffer data item will be **
+   157       *>      set to SPACES before the read takes place.              **
+   158       *>                                                              **
+   159       *>      If the file-offset value (SCB-Offset-NUM) is greater    **
+   160       *>      than the size of the file, a "no more data" return code **
+   161       *>      (01) will be passed back in SCB-Return-CD and the       **
+   162       *>      buffer will have been set to SPACES.                    **
+   163       *>                                                              **
+   164       *>      At the conclusion of a successful SCB-Func-READ-BOOL,   **
+   165       *>      the value of SCB-Offset-NUM will have been automati-    **
+   166       *>      cally incremented by the byte-count size of "arg2".     **
+   167       *>                                                              **
+   168       *> SCB-Func-WRITE-BOOL                                          **
+   169       *>                                                              **
+   170       *>      This function invokes a standard CBL_WRITE_FILE against **
+   171       *>      the file specified in the control block (see            **
+   172       *>      SCB-Filename-TXT).                                      **
+   173       *>                                                              **
+   174       *>      The buffer from which data will be written to the file  **
+   175       *>      must be supplied as "arg2".  The size of that buffer,   **
+   176       *>      in bytes, will define the "byte-count" value supplied   **
+   177       *>      CBL_WRITE_FILE subroutine.  The buffer data will be     **
+   178       *>      written to the file-offset position defined by the      **
+   179       *>      SCB-Offset-NUM value.  You may specify "arg2" either    **
+   180       *>      as an actual alphanumeric data item or as an alpha-     **
+   181       *>      numeric literal.                                        **
+   182       *>                                                              **
+   183       *>      If the file-offset value (SCB-Offset-NUM) is greater    **
+   184       *>      than the size of the file, a "no more data" return code **
+   185       *>      will be passed back in SCB-Return-CD and the buffer     **
+   186       *>      will have been set to SPACES.                           **
+   187       *>                                                              **
+   188       *>      At the conclusion of a successful SCB-Func-WRITE-BOOL   **
+   189       *>      operation, the value of SCB-Offset-NUM will have been   **
+   190       *>      automatically incremented by the byte-count size of     **
+   191       *>      "arg2".                                                 **
+   192       *>                                                              **
+   193       *> SCB-Func-READ-Delim-BOOL                                     **
+   194       *>                                                              **
+   195       *>      SCB-Func-READ-Delim-BOOL bahaves like the SCB-FUNC-     **
+   196       *>      READ function, with the following behavioral dif-       **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 4
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 5
+====== =========================================================================================
+   197       *>      ferences:                                               **
+   198       *>                                                              **
+   199       *>      1. When data is read from the file, only that data read **
+   200       *>         up to BUT NOT INCLUDING an end-of-line delimiter     **
+   201       *>         sequence (either a LF or CRLF) will be retained in   **
+   202       *>         the buffer - the remainder of the buffer from the    **
+   203       *>         end-of-line sequence onward will be reset to SPACES. **
+   204       *>         The file-offset value (SCB-Offset-NUM) will be in-   **
+   205       *>         cremented ONLY by the amount of data transferred up  **
+   206       *>         to AND INCLUDING the end-of-line sequence.           **
+   207       *>                                                              **
+   208       *>      2. When data is read from the file and an end-of-line   **
+   209       *>         delimiter sequence (either a LF or a CRLF) cannot be **
+   210       *>         found within the buffer, the assumption is made that **
+   211       *>         the record is too long to fit within the buffer.  In **
+   212       *>         these instances, an SCB-Return-CD value of 02 will   **
+   213       *>         be returned and the SCB-Offset-NUM value will be     **
+   214       *>         incremented past the next end-of-line sequence in    **
+   215       *>         the file (this will involve at least one additional  **
+   216       *>         call to CBL_READ_FILE to locate that eol sequence,   **
+   217       *>         but any additional such reads will be done internal- **
+   218       *>         ly to STREAMIO and will be entirely transparent to   **
+   219       *>         the caller of STREAMIO.                              **
+   220       *>                                                              **
+   221       *>      DO NOT USE the Streamio-READ-Delim function if the      **
+   222       *>      possibility exists that linefeed (X"0A") or carriage-   **
+   223       *>      return (X"0D") characters could exist as actual data    **
+   224       *>      characters in the file.                                 **
+   225       *>                                                              **
+   226       *> SCB-Func-WRITE-Delim-BOOL                                    **
+   227       *>                                                              **
+   228       *>      SCB-Func-WRITE-Delim-BOOL acts like the Streamio-       **
+   229       *>      FUNC-WRITE function, with the following difference:     **
+   230       *>                                                              **
+   231       *>      After the specified data is written to the file, an     **
+   232       *>      end-of-line sequence will also be written to the file.  **
+   233       *>      The file-offset value (SCB-Value) will be incremented   **
+   234       *>      by the byte-count size of the data PLUS the size of the **
+   235       *>      end-of-line sequence.  One of two possible end-of-line  **
+   236       *>      sequences must be specified using the value of SCB-     **
+   237       *>      Delimter-Mode.                                          **
+   238       *>                                                              **
+   239       *>--------------------------------------------------------------**
+   240       *> SCB-Delimiter-Mode-CD                                        **
+   241       *>--------------------------------------------------------------**
+   242       *>                                                              **
+   243       *> This data item is needed only when issuing the Streamio-     **
+   244       *> FUNC-WRITE-Delim function.  In those circumstances, this     **
+   245       *> item defines what end-of-line delimiter sequence is to be    **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 5
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 6
+====== =========================================================================================
+   246       *> written:                                                     **
+   247       *>                                                              **
+   248       *> If SCB-Delim-Unix-BOOL is true, a linefeed character will    **
+   249       *> be written.                                                  **
+   250       *>                                                              **
+   251       *> If SCB-Delim-Windows-BOOL is true, a carriage-return and     **
+   252       *> linefeed sequence will be written.                           **
+   253       *>                                                              **
+   254       *>--------------------------------------------------------------**
+   255       *> SCB-Offset-NUM                                               **
+   256       *>--------------------------------------------------------------**
+   257       *>                                                              **
+   258       *> This data item specifies the next relative byte number with- **
+   259       *> in the file where the next read or write will start.         **
+   260       *>                                                              **
+   261       *> SCB-Offset-NUM is automatically set to 0 (the first byte)    **
+   262       *> when the file is opened, and is automatically incremented as **
+   263       *> the file is read or written via STREAMIO.                    **
+   264       *>                                                              **
+   265       *> You may also manually set this value as desired before any   **
+   266       *> call to STREAMIO.                                            **
+   267       *>                                                              **
+   268       *>--------------------------------------------------------------**
+   269       *> SCB-Error-Routine-PTR                                        **
+   270       *>--------------------------------------------------------------**
+   271       *>                                                              **
+   272       *> To specify a general error-handling routine for handling     **
+   273       *> STREAMIO failures, Create the routine and define an entry-   **
+   274       *> name for it via the ENTRY statement.  Then use the following **
+   275       *> to set that routine up as the error handler:                 **
+   276       *>                                                              **
+   277       *>    SET SCB-Error-Routine-PTR TO ENTRY "entry-name"           **
+   278       *>                                                              **
+   279       *> To "turn off" the error-routine:                             **
+   280       *>                                                              **
+   281       *>    SET SCB-Error-Routine-PTR TO NULL                         **
+   282       *>                                                              **
+   283       *> If a fatal error occurs (any error not marked with a ">" in  **
+   284       *> the SCB-Return-CD discussion), the error routine you spe-    **
+   285       *> cified (if any) will be set up as an exit routine via the    **
+   286       *> CBL_EXIT_PROC subroutine; the STREAMIO routine will then is- **
+   287       *> sue a STOP RUN to intentionally trigger your error routine.  **
+   288       *> You will not be able to recover your program once your error **
+   289       *> routine triggers.  If you wish to be able to recover from    **
+   290       *> fatal STREAMIO errors, you should NOT use the SCB-Error-     **
+   291       *> Routine feature but instead you should explicitly test the   **
+   292       *> SCB-Return-CD value after every call to STREAMIO.            **
+   293       *>                                                              **
+   294       *> A default error routine is defined by the "STREAMIOError.cpy"**
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 6
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 7
+====== =========================================================================================
+   295       *> copybook.                                                    **
+   296       *>                                                              **
+   297       *>--------------------------------------------------------------**
+   298       *> SCB-Return-CD                                                **
+   299       *>--------------------------------------------------------------**
+   300       *>                                                              **
+   301       *> The following are the possible SCB-Return-CD values.  The    **
+   302       *> ones marked with a ">" will NOT trigger an error-routine, if **
+   303       *> one is currently registered via SCB-Error-Routine-PTR.       **
+   304       *>                                                              **
+   305       *>   12 I/O error writing to file                               **
+   306       *>   11 File does not exist                                     **
+   307       *>   10 File already OPEN or already CLOSEd                     **
+   308       *> > 02 READ-Delim was truncated                                **
+   309       *> > 01 No more data is available from the current              **
+   310       *>      SCB-Offset-NUM                                          **
+   311       *> > 00 OK - the operation was successful                       **
+   312       *>   -1 Invalid SCB-Function-CD                                 **
+   313       *>   -2 Invalid SCB-Mode-CD                                     **
+   314       *>   -3 CBL_xxxxx_FILE routine rejected operation               **
+   315       *>   -4 Invalid delimiter mode specified (Not U/W)              **
+   316       *>                                                              **
+   317       *>--------------------------------------------------------------**
+   318       *> SCB-Filename-TXT                                             **
+   319       *>--------------------------------------------------------------**
+   320       *>                                                              **
+   321       *> This is the name of the file you wish to access.             **
+   322       *>                                                              **
+   323       *> If you are planning on reading the file, the file MUST exist **
+   324       *> at the time the SCB-Func-OPEN-BOOL is executed.              **
+   325       *>                                                              **
+   326       *> If you are planning on writing to the file, the file need    **
+   327       *> exist when the SCB-Func-OPEN-BOOL is issued.                 **
+   328       *>                                                              **
+   329       *> In general, the contents of SCB-Filename-TXT should re-      **
+   330       *> flect the complete path to the file as well as the name of   **
+   331       *> the file itself, unless the file is contained in whatever    **
+   332       *> directory is current at the time the SCB-Func-OPEN-BOOL is   **
+   333       *> executed.                                                    **
+   334       *>                                                              **
+   335       *> The following special values may be used for                 **
+   336       *> SCB-Filename-TXT:                                            **
+   337       *>                                                              **
+   338       *> SPACES If the filename is SPACES, a filename will be created **
+   339       *>        automatically for you in whatever directory is de-    **
+   340       *>        fined by the TEMP environment variable.  If there IS  **
+   341       *>        no TEMP variable defined, the "/tmp" folder will be   **
+   342       *>        assumed.  The filename will be STREAMIO-nnnnnnnn.dat  **
+   343       *>        where "nnnnnnnn" is a random number.                  **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 7
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 8
+====== =========================================================================================
+   344       *>                                                              **
+   345       *> .      If you specify only a dot (period) as the filename,   **
+   346       *>        the behavior will be the same as with a value of      **
+   347       *>        SPACES except there will be no ".dat" at the end of   **
+   348       *>        the generated filename.                               **
+   349       *>                                                              **
+   350       *> .ext   If you specify a filename extension prefixed with a   **
+   351       *>        dot (period), the behavior will be the same as if a   **
+   352       *>        value of SPACES were specified, except that the given **
+   353       *>        extension will be used instead of ".dat".  Note that  **
+   354       *>        if you are using a Unix/Cygwin implementation of      **
+   355       *>        OpenCOBOL and you'd like to specify a hidden file in  **
+   356       *>        the current directory as the SCB-Filename-TXT, you    **
+   357       *>        MUST code the filename as "./.xxxxx" to avoid having  **
+   358       *>        it treated as this special name.                      **
+   359       *>                                                              **
+   360       *>****************************************************************
+   361        ENVIRONMENT DIVISION.
+   362        CONFIGURATION SECTION.
+   363        REPOSITORY.
+   364            FUNCTION ALL INTRINSIC.
+   365        DATA DIVISION.
+   366        WORKING-STORAGE SECTION.
+   367        01  WS-Access-Mode-CD                     PIC X(1) COMP-X.
+   368        01  WS-Arg-Length-NUM                     PIC X(4) COMP-X.
+   369        01  WS-Buffer-TXT                         PIC X(256).
+   370        01  WS-Delim-Buffer-TXT                   PIC X(2).
+   371        01  WS-Env-Temp-TXT                       PIC X(256).
+   372        01  WS-Slash-CHR                          PIC X(1).
+   373        01  WS-Tally-NUM                          USAGE BINARY-LONG.
+   374        01  WS-8-Digit-NUM                        PIC 9(8).
+   375        01  WS-256-Byte-TXT                       PIC X(256).
+   376        LINKAGE SECTION.
+   377        01  L-StreamIO-Control-Block-TXT.
+   378            COPY STREAMIOcb
+   379                REPLACING LEADING ==SCB-== BY ==L-SCB-==.
+        05 L-SCB-Handle-NUM PIC X(4) COMP-X.
+        05 L-SCB-Mode-CD PIC X(1).
+        88 L-SCB-MODE-Input-BOOL VALUE 'I' 'i'.
+        88 L-SCB-MODE-Output-BOOL VALUE 'O' 'o'.
+        88 L-SCB-MODE-Both-BOOL VALUE 'B' 'b'.
+        05 L-SCB-Function-CD PIC X(2).
+        88 L-SCB-Func-CLOSE-BOOL VALUE 'C ' 'c '.
+        88 L-SCB-Func-DELETE-BOOL VALUE 'D ' 'd '.
+        88 L-SCB-Func-OPEN-BOOL VALUE 'O ' 'o '.
+        88 L-SCB-Func-READ-BOOL VALUE 'R ' 'r '.
+        88 L-SCB-Func-READ-Delim-BOOL VALUE 'RD' 'rd'
+        'rD' 'Rd'.
+        88 L-SCB-Func-WRITE-BOOL VALUE 'W ' 'w '.
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 8
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 9
+====== =========================================================================================
+        88 L-SCB-Func-WRITE-Delim-BOOL VALUE 'WD' 'wd'
+        'wD' 'Wd'.
+        05 L-SCB-Delimiter-Mode-CD PIC X(1).
+        88 L-SCB-DELIM-Unix-BOOL VALUE 'U' 'u'.
+        88 L-SCB-DELIM-Windows-BOOL VALUE 'W' 'w'.
+        05 L-SCB-Offset-NUM PIC X(8) COMP-X.
+        05 L-SCB-Error-Routine-PTR USAGE PROGRAM-POINTER.
+        05 L-SCB-Error-Routine-NUM REDEFINES L-SCB-Error-Routine-PTR
+        USAGE BINARY-LONG.
+        05 L-SCB-Return-CD USAGE BINARY-LONG.
+        05 L-SCB-Filename-TXT PIC X(256).
+   380        01  L-Arg2-TXT                            PIC X ANY LENGTH.
+   381        PROCEDURE DIVISION USING L-StreamIO-Control-Block-TXT,
+   382                                 L-Arg2-TXT.
+   383        000-Main SECTION.
+   384            MOVE 00 TO L-SCB-Return-CD
+   385            EVALUATE TRUE
+   386                WHEN L-SCB-Func-CLOSE-BOOL
+   387                    PERFORM 030-Validate-Handle-NonZero
+   388                    PERFORM 200-CLOSE
+   389                WHEN L-SCB-Func-DELETE-BOOL
+   390                    CALL "CBL_DELETE_FILE" USING L-SCB-Filename-TXT
+   391                WHEN L-SCB-Func-OPEN-BOOL
+   392                    PERFORM 020-Validate-Handle-Zero
+   393                    PERFORM 100-OPEN
+   394                WHEN L-SCB-Func-READ-BOOL
+   395                    PERFORM 030-Validate-Handle-NonZero
+   396                    PERFORM 400-READ
+   397                WHEN L-SCB-Func-READ-Delim-BOOL
+   398                    PERFORM 030-Validate-Handle-NonZero
+   399                    PERFORM 500-READ-Delim
+   400                WHEN L-SCB-Func-WRITE-BOOL
+   401                    PERFORM 030-Validate-Handle-NonZero
+   402                    PERFORM 300-WRITE
+   403                WHEN L-SCB-Func-WRITE-Delim-BOOL
+   404                    EVALUATE TRUE
+   405                        WHEN L-SCB-Delim-Unix-BOOL
+   406                            PERFORM 030-Validate-Handle-NonZero
+   407                            PERFORM 300-WRITE
+   408                            MOVE 1 TO WS-Arg-Length-NUM
+   409                            MOVE X"0A" TO WS-Delim-Buffer-TXT
+   410                        WHEN L-SCB-Delim-Windows-BOOL
+   411                            PERFORM 030-Validate-Handle-NonZero
+   412                            PERFORM 300-WRITE
+   413                            MOVE 2 TO WS-Arg-Length-NUM
+   414                            MOVE X"0D0A" TO WS-Delim-Buffer-TXT
+   415                       WHEN OTHER
+   416                            MOVE -4 TO L-SCB-Return-CD
+   417                            PERFORM 099-ERROR-Return
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 9
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 10
+====== =========================================================================================
+   418                    END-EVALUATE
+   419                    CALL "CBL_WRITE_FILE" USING L-SCB-Handle-NUM
+   420                                                L-SCB-Offset-NUM
+   421                                                WS-Arg-Length-NUM
+   422                                                0
+   423                                                WS-Delim-Buffer-TXT
+   424                    PERFORM 040-Check-WRITE-SCB-Return-CD
+   425                    ADD WS-Arg-Length-NUM TO L-SCB-Offset-NUM
+   426                WHEN OTHER
+   427                    MOVE -1 TO L-SCB-Return-CD
+   428                    PERFORM 099-ERROR-Return
+   429            END-EVALUATE
+   430            GOBACK
+   431            .
+   432        020-Validate-Handle-Zero SECTION.
+   433            IF L-SCB-Handle-NUM NOT = ZERO
+   434                MOVE 10 TO L-SCB-Return-CD
+   435                PERFORM 099-ERROR-Return
+   436            END-IF
+   437            .
+   438        030-Validate-Handle-NonZero SECTION.
+   439            IF L-SCB-Handle-NUM = ZERO
+   440                MOVE 10 TO L-SCB-Return-CD
+   441                PERFORM 099-ERROR-Return
+   442            END-IF
+   443            .
+   444        040-Check-WRITE-SCB-Return-CD SECTION.
+   445            IF RETURN-CODE < 0
+   446                MOVE -3 TO L-SCB-Return-CD
+   447                PERFORM 099-ERROR-Return
+   448            END-IF
+   449            IF RETURN-CODE = 30
+   450                MOVE 12 TO L-SCB-Return-CD
+   451                PERFORM 099-ERROR-Return
+   452            END-IF
+   453            MOVE 00 TO L-SCB-Return-CD
+   454            .
+   455        050-Check-READ-SCB-Return-CD SECTION.
+   456            IF RETURN-CODE < 0
+   457                MOVE -3 TO L-SCB-Return-CD
+   458                PERFORM 099-ERROR-Return
+   459            END-IF
+   460            IF RETURN-CODE = 10
+   461                MOVE 01 TO L-SCB-Return-CD
+   462                GOBACK
+   463            END-IF
+   464            MOVE 00 TO L-SCB-Return-CD
+   465            .
+   466        060-Identify-TEMP SECTION.
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 10
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 11
+====== =========================================================================================
+   467            ACCEPT WS-Env-Temp-TXT FROM ENVIRONMENT "TEMP"
+   468            EVALUATE TRUE
+   469                WHEN WS-Env-Temp-TXT (1:1) = "/"
+   470                    MOVE "/"    TO WS-Slash-CHR
+   471                WHEN WS-Env-Temp-TXT (2:1) = ":"
+   472                    MOVE "\"    TO WS-Slash-CHR
+   473                WHEN OTHER
+   474                    MOVE "/tmp" TO WS-Env-Temp-TXT
+   475                    MOVE "/"    TO WS-Slash-CHR
+   476            END-EVALUATE
+   477            .
+   478        099-ERROR-Return SECTION.
+   479            IF L-SCB-Error-Routine-NUM NOT = 0
+   480                CALL "CBL_EXIT_PROC" USING 0, L-SCB-Error-Routine-PTR
+   481                STOP RUN
+   482            END-IF
+   483            GOBACK
+   484            .
+   485        100-OPEN SECTION.
+   486            IF  (L-SCB-Mode-Input-BOOL OR L-SCB-Mode-Both-BOOL)
+   487            AND (L-SCB-Filename-TXT = SPACES OR LOW-VALUES)
+   488                MOVE 11 TO L-SCB-Return-CD
+   489                PERFORM 099-ERROR-Return
+   490            END-IF
+   491            EVALUATE TRUE
+   492                WHEN L-SCB-Filename-TXT = SPACES OR LOW-VALUES
+   493                    PERFORM 060-Identify-TEMP
+   494                    MOVE SPACES TO L-SCB-Filename-TXT
+   495                    COMPUTE
+   496                        WS-8-Digit-NUM =
+   497                        RANDOM(SECONDS-PAST-MIDNIGHT) * 100000000
+   498                    END-COMPUTE
+   499                    STRING
+   500                        TRIM(WS-Env-Temp-TXT,TRAILING)
+   501                        WS-Slash-CHR
+   502                        "STREAMIO-"
+   503                        WS-8-Digit-NUM
+   504                        ".dat"
+   505                        DELIMITED BY SIZE
+   506                        INTO L-SCB-Filename-TXT
+   507                WHEN L-SCB-Filename-TXT(1:1) = "."
+   508                    PERFORM 060-Identify-TEMP
+   509                    IF L-SCB-Filename-TXT(2:1) = SPACE
+   510                        MOVE SPACES TO WS-256-Byte-TXT
+   511                    ELSE
+   512                        MOVE L-SCB-Filename-TXT TO WS-256-Byte-TXT
+   513                    END-IF
+   514                    MOVE SPACES TO L-SCB-Filename-TXT
+   515                    COMPUTE WS-8-Digit-NUM =
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 11
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 12
+====== =========================================================================================
+   516                        RANDOM(SECONDS-PAST-MIDNIGHT) * 100000000
+   517                    STRING
+   518                        TRIM(WS-Env-Temp-TXT,TRAILING)
+   519                        WS-Slash-CHR
+   520                        "STREAMIO-"
+   521                        WS-8-Digit-NUM
+   522                        TRIM(WS-256-Byte-TXT,TRAILING)
+   523                        DELIMITED BY SIZE
+   524                        INTO L-SCB-Filename-TXT
+   525            END-EVALUATE
+   526            EVALUATE TRUE
+   527                WHEN L-SCB-Mode-Input-BOOL
+   528                    MOVE 1 TO WS-Access-Mode-CD
+   529                WHEN L-SCB-Mode-Output-BOOL
+   530                    MOVE 2 TO WS-Access-Mode-CD
+   531                WHEN L-SCB-Mode-Both-BOOL
+   532                    MOVE 3 TO WS-Access-Mode-CD
+   533                WHEN OTHER
+   534                    MOVE -2 TO L-SCB-Return-CD
+   535                    PERFORM 099-ERROR-Return
+   536            END-EVALUATE
+   537            CALL "CBL_OPEN_FILE" USING TRIM(L-SCB-Filename-TXT,TRAILING)
+   538                                       WS-Access-Mode-CD
+   539                                       0
+   540                                       0
+   541                                       L-SCB-Handle-NUM
+   542            IF RETURN-CODE = 35
+   543                MOVE 11 TO L-SCB-Return-CD
+   544                PERFORM 099-ERROR-Return
+   545            END-IF
+   546            IF RETURN-CODE < 0
+   547                MOVE -2 TO L-SCB-Return-CD
+   548                PERFORM 099-ERROR-Return
+   549            END-IF
+   550            MOVE 00 TO L-SCB-Return-CD
+   551            MOVE 0 TO L-SCB-Offset-NUM
+   552            .
+   553        200-CLOSE SECTION.
+   554            CALL "CBL_CLOSE_FILE" USING L-SCB-Handle-NUM
+   555            IF RETURN-CODE < 0
+   556                MOVE -2 TO L-SCB-Return-CD
+   557                PERFORM 099-ERROR-Return
+   558            END-IF
+   559            MOVE 00 TO L-SCB-Return-CD
+   560            MOVE 0 TO L-SCB-Handle-NUM
+   561            .
+   562        300-WRITE SECTION.
+   563            CALL "C$PARAMSIZE" USING 2
+   564            MOVE RETURN-CODE TO WS-Arg-Length-NUM
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 12
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 13
+====== =========================================================================================
+   565            CALL "CBL_WRITE_FILE" USING L-SCB-Handle-NUM
+   566                                        L-SCB-Offset-NUM
+   567                                        WS-Arg-Length-NUM
+   568                                        0
+   569                                        L-Arg2-TXT
+   570            PERFORM 040-Check-WRITE-SCB-Return-CD
+   571            ADD WS-Arg-Length-NUM TO L-SCB-Offset-NUM
+   572            .
+   573        400-READ SECTION.
+   574            CALL "C$PARAMSIZE" USING 2
+   575            MOVE RETURN-CODE TO WS-Arg-Length-NUM
+   576            MOVE SPACES TO L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   577            CALL "CBL_READ_FILE" USING L-SCB-Handle-NUM
+   578                                       L-SCB-Offset-NUM
+   579                                       WS-Arg-Length-NUM
+   580                                       0
+   581                                       L-Arg2-TXT
+   582            PERFORM 050-Check-READ-SCB-Return-CD
+   583            ADD WS-Arg-Length-NUM TO L-SCB-Offset-NUM
+   584            .
+   585        500-READ-Delim SECTION.
+   586            CALL "C$PARAMSIZE" USING 2
+   587            MOVE RETURN-CODE TO WS-Arg-Length-NUM
+   588            MOVE SPACES TO L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   589            CALL "CBL_READ_FILE" USING L-SCB-Handle-NUM
+   590                                       L-SCB-Offset-NUM
+   591                                       WS-Arg-Length-NUM
+   592                                       0
+   593                                       L-Arg2-TXT
+   594            PERFORM 050-Check-READ-SCB-Return-CD
+   595            MOVE 0 TO WS-Tally-NUM
+   596            INSPECT L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   597                TALLYING WS-Tally-NUM FOR ALL X"0A"
+   598            IF WS-Tally-NUM = 0 *> No LF found - return truncated data and position past n
+       ext LF (if any)
+   599                IF L-Arg2-TXT(WS-Arg-Length-NUM:1) = X"0D"
+   600                    MOVE SPACE TO L-Arg2-TXT(WS-Arg-Length-NUM:1)
+   601                END-IF
+   602                ADD WS-Arg-Length-NUM TO L-SCB-Offset-NUM
+   603                MOVE 02 TO L-SCB-Return-CD
+   604                MOVE 256 TO WS-Arg-Length-NUM
+   605                PERFORM UNTIL 0 = 1
+   606                    MOVE SPACES TO WS-Buffer-TXT
+   607                    CALL "CBL_READ_FILE" USING L-SCB-Handle-NUM
+   608                                               L-SCB-Offset-NUM
+   609                                               WS-Arg-Length-NUM
+   610                                               0
+   611                                               WS-Buffer-TXT
+   612                    IF RETURN-CODE < 0
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 13
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 14
+====== =========================================================================================
+   613                        MOVE -3 TO L-SCB-Return-CD
+   614                        PERFORM 099-ERROR-Return
+   615                    END-IF
+   616                    IF RETURN-CODE = 10
+   617                        GOBACK
+   618                    END-IF
+   619                    MOVE 0 TO WS-Tally-NUM
+   620                    INSPECT WS-Buffer-TXT
+   621                        TALLYING WS-Tally-NUM FOR ALL X"0A"
+   622                    IF WS-Tally-NUM = 0
+   623                        ADD 256 TO L-SCB-Offset-NUM
+   624                    ELSE
+   625                        MOVE 0 TO WS-Tally-NUM
+   626                        INSPECT WS-Buffer-TXT
+   627                            TALLYING WS-Tally-NUM
+   628                            FOR CHARACTERS BEFORE INITIAL X"0A"
+   629                        ADD WS-Tally-NUM, 1 TO L-SCB-Offset-NUM
+   630                        GOBACK
+   631                    END-IF
+   632                END-PERFORM
+   633            ELSE         *> There is (at least) one LF in the buffer
+   634                MOVE 0 TO WS-Tally-NUM
+   635                INSPECT L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   636                    TALLYING WS-Tally-NUM
+   637                    FOR CHARACTERS BEFORE INITIAL X"0A"
+   638                ADD WS-Tally-NUM, 1 TO L-SCB-Offset-NUM
+   639                IF WS-Tally-NUM > 1
+   640                    IF L-Arg2-TXT(WS-Tally-NUM:1) = X"0D"
+   641                        COMPUTE WS-Arg-Length-NUM =
+   642                                  WS-Arg-Length-NUM
+   643                                - WS-Tally-NUM
+   644                                + 1
+   645                    ELSE
+   646                        COMPUTE WS-Arg-Length-NUM =
+   647                                  WS-Arg-Length-NUM
+   648                                - WS-Tally-NUM
+   649                        ADD 1 TO WS-Tally-NUM
+   650                    END-IF
+   651                    MOVE SPACES
+   652                      TO L-Arg2-TXT(WS-Tally-NUM:WS-Arg-Length-NUM)
+   653                ELSE
+   654                    MOVE SPACES
+   655                      TO L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   656                END-IF
+   657            END-IF
+   658            .
+
+
+
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 14
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Cross-Reference Listing                                       2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+PROGRAM-ID      Identifier/Register/Function     Defn   Where Defined   References      Page: 15
+=============== ================================ ====== =============== ========================
+STREAMIO        000-Main                            383 PROCEDURE
+STREAMIO        020-Validate-Handle-Zero            432 PROCEDURE          392
+STREAMIO        030-Validate-Handle-NonZero         438 PROCEDURE          387     395     398
+                                                                           401     406     411
+STREAMIO        040-Check-WRITE-SCB-Return-CD       444 PROCEDURE          424     570
+STREAMIO        050-Check-READ-SCB-Return-CD        455 PROCEDURE          582     594
+STREAMIO        060-Identify-TEMP                   466 PROCEDURE          493     508
+STREAMIO        099-ERROR-Return                    478 PROCEDURE          417     428     435
+                                                                           441     447     451
+                                                                           458     489     535
+                                                                           544     548     557
+                                                                           614
+STREAMIO        100-OPEN                            485 PROCEDURE          393
+STREAMIO        200-CLOSE                           553 PROCEDURE          388
+STREAMIO        300-WRITE                           562 PROCEDURE          402     407     412
+STREAMIO        400-READ                            573 PROCEDURE          396
+STREAMIO        500-READ-Delim                      585 PROCEDURE          399
+STREAMIO        L-Arg2-TXT                          380 LINKAGE            382     569C    576*
+                                                                           581C    588*    593C
+                                                                           599     600*    640
+                                                                           652*    655*
+STREAMIO        L-SCB-DELIM-Unix-BOOL               379 [STREAMIOcb   ]    405
+STREAMIO        L-SCB-DELIM-Windows-BOOL            379 [STREAMIOcb   ]    410
+STREAMIO        L-SCB-Delimiter-Mode-CD             379 [STREAMIOcb   ]
+STREAMIO        L-SCB-Error-Routine-NUM             379 [STREAMIOcb   ]    479
+STREAMIO        L-SCB-Error-Routine-PTR             379 [STREAMIOcb   ]    379     480C
+STREAMIO        L-SCB-Filename-TXT                  379 [STREAMIOcb   ]    390C    487     492
+                                                                           494*    506*    507
+                                                                           509     512     514*
+                                                                           524*    537C
+STREAMIO        L-SCB-Func-CLOSE-BOOL               379 [STREAMIOcb   ]    386
+STREAMIO        L-SCB-Func-DELETE-BOOL              379 [STREAMIOcb   ]    389
+STREAMIO        L-SCB-Func-OPEN-BOOL                379 [STREAMIOcb   ]    391
+STREAMIO        L-SCB-Func-READ-BOOL                379 [STREAMIOcb   ]    394
+STREAMIO        L-SCB-Func-READ-Delim-BOOL          379 [STREAMIOcb   ]    397
+STREAMIO        L-SCB-Func-WRITE-BOOL               379 [STREAMIOcb   ]    400
+STREAMIO        L-SCB-Func-WRITE-Delim-BOOL         379 [STREAMIOcb   ]    403
+STREAMIO        L-SCB-Function-CD                   379 [STREAMIOcb   ]
+STREAMIO        L-SCB-Handle-NUM                    379 [STREAMIOcb   ]    419C    433     439
+                                                                           541C    554C    560*
+                                                                           565C    577C    589C
+                                                                           607C
+STREAMIO        L-SCB-MODE-Both-BOOL                379 [STREAMIOcb   ]    486     531
+STREAMIO        L-SCB-Mode-CD                       379 [STREAMIOcb   ]
+STREAMIO        L-SCB-MODE-Input-BOOL               379 [STREAMIOcb   ]    486     527
+STREAMIO        L-SCB-MODE-Output-BOOL              379 [STREAMIOcb   ]    529
+STREAMIO        L-SCB-Offset-NUM                    379 [STREAMIOcb   ]    420C    425*    551*
+                                                                           566C    571*    578C
+                                                                           583*    590C    602*
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 15
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Cross-Reference Listing                                       2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+PROGRAM-ID      Identifier/Register/Function     Defn   Where Defined   References      Page: 16
+=============== ================================ ====== =============== ========================
+                                                                           608C    623*    629*
+                                                                           638*
+STREAMIO        L-SCB-Return-CD                     379 [STREAMIOcb   ]    384*    416*    427*
+                                                                           434*    440*    446*
+                                                                           450*    453*    457*
+                                                                           461*    464*    488*
+                                                                           534*    543*    547*
+                                                                           550*    556*    559*
+                                                                           603*    613*
+STREAMIO        L-StreamIO-Control-Block-TXT        377 LINKAGE            381
+STREAMIO        RETURN-CODE                             PROCEDURE          445     449     456
+                                                                           460     542     546
+                                                                           555     564     575
+                                                                           587     612     616
+STREAMIO        WS-256-Byte-TXT                     375 WORKING-STORAGE    510*    512*    522
+STREAMIO        WS-8-Digit-NUM                      374 WORKING-STORAGE    496*    503     515*
+                                                                           521
+STREAMIO        WS-Access-Mode-CD                   367 WORKING-STORAGE    528*    530*    532*
+                                                                           538C
+STREAMIO        WS-Arg-Length-NUM                   368 WORKING-STORAGE    408*    413*    421C
+                                                                           425     564*    567C
+                                                                           571     575*    576
+                                                                           579C    583     587*
+                                                                           588     591C    596
+                                                                           599     600     602
+                                                                           604*    609C    635
+                                                                           641*    642     646*
+                                                                           647     652     655
+STREAMIO        WS-Buffer-TXT                       369 WORKING-STORAGE    606*    611C
+STREAMIO        WS-Delim-Buffer-TXT                 370 WORKING-STORAGE    409*    414*    423C
+STREAMIO        WS-Env-Temp-TXT                     371 WORKING-STORAGE    467*    469     471
+                                                                           474*    500     518
+STREAMIO        WS-Slash-CHR                        372 WORKING-STORAGE    470*    472*    475*
+                                                                           501     519
+STREAMIO        WS-Tally-NUM                        373 WORKING-STORAGE    595*    597*    598
+                                                                           619*    621*    622
+                                                                           625*    627*    629
+                                                                           634*    636*    638
+                                                                           639     640     643
+                                                                           648     649*    652
+
+
+
+
+
+
+
+
+
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 16
+@end verbatim
+@end smallformat

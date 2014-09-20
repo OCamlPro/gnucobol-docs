@@ -1,0 +1,304 @@
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                          C:/Users/tda010/Documents/Programs/Samples/COBDUMP.cbl
+Line   Statement                                                                         Page: 1
+====== =========================================================================================
+     1        >>SOURCE FORMAT IS FIXED
+     2        IDENTIFICATION DIVISION.
+     3        PROGRAM-ID.   COBDUMP.
+     4       *>***************************************************************
+     5       *> This is an OpenCOBOL subroutine that will generate a        **
+     6       *> formatted Hex/Char dump of a storage area.  To use this     **
+     7       *> subroutine, simply CALL it as follows:                      **
+     8       *>                                                             **
+     9       *> CALL "COBDUMP" USING <data-item>                            **
+    10       *>                    [ <length> ]                             **
+    11       *>                                                             **
+    12       *> If specified, the <length> argument specifies how many      **
+    13       *> bytes of <data-item> are to be dumped.  If absent, all of   **
+    14       *> <data-item> will be dumped (i.e. LENGTH(<data-item>) will   **
+    15       *> be assumed for <length>).                                   **
+    16       *>                                                             **
+    17       *> >>> Note that the subroutine name MUST be specified in  <<< **
+    18       *> >>> UPPERCASE                                           <<< **
+    19       *>                                                             **
+    20       *> The dump is generated to STDERR, so you may pipe it to a    **
+    21       *> file when you execute your program using "2> file".         **
+    22       *>                                                             **
+    23       *> AUTHOR:       GARY L. CUTLER                                **
+    24       *>                                                             **
+    25       *> NOTE:         The author has a sentimental attachment to    **
+    26       *>               this subroutine - it's been around since 1971 **
+    27       *>               and it's been converted to and run on 10 dif- **
+    28       *>               ferent operating system/compiler environments **
+    29       *>                                                             **
+    30       *> DATE-WRITTEN: October 14, 1971                              **
+    31       *>                                                             **
+    32       *>***************************************************************
+    33       *>  DATE  CHANGE DESCRIPTION                                   **
+    34       *> ====== ==================================================== **
+    35       *> GC1071 Initial coding - Univac Dept. of Defense COBOL '68   **
+    36       *> GC0577 Converted to Univac ASCII COBOL (ACOB) - COBOL '74   **
+    37       *> GC1182 Converted to Univac UTS4000 COBOL - COBOL '74 w/     **
+    38       *>        SCREEN SECTION enhancements                          **
+    39       *> GC0883 Converted to Honeywell/Bull COBOL - COBOL '74        **
+    40       *> GC0983 Converted to IBM VS COBOL - COBOL '74                **
+    41       *> GC0887 Converted to IBM VS COBOL II - COBOL '85             **
+    42       *> GC1294 Converted to Micro Focus COBOL V3.0 - COBOL '85 w/   **
+    43       *>        extensions                                           **
+    44       *> GC0703 Converted to Unisys Universal Compiling System (UCS) **
+    45       *>        COBOL (UCOB) - COBOL '85                             **
+    46       *> GC1204 Converted to Unisys Object COBOL (OCOB) - COBOL 2002 **
+    47       *> GC0609 Converted to OpenCOBOL 1.1 - COBOL '85 w/ some COBOL **
+    48       *>        2002 features                                        **
+    49       *> GC0410 Enhanced to make 2nd argument (buffer length)        **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 1
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                          C:/Users/tda010/Documents/Programs/Samples/COBDUMP.cbl
+Line   Statement                                                                         Page: 2
+====== =========================================================================================
+    50       *>        optional                                             **
+    51       *> GC0211 Ported to IBM Enterprise COBOL                       **
+    52       *> GC0612 Updated for OpenCOBOL 2.0                            **
+    53       *>***************************************************************
+    54        ENVIRONMENT DIVISION.
+    55        CONFIGURATION SECTION.
+    56        REPOSITORY.
+    57            FUNCTION ALL INTRINSIC.
+    58        DATA DIVISION.
+    59        WORKING-STORAGE SECTION.
+    60        01  WS-Addr-PTR                           USAGE POINTER.
+    61        01  WS-Addr-NUM REDEFINES WS-Addr-PTR
+    62                                                  USAGE BINARY-LONG.
+    63
+    64        01  WS-Addr-SUB                           USAGE BINARY-CHAR.
+    65
+    66        01  WS-Addr-Value-NUM                     USAGE BINARY-LONG.
+    67
+    68        01  WS-Buffer-Byte-CHR.
+    69            05 WS-Buffer-Byte-NUM                 USAGE BINARY-CHAR.
+    70
+    71        01  WS-Buffer-Length-NUM                  USAGE BINARY-LONG.
+    72
+    73        01  WS-Buffer-SUB                         PIC 9(4) COMP-5.
+    74
+    75        01  WS-Hex-Digit-TXT VALUE '0123456789ABCDEF'.
+    76            05 WS-Hex-Digit-CHR                   OCCURS 16 TIMES
+    77                                                  PIC X(1).
+    78
+    79        01  WS-Nibble-SUB                         PIC 9(1) COMP-5.
+    80
+    81        01  WS-Nibble-Left-SUB                    PIC 9(1) COMP-5.
+    82
+    83        01  WS-Nibble-Right-SUB                   PIC 9(1) COMP-5.
+    84
+    85        01  WS-Output-Detail-TXT.
+    86            05 WS-OD-Addr-TXT.
+    87               10 WS-OD-Addr-Hex-CHR              OCCURS 8 TIMES PIC X.
+    88            05 FILLER                             PIC X(1).
+    89            05 WS-OD-Relative-Byte-NUM            PIC Z(3)9.
+    90            05 FILLER                             PIC X(1).
+    91            05 WS-OD-Hex-TXT                      OCCURS 16 TIMES.
+    92               10 WS-OD-Hex-1-CHR                 PIC X.
+    93               10 WS-OD-Hex-2-CHR                 PIC X.
+    94               10 FILLER                          PIC X.
+    95            05 WS-OD-ASCII-Data-TXT.
+    96               10 WS-OD-ASCII-CHR                 OCCURS 16 TIMES
+    97                                                  PIC X.
+    98
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 2
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                          C:/Users/tda010/Documents/Programs/Samples/COBDUMP.cbl
+Line   Statement                                                                         Page: 3
+====== =========================================================================================
+    99        01  WS-Output-SUB                         PIC 9(2) COMP-5.
+   100
+   101        >>SOURCE FORMAT IS FREE
+   102        01  WS-Output-Header-1-TXT.
+   103            05 VALUE '<-Addr-> Byte <---------------- Hexadecimal ''----------------> <---
+       - Char ---->' PIC X(80).
+   104
+   105        01  WS-Output-Header-2-TXT.
+   106            05 VALUE '======== ==== =============================================== ======
+       ==========' PIC X(80).
+   107        >>SOURCE FORMAT IS FIXED
+   108
+   109        LINKAGE SECTION.
+   110        01  L-Buffer-TXT                          PIC X ANY LENGTH.
+   111
+   112        01  L-Buffer-Length-NUM                   USAGE BINARY-LONG.
+   113
+   114        PROCEDURE DIVISION USING L-Buffer-TXT,
+   115                                 OPTIONAL L-Buffer-Length-NUM.
+   116        000-Main SECTION.
+   117            IF NUMBER-OF-CALL-PARAMETERS = 1
+   118                MOVE LENGTH(L-Buffer-TXT) TO WS-Buffer-Length-NUM
+   119            ELSE
+   120                MOVE L-Buffer-Length-NUM  TO WS-Buffer-Length-NUM
+   121            END-IF
+   122            MOVE SPACES TO WS-Output-Detail-TXT
+   123            SET WS-Addr-PTR TO ADDRESS OF L-Buffer-TXT
+   124            PERFORM 100-Generate-Address
+   125            MOVE 0 TO WS-Output-SUB
+   126            DISPLAY WS-Output-Header-1-TXT UPON SYSERR
+   127            DISPLAY WS-Output-Header-2-TXT UPON SYSERR
+   128            PERFORM VARYING WS-Buffer-SUB FROM 1 BY 1
+   129                      UNTIL WS-Buffer-SUB > WS-Buffer-Length-NUM
+   130                ADD 1 TO WS-Output-SUB
+   131                IF WS-Output-SUB = 1
+   132                    MOVE WS-Buffer-SUB TO WS-OD-Relative-Byte-NUM
+   133                END-IF
+   134                MOVE L-Buffer-TXT (WS-Buffer-SUB : 1)
+   135                  TO WS-OD-ASCII-CHR (WS-Output-SUB)
+   136                     WS-Buffer-Byte-CHR
+   137                DIVIDE WS-Buffer-Byte-NUM BY 16
+   138                    GIVING WS-Nibble-Left-SUB
+   139                    REMAINDER WS-Nibble-Right-SUB
+   140                ADD 1 TO WS-Nibble-Left-SUB
+   141                         WS-Nibble-Right-SUB
+   142                MOVE WS-Hex-Digit-CHR (WS-Nibble-Left-SUB)
+   143                  TO WS-OD-Hex-1-CHR  (WS-Output-SUB)
+   144                MOVE WS-Hex-Digit-CHR (WS-Nibble-Right-SUB)
+   145                  TO WS-OD-Hex-2-CHR  (WS-Output-SUB)
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 3
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                          C:/Users/tda010/Documents/Programs/Samples/COBDUMP.cbl
+Line   Statement                                                                         Page: 4
+====== =========================================================================================
+   146                IF WS-Output-SUB = 16
+   147                    CALL "C$PRINTABLE" USING WS-OD-ASCII-Data-TXT
+   148                    DISPLAY WS-Output-Detail-TXT UPON SYSERR
+   149                    MOVE SPACES TO WS-Output-Detail-TXT
+   150                    MOVE 0 TO WS-Output-SUB
+   151                    SET WS-Addr-PTR UP BY 16
+   152                    PERFORM 100-Generate-Address
+   153                END-IF
+   154            END-PERFORM
+   155            IF WS-Output-SUB > 0
+   156                CALL "C$PRINTABLE" USING WS-OD-ASCII-Data-TXT
+   157                DISPLAY WS-Output-Detail-TXT UPON SYSERR
+   158            END-IF
+   159            EXIT PROGRAM
+   160            .
+   161        100-Generate-Address SECTION.
+   162            MOVE 8 TO WS-Addr-SUB
+   163            MOVE WS-Addr-NUM TO WS-Addr-Value-NUM
+   164            MOVE ALL '0' TO WS-OD-Addr-TXT
+   165            PERFORM WITH TEST BEFORE UNTIL WS-Addr-Value-NUM = 0
+   166                DIVIDE WS-Addr-Value-NUM BY 16
+   167                    GIVING WS-Addr-Value-NUM
+   168                    REMAINDER WS-Nibble-SUB
+   169                ADD 1 TO WS-Nibble-SUB
+   170                MOVE WS-Hex-Digit-CHR (WS-Nibble-SUB)
+   171                  TO WS-OD-Addr-Hex-CHR (WS-Addr-SUB)
+   172                SUBTRACT 1 FROM WS-Addr-SUB
+   173            END-PERFORM
+   174            .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 4
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNU COBOL 2.1 23NOV2013 Cross-Reference Listing                                       2014/03/27
+                                          C:/Users/tda010/Documents/Programs/Samples/COBDUMP.cbl
+PROGRAM-ID      Identifier/Register/Function     Defn   Where Defined   References       Page: 5
+=============== ================================ ====== =============== ========================
+COBDUMP         000-Main                            116 PROCEDURE
+COBDUMP         100-Generate-Address                161 PROCEDURE          124     152
+COBDUMP         L-Buffer-Length-NUM                 112 LINKAGE            115     120
+COBDUMP         L-Buffer-TXT                        110 LINKAGE            114     118     123
+                                                                           134
+COBDUMP         NUMBER-OF-CALL-PARAMETERS               PROCEDURE          117
+COBDUMP         WS-Addr-NUM                          61 WORKING-STORAGE    163
+COBDUMP         WS-Addr-PTR                          60 WORKING-STORAGE     61     123*    151*
+COBDUMP         WS-Addr-SUB                          64 WORKING-STORAGE    162*    171     172
+COBDUMP         WS-Addr-Value-NUM                    66 WORKING-STORAGE    163*    165     166
+                                                                           167*
+COBDUMP         WS-Buffer-Byte-CHR                   68 WORKING-STORAGE    136
+COBDUMP         WS-Buffer-Byte-NUM                   69 WORKING-STORAGE    137
+COBDUMP         WS-Buffer-Length-NUM                 71 WORKING-STORAGE    118*    120*    129
+COBDUMP         WS-Buffer-SUB                        73 WORKING-STORAGE    128*    129     132
+                                                                           134
+COBDUMP         WS-Hex-Digit-CHR                     76 WORKING-STORAGE    142     144     170
+COBDUMP         WS-Hex-Digit-TXT                     75 WORKING-STORAGE
+COBDUMP         WS-Nibble-Left-SUB                   81 WORKING-STORAGE    138*    140*    142
+COBDUMP         WS-Nibble-Right-SUB                  83 WORKING-STORAGE    139*    141*    144
+COBDUMP         WS-Nibble-SUB                        79 WORKING-STORAGE    168*    169*    170
+COBDUMP         WS-OD-Addr-Hex-CHR                   87 WORKING-STORAGE    171*
+COBDUMP         WS-OD-Addr-TXT                       86 WORKING-STORAGE    164*
+COBDUMP         WS-OD-ASCII-CHR                      96 WORKING-STORAGE    135*
+COBDUMP         WS-OD-ASCII-Data-TXT                 95 WORKING-STORAGE    147C    156C
+COBDUMP         WS-OD-Hex-1-CHR                      92 WORKING-STORAGE    143*
+COBDUMP         WS-OD-Hex-2-CHR                      93 WORKING-STORAGE    145*
+COBDUMP         WS-OD-Hex-TXT                        91 WORKING-STORAGE
+COBDUMP         WS-OD-Relative-Byte-NUM              89 WORKING-STORAGE    132*
+COBDUMP         WS-Output-Detail-TXT                 85 WORKING-STORAGE    122*    148     149*
+                                                                           157
+COBDUMP         WS-Output-Header-1-TXT              102 WORKING-STORAGE    126
+COBDUMP         WS-Output-Header-2-TXT              105 WORKING-STORAGE    127
+COBDUMP         WS-Output-SUB                        99 WORKING-STORAGE    125*    130*    131
+                                                                           135     143     145
+                                                                           146     150*    155
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 5
+@end verbatim
+@end smallformat

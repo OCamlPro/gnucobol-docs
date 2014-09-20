@@ -1,0 +1,28 @@
+@comment *********************************************************************
+@comment ** 3. IDENTIFICATION DIVISION                                      **
+@comment *********************************************************************
+@newchapter{3,IDENTIFICATION DIVISION}
+@diagram{IDENTIFICATION DIVISION,ID-Overview,ID-Overview,ID-Overview}
+@diagram{PROGRAM-ID Type Clause,ID-PROGRAM-ID-Type,ID-PROGRAM-ID-Type,None}
+@p The identification division provides basic identification of the program by giving it a name and optionally defining some high-level characteristics via the eight pre-defined paragraphs that may be specified.
+@enumerate
+@p @item The paragraphs shown above may be coded in any sequence.
+@p @item The reserved words @syntax{AS}, @syntax{IS} and @syntax{PROGRAM} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+@p @item A @b{Type Clause} may be coded only when @syntaxidx{PROGRAM-ID} is specified.  If one is coded, either @syntax{COMMON}, @syntax{COMMON INITIAL} or @syntax{COMMON RECURSIVE} must be specified.
+@p @item While the actual @syntax{IDENTIFICATION DIVISION} header is optional, the @syntax{PROGRAM-ID} / @syntaxidx{FUNCTION-ID} paragraphs are not; only one or the other, however, may be coded.
+@p @item The compiler's @switchidx{-Wobsolete} will cause the GNU COBOL compiler to issue warnings messages if these (or any other obsolete syntax) is used in a program.
+@p @item If specified, @term{literal-1} must be an actual alphanumeric literal and may not be a figurative constant.
+@p @item The @syntax{PROGRAM-ID} and @syntax{FUNCTION-ID} paragraphs serve to identify the program to the external (i.e. operating system) environment.  If there is no @syntax{AS} clause present, the @term{program-id} will serve as that external identification.  If there is an @syntax{AS} clause specified, that specified literal will serve as the external identification.  For the remainder of this document, that "external identification" will be referred to as the primary entry-point name.
+@p @item The @syntax{INITIAL}, @syntax{COMMON} and @syntax{RECURSIVE} words are used only within subprograms serving as subroutines.  Their purposes are as follows:
+@enumerate A
+@p @item @syntaxidx{COMMON} should be used only within subprograms that are nested subprograms.  A nested subprogram declared as @syntax{COMMON} may be called from any nested program in the source file being compiled, not just those "above" it in the nesting structure.
+@p @item The @syntaxidx{RECURSIVE} clause, if any, will cause the compiler to generate different object code for the subprogram that will enable it to invoke itself and to properly return back to the program that invoked it.
+@p User-defined functions (i.e. @syntax{FUNCTION-ID}) are always recursive.
+@p @item The @syntaxidx{INITIAL} clause, if specified, guarantees the subprogram will be in its initial (i.e. compiled) state each and every time it is executed, not just the first time.
+@end enumerate
+@end enumerate
+@iftex
+@sp 3
+@center ------------------------------------------------------------
+@center End of Chapter 3 --- IDENTIFICATION DIVISION
+@end iftex

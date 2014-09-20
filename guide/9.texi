@@ -1,0 +1,636 @@
+@comment *********************************************************************
+@comment ** 9. Sub-Programming                                              **
+@comment *********************************************************************
+@newchapter{9,Sub-Programming}
+@menu
+* 9.1: Subprogram Types.
+* 9.2: Independent vs Contained vs Nested Subprograms.
+* 9.3: Alternate Entry Points.
+* 9.4: Dynamic vs Static Subprograms.
+* 9.5: Subprogram Execution Flow.
+@detailmenu
+*   9.5.1: Subroutine Execution Flow.
+*   9.5.2: User-Defined Function Execution Flow.
+@end detailmenu
+* 9.6: Sharing Data Between Calling and Called Programs.
+@detailmenu
+*   9.6.1: Subprogram Arguments.
+*     9.6.1.1: Calling Program Considerations.
+*     9.6.1.2: Called Program Considerations.
+*   9.6.2: GLOBAL Data Items.
+*   9.6.3: EXTERNAL Data Items.
+@end detailmenu
+* 9.7: Recursive Subprograms.
+* 9.8: Combining GNU COBOL and C Programs.
+@detailmenu
+*   9.9.1: GNU COBOL Run-Time Library Requirements.
+*   9.9.2: String Allocation Differences Between GNU COBOL and C.
+*   9.9.3: Matching C Data Types with GNU COBOL USAGEs.
+*   9.9.4: GNU COBOL Main Programs CALLing C Subprograms.
+*   9.9.5: C Main Programs Calling GNU COBOL Subprograms.
+@end detailmenu
+@end menu
+@comment *********************************************************************
+@comment ** 9.1 Subprogram Types                                            **
+@comment *********************************************************************
+@newsection{9.1,Subprogram Types}@p Simply stated, a @define{Subprogram} is a program that is invoked by another program; the subprogram performs whatever its designed operations are and --- when complete --- typically returns control back to the program that invoked it.  There are two different types of subprograms supported by GNU COBOL, subroutines and user-defined functions.  The distinction between these two subprogram types lies in the manner in which they are executed.
+@p When program "A" invokes subprogram "B" as a @define{Subroutine}, it does so using a special statement dedicated to that function (the @statementref{CALL}, just as if "B" were one of the built-in system subroutines.
+@p When program "A" invokes program "B" as a @define{User-Defined Function}, it does so in a manner identical to how "B" would have been invoked had it been one of the many built-in intrinsic functions.
+@p In either instance, program "A" is referred to as the @define{Calling Program} while program "B" is known as the @define{Called Program}.  GNU COBOL programs may be a calling program, a called program or both.
+@p A program written in the C programming language may serve as either the calling or called program too.  A called program may act as a calling program to another called program.  When a calling program does not serve as a called program to any program, that calling program is known as a @define{Main Program}.
+@p Both subroutines and user-defined functions may return a value.  The value they return must be an integer in the range -2147483648 to +2147483647.  This value will be available in the @registerrefalt{RETURN-CODE,Special Registers} and also as the value of the data item specified on the @syntaxrefalt{RETURNING,CALL} clause of a subroutine's CALL.
+@comment *********************************************************************
+@comment ** 9.2 Independent vs Contained vs Nested Subprograms              **
+@comment *********************************************************************
+@newsection{9.2,Independent vs Contained vs Nested Subprograms}@p Subprograms (either subroutines or user-defined functions) can be implemented in three different ways.
+@table @define
+@p @item Independent Subprograms
+@p These are subprograms that are coded as the only COBOL program in their @topic{Compilation Unit}.
+@p @item Contained Subprograms
+@p These are subprograms which occur in the same Compilation Unit as a main program and/or other subprograms.  Each contained subprogram is separated from the next via an @syntax{END PROGRAM} marker line.  As an example@dots{}
+@p @example
+IDENTIFICATION DIVISION.
+PROGRAM-ID. SUB1.
+@dots{}
+END PROGRAM SUB1.
+IDENTIFICATION DIVISION.
+PROGRAM-ID. SUB2.
+@dots{}
+END PROGRAM SUB2.
+@end example
+@* Program source code may be concatenated as shown here, provided an @syntax{END PROGRAM} marker naming the @syntax{PROGRAM-ID} of the just-completed program is used to separate one program from another.
+@p There's no reason that user-defined functions cannot be included too --- they'll just have @syntax{FUNCTION-ID}s and will be ended by @syntax{END FUNCTION} markers.
+@p The last program in any GNU COBOL source file need not have an @syntax{END} marker.
+@p When multiple programs occur in a source file, it is assumed that the programs are related to one another in that they will be CALLed or executed as functions from the others.
+@p @item Nested Subprograms
+@p It is also possible to create source files where GNU COBOL programs are nested inside each other.  Take for example these four GNU COBOL programs:
+@p @example
+IDENTIFICATION DIVISION.
+PROGRAM-ID. PROG1.
+@dots{}
+IDENTIFICATION DIVISION.
+PROGRAM-ID. PROG2.
+@dots{}
+IDENTIFICATION DIVISION.
+PROGRAM-ID. PROG3.
+@dots{}
+END PROGRAM PROG3.
+END PROGRAM PROG2.
+IDENTIFICATION DIVISION.
+PROGRAM-ID. PROG4.
+@dots{}
+END PROGRAM PROG4.
+END PROGRAM PROG1.
+@end example
+@* Here we see that PROG2 is nested inside of PROG1 because there is no @syntax{END PROGRAM} marker separating them.  This means that data items or files defined within PROG1 can be used within PROG2 simply by attaching the @syntaxref{GLOBAL} attribute to them back in PROG1 when they are defined.
+@p Similarly, since there is no @syntax{END PROGRAM} marker separating PROG3 from PROG2, it is possible for PROG3 to access @syntax{GLOBAL} files and data items defined within PROG2.  Since PROG2 is nested within PROG1, any @syntax{GLOBAL} resources defined within PROG1 will be available to PROG3 as well.
+@p The two @syntax{END PROGRAM} markers for PROG3 and PROG2 (note their sequence) mean that PROG4 is nested within PROG1 only.  It will not have access to any @syntax{GLOBAL} resources defined within either PROG2 or PROG3.
+@p The @syntax{END PROGRAM PROG1.} marker, since it is the last line in the source file, is entirely optional.
+@end table
+@comment *********************************************************************
+@comment ** 9.3 Alternate Entry Points                                      **
+@comment *********************************************************************
+@newsection{9.3,Alternate Entry Points}@p Any subroutine may have multiple entry-points defined within it.  This means the subroutine could be called either via a @syntax{CALL '@term{program-id}'} or a @syntax{CALL '@term{entry-point}'} statement.  There may be any number of alternate entry-points defined within a subroutine.
+@p Alternate entry-points provide multiple ways in which the same subroutine may be called; presumably, each entry-point will provide some different functionality to the calling program.  For example, if you wished to write a subroutine that manipulates "student" records in a database, you might have the primary entry-point name retrieve a student record from the database, while the alternate entry points @syntax{Add-Student}, @syntax{Update-Student} and @syntax{Delete-Student} could provide the alternate functions implied by their entry-point names.
+@p The alternative to using multiple entry points in your subroutine, by the way, would be to include an additional argument to the primary (and only) entry point of the subroutine; this new argument might be named @syntax{STUDENT-FUNCTION} and might have values of "FETCH", "ADD", "UPDATE" or "DELETE".
+@p The primary entry-point for any subroutine is always the first executable statement following any @syntaxref{DECLARATIVES} in the procedure division.  The name of that entry-point (the name that will be called) is the subroutine's @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION}.
+@p An alternate entry point is added to a subroutine using the @statementref{ENTRY}.
+@p When an alternate entry-point is called, execution within the subroutine will begin at the first executable statement following the @statement{ENTRY}.
+@comment *********************************************************************
+@comment ** 9.4 Dynamic vs Static Subprograms                               **
+@comment *********************************************************************
+@newsection{9.4,Dynamic vs Static Subprograms}@p Any subprogram may be either statically or dynamically loaded into memory.
+@p A @define{Static Subprogram} is one which was in the same @topic{Compilation Unit} as the other program(s) which call it, therefore meaning that it's executable object code is part of the same executable file as it's calling program.  The static subprogram was therefore loaded into memory as part of and at the same time as the calling program.
+@p A @define{Dynamic Subprogram} is one whose executable object code exists as an executable file separate from that containing the calling program; these two programs were therefore each compiled in their own separate @topic{Compilation Group}.  Dynamic subprograms are located and loaded into memory the first time they are executed.  Dynamic subprograms may be unloaded from memory via the @statementref{CANCEL}, if desired.
+@p GNU COBOL subprograms may be created as either static or dynamic subprograms, as desired by the programmer.
+@p To demonstrate, assume that a GNU COBOL Main Program (whose code resides in the file "M.cbl") will be calling three subprograms, named "A", "B" and "C" (these are the @syntax{PROGRAM-ID}s of the three subprograms, and their source code may be found in the files "A.cbl", "B.cbl" and "C.cbl", respectively.
+@p Here is how these four programs would be compiled if the three subprograms are to be static:
+@p @center @syntax{cobc -x M.cbl A.cbl B.cbl C.cbl}
+@p This command informs the compiler (cobc) that four programs are to be compiled (the first named on the command must always be the main program), and a single executable file is to be created (due to the @switchidx{-x}).
+@p Here is how the main program and the three subprograms could be compiled if the three subprograms are to be dynamic:
+@p @center @syntax{cobc -x M.cbl}
+@p @center @syntax{cobc -m A.cbl B.cbl C.cbl}
+@p These commands will create an executable file for the main program (@switch{-x}) and three separate dynamically-loadable libraries (@switchidx{-m}), one for each of the three subprograms.  Had we wished, we could have created a single dynamically-loadable library containing all three subprograms by adding the @switchidx{-b} to their compilation:
+@p @center @syntax{cobc -m -b A.cbl B.cbl C.cbl}
+@p Dynamically-loadable @i{libraries} are also known by the term dynamically-loadable @i{modules} --- the two terms are synonymous.
+@p Here are the rules about GNU COBOL dynamically-loadable modules:
+@enumerate
+@p @item There may be multiple GNU COBOL subprograms contained within a single dynamically-loadable library if the @syntax{-b} switch is used in addition to @syntax{-m}.  If not, each subprogram will be compiled to a separate dynamically-loadable library.
+@p @item Dynamically-loadable modules will be named "xxxxxxxx.dll" on a Windows system, "xxxxxxxx.so" on a Unix system or "xxxxxxxx.dylib" on an OSX system, where "xxxxxxxx" exactly matches, including the usage of upper- and lower-case letters, the primary entry-point name (@syntax{PROGRAM-ID} or @syntax{FUNCTION-ID}) or an alternate entry point name defined via the @statementref{ENTRY} of any one of the GNU COBOL programs included in that module.
+@p @item The first time any of the GNU COBOL subprograms in a dynamically-loadable module are invoked, the entry-point referenced must be the one for which the ".dll", ".so" or ".dylib" file is named.
+@p @item @anchor{Locating Dynamically-Loadable Modules}When a dynamically-loadable module needs to be loaded (because it is not already in memory from a previous subprogram execution), the dynamically-loadable library will be sought in the same directory from which the main program was loaded.  If it cannot be found there, each directory named in the @envvarruntimeref{PATH} will be searched.  If it was not located in any of those directories, the library specified by the @envvarruntime{COB_LIBRARY_PATH} will be searched.  Finally, if it @i{still} cannot be located, execution will be terminated with an error message ("libcob: Cannot find module 'xxxxxxxx'").
+@p @item Once the dynamically-loadable module has been successfully loaded, any of the entry-points contained within it are now available for reference.
+@p @item Dynamically-loadable modules may be removed from memory via the @statementref{CANCEL}.
+@p @item Once a dynamically-loadable module is actually loaded into memory, even if it is subsequently unloaded (via the @statement{CANCEL}), it's list of entry-points remain available to the GNU COBOL run-time library and subsequent re-executions of any of those entry points will be able to bypass the search (rule #4) as well as the "first-execution rule" (rule #3).
+@end enumerate
+@* Consult the documentation on the @envvarruntime{COB_PRE_LOAD}, @envvarruntime{COB_PHYSICAL_CANCEL} and @envvarruntimerefs{COB_LOAD_CASE} for additional options when using dynamically-loadable modules.
+@comment *********************************************************************
+@comment ** 9.5 Subprogram Execution Flow                                   **
+@comment *********************************************************************
+@newsection{9.5,Subprogram Execution Flow}@p When a subprogram is invoked, the flow of execution will differ slightly depending on whether the subprogram is a subroutine or a user-defined function.
+@menu
+* 9.5.1: Subroutine Execution Flow.
+* 9.5.2: User-Defined Function Execution Flow.
+@end menu
+@comment *********************************************************************
+@comment ** 9.5.1 Subroutine Execution Flow                                 **
+@comment *********************************************************************
+@newsubsection{9.5.1,Subroutine Execution Flow}@p When a subroutine is @syntax{CALL}ed:
+@enumerate
+@p @item The calling program issues a statement of the form @syntax{CALL '@term{entry-point}' USING ...} to transfer control to the subroutine.
+@p @item The executable for the called program will be located and loaded into memory:
+@enumerate A
+@p @item If it is a static subroutine, it will already be part of the executable program issuing the @syntaxref{CALL}.
+@p @item If it is a dynamic subroutine, the GNU COBOL run-time system will check to see if a dynamically-loadable module containing the subprogram's entry point was already located.  If it was, no further "location" activity is needed.  If not, the dynamically-loadable module will be located (@pxref{Locating Dynamically-Loadable Modules}).
+@p @item Once the module has been located (if location was needed), it will be loaded into memory (if not already loaded).
+@end enumerate
+@item Execution of the calling program is suspended and control will transfer to the called program, as follows:
+@enumerate A
+@p @item If the @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION} clause of the subprogram included the @syntaxidx{INITIAL} clause, the program will be reinitialized back to its compile-time state.  This will happen regardless of the @syntax{INITIAL} clause the first time the subprogram is executed.
+@p @item Local-storage, if any, will be allocated and initialized.
+@p @item Execution will begin at the first executable statement following the subprograms entry-point.  The entry point will be either the first executable statement following any @syntaxref{DECLARATIVES} that might be present (if the subprogram was invoked using its primary entry-point name) or the first executable statement following the @statementref{ENTRY} naming the entry-point specified on the @syntax{CALL} if the subprogram was invoked using an alternate entry point.
+@end enumerate
+@item The flow of execution will then progress through the coding of the subprogram as it would with any other program.
+@p @item If the subprogram issues a @statementref{STOP} with the @syntax{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
+@p @item If the subprogram wishes to return control back to the calling program, it will do so using either the @statementref{GOBACK} or the @statementrefalt{EXIT PROGRAM,EXIT}.  At this time:
+@enumerate A
+@p @item If the subprograms procedure division header or @statement{ENTRY} included a @syntaxidx{RETURNING}, the value of the data item found on that clause is moved to the @registerref{RETURN-CODE}; this behavior can be altered utilizing the @syntaxrefalt{CALL-CONVENTION,SPECIAL-NAMES} feature to leave @syntax{RETURN-CODE} unchanged.
+@p @item Local-storage, if any, is de-allocated.
+@p @item If the calling program included a @syntax{RETURNING} clause on the @syntax{CALL} statement that invoked the subprogram, the value of the @syntax{RETURNING} data item in the subroutine is moved to that data item.  If there was no @syntax{RETURNING} specified in the subroutine, the value of the @register{RETURN-CODE} is moved to that data item.
+@p @item Execution will resume back in the calling program with the first executable statement following the @syntax{CALL} that invoked the subprogram.
+@end enumerate
+@end enumerate
+@comment *********************************************************************
+@comment ** 9.5.2 User-Defined Function Execution Flow                      **
+@comment *********************************************************************
+@newsubsection{9.5.2,User-Defined Function Execution Flow}@p When a user-defined function is executed:
+@enumerate
+@p @item The object code for the called program (the user-defined function) will be located, as follows:
+@enumerate A
+@p @item If it is a static user-defined function, it will already be part of the executable file containing the calling program.
+@p @item If it is a dynamic user-defined function, the GNU COBOL run-time system will check to see if a dynamically-loadable module containing the function's entry point was already located.  If it was, no further "location" activity is needed.  If not, the dynamically-loadable module will be located (@pxref{Locating Dynamically-Loadable Modules}).
+@p @item Once the module has been located (if location was needed), it will be loaded into memory (if not already loaded).
+@end enumerate
+@item Execution of the calling program is suspended and control will transfer to the called program, as follows:
+@enumerate A
+@p @item Local-storage, if any, will be allocated and initialized.
+@p @item Execution will begin with the first executable statement in the procedure division following any @syntaxref{DECLARATIVES} that might be present.
+@end enumerate
+@item The flow of execution will then progress through the coding of the function as it would with any other program.
+@p @item If the function issues a @statementref{STOP} with the @syntax{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
+@p @item If the function wishes to return control back to the calling program, it will do so using either the @statementref{GOBACK} or the @statementrefalt{EXIT FUNCTION,EXIT}.  At this time:
+@enumerate A
+@p @item The value of the data item found on the user-defined functions @syntaxref{PROCEDURE DIVISION RETURNING} clause is moved to the @registerref{RETURN-CODE}.
+@p @item Local-storage, if any, is de-allocated.
+@p @item Execution will resume back in the calling program at the point where the returned value of the function is needed.  At that point, the value in the @register{RETURN-CODE} will be used for the function's value.
+@end enumerate
+@end enumerate
+@comment *********************************************************************
+@comment ** 9.6 Sharing Data Between Calling and Called Programs            **
+@comment *********************************************************************
+@page
+@newsection{9.6,Sharing Data Between Calling and Called Programs}
+@menu
+* 9.6.1: Subprogram Arguments.
+@detailmenu
+*   9.6.1.1: Calling Program Considerations.
+*   9.6.1.2: Called Program Considerations.
+@end detailmenu
+* 9.6.2: GLOBAL Data Items.
+* 9.6.3: EXTERNAL Data Items.
+@end menu
+@comment *********************************************************************
+@comment ** 9.6.1 Subprogram Arguments                                      **
+@comment *********************************************************************
+@newsubsection{9.5.1,Subprogram Arguments}
+@menu
+* 9.6.1.1: Calling Program Considerations.
+* 9.6.1.2: Called Program Considerations.
+@end menu
+@comment *********************************************************************
+@comment ** 9.6.1.1 Calling Program Considerations                          **
+@comment *********************************************************************
+@newunit{9.6.1.1,Calling Program Considerations}@p Data items defined in a calling program may be passed to either type of called program (subroutine or user-defined function) as arguments.
+@p Arguments must be described in both the calling and called programs, and while they don't need to have the same names in both programs, they should be described in an identical manner with regard to the following characteristics:
+@itemize @bullet
+@p @item @syntaxref{PICTURE} (including both type and length)
+@p @item @syntaxref{SIGN}
+@p @item @syntaxref{SYNCRONIZED}
+@p @item @syntaxref{USAGE}
+@end itemize
+@* A subroutine may be passed a maximum of 36 arguments; if you build the GNU COBOL software yourself from the distributed source, you CAN change this value by altering the defined value of @syntax{COB_MAX_FIELD_PARAMS} in the "common.h" header file.  There is no built-in GNU COBOL limit to how many arguments a user-defined function may be passed.
+@p Whether or not changes made to an argument within a subroutine will be "visible" to the calling program depends on how the argument was passed.  There are three ways in which arguments may be passed from a calling program to a subroutine, as defined by the use of optional @syntax{BY} clauses in the @syntaxref{CALL} statement's list of arguments.
+@p As an example, the following statement passes three arguments to a subroutine --- each argument is passed differently.
+@p @example
+CALL "subroutine" USING BY REFERENCE arg-1
+                        BY CONTENT arg-2
+                        BY VALUE arg-3
+END-CALL
+@end example
+@* The three ways arguments are passed are as follows.
+@table @syntax
+@p @item BY REFERENCE
+@p When a subroutine argument is passed @syntaxidx{BY REFERENCE}, the subroutine is passed the @i{address} of the @i{actual data item} being passed as an argument.  The item may anything defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will "see" the results of that change when the subroutine returns control.  This is the default manner in which GNU COBOL passes arguments to a subroutine, should no @syntax{BY} clauses be included on the @syntax{CALL}.
+@p @item BY CONTENT
+@p When a subroutine is passed an argument @syntaxidx{BY CONTENT}, the subroutine is passed the @i{address} of a @i{copy} of the actual data being passed as an argument.  The item may anything defined within the data division of the program.  The copy is made each time the @syntax{CALL} statement is executed, immediately before the @syntax{CALL} actually takes place.  If the subroutine modifies the contents of this argument, it will be the @i{copy} that is modified, not the original data item; the calling program will therefore not "see" the results of that change when the subroutine returns control.
+@p @item BY VALUE
+@p Passing a subroutine argument @syntaxidx{BY VALUE} passes the @i{actual value} of the data being passed as an argument.  The item may be any elementary binary numeric item defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will not "see" the results of that change when the subroutine returns control.
+@end table
+@* The first two ways in which arguments may be passed (@syntax{BY REFERENCE} and @syntax{BY CONTENT}) are intended for use when a GNU COBOL program is being called, while the first and third (@syntax{BY REFERENCE} and @syntax{BY VALUE}) are intended for use when a C program is being called.  You @i{can} use @syntax{BY VALUE} arguments when calling GNU COBOL subroutines, but remember that those arguments are limited to being a numeric binary data item.
+@p Arguments to user-defined functions are always passed @syntax{BY REFERENCE}.
+@comment *********************************************************************
+@comment ** 9.6.1.2 Called Program Considerations                           **
+@comment *********************************************************************
+@newunit{9.6.1.2,Called Program Considerations}@p When coding a GNU COBOL subprogram (a subroutine or user-defined function), all arguments to the subprogram must be defined in the subprogram's linkage section.
+@p These arguments must be explicitly included on the @syntaxref{PROCEDURE DIVISION USING} clause that lists the arguments in the sequence in which they will be passed to the subprogram.
+@p These arguments described in the @syntax{PROCEDURE DIVISION USING} clause may each be defined as either @syntax{BY REFERENCE}, if the calling program is passing them either @syntaxidx{BY REFERENCE} or @syntaxidx{BY CONTENT}, or as @syntaxidx{BY VALUE} if they are being passed @syntax{BY VALUE}.
+@p By default, all arguments are assumed to be @syntax{BY REFERENCE} unless explicitly stated otherwise on the procedure division header.
+@p Arguments to a user-defined function are always to be specified as @syntax{BY REFERENCE} (either explicitly or by not using any @syntax{BY}).
+@p If the subprogram returns a value, the data item in which the value is returned must also be defined in the subprogram's linkage section, with a @syntaxref{USAGE} of @syntax{BINARY-LONG SIGNED}, or it's equivalent.
+@comment *********************************************************************
+@comment ** 9.6.2 GLOBAL Data Items                                         **
+@comment *********************************************************************
+@newsubsection{9.6.2,GLOBAL Data Items}@p Another way in which a data item may be shared between a calling program ("A") and a called program ("B") is by defining the data item in the calling program and attaching the @syntaxref{GLOBAL} clause to it so that it may be used within the called program.  In order for this to work, program "B" (the one called by program "A") must be a nested subprogram within program "A".
+@p Here's a small example:
+@p @example
+IDENTIFICATION DIVISION.
+PROGRAM-ID. DemoGLOBAL.
+ENVIRONMENT DIVISION.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01  Arg GLOBAL                     PIC X(10).
+PROCEDURE DIVISION.
+000-Main.
+    MOVE ALL "X" TO Arg
+    CALL "DemoSub" END-CALL
+    DISPLAY "DemoGLOBAL: " Arg END-DISPLAY
+    GOBACK
+    .
+IDENTIFICATION DIVISION.
+PROGRAM-ID. DemoSub.
+PROCEDURE DIVISION.
+000-Main.
+    MOVE ALL "*" TO Arg.
+    GOBACK
+    .
+END PROGRAM DemoSub.
+END PROGRAM DemoGLOBAL.
+@end example
+@* When the program runs, it produces the output:
+@p @example
+DemoGLOBAL: **********
+@end example
+@comment *********************************************************************
+@comment ** 9.6.3 EXTERNAL Data Items                                       **
+@comment *********************************************************************
+@newsubsection{9.6.3,EXTERNAL Data Items}@p The final way in which a data item may be shared between a calling program ("A") and a called program ("B") is by defining the data item (with the same name) in both programs and attaching the @syntaxref{EXTERNAL} clause to it (again, in both programs).  This approach works regardless of whether the called program is nested within the calling program or not.  It also works even if the two programs are compiled separately.
+@p Here's a demonstration:
+@p @example
+IDENTIFICATION DIVISION.
+PROGRAM-ID. DemoEXTERNAL.
+ENVIRONMENT DIVISION.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01  Arg EXTERNAL                PIC X(10).
+PROCEDURE DIVISION.
+000-Main.
+    MOVE ALL "X" TO Arg
+    CALL "DemoSub" END-CALL
+    DISPLAY "DemoEXTERNAL: " Arg END-DISPLAY
+    GOBACK
+    .
+END PROGRAM DemoEXTERNAL.
+IDENTIFICATION DIVISION.
+PROGRAM-ID. DemoSub.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01  Arg EXTERNAL                PIC X(10).
+PROCEDURE DIVISION.
+000-Main.
+    MOVE ALL "*" TO Arg.
+    GOBACK
+    .
+END PROGRAM DemoSub.
+@end example
+@* When the program runs, it produces the output:
+@p @example
+DemoEXTERNAL: **********
+@end example
+@comment *********************************************************************
+@comment ** 9.7 Recursive Subprograms                                       **
+@comment *********************************************************************
+@newsection{9.7,Recursive Subprograms}@p A subroutine may @syntax{CALL} itself, either directly or indirectly from another subroutine or user-defined function that it @syntax{CALL}s.  Any subroutine that indulges in this sort of behavior (called recursion) is called a @define{Recursive Subprogram}.
+@p Any GNU COBOL subroutine can be recursively invoked only if it is defined to the GNU COBOL compiler as @i{being} a recursive subroutine.  This is accomplished by adding the @syntax{RECURSIVE} attribute to it's @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION}.
+@p All User-defined functions are automatically capable of being executed recursively.
+@p Here is an example of a main program (DEMOFACT) that calls both a subprogram (SUB) and a user-defined function (FUNC) to compute the factorial value of a number.
+@p @example
+IDENTIFICATION DIVISION.
+PROGRAM-ID. DEMOFACT.
+ENVIRONMENT DIVISION.
+CONFIGURATION SECTION.
+REPOSITORY.
+    FUNCTION RECURSIVEFUNC.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01  Result    USAGE BINARY-LONG.
+01  Arg       USAGE BINARY-LONG.
+PROCEDURE DIVISION.
+000-Main.
+    MOVE 6 TO Arg
+    CALL "RECURSIVESUB"
+        USING BY CONTENT Arg
+        RETURNING Result
+    DISPLAY Arg "! = "
+            Result
+    DISPLAY Arg "! = "
+            RECURSIVEFUNC(Arg)
+    GOBACK
+    .
+END PROGRAM DEMOFACT.
+IDENTIFICATION DIVISION.
+PROGRAM-ID. SUB RECURSIVE.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01  Result      USAGE BINARY-LONG.
+01  Next-Arg    USAGE BINARY-LONG.
+01  Next-Result USAGE BINARY-LONG.
+LINKAGE SECTION.
+01  Arg         USAGE BINARY-LONG.
+PROCEDURE DIVISION USING Arg
+               RETURNING Result.
+000-Main.
+    DISPLAY "Entering SUB"
+            " Arg=" Arg
+    IF Arg = 1
+      MOVE 1 TO Result
+      DISPLAY "Leaving SUB"
+              " Returning " Result
+    ELSE
+      SUBTRACT 1 FROM Arg
+          GIVING Next-Arg
+      CALL "SUB"
+           USING BY CONTENT Next-Arg
+           RETURNING Next-Result
+      COMPUTE Result =
+              Arg * Next-Result
+      DISPLAY "Leaving SUB"
+              " Returning "
+              Result "=" Arg "*"
+              Next-Result
+    END-IF
+    GOBACK
+    .
+END PROGRAM SUB.
+IDENTIFICATION DIVISION.
+FUNCTION-ID. FUNC.
+ENVIRONMENT DIVISION.
+CONFIGURATION SECTION.
+REPOSITORY.
+    FUNCTION RECURSIVEFUNC.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+LINKAGE SECTION.
+01  Arg     USAGE BINARY-LONG.
+01  Result  USAGE BINARY-LONG
+            SIGNED.
+PROCEDURE DIVISION USING Arg
+               RETURNING Result.
+000-Main.
+    DISPLAY "Entering FUNC"
+            " Arg=" Arg
+    IF Arg = 1
+      MOVE 1 TO Result
+    ELSE
+      COMPUTE Result = Arg *
+              FUNC(Arg - 1)
+    END-IF
+    DISPLAY "Leaving FUNC"
+            " Returning " Result
+    GOBACK
+    .
+END FUNCTION FUNC.
+@end example
+@* When DEMOFACT is executed, the output shown below is generated.
+@p @example
+E:\Programs\Demos>demofact
+Entering RECURSIVESUB Arg=+0000000006
+Entering RECURSIVESUB Arg=+0000000005
+Entering RECURSIVESUB Arg=+0000000004
+Entering RECURSIVESUB Arg=+0000000003
+Entering RECURSIVESUB Arg=+0000000002
+Entering RECURSIVESUB Arg=+0000000001
+Leaving RECURSIVESUB Returning +0000000001
+Leaving RECURSIVESUB Returning +0000000002=+0000000002*+0000000001
+Leaving RECURSIVESUB Returning +0000000006=+0000000003*+0000000002
+Leaving RECURSIVESUB Returning +0000000024=+0000000004*+0000000006
+Leaving RECURSIVESUB Returning +0000000120=+0000000005*+0000000024
+Leaving RECURSIVESUB Returning +0000000720=+0000000006*+0000000120
++0000000006! = +0000000720
+Entering RECURSIVEFUNC Arg=+0000000006
+Entering RECURSIVEFUNC Arg=+0000000005
+Entering RECURSIVEFUNC Arg=+0000000004
+Entering RECURSIVEFUNC Arg=+0000000003
+Entering RECURSIVEFUNC Arg=+0000000002
+Entering RECURSIVEFUNC Arg=+0000000001
+Leaving RECURSIVEFUNC Returning +0000000001
+Leaving RECURSIVEFUNC Returning +0000000002
+Leaving RECURSIVEFUNC Returning +0000000006
+Leaving RECURSIVEFUNC Returning +0000000024
+Leaving RECURSIVEFUNC Returning +0000000120
+Leaving RECURSIVEFUNC Returning +0000000720
++0000000006! = +0000000720
+@end example
+@comment *********************************************************************
+@comment ** 9.8 Combining GNU COBOL and C Programs                          **
+@comment *********************************************************************
+@newsection{9.8,Combining GNU COBOL and C Programs}@p The upcoming sections deal the issues pertaining to calling C language programs from GNU COBOL programs, and vice versa.  Two additional sections provide samples illustrating specifics as to how those issues are overcome in actual program code.
+@menu
+* 9.9.1: GNU COBOL Run-Time Library Requirements.
+* 9.9.2: String Allocation Differences Between GNU COBOL and C.
+* 9.9.3: Matching C Data Types with GNU COBOL USAGEs.
+* 9.9.4: GNU COBOL Main Programs CALLing C Subprograms.
+* 9.9.5: C Main Programs Calling GNU COBOL Subprograms.
+@end menu
+@comment *********************************************************************
+@comment ** 9.9.1 GNU COBOL Run-Time Library Requirements                   **
+@comment *********************************************************************
+@newsubsection{9.9.1,GNU COBOL Run-Time Library Requirements}@p Like most other implementations of the COBOL language, GNU COBOL utilizes a run-time library.  When the first program executed in a given execution sequence is a GNU COBOL program, any run-time library initialization will be performed by the compiled COBOL code in a manner that is transparent to the C-language programmer.  If, however, a C program is the first to execute, the burden of performing GNU COBOL run-time library initialization falls upon the C program.  @xref{C Main Programs Calling GNU COBOL Subprograms}, for an example of how to do this.
+@comment *********************************************************************
+@comment ** 9.9.2 String Allocation Differences Between GNU COBOL and C     **
+@comment *********************************************************************
+@newsubsection{9.9.2,String Allocation Differences Between GNU COBOL and C}@p Both languages store strings as a fixed-length continuous sequence of characters.
+@p COBOL stores these character sequences up to a specific quantity limit imposed by the @syntaxref{PICTURE} clause of the data item.  For example: @syntax{01  LastName   PIC X(15).}.
+@p There is never an issue of exactly what the length of a string contained in a @syntaxrefalt{USAGE DISPLAY,USAGE} data item is --- there are always exactly how ever many characters as were allowed for by the @syntax{PICTURE} clause.  In the example above, "LastName" will always contain exactly fifteen characters; of course, there may be anywhere from 0 to 15 trailing SPACES as part of the current LastName value.
+@p C actually has no "string" datatype; it stores strings as an array of @syntax{char} datatype items where each element of the array is a single character.  Being an array, there is an upper limit to how many characters may be stored in a given "string".  For example:
+@p @center @t{char lastName[15]; /* 15 chars: lastName[0] thru lastName[14] */}
+@p C provides a robust set of string-manipulation functions to copy strings from one char array to another, search strings for certain characters, compare one char array to another, concatenate char arrays and so forth.  To make these functions possible, it was necessary to be able to define the logical end of a string.  C accomplishes this via the expectation that all strings (char arrays) will be terminated by a NULL character (x'00').  Of course, no one forces a programmer to do this, but if [s]he ever expects to use any of the C standard functions to manipulate that string they had @i{better} be null-terminating their strings!
+@p So, GNU COBOL programmers expecting to pass strings to or receive strings from C programs had best be prepared to deal with the null-termination issue, as follows:
+@enumerate
+@p @item Pass a quoted literal string from GNU COBOL to C as a zero-delimited string literal (Z'@term{string}').
+@p @item Pass alphanumeric (PIC X) or alphabetic (PIC A) data items to C subroutines by appending an ASCII NULL character (X'00') to them.  For example, to pass the 15-character LastName data item described above to a C subroutine:
+@p @example on
+01  LastName-Arg-to-C     PIC X(16).
+...
+    MOVE FUNCTION CONCATENATE(LastName,X'00') TO LastName-Arg-to-C
+@end example
+@* And then pass LastName-Arg-to-C to the C subprogram!
+@p @item When a COBOL program needs to process string data prepared by a C program, the imbedded null character must be accounted for.  This can easily be accomplished with an @statementref{INSPECT} such as the following:
+@p @example
+INSPECT Data-From-a-C-Program
+    REPLACING FIRST X'00' BY SPACE
+              CHARACTERS BY SPACE AFTER INITIAL X'00'
+@end example
+@end enumerate
+@comment *********************************************************************
+@comment ** 9.9.3 Matching C Data Types with GNU COBOL USAGEs               **
+@comment *********************************************************************
+@newsubsection{9.9.3,Matching C Data Types with GNU COBOL USAGEs}@p Matching up GNU COBOL numeric USAGEs with their C language data type equivalents is possible via the following chart:
+@multitable @columnfractions 0.5 0.5
+@p @headitem COBOL @tab C
+@item BINARY-CHAR [ UNSIGNED ] @tab unsigned char
+@item
+@item BINARY-CHAR SIGNED @tab signed char
+@item
+@item BINARY-SHORT [ UNSIGNED ] @tab unsigned @* unsigned int @* unsigned short @* unsigned short int
+@item
+@item BINARY-CHAR [ UNSIGNED ] @tab unsigned char
+@item
+@item BINARY-CHAR SIGNED @tab signed char
+@item
+@item BINARY-SHORT [ UNSIGNED ] @tab unsigned @* unsigned int @* unsigned short @* unsigned short int
+@item
+@item BINARY-SHORT SIGNED @tab int @* short @* short int @* signed int @* signed short @* signed short int
+@item
+@item BINARY-LONG [ UNSIGNED ] @tab unsigned long @* unsigned long int
+@item
+@item BINARY-LONG SIGNED @* BINARY-INT @tab long @* long int @* signed long @* signed long int
+@item
+@item BINARY-C-LONG SIGNED @tab long
+@item
+@item BINARY-DOUBLE [ UNSIGNED ] @tab unsigned long long @* unsigned long long int
+@item
+@item BINARY-DOUBLE SIGNED @* BINARY-LONG-LONG @tab long long int @* signed long long int
+@item
+@item COMPUTATIONAL-1 @tab float
+@item
+@item COMPUTATIONAL-2 @tab double
+@item
+@item N/A (no GNU COBOL equivalent) @tab long double
+@end multitable
+@p These are the ANSI2002 standard specifications for C-program data compatibility and GNU COBOL programmers should get used to using them when data is being shared with C programs (they're good documentation too, highlighting the fact that the data will be "shared" with a C program).
+@comment *********************************************************************
+@comment ** 9.9.4 GNU COBOL Main Programs CALLing C Subprograms             **
+@comment *********************************************************************
+@newsubsection{9.9.4,GNU COBOL Main Programs CALLing C Subprograms}@p Here's a sample of a GNU COBOL program that CALLs a C subprogram.
+@smallformat
+@verbatim
+COBOL Calling Program               C Called Program
+==================================  ===============================
+IDENTIFICATION DIVISION.            #include <stdio.h>
+PROGRAM-ID. maincob.                int subc(char *arg1,
+DATA DIVISION.                               char *arg2,
+WORKING-STORAGE SECTION.                     unsigned long *arg3) {
+01  Arg1     PIC X(7).                char nu1[7]="New1";
+01  Arg2     PIC X(7).                char nu2[7]="New2";
+01  Arg3     USAGE BINARY-LONG.       printf("Starting subc\n");
+PROCEDURE DIVISION.                   printf("Arg1=%s\n",arg1);
+000-Main.                             printf("Arg2=%s\n",arg2);
+    DISPLAY 'Starting maincob'        printf("Arg3=%d\n",*arg3);
+    MOVE Z'Arg1'   TO Arg1            arg1[0]='X';
+    MOVE Z'Arg2'   TO Arg2            arg2[0]='Y';
+    MOVE 123456789 TO Arg3            *arg3=987654321;
+    CALL 'subc'                       return 2;
+        USING BY CONTENT   Arg1,    }
+              BY REFERENCE Arg2,
+              BY REFERENCE Arg3
+    DISPLAY 'Back'
+    DISPLAY 'Arg1=' Arg1
+    DISPLAY 'Arg2=' Arg2
+    DISPLAY 'Arg3=' Arg3
+    DISPLAY 'Returned value='
+            RETURN-CODE
+    STOP RUN
+    .
+@end verbatim
+@end smallformat
+@* The idea is to pass two string and one full-word unsigned arguments to the subprogram, have the subprogram print them out, change all three and pass a return code of 2 back to the caller.  The caller will then re-display the three arguments (showing changes only to the two @syntax{BY REFERENCE} arguments), display the return code and halt.
+@p While simple, these two programs illustrate the techniques required quite nicely.
+@p Note how the COBOL program ensures that a null end-of-string terminator is present on both string arguments.
+@p Since the C program is planning on making changes to all three arguments, it declares all three as pointers in the function header and references the third argument as a pointer in the function body.  It actually had no choice for the two string (char array) arguments --– they must be defined as pointers in the function even though the function code references them without the leading “*” that normally signifies pointers.
+@p These programs are compiled and executed as follows.
+@p @example
+$ cobc -x maincob.cbl subc.c
+$ maincob
+Starting maincob
+Starting subc
+Arg1=Arg1
+Arg2=Arg2
+Arg3=123456789
+Back
+Arg1=Arg1
+Arg2=Yrg2
+Arg3=+0987654321
+Returned value=+000000002
+$
+@end example
+@* Remember that the null characters are actually in the GNU COBOL "Arg1" and "Arg2" data items.  They don't appear in the output, but they ARE there.
+@p Did you notice the output showing the contents of "Arg1" after the subroutine was called?  Those contents were unchanged!  The subroutine @i{definitely} changed that argument, but since the COBOL program passed that argument @syntax{BY CONTENT}, the change was made to a @i{copy} of the argument, not to the "Arg1" data item itself.
+@comment *********************************************************************
+@comment ** 9.9.5 C Main Programs Calling GNU COBOL Subprograms             **
+@comment *********************************************************************
+@newsubsection{9.9.5,C Main Programs Calling GNU COBOL Subprograms}@p Now, the roles of the two languages in the previous section will be reversed, having a C main program execute a GNU COBOL subprogram.
+@smallformat
+@verbatim
+C Calling Program                              GNU-COBOL Called Program
+=============================================  =================================
+#include <libcob.h> /* COB RUN-TIME */         IDENTIFICATION DIVISION.
+#include <stdio.h>                             PROGRAM-ID. subcob.
+int main (int argc, char **argv) {             DATA DIVISION.
+   int returnCode;                             LINKAGE SECTION.
+   char arg1[7] = "Arg1";                      01  Arg1      PIC X(7).
+   char arg2[7] = "Arg2";                      01  Arg2      PIC X(7).
+   unsigned long arg3 = 123456789;             01  Arg3      USAGE BINARY-LONG.
+   printf("Starting mainc...\n");              PROCEDURE DIVISION USING
+   cob_init (argc, argv); /* COB RUN-TIME */       BY VALUE     Arg1,
+   returnCode = subcob(arg1,arg2,&arg3);           BY REFERENCE Arg2,
+   printf("Back\n");                               BY REFERENCE Arg3.
+   printf("Arg1=%s\n",arg1);                   000-Main.
+   printf("Arg2=%s\n",arg2);                       DISPLAY 'Starting cobsub.cbl'
+   printf("Arg3=%d\n",arg3);                       DISPLAY 'Arg1=' Arg1
+   printf("Returned value=%d\n",returnCode);       DISPLAY 'Arg2=' Arg2
+   return returnCode;                              DISPLAY 'Arg3=' Arg3
+}                                                  MOVE 'X' TO Arg1 (1:1)
+                                                   MOVE 'Y' TO Arg2 (1:1)
+                                                   MOVE 987654321 TO Arg3
+                                                   MOVE 2 TO RETURN-CODE
+                                                   GOBACK
+                                                   .
+@end verbatim
+@end smallformat
+@* Since the C program is the one that will execute first, before the GNU COBOL subroutine, the burden of initializing the GNU COBOL run-time environment lies with that C program; it will have to invoke the "cob_init" function, which is part of the "libcob" library.  The two required C statements are shown highlighted.
+@p The arguments to the "cob_init" routine are the argument count and value parameters passed to the main function when the program began execution.  By passing them into the GNU COBOL subprogram, it will be possible for that GNU COBOL program to retrieve the command line or individual command-line arguments.  If that won't be necessary, "cob_init(0,NULL);" could be specified instead.
+@p Since the C program wants to allow "arg3" to be changed by the subprogram, it prefixes it with a "&" to force a CALL BY REFERENCE for that argument.  Since "arg1" and "arg2" are strings (char arrays), they are automatically passed by reference.
+@p Here's the output of the compilation process as well as the program's execution.  The example assumes a Windows system with a GNU COBOL build that uses the GNU C compiler on that system; the technique works equally well regardless of which C compiler and which operating system you're using.
+@p @example
+C:\Users\Gary\Documents\Programs> cobc -S subcob.cbl
+C:\Users\Gary\Documents\Programs> gcc mainc.c subcob.s -o mainc.exe -llibcob
+C:\Users\Gary\Documents\Programs> mainc.exe
+Starting mainc...
+Starting cobsub.cbl
+Arg1=Arg1
+Arg2=Arg2
+Arg3=+0123456789
+Back
+Arg1=Xrg1
+Arg2=Yrg2
+Arg3=987654321
+Returned value=2
+C:\Users\Gary\Documents\Programs>
+@end example
+@p Note that even though we told GNU COBOL that the 1st argument was to be @syntax{BY VALUE}, it was treated as if it were @syntax{BY REFERENCE} anyway.  String (char array) arguments passed from C callers to GNU COBOL subprograms will be modifiable by the subprogram.  It's best to pass a copy of such data if you want to ensure that the subprogram doesn't change it.
+@p The third argument is different, however.  Since it's not an array you have the choice of passing it either @syntax{BY REFERENCE} or @syntax{BY VALUE}.
+@iftex
+@sp 3
+@center ------------------------------------------------------------
+@center End of Chapter 9 --- Sub-Programming
+@end iftex

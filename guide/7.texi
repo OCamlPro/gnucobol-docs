@@ -1,0 +1,978 @@
+@comment *********************************************************************
+@comment ** 7. Report Writer Usage Notes                                    **
+@comment *********************************************************************
+@newchapter{7,Report Writer Usage Notes}
+@menu
+* 7.1: RWCS Lexicon.
+* 7.2: The Anatomy of a Report.
+* 7.3: The Anatomy of a Report Page.
+* 7.4: How RWCS Builds Report Pages.
+* 7.5: Control Hierarchy.
+* 7.6: An Example.
+@detailmenu
+*   7.6.1: Data.
+*   7.6.2: Program.
+*   7.6.3: Generated Report Pages.
+@end detailmenu
+* 7.7: Control Hierarchy (Revisited).
+* 7.8: Turning PHYSICAL Page Formatting Into LOGICAL Formatting.
+@end menu
+@comment *********************************************************************
+@comment ** 7.1 RWCS Lexicon                                                **
+@comment *********************************************************************
+@newsection{7.1,RWCS Lexicon}@p There are a number of terms that describe various aspects of the operation of the Report Writer Control System (RWCS).  Understanding the meanings of these terms is vital to developing an understanding of the subject.
+@table @i
+@p @item Control Break
+@p An event that is triggered when a control field on an RWCS-generated report changes value.  It is these events that trigger the generation of control heading and control footing groups.
+@p @item Control Field
+@p A field of data being presented within a detail group; as the various detail groups that comprise the report are presented, they are presumed to appear in sorted sequence of the control fields contained within them.  As an example, a department-by-department sales report for a chain of stores would probably be sorted by store number and -- within like store numbers -- be further sorted by department number.  The store number will undoubtedly serve as a control field for the report, allowing control heading groups to be presented before each sequence of detail groups for the same store and control footing groups to be presented after each such sequence.
+@p @item Control Footing
+@p A report group that appears immediately after one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as a summary of the detail group(s) that preceed it, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be followed by a control footing that provides a summation of the department-by-department sales for that store.
+@p @item Control Heading
+@p A report group that appears immediately before one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as an introduction to the detail group(s) that follow, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be preceeded by a control heading that states the full name and location of the store.
+@p @item Detail Group
+@p A report group that contains the detailed data being presented for the report.
+@p @item Page Footing
+@p A report group that appears at the bottom of every page of an RWCS-generated report.  Information typically found within such a report group might be:
+@itemize @bullet
+@p @item The date the report was generated
+@p @item The current page number of the report
+@end itemize
+@item Page Heading
+@p A report group that appears at the top of every page of an RWCS-generated report. Information typically found sithin such a report group might be:
+@itemize @bullet
+@p @item A title for the report
+@p @item The date the report was generated
+@p @item The current page number of the report
+@p @item Column headings describing the fields within the detail group(s)
+@end itemize
+@item Report Footing
+@p A report group that occurs only once in an RWCS-generated report --- as the very last presented report group of the report.  These typically serve as a visual indication that the report is finished.
+@p @item Report Group
+@p One or more consecutive lines on a report that serve a common informational purpose or function.  For example, lines of text that are displayed at the top or bottom of every printed page of a report.
+@p @item Report Heading
+@p A report group that occurs only once in an RWCS-generated report --- as the very first presented report group of the report.  These typically serve as an introduction to the report.
+@end table
+@comment *********************************************************************
+@comment ** 7.2 The Anatomy of a Report                                     **
+@comment *********************************************************************
+@newsection{7.2,The Anatomy of a Report}@p Every report has the same basic structure, as shown here, even though not all reports will have all of the groups shown.  In fact, it is a very unusual report indeed that actually has every one of these groups:
+@itemize @bullet
+@p @item REPORT HEADING
+@p @item PAGE HEADING [1]
+@p @item CONTROL HEADING(S) [2]
+@p @item DETAIL GROUP(S) [2]
+@p @item CONTROL FOOTING(S) [2]
+@p @item @syntax{FINAL} CONTROL FOOTING
+@p @item PAGE FOOTING [1]
+@p @item REPORT FOOTING
+@end itemize
+@multitable @columnfractions 0.05 0.95
+@item [1] @tab Presented throughout the report, as needed
+@item [2] @tab Repeated, as needed
+@end multitable
+@* These groups will be presented (printed) across however many formatted pages are necessary to hold them.  No single report group will be allowed to cross page boundaries.
+@p The management of paging, enforcement of the "groups cannot span pages" rule and almost every aspect of report generation are handled entirely by the Report Writer Control System.
+@comment *********************************************************************
+@comment ** 7.3 The Anatomy of a Report Page                                **
+@comment *********************************************************************
+@newsection{7.3,The Anatomy of a Report Page}@p Each page of a report is divided into as many as five (5) areas, as shown in the following diagram.
+@p @format
+@t{  _______________________________ }
+@t{ |                               |}
+@t{ | Top-of-page Unuseable Area    |}---# Lines: @t{LINES AT TOP} (LINAGE)
+@t{ |_______________________________|}
+@t{ |                               |}---Line #: @t{HEADING} (RD)
+@t{ | Heading Area                  |}
+@t{ |_______________________________|}---Line #: @t{FIRST DETAIL} (RD) - 1
+@t{ |                               |}---Line #: @t{FIRST DETAIL} (RD)
+@t{ |                               |}
+@t{ | Body Area                     |}---Line #: @t{LAST CONTROL HEADING} (RD)
+@t{ |                               |}---Line #: @t{LAST DETAIL} (RD)
+@t{ |_______________________________|}---Line #: @t{FOOTING} (RD)
+@t{ |                               |}---Line #: @t{FOOTING} (RD) + 1
+@t{ | Footing Area                  |}
+@t{ |_______________________________|}
+@t{ |                               |}
+@t{ | Bottom-of-page Unuseable Area |}---# Lines: @t{LINES AT BOTTOM} (LINAGE)
+@t{ |_______________________________|}
+@end format
+@* When describing a report via the @syntaxrefalt{RD,REPORT SECTION} clause, the total number of usable lines are specified as the @syntax{PAGE LIMIT} value; this value is the sum of the number of lines contained in the Heading, Body and Footing Areas.
+@p The unusable areas of a page (if any) will appear above and below that usable area.  You don't specify the unusable area in the @syntax{RD}, but rather using a @syntaxrefalt{LINAGE,File/Sort-Description} clause in the @syntax{FD} of the file the report is "attached" to.
+@p The various report groups will be presentable in the various areas of a page, as follows:
+@table @syntax
+@p @item REPORT HEADING
+@p Heading Area --- An exception to this is the situation where the report heading report group contains the @syntaxrefalt{NEXT GROUP NEXT PAGE,NEXT GROUP} option; in those cases, the report heading will be presented on a page by itself (anywhere on that page) at the beginning of the report.
+@p @item PAGE HEADING
+@p Heading Area
+@p @item CONTROL HEADING
+@p Body Area, but no line of a control heading is allowed past the line number specified by @syntax{LAST CONTROL HEADING}
+@p @item DETAIL
+@p Body Area, but no line of a detail report group is allowed past the line number specified by @syntax{LAST DETAIL}
+@p @item CONTROL FOOTING
+@p Body Area, but no line of a control footing report group is allowed past the line number specified by @syntax{FOOTING}
+@p @item PAGE FOOTING
+@p Footing Area
+@p @item REPORT FOOTING
+@p Footing Area --- An exception to this is the situation where the report footing report group contains the @syntax{NEXT PAGE} option in its @syntaxref{LINE} clause; in those cases, the report footing will be presented on a page by itself at the end of the report.
+@end table
+@comment *********************************************************************
+@comment ** 7.4 How RWCS Builds Report Pages                                **
+@comment *********************************************************************
+@newsection{7.4,How RWCS Builds Report Pages}@p A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @syntax{ADVANCING PAGE} option.  Whether the data for a report line created via @syntax{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @syntax{WRITE @term{record-name} BEFORE ADVANCING PAGE} or @syntax{WRITE @term{record-name} AFTER ADVANCING PAGE}, respectively.
+@p The GNU COBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @syntax{RD} for the report (specifically the @syntax{PAGE LIMITS} and related options) and it's internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
+@p Because this is the way the GNU COBOL RWCS works, in order to design an RWCS-generated report you'll need to know answers to the following questions:
+@enumerate
+@p @item What printer(s) will the report be printed on?
+@p @item What paper orientation will you use, --- Landscape (long edge of the paper at the top and bottom of page), or Portrait (long edge of the paper at the left and right of page)?
+@p @item What tool will be used to print the report (direct printing to the device, notepad.exe, MS-Word, @dots{})?
+@p @item What font and font size will be used for the report when it is printed?  RWCS-generated reports will assume that a fixed-width font such as "Courier", "Lucida Console", "Consolas" and the like will be used to print, as variable-pitch fonts would make the proper alignment of columns of data on reports virtually impossible.
+@p @item When unprintable area exists at all four margins of the paper?  These are generally caused by the printer itself or by its software driver.
+@p @item What is the maximum number of lines per page that may be printed on a single sheet of paper?
+@p @item What is the maximum number of characters that may be printed on one line?
+@end enumerate
+@* Once you know the answer to questions 1-4, you may easily determine the answers to the remaining questions as follows:
+@enumerate
+@p @item Prepare a text file containing 100 or so records, each consisting of a numeric scale (@syntax{123456789012345678901234}@dots{}).
+@p @item Print the file in a manner consistent with your answers to questions 1-4.
+@p @item Add any necessary additional digits to each record in your test file (if lines weren't full) or remove characters from the end of each record if lines wrapped.  If you made changes, reprint the file.
+@p @item Now that you know @i{exactly} how long each record may be, add additional records and reprint.  Continue until printing overflows to a second page.
+@p @item The first page you print is now a perfect template to use when designing reports --- it shows, given the answers to questiuons 1-4, every available printable character position on a page!  The number of lines printed on that page becomes your @syntax{PAGE LIMIT} value for the @syntax{RD}.
+@end enumerate
+@* The remaining @syntax{PAGE LIMIT} values can be established as required by your report(s).
+@p Using @term{identifier} rather than @term{integer} specifications in the @syntax{RD} will give your program the ability --- at run time --- to accommodate multiple printers, fonts, font sizes and paper orientation.  Just follow the above steps for each combination you wish your program to support.
+@comment *********************************************************************
+@comment ** 7.5 Control Hierarchy                                           **
+@comment *********************************************************************
+@newsection{7.5,Control Hierarchy}@p Every report that employs control breaks has a natural hierarchy of those control breaks based upon the manner in which the data the report is being generated from is sorted.  This concept is best understood using an example which assumes a COBOL program to process sales data collected from every computerized cash register across a chain of stores having multiple departments is being developed.
+@p The application that collects data from the various cash registers at each store will generate data records that look like this to a COBOL program:
+@p @example
+01  Sales-For-Register.
+    05 Sales-Date            PIC 9(8).
+    05 Time-Collected        PIC 9(6).
+    05 Register-Number       PIC 9(7).
+    05 Store-Number          PIC 9(3).
+    05 Department-Number     PIC 9(3).
+    05 Total-Sales           PIC 9(6)V99.
+@end example
+@* Your task is to develop a report that shows the sales total from each cash register and summarizes those sales by department within each store, by store and also generates a total sales figure for the day across all stores.
+@p To accomplish this, you will use a @statementref{SORT} to sort the file of cash register sales data into:
+@enumerate
+@p @item Ascending sequence of store number
+@p @item Within each store, data will be sorted into ascending sequence of department number
+@p @item If there are multiple cash registers in a particular department of a specific store, the data needs to be further sorted so that the cash registers are ordered in sequence of their register number.
+@end enumerate
+@* So, assuming a sort file has been defined and it's record layout (essentially a mirror of the raw data file) is defined as follows:
+@p @example
+01  Sorted-Sales-For-Register.
+    05 Sorted-Sales-Date            PIC 9(8).
+    05 Sorted-Time-Collected        PIC 9(6).
+    05 Sorted-Register-Number       PIC 9(7).
+    05 Sorted-Store-Number          PIC 9(3).
+    05 Sorted-Department-Number     PIC 9(3).
+    05 Sorted-Total-Sales           PIC 9(6)V99.
+@end example
+@* Then the @statement{SORT} to accomplish the desired sequencing would be:
+@p @example
+SORT SORT-FILE
+    ASCENDING KEY Sorted-Store-Number
+                  Sorted-Department-Number
+                  Sorted-Register-Number
+    USING Input-file
+    OUTPUT PROCEDURE 100-Generate-Report
+@end example
+@* As a result of the sort, our program might expect to see data somewhat like this (date, time and sales totals are shown as "@dots{}"):
+@p @example
+   +-------------------- Register Number
+   |      +------------- Store Number
+   |      |  +---------- Department Number
+   |      |  |
+...0535240001001...
+...0589130001001...
+...0625174001001...
+...0122234001002...
+...0732345001002...
+...0003423001003...
+...2038774001004...
+...0112646002001...
+...9963348002002...
+...3245677002003...
+...4456778002003...
+...0002345002004...
+@end example
+@* Because of the sort, the most-frequently changing value of the three sort keys will be that of Sorted-Register-Number.  This essentially defines the "detail" level of the report.
+@p The next most-frequently changing value is that of Sorted-Department-Number, and the least-frequently changing value is that of Sorted-Store-Number.  remember that the program should be generating totals each time one of these two values change, plus a grand total of sales at the end of the report.  These three points are the @define{Control Break} points of the report.
+@p When the report is defined, it's @syntax{RD} would contain a @syntax{CONTROLS ARE} clause that lists the control breaks in least- to most-frequent sequence of changing.  This would be coded as:
+@p @syntax{CONTROLS ARE FINAL, Sorted-Store-Number, Sorted-Department-Number}
+@p A FINAL control break only occurs once, at the very end of the report.  The @syntax{CONTROL FOOTING} for this break will be the one that produces the grand total of sales for all stores.
+@p The next break listed on the @syntax{CONTROLS} clause will be the one that occurs next most-frequently (Sorted-Store-Number).  This control break will be the one that produces the summation for each entire store, and will have its own @syntax{CONTROL FOOTING}.
+@p The next (and last, in this case) break listed on the CONTROLS clause will be the one that occurs even more frequently (Sorted-Department-Number).  The @syntax{CONTROL FOOTING} for this control field will be the one that summarizes sales for each department within a store.
+@p This sequence of control breaks from least- to most-frequent (in other words, in the order they occur on the CONTROLS ARE clause) is the '@i{control hierarchy}' of the report; control breaks that occur more frequently than others are said to be at a lower level in the control hierarchy.
+@p Defining a control hierarchy (via @syntax{CONTROLS ARE}) that does not match the actual sequence in which data will be processed is a great way to guarantee a "broken" report.  I'll show you an example in a later section.
+@comment *********************************************************************
+@comment ** 7.6 An Example                                                  **
+@comment *********************************************************************
+@newsection{7.6,An Example}@p This section contains an example of the RWCS at work.  The complete program, presented here, is a stripped-down version of a program I have used to generate a report for a class I teach on PC hardware.  This report will provide benchmark statistics on a variety of popular AMD and Intel CPUs.  The data for the report was obtained from the website @url{www.cpubenchmark.net} in December of 2013.  By the time you are reading this, that data will most likely have become rather out-of-date, but it illustrates RWCS well enough.
+@menu
+* 7.6.1: Data.
+* 7.6.2: Program.
+* 7.6.3: Generated Report Pages.
+@end menu
+@comment *********************************************************************
+@comment ** 7.6.1 Data                                                      **
+@comment *********************************************************************
+@newsubsection{7.6.1,Data}@p Here is the data that the program will be reading.  Each record reflects the aggregated benchmark scoring for one particular CPU, as scores for benchmarks against that CPU have been reported to the @url{cpubenchmark.net} wwebsite by their PassMark benchmark software.  The data consists of four fields.  Fields are separated from one another by a single comma.  The descriptions of the fields are as follows:
+@table @b
+@p @item Benchmark Score
+@p A five-digit number showing the aggregated benchmark scores for the CPU; the higher this number, the better the CPU performed in benchmark testing.
+@p @item Vendor
+@p The name of the vendor who makes the CPU.  In this data, that will either be "AMD" (American Micro Devices) or "INTEL".
+@p @item Family
+@p The 7-character family of CPU products the CPU falls into.  This will have values such as "A4", "A10", "Core i5", "Core i7", etc.
+@p @item Model
+@p The specific model of CPU within the family.
+@end table
+@* The first record of data shown below shows that the aggregated score of all benchmarks reported for the AMD A10-4600M CPU is 3145, as compared to the second record which shows that the aggregated score reported of all benchmarks reported for the Intel Core-i7-4960X CPU is 14291.
+@p The following is the complete set of input data used for this example.  This is by no means the complete set of data available at @url{cpubenchmark.net} --– it is just a representative sample used for this example.  For my class, I give my students a report showing the results for almost a thousand CPUs.
+@p For the sake of brevity, this document lists the data in three columns.
+@p @smallformat
+@verbatim
+03145,AMD,A10,4600M            05421,AMD,FX,6100              03917,Intel,Core i5,4300U
+14291,Intel,Core i7,4960X      05813,AMD,FX,6120              01743,Intel,Core i5,4300Y
+02505,AMD,A10,4655M            06194,AMD,FX,6200              04804,Intel,Core i5,4330M
+03449,AMD,A10,4657M            06388,AMD,FX,6300              03604,Intel,Core i5,4350U
+04251,AMD,A10,5700             07017,AMD,FX,6350              06282,Intel,Core i5,4430
+02758,AMD,A10,5745M            06163,AMD,FX,8100              05954,Intel,Core i5,4430S
+03332,AMD,A10,5750M            06605,AMD,FX,8120              06517,Intel,Core i5,4440
+03253,AMD,A10,5757M            06845,AMD,FX,8140              07061,Intel,Core i5,4570
+04798,AMD,A10,5800B            07719,AMD,FX,8150              06474,Intel,Core i5,4570R
+04677,AMD,A10,5800K            08131,AMD,FX,8320              06803,Intel,Core i5,4570S
+04767,AMD,A10,6700             09067,AMD,FX,8350              02503,Intel,Core i5,4570T
+05062,AMD,A10,6800K            09807,AMD,FX,9370              07492,Intel,Core i5,4670
+00677,AMD,A4,1200              10479,AMD,FX,9590              07565,Intel,Core i5,4670K
+00559,AMD,A4,1250              03076,Intel,Core i3,3110M      06351,Intel,Core i5,4670T
+01583,AMD,A4,3300              03301,Intel,Core i3,3120M      03701,Intel,Core i7,3517U
+01237,AMD,A4,3300M             03655,Intel,Core i3,3130M      03449,Intel,Core i7,3517UE
+01227,AMD,A4,3305M             03820,Intel,Core i3,3210       04588,Intel,Core i7,3520M
+01263,AMD,A4,3310MX            02266,Intel,Core i3,3217U      03912,Intel,Core i7,3537U
+01193,AMD,A4,3320M             04219,Intel,Core i3,3220       04861,Intel,Core i7,3540M
+01343,AMD,A4,3330MX            03724,Intel,Core i3,3220T      04009,Intel,Core i7,3555LE
+01625,AMD,A4,3400              04407,Intel,Core i3,3225       06144,Intel,Core i7,3610QE
+01768,AMD,A4,3420              02575,Intel,Core i3,3227U      07532,Intel,Core i7,3610QM
+01685,AMD,A4,4300M             01885,Intel,Core i3,3229Y      06988,Intel,Core i7,3612QE
+01169,AMD,A4,4355M             04259,Intel,Core i3,3240       06907,Intel,Core i7,3612QM
+01919,AMD,A4,5000              03793,Intel,Core i3,3240T      05495,Intel,Core i7,3615QE
+01973,AMD,A4,5150M             04414,Intel,Core i3,3245       07310,Intel,Core i7,3615QM
+02078,AMD,A4,5300              04757,Intel,Core i3,3250       07759,Intel,Core i7,3630QM
+01632,AMD,A4,5300B             03443,Intel,Core i3,4000M      07055,Intel,Core i7,3632QM
+02305,AMD,A4,6300              02459,Intel,Core i3,4010U      06516,Intel,Core i7,3635QM
+01634,AMD,A6,1450              02003,Intel,Core i3,4010Y      04032,Intel,Core i7,3667U
+01964,AMD,A6,3400M             04904,Intel,Core i3,4130       04271,Intel,Core i7,3687U
+02101,AMD,A6,3410MX            04041,Intel,Core i3,4130T      03479,Intel,Core i7,3689Y
+02078,AMD,A6,3420M             05115,Intel,Core i3,4330       08347,Intel,Core i7,3720QM
+02277,AMD,A6,3430MX            05117,Intel,Core i3,4340       08512,Intel,Core i7,3740QM
+01995,AMD,A6,3500              03807,Intel,Core i5,3210M      09420,Intel,Core i7,3770
+02798,AMD,A6,3600              03995,Intel,Core i5,3230M      09578,Intel,Core i7,3770K
+02892,AMD,A6,3620              03126,Intel,Core i5,3317U      09074,Intel,Core i7,3770S
+03232,AMD,A6,3650              04101,Intel,Core i5,3320M      08280,Intel,Core i7,3770T
+03327,AMD,A6,3670              05902,Intel,Core i5,3330       08995,Intel,Core i7,3820
+01630,AMD,A6,4400M             05690,Intel,Core i5,3330S      08548,Intel,Core i7,3820QM
+01296,AMD,A6,4455M             05781,Intel,Core i5,3335S      09025,Intel,Core i7,3840QM
+02440,AMD,A6,5200              03280,Intel,Core i5,3337U      09196,Intel,Core i7,3920XM
+01958,AMD,A6,5350M             02252,Intel,Core i5,3339Y      12107,Intel,Core i7,3930K
+01878,AMD,A6,5357M             06282,Intel,Core i5,3340       09052,Intel,Core i7,3940XM
+01906,AMD,A6,5400B             04327,Intel,Core i5,3340M      12718,Intel,Core i7,3960X
+02174,AMD,A6,5400K             05372,Intel,Core i5,3340S      12823,Intel,Core i7,3970X
+02384,AMD,A6,6400K             06199,Intel,Core i5,3350P      03992,Intel,Core i7,4500U
+02050,AMD,A8,3500M             04314,Intel,Core i5,3360M      04507,Intel,Core i7,4558U
+02426,AMD,A8,3510MX            04555,Intel,Core i5,3380M      04892,Intel,Core i7,4600M
+02245,AMD,A8,3520M             03589,Intel,Core i5,3427U      04484,Intel,Core i7,4600U
+02276,AMD,A8,3530MX            03479,Intel,Core i5,3437U      03680,Intel,Core i7,4610Y
+02866,AMD,A8,3550MX            03057,Intel,Core i5,3439Y      04345,Intel,Core i7,4650U
+03215,AMD,A8,3800              06442,Intel,Core i5,3450       07352,Intel,Core i7,4700EQ
+03217,AMD,A8,3820              06071,Intel,Core i5,3450S      08161,Intel,Core i7,4700HQ
+03552,AMD,A8,3850              06576,Intel,Core i5,3470       07946,Intel,Core i7,4700MQ
+03682,AMD,A8,3870K             06077,Intel,Core i5,3470S      08002,Intel,Core i7,4702HQ
+02709,AMD,A8,4500M             04591,Intel,Core i5,3470T      07647,Intel,Core i7,4702MQ
+02193,AMD,A8,4555M             05991,Intel,Core i5,3475S      08066,Intel,Core i7,4750HQ
+04052,AMD,A8,5500              06828,Intel,Core i5,3550       07367,Intel,Core i7,4765T
+03464,AMD,A8,5500B             06631,Intel,Core i5,3550S      09969,Intel,Core i7,4770
+02434,AMD,A8,5545M             06993,Intel,Core i5,3570       10190,Intel,Core i7,4770K
+03052,AMD,A8,5550M             07118,Intel,Core i5,3570K      09803,Intel,Core i7,4770S
+02935,AMD,A8,5557M             06709,Intel,Core i5,3570S      08803,Intel,Core i7,4770T
+04348,AMD,A8,5600K             05414,Intel,Core i5,3570T      10078,Intel,Core i7,4771
+04390,AMD,A8,6500              04333,Intel,Core i5,4200M      08567,Intel,Core i7,4800MQ
+04719,AMD,A8,6600K             03355,Intel,Core i5,4200U      09969,Intel,Core i7,4820K
+04055,AMD,FX,4100              02358,Intel,Core i5,4200Y      09331,Intel,Core i7,4850HQ
+04153,AMD,FX,4130              02382,Intel,Core i5,4210Y      09323,Intel,Core i7,4900MQ
+04094,AMD,FX,4150              03482,Intel,Core i5,4250U      13620,Intel,Core i7,4930K
+04774,AMD,FX,4170              04381,Intel,Core i5,4258U      09754,Intel,Core i7,4930MX
+04711,AMD,FX,4300              04663,Intel,Core i5,4288U      10262,Intel,Core i7,4960HQ
+05247,AMD,FX,4350              04786,Intel,Core i5,4300M
+@end verbatim
+@end smallformat
+@comment *********************************************************************
+@comment ** 7.6.2 Program                                                   **
+@comment *********************************************************************
+@newsubsection{7.6.2,Program}@p Here is the program that will be producing the report.  Pay attention to how the data is sorted and how the control hierarchy (@syntax{CONTROLS ARE}) relates to the @syntax{SORT}.
+@p @example
+IDENTIFICATION DIVISION.
+PROGRAM-ID. DEMORWCS.
+ENVIRONMENT DIVISION.
+CONFIGURATION SECTION.
+REPOSITORY. FUNCTION ALL INTRINSIC.
+INPUT-OUTPUT SECTION.
+FILE-CONTROL.
+    SELECT CPU-FILE             ASSIGN TO "CPUDATA.txt"
+                                LINE SEQUENTIAL.
+    SELECT REPORT-FILE          ASSIGN TO "CPUREPORT.txt"
+                                LINE SEQUENTIAL.
+    SELECT SORT-FILE            ASSIGN TO DISK.
+DATA DIVISION.
+FILE SECTION.
+FD  CPU-FILE.
+01  CPU-REC                     PIC X(26).
+
+FD  REPORT-FILE
+    REPORT IS CPU-Report.
+
+SD  SORT-FILE.
+01  SORT-REC.
+    05 F-SR-Score-NUM           PIC 9(5).
+    05 F-SR-Vendor-TXT          PIC X(5).
+    05 F-SR-Family-TXT          PIC X(7).
+    05 F-SR-Model-TXT           PIC X(6).
+WORKING-STORAGE SECTION.
+01  WS-Date                     PIC 9(8).
+
+01  WS-Family-Counters.
+    05 WS-FC-AVE                PIC 9(5)V99.
+    05 WS-FC-Qty                BINARY-LONG.
+    05 WS-FC-Total-NUM          BINARY-LONG.
+
+01  WS-Flags.
+    05 WS-F-EOF                 PIC X(1).
+
+01  WS-One-Const                PIC 9 VALUE 1.
+
+01  WS-Overall-Counters.
+    05 WS-OC-AVE                PIC 9(5)V99.
+    05 WS-OC-Qty                BINARY-LONG.
+    05 WS-OC-Total-NUM          BINARY-LONG.
+
+01  WS-Starz                    PIC X(44) VALUE ALL '*'.
+
+01  WS-Vendor-Counters.
+    05 WS-VC-AVE                PIC 9(5)V99.
+    05 WS-VC-Qty                BINARY-LONG.
+    05 WS-VC-Total-NUM          BINARY-LONG.
+
+REPORT SECTION.
+RD  CPU-Report
+    CONTROLS ARE FINAL
+                 F-SR-Vendor-TXT
+                 F-SR-Family-TXT
+
+    PAGE LIMIT IS    36 LINES
+        HEADING      1
+        FIRST DETAIL 5
+        LAST DETAIL  36.
+
+01  TYPE IS PAGE HEADING.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  SOURCE WS-Date                PIC 9999/99/99.
+       10 COL 14 VALUE 'CPU Benchmark Scores'.
+       10 COL 37 VALUE 'Page:'.
+       10 COL 43 SOURCE PAGE-COUNTER           PIC Z9.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  SOURCE WS-Starz               PIC X(44).
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  VALUE '**'.
+       10 COL 6  VALUE 'All CPU Data From cpubenchmark.net'.
+       10 COL 43 VALUE '**'.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  SOURCE WS-Starz               PIC X(44).
+
+01  TYPE CONTROL HEADING F-SR-Family-TXT.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  SOURCE F-SR-Vendor-TXT        PIC X(6).
+       10 COL 8  SOURCE F-SR-Family-TXT        PIC X(7).
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  VALUE 'Family'.
+       10 COL 9  VALUE 'Model'.
+       10 COL 16 VALUE 'Benchmark Score (High to Low)'.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  VALUE '======'.
+       10 COL 9  VALUE '======'.
+       10 COL 16 VALUE '============================='.
+
+01  Detail-Line TYPE IS DETAIL.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  SOURCE F-SR-Family-TXT PIC X(7) GROUP INDICATE.
+       10 COL 9  PIC X(6)       SOURCE F-SR-Model-TXT.
+       10 COL 16 PIC ZZZZ9      SOURCE F-SR-Score-NUM.
+
+01  End-Family TYPE IS CONTROL FOOTING F-SR-Family-TXT.
+    05 LINE NUMBER PLUS 1.
+       10 COL 9                 VALUE  'Ave...'.
+       10 COL 16 PIC ZZZZ9.99   SOURCE WS-FC-AVE.
+       10 COL 25                VALUE  '('.
+       10 COL 26 PIC ZZ9        SUM    WS-One-Const.
+       10 COL 30                VALUE  'Family CPUs)'.
+
+01  End-Vendor TYPE IS CONTROL FOOTING F-SR-Vendor-TXT.
+    05 LINE NUMBER PLUS 1.
+       10 COL 9                 VALUE  'Ave...'.
+       10 COL 16 PIC ZZZZ9.99   SOURCE WS-VC-AVE.
+       10 COL 25                VALUE  '('.
+       10 COL 26 PIC ZZ9        SUM    WS-One-Const.
+       10 COL 30                VALUE  'Vendor CPUs)'.
+
+01  End-Overall TYPE IS CONTROL FOOTING FINAL.
+    05 LINE NUMBER PLUS 1.
+       10 COL 9                 VALUE  'Ave...'.
+       10 COL 16 PIC ZZZZ9.99   SOURCE WS-OC-AVE.
+       10 COL 25                VALUE  '('.
+       10 COL 26 PIC ZZ9        SUM    WS-One-Const.
+       10 COL 30                VALUE  'CPUs)'.
+
+PROCEDURE DIVISION.
+DECLARATIVES.
+000-End-Family SECTION.
+    USE BEFORE REPORTING End-Family.
+1.  IF WS-FC-Qty > 0
+        COMPUTE WS-FC-AVE = WS-FC-Total-NUM / WS-FC-Qty
+    ELSE
+        MOVE 0 TO WS-FC-AVE
+    END-IF
+    MOVE 0 TO WS-FC-Qty
+              WS-FC-Total-NUM
+    .
+000-End-Vendor SECTION.
+    USE BEFORE REPORTING End-Vendor.
+1.  IF WS-VC-Qty > 0
+        COMPUTE WS-VC-AVE = WS-VC-Total-NUM / WS-VC-Qty
+    ELSE
+        MOVE 0 TO WS-VC-AVE
+    END-IF
+    MOVE 0 TO WS-VC-Qty
+              WS-VC-Total-NUM
+    .
+000-End-Overall SECTION.
+    USE BEFORE REPORTING End-Overall.
+1.  IF WS-OC-Qty > 0
+        COMPUTE WS-OC-AVE = WS-OC-Total-NUM / WS-OC-Qty
+    ELSE
+        MOVE 0 TO WS-OC-AVE
+    END-IF
+    MOVE 0 TO WS-OC-Qty
+              WS-OC-Total-NUM
+    .
+END DECLARATIVES.
+
+010-Main SECTION.
+1.  ACCEPT WS-Date FROM DATE YYYYMMDD
+    SORT SORT-FILE
+        ASCENDING KEY    F-SR-Vendor-TXT
+                         F-SR-Family-TXT
+        DESCENDING KEY   F-SR-Score-NUM
+        ASCENDING KEY    F-SR-Model-TXT
+        INPUT PROCEDURE  100-Pre-Process-Data
+        OUTPUT PROCEDURE 200-Generate-Report
+    STOP RUN
+    .
+100-Pre-Process-Data SECTION.
+1.  OPEN INPUT CPU-FILE
+    PERFORM FOREVER
+        READ CPU-FILE
+        AT END
+            EXIT PERFORM
+        END-READ
+        MOVE SPACES TO SORT-REC
+        UNSTRING CPU-REC DELIMITED BY ','
+            INTO F-SR-Score-NUM,
+                 F-SR-Vendor-TXT,
+                 F-SR-Family-TXT,
+                 F-SR-Model-TXT
+        RELEASE SORT-REC
+    END-PERFORM
+    CLOSE CPU-FILE
+    .
+200-Generate-Report SECTION.
+1.  INITIALIZE WS-Family-Counters
+               WS-Flags
+    OPEN OUTPUT REPORT-FILE
+    INITIATE CPU-Report
+    RETURN SORT-FILE
+    AT END
+        MOVE 'Y' TO WS-F-EOF
+    END-RETURN
+    PERFORM UNTIL WS-F-EOF = 'Y'
+        GENERATE Detail-Line
+        ADD 1              TO WS-FC-Qty
+                              WS-OC-Qty
+                              WS-VC-Qty
+        ADD F-SR-Score-NUM TO WS-FC-Total-NUM
+                              WS-OC-Total-NUM
+                              WS-VC-Total-NUM
+        RETURN SORT-FILE
+        AT END
+            MOVE 'Y' TO WS-F-EOF
+        END-RETURN
+    END-PERFORM
+    TERMINATE CPU-Report
+    CLOSE REPORT-FILE
+    .
+@end example
+@comment *********************************************************************
+@comment ** 7.6.3 Generated Report Pages                                    **
+@comment *********************************************************************
+@newsubsection{7.6.3,Generated Report Pages}@p Finally, here's the report the program generates!
+@p @example
+2013/12/24   CPU Benchmark Scores   Page:  1
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+AMD    A10
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+A10     6800K   5062
+        5800B   4798
+        6700    4767
+        5800K   4677
+        5700    4251
+        4657M   3449
+        5750M   3332
+        5757M   3253
+        4600M   3145
+        5745M   2758
+        4655M   2505
+        Ave...  3817.90 ( 11 Family CPUs)
+AMD    A4
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+A4      6300    2305
+        5300    2078
+        5150M   1973
+        5000    1919
+        3420    1768
+        4300M   1685
+        5300B   1632
+        3400    1625
+        3300    1583
+        3330MX  1343
+        3310MX  1263
+        3300M   1237
+        3305M   1227
+        3320M   1193
+____________________________________________
+@sp 1
+2013/12/24   CPU Benchmark Scores   Page:  2
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+A4      4355M   1169
+        1200     677
+        1250     559
+        Ave...  1484.47 ( 17 Family CPUs)
+AMD    A6
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+A6      3670    3327
+        3650    3232
+        3620    2892
+        3600    2798
+        5200    2440
+        6400K   2384
+        3430MX  2277
+        5400K   2174
+        3410MX  2101
+        3420M   2078
+        3500    1995
+        3400M   1964
+        5350M   1958
+        5400B   1906
+        5357M   1878
+        1450    1634
+        4400M   1630
+        4455M   1296
+        Ave...  2220.22 ( 18 Family CPUs)
+AMD    A8
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+A8      6600K   4719
+        6500    4390
+        5600K   4348
+____________________________________________
+@sp 1
+2013/12/24   CPU Benchmark Scores   Page:  3
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+A8      5500    4052
+        3870K   3682
+        3850    3552
+        5500B   3464
+        3820    3217
+        3800    3215
+        5550M   3052
+        5557M   2935
+        3550MX  2866
+        4500M   2709
+        5545M   2434
+        3510MX  2426
+        3530MX  2276
+        3520M   2245
+        4555M   2193
+        3500M   2050
+        Ave...  3148.68 ( 19 Family CPUs)
+AMD    FX
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+FX      9590   10479
+        9370    9807
+        8350    9067
+        8320    8131
+        8150    7719
+        6350    7017
+        8140    6845
+        8120    6605
+        6300    6388
+        6200    6194
+        8100    6163
+        6120    5813
+____________________________________________
+@sp 1
+2013/12/24   CPU Benchmark Scores   Page:  4
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+FX      6100    5421
+        4350    5247
+        4170    4774
+        4300    4711
+        4130    4153
+        4150    4094
+        4100    4055
+        Ave...  6457.00 ( 19 Family CPUs)
+        Ave...  3448.86 ( 84 Vendor CPUs)
+Intel  Core i3
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+Core i3 4340    5117
+        4330    5115
+        4130    4904
+        3250    4757
+        3245    4414
+        3225    4407
+        3240    4259
+        3220    4219
+        4130T   4041
+        3210    3820
+        3240T   3793
+        3220T   3724
+        3130M   3655
+        4000M   3443
+        3120M   3301
+        3110M   3076
+        3227U   2575
+        4010U   2459
+        3217U   2266
+        4010Y   2003
+____________________________________________
+@sp 1
+2013/12/24   CPU Benchmark Scores   Page:  5
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+Core i3 3229Y   1885
+        Ave...  3677.76 ( 21 Family CPUs)
+Intel  Core i5
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+Core i5 4670K   7565
+        4670    7492
+        3570K   7118
+        4570    7061
+        3570    6993
+        3550    6828
+        4570S   6803
+        3570S   6709
+        3550S   6631
+        3470    6576
+        4440    6517
+        4570R   6474
+        3450    6442
+        4670T   6351
+        3340    6282
+        4430    6282
+        3350P   6199
+        3470S   6077
+        3450S   6071
+        3475S   5991
+        4430S   5954
+        3330    5902
+        3335S   5781
+        3330S   5690
+        3570T   5414
+        3340S   5372
+        4330M   4804
+____________________________________________
+@sp 1
+2013/12/24   CPU Benchmark Scores   Page:  6
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+Core i5 4300M   4786
+        4288U   4663
+        3470T   4591
+        3380M   4555
+        4258U   4381
+        4200M   4333
+        3340M   4327
+        3360M   4314
+        3320M   4101
+        3230M   3995
+        4300U   3917
+        3210M   3807
+        4350U   3604
+        3427U   3589
+        4250U   3482
+        3437U   3479
+        4200U   3355
+        3337U   3280
+        3317U   3126
+        3439Y   3057
+        4570T   2503
+        4210Y   2382
+        4200Y   2358
+        3339Y   2252
+        4300Y   1743
+        Ave...  5026.13 ( 52 Family CPUs)
+Intel  Core i7
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+Core i7 4960X  14291
+        4930K  13620
+        3970X  12823
+____________________________________________
+@sp 1
+2013/12/24   CPU Benchmark Scores   Page:  7
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+Core i7 3960X  12718
+        3930K  12107
+        4960HQ 10262
+        4770K  10190
+        4771   10078
+        4770    9969
+        4820K   9969
+        4770S   9803
+        4930MX  9754
+        3770K   9578
+        3770    9420
+        4850HQ  9331
+        4900MQ  9323
+        3920XM  9196
+        3770S   9074
+        3940XM  9052
+        3840QM  9025
+        3820    8995
+        4770T   8803
+        4800MQ  8567
+        3820QM  8548
+        3740QM  8512
+        3720QM  8347
+        3770T   8280
+        4700HQ  8161
+        4750HQ  8066
+        4702HQ  8002
+        4700MQ  7946
+        3630QM  7759
+        4702MQ  7647
+        3610QM  7532
+        4765T   7367
+____________________________________________
+@sp 1
+2013/12/24   CPU Benchmark Scores   Page:  8
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+Core i7 4700EQ  7352
+        3615QM  7310
+        3632QM  7055
+        3612QE  6988
+        3612QM  6907
+        3635QM  6516
+        3610QE  6144
+        3615QE  5495
+        4600M   4892
+        3540M   4861
+        3520M   4588
+        4558U   4507
+        4600U   4484
+        4650U   4345
+        3687U   4271
+        3667U   4032
+        3555LE  4009
+        4500U   3992
+        3537U   3912
+        3517U   3701
+        4610Y   3680
+        3689Y   3479
+        3517UE  3449
+        Ave...  7725.58 ( 58 Family CPUs)
+        Ave...  6005.16 (131 Vendor CPUs)
+        Ave...  5006.42 (215 CPUs)
+
+
+
+
+
+____________________________________________
+@end example
+@comment *********************************************************************
+@comment ** 7.7 Control Hierarchy (Revisited)                               **
+@comment *********************************************************************
+@newsection{7.7,Control Hierarchy (Revisited)}@p The sample program just discussed presents a great opportunity to show what can happen if you don't define the control hierarchy of a report properly.
+@p I changed the @syntax{CONTROLS ARE} clause on the sample program from this:
+@p @example
+CONTROLS ARE FINAL
+             F-SR-Vendor-TXT
+             F-SR-Family-TXT
+@end example
+@* To this:
+@p @example
+CONTROLS ARE FINAL
+             F-SR-Family-TXT
+             F-SR-Vendor-TXT
+@end example
+@* And then ran the report again.  Here are the first two pages of that new report.  See what happened to the control breaks?
+@p @example
+2013/12/24   CPU Benchmark Scores   Page:  1
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+AMD    A10
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+A10     6800K   5062
+        5800B   4798
+        6700    4767
+        5800K   4677
+        5700    4251
+        4657M   3449
+        5750M   3332
+        5757M   3253
+        4600M   3145
+        5745M   2758
+        4655M   2505
+        Ave...  3817.90 ( 11 Vendor CPUs)
+        Ave...  3817.90 ( 11 Family CPUs)
+AMD    A4
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+A4      6300    2305
+        5300    2078
+        5150M   1973
+        5000    1919
+        3420    1768
+        4300M   1685
+        5300B   1632
+        3400    1625
+        3300    1583
+        3330MX  1343
+        3310MX  1263
+        3300M   1237
+        3305M   1227
+____________________________________________
+@sp 1
+2013/12/24   CPU Benchmark Scores   Page:  2
+********************************************
+**   All CPU Data From cpubenchmark.net   **
+********************************************
+A4      3320M   1193
+        4355M   1169
+        1200     677
+        1250     559
+        Ave...  1484.47 ( 17 Vendor CPUs)
+        Ave...  1484.47 ( 17 Family CPUs)
+AMD    A6
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+A6      3670    3327
+        3650    3232
+        3620    2892
+        3600    2798
+        5200    2440
+        6400K   2384
+        3430MX  2277
+        5400K   2174
+        3410MX  2101
+        3420M   2078
+        3500    1995
+        3400M   1964
+        5350M   1958
+        5400B   1906
+        5357M   1878
+        1450    1634
+        4400M   1630
+        4455M   1296
+        Ave...  2220.22 ( 18 Vendor CPUs)
+        Ave...  2220.22 ( 18 Family CPUs)
+AMD    A8
+Family  Model  Benchmark Score (High to Low)
+======  ====== =============================
+A8      6600K   4719
+____________________________________________
+@end example
+@comment *********************************************************************
+@comment ** 7.8 Turning PHYSICAL Page Formatting Into LOGICAL Formatting    **
+@comment *********************************************************************
+@newsection{7.8,Turning PHYSICAL Page Formatting Into LOGICAL Formatting}@p You can trick RWCS into using the PAGE LIMIT values as logical specifications rather than physical ones quite easily --- simply include an ASCII form-feed (X'0C') character into your page heading design!  Here's how the sample program shown earlier could be easily modified:
+@p Simply Change This@dots{}
+@p @example
+01  TYPE IS PAGE HEADING.
+    05 LINE NUMBER 1.
+       10 COL 1  SOURCE WS-Date PIC 9999/99/99.
+       10 COL 14 VALUE 'CPU Benchmark Scores'.
+       10 COL 37 VALUE 'Page:'.
+       10 COL 43 SOURCE PAGE-COUNTER PIC Z9.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  SOURCE WS-Starz PIC X(44).
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  VALUE '**'.
+       10 COL 6  VALUE 'All CPU Data From ' &
+                       'cpubenchmark.net'.
+       10 COL 43 VALUE '**'.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  SOURCE WS-Starz PIC X(44).
+@end example
+@* To This@dots{}
+@p @example
+01  TYPE IS PAGE HEADING.
+@b{    05 LINE NUMBER 1.                          *> NEW}
+@b{       10 COL 1  VALUE X'0C'.                  *> NEW}
+@b{    05 LINE NUMBER PLUS 1.                     *> CHANGED}
+       10 COL 1  SOURCE WS-Date PIC 9999/99/99.
+       10 COL 14 VALUE 'CPU Benchmark Scores'.
+       10 COL 37 VALUE 'Page:'.
+       10 COL 43 SOURCE PAGE-COUNTER PIC Z9.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  SOURCE WS-Starz PIC X(44).
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  VALUE '**'.
+       10 COL 6  VALUE 'All CPU Data From ' &
+                       'cpubenchmark.net'.
+       10 COL 43 VALUE '**'.
+    05 LINE NUMBER PLUS 1.
+       10 COL 1  SOURCE WS-Starz PIC X(44).
+@end example
+@* RWCS will still be counting lines to decide when to close off one page and start a new one, but when a new page is started it's page heading will @i{physically} form-feed the printer when the report is printed.  As long as any printer you plan on using supports at least as many physical print lines as what is defined as the @syntax{PAGE LIMIT} value in whatever paper orientation and font you plan on (or are limited to) printing in, you have now divorced your program from the physical realities of the printer!
+@p Of course, whatever software you are using to deliver the printed document to the printer with must allow the ASCII form-feed character to pass through to the printer.
+@iftex
+@sp 3
+@center ------------------------------------------------------------
+@center End of Chapter 7 --- Report Writer Usage Notes
+@end iftex

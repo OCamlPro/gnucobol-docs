@@ -1,0 +1,215 @@
+@comment *********************************************************************
+@comment ** 10. Programming Style Suggestions                               **
+@comment *********************************************************************
+@newchapter{10,Programming Style Suggestions}@p This chapter deals with a variety of stylistic issues that may be of interest to someone who is just starting out learning and using COBOL.  Much of this chapter makes recommendations and suggestions for how to write your own programs.  The sample programs in the "Sample Programs" document (@pxref{Top,Top,Top,gnucobsp.info,Sample Programs}) were coded using almost all of these recommendations.
+@p There's no particular order of importance to the topics presented here.
+@menu
+* 10.1: Marking Changes in Programs.
+* 10.2: Data Item Coding and Naming Conventions.
+* 10.3: Table Subscripting versus Table Indexing.
+* 10.4: Copybook Naming Conventions and Usage.
+* 10.5: PROCEDURE DIVISION Sections Versus Paragraphs.
+* 10.6: COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE.
+@end menu
+@comment *********************************************************************
+@comment ** 10.1,Marking Changes in Programs                                **
+@comment *********************************************************************
+@newsection{10.1,Marking Changes in Programs}@p For quite a while now (back to the 1970s), the "sequence number area" of a COBOL statement (columns 1-6) has come to be used as a change indicator area.  Programmers would place a code in columns 1-6 of every line they changed in a program.  The author works in a COBOL shop where change indicators of the form "xxmmyy" are required on every altered line of a program --- "xx" is the initials of the programmer while "mmyy" are the month and two-digit year of the date the change was made.  This is frequently accompanied by a comment block at or near the top of a COBOL program providing general documentation of what changes were made and what change indicator was used to mark that change.
+@p The GCic sample program source listing (@pxref{GCic,GCic,GCic,gnucobsp.info,GNU COBOL Sample Programs}) provides an excellent example of such documentation.
+@p This technique of using columns 1-6 as a change indicator will ONLY work if fixed source-record format is in effect.
+@p Some COBOL shops prefer to use the eight-character Program Name Area (columns 73-80) as a change code area.
+@p Marking changes becomes more of a challenge when free-format source code is in effect.  Creating a top-of-program comment block to generically describe changes that have been made isn't difficult, even in free-form.  What IS difficult, however, is coming up with a scheme for per-statement markup of changes that doesn't introduce a ridiculously excessive number of source lines to the program.  I'm not sure there is a good answer to this problem (if a reader has one, please let me know).  Generally, I've noticed that shops using free-format conventions for their COBOL source tend to stick with just the top-of-program comment block combined with minimal comment blocks sprinkled throughout the program noting areas that underwent major changes.
+@comment *********************************************************************
+@comment ** 10.2 Data Item Coding and Naming Conventions                    **
+@comment *********************************************************************
+@newsection{10.2,Data Item Coding and Naming Conventions}@p When programs get very large, it becomes more and more challenging to keep track of the data items that will be used in the program.  Here, in no particular order of importance, are a variety of conventions that can simplfy that problem.
+@p Remember that the points described here are intended to make things easier for you, the programmer.  No COBOL compiler cares one way or another whether any of these suggestions are followed.
+@enumerate
+@p @item Avoid the use of level 77 data items in new programs.  Once (1968 and before) there were valid reasons for creating level-77 data items, but since the 1974 ANSI standard of COBOL there really hasn't been any reason why an elementary level-01 data item couldn't have been used instead of a level-77 item.
+@p @item Allocate level-01 data items in alphabetical sequence in the program source wherever practical.  This will make it vastly easier to locate the definitions of 01-level items in the program source without having to resort to a compilation cross-reference listing and/or text editor "find" command to locate them.
+@p @item @i{Consider} prefixing data items with an indication of where in the program structure they were created.  For example:
+@itemize @bullet
+@p @item Start everything defined in the file section with "F-"
+@p @item Start everything defined in working-storage with  "WS-"
+@p @item Start everything defined in local-storage with "LS-"
+@p @item Start everything defined in the linkage section with  "L-"
+@p @item Start everything defined in the screen section with "S-"
+@p @item Start everything defined in the report section with "R-"
+@end itemize
+@* A convention such as this makes it simple, when you're reviewing code in the procedure division, to know in which section of the data division you should look in when locating the detailed description of a data item.  Once you're in the right division, coding convention #2 will assist in locating the data item definition.
+@p @item Consider including a trailing descriptor of the nature of all data items in their names.  The following chart presents a variety of such descriptors the author has encountered and used through the years.
+@table @b
+@p @item -ADDR
+@p The data item contains all or a part of an Address (City-ADDR, State-ADDR, Street-ADDR, @dots{})
+@p @item -BOOL
+@p A level-88 data item (which only has the value TRUE or FALSE)
+@p @item -CD
+@p A CODE whose value denotes information content above and beyond that of the mere value itself.  Some examples could be "Error-CD", "Status-CD", "Billing-CD"
+@p @item -CHR
+@p A data item containing a single character of data.
+@p @item -CONST
+@p A constant, specified as a level-78 data item, a level-01 item with the CONST attribute
+@p @item -DT
+@p The data item contains a complete or partial date (Birth-DT, Birth-Month-DT, Birth-Year-DT, @dots{})
+@p @item -DTTM
+@p A data item containing both a date and a time
+@p @item -FILE
+@p A file name.  Note that these items would probably also have a "F-" prefix.
+@p @item -IDX
+@p A data item used as a table index (see section 10.3)
+@p @item -NM
+@p All or a portion of a person's name.  These could be extended to include business names, product names, etc.
+@p @item -PTR
+@p A data item whose USAGE is POINTER
+@p @item -NUM
+@p A generic numeric data item that doesn't fit into any of the other categories
+@p @item -QTY
+@p A count of something
+@p @item -REC
+@p An 01-level item defined in the FILE SECTION (constituting the layout of a record within a file). Note that these items would probably also have a "F-" prefix.
+@p @item -SCR
+@p The data item contains a complete or partial screen description (appropriate for SCREEN SECTION 01-level data items).
+@p @item -SUB
+@p A numeric item used as a table subscript (see section 10.3)
+@p @item -TEL
+@p All or part of a telephone number
+@p @item -TM
+@p The data item contains a complete or partial time value
+@p @item -TXT
+@p The data item contains generic alphanumeric text that doesn't fit into any of the other categories.
+@end table
+@* The above is by no means an exhaustive list, but good programmers will use as few of these descriptors as possible as having too many defeats any benefits of such classification/documentation efforts.
+@p @item Consider including an acronym to be inserted into the name of any data item defined directly or indirectly subordinate to an 01-level item, typically to be specified after any section-level tag, if you're using them.  For example, consider the names used in the following structure:
+@p @example
+01  WS-File-Status-Message-TXT.
+    05 FILLER                     PIC X(13) VALUE 'Status Code: '.
+    05 WS-FSM-Status-CD           PIC 9(2).
+    05 FILLER                     PIC X(11) VALUE ', Meaning: '.
+    05 WS-FSM-Msg-TXT             PIC X(25).
+@end example
+@* The "-FSM-" acronyms make it easier to locate the description of the 01-item the status code and message text items belong to.
+@end enumerate
+@comment *********************************************************************
+@comment ** 10.3 Table Subscripting versus Table Indexing                   **
+@comment *********************************************************************
+@newsection{10.3,Table Subscripting versus Table Indexing}@p The elements of a table may be referenced either using a subscript or an index.  Syntactically, this is coded using parenthesis, as per the following three examples, all of which store the letter "A" into the 17th occurrence of a data item named WSS-Output-Image-TXT:
+@enumerate
+@p @item @t{MOVE 'A' TO WSS-Output-Image-TXT (17)}
+@p @item @t{MOVE 17 TO WSS-OI-SUB} @* @t{MOVE 'A' TO WSS-Output-Image-TXT (WSS-OI-SUB)}
+@p @item @t{SET WSS-OI-IDX TO 17} @* @t{MOVE 'A' TO WSS-Output-Image-TXT (WSS-OI-IDX)}
+@end enumerate
+@* The 1st and 2nd examples are referred to as @define{Subscripting} while the 3rd is known as @define{Indexing}.  The distinction is fairly simple.
+@p Indexing is the process of referencing an element of a table utilizing a data item with an explicitly or implicitly defined @syntaxref{USAGE} of @syntax{INDEX} to select the desired occurrence, while @dots{}
+@p Subscripting is the process of referencing an element of a table utilizing either a numeric constant or an unedited numeric data item to select the desired occurrence.
+@p Various implementations of COBOL generate object code that is quite different in each of these three situations, and GNU COBOL is no exception.
+@p In general, table references such as example #1 (constant subscript) generate the smallest, simplest  and fastest object code while table references such as example #2 (numeric data item subscript) generate the largest, most-complicated and slowest object code.
+@p Table references such as example #3 (table indexing) generate object code that falls in the middle of the other two but is far closer in efficiency to example #1 than #2.
+@p Some COBOL statements (@syntaxref{SEARCH}, @syntaxref{SEARCH ALL} and the table-based @syntaxrefalt{SORT,Table SORT}) require you to index the affected table and to utilize that index with those statements.  With any other references to tables, the choice is left to the programmer as to which approach should be used.  In general, follow these rules:
+@enumerate
+@p @item Use constant subscripts (example #1) wherever possible/practical.
+@p @item If references to table elements are going to be performed many, many  times (tens or hundreds of thousands of times or more) during program execution, you will probably see a noticeable reduction in program execution time if you use indexing versus subscripting.
+@end enumerate
+@* It's impossible to perform any arithmetic operation against an index data item directly (other than a simple incrementation or decrementation operation via the @statementref{SET UP/DOWN}).  Situations where any non-trivial computations are required to calculate the effective occurrence number for a table reference will require you to use a conventional unedited numeric data item as the receiving field for the calculation.  That calculated value would then need to be saved into the index data item via a @statement{SET Index}.
+@p If you only need to use the computed occurrence number once, you might as well just use the computed occurrence number data item as a subscript.  If, however, you will need to use a computed "subscript" many more times than once, the run-time overhead of converting that occurrence value to an index (via @syntax{SET Index}) will be worth the coding effort.
+@p Whew!
+@p If references to table elements are not going to be performed many, many times it probably won't make much difference whether you use indexing or subscripting.
+@p If you are comfortable with the "C" programming language, you might find the following simple GNU COBOL program useful in exploring the differences between subscripting and indexing:
+@p @example
+IDENTIFICATION DIVISION.
+PROGRAM-ID.  SUBVSINDEX.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01  WS-TABLE-SUB                BINARY-LONG.
+01  WS-TABLE.
+    05 WS-TABLE-ENTRY           OCCURS 20 TIMES
+                                INDEXED BY WS-TABLE-IDX
+                                PIC X(1).
+PROCEDURE DIVISION.
+000-Main SECTION.
+E1. MOVE 'A' TO WS-TABLE-ENTRY (17)
+    .
+E2. MOVE 17 TO WS-TABLE-SUB
+    MOVE 'A' TO WS-TABLE-ENTRY (WS-TABLE-SUB)
+    .
+E3. SET WS-TABLE-IDX TO 17
+    MOVE 'A' TO WS-TABLE-ENTRY (WS-TABLE-SUB)
+    .
+@end example
+@* Compile this program as follows (the assumption is made that you are executing the @syntax{cobc} command from the directory in which the above program source code (subvsindex.cbl) exists.
+@p @center @t{cobc -C -save-temps subvsindex.cbl}
+@p After this command is executed, the file "subvsindex.c" will contain the procedure division C code and "subvsindex.c.1.h" will contain the working-storage C code.  Compare the generated C code for each of the three @statement{MOVE}s.
+@comment *********************************************************************
+@comment ** 10.4 Copybook Naming Conventions and Usage                      **
+@comment *********************************************************************
+@newsection{10.4,Copybook Naming Conventions and Usage}@p Since the intent of a copybook is to introduce COBOL code into a particular spot in a program via the @statementref{COPY}, it is always a good idea to prefix copybook names with a character sequence that identifies where in a program it's contents are intended to be copyed.
+@p For example:
+@table @syntax
+@p @item IDxxxxxxxx
+@p Copybooks containing code intended for the identification division.  These will be rare as you almost never encounter copied code in the identification division.
+@p @item EDxxxxxxxx
+@p Copybooks containing code intended for use in the environment division.  These copybooks are generally used for predefined @syntaxref{SPECIAL-NAMES} or @syntaxrefalt{FILE-CONTROL,INPUT-OUTPUT SECTION} syntax,
+@p @item DDxxxxxxxx
+Copybooks that contain data definitions.
+@p @item PDxxxxxxxx
+Copybooks that contain executable instructions.
+@end table
+@comment *********************************************************************
+@comment ** 10.5,PROCEDURE DIVISION Sections Versus Paragraphs              **
+@comment *********************************************************************
+@newsection{10.5,PROCEDURE DIVISION Sections Versus Paragraphs}@p The issue of whether to use section and/or paragraph names (collectively referred to as procedure names) within the procedure division is one of near religious significance with many COBOL programmers.
+@p COBOL programming standards used by many organizations that use the language generally call for procedure names to:
+@enumerate
+@p @item Contain a leading numeric component (for example: @syntax{2000-Update-Customer}), AND@dots{}
+@p @item Be defined in the procedure division in non-decreasing sequence of that numeric component.
+@end enumerate
+@* When you are looking at or editing any large COBOL program that has been created with programming standards that include these two rules, it is always a simple thing to know whether a reference to a procedure is being made to code that exists before or after your current location in the program, simply by comparing the numeric component of the current procedure's name with the one in question.
+@p Technically, GNU COBOL does not require ANY procedure names be defined unless:
+@enumerate
+@p @item You are using the @statementref{ALTER} (the use of which should be avoided at all costs)
+@p @item You are using a procedural @statementrefalt{PERFORM,Procedural PERFORM}
+@p @item You are using a @statementref{GO TO}
+@p @item You are using a @statementref{MERGE} with an @syntax{OUTPUT PROCEDURE}
+@p @item You are using a @statementref{SORT} with either (or both) an @syntax{INPUT PROCEDURE} or @syntax{OUTPUT PROCEDURE}
+@p @item You are using @syntaxref{DECLARATIVES}
+@end enumerate
+@* Since it is difficult to write any non-trivial COBOL program that uses none of the above, lets assume you will be including at least one section or paragraph in your GNU COBOL programs.
+@p I like to use procedure division paragraphs and sections as follows:
+@enumerate
+@p @item The very first procedure defined in the procedure division of my programs, assuming no @syntaxref{DECLARATIVES} are defined, will be a section named "000-Main".  The declaration of this procedure will immediately follow the procedure division header (or @syntax{END DECLARATIVES} if @syntax{DECLARATIVES} are used).
+@p @item Any procedures referenced by @syntax{MERGE}, @syntax{PERFORM}, or @syntax{SORT} statements will be defined as sections.
+@p @item Any procedures referenced by @syntax{GO TO} statements will be defined as paragraphs, and those paragraphs will be defined in the same section as the @syntax{GO TO} statements that reference them.  In other words, @statement{GO TO}s may not be used to transfer control to a point in a different section.  This is @i{NOT} a GNU COBOL rule --- this is my own personal programming practice intended to improve the readability and maintainability of my programs.
+@p @item I always include a numeric prefix to all procedure names I define, for the reasons stated earlier.
+@p @item I do not use @syntax{THRU} on any @syntax{MERGE}, @syntax{PERFORM} or @statement{SORT} unless the programming standards of the shop in which I am working require it.  My reasoning for this is that it is too easy to accidentally introduce a new procedure into the scope of a @syntax{THRU}.
+@end enumerate
+@comment *********************************************************************
+@comment ** 10.6 COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE                **
+@comment *********************************************************************
+@newsection{10.6,COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE}@p Over the years, there has been much debate over the efficiency and arithmetic accuracy of using the @statementref{COMPUTE} rather than the four basic  arithmetic operation statements.
+@p Here are the facts --- draw your own conclusions as to which approach is more appropriate under which circumstances.
+@enumerate
+@p @item The @statement{COMPUTE} supports exponentiation (via the "**" operator) --- there is no equivalent basic arithmetic statement.  Although you could simulate integral exponentiation (raising a value to the third power, for example) using @statement{MULTIPLY}s, and you may use the @intrinsicref{SQRT} to find a square root, there's just no (easy) way to find the cube-root of a value without using the @statement{COMPUTE}.
+@p @item For non-trivial computations, @statement{COMPUTE}s "read" better.  Take this, for example:
+@p @example
+COMPUTE R = (A + B * C) / D
+@end example
+@* As compared to:
+@p @example
+MULTIPLY B BY C GIVING TEMP
+ADD A TO TEMP
+DIVIDE TEMP BY D GIVING R
+@end example
+@* For non-trivial computations, @statement{COMPUTE}s may execute faster than the equivalent chain of basic arithmetic statements.  For example, the COMPUTE statement shown above executes about 25% faster on my computer using GNU COBOL than does the MULTIPLY-ADD-DIVIDE sequence.
+@p @item For trivial computations, on the other hand, I prefer the inherent readability of a statement such as this:
+@p @example
+ADD 1 TO WSS-Input-Trans-QTY
+@end example
+@* to this:
+@p @example
+COMPUTE WS-Input-Trans-QTY = WS-Input-Trans-QTY + 1
+@end example
+@end enumerate
+@iftex
+@sp 3
+@center ------------------------------------------------------------
+@center End of Chapter 10 --- Programming Style Suggestions
+@end iftex
