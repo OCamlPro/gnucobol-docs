@@ -1,0 +1,153 @@
+\chapter{Changelog}
+
+From 23 November 2013.
+
+\paragraph{General}
+\begin{itemize}
+\item \textbf{64-bit numbers}: fixed bugs in handling of 64-bit numbers (e.g. bug \#229).
+\item \textbf{C compiler support}: fixed errors in compilers without designated initializers.
+\item \textbf{Comments}: added ACUCOBOL comments: \$ as synonym for * in indicator area and $\vert$ as synonym for floating comment indicator *>.
+\item \textbf{curses}: fixed compilation errors when configured without curses (bug \#90).
+\item \textbf{Error messages}: error messages are now lowercase, in line with the GNU Coding Standards (bug \#198).
+\item \textbf{Error messages}: segfaults in the compiler now cause an error message to be displayed.
+\item \textbf{Indicators}: invalid indicators no longer cause compilation to immediately terminate (feature request \#126).
+\item \textbf{Manpage}: added manpage generation and installation.
+\item \textbf{Nested programs}: Nested programs no longer need to have END PROGRAM.
+\item \textbf{National literals}: added basic support for national literals.
+\item \textbf{Numeric literals}: added ACUCOBOL numeric literals: B\#\ldots\, for binary, O\#\ldots\, for octal and X\#\ldots\, and H\#\ldots\, for hexadecimal.
+\item \textbf{Numeric literals}: fixed bug \#167 involving overly large numeric literals.
+\item \textbf{Listings}: added complete listing support (-t\slash{}-T compiler options).
+\item \textbf{Literals}: fixed heap corruptions caused by uncommon literals (bug \#195).
+\item \textbf{Literals}: allow concatenation of literal and Boolean literals.
+\item \textbf{Microsoft Visual C++}: output when compiling with cl.exe is now filtered and temporary files are deleted.
+\item \textbf{stdin}: allow COBOL code to come from stdin.
+\item \textbf{User-defined functions}: function definitions must now end with END FUNCTION.
+\item \textbf{User-defined functions}: function definitions may no longer be nested in programs (bug \#255).
+\item \textbf{Variable format}: added support for Micro Focus' variable source format.
+\end{itemize}
+
+\paragraph{Configuration options}
+\begin{itemize}
+\item \textbf{Aliases}: compiler configurations can now specify whether a reserved word is an alias for another reserved word.
+\item \textbf{Deleted compiler configuration options}: cobol85-reserved.
+\item \textbf{New compiler configurations}: acu for ACUCOBOL, cobol2014 for COBOL 2014.
+\item \textbf{New compiler configuration options}: accept-display-extensions, accept-update, accept-auto, acucobol-literals, call-overflow, console-is-crt, literal-length, not-exception-before-exception, numeric-boolean, numeric-literal-length, program-name-redefinition, renames-uncommon-levels, reserved, specify-all-reserved, word-length (feature request \#43).
+\item \textbf{Nesting}: permit nesting of runtime configuration files.
+\item \textbf{Renamed compiler configuration options}: relaxed-syntax-check to relax-syntax-checks.
+\item \textbf{Reserved words}: compiler configurations can now specify all the reserved words and context-sensitive words permitted.
+\item \textbf{Runtime configuration}: added ability to configure programs at runtime.
+\end{itemize}
+
+\paragraph{Compiler directives}
+\begin{itemize}
+\item \textbf{\directiveindicator{}IF directive}: fixed bug \#263, where nested \directiveindicator{}IF directives were not handled correctly.
+\item \textbf{New constants}: GCCOMP, GNUCOBOL.
+\item \textbf{New directives}: \directiveindicator{}LISTING, \directiveindicator{}PAGE.
+\end{itemize}
+
+\paragraph{Identification division}
+\begin{itemize}
+\item \textbf{FUNCTION-ID}: added checks for redefinition of function-names.
+\item \textbf{INITIAL phrase}: fixed premature deallocation of INITIAL programs (bug \#52).
+\item \textbf{PROGRAM-ID}: added checks for redefinition of program-names.
+\item \textbf{PROGRAM-ID phrases}: permit INITIAL or RECURSIVE before COMMON (bug \#244).
+\end{itemize}
+
+\paragraph{Environment division}
+\begin{itemize}
+\item \textbf{ASSIGN clause}: missing ASSIGN clauses are now detected at compile-time.
+\item \textbf{ASSIGN clause}: added PRINT and PRINTER-1 mnemonics.
+\item \textbf{CURRENCY phrase}: fixed bug \#182, where a preceding SWITCH phrase caused an incorrect duplicate CURRENCY clause error.
+\item \textbf{File-control entry}: fixed bug \#71, where referring a global constant caused an internal error.
+\item \textbf{FUNCTION phrase}: added checks for redefinition of function-(prototype-)names.
+\item \textbf{Locales}: user-defined LOCALEDIR now supported.
+\item \textbf{Order of configuration section paragraphs}: configuration section paragraphs are no longer allowed in any order (bug \#224).
+\item \textbf{PROGRAM phrase}: added support for program-prototype-names.
+\item \textbf{SIGN clause}: improved syntax checks.
+\item \textbf{SWITCH phrase}: added check for duplicate on\slash{}off clauses (bug \#136).
+\item \textbf{SWITCH phrase}: added new switch names: SWITCH-16 through to SWITCH-36 (feature request \#65), ``SWITCH 1'' to ``SWITCH 26'' (and their aliases  ``SWITCH A'' to ``SWITCH Z'').
+\end{itemize}
+
+\paragraph{Data division}
+\begin{itemize}
+\item \textbf{78-level items}: strengthened syntax checks.
+\item \textbf{88-level items}: strengthened syntax checks.
+\item \textbf{ANY LENGTH clause}: ANY LENGTH items may now longer be BY VALUE parameters (see bug \#219).
+\item \textbf{BLANK clause}: fixed bug \#143, where BLANK LINE\slash{}SCREEN did not color line\slash{}screen.
+\item \textbf{BLANK WHEN ZERO clause}: added checks that BLANK WHEN ZERO is not specified with PICTURE clauses containing S.
+\item \textbf{Data description}: sizes may no longer exceed the maximum permitted size.
+\item \textbf{ERASE clause}: fixed bug \#186, where ERASE EOL and ERASE EOS could be specified simultaneously.
+\item \textbf{HIGHLIGHT and LOWLIGHT clauses}: added checks that HIGHLIGHT and LOWLIGHT are not specified simultaneously.
+\item \textbf{Local-storage section}: fixed bug \#78, where local-storage items where initialised after file section items.
+\item \textbf{LOWLIGHT clause}: implemented.
+\item \textbf{OCCURS clause (depending)}: require the minimum length to be less than the maximum length (feature request \#99).
+\item \textbf{OCCURS clause (screen-section)}: require relative LINE\slash{}COLUMN clauses in OCCURS entries (bug \#83).
+\item \textbf{PICTURE clause}: restricted number of permitted PICTURE strings (bug \#232).
+\item \textbf{PICTURE clause}: improved checks of constant-names referenced in PICTURE strings.
+\item \textbf{RENAMES items}: strengthened syntax checks.
+\item \textbf{Screen description}: permit figurative constants in screen items (bug \#108).
+\item \textbf{TALLY special register}: added.
+\end{itemize}
+
+\paragraph{Procedure division}
+\begin{itemize}
+\item \textbf{ACCEPT statement}: added ESCAPE as synonym for EXCEPTION.
+\item \textbf{ACCEPT statement}: permit clauses in any order.
+\item \textbf{ACCEPT statement}: allow WITH before every screen attribute clause.
+\item \textbf{ACCEPT statement (screen)}: fixed failed ACCEPTs caused by a buffer overflow.
+\item \textbf{ACCEPT statement (screen)}: enhanced support for special keys (insert, tab, delete, alt-delete, etc.).
+\item \textbf{ACCEPT statement (screen)}: fixed bug \#161 where screens terminated after entering a few characters in a field.
+\item \textbf{ACCEPT statement (screen)}: added DEFAULT as synonym for UPDATE.
+\item \textbf{ACCEPT statement (screen)}: ERASE and BLANK clauses in screens are now ignored (bug \#192).
+\item \textbf{ACCEPT statement (screen)}: fixed bug \#160 where ACCEPT statement LINE\slash{}COLUMN clauses did not work.
+\item \textbf{ACCEPT statement (screen)}: fixed segfault on ACCEPT OMITTED (bug \#300).
+\item \textbf{ADD statement (corresponding)}: restricted to numeric items (bug \#235).
+\item \textbf{Addition of COMP-3 numbers}: fixed bug where COMP-3 addition failed.
+\item \textbf{Addition of floating-point numbers}: fixed incorrect addition of floating-point numbers.
+\item \textbf{CALL statement}: implemented feature request \#101, allowing more arguments to be provided.
+\item \textbf{CALL statement}: corrected CALL to cancelled modules.
+\item \textbf{CALL statement}: added RETURNING NOTHING.
+\item \textbf{CANCEL statement}: fixed crash caused by cancelling a cancelled module.
+\item \textbf{DISPLAY statement}: permit clauses in any order.
+\item \textbf{DISPLAY statement}: allow WITH before every screen attribute clause.
+\item \textbf{DISPLAY statement (screen)}: fixed bug where EC-SCREEN exceptions did not trigger ON EXCEPTION handler (bug \#243).
+\item \textbf{DISPLAY statement (screen)}: fixed bugs in DISPLAY SPACES\slash{}ALL X``02''\slash{}ALL X``07''.
+\item \textbf{END DECLARATIVES phrase}: fixed bug \#88, where an erroneous unreachable code warning was emitted for code without a main procedure.
+\item \textbf{ENTRY statement}: suppress incorrect unreachable code warnings.
+\item \textbf{Exception handlers}: permit NOT ON EXCEPTION\slash{}END-OF-PAGE\slash{}etc. before ON EXCEPTION\slash{}END-OF-PAGE\slash{}etc.
+\item \textbf{EXIT statement}: added extension RETURNING\slash{}GIVING clause for PROGRAM phrase.
+\item \textbf{File I-O}: added detection of and handling for error when no disc space is available for output files.
+\item \textbf{FREE statement}: NULL addresses no longer cause an exception.
+\item \textbf{GOBACK statement}: added extension RETURNING\slash{}GIVING clause.
+\item \textbf{INITIALIZE statement}: fixed bug \#84, where literals could be passed to INITIALIZE.
+\item \textbf{INITIALIZE statement}: fixed bug \#287, where reference-modified group items were not treated like elementary items.
+\item \textbf{INSPECT statement}: fixed bug \#47, where clauses were permitted in invalid orders.
+\item \textbf{LENGTH OF phrase}: fixed bug \#89.
+\item \textbf{MOVE statement}: added more checks for overlapping MOVE statements.
+\item \textbf{Procedure division header}: fixed bug \#55, where a user-defined function without parameters failed to compile.
+\item \textbf{Procedure division header}: disabled the BY VALUE phrase, pending a working implementation.
+\item \textbf{Procedure division header}: added RETURNING OMITTED.
+\item \textbf{Reference modification}: fixed bug \#146.
+\item \textbf{Screen I-O}: added detection of situations which raise EC-SCREEN-LINE-NUMBER, EC-SCREEN-STARTING-COLUMN and EC-SCREEN-ITEM-TRUNCATED.
+\item \textbf{Screen I-O}: added support for the LINE 0 and COL 0 extensions.
+\item \textbf{SET statement (attribute)}: made HIGHLIGHT ON imply LOWLIGHT OFF and vice-versa.
+\item \textbf{SET statement (exception)}: added.
+\item \textbf{STOP statement (literal)}: fixed segfault.
+\item \textbf{STRING statement}: strengthened syntax checks (bug \#259).
+\item \textbf{SUBTRACT statement (corresponding)}: restricted to numeric items (bug \#235).
+\item \textbf{Tracing}: fixed bug \#216.
+\item \textbf{UNSTRING statement}: fixed bug \#54 involving delimiter longer than one character.
+\end{itemize}
+
+\paragraph{Intrinsic functions}
+\begin{itemize}
+\item \textbf{New functions (COBOL 2014)}: FORMATTED-CURRENT-DATE, FORMATTED-DATE, FORMATTED-DATETIME, FORMATTED-TIME, INTEGER-OF-FORMATTED-DATE, TEST-FORMATTED-DATETIME.
+\item \textbf{ISO-8601-date-handling functions}: added extension SYSTEM-OFFSET as replacement for last optional argument.
+\item \textbf{ISO-8601-date-handling functions}: added EC-IMP-UTC-UNKNOWN if a time format ending in Z is provided but the timezone cannot be found.
+\item \textbf{RANDOM function}: fixed non-random number generation.
+\end{itemize}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "grammar.tex"
+%%% End:
