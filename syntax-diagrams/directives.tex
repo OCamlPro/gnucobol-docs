@@ -2,259 +2,374 @@
 
 \section{D directive}
 
-\gnucobol{\directiveindicator\key{D} \sourcetext}
+\begin{syntax}
+  \gnucobol{\directiveindicator\key{D} \sourcetext}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{COPY statement}
 
-\begin{1=}
-  \key{COPY} \\
-  \deleted{\key{INCLUDE}}
-\end{1=}
-\begin{1=}
-  \literal \\
-  \textname \\
-\end{1=}
-\begin{0-1}
+\begin{syntax}
   \begin{1=}
-    \key{IN} \\
-    \key{OF}
+    \key{COPY} \\
+    \deleted{\key{INCLUDE}}
   \end{1=}
   \begin{1=}
     \literal \\
-    \libraryname
+    \textname \\
   \end{1=}
-\end{0-1}
+  \begin{0-1}
+    \begin{1=}
+      \key{IN} \\
+      \key{OF}
+    \end{1=}
+    \begin{1=}
+      \literal \\
+      \libraryname
+    \end{1=}
+  \end{0-1}
 
-\begin{0-1}
-  \key{SUPPRESS} PRINTING
-\end{0-1}
+  \begin{0-1}
+    \key{SUPPRESS} PRINTING
+  \end{0-1}
 
-\begin{0-1}
-  \key{REPLACING}
+  \begin{0-1}
+    \key{REPLACING}
+    \begin{1=}
+      \begin{1=}
+        == \pseudotext == \\
+        \identifier \\
+        \literal
+      \end{1=}
+      \key{BY}
+      \begin{1=}
+        == \pseudotext == \\
+        \identifier \\
+        \literal
+      \end{1=} \\
+
+      \begin{1=}
+        \key{LEADING} \\
+        \key{TRAILING}
+      \end{1=}
+      == \metaelement{partial-word-1} ==
+      \key{BY}
+      == \metaelement{partial-word-2} ==
+    \end{1=}\ldots
+  \end{0-1}
+  .
+\end{syntax}
+
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{DEFINE directive}
+
+\begin{syntax}
+  \begin{1=}
+    \directiveindicator \\
+    \miscext{\textdollar}
+  \end{1=}
+  \key{DEFINE}
+  \gnucobol{
+    \begin{0-1}
+      \key{CONSTANT}
+    \end{0-1}
+  }
+  \metaelement{compilation-variable-1} AS
+  \begin{1=}
+    \begin{1=}
+      \literal \\
+      \key{PARAMETER}
+    \end{1=}
+    \begin{0-1}
+      \key{OVERRIDE}
+    \end{0-1} \\
+    \key{OFF}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{DISPLAY directive}
+
+\begin{syntax}
+  \miscext{
+    \begin{1=}
+      \directiveindicator \\
+      \textdollar
+    \end{1=}
+    \key{DISPLAY} \sourcetext
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{EJECT statement}
+
+\begin{syntax}
+  \miscext{\pending{EJECT}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{IF directive}
+
+\begin{syntax}
+  \begin{1=}
+    \directiveindicator \\
+    \miscext{\textdollar}
+  \end{1=}
+  \key{IF} \metaelement{compilation-variable-1} IS NOT
+  \begin{1=}
+    \key{DEFINED} \\
+    \key{SET} \\
+    relation \\
+    \metaelement{compilation-variable-2}
+  \end{1=}
+
+  \sourcetext
+
+  \miscext{
+    \begin{0-1}
+      \begin{1=}
+        \gnucobol{\directiveindicator} \\
+        \textdollar
+      \end{1=}
+      \begin{1=}
+        \key{ELIF} \\
+        \key{ELSE-IF}
+      \end{1=}
+      \condition
+      \sourcetext
+    \end{0-1} \ldots
+  }
+
+  \begin{0-1}
+    \begin{1=}
+      \directiveindicator \\
+      \miscext{\textdollar}
+    \end{1=}
+    \key{ELSE} \sourcetext
+  \end{0-1}
+
+  \begin{0-1}
+    \directiveindicator\key{END-IF} \\
+    \miscext{\textdollar\key{END}}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{LEAP-SECOND directive}
+
+\begin{syntax}
+  \pending{\directiveindicator\key{LEAP-SECOND}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{LISTING directive}
+
+\begin{syntax}
+  \directiveindicator\key{LISTING}
+  \begin{1=}
+    \key{ON} \\
+    \key{OFF}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{PAGE directive}
+
+\begin{syntax}
+  \directiveindicator\key{PAGE}
+  \begin{0-1}
+    \metaelement{comment-text}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{PROCESS statement}
+
+\begin{syntax}
+  \miscext{\pending{PROCESS}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{REPLACE statement}
+
+\format{on}
+\begin{syntax}
+  \key{REPLACE}
+  \begin{0-1}
+    \key{ALSO}
+  \end{0-1}
   \begin{1=}
     \begin{1=}
       == \pseudotext == \\
-      \identifier \\
-      \literal
+      \identifier
     \end{1=}
     \key{BY}
     \begin{1=}
       == \pseudotext == \\
-      \identifier \\
-      \literal
+      \identifier
     \end{1=} \\
 
     \begin{1=}
       \key{LEADING} \\
       \key{TRAILING}
     \end{1=}
-    == partial-word-1 ==
+    == \metaelement{partial-word-1} ==
     \key{BY}
-    == partial-word-2 ==
-  \end{1=}\ldots
-\end{0-1}
-.
+    == \metaelement{partial-word-2} ==
+  \end{1=}\ldots .
+\end{syntax}
 
-\section{DEFINE directive}
-
-\begin{1=}
-  \directiveindicator \\
-  \miscext{\textdollar}
-\end{1=}
-\key{DEFINE}
-\gnucobol{
+\format{off}
+\begin{syntax}
+  \key{REPLACE}
   \begin{0-1}
-    \key{CONSTANT}
+    \key{LAST}
   \end{0-1}
-}
-compilation-variable-1 AS
-\begin{1=}
-  \begin{1=}
-      \literal \\
-      \key{PARAMETER}
-  \end{1=}
-  \begin{0-1}
-    \key{OVERRIDE}
-  \end{0-1} \\
-  \key{OFF}
-\end{1=}
+  \key{OFF}.
+\end{syntax}
 
-\section{DISPLAY directive}
+\subsubsection{Syntax rules}
 
-\miscext{
-  \begin{1=}
-    \directiveindicator \\
-    \textdollar
-  \end{1=}
-  \key{DISPLAY} \sourcetext
-}
+\subsubsection{General rules}
 
-\section{IF directive}
+\section{SET directive}
 
-\begin{1=}
-  \directiveindicator \\
-  \miscext{\textdollar}
-\end{1=}
-\key{IF} compilation-variable-1 IS NOT
-\begin{1=}
-  \key{DEFINED} \\
-  \key{SET} \\
-  relation compilation-variable-2
-\end{1=}
-
-\sourcetext
-
-
-\miscext{
-  \begin{0-1}
+\begin{syntax}
+  \miscext{
     \begin{1=}
       \gnucobol{\directiveindicator} \\
       \textdollar
     \end{1=}
+    \key{SET}
     \begin{1=}
-      \key{ELIF} \\
-      \key{ELSE-IF}
-    \end{1=}
-    \condition
-    \sourcetext
-  \end{0-1} \ldots
-}
+      \gnucobol{
+        \key{CONSTANT} \metaelement{compilation-variable-1} AS \literal
+      } \\
 
-\begin{0-1}
-  \begin{1=}
-    \directiveindicator \\
-    \miscext{\textdollar}
-  \end{1=}
-  \key{ELSE} \sourcetext
-\end{0-1}
+      \gnucobol{
+        \metaelement{compilation-variable-2}
+        \begin{0-1}
+          AS \literal
+        \end{0-1}
+      } \\
 
-\begin{0-1}
-  \directiveindicator\key{END-IF} \\
-  \miscext{\textdollar\key{END}}
-\end{0-1}
+      \key{SOURCEFORMAT} AS \literal \\
 
+      \begin{1=}
+        \key{NO-FOLD-COPY-NAME} \\
+        \key{NOFOLDCOPYNAME}
+      \end{1=} \\
 
-\section{LEAP-SECOND directive}
+      \begin{1=}
+        \key{FOLD-COPY-NAME} \\
+        \key{FOLDCOPYNAME}
+      \end{1=}
+      AS \literal
+    \end{1=} \ldots
+  }
+\end{syntax}
 
-\pending{\directiveindicator\key{LEAP-SECOND}}
+\subsubsection{Syntax rules}
 
-\section{LISTING directive}
+\subsubsection{General rules}
 
-\directiveindicator\key{LISTING}
-\begin{1=}
-  \key{ON} \\
-  \key{OFF}
-\end{1=}
+\section{SKIP1 statement}
 
-\section{PAGE directive}
+\begin{syntax}
+  \miscext{\pending{SKIP1}}
+\end{syntax}
 
-\directiveindicator\key{PAGE}
-\begin{0-1}
-  comment-text
-\end{0-1}
+\subsubsection{Syntax rules}
 
-\section{REPLACE statement}
+\subsubsection{General rules}
 
-\format{on}
-\key{REPLACE}
-\begin{0-1}
-  \key{ALSO}
-\end{0-1}
-\begin{1=}
-  \begin{1=}
-    == \pseudotext == \\
-    \identifier
-  \end{1=}
-  \key{BY}
-  \begin{1=}
-    == \pseudotext == \\
-    \identifier
-  \end{1=} \\
+\section{SKIP2 statement}
 
-  \begin{1=}
-    \key{LEADING} \\
-    \key{TRAILING}
-  \end{1=}
-  == partial-word-1 ==
-  \key{BY}
-  == partial-word-2 ==
-\end{1=}\ldots .
+\begin{syntax}
+  \miscext{\pending{SKIP2}}
+\end{syntax}
 
-\format{off}
-\key{REPLACE}
-\begin{0-1}
-  \key{LAST}
-\end{0-1}
-\key{OFF}.
+\subsubsection{Syntax rules}
 
-\section{SET directive}
+\subsubsection{General rules}
 
-\miscext{
-  \begin{1=}
-    \gnucobol{\directiveindicator} \\
-    \textdollar
-  \end{1=}
-  \key{SET}
-  \begin{1=}
-    \gnucobol{
-      \key{CONSTANT} compilation-variable-1 AS \literal
-    } \\
+\section{SKIP3 statement}
 
-    \gnucobol{
-      compilation-variable-2
-      \begin{0-1}
-        AS \literal
-      \end{0-1}
-    } \\
+\begin{syntax}
+  \miscext{\pending{SKIP3}}
+\end{syntax}
 
-    \key{SOURCEFORMAT} AS \literal \\
+\subsubsection{Syntax rules}
 
-    \begin{1=}
-      \key{NO-FOLD-COPY-NAME} \\
-      \key{NOFOLDCOPYNAME}
-    \end{1=} \\
-
-    \begin{1=}
-    \key{FOLD-COPY-NAME} \\
-    \key{FOLDCOPYNAME}
-  \end{1=}
-  AS \literal
-  \end{1=} \ldots
-}
+\subsubsection{General rules}
 
 \section{SOURCE directive}
 
-\directiveindicator\key{SOURCE} FORMAT IS
-\begin{1=}
-  \key{FIXED} \\
-  \key{FREE}
-\end{1=}
+\begin{syntax}
+  \directiveindicator\key{SOURCE} FORMAT IS
+  \begin{1=}
+    \key{FIXED} \\
+    \key{FREE} \\
+    \gnucobol{\key{VARIABLE}}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{TURN directive}
 
-\pending{
-  \directiveindicator\key{TURN}
-  \begin{1=}
-    exception-name-1
-  \end{1=} \ldots
-  \begin{0-1}
-    \key{ON} \\
-    \key{OFF}
-  \end{0-1}
-  \begin{0-1}
-    WITH \key{LOCATION}
-  \end{0-1}
-}
+\begin{syntax}
+  \pending{
+    \directiveindicator\key{TURN}
+    \begin{1=}
+      exception-name-1
+    \end{1=} \ldots
+    \begin{0-1}
+      \key{ON} \\
+      \key{OFF}
+    \end{0-1}
+    \begin{0-1}
+      WITH \key{LOCATION}
+    \end{0-1}
+  }
+\end{syntax}
 
-\section{Miscellaneous directives}
+\subsubsection{Syntax rules}
 
-\begin{itemize}
-\item \miscext{EJECT}
-\item \miscext{\pending{PROCESS}}
-\item \miscext{SKIP1}
-\item \miscext{SKIP2}
-\item \miscext{SKIP3}
-\end{itemize}
+\subsubsection{General rules}
 
 %%% Local Variables:
 %%% mode: latex

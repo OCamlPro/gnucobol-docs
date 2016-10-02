@@ -1,361 +1,439 @@
 \chapter{Procedure division}
 
-\key{PROCEDURE} \key{DIVISION}
-\begin{0-1}
-using-chaining-clause
-\end{0-1}
-\begin{0-1}
-  \key{RETURNING}
-  \begin{1=}
-    \identifier \\
-    \key{OMITTED}
-  \end{1=}
-\end{0-1}.\newline
-\begin{0-1}
-  declaratives
-\end{0-1}\newline
-\begin{0-1}
-  section-name-2 \key{SECTION}. \\
-  paragraph-name-2. \\
-  \imperativestatement .
-\end{0-1} \ldots
-
-where using-chaining-clause is
-
-\begin{1=}
-  \key{USING} \\
-  \miscext{\key{CHAINING}}
-\end{1=}
-
-\begin{1=}
-  BY
-  \begin{1=}
-    \key{REFERENCE} \\
-    \pending{\key{VALUE}}
-  \end{1=}
-  \miscext{
-    \begin{0-1}
-      \begin{0-1}
-        \key{UNSIGNED}
-      \end{0-1}
-      \key{SIZE} IS
-      \begin{1=}
-        \key{AUTO} \\
-        \integer
-      \end{1=} \\
-
-      \key{SIZE} IS \key{DEFAULT}
-    \end{0-1}
-  }
-
+\begin{syntax}
+  \key{PROCEDURE} \key{DIVISION}
   \begin{0-1}
-    \key{OPTIONAL}
+    \metaelement{using-chaining-clause}
   \end{0-1}
-  \identifier
-\end{1=}\ldots
-
-where declaratives is
-
-\key{DECLARATIVES}.
-
-\begin{0-1}
-  section-name-1 \key{SECTION}.
-  use-statement
   \begin{0-1}
-    \begin{0-1}
-      paragraph-name-2.
-    \end{0-1}
+    \key{RETURNING}
+    \begin{1=}
+      \identifier \\
+      \key{OMITTED}
+    \end{1=}
+  \end{0-1}.\newline
+  \begin{0-1}
+    \metaelement{declaratives}
+  \end{0-1}\newline
+  \begin{0-1}
+    \metaelement{section-name-2} \key{SECTION}. \\
+    \metaelement{paragraph-name-2}. \\
     \imperativestatement .
   \end{0-1} \ldots
-\end{0-1}\ldots
+\end{syntax}
 
-\key{END} \key{DECLARATIVES}.
+where \metaelement{using-chaining-clause} is
+
+\begin{syntax}
+  \begin{1=}
+    \key{USING} \\
+    \miscext{\key{CHAINING}}
+  \end{1=}
+
+  \begin{1=}
+    BY
+    \begin{1=}
+      \key{REFERENCE} \\
+      \pending{\key{VALUE}}
+    \end{1=}
+    \miscext{
+      \begin{0-1}
+        \begin{0-1}
+          \key{UNSIGNED}
+        \end{0-1}
+        \key{SIZE} IS
+        \begin{1=}
+          \key{AUTO} \\
+          \integer
+        \end{1=} \\
+
+        \key{SIZE} IS \key{DEFAULT}
+      \end{0-1}
+    }
+
+    \begin{0-1}
+      \key{OPTIONAL}
+    \end{0-1}
+    \identifier
+  \end{1=}\ldots
+\end{syntax}
+
+where \metaelement{declaratives} is
+
+\begin{syntax}
+  \key{DECLARATIVES}.\newline
+  \begin{0-1}
+    \metaelement{section-name-1} \key{SECTION}.
+    \metaelement{use-statement}
+    \begin{0-1}
+      \metaelement{paragraph-name-2}. \\
+      \imperativestatement .
+    \end{0-1} \ldots
+  \end{0-1}\ldots\newline
+  \key{END} \key{DECLARATIVES}.
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{Common phrases}
 
+\subsection{RETRY phrase}
+
+\begin{syntax}
+  \pending{
+    \key{RETRY}
+    \begin{1=}
+      \gnucobol{FOR} \arithmeticexpression \key{TIMES} \\
+      FOR \arithmeticexpression \key{SECONDS} \\
+      \key{FOREVER}
+    \end{1=}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+
 \subsection{ROUNDED phrase}
 
-\key{ROUNDED}
-\begin{0-1}
-  \key{MODE} IS
-  \begin{1=}
-    \key{AWAY-FROM-ZERO} \\
-    \key{NEAREST-AWAY-FROM-ZERO} \\
-    \key{NEAREST-EVEN} \\
-    \key{NEAREST-TOWARD-ZERO} \\
-    \key{PROHIBITED} \\
-    \key{TOWARD-GREATER} \\
-    \key{TOWARD-LESSER} \\
-    \key{TRUNCATION}
-  \end{1=}
-\end{0-1}
+\begin{syntax}
+  \key{ROUNDED}
+  \begin{0-1}
+    \key{MODE} IS
+    \begin{1=}
+      \key{AWAY-FROM-ZERO} \\
+      \key{NEAREST-AWAY-FROM-ZERO} \\
+      \key{NEAREST-EVEN} \\
+      \key{NEAREST-TOWARD-ZERO} \\
+      \key{PROHIBITED} \\
+      \key{TOWARD-GREATER} \\
+      \key{TOWARD-LESSER} \\
+      \key{TRUNCATION}
+    \end{1=}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 
 \subsection{SIZE phrase}
 
-\gnucobol{
-  \begin{1=}
-    \key{SIZE} IS \key{AUTO} \\
-    \key{SIZE} IS \key{DEFAULT} \\
-    \key{SIZE} IS \integer \\
-    \key{UNSIGNED} \key{SIZE} IS \key{AUTO} \\
-    \key{UNSIGNED} \key{SIZE} IS \integer
-  \end{1=}
-}
+\begin{syntax}
+  \gnucobol{
+    \begin{1=}
+      \key{SIZE} IS \key{AUTO} \\
+      \key{SIZE} IS \key{DEFAULT} \\
+      \key{SIZE} IS \integer \\
+      \key{UNSIGNED} \key{SIZE} IS \key{AUTO} \\
+      \key{UNSIGNED} \key{SIZE} IS \integer
+    \end{1=}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \section{ACCEPT statement}
 
 \format{device}
-\key{ACCEPT}
-\begin{1=}
-  \identifier \\
-  \miscext{\key{OMITTED}}
-\end{1=}
-\begin{0-1}
-  \key{FROM} \mnemonicname
-\end{0-1}
-\begin{0-1}
-  \key{END-ACCEPT}
-\end{0-1}
+\begin{syntax}
+  \key{ACCEPT}
+  \begin{1=}
+    \identifier \\
+    \miscext{\key{OMITTED}}
+  \end{1=}
+  \begin{0-1}
+    \key{FROM} \mnemonicname
+  \end{0-1}
+  \begin{0-1}
+    \key{END-ACCEPT}
+  \end{0-1}
+\end{syntax}
 
 \format{screen}
-\key{ACCEPT}
-\begin{1=}
-  \identifier \\
-  \miscext{\key{OMITTED}}
-\end{1=}
-
-\begin{0+}
+\begin{syntax}
+  \key{ACCEPT}
   \begin{1=}
-    \begin{1+}
-      AT \key{LINE} NUMBER
-      \begin{1=}
-        \identifier \\
-        \integer
-      \end{1=} \\
-
-      AT
-      \begin{1=}
-        \key{COLUMN} \\
-        \key{COL} \\
-        \miscext{\key{POSITION}}
-      \end{1=}
-      NUMBER
-      \begin{1=}
-        \identifier \\
-        \integer
-      \end{1=}
-    \end{1+} \\
-
-    \miscext{
-      \key{AT}
-      \begin{1=}
-        \identifier \\
-        \integer
-      \end{1=}
-    }
-  \end{1=} \\
-
-  \miscext{\key{FROM} \key{CRT}} \\
-  \miscext{\key{MODE} IS \key{BLOCK}} \\
-  \miscext{screen-attribute-clauses}
-\end{0+}
-
-where screen-attribute-clauses is
-
-\begin{0-1}
-WITH \key{AUTO}
-\end{0-1}
-
-\begin{0-1}
-  WITH \key{TAB}
-\end{0-1}
-
-\begin{0-1}
-  WITH
-  \begin{1=}
-    \key{BELL} \\
-    \key{BEEP}
+    \identifier \\
+    \miscext{\key{OMITTED}}
   \end{1=}
-\end{0-1}
 
-\begin{0-1}
-WITH \key{BLINK}
-\end{0-1}
-
-\begin{0-1}
-  WITH \key{CONVERSION}
-\end{0-1}
-
-\begin{0-1}
-  WITH
-  \begin{1=}
-    \key{FULL} \\
-    \key{LENGTH-CHECK} \\
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-  WITH
-  \begin{1=}
-    \key{HIGHLIGHT} \\
-    \key{LOWLIGHT}
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-  WITH \key{LEFTLINE}
-\end{0-1}
-
-\begin{0-1}
-  WITH \key{LOWER}
-\end{0-1}
-
-\begin{0-1}
-  WITH \key{NO-ECHO}
-\end{0-1}
-  
-\begin{0-1}
-  WITH \key{OVERLINE}
-\end{0-1}
-
-\begin{0-1}
-  WITH \key{PROMPT}
-  \begin{0-1}
-    \key{CHARACTER} IS
+  \begin{0+}
     \begin{1=}
-      \identifier \\
-      \literal
+      \begin{1+}
+        AT \key{LINE} NUMBER
+        \begin{1=}
+          \identifier \\
+          \integer
+        \end{1=} \\
+
+        AT
+        \begin{1=}
+          \key{COLUMN} \\
+          \key{COL} \\
+          \miscext{\key{POSITION}}
+        \end{1=}
+        NUMBER
+        \begin{1=}
+          \identifier \\
+          \integer
+        \end{1=}
+      \end{1+} \\
+
+      \miscext{
+        \key{AT}
+        \begin{1=}
+          \identifier \\
+          \integer
+        \end{1=}
+      }
+    \end{1=} \\
+
+    \miscext{\key{FROM} \key{CRT}} \\
+    \miscext{\key{MODE} IS \key{BLOCK}} \\
+    \miscext{\metaelement{appearance-attribute-clauses}} \\
+    \miscext{\metaelement{accept-attribute-clauses}}
+  \end{0+}
+\end{syntax}
+
+where \metaelement{appearance-attribute-clauses} is
+
+\begin{syntax}
+
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{BELL} \\
+      \key{BEEP}
     \end{1=}
   \end{0-1}
-\end{0-1}
 
-\begin{0-1}
-  WITH
-  \begin{1=}
-    \key{REQUIRED} \\
-    \key{EMPTY-CHECK}
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-WITH \key{REVERSE-VIDEO}
-\end{0-1}
-
-\begin{0-1}
-WITH \key{SECURE}
-\end{0-1}
-
-\begin{0-1}
-  WITH PROTECTED \key{SIZE} IS
-  \begin{1=}
-    \identifier \\
-    \integer
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-WITH \key{UNDERLINE}
-\end{0-1}
-
-\begin{0-1}
-  WITH
   \begin{0-1}
-    \key{NO}
+    WITH
+    \begin{1=}
+      \key{BLINK} \\
+      \key{BLINKING}
+    \end{1=}
   \end{0-1}
-  \begin{1=}
-    \key{DEFAULT} \\
-    \key{UPDATE}
-  \end{1=}
-\end{0-1}
+
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{HIGHLIGHT} \\
+      \key{HIGH} \\
+      \key{BOLD} \\
+      \key{LOWLIGHT} \\
+      \key{LOW}
+    \end{1=}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH \key{LEFTLINE}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH \key{OVERLINE}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH \key{PROMPT}
+    \begin{0-1}
+      \key{CHARACTER} IS
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+    \end{0-1}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{REVERSE-VIDEO} \\
+      \key{REVERSED} \\
+      \key{REVERSE}
+    \end{1=}
+  \end{0-1}
+
+
+  \begin{0-1}
+    WITH PROTECTED \key{SIZE} IS
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
+  \end{0-1}
   
-\begin{0-1}
-  WITH \key{UPPER}
-\end{0-1}
-
-\begin{0-1}
-  WITH
-  \begin{1=}
-    \key{FOREGROUND-COLOR} \\
-    \key{FOREGROUND-COLOUR}
-  \end{1=}
-  IS
-  \begin{1=}
-    \identifier \\
-    \integer
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-  WITH
-  \begin{1=}
-    \key{BACKGROUND-COLOR} \\
-    \key{BACKGROUND-COLOUR}
-  \end{1=}
-  IS
-  \begin{1=}
-    \identifier \\
-    \integer
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-  WITH \key{SCROLL} \key{UP}
   \begin{0-1}
-    \identifier \\
-    \integer
+    WITH
+    \begin{1=}
+      \key{UNDERLINE} \\
+      \key{UNDERLINED}
+    \end{1=}
   \end{0-1}
-  \begin{1=}
-    \key{LINE} \\
-    \key{LINES}
-  \end{1=}
-\end{0-1}
 
-\begin{0-1}
-  WITH \key{SCROLL} \key{DOWN}
   \begin{0-1}
-    \identifier \\
-    \integer
+    WITH
+    \begin{1=}
+      \key{FOREGROUND-COLOR} \\
+      \key{FOREGROUND-COLOUR}
+    \end{1=}
+    IS
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
   \end{0-1}
-  \begin{1=}
-    \key{LINE} \\
-    \key{LINES}
-  \end{1=}
-\end{0-1}
 
-\begin{0-1}
-  WITH
-  \begin{1=}
-    \key{TIMEOUT} \\
-    \key{TIME-OUT} \\
-  \end{1=}
-  AFTER
   \begin{0-1}
-    \identifier \\
-    \integer
+    WITH
+    \begin{1=}
+      \key{BACKGROUND-COLOR} \\
+      \key{BACKGROUND-COLOUR}
+    \end{1=}
+    IS
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
   \end{0-1}
-\end{0-1}
+
+  \begin{0-1}
+    WITH \key{SCROLL}
+    \begin{1=}
+      \key{UP} \\
+      \key{DOWN}
+    \end{1=}
+    \begin{0-1}
+      \begin{1=}
+        \identifier \\
+        \integer
+      \end{1=}
+      \begin{1=}
+        \key{LINE} \\
+        \key{LINES}
+      \end{1=}
+    \end{0-1}
+  \end{0-1}
+\end{syntax}
+
+where \metaelement{accept-attribute-clauses} is
+
+\begin{syntax}
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{AUTO} \\
+      \key{TAB}
+    \end{1=}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{CONVERSION} \\
+      \key{CONVERT}
+    \end{1=}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{FULL} \\
+      \key{LENGTH-CHECK} \\
+    \end{1=}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{LOWER} \\
+      \key{UPPER}
+    \end{1=}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{NO-ECHO} \\
+      \key{NO} \key{ECHO} \\
+      \key{OFF}
+    \end{1=}
+  \end{0-1}
+  
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{REQUIRED} \\
+      \key{EMPTY-CHECK}
+    \end{1=}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH \key{SECURE}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH
+    \begin{0-1}
+      \key{NO}
+    \end{0-1}
+    \begin{1=}
+      \key{DEFAULT} \\
+      \key{UPDATE}
+    \end{1=}
+  \end{0-1}
+  
+  \begin{0-1}
+    \begin{1=}
+      \key{WITH}
+      % TIME-OUT is context-sensitive, so WITH is required.
+      \begin{1=}
+        \key{TIMEOUT} \\
+        \key{TIME-OUT} \\
+      \end{1=}
+      AFTER \\
+
+      BEFORE \key{TIME}
+    \end{1=}
+
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
+  \end{0-1}
+\end{syntax}
 
 % Shouldn't all the clauses except AT LINE/COLUMN be miscext?
-  
+
 \format{temporal}
-\key{ACCEPT} \identifier \key{FROM}
-\begin{1=}
-  \key{DATE}
-  \begin{0-1}
-    \key{YYYYMMDD}
-  \end{0-1} \\
+\begin{syntax}
+  \key{ACCEPT} \identifier \key{FROM}
+  \begin{1=}
+    \key{DATE}
+    \begin{0-1}
+      \key{YYYYMMDD}
+    \end{0-1} \\
 
-  \key{DAY}
-  \begin{0-1}
-    \key{YYYYDDD}
-  \end{0-1} \\
+    \key{DAY}
+    \begin{0-1}
+      \key{YYYYDDD}
+    \end{0-1} \\
 
-  \key{DAY-OF-WEEK} \\
-  \key{TIME} \\
-\end{1=}
+    \key{DAY-OF-WEEK} \\
+    \key{TIME} \\
+  \end{1=}
+\end{syntax}
 
 \format{environment}
-\miscext{
-  \begin{minipage}[!h]{1.0\linewidth}
+\begin{syntax}
+  \miscext{
     \key{ACCEPT} \identifier \key{FROM}
     \begin{1=}
       \key{ARGUMENT-NUMBER} \\
@@ -377,783 +455,936 @@ WITH \key{UNDERLINE}
       \key{USER} \key{NAME} \\
       \key{WORD}
     \end{1=}
-  \end{minipage}
-}
-
+  }
+\end{syntax}
 
 \format{environment-exception}
-\miscext{
-  \begin{minipage}[!h]{1.0\linewidth}
-    \key{ACCEPT} \identifier \key{FROM}
-    \begin{1=}
-      \key{ARGUMENT-VALUE} \\
-      \key{ENVIRONMENT}
+% TO-DO: Fix!
+\begin{syntax}
+  \miscext{
+    \begin{minipage}[!h]{1.0\linewidth}
+      \key{ACCEPT} \identifier \key{FROM}
       \begin{1=}
-        \identifier \\
-        \literal
-      \end{1=} \\
-      \key{ENVIRONMENT-VALUE} \\
-    \end{1=}
-
-    \begin{0+}
-      ON
-      \begin{1=}
-        \key{EXCEPTION} \\
-        \key{ESCAPE}
+        \key{ARGUMENT-VALUE} \\
+        \key{ENVIRONMENT}
+        \begin{1=}
+          \identifier \\
+          \literal
+        \end{1=} \\
+        \key{ENVIRONMENT-VALUE} \\
       \end{1=}
-      \imperativestatement \\
 
-      \key{NOT} ON
-      \begin{1=}
-        \key{EXCEPTION} \\
-        \key{ESCAPE}
-      \end{1=}
-      \imperativestatement \\
-    \end{0+}
-  \end{minipage}
-}
+      \begin{0+}
+        ON
+        \begin{1=}
+          \key{EXCEPTION} \\
+          \key{ESCAPE}
+        \end{1=}
+        \imperativestatement \\
+
+        \key{NOT} ON
+        \begin{1=}
+          \key{EXCEPTION} \\
+          \key{ESCAPE}
+        \end{1=}
+        \imperativestatement \\
+      \end{0+}
+    \end{minipage}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \section{ADD statement}
 
 \format{simple}
-\key{ADD}
-\begin{1=}
-  \identifier \\
-  \literal \\
-\end{1=} \ldots
-\key{TO}
-\begin{1=}
-  \identifier
-\end{1=} \ldots
+\begin{syntax}
+  \key{ADD}
+  \begin{1=}
+    \identifier \\
+    \literal \\
+  \end{1=} \ldots
+  \key{TO}
+  \begin{1=}
+    \identifier
+  \end{1=} \ldots
 
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
 
-
-\begin{0-1}
-  \key{END-ADD}
-\end{0-1}
+  \begin{0-1}
+    \key{END-ADD}
+  \end{0-1}
+\end{syntax}
 
 \format{giving}
-\key{ADD}
-\begin{1=}
-  \identifier \\
-  \literal \\
-\end{1=} \ldots
-\begin{0-1}
-  \key{TO}
+\begin{syntax}
+  \key{ADD}
+  \begin{1=}
+    \identifier \\
+    \literal \\
+  \end{1=} \ldots
   \begin{0-1}
-    \identifier
-  \end{0-1} \ldots
-\end{0-1}
-
-\key{GIVING}
-\begin{1=}
-  \identifier
-  \begin{0-1}
-    rounded-phrase
+    \key{TO}
+    \begin{0-1}
+      \identifier
+    \end{0-1} \ldots
   \end{0-1}
-\end{1=} \ldots
 
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
+  \key{GIVING}
+  \begin{1=}
+    \identifier
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  \end{1=} \ldots
 
-\begin{0-1}
-  \key{END-ADD}
-\end{0-1}
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
+
+  \begin{0-1}
+    \key{END-ADD}
+  \end{0-1}
+\end{syntax}
 
 \format{corresponding}
-\key{ADD}
-\begin{1=}
-  \key{CORRESPONDING} \\
-  \key{CORR}
-\end{1=}
-\identifier \key{TO} \identifier
-\begin{0-1}
-  rounded-phrase
-\end{0-1}
+\begin{syntax}
+  \key{ADD}
+  \begin{1=}
+    \key{CORRESPONDING} \\
+    \key{CORR}
+  \end{1=}
+  \identifier \key{TO} \identifier
+  \begin{0-1}
+    \metaelement{rounded-phrase}
+  \end{0-1}
 
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
 
-\begin{0-1}
-  \key{END-ADD}
-\end{0-1}
+  \begin{0-1}
+    \key{END-ADD}
+  \end{0-1}
+\end{syntax}
 
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{ALLOCATE statement}
 
-\key{ALLOCATE}
-\begin{1=}
-  \identifier
+\begin{syntax}
+  \key{ALLOCATE}
+  \begin{1=}
+    \identifier
+    \begin{0-1}
+      \key{INITIALIZED}
+    \end{0-1} \\
+    \arithmeticexpression
+    \begin{0-1}
+      \key{INITIALIZED}
+      \gnucobol{
+        \begin{0-1}
+          \key{TO}
+          \begin{1=}
+            \identifier \\
+            \literal
+          \end{1=}
+        \end{0-1}
+      }
+    \end{0-1}
+  \end{1=}
+
   \begin{0-1}
-    \key{INITIALIZED}
-  \end{0-1} \\
-  \arithmeticexpression
+    \key{RETURNING} \identifier
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{ALTER statement}
+
+\begin{syntax}
+  \deleted{
+    \key{ALTER}
+    \begin{1=}
+      \procedurename TO PROCEED \key{TO} \procedurename
+    \end{1=} \ldots
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{CALL statement}
+
+\begin{syntax}
+  \key{CALL}
+  \miscext{
+    \begin{0-1}
+      \mnemonicname \\
+      \key{STATIC} \\
+      \key{STDCALL}
+    \end{0-1}
+  }
+  \begin{1=}
+    \identifier \\
+    \literal \\
+    \functionname
+  \end{1=}
+
   \begin{0-1}
-    \key{INITIALIZED}
-    \gnucobol{
+    \key{USING}
+    \begin{1=}
       \begin{0-1}
-        \key{TO}
+        BY
+        \begin{1=}
+          \key{REFERENCE} \\
+          \key{CONTENT} \\
+          \key{VALUE}
+        \end{1=}
+      \end{0-1}
+      \begin{1=}
+        \key{OMITTED} \\
+
+        \gnucobol{
+          \begin{0-1}
+            size-phrase
+          \end{0-1}
+        }
         \begin{1=}
           \identifier \\
           \literal
         \end{1=}
-      \end{0-1}
-    }
+      \end{1=}
+    \end{1=}\ldots
   \end{0-1}
-\end{1=}
 
-\begin{0-1}
-  \key{RETURNING} \identifier
-\end{0-1} \\
-
-\section{ALTER statement}
-
-\deleted{
-  \key{ALTER}
-  \begin{1=}
-    \procedurename TO PROCEED \key{TO} \procedurename
-  \end{1=} \ldots
-}
-
-\section{CALL statement}
-
-\key{CALL}
-\miscext{
   \begin{0-1}
-    \mnemonicname \\
-    \key{STATIC} \\
-    \key{STDCALL}
-  \end{0-1}
-}
-\begin{1=}
-  \identifier \\
-  \literal \\
-  \functionname
-\end{1=}
-
-
-\begin{0-1}
-  \key{USING}
-  \begin{1=}
-    \begin{0-1}
-      BY
-      \begin{1=}
-        \key{REFERENCE} \\
-        \key{CONTENT} \\
-        \key{VALUE}
-      \end{1=}
-    \end{0-1}
     \begin{1=}
-      \key{OMITTED} \\
-
-      \gnucobol{
-        \begin{0-1}
-          size-phrase
-        \end{0-1}
-      }
-      \begin{1=}
-        \identifier \\
-        \literal
-      \end{1=}
+      \key{RETURNING} \\
+      \miscext{\key{GIVING}}
     \end{1=}
-  \end{1=}\ldots
-\end{0-1}
+    \begin{1=}
+      INTO \identifier \\
+      \key{ADDRESS} OF \identifier \\
+      \gnucobol{\key{NOTHING}} \\
+      \key{NULL} \\
+      \key{OMITTED} \\
+    \end{1=}
+  \end{0-1}
 
-\begin{0-1}
-  \begin{1=}
-    \key{RETURNING} \\
-    \miscext{\key{GIVING}}
-  \end{1=}
-  \begin{1=}
-    INTO \identifier \\
-    \key{ADDRESS} OF \identifier \\
-    \gnucobol{\key{NOTHING}} \\
-    \key{NULL} \\
-    \key{OMITTED} \\
-  \end{1=}
-\end{0-1}
+  \begin{0+}
+    ON
+    \begin{1=}
+      \key{EXCEPTION} \\
+      \archaic{\key{OVERFLOW}}
+    \end{1=}
+    \imperativestatement \\
+    \key{NOT} ON \key{EXCEPTION} \imperativestatement
+  \end{0+}
 
-\begin{0+}
-  ON
-  \begin{1=}
-    \key{EXCEPTION} \\
-    \archaic{\key{OVERFLOW}}
-  \end{1=}
-  \imperativestatement \\
-  \key{NOT} ON \key{EXCEPTION} \imperativestatement
-\end{0+}
+  \begin{0-1}
+    \key{END-CALL}
+  \end{0-1}
+\end{syntax}
 
-\begin{0-1}
-  \key{END-CALL}
-\end{0-1}
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{CANCEL statement}
 
-\key{CANCEL}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=} \ldots
+\begin{syntax}
+  \key{CANCEL}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=} \ldots
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{CLOSE statement}
 
-\key{CLOSE}
-\begin{1=}
-  \filename
-  \begin{0-1}
-    \begin{1=}
-      \key{REEL} \\
-      \key{UNIT}
-    \end{1=}
+\begin{syntax}
+  \key{CLOSE}
+  \begin{1=}
+    \filename
     \begin{0-1}
-      FOR \key{REMOVAL}
-    \end{0-1} \\
+      \begin{1=}
+        \key{REEL} \\
+        \key{UNIT}
+      \end{1=}
+      \begin{0-1}
+        FOR \key{REMOVAL}
+      \end{0-1} \\
 
-    WITH \key{NO} \key{REWIND} \\
-    WITH \key{LOCK}
-  \end{0-1}
-\end{1=} \ldots
+      WITH \key{NO} \key{REWIND} \\
+      WITH \key{LOCK}
+    \end{0-1}
+  \end{1=} \ldots
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{COMMIT statement}
 
-\miscext{\key{COMMIT}}
+\begin{syntax}
+  \miscext{\key{COMMIT}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{COMPUTE statement}
 
-\key{COMPUTE}
-\begin{1=}
-  \identifier
+\begin{syntax}
+  \key{COMPUTE}
+  \begin{1=}
+    \identifier
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  \end{1=} \ldots
+  \begin{1=}
+    = \\
+    \miscext{\key{EQUAL}} \\
+    \miscext{\key{EQUALS}}
+  \end{1=}
+  \arithmeticexpression
+
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
+
   \begin{0-1}
-    rounded-phrase
+    \key{END-COMPUTE}
   \end{0-1}
-\end{1=} \ldots
-\begin{1=}
-  = \\
-  \miscext{\key{EQUAL}} \\
-  \miscext{\key{EQUALS}}
-\end{1=}
-\arithmeticexpression
+\end{syntax}
 
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
+\subsubsection{Syntax rules}
 
-\begin{0-1}
-  \key{END-COMPUTE}
-\end{0-1}
+\subsubsection{General rules}
 
 \section{CONTINUE statement}
 
-\key{CONTINUE}
+\begin{syntax}
+  \key{CONTINUE}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{DELETE statement}
 
 \format{record}
-\key{DELETE} \filename RECORD
+\begin{syntax}
+  \key{DELETE} \filename RECORD
 
-\begin{0+}
-  \key{INVALID} KEY \imperativestatement \\
-  \key{NOT} \key{INVALID} KEY \imperativestatement
-\end{0+}
+  \begin{0-1}
+    \metaelement{retry-phrase}
+  \end{0-1}
+  
+  \begin{0+}
+    \key{INVALID} KEY \imperativestatement \\
+    \key{NOT} \key{INVALID} KEY \imperativestatement
+  \end{0+}
 
-\begin{0-1}
-  \key{END-DELETE}
-\end{0-1}
+  \begin{0-1}
+    \key{END-DELETE}
+  \end{0-1}
+\end{syntax}
 
 \format{file}
-\miscext{
-  \key{DELETE} \key{FILE}
-  \begin{1=}
-    \filename
-  \end{1=} \ldots
-}
-\gnucobol{\begin{0-1}
-  \key{END-DELETE}
-\end{0-1}}
+\begin{syntax}
+  \miscext{
+    \key{DELETE} \key{FILE}
+    \begin{1=}
+      \filename
+    \end{1=} \ldots
+  }
+  \gnucobol{
+    \begin{0-1}
+      \key{END-DELETE}
+    \end{0-1}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{DISPLAY statement}
 
 \format{device}
-\key{DISPLAY}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=} \ldots
-\begin{0+}
-  \key{UPON} \mnemonicname \\
-  WITH \key{NO} \key{ADVANCING}
-\end{0+}
-
-\begin{0+}
-  ON \key{EXCEPTION} \imperativestatement \\
-  \key{NOT} ON \key{EXCEPTION} \imperativestatement \\
-\end{0+}
-
-\begin{0-1}
-  \key{END-DISPLAY}
-\end{0-1}
-
-\format{environment}
-\miscext{
-  \begin{minipage}[!h]{1.0\linewidth}
-    \key{DISPLAY}
-    \begin{1=}
-      \identifier \\
-      \literal
-    \end{1=}
-    \key{UPON}
-    \begin{1=}
-      \key{ARGUMENT-NUMBER} \\
-      \key{COMMAND-LINE} \\
-      \key{ENVIRONMENT-NAME} \\
-      \key{ENVIRONMENT-VALUE} \\
-    \end{1=}
-
-    \begin{0+}
-      ON \key{EXCEPTION} \imperativestatement \\
-      \key{NOT} ON \key{EXCEPTION} \imperativestatement \\
-    \end{0+}
-
-    \begin{0-1}
-      \key{END-DISPLAY}
-    \end{0-1}
-  \end{minipage}
-}
-
-\format{screen}
-\key{DISPLAY}
-\begin{1=}
+\begin{syntax}
+  \key{DISPLAY}
   \begin{1=}
     \identifier \\
-    \miscext{\literal} \\
-    \miscext{\key{OMITTED}}
-  \end{1=}
+    \literal
+  \end{1=} \ldots
+  \begin{0+}
+    \key{UPON} \mnemonicname \\
+    WITH \key{NO} \key{ADVANCING}
+  \end{0+}
 
+  \begin{0+}
+    ON \key{EXCEPTION} \imperativestatement \\
+    \key{NOT} ON \key{EXCEPTION} \imperativestatement \\
+  \end{0+}
+
+  \begin{0-1}
+    \key{END-DISPLAY}
+  \end{0-1}
+\end{syntax}
+
+\format{environment}
+\begin{syntax}
   \miscext{
-    \begin{0-1}
-      \standard{position-clauses} \\
-
+    \begin{minipage}[!h]{1.0\linewidth}
+      \key{DISPLAY}
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
       \key{UPON}
       \begin{1=}
-        \key{CRT} \\
-        \key{CRT-UNDER}
-      \end{1=} \\
+        \key{ARGUMENT-NUMBER} \\
+        \key{COMMAND-LINE} \\
+        \key{ENVIRONMENT-NAME} \\
+        \key{ENVIRONMENT-VALUE} \\
+      \end{1=}
 
-      \key{MODE} IS \key{BLOCK} \\
+      \begin{0+}
+        ON \key{EXCEPTION} \imperativestatement \\
+        \key{NOT} ON \key{EXCEPTION} \imperativestatement \\
+      \end{0+}
 
-      WITH
-      \begin{1=}
-        \key{BELL} \\
-        \key{BEEP} \\
-      \end{1=} \\
+      \begin{0-1}
+        \key{END-DISPLAY}
+      \end{0-1}
+    \end{minipage}
+  }
+\end{syntax}
 
-      WITH \key{BLANK}
-      \begin{1=}
-        \key{LINE} \\
-        \key{SCREEN}
-      \end{1=} \\
+\format{screen}
+\begin{syntax}
+  \key{DISPLAY}
+  \begin{1=}
+    \begin{1=}
+      \identifier \\
+      \miscext{\literal} \\
+      \miscext{\key{OMITTED}}
+    \end{1=}
 
-      WITH \key{BLINK} \\
+    \begin{0-1}
+      \metaelement{position-clauses} \\
 
-      WITH \key{CONVERSION} \\
-
-      WITH \key{ERASE}
-      \begin{1=}
-        \key{EOL} \\
-        \key{EOS} \\
-
-        \begin{0-1}
-          \key{END} OF
-        \end{0-1}
+      \miscext{
+        \key{UPON}
         \begin{1=}
-          \key{LINE} \\
-          \key{SCREEN}
+          \key{CRT} \\
+          \key{CRT-UNDER}
         \end{1=}
-      \end{1=} \\
+      } \\
 
-      WITH
-      \begin{1=}
-        \key{HIGHLIGHT} \\
-        \key{LOWLIGHT}
-      \end{1=} \\
+      \miscext{\key{MODE} IS \key{BLOCK}} \\ 
+      \miscext{\metaelement{appearance-attribute-clauses}} 
+    \end{0-1}
+  \end{1=} \miscext{\ldots}
 
-      WITH \key{OVERLINE} \\
+  \begin{0+}
+    ON \key{EXCEPTION} \imperativestatement \\
+    \key{NOT} ON \key{EXCEPTION} \imperativestatement \\
+  \end{0+}
 
-      WITH \key{REVERSE-VIDEO} \\
+  \begin{0-1}
+    \key{END-DISPLAY}
+  \end{0-1}
+\end{syntax}
 
-      WITH \key{SIZE} IS
+where \metaelement{position-clauses} is
+
+\begin{syntax}
+  \begin{1=}
+    \begin{1+}
+      \key{LINE} NUMBER
       \begin{1=}
         \identifier \\
         \literal
       \end{1=} \\
 
-      WITH \key{UNDERLINE} \\
-
-      WITH
+      \key{AT}
       \begin{1=}
-        \key{FOREGROUND-COLOR} \\
-        \key{FOREGROUND-COLOUR}
+        \key{COLUMN} \\
+        \key{COL} \\
+        \miscext{\key{POSITION}}
       \end{1=}
-      IS
+
       \begin{1=}
         \identifier \\
-        \integer
-      \end{1=} \\
-
-      WITH
-      \begin{1=}
-        \key{BACKGROUND-COLOR} \\
-        \key{BACKGROUND-COLOUR}
+        \literal
       \end{1=}
-      IS
-      \begin{1=}
-        \identifier \\
-        \integer
-      \end{1=} \\
+    \end{1+} \\
 
-      WITH \key{SCROLL} \key{UP}
-      \begin{0-1}
-        \identifier \\
-        \integer
-      \end{0-1}
-      \begin{1=}
-        \key{LINE} \\
-        \key{LINES}
-      \end{1=} \\
 
-      WITH \key{SCROLL} \key{DOWN}
-      \begin{0-1}
-        \identifier \\
-        \integer
-      \end{0-1}
+    \miscext{
+      \key{AT}
       \begin{1=}
-        \key{LINE} \\
-        \key{LINES}
-      \end{1=} \\
+        \identifier \\
+        \literal
+      \end{1=}
+    }
+  \end{1=}
+\end{syntax}
+
+where \metaelement{appearance-attribute-clauses} is
+
+\begin{syntax}
+  WITH
+  \begin{1=}
+    \key{BELL} \\
+    \key{BEEP} \\
+  \end{1=} \\
+
+  WITH \key{BLANK}
+  \begin{1=}
+    \key{LINE} \\
+    \key{SCREEN}
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{BLINK} \\
+    \key{BLINKING}
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{CONVERSION} \\
+    \key{CONVERT}
+  \end{1=} \\
+
+  WITH \key{ERASE}
+  \begin{1=}
+    \key{EOL} \\
+    \key{EOS} \\
+
+    \begin{0-1}
+      \key{END} OF
     \end{0-1}
-  }
-\end{1=} \miscext{\ldots}
+    \begin{1=}
+      \key{LINE} \\
+      \key{SCREEN}
+    \end{1=}
+  \end{1=} \\
 
-\begin{0+}
-  ON \key{EXCEPTION} \imperativestatement \\
-  \key{NOT} ON \key{EXCEPTION} \imperativestatement \\
-\end{0+}
+  WITH
+  \begin{1=}
+    \key{HIGHLIGHT} \\
+    \key{HIGH} \\
+    \key{BOLD} \\
+    \key{LOWLIGHT} \\
+    \key{LOW}
+  \end{1=} \\
 
-\begin{0-1}
-  \key{END-DISPLAY}
-\end{0-1}
+  WITH \key{OVERLINE} \\
 
-where position-clauses is
+  WITH
+  \begin{1=}
+    \key{REVERSE-VIDEO} \\
+    \key{REVERSED} \\
+    \key{REVERSE}
+  \end{1=} \\
 
-\begin{1=}
-  \begin{1+}
-    \key{LINE} NUMBER
+  WITH \key{SIZE} IS
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{UNDERLINE} \\
+    \key{UNDERLINED}
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{FOREGROUND-COLOR} \\
+    \key{FOREGROUND-COLOUR}
+  \end{1=}
+  IS
+  \begin{1=}
+    \identifier \\
+    \integer
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{BACKGROUND-COLOR} \\
+    \key{BACKGROUND-COLOUR}
+  \end{1=}
+  IS
+  \begin{1=}
+    \identifier \\
+    \integer
+  \end{1=} \\
+
+  WITH \key{SCROLL}
+  \begin{1=}
+    \key{UP} \\
+    \key{DOWN}
+  \end{1=} 
+  \begin{0-1}
     \begin{1=}
       \identifier \\
-      \literal
-    \end{1=} \\
-
-    \key{AT}
-    \begin{1=}
-      \key{COLUMN} \\
-      \key{COL} \\
-      \miscext{\key{POSITION}}
+      \integer
     \end{1=}
-
     \begin{1=}
-      \identifier \\
-      \literal
+      \key{LINE} \\
+      \key{LINES}
     \end{1=}
-  \end{1+} \\
+  \end{0-1}
+\end{syntax}
 
+\subsubsection{Syntax rules}
 
-  \miscext{
-    \key{AT}
-    \begin{1=}
-      \identifier \\
-      \literal
-    \end{1=}
-  }
-\end{1=}
+\subsubsection{General rules}
 
 \section{DIVIDE statement}
 
 \format{into}
-\key{DIVIDE}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-\key{INTO}
-\begin{1=}
+\begin{syntax}
+  \key{DIVIDE}
   \begin{1=}
     \identifier \\
     \literal
   \end{1=}
+  \key{INTO}
+  \begin{1=}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  \end{1=} \ldots
+
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
+
   \begin{0-1}
-    rounded-phrase
+    \key{END-DIVIDE}
   \end{0-1}
-\end{1=} \ldots
-
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
-
-\begin{0-1}
-  \key{END-DIVIDE}
-\end{0-1}
+\end{syntax}
 
 \format{giving}
-\key{DIVIDE}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-\begin{1=}
-  \key{BY} \\
-  \key{INTO}
-\end{1=}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-
-\key{GIVING}
-\begin{1=}
+\begin{syntax}
+  \key{DIVIDE}
   \begin{1=}
     \identifier \\
     \literal
   \end{1=}
+  \begin{1=}
+    \key{BY} \\
+    \key{INTO}
+  \end{1=}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+
+  \key{GIVING}
+  \begin{1=}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  \end{1=}
+  \ldots
+
   \begin{0-1}
-    rounded-phrase
+    \key{REMAINDER}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
   \end{0-1}
-\end{1=}
-\ldots
 
-\begin{0-1}
-  \key{REMAINDER}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-\end{0-1}
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
 
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
+  \begin{0-1}
+    \key{END-DIVIDE}
+  \end{0-1}
+\end{syntax}
 
-\begin{0-1}
-  \key{END-DIVIDE}
-\end{0-1}
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{ENTRY statement}
 
-\miscext{
-  \begin{minipage}[!h]{1.0\linewidth}
-    \key{ENTRY} \literal
+\begin{syntax}
+  \miscext{
+    \begin{minipage}[!h]{1.0\linewidth}
+      \key{ENTRY} \literal
 
-    \begin{0-1}
-      \key{USING}
-
-      \begin{1=}
-        \begin{0-1}
-          BY
-          \begin{1=}
-            \key{REFERENCE} \\
-            \gnucobol{\key{CONTENT}} \\
-            \key{VALUE}
-          \end{1=}
-        \end{0-1}
+      \begin{0-1}
+        \key{USING}
 
         \begin{1=}
-          \gnucobol{\key{OMITTED}} \\
+          \begin{0-1}
+            BY
+            \begin{1=}
+              \key{REFERENCE} \\
+              \gnucobol{\key{CONTENT}} \\
+              \key{VALUE}
+            \end{1=}
+          \end{0-1}
 
           \begin{1=}
-            \gnucobol{
-              \begin{0-1}
-                size-phrase
-              \end{0-1}
-            }
+            \gnucobol{\key{OMITTED}} \\
+
             \begin{1=}
-              \identifier \\
-              \literal
+              \gnucobol{
+                \begin{0-1}
+                  size-phrase
+                \end{0-1}
+              }
+              \begin{1=}
+                \identifier \\
+                \literal
+              \end{1=}
             \end{1=}
-          \end{1=}
-        \end{1=}\ldots
-      \end{1=}
-    \end{0-1}
-  \end{minipage}
-}
+          \end{1=}\ldots
+        \end{1=}
+      \end{0-1}
+    \end{minipage}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{EVALUATE statement}
 
-\key{EVALUATE}
-\begin{1=}
-  \expression \\
-  \key{TRUE} \\
-  \key{FALSE}
-\end{1=}
-\begin{0-1}
-  \key{ALSO}
+\begin{syntax}
+  \key{EVALUATE}
   \begin{1=}
     \expression \\
     \key{TRUE} \\
     \key{FALSE}
   \end{1=}
-\end{0-1} \ldots
-
-\begin{1=}
-  \key{WHEN}
-  selection-object
   \begin{0-1}
-    \key{ALSO} selection-object
-  \end{0-1}\ldots\ {}
-  \imperativestatement
-\end{1=} \ldots
-
-\begin{0-1}
-  \key{WHEN} \key{OTHER} \imperativestatement
-\end{0-1}
-
-\begin{0-1}
-  \key{END-EVALUATE}
-\end{0-1}
-
-where selection-object is
-
-\begin{1=}
-  partial-\expression
-  \begin{0-1}
+    \key{ALSO}
     \begin{1=}
-      \key{THROUGH} \\
-      \key{THRU}
+      \expression \\
+      \key{TRUE} \\
+      \key{FALSE}
     \end{1=}
-    \expression
-  \end{0-1} \\
+  \end{0-1} \ldots
 
-  \key{ANY} \\
-  \key{TRUE} \\
-  \key{FALSE}
-\end{1=}
+  \begin{1=}
+    \key{WHEN}
+    \metaelement{selection-object}
+    \begin{0-1}
+      \key{ALSO} \metaelement{selection-object}
+    \end{0-1}\ldots\ {}
+    \imperativestatement
+  \end{1=} \ldots
+
+  \begin{0-1}
+    \key{WHEN} \key{OTHER} \imperativestatement
+  \end{0-1}
+
+  \begin{0-1}
+    \key{END-EVALUATE}
+  \end{0-1}
+\end{syntax}
+
+where \metaelement{selection-object} is
+
+\begin{syntax}
+  \begin{1=}
+    \metaelement{partial-expression-1}
+    \begin{0-1}
+      \begin{1=}
+        \key{THROUGH} \\
+        \key{THRU}
+      \end{1=}
+      \expression
+    \end{0-1} \\
+
+    \key{ANY} \\
+    \key{TRUE} \\
+    \key{FALSE}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{EXIT statement}
 
-\key{EXIT}
-\begin{0-1}
-  \key{FUNCTION} \\
-  \key{PARAGRAPH} \\
-
-  \key{PERFORM}
+\begin{syntax}
+  \key{EXIT}
   \begin{0-1}
-    \key{CYCLE}
-  \end{0-1} \\
+    \key{FUNCTION} \\
+    \key{PARAGRAPH} \\
 
-  \key{PROGRAM}
-  \miscext{
+    \key{PERFORM}
     \begin{0-1}
+      \key{CYCLE}
+    \end{0-1} \\
+
+    \key{PROGRAM}
+    \miscext{
+      \begin{0-1}
+        \begin{1=}
+          \key{RETURNING} \\
+          \key{GIVING}
+        \end{1=}
+      \end{0-1}
       \begin{1=}
-        \key{RETURNING} \\
-        \key{GIVING}
+        \identifier \\
+        \literal
       \end{1=}
-    \end{0-1}
+    } \\
+
+    \key{SECTION} \\
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{FREE statement}
+
+\begin{syntax}
+  \key{FREE}
+  \begin{1=}
+    \identifier
+  \end{1=} \ldots
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{GENERATE statement}
+
+\begin{syntax}
+  \pending{\key{GENERATE} \reportname}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{GO TO statement}
+
+\begin{syntax}
+  \key{GO} TO
+  \begin{1=}
+    \procedurename
+  \end{1=} \ldots
+  \begin{0-1}
+    \key{DEPENDING} ON \identifier
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{GOBACK statement}
+
+\begin{syntax}
+  \key{GOBACK}
+  \begin{0-1}
+    \begin{1=}
+      \key{RETURNING} \\
+      \miscext{\key{GIVING}}
+    \end{1=}
     \begin{1=}
       \identifier \\
       \literal
     \end{1=}
-  } \\
+  \end{0-1}
+\end{syntax}
 
-  \key{SECTION} \\
-\end{0-1}
+\subsubsection{Syntax rules}
 
-\section{FREE statement}
-
-\key{FREE}
-\begin{1=}
-  \identifier
-\end{1=} \ldots
-
-\section{GENERATE statement}
-
-\pending{\key{GENERATE} \reportname}
-
-\section{GO TO statement}
-
-\key{GO} TO
-\begin{1=}
-  \procedurename
-\end{1=} \ldots
-\begin{0-1}
-  \key{DEPENDING} ON \identifier
-\end{0-1}
-
-\section{GOBACK statement}
-
-\key{GOBACK}
-\begin{0-1}
-  \begin{1=}
-    \key{RETURNING} \\
-    \miscext{\key{GIVING}}
-  \end{1=}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-\end{0-1}
+\subsubsection{General rules}
 
 \section{IF statement}
 
-\key{IF} condition THEN
-\begin{1=}
-  \imperativestatement \\
-  \key{ELSE} \imperativestatement
-\end{1=} \ldots
+\begin{syntax}
+  \key{IF} \metaelement{condition} THEN
+  \begin{1=}
+    \imperativestatement \\
+    \key{ELSE} \imperativestatement
+  \end{1=} \ldots
 
-\begin{0-1}
-  \key{END-IF}
-\end{0-1}
+  \begin{0-1}
+    \key{END-IF}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{INITIALIZE statement}
 
-\begin{1=}
-  \key{INITIALIZE} \\
-  \miscext{\key{INITIALISE}}
-\end{1=}
-\begin{1=}
-  \identifier \\
-  basic-\literal
-\end{1=} \ldots
-\begin{0-1}
-  WITH \key{FILLER}
-\end{0-1}
-
-\begin{0-1}
+\begin{syntax}
   \begin{1=}
-    \key{ALL} \\
-    \key{ALPHABETIC} \\
-    \key{ALPHANUMERIC} \\
-    \key{ALPHANUMERIC-EDITED} \\
-    \key{NATIONAL} \\
-    \key{NATIONAL-EDITED} \\
-    \key{NUMERIC} \\
-    \key{NUMERIC-EDITED}
+    \key{INITIALIZE} \\
+    \miscext{\key{INITIALISE}}
   \end{1=}
-  TO \key{VALUE}
-\end{0-1}
-
-\begin{0-1}
-  \key{REPLACING}
   \begin{1=}
+    \identifier \\
+    \metaelement{basic-literal-1}
+  \end{1=} \ldots
+  \begin{0-1}
+    WITH \key{FILLER}
+  \end{0-1}
+
+  \begin{0-1}
     \begin{1=}
+      \key{ALL} \\
       \key{ALPHABETIC} \\
       \key{ALPHANUMERIC} \\
       \key{ALPHANUMERIC-EDITED} \\
@@ -1162,940 +1393,1161 @@ where selection-object is
       \key{NUMERIC} \\
       \key{NUMERIC-EDITED}
     \end{1=}
-    DATA \key{BY}
-    \begin{1=}
-      \identifier \\
-      \literal
-    \end{1=}
-  \end{1=} \ldots
-\end{0-1}
+    TO \key{VALUE}
+  \end{0-1}
 
-\begin{0-1}
-  THEN TO \key{DEFAULT}
-\end{0-1}
-
-\section{INITIATE statement}
-\pending{
-  \key{INITIATE}
-  \begin{1=}
-    \reportname
-  \end{1=} \ldots
-}
-
-\section{INSPECT statement}
-
-\key{INSPECT}
-\begin{1=}
-  \identifier \\
-  \literal \\
-  \functionname
-\end{1=}
-\begin{1=}
-  tallying-phrase
   \begin{0-1}
-    replacing-phrase
-  \end{0-1} \\
-
-  replacing-phrase \\
-  converting-phrase
-\end{1=}
-
-where tallying-phrase is
-
-\key{TALLYING}
-\begin{1=}
-  \begin{1=}
+    \key{REPLACING}
     \begin{1=}
-      \identifier \\
-      \literal
-    \end{1=}
-    \key{FOR}
-    \begin{1=}
-      \key{CHARACTERS} \\
-
       \begin{1=}
-        \key{ALL} \\
-        \key{LEADING} \\
-        \key{TRAILING}
+        \key{ALPHABETIC} \\
+        \key{ALPHANUMERIC} \\
+        \key{ALPHANUMERIC-EDITED} \\
+        \key{NATIONAL} \\
+        \key{NATIONAL-EDITED} \\
+        \key{NUMERIC} \\
+        \key{NUMERIC-EDITED}
       \end{1=}
+      DATA \key{BY}
       \begin{1=}
         \identifier \\
         \literal
       \end{1=}
-    \end{1=}
-  \end{1=}\ldots
-  \begin{0-1}
-    before-after-phrase
+    \end{1=} \ldots
   \end{0-1}
-\end{1=} \ldots
 
-where replacing-phrase is
+  \begin{0-1}
+    THEN TO \key{DEFAULT}
+  \end{0-1}
+\end{syntax}
 
-\key{REPLACING}
-\begin{1=}
-  \begin{1=}
-    \key{CHARACTERS} \\
+\subsubsection{Syntax rules}
 
-    \begin{0-1}
-      \key{ALL} \\
-      \key{LEADING} \\
-      \key{FIRST} \\
-      \key{TRAILING}
-    \end{0-1}
+\subsubsection{General rules}
+
+\section{INITIATE statement}
+\begin{syntax}
+  \pending{
+    \key{INITIATE}
     \begin{1=}
-      \identifier \\
-      \literal
-    \end{1=}
-  \end{1=}
-  \key{BY}
-  \begin{1=}
-    \identifier \\
-    \literal \\
-  \end{1=}
-  \begin{0-1}
-    before-after-phrase
-  \end{0-1} \\
-\end{1=} \ldots
+      \reportname
+    \end{1=} \ldots
+  }
+\end{syntax}
 
-where converting-phrase is
+\subsubsection{Syntax rules}
 
-\key{CONVERTING}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-\key{TO}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-\begin{0-1}
-  before-after-phrase
-\end{0-1}
+\subsubsection{General rules}
 
-where before-after-phrase is
+\section{INSPECT statement}
 
-\begin{0+}
-  \key{BEFORE} INITIAL
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=} \\
-
-  \key{AFTER} INITIAL
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-\end{0+}
-
-\section{MERGE statement}
-
-\key{MERGE} \identifier
-\begin{0-1}
-  ON
-  \begin{1=}
-    \key{ASCENDING} \\
-    \key{DESCENDING}
-  \end{1=}
-  KEY
-  \begin{0-1}
-    \identifier
-  \end{0-1}\ldots
-\end{0-1} \ldots
-
-\begin{0-1}
-  WITH \key{DUPLICATES}
-  \begin{0-1}
-    IN \key{ORDER}
-  \end{0-1}
-\end{0-1}
-
-\begin{0-1}
-  COLLATING \key{SEQUENCE} IS \identifier
-\end{0-1}
-
-\begin{0-1}
-  \key{USING}
-  \begin{1=}
-    \filename
-  \end{1=}\ldots
-\end{0-1}
-
-\begin{0-1}
-  \key{GIVING}
-  \begin{1=}
-    \filename
-  \end{1=}\ldots \\
-
-  \key{OUTPUT} \key{PROCEDURE} IS
-  \procedurename
-  \begin{0-1}
-    \begin{1=}
-      \key{THROUGH} \\
-      \key{THRU}
-    \end{1=}
-    \procedurename
-  \end{0-1}
-\end{0-1}
-
-\section{MOVE statement}
-
-\key{MOVE}
-\begin{0-1}
-  \key{CORRESPONDING} \\
-  \key{CORR}
-\end{0-1}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-\key{TO}
-\begin{1=}
-  \identifier
-\end{1=} \ldots
-
-\section{MULTIPLY statement}
-
-\format{simple}
-\key{MULTIPLY}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-\key{BY}
-\begin{1=}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-  \begin{0-1}
-    rounded-phrase
-  \end{0-1}
-\end{1=} \ldots
-
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
-
-\begin{0-1}
-  \key{END-MULTIPLY}
-\end{0-1}
-
-\format{giving}
-\key{MULTIPLY}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-\key{BY}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-
-\key{GIVING}
-\begin{1=}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-  \begin{0-1}
-    rounded-phrase
-  \end{0-1}
-\end{1=} \ldots
-
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
-
-\begin{0-1}
-  \key{END-MULTIPLY}
-\end{0-1}
-
-
-\section{NEXT SENTENCE statement}
-
-\archaic{
-  \key{NEXT} \key{SENTENCE}
-}
-
-\section{OPEN statement}
-
-\key{OPEN}
-\begin{1=}
-  \begin{1=}
-    \key{INPUT} \\
-    \key{OUTPUT} \\
-    \key{I-O} \\
-    \key{EXTEND}
-  \end{1=}
-  \begin{0-1}
-    \key{SHARING} WITH
-    \begin{1=}
-      \key{ALL} OTHER \\
-      \key{NO} OTHER \\
-      \key{READ} \key{ONLY}
-    \end{1=}
-  \end{0-1}
-  \begin{1=}
-    \filename
-  \end{1=} \ldots
-  \begin{0-1}
-    WITH \key{NO} \key{REWIND} \\
-    WITH \key{LOCK} \\
-    \deleted{\key{REVERSED}}
-  \end{0-1}
-\end{1=}\ldots
-
-
-\section{PERFORM statement}
-
-\format{procedure}
-\key{PERFORM} \procedurename
-\begin{0-1}
-  \begin{1=}
-    \key{THROUGH} \\
-    \key{THRU}
-  \end{1=}
-  \procedurename
-\end{0-1}
-\begin{0-1}
-  \gnucobol{\key{FOREVER}} \\
-  times-phrase \\
-  until-phrase \\
-  varying-phrase
-\end{0-1}
-
-\format{inline}
-\key{PERFORM}
-\begin{0-1}
-  \gnucobol{\key{FOREVER}} \\
-  times-phrase \\
-  until-phrase \\
-  varying-phrase
-\end{0-1}
-\imperativestatement
-\begin{0-1}
-  \key{END-PERFORM}
-\end{0-1}
-
-where times-phrase is
-
-\begin{1=}
-  \identifier \\
-  \literal \\
-  \functionname
-\end{1=}
-\key{TIMES} \\
-
-where until-phrase is
-
-\begin{0-1}
-  WITH \key{TEST}
-  \begin{1=}
-    \key{BEFORE} \\
-    \key{AFTER} \\
-  \end{1=}
-\end{0-1}
-\key{UNTIL}
-\begin{1=}
-  \condition \\
-  \gnucobol{\key{EXIT}}
-\end{1=} \\
-
-and where varying-phrase is
-
-\begin{0-1}
-  WITH \key{TEST}
-  \begin{1=}
-    \key{BEFORE} \\
-    \key{AFTER} \\
-  \end{1=}
-\end{0-1}
-
-\key{VARYING} \identifier \key{FROM}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-\key{BY}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-\key{UNTIL}
-\condition
-
-\begin{0-1}
-  \key{AFTER} \identifier \key{FROM}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-  \key{BY}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-
-  \key{UNTIL}
-  \condition
-\end{0-1} \ldots
-
-
-% \begin{0-1}
-%   \key{\begin{0-1}
-%   \key{END-PERFORM}
-% \end{0-1}} \\
-%   .
-% \end{0-1}
-
-% TO-DO: Improve
-
-\section{READ statement}
-
-\key{READ} \filename
-\begin{0-1}
-  \key{NEXT} \\
-  \key{PREVIOUS}
-\end{0-1}
-RECORD
-\begin{0-1}
-  \key{INTO} \identifier
-\end{0-1}
-
-\begin{0-1}
-  \key{IGNORING} \key{LOCK} \\
-
-  WITH
-  \begin{1=}
-    \key{KEPT} \\
-    \key{NO} \\
-    \key{IGNORE} \\
-  \end{1=}
-  \key{LOCK} \\
-
-  WITH \key{WAIT}
-\end{0-1}
-
-\begin{0-1}
-  \key{KEY} IS \identifier
-\end{0-1}
-
-\begin{0-1}
-  \begin{1+}
-    \key{INVALID} \key{KEY} \imperativestatement \\
-    \key{NOT} \key{INVALID} \key{KEY} \imperativestatement
-  \end{1+} \\
-
-  \begin{1+}
-    AT \key{END} \imperativestatement \\
-    \key{NOT} AT \key{END} \imperativestatement
-  \end{1+}
-\end{0-1}
-
-\begin{0-1}
-  \key{END-READ}
-\end{0-1}
-
-\section{READY statement}
-
-\miscext{\key{READY} \key{TRACE}}
-
-\section{RELEASE statement}
-
-\key{RELEASE} \identifier
-\begin{0-1}
-  \key{FROM}
-  \begin{1=}
-    \identifier \\
-    \literal \\
-    function-call-1
-  \end{1=}
-\end{0-1}
-
-\section{RESET statement}
-
-\miscext{\key{RESET} \key{TRACE}}
-
-\section{RETURN statement}
-
-\key{RETURN} \filename RECORD
-\begin{0-1}
-  \key{INTO} \identifier
-\end{0-1}
-
-AT \key{END} \imperativestatement
-
-\begin{0-1}
-  \key{NOT} AT \key{END} \imperativestatement
-\end{0-1}
-
-\begin{0-1}
-  \key{END-RETURN}
-\end{0-1}
-
-\section{REWRITE statement}
-
-\key{REWRITE}
-\recordname
-\begin{0-1}
-  \key{FROM}
+\begin{syntax}
+  \key{INSPECT}
   \begin{1=}
     \identifier \\
     \literal \\
     \functionname
   \end{1=}
-\end{0-1}
-\begin{0-1}
-  WITH
+  \begin{1=}
+    \metaelement{tallying-phrase}
+    \begin{0-1}
+      \metaelement{replacing-phrase}
+    \end{0-1} \\
+
+    \metaelement{replacing-phrase} \\
+    \metaelement{converting-phrase}
+  \end{1=}
+\end{syntax}
+
+where \metaelement{tallying-phrase} is
+
+\begin{syntax}
+  \key{TALLYING}
+  \begin{1=}
+    \begin{1=}
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+      \key{FOR}
+      \begin{1=}
+        \key{CHARACTERS} \\
+
+        \begin{1=}
+          \key{ALL} \\
+          \key{LEADING} \\
+          \key{TRAILING}
+        \end{1=}
+        \begin{1=}
+          \identifier \\
+          \literal
+        \end{1=}
+      \end{1=}
+    \end{1=}\ldots
+    \begin{0-1}
+      before-after-phrase
+    \end{0-1}
+  \end{1=} \ldots
+\end{syntax}
+
+where \metaelement{replacing-phrase} is
+
+\begin{syntax}
+  \key{REPLACING}
+  \begin{1=}
+    \begin{1=}
+      \key{CHARACTERS} \\
+
+      \begin{0-1}
+        \key{ALL} \\
+        \key{LEADING} \\
+        \key{FIRST} \\
+        \key{TRAILING}
+      \end{0-1}
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+    \end{1=}
+    \key{BY}
+    \begin{1=}
+      \identifier \\
+      \literal \\
+    \end{1=}
+    \begin{0-1}
+      \metaelement{before-after-phrase}
+    \end{0-1} \\
+  \end{1=} \ldots
+\end{syntax}
+
+where \metaelement{converting-phrase} is
+
+\begin{syntax}
+  \key{CONVERTING}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+  \key{TO}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
   \begin{0-1}
-    \key{NO}
+    \metaelement{before-after-phrase}
   \end{0-1}
-  \key{LOCK}
-\end{0-1}
+\end{syntax}
 
-\begin{0+}
-  \key{INVALID} \key{KEY} \imperativestatement \\
-  \key{NOT} \key{INVALID} \key{KEY} \imperativestatement
-\end{0+} \\
+where \metaelement{before-after-phrase} is
 
-\begin{0-1}
-  \key{END-REWRITE}
-\end{0-1}
+\begin{syntax}
+  \begin{0+}
+    \key{BEFORE} INITIAL
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+
+    \key{AFTER} INITIAL
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  \end{0+}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{MERGE statement}
+
+\begin{syntax}
+  \key{MERGE} \identifier
+  \begin{0-1}
+    ON
+    \begin{1=}
+      \key{ASCENDING} \\
+      \key{DESCENDING}
+    \end{1=}
+    KEY
+    \begin{0-1}
+      \identifier
+    \end{0-1}\ldots
+  \end{0-1} \ldots
+
+  \begin{0-1}
+    WITH \key{DUPLICATES}
+    \begin{0-1}
+      IN \key{ORDER}
+    \end{0-1}
+  \end{0-1}
+
+  \begin{0-1}
+    COLLATING \key{SEQUENCE} IS \identifier
+  \end{0-1}
+
+  \begin{0-1}
+    \key{USING}
+    \begin{1=}
+      \filename
+    \end{1=}\ldots
+  \end{0-1}
+
+  \begin{0-1}
+    \key{GIVING}
+    \begin{1=}
+      \filename
+    \end{1=}\ldots \\
+
+    \key{OUTPUT} \key{PROCEDURE} IS
+    \procedurename
+    \begin{0-1}
+      \begin{1=}
+        \key{THROUGH} \\
+        \key{THRU}
+      \end{1=}
+      \procedurename
+    \end{0-1}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{MOVE statement}
+
+\begin{syntax}
+  \key{MOVE}
+  \begin{0-1}
+    \key{CORRESPONDING} \\
+    \key{CORR}
+  \end{0-1}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+  \key{TO}
+  \begin{1=}
+    \identifier
+  \end{1=} \ldots
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{MULTIPLY statement}
+
+\format{simple}
+\begin{syntax}
+  \key{MULTIPLY}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+  \key{BY}
+  \begin{1=}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  \end{1=} \ldots
+
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
+
+  \begin{0-1}
+    \key{END-MULTIPLY}
+  \end{0-1}
+\end{syntax}
+
+\format{giving}
+\begin{syntax}
+  \key{MULTIPLY}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+  \key{BY}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+
+  \key{GIVING}
+  \begin{1=}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  \end{1=} \ldots
+
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
+
+  \begin{0-1}
+    \key{END-MULTIPLY}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{NEXT SENTENCE statement}
+
+\begin{syntax}
+  \archaic{
+    \key{NEXT} \key{SENTENCE}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{OPEN statement}
+
+\begin{syntax}
+  \key{OPEN}
+  \begin{1=}
+    \begin{1=}
+      \key{INPUT} \\
+      \key{OUTPUT} \\
+      \key{I-O} \\
+      \key{EXTEND}
+    \end{1=}
+    \begin{0-1}
+      \metaelement{sharing-mode}
+    \end{0-1}
+    \begin{0-1}
+      \metaelement{retry-phrase}
+    \end{0-1}
+    \begin{1=}
+      \filename
+    \end{1=} \ldots
+    \begin{0-1}
+      WITH \key{NO} \key{REWIND} \\
+      WITH \key{LOCK} \\
+      \deleted{\key{REVERSED}}
+    \end{0-1}
+  \end{1=}\ldots
+\end{syntax}
+
+where \metaelement{sharing-mode} is
+
+\begin{syntax}
+  \key{SHARING} WITH
+  \begin{1=}
+    \key{ALL} OTHER \\
+    \key{NO} OTHER \\
+    \key{READ} \key{ONLY}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{PERFORM statement}
+
+\format{procedure}
+\begin{syntax}
+  \key{PERFORM} \procedurename
+  \begin{0-1}
+    \begin{1=}
+      \key{THROUGH} \\
+      \key{THRU}
+    \end{1=}
+    \procedurename
+  \end{0-1}
+  \begin{0-1}
+    \gnucobol{\key{FOREVER}} \\
+    \metaelement{times-phrase} \\
+    \metaelement{until-phrase} \\
+    \metaelement{varying-phrase}
+  \end{0-1}
+\end{syntax}
+
+\format{inline}
+\begin{syntax}
+  \key{PERFORM}
+  \begin{0-1}
+    \gnucobol{\key{FOREVER}} \\
+    \metaelement{times-phrase} \\
+    \metaelement{until-phrase} \\
+    \metaelement{varying-phrase}
+  \end{0-1}
+  \imperativestatement
+  \begin{0-1}
+    \key{END-PERFORM}
+  \end{0-1}
+\end{syntax}
+
+where \metaelement{times-phrase} is
+
+\begin{syntax}
+  \begin{1=}
+    \identifier \\
+    \literal \\
+    \functionname
+  \end{1=}
+  \key{TIMES} \\
+\end{syntax}
+
+where \metaelement{until-phrase} is
+
+\begin{syntax}
+  \begin{0-1}
+    WITH \key{TEST}
+    \begin{1=}
+      \key{BEFORE} \\
+      \key{AFTER} \\
+    \end{1=}
+  \end{0-1}
+  \key{UNTIL}
+  \begin{1=}
+    \condition \\
+    \gnucobol{\key{EXIT}}
+  \end{1=} \\
+\end{syntax}
+
+and where \metaelement{varying-phrase} is
+
+\begin{syntax}
+  \begin{0-1}
+    WITH \key{TEST}
+    \begin{1=}
+      \key{BEFORE} \\
+      \key{AFTER} \\
+    \end{1=}
+  \end{0-1}
+
+  \key{VARYING} \identifier \key{FROM}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+  \key{BY}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+  \key{UNTIL}
+  \condition
+
+  \begin{0-1}
+    \key{AFTER} \identifier \key{FROM}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \key{BY}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+
+    \key{UNTIL}
+    \condition
+  \end{0-1} \ldots
+\end{syntax}
+
+% TO-DO: Improve
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{READ statement}
+
+\begin{syntax}
+  \key{READ} \filename
+  \begin{0-1}
+    \key{NEXT} \\
+    \key{PREVIOUS}
+  \end{0-1}
+  RECORD
+  \begin{0-1}
+    \key{INTO} \identifier
+  \end{0-1}
+
+  \begin{0-1}
+    \begin{1=}
+      \key{IGNORING} \key{LOCK} \\
+      \miscext{WITH \key{IGNORE} \key{LOCK}}
+    \end{1=} \\
+
+    \begin{0-1}
+      \pending{\key{ADVANCING} ON \key{LOCK}} \\
+      \pending{\metaelement{retry-phrase}}
+    \end{0-1}
+    \begin{0-1}
+      WITH
+      \begin{1=}
+        \begin{0-1}
+          \key{NO} \\
+          \miscext{\key{KEPT}}
+        \end{0-1}
+        \key{LOCK} \\
+
+        \miscext{\key{WAIT}}
+      \end{1=}
+    \end{0-1}
+  \end{0-1}
+
+  \begin{0-1}
+    \key{KEY} IS \identifier
+  \end{0-1}
+
+  \begin{0-1}
+    \begin{1+}
+      \key{INVALID} \key{KEY} \imperativestatement \\
+      \key{NOT} \key{INVALID} \key{KEY} \imperativestatement
+    \end{1+} \\
+
+    \begin{1+}
+      AT \key{END} \imperativestatement \\
+      \key{NOT} AT \key{END} \imperativestatement
+    \end{1+}
+  \end{0-1}
+
+  \begin{0-1}
+    \key{END-READ}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{READY statement}
+
+\begin{syntax}
+  \miscext{\key{READY} \key{TRACE}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{RELEASE statement}
+
+\begin{syntax}
+  \key{RELEASE} \identifier
+  \begin{0-1}
+    \key{FROM}
+    \begin{1=}
+      \identifier \\
+      \literal \\
+      \metaelement{function-call-1}
+    \end{1=}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{RESET statement}
+
+\begin{syntax}
+  \miscext{\key{RESET} \key{TRACE}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{RETURN statement}
+
+\begin{syntax}
+  \key{RETURN} \filename RECORD
+  \begin{0-1}
+    \key{INTO} \identifier
+  \end{0-1}
+
+  AT \key{END} \imperativestatement
+
+  \begin{0-1}
+    \key{NOT} AT \key{END} \imperativestatement
+  \end{0-1}
+
+  \begin{0-1}
+    \key{END-RETURN}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{REWRITE statement}
+
+\begin{syntax}
+  \key{REWRITE}
+  \recordname
+  \begin{0-1}
+    \key{FROM}
+    \begin{1=}
+      \identifier \\
+      \literal \\
+      \functionname
+    \end{1=}
+  \end{0-1} 
+  \begin{0-1}
+    \pending{\metaelement{retry-phrase}}
+  \end{0-1}
+  \begin{0-1}
+    WITH
+    \begin{0-1}
+      \key{NO}
+    \end{0-1}
+    \key{LOCK}
+  \end{0-1}
+
+  \begin{0+}
+    \key{INVALID} \key{KEY} \imperativestatement \\
+    \key{NOT} \key{INVALID} \key{KEY} \imperativestatement
+  \end{0+} \\
+
+  \begin{0-1}
+    \key{END-REWRITE}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{ROLLBACK statement}
 
-\miscext{\key{ROLLBACK}}
+\begin{syntax}
+  \miscext{\key{ROLLBACK}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{SEARCH statement}
 
 \format{simple}
-\key{SEARCH} \identifier
-\begin{0-1}
-  \key{VARYING} \identifier
-\end{0-1}
+\begin{syntax}
+  \key{SEARCH} \identifier
+  \begin{0-1}
+    \key{VARYING} \identifier
+  \end{0-1}
 
-\begin{0-1}
-  AT \key{END} \imperativestatement
-\end{0-1}
+  \begin{0-1}
+    AT \key{END} \imperativestatement
+  \end{0-1}
 
-\begin{1=}
-  \key{WHEN} \condition \imperativestatement
-\end{1=} \ldots
+  \begin{1=}
+    \key{WHEN} \condition \imperativestatement
+  \end{1=} \ldots
 
-\begin{0-1}
-  \key{END-SEARCH}
-\end{0-1}
+  \begin{0-1}
+    \key{END-SEARCH}
+  \end{0-1}
+\end{syntax}
 
 \format{all}
-\key{SEARCH} \key{ALL} \identifier
+\begin{syntax}
+  \key{SEARCH} \key{ALL} \identifier
 
-\begin{0-1}
-  AT \key{END} \imperativestatement
-\end{0-1}
+  \begin{0-1}
+    AT \key{END} \imperativestatement
+  \end{0-1}
 
-\key{WHEN} \expression \imperativestatement
+  \key{WHEN} \expression \imperativestatement
 
-\begin{0-1}
-  \key{END-SEARCH}
-\end{0-1}
+  \begin{0-1}
+    \key{END-SEARCH}
+  \end{0-1}
+\end{syntax}
 
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{SET statement}
 
 \format{simple}
-\key{SET} \identifier \key{TO}
-\begin{1=}
-  \identifier \\
-  \literal \\
-  \arithmeticexpression
-\end{1=}
+\begin{syntax}
+  \key{SET} \identifier \key{TO}
+  \begin{1=}
+    \identifier \\
+    \literal \\
+    \arithmeticexpression
+  \end{1=}
+\end{syntax}
 
 \format{entry}
-\gnucobol{
-  \key{SET} \identifier \key{TO} \key{ENTRY}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-}
+\begin{syntax}
+  \gnucobol{
+    \key{SET} \identifier \key{TO} \key{ENTRY}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  }
+\end{syntax}
 
 \format{environment}
-\miscext{
-  \key{SET} \key{ENVIRONMENT}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-  \key{TO}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-}
+\begin{syntax}
+  \miscext{
+    \key{SET} \key{ENVIRONMENT}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \key{TO}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  }
+\end{syntax}
 
 \format{attribute}
-\key{SET} \identifier \key{ATTRIBUTE}
-\begin{1=}
+\begin{syntax}
+  \key{SET} \identifier \key{ATTRIBUTE}
   \begin{1=}
     \begin{1=}
-      \key{BELL} \\
-      \key{BEEP}
-    \end{1=} \\
+      \begin{1=}
+        \key{BELL} \\
+        \key{BEEP}
+      \end{1=} \\
 
-    \key{BLINK} \\
-    \key{HIGHLIGHT} \\
-    \key{LOWLIGHT} \\
-    \key{REVERSE-VIDEO} \\
-    \key{UNDERLINE} \\
-    \key{LEFTLINE} \\
-    \key{OVERLINE}
-  \end{1=}
-  \begin{1=}
-    \key{ON} \\
-    \key{OFF}
-  \end{1=}
-\end{1=}\ldots
+      \key{BLINK} \\
+      \key{HIGHLIGHT} \\
+      \key{LOWLIGHT} \\
+      \key{REVERSE-VIDEO} \\
+      \key{UNDERLINE} \\
+      \key{LEFTLINE} \\
+      \key{OVERLINE}
+    \end{1=}
+    \begin{1=}
+      \key{ON} \\
+      \key{OFF}
+    \end{1=}
+  \end{1=}\ldots
+\end{syntax}
 
 \format{arithmetic}
-\key{SET}
-\begin{1=}
-  \cobolindexname
-\end{1=}\ldots
-\begin{1=}
-  \key{UP} \\
-  \key{DOWN}
-\end{1=}
-\key{BY}
-\arithmeticexpression
+\begin{syntax}
+  \key{SET}
+  \begin{1=}
+    \cobolindexname
+  \end{1=}\ldots
+  \begin{1=}
+    \key{UP} \\
+    \key{DOWN}
+  \end{1=}
+  \key{BY}
+  \arithmeticexpression
+\end{syntax}
 
 \format{on\slash{}off}
-\key{SET}
-\begin{1=}
+\begin{syntax}
+  \key{SET}
   \begin{1=}
-    \mnemonicname
-  \end{1=}\ldots
-  \key{TO}
-  \begin{1=}
-    \key{ON} \\
-    \key{OFF}
-  \end{1=}
-\end{1=} \ldots
+    \begin{1=}
+      \mnemonicname
+    \end{1=}\ldots
+    \key{TO}
+    \begin{1=}
+      \key{ON} \\
+      \key{OFF}
+    \end{1=}
+  \end{1=} \ldots
+\end{syntax}
 
 \format{true\slash{}false}
-\key{SET}
-\begin{1=}
+\begin{syntax}
+  \key{SET}
   \begin{1=}
-    \conditionname
-  \end{1=}\ldots
-  \key{TO}
-  \begin{1=}
-    \key{TRUE} \\
-    \key{FALSE}
-  \end{1=}
-\end{1=} \ldots
+    \begin{1=}
+      \conditionname
+    \end{1=}\ldots
+    \key{TO}
+    \begin{1=}
+      \key{TRUE} \\
+      \key{FALSE}
+    \end{1=}
+  \end{1=} \ldots
+\end{syntax}
 
 \format{exception}
-\key{SET} \key{LAST} \key{EXCEPTION} \key{TO} \key{OFF}
+\begin{syntax}
+  \key{SET} \key{LAST} \key{EXCEPTION} \key{TO} \key{OFF}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{SORT statement}
 
-\key{SORT} \identifier
-\begin{0-1}
-  ON
-  \begin{1=}
-    \key{ASCENDING} \\
-    \key{DESCENDING}
-  \end{1=}
-  KEY
+\begin{syntax}
+  \key{SORT} \identifier
   \begin{0-1}
-    \identifier
-  \end{0-1}\ldots
-\end{0-1} \ldots
-
-\begin{0-1}
-  WITH \key{DUPLICATES}
-  \begin{0-1}
-    IN \key{ORDER}
-  \end{0-1}
-\end{0-1}
-
-\begin{0-1}
-  COLLATING \key{SEQUENCE} IS \identifier
-\end{0-1}
-
-\begin{0-1}
-  \key{USING}
-  \begin{1=}
-    \filename
-  \end{1=}\ldots \\
-
-  \key{INPUT} \key{PROCEDURE} IS
-  \procedurename
-  \begin{0-1}
+    ON
     \begin{1=}
-      \key{THROUGH} \\
-      \key{THRU}
+      \key{ASCENDING} \\
+      \key{DESCENDING}
     \end{1=}
-    \procedurename
-  \end{0-1}
-\end{0-1}
+    KEY
+    \begin{0-1}
+      \identifier
+    \end{0-1}\ldots
+  \end{0-1} \ldots
 
-\begin{0-1}
-  \key{GIVING}
-  \begin{1=}
-    \filename
-  \end{1=}\ldots \\
-
-  \key{OUTPUT} \key{PROCEDURE} IS
-  \procedurename
   \begin{0-1}
-    \begin{1=}
-      \key{THROUGH} \\
-      \key{THRU}
-    \end{1=}
-    \procedurename
+    WITH \key{DUPLICATES}
+    \begin{0-1}
+      IN \key{ORDER}
+    \end{0-1}
   \end{0-1}
-\end{0-1}
+
+  \begin{0-1}
+    COLLATING \key{SEQUENCE} IS \identifier
+  \end{0-1}
+
+  \begin{0-1}
+    \key{USING}
+    \begin{1=}
+      \filename
+    \end{1=}\ldots \\
+
+    \key{INPUT} \key{PROCEDURE} IS
+    \procedurename
+    \begin{0-1}
+      \begin{1=}
+        \key{THROUGH} \\
+        \key{THRU}
+      \end{1=}
+      \procedurename
+    \end{0-1}
+  \end{0-1}
+
+  \begin{0-1}
+    \key{GIVING}
+    \begin{1=}
+      \filename
+    \end{1=}\ldots \\
+
+    \key{OUTPUT} \key{PROCEDURE} IS
+    \procedurename
+    \begin{0-1}
+      \begin{1=}
+        \key{THROUGH} \\
+        \key{THRU}
+      \end{1=}
+      \procedurename
+    \end{0-1}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{START statement}
 
-\key{START} \filename
-\begin{0-1}
-  \key{FIRST} \\
+\begin{syntax}
+  \key{START} \filename
+  \begin{0-1}
+    \key{FIRST} \\
 
-  \key{KEY} IS
-  relational-operator
-  \identifier\\
+    \key{KEY} IS
+    relational-operator
+    \identifier\\
 
-  \key{LAST}
-\end{0-1}
+    \key{LAST}
+  \end{0-1}
 
-\begin{0-1}
-  WITH
-  \begin{1=}
-    \key{SIZE} \\
-    \gnucobol{\key{LENGTH}}
-  \end{1=}
-  \arithmeticexpression
-\end{0-1}
+  \begin{0-1}
+    WITH
+    \begin{1=}
+      \key{SIZE} \\
+      \gnucobol{\key{LENGTH}}
+    \end{1=}
+    \arithmeticexpression
+  \end{0-1}
 
-\begin{0+}
-  \key{INVALID} KEY \imperativestatement \\
-  \key{NOT} \key{INVALID} KEY \imperativestatement
-\end{0+}
+  \begin{0+}
+    \key{INVALID} KEY \imperativestatement \\
+    \key{NOT} \key{INVALID} KEY \imperativestatement
+  \end{0+}
 
-\begin{0-1}
-  \key{END-START}
-\end{0-1}
+  \begin{0-1}
+    \key{END-START}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{STOP statement}
 
 \format{standard}
-\ {}\newline
-\key{STOP} \key{RUN}
-\begin{0-1}
-  \begin{1=}
-    \key{RETURNING} \\
-    \miscext{\key{GIVING}}
-  \end{1=}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=} \\
 
-  WITH
-  \begin{1=}
-    \key{ERROR} \\
-    \key{NORMAL}
-  \end{1=}
-  STATUS
+\begin{syntax}
+  \key{STOP} \key{RUN}
   \begin{0-1}
-    \identifier \\
-    \literal
+    \begin{1=}
+      \key{RETURNING} \\
+      \miscext{\key{GIVING}}
+    \end{1=}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+
+    WITH
+    \begin{1=}
+      \key{ERROR} \\
+      \key{NORMAL}
+    \end{1=}
+    STATUS
+    \begin{0-1}
+      \identifier \\
+      \literal
+    \end{0-1}
   \end{0-1}
-\end{0-1}
+\end{syntax}
 
 \format{literal}
-\ {}\newline
-\deleted{\key{STOP} \literal}
+
+\begin{syntax}
+  \deleted{\key{STOP} \literal}
+\end{syntax}
 
 \format{ACUCOBOL}
-\ {}\newline
-\miscext{
-  \key{STOP} \key{RUN}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-}
 
-\section{STRING statement}
-
-\key{STRING}
-\begin{1=}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-
-  \begin{0-1}
-    \key{DELIMITED} BY
+\begin{syntax}
+  \miscext{
+    \key{STOP} \key{RUN}
     \begin{1=}
-      \key{SIZE} \\
       \identifier \\
       \literal
     \end{1=}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{STRING statement}
+
+\begin{syntax}
+  \key{STRING}
+  \begin{1=}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+
+    \begin{0-1}
+      \key{DELIMITED} BY
+      \begin{1=}
+        \key{SIZE} \\
+        \identifier \\
+        \literal
+      \end{1=}
+    \end{0-1}
+  \end{1=} \ldots\ {}
+  \key{INTO} \identifier
+
+  \begin{0-1}
+    WITH \key{POINTER} IS \identifier
   \end{0-1}
-\end{1=} \ldots\ {}
-\key{INTO} \identifier
 
-\begin{0-1}
-  WITH \key{POINTER} IS \identifier
-\end{0-1}
+  \begin{0+}
+    ON \key{OVERFLOW} \imperativestatement \\
+    \key{NOT} ON \key{OVERFLOW} \imperativestatement
+  \end{0+}
+\end{syntax}
 
-\begin{0+}
-  ON \key{OVERFLOW} \imperativestatement \\
-  \key{NOT} ON \key{OVERFLOW} \imperativestatement
-\end{0+}
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{SUBTRACT statement}
 
 \format{simple}
-\key{SUBTRACT}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=} \ldots
-\key{FROM}
-\begin{1=}
+\begin{syntax}
+  \key{SUBTRACT}
   \begin{1=}
     \identifier \\
     \literal
-  \end{1=}
+  \end{1=} \ldots
+  \key{FROM}
+  \begin{1=}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  \end{1=} \ldots
+
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
+
   \begin{0-1}
-    rounded-phrase
+    \key{END-SUBTRACT}
   \end{0-1}
-\end{1=} \ldots
-
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
-
-\begin{0-1}
-  \key{END-SUBTRACT}
-\end{0-1}
+\end{syntax}
 
 \format{giving}
-\key{SUBTRACT}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=} \ldots
-\key{FROM}
-\begin{1=}
-  \identifier \\
-  \literal
-\end{1=}
-
-\key{GIVING}
-\begin{1=}
+\begin{syntax}
+  \key{SUBTRACT}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=} \ldots
+  \key{FROM}
   \begin{1=}
     \identifier \\
     \literal
   \end{1=}
+
+  \key{GIVING}
+  \begin{1=}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  \end{1=} \ldots
+
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
+
   \begin{0-1}
-    rounded-phrase
+    \key{END-SUBTRACT}
   \end{0-1}
-\end{1=} \ldots
-
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
-
-\begin{0-1}
-  \key{END-SUBTRACT}
-\end{0-1}
+\end{syntax}
 
 \format{corresponding}
-\key{SUBTRACT}
-\begin{1=}
-  \key{CORR} \\
-  \key{CORRESPONDING}
-\end{1=}
-\identifier{} \key{FROM} \identifier
-\begin{0-1}
-  rounded-phrase
-\end{0-1}
+\begin{syntax}
+  \key{SUBTRACT}
+  \begin{1=}
+    \key{CORR} \\
+    \key{CORRESPONDING}
+  \end{1=}
+  \identifier{} \key{FROM} \identifier
+  \begin{0-1}
+    \metaelement{rounded-phrase}
+  \end{0-1}
 
-\begin{0+}
-  ON \key{SIZE} \key{ERROR} \imperativestatement \\
-  \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
-\end{0+}
+  \begin{0+}
+    ON \key{SIZE} \key{ERROR} \imperativestatement \\
+    \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+  \end{0+}
 
-\begin{0-1}
-  \key{END-SUBTRACT}
-\end{0-1}
+  \begin{0-1}
+    \key{END-SUBTRACT}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{SUPPRESS statement}
 
-\pending{
-  \key{SUPPRESS} PRINTING
-}
+\begin{syntax}
+  \pending{
+    \key{SUPPRESS} PRINTING
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{TERMINATE statement}
 
-\pending{
-  \key{TERMINATE}
-  \begin{1=}
-    \reportname
-  \end{1=} \ldots
-}
+\begin{syntax}
+  \pending{
+    \key{TERMINATE}
+    \begin{1=}
+      \reportname
+    \end{1=} \ldots
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{TRANSFORM statement}
 
-\deleted{
-  \key{TRANSFORM} \identifier \key{FROM}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-  \key{TO}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-}
+\begin{syntax}
+  \deleted{
+    \key{TRANSFORM} \identifier \key{FROM}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \key{TO}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{UNLOCK statement}
 
-\key{UNLOCK} \filename
-\begin{0-1}
-  \key{RECORD} \\
-  \key{RECORDS}
-\end{0-1}
+\begin{syntax}
+  \key{UNLOCK} \filename
+  \begin{0-1}
+    \key{RECORD} \\
+    \key{RECORDS}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{UNSTRING statement}
 
-\key{UNSTRING} \identifier
+\begin{syntax}
+  \key{UNSTRING} \identifier
 
-\begin{0-1}
-  \key{DELIMITED} BY
   \begin{0-1}
-    \key{ALL}
-  \end{0-1}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
-  \begin{1=}
-    \key{OR}
+    \key{DELIMITED} BY
     \begin{0-1}
       \key{ALL}
     \end{0-1}
@@ -2103,210 +2555,253 @@ AT \key{END} \imperativestatement
       \identifier \\
       \literal
     \end{1=}
+    \begin{1=}
+      \key{OR}
+      \begin{0-1}
+        \key{ALL}
+      \end{0-1}
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+    \end{1=} \ldots
+  \end{0-1}
+
+  \key{INTO}
+  \begin{1=}
+    \identifier
+    \begin{0-1}
+      \key{DELIMITER} IN \identifier
+    \end{0-1}
+    \begin{0-1}
+      \key{COUNT} IN \identifier
+    \end{0-1}
   \end{1=} \ldots
-\end{0-1}
 
-\key{INTO}
-\begin{1=}
-  \identifier
   \begin{0-1}
-    \key{DELIMITER} IN \identifier
+    WITH \key{POINTER} IS \identifier
   \end{0-1}
+
   \begin{0-1}
-    \key{COUNT} IN \identifier
+    \key{TALLYING} IN \identifier
   \end{0-1}
-\end{1=} \ldots
 
-\begin{0-1}
-  WITH \key{POINTER} IS \identifier
-\end{0-1}
+  \begin{0+}
+    ON \key{OVERFLOW} \imperativestatement \\
+    \key{NOT} ON \key{OVERFLOW} \imperativestatement
+  \end{0+}
 
-\begin{0-1}
-  \key{TALLYING} IN \identifier
-\end{0-1}
+  \begin{0-1}
+    \key{END-OVERFLOW}
+  \end{0-1}
+\end{syntax}
 
-\begin{0+}
-  ON \key{OVERFLOW} \imperativestatement \\
-  \key{NOT} ON \key{OVERFLOW} \imperativestatement
-\end{0+}
+\subsubsection{Syntax rules}
 
-\begin{0-1}
-  \key{END-OVERFLOW}
-\end{0-1}
+\subsubsection{General rules}
 
 \section{USE statement}
 
 \format{file exception}
-\key{USE}
-\begin{0-1}
-  \key{GLOBAL}
-\end{0-1}
-AFTER STANDARD
-\begin{1=}
-  \key{EXCEPTION} \\
-  \key{ERROR}
-\end{1=}
-PROCEDURE ON
-
-\begin{1=}
+\begin{syntax}
+  \key{USE}
+  \begin{0-1}
+    \key{GLOBAL}
+  \end{0-1}
+  AFTER STANDARD
   \begin{1=}
-    \filename
-  \end{1=} \ldots
-  \begin{0+}
-    \key{INPUT} \\
-    \key{OUTPUT} \\
-    \key{I-O} \\
-    \key{EXTEND}
-  \end{0+} \ldots
-\end{1=}
+    \key{EXCEPTION} \\
+    \key{ERROR}
+  \end{1=}
+  PROCEDURE ON
+
+  \begin{1=}
+    \begin{1=}
+      \filename
+    \end{1=} \ldots
+    \begin{0+}
+      \key{INPUT} \\
+      \key{OUTPUT} \\
+      \key{I-O} \\
+      \key{EXTEND}
+    \end{0+} \ldots
+  \end{1=}
+\end{syntax}
 
 \format{debugging}
-\deleted{
-  \key{USE} FOR \key{DEBUGGING} ON
-  \begin{1=}
-    \procedurename \\
-    \key{ALL} \key{PROCEDURES} \\
-    \key{ALL} REFERENCES OF \identifier
-  \end{1=} \ldots
-}
+\begin{syntax}
+  \deleted{
+    \key{USE} FOR \key{DEBUGGING} ON
+    \begin{1=}
+      \procedurename \\
+      \key{ALL} \key{PROCEDURES} \\
+      \key{ALL} REFERENCES OF \identifier
+    \end{1=} \ldots
+  }
+\end{syntax}
 
 \format{start\slash{}end}
-\miscext{\pending{
-  \key{USE} AT \key{PROGRAM}
-  \begin{1=}
-    \key{START} \\
-    \key{END}
-  \end{1=}
-}}
+\begin{syntax}
+  \miscext{\pending{
+      \key{USE} AT \key{PROGRAM}
+      \begin{1=}
+        \key{START} \\
+        \key{END}
+      \end{1=}
+    }}
+\end{syntax}
 
 \format{reporting}
-\key{USE}
-\begin{0-1}
-  \key{GLOBAL}
-\end{0-1}
-\key{BEFORE} \key{REPORTING} \identifier
+\begin{syntax}
+  \key{USE}
+  \begin{0-1}
+    \key{GLOBAL}
+  \end{0-1}
+  \key{BEFORE} \key{REPORTING} \identifier
+\end{syntax}
 
 \format{exception}
-\pending{
-  \key{USE}
-  \begin{1=}
-    \key{EXCEPTION-CONDITION} \\
-    \key{EC}
-  \end{1=}
-}
+\begin{syntax}
+  \pending{
+    \key{USE}
+    \begin{1=}
+      \key{EXCEPTION-CONDITION} \\
+      \key{EC}
+    \end{1=}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{WRITE statement}
 
 \format{sequential}
-\key{WRITE} \recordname
-\begin{0-1}
-  \key{FROM}
-  \begin{1=}
-    \identifier \\
-    \literal \\
-    \functionname
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-  \begin{1=}
-    \key{BEFORE} \\
-    \key{AFTER}
-  \end{1=}
-  ADVANCING
-  \begin{1=}
+\begin{syntax}
+  \key{WRITE} \recordname
+  \begin{0-1}
+    \key{FROM}
     \begin{1=}
       \identifier \\
-      \literal
+      \literal \\
+      \functionname
     \end{1=}
-    \begin{0-1}
-      \key{LINE} \\
-      \key{LINES}
-    \end{0-1} \\
-
-    \mnemonicname \\
-
-    \key{PAGE}
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-  WITH
-  \begin{0-1}
-    \key{NO}
   \end{0-1}
-  \key{LOCK}
-\end{0-1}
 
-\begin{0+}
-  AT
-  \begin{1=}
-    \key{END-OF-PAGE} \\
-    \key{EOP}
-  \end{1=}
-  \imperativestatement \\
+  \begin{0-1}
+    \begin{1=}
+      \key{BEFORE} \\
+      \key{AFTER}
+    \end{1=}
+    ADVANCING
+    \begin{1=}
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+      \begin{0-1}
+        \key{LINE} \\
+        \key{LINES}
+      \end{0-1} \\
 
-  \key{NOT} AT
-  \begin{1=}
-    \key{END-OF-PAGE} \\
-    \key{EOP}
-  \end{1=}
-  \imperativestatement
-\end{0+}
+      \mnemonicname \\
 
-\begin{0-1}
-  \key{END-WRITE}
-\end{0-1}
+      \key{PAGE}
+    \end{1=}
+  \end{0-1}
+
+  \begin{0-1}
+    \pending{\metaelement{retry-phrase}}
+  \end{0-1}
+  \begin{0-1}
+    WITH
+    \begin{0-1}
+      \key{NO}
+    \end{0-1}
+    \key{LOCK}
+  \end{0-1}
+
+  \begin{0+}
+    AT
+    \begin{1=}
+      \key{END-OF-PAGE} \\
+      \key{EOP}
+    \end{1=}
+    \imperativestatement \\
+
+    \key{NOT} AT
+    \begin{1=}
+      \key{END-OF-PAGE} \\
+      \key{EOP}
+    \end{1=}
+    \imperativestatement
+  \end{0+}
+
+  \begin{0-1}
+    \key{END-WRITE}
+  \end{0-1}
+\end{syntax}
 
 \format{random}
-\key{WRITE} \recordname
-\begin{0-1}
-  \key{FROM}
-  \begin{1=}
-    \identifier \\
-    \literal \\
-    \functionname
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-  \begin{1=}
-    \key{BEFORE} \\
-    \key{AFTER}
-  \end{1=}
-  ADVANCING
-  \begin{1=}
+\begin{syntax}
+  \key{WRITE} \recordname
+  \begin{0-1}
+    \key{FROM}
     \begin{1=}
       \identifier \\
-      \literal
+      \literal \\
+      \functionname
     \end{1=}
-    \begin{0-1}
-      \key{LINE} \\
-      \key{LINES}
-    \end{0-1} \\
-
-    \mnemonicname \\
-
-    \key{PAGE}
-  \end{1=}
-\end{0-1}
-
-\begin{0-1}
-  WITH
-  \begin{0-1}
-    \key{NO}
   \end{0-1}
-  \key{LOCK}
-\end{0-1}
 
-\begin{0+}
-  \key{INVALID} \key{KEY} \imperativestatement \\
-  \key{NOT} \key{INVALID} \key{KEY} \imperativestatement
-\end{0+} \\
+  \begin{0-1}
+    \begin{1=}
+      \key{BEFORE} \\
+      \key{AFTER}
+    \end{1=}
+    ADVANCING
+    \begin{1=}
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+      \begin{0-1}
+        \key{LINE} \\
+        \key{LINES}
+      \end{0-1} \\
 
-\begin{0-1}
-  \key{END-WRITE}
-\end{0-1}
+      \mnemonicname \\
+
+      \key{PAGE}
+    \end{1=}
+  \end{0-1}
+
+  \begin{0-1}
+    \pending{\metaelement{retry-phrase}}
+  \end{0-1}
+  \begin{0-1}
+    WITH
+    \begin{0-1}
+      \key{NO}
+    \end{0-1}
+    \key{LOCK}
+  \end{0-1}
+
+  \begin{0+}
+    \key{INVALID} \key{KEY} \imperativestatement \\
+    \key{NOT} \key{INVALID} \key{KEY} \imperativestatement
+  \end{0+} \\
+
+  \begin{0-1}
+    \key{END-WRITE}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 
 %%% Local Variables:
 %%% mode: latex

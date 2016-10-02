@@ -1,63 +1,84 @@
 \chapter{Identification division}
 
-\begin{0-1}
+\newcommand{\commenttext}{\metaelement{comment-text}}
+
+\begin{syntax}
+  \begin{0-1}
+    \begin{1=}
+      \key{IDENTIFICATION} \\
+      \miscext{\key{ID}}
+    \end{1=}
+    DIVISION.
+  \end{0-1}
+  \newline
   \begin{1=}
-    \key{IDENTIFICATION} \\
-    \miscext{\key{ID}}
+    \metaelement{function-id-paragraph} \\
+    \metaelement{program-id-paragraph}
   \end{1=}
-  DIVISION.
-\end{0-1}
-\newline
-\begin{1=}
-  function-id-paragraph \\
-  program-id-paragraph
-\end{1=}
-\newline
-\deleted{
-  \begin{0+}
-    \key{AUTHOR}. comment-text. \\
-    \key{DATE-WRITTEN}. comment-text. \\
-    \key{DATE-MODIFIED}. comment-text. \\
-    \key{DATE-COMPILED}. comment-text. \\
-    \key{INSTALLATION}. comment-text. \\
-    \key{REMARKS}. comment-text. \\
-    \key{SECURITY}. comment-text. \\
-  \end{0+} \gnucobol{\ldots}
-}
+  \newline
+  \deleted{
+    \begin{0+}
+      \key{AUTHOR}. \commenttext. \\
+      \key{DATE-WRITTEN}. \commenttext. \\
+      \key{DATE-MODIFIED}. \commenttext. \\
+      \key{DATE-COMPILED}. \commenttext. \\
+      \key{INSTALLATION}. \commenttext. \\
+      \key{REMARKS}. \commenttext. \\
+      \key{SECURITY}. \commenttext. \\
+    \end{0+} \gnucobol{\ldots}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{PROGRAM-ID paragraph}
 
-\key{PROGRAM-ID}.
-\begin{1=}
-  program-name-1 \\
-  \literal
-\end{1=}
-\begin{0-1} \key{AS} \literal \end{0-1}
-
-\begin{0-1} IS
+\begin{syntax}
+  \key{PROGRAM-ID}.
   \begin{1=}
-    \begin{1+}
-      \key{COMMON} \\
-
-      \begin{1=}
-        \key{INITIAL} \\
-        \key{RECURSIVE}
-      \end{1=}
-    \end{1+} \\
-
-    \miscext{\pending{\key{EXTERNAL}}}
+    \metaelement{program-name-1} \\
+    \literal
   \end{1=}
-  PROGRAM
-\end{0-1}.
+  \begin{0-1} \key{AS} \literal \end{0-1}
+
+  \begin{0-1} IS
+    \begin{1=}
+      \begin{1+}
+        \key{COMMON} \\
+
+        \begin{1=}
+          \key{INITIAL} \\
+          \key{RECURSIVE}
+        \end{1=}
+      \end{1+} \\
+
+      \miscext{\pending{\key{EXTERNAL}}}
+    \end{1=}
+    PROGRAM
+  \end{0-1}.
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \section{FUNCTION-ID paragraph}
 
-\key{FUNCTION-ID}.
-\begin{1=}
-  \functionname \\
-  \literal
-\end{1=}
-\begin{0-1} \key{AS} \literal \end{0-1}.
+\begin{syntax}
+  \key{FUNCTION-ID}.
+  \begin{1=}
+    \functionname \\
+    \literal
+  \end{1=}
+  \begin{0-1} \key{AS} \literal \end{0-1}.
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 
 %%% Local Variables:
 %%% mode: latex

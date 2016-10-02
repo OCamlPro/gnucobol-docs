@@ -1,0 +1,85 @@
+\chapter{Language fundamentals}
+
+\section{Lexical elements}
+
+\subsection{COBOL words}
+
+\subsection{User-defined words}
+
+\subsection{Reserved words}
+
+\subsection{Literals}
+
+\section{References}
+
+\section{Expressions}
+
+\subsection{Arithmetic expressions}
+
+Arithmetic expressions may contain the following operators:
+
+\begin{table}[!h]
+  \begin{tabular}[!h]{l l l}
+    \toprule
+    \textbf{Binary operators} & \textbf{Purpose} & \textbf{Precedence} \\
+    + & addition & 1 \\
+    -- & subtraction & 1\\
+    * & multiplication & 2\\
+    / & division & 2 \\
+    ** & exponentiation & 3 \\
+    \gnucobol{\^{}} & \gnucobol{exponentiation} & 3 \\ \midrule
+    \textbf{Unary operators} \\
+    + & no effect & 4 \\
+    -- & multiplication by $-1$ & 4 \\ \bottomrule
+  \end{tabular}
+\end{table}
+
+Binary operators must have a numeric item or expression to both their left and right. Unary operators must have a numeric item or expression to their right only.
+
+Operators with greatest precedence are evaluated first. If an expression contains multiple operators of equal precedence, they are evaluated from left to right.
+
+Arithmetic expressions may contain arithmetic expressions surrounded by parentheses. These nested expressions are evaluated first, before any of the operators of the outer expression.
+
+\begin{table}[!h]
+  \centering
+  \begin{tabular}[!h]{c c c c c c}
+    \toprule
+    \multirow{2}{*}{\textbf{First symbol}} & \multicolumn{5}{c}{\textbf{Second symbol}} \\
+    \cmidrule(lr){2-6}
+                                           & Identifier or literal & Binary operator & Unary operator & (     & ) \\ \midrule
+    Identifier or literal &                       & \tick           &                &       & \tick \\
+    Binary operator       & \tick                 &                 & \tick          & \tick & \\
+    Unary operator        & \tick                 &                 &                & \tick & \\
+    (                     & \tick                 &                 & \tick          & \tick & \\
+    )                     &                       & \tick           &                &       & \tick \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Concatenation expressions}
+
+\begin{syntax}
+  \begin{1=}
+    \literal \\
+    \metaelement{concatenation-expression-1}
+  \end{1=}
+  \& \literal
+\end{syntax}
+
+\subsection{Conditional expressions}
+
+\begin{table}[!h]
+  \begin{tabular}[!h]{l l l}
+    \toprule
+    \textbf{Binary operators} & \textbf{Purpose} & \textbf{Precedence} \\
+    AND & logical and & 1 \\
+    OR & logical or & 2 \\ \midrule
+    \textbf{Unary operator} \\
+    NOT & logical not & 3 \\ \bottomrule
+  \end{tabular}
+\end{table}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "grammar.tex"
+%%% End:
