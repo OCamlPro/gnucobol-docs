@@ -10,6 +10,13 @@
   \begin{0-1}
     \metaelement{working-storage-section}
   \end{0-1}\newline
+  \pending{
+    \deleted{
+      \begin{0-1}
+        \metaelement{communication-section}
+      \end{0-1}
+    }
+  }\newline
   \begin{0-1}
     \metaelement{local-storage-section}
   \end{0-1}\newline
@@ -155,6 +162,92 @@
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
+
+\section{Communication section}
+\begin{syntax}[\deletedcolour]
+  \pending{
+    \key{COMMUNICATION} \key{SECTION}.\newline
+    \begin{0-1}
+      \metaelement{communication-description-entry}
+      \begin{0-1}
+        \metaelement{record-description} \\
+        \metaelement{constant-definition}
+      \end{0-1}\ldots
+    \end{0-1}\ldots
+  }
+\end{syntax}
+
+\subsection{Communication description entry}
+
+% TO-DO: Format more neatly.
+\format{input}
+\begin{syntax}[\deletedcolour]
+  \key{CD} \metaelement{entry-name} FOR
+  \begin{0-1}
+    \key{INITIAL}
+  \end{0-1}
+  \key{INPUT}
+  \begin{0-1}
+    \begin{1+}
+      SYMBOLIC \key{QUEUE} IS \identifier \\
+      SYMBOLIC \key{SUB-QUEUE-1} IS \identifier \\
+      SYMBOLIC \key{SUB-QUEUE-2} IS \identifier \\
+      SYMBOLIC \key{SUB-QUEUE-3} IS \identifier \\
+      \key{MESSAGE} \key{DATE} IS \identifier \\
+      \key{MESSAGE} \key{TIME} IS \identifier \\
+      SYMBOLIC \key{SOURCE} IS \identifier \\
+      \key{TEXT} \key{LENGTH} IS \identifier \\
+      \key{END} \key{KEY} IS \identifier \\
+      \key{STATUS} \key{KEY} IS \identifier \\
+      MESSAGE \key{COUNT} IS \identifier
+    \end{1+} \\
+
+    \hspace{1em}
+    \begin{minipage}[!h]{0.4\textwidth}
+      \hspace{-2.15em} \identifier \identifier \identifier \identifier \identifier \identifier \identifier \identifier \identifier \identifier \identifier
+    \end{minipage}
+  \end{0-1}
+  .
+\end{syntax}
+
+\format{output}
+\begin{syntax}[\deletedcolour]
+  \key{CD} \metaelement{entry-name} FOR \key{OUTPUT}
+  \begin{0+}
+    \key{DESTINATION} \key{COUNT} IS \identifier \\
+    \key{TEXT} \key{LENGTH} IS \identifier \\
+    \key{STATUS} \key{KEY} IS \identifier \\
+    \key{DESTINATION} \key{TABLE} \key{OCCURS} \integer TIMES
+    \begin{0-1}
+      \key{INDEXED} BY
+      \begin{1=}
+        \cobolindexname
+      \end{1=}\ldots
+    \end{0-1} \\
+    \key{ERROR} \key{KEY} IS \identifier \\
+    \key{DESTINATION} IS \identifier \\
+    \key{SYMBOLIC} \key{DESTINATION} IS \identifier
+  \end{0+}
+  .
+\end{syntax}
+
+\format{I-O}
+\begin{syntax}[\deletedcolour]
+  \key{CD} \metaelement{entry-name} FOR INITIAL \key{I-O}
+  \begin{0-1}
+    \begin{1+}
+      \key{MESSAGE} \key{DATE} IS \identifier \\
+      \key{MESSAGE} \key{TIME} IS \identifier \\
+      SYMBOLIC \key{TERMINAL} IS \identifier \\
+      \key{TEXT} \key{LENGTH} IS \identifier \\
+      \key{END} \key{KEY} IS \identifier \\
+      \key{STATUS} \key{KEY} IS \identifier
+    \end{1+} \\
+
+    \identifier \identifier \identifier \identifier \identifier \identifier
+  \end{0-1}
+  .
+\end{syntax}
 
 \section{Local-storage section}
 \begin{syntax}
@@ -395,7 +488,7 @@ where \metaelement{appearance-attribute-clauses} is
       \integer
     \end{1=}
   \end{0-1}
-  
+
   \begin{0-1}
     \key{HIGHLIGHT} \\
     \miscext{\key{HIGH}} \\
@@ -407,7 +500,7 @@ where \metaelement{appearance-attribute-clauses} is
   \begin{0-1}
     \miscext{\pending{\key{OVERLINE}}}
   \end{0-1}
-  
+
   \miscext{
     \begin{0-1}
       \key{PROMPT}
@@ -420,7 +513,7 @@ where \metaelement{appearance-attribute-clauses} is
       \end{0-1}
     \end{0-1}
   }
-  
+
   \begin{0-1}
     \key{REVERSE-VIDEO} \\
     \miscext{\key{REVERSED}} \\

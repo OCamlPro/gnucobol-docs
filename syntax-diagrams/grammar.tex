@@ -65,18 +65,19 @@
 %   drop fuzzy shadow}
 
 \newtcolorbox{syntaxbox}[1][]{enhanced,
-  boxrule=0.4pt,left=1mm,right=1mm,top=1mm,bottom=1mm,
+  boxrule=0.4pt,left=1mm,right=1mm,top=1mm,bottom=1mm,%
   sharp corners,% Rectangular shape
   halign=flush left,% To prevent spread out lines
   parbox=false,% To give normal paragraph indentation.
+  colback=#1,% To allow different background colours.
   before upper={\parskip3pt\parindent15pt}%
 }
 
 \renewcommand{\arraystretch}{1.2}
 \def\defaultparskip{\parskip}
 
-\newenvironment{syntax}{%
-  \begin{syntaxbox}\small\selectfont\setlength{\parskip}{\baselineskip}}{%
+\newenvironment{syntax}[1][black!5!white]{% black!5!white is the tcolorbox default
+  \begin{syntaxbox}[#1]\small\selectfont\setlength{\parskip}{\baselineskip}}{%
   \setlength{\parskip}{\defaultparskip}\normalsize\selectfont\end{syntaxbox}}
 
 \renewcommand{\familydefault}{\sfdefault}
@@ -109,20 +110,34 @@
 
 \newcommand{\key}[1]{\underline{#1}}
 \newcommand{\directiveindicator}[0]{>{}>}
+
+\newcommand{\deletedcolour}{red!75}
 \newcommand{\deleted}[1]{%
-  \colorbox{red!75}{#1}}
+  \colorbox{\deletedcolour}{#1}}
+
+\newcommand{\archaiccolour}{pink}
 \newcommand{\archaic}[1]{%
-  \colorbox{pink}{#1}}
+  \colorbox{\archaiccolour}{#1}}
+
+\newcommand{\obsoletecolour}{red!60}
 \newcommand{\obsolete}[1]{%
-  \colorbox{red!60}{#1}}
+  \colorbox{\obsoletecolour}{#1}}
+
+\newcommand{\xopencolour}{green!75}
 \newcommand{\xopen}[1]{%
-  \colorbox{green!75}{#1}}
+  \colorbox{\xopencolour}{#1}}
+
+\newcommand{\gnucobolcolour}{orange!75}
 \newcommand{\gnucobol}[1]{%
-  \colorbox{orange!75}{#1}}
+  \colorbox{\gnucobolcolour}{#1}}
+
+\newcommand{\miscextcolour}{blue!50}
 \newcommand{\miscext}[1]{%
-  \colorbox{blue!50}{#1}}
+  \colorbox{\miscextcolour}{#1}}
+
 \newcommand{\pending}[1]{%
   \textcolor{gray!75}{#1}}
+
 \newcommand{\standard}[1]{%
   \colorbox{white}{#1}}
 
@@ -157,6 +172,7 @@
 \newlexicalelementwithname{reportname}{report-name}
 \newlexicalelementwithname{sourcetext}{source-text}
 \newlexicalelementwithname{textname}{text-name}
+\newlexicalelementwithname{cdname}{cd-name}
 \newlexicalelement{argument}
 \newlexicalelement{condition}
 \newlexicalelement{expression}
@@ -182,7 +198,7 @@
       The GnuCOBOL 2.0 Grammar \par
     }
     \vspace{1em}
-    {\centering\scshape\LARGE for r1141 \par}
+    {\centering\scshape\LARGE for r1275 \par}
   \end{streak}
 
   \vspace{3cm}
