@@ -574,7 +574,11 @@ where \metaelement{source-destination-clauses} is
 
     \metaelement{occurs-clause} \\
 
-    \key{PICTURE} \metaelement{picture-string-1} \\
+    \begin{1=}
+      \key{PICTURE} \\
+      \key{PIC}
+    \end{1=}
+    IS \metaelement{picture-string-1} \\
 
     \key{REDEFINES} \identifier \\
 
@@ -666,21 +670,19 @@ where \metaelement{source-destination-clauses} is
 \end{syntax}
 
 \format{micro-focus}
-\begin{syntax}
-  \miscext{
-    78 \identifier
-    \gnucobol{
-      \begin{0-1}
-        IS \key{GLOBAL}
-      \end{0-1}
-    }
-    \key{VALUE}
+\begin{syntax}[\miscextcolour]
+  78 \identifier
+  \gnucobol{
     \begin{0-1}
-      IS \\
-      ARE
+      IS \key{GLOBAL}
     \end{0-1}
-    \literal .
   }
+  \key{VALUE}
+  \begin{0-1}
+    IS \\
+    ARE
+  \end{0-1}
+  \literal .
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -689,7 +691,27 @@ where \metaelement{source-destination-clauses} is
 
 \section{Data division clauses}
 
+\subsection{AUTO clause}
+
+The AUTO clause specifies that the screen cursor will immediate move to the next screen item when the current screen item is full.
+
+\begin{syntax}
+  \begin{1=}
+    \key{AUTO} \\
+    \miscext{\key{AUTO-SKIP}} \\
+    \miscext{\key{AUTOTERMINATE}} \\
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+
 \subsection{BLANK WHEN ZERO clause}
+
+The BLANK WHEN ZERO clause causes an item to be blanked when a value of zero is stored in it.
+
 \begin{syntax}
   \key{BLANK} WHEN \key{ZERO}
 \end{syntax}
@@ -699,6 +721,10 @@ where \metaelement{source-destination-clauses} is
 \subsubsection{General rules}
 
 \subsection{BLOCK clause}
+
+% TO-DO: CHECK!
+The BLOCK clause specifies the size of a physical record, that is, how many logical records should be read in one physical I/O operation.
+
 \begin{syntax}
   \key{BLOCK} CONTAINS \integer
   \begin{0-1}
@@ -715,6 +741,8 @@ where \metaelement{source-destination-clauses} is
 \subsubsection{General rules}
 
 \subsection{COLUMN clause}
+
+The COLUMN clause specifies what column an item should be printed or displayed at.
 
 \format{report-section}
 \begin{syntax}
@@ -768,6 +796,9 @@ where \metaelement{source-destination-clauses} is
 \subsubsection{General rules}
 
 \subsection{Entry name}
+
+The entry name specifies the name of the item being declared.
+
 \begin{syntax}
   \begin{0-1}
     \key{FILLER} \\
@@ -779,7 +810,79 @@ where \metaelement{source-destination-clauses} is
 
 \subsubsection{General rules}
 
+
+\subsection{ERASE clause}
+
+The ERASE clause indicates part of the screen to be blanked before displaying the item.
+
+\begin{syntax}
+  \key{ERASE}
+  \begin{1=}
+    \key{EOL} \\
+    \key{EOS} \\
+
+    \begin{0-1}
+      \key{END} OF
+    \end{0-1}
+    \begin{1=}
+      \key{LINE} \\
+      \key{SCREEN}
+    \end{1=}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{FULL clause}
+
+% TO-DO: Check! Is it until the screen can be exited successfully?
+The FULL clause specifies that the item must be filled entirely before the cursor can move to another item.
+
+\begin{syntax}
+  \begin{1=}
+    \key{FULL} \\
+    \miscext{\key{LENGTH-CHECK}} \\
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{GLOBAL clause}
+
+The GLOBAL clause specifies that an item may be accessed from within nested programs.
+
+\begin{syntax}
+  IS \key{GLOBAL}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{PICTURE clause}
+
+The PICTURE clause describes the general characteristics and editing requirements of an elementary data item.
+
+\begin{syntax}
+  \begin{1=}
+    \key{PICTURE} \\
+    \key{PIC}
+  \end{1=}
+  IS \metaelement{picture-string-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{JUSTIFIED clause}
+
+The JUSTIFIED clause causes data smaller than the data item to be padded by spaces on the left to fill the item.
+
 \begin{syntax}
   \begin{1=}
     \key{JUSTIFIED} \\
@@ -793,6 +896,10 @@ where \metaelement{source-destination-clauses} is
 \subsubsection{General rules}
 
 \subsection{LINAGE clause}
+
+% TO-DO: Define logical page.
+The LINAGE clause specifies the page limits of a logical page.
+
 \begin{syntax}
   \key{LINAGE} IS
   \begin{1=}
@@ -819,6 +926,8 @@ where \metaelement{source-destination-clauses} is
 \subsubsection{General rules}
 
 \subsection{LINE clause}
+
+The LINE clause specifies the line an item should be printer or displayed on.
 
 \format{report section}
 \begin{syntax}
@@ -868,6 +977,9 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 \subsubsection{General rules}
 
 \subsection{NEXT GROUP clause}
+
+The NEXT GROUP clause specifies the number of blank lines that should follow the end of a report group.
+
 \begin{syntax}
   \key{NEXT} \key{GROUP} IS
   \begin{1=}
@@ -884,6 +996,9 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 \subsubsection{General rules}
 
 \subsection{OCCURS clause}
+
+% TO-DO: Define tables and subscripts.
+The OCCURS clause describes tables, repeated data items accessible by subscripts.
 
 \format{usual}
 \begin{syntax}
@@ -916,23 +1031,23 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
     }
   \end{1=}
 
-  \begin{0-1}
+  \begin{0+} % TO-DO: This 0+ is a GnuCOBOL extension
     \begin{1=}
-      \key{ASCENDING} \\
-      \key{DESCENDING}
-    \end{1=}
-    KEY IS
-    \begin{1=}
-      \identifier
-    \end{1=}\ldots
-  \end{0-1}\ldots
+      \begin{1=}
+        \key{ASCENDING} \\
+        \key{DESCENDING}
+      \end{1=}
+      KEY IS
+      \begin{1=}
+        \identifier
+      \end{1=}\ldots
+    \end{1=}\ldots \\
 
-  \begin{0-1}
     \key{INDEXED} BY
     \begin{1=}
       \cobolindexname
     \end{1=}\ldots
-  \end{0-1}
+  \end{0+}
 \end{syntax}
 
 \format{report section}
@@ -955,11 +1070,41 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
   \key{OCCURS} \integer TIMES
 \end{syntax}
 
+\format{unbounded}
+\begin{syntax}[\miscextcolour]
+  \key{OCCURS}
+  \begin{0-1}
+    \integer \key{TO}
+  \end{0-1} 
+  \key{UNBOUNDED} TIMES \key{DEPENDING} ON \identifier
+
+  \begin{0+}
+    \begin{1=}
+      \begin{1=}
+        \key{ASCENDING} \\
+        \key{DESCENDING}
+      \end{1=}
+      KEY IS
+      \begin{1=}
+        \identifier
+      \end{1=}\ldots
+    \end{1=}\ldots \\
+
+    \key{INDEXED} BY
+    \begin{1=}
+      \cobolindexname
+    \end{1=}\ldots
+  \end{0+}
+\end{syntax}
+
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
 
 \subsection{PRESENT WHEN clause}
+
+The PRESENT WHEN clause specifies a condition under which a report section entry will be processed.
+
 \begin{syntax}
   \key{PRESENT} \key{WHEN} \condition
 \end{syntax}
@@ -969,6 +1114,9 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 \subsubsection{General rules}
 
 \subsection{RECORD clause}
+
+The RECORD clause specifies the number of bytes of a logical record.
+
 \begin{syntax}
   \key{RECORD}
   \begin{1=}
@@ -993,7 +1141,18 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 
 \subsubsection{General rules}
 
+\subsection{REDEFINES clause}
+
+The REDEFINES clause indicates the data shares the same memory as an item with a different description.
+
+\begin{syntax}
+  \key{REDEFINES} \identifier
+\end{syntax}
+
 \subsection{SIGN clause}
+
+The SIGN clause defines how to store item's sign.
+
 \begin{syntax}
   SIGN IS
   \begin{1=}
@@ -1010,6 +1169,9 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 \subsubsection{General rules}
 
 \subsection{SOURCE clause}
+
+The SOURCE clause identifies data to be used in processing a report section entry.
+
 \begin{syntax}
   \key{SOURCE} IS \metaelement{number-1}
   \begin{0-1}
@@ -1020,6 +1182,8 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
+
+The SUM clause provides a list of data items to be summed for use in an elementary report item.
 
 \subsection{SUM clause}
 \begin{syntax}
@@ -1040,7 +1204,31 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 
 \subsubsection{General rules}
 
+\subsection{SYNCHRONIZED clause}
+
+% TO-DO: Check "should".
+The SYNCHRONIZED clause specifies an item should be aligned in a byte boundary and in what way.
+
+\begin{syntax}
+  \begin{1=}
+    \key{SYNCHRONIZED} \\
+    \miscext{\key{SYNCHRONISED}} \\
+    \key{SYNC}
+  \end{1=}
+  \begin{0-1}
+    \key{LEFT} \\
+    \key{RIGHT}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{TYPE clause}
+
+The TYPE clause specifies when to print a report group.
+
 \begin{syntax}
   \key{TYPE} IS
   \begin{1=}
@@ -1095,6 +1283,8 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 
 \subsection{USAGE clause}
 
+The USAGE clause specifies the representation of a data item in memory.
+
 \begin{syntax}
   \begin{0-1}
     \key{USAGE} IS
@@ -1122,6 +1312,8 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
     \key{PACKED} \key{DECIMAL} \\
     \miscext{\key{POINTER}} \\
     \key{PROGRAM-POINTER} \\
+
+    \miscext{\metaelement{handle-usages}}
   \end{1=}
 \end{syntax}
 
@@ -1219,11 +1411,53 @@ where \metaelement{computation-usages} is
   \end{1=}
 \end{syntax}
 
+where \metaelement{handle-usages} is
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \key{HANDLE}
+    \begin{0-1}
+      OF
+      \begin{1=}
+        \pending{
+          \key{FONT}
+          \begin{0-1}
+            \key{DEFAULT-FONT} \\
+            \key{FIXED-FONT} \\
+            \key{TRADITIONAL-FONT} \\
+            \key{SMALL-FONT} \\
+            \key{MEDIUM-FONT} \\
+            \key{LARGE-FONT}
+          \end{0-1}
+        } \\
+
+        \pending{
+          \key{LAYOUT-MANAGER}
+          \begin{0-1}
+            \key{LM-RESIZE}
+          \end{0-1}
+        } \\
+        
+        \pending{\key{MENU}} \\
+        \key{SUBWINDOW} \\
+        \key{THREAD} \\
+        \key{VARIANT} \\
+        \key{WINDOW}
+      \end{1=}
+    \end{0-1}
+  \end{1=}
+\end{syntax}
+
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
 
 \subsection{VALUE clause}
+
+The VALUE clause specifies the initial value of the local-storage and working-storage section data items and the values to be used in INITALIZE statements.
+
+The VALUE clause for condition-names specifies the values under which a condition-name is true (or false).
+
 \format{initialization}
 \begin{syntax}
   \begin{1=}
@@ -1268,6 +1502,9 @@ where \metaelement{computation-usages} is
 \subsubsection{General rules}
 
 \subsection{VARYING clause}
+
+The VARYING clause declares counters to be used in printing repeated items in the report writer.
+
 \begin{syntax}
   \key{VARYING} \identifier \key{FROM} \metaelement{number-1} \key{BY} \metaelement{number-2}
 \end{syntax}

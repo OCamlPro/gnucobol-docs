@@ -2,6 +2,11 @@
 
 \begin{syntax}
   \key{PROCEDURE} \key{DIVISION}
+  \miscext{
+    \begin{0-1}
+      \mnemonicname
+    \end{0-1}
+  }
   \begin{0-1}
     \metaelement{using-chaining-clause}
   \end{0-1}
@@ -9,7 +14,7 @@
     \key{RETURNING}
     \begin{1=}
       \identifier \\
-      \key{OMITTED}
+      \gnucobol{\key{OMITTED}}
     \end{1=}
   \end{0-1}.\newline
   \begin{0-1}
@@ -138,6 +143,8 @@ where \metaelement{declaratives} is
 \subsubsection{General rules}
 
 \section{ACCEPT statement}
+
+The ACCEPT statement transfers data provided by the user or the operating system to the specified data item.
 
 \format{device}
 \begin{syntax}
@@ -496,6 +503,8 @@ where \metaelement{accept-attribute-clauses} is
 
 \section{ADD statement}
 
+The ADD statement adds two or more numbers and stores the result.
+
 \format{simple}
 \begin{syntax}
   \key{ADD}
@@ -572,11 +581,48 @@ where \metaelement{accept-attribute-clauses} is
   \end{0-1}
 \end{syntax}
 
+\format{table}
+\begin{syntax}
+  \pending{
+    \key{ADD} \key{TABLE} \identifier \key{TO} \identifier
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  }
+
+  \pending{
+    \begin{0-1}
+      \key{FROM} INDEX \integer \key{TO} \integer
+    \end{0-1}
+  }
+
+  \pending{
+    \begin{0-1}
+      \key{DESTINATION} INDEX \integer
+    \end{0-1}
+  }
+
+  \pending{
+    \begin{0+}
+      ON \key{SIZE} \key{ERROR} \imperativestatement \\
+      \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+    \end{0+}
+  }
+
+  \pending{
+    \begin{0-1}
+      \key{END-ADD}
+    \end{0-1}
+  }
+\end{syntax}
+
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
 
 \section{ALLOCATE statement}
+
+The ALLOCATE statement requests memory from the operating system for a BASED data item or to be referenced by a data-pointer.
 
 \begin{syntax}
   \key{ALLOCATE}
@@ -611,6 +657,8 @@ where \metaelement{accept-attribute-clauses} is
 
 \section{ALTER statement}
 
+The ALTER statement changes the target of a GO TO statement. Its use is strongly discouraged and commonly proscribed.
+
 \begin{syntax}[\deletedcolour]
     \key{ALTER}
     \begin{1=}
@@ -624,21 +672,39 @@ where \metaelement{accept-attribute-clauses} is
 
 \section{CALL statement}
 
+The CALL statement transfers execution to another program, optionally with arguments and storing a return value.
+
 \begin{syntax}
   \key{CALL}
+  
   \miscext{
     \begin{0-1}
       \mnemonicname \\
-      \key{STATIC} \\
-      \key{STDCALL}
+    \end{0-1}
+    \begin{0-1}
+      \pending{IN \key{THREAD}}
     \end{0-1}
   }
+  
   \begin{1=}
     \identifier \\
     \literal \\
     \functionname
+    \begin{0-1}
+      \key{AS}
+      \begin{1=}
+        \key{NESTED} \\
+        \metaelement{program-prototype-name}
+      \end{1=}
+    \end{0-1}
   \end{1=}
-
+  
+  \miscext{
+    \begin{0-1}
+      \pending{\key{HANDLE} IN \identifier}
+    \end{0-1}
+  }
+  
   \begin{0-1}
     \key{USING}
     \begin{1=}
@@ -701,6 +767,8 @@ where \metaelement{accept-attribute-clauses} is
 
 \section{CANCEL statement}
 
+The CANCEL statement unloads a program from the operating system memory. This has the effect of freeing all the program's working-storage items and closing all files the program left open.
+
 \begin{syntax}
   \key{CANCEL}
   \begin{1=}
@@ -714,6 +782,8 @@ where \metaelement{accept-attribute-clauses} is
 \subsubsection{General rules}
 
 \section{CLOSE statement}
+
+The CLOSE statement prevents the program from accessing or modifying an open file. It first processes all pending writes for the file and releases all locks still held in the file.
 
 \begin{syntax}
   \key{CLOSE}
@@ -740,6 +810,8 @@ where \metaelement{accept-attribute-clauses} is
 
 \section{COMMIT statement}
 
+The COMMIT statement forces all pending file writes to be processed.
+
 \begin{syntax}[\miscextcolour]
   \key{COMMIT}
 \end{syntax}
@@ -749,6 +821,8 @@ where \metaelement{accept-attribute-clauses} is
 \subsubsection{General rules}
 
 \section{COMPUTE statement}
+
+The COMPUTE statement evaluates an arithmetic expression and stores the result.
 
 \begin{syntax}
   \key{COMPUTE}
@@ -781,6 +855,8 @@ where \metaelement{accept-attribute-clauses} is
 
 \section{CONTINUE statement}
 
+The CONTINUE statement has no effect on program execution.
+
 \begin{syntax}
   \key{CONTINUE}
 \end{syntax}
@@ -790,6 +866,8 @@ where \metaelement{accept-attribute-clauses} is
 \subsubsection{General rules}
 
 \section{DELETE statement}
+
+The DELETE statement removes a record from a file or removes an entire file.
 
 \format{record}
 \begin{syntax}
@@ -828,6 +906,8 @@ where \metaelement{accept-attribute-clauses} is
 
 \section{DISABLE statement}
 
+The DISABLE statement prevents the program from modifying or accessing an enabled communication descriptor.
+
 \begin{syntax}[\deletedcolour]
   \pending{
     \key{DISABLE}
@@ -853,6 +933,8 @@ where \metaelement{accept-attribute-clauses} is
 \subsubsection{General rules}
 
 \section{DISPLAY statement}
+
+The DISPLAY statement displays data to a user or sends data to the operating system.
 
 \format{device}
 \begin{syntax}
@@ -1090,6 +1172,8 @@ where \metaelement{appearance-attribute-clauses} is
 
 \section{DIVIDE statement}
 
+The DIVIDE statement divides one or more numbers by another and stores the results.
+
 \format{into}
 \begin{syntax}
   \key{DIVIDE}
@@ -1170,6 +1254,8 @@ where \metaelement{appearance-attribute-clauses} is
 
 \section{ENABLE statement}
 
+The ENABLE statement allows the program to access and modify a communication descriptor.
+
 \begin{syntax}[\deletedcolour]
   \pending{
     \key{ENABLE}
@@ -1196,9 +1282,15 @@ where \metaelement{appearance-attribute-clauses} is
 
 \section{ENTRY statement}
 
+The ENTRY statement indicates an alternative point of entry into the program.
+
 \begin{syntax}[\miscextcolour]
   \begin{minipage}[!h]{1.0\linewidth}
-    \key{ENTRY} \literal
+    \key{ENTRY}
+    \begin{0-1}
+      \mnemonicname
+    \end{0-1}
+    \literal
 
     \begin{0-1}
       \key{USING}
@@ -1238,6 +1330,8 @@ where \metaelement{appearance-attribute-clauses} is
 \subsubsection{General rules}
 
 \section{EVALUATE statement}
+
+The EVALUATE statement evaluates one or more conditions and execute the statements corresponding to the first true condition.
 
 \begin{syntax}
   \key{EVALUATE}
@@ -1298,6 +1392,8 @@ where \metaelement{selection-object} is
 
 \section{EXIT statement}
 
+The EXIT statement indicates the end of a path of execution.
+
 \begin{syntax}
   \key{EXIT}
   \begin{0-1}
@@ -1333,6 +1429,8 @@ where \metaelement{selection-object} is
 
 \section{FREE statement}
 
+The FREE statement returns memory to the operating system.
+
 \begin{syntax}
   \key{FREE}
   \begin{1=}
@@ -1346,6 +1444,8 @@ where \metaelement{selection-object} is
 
 \section{GENERATE statement}
 
+The GENERATE statement a specified report entry.
+
 \begin{syntax}
   \pending{\key{GENERATE} \reportname}
 \end{syntax}
@@ -1355,6 +1455,8 @@ where \metaelement{selection-object} is
 \subsubsection{General rules}
 
 \section{GO TO statement}
+
+The GO TO statement transfer execution to another part of the program.
 
 \begin{syntax}
   \key{GO} TO
@@ -1371,6 +1473,8 @@ where \metaelement{selection-object} is
 \subsubsection{General rules}
 
 \section{GOBACK statement}
+
+The GOBACK statement terminates execution in the program, returning control to the calling program or, if no such program exists, to the operating system.
 
 \begin{syntax}
   \key{GOBACK}
@@ -1392,6 +1496,8 @@ where \metaelement{selection-object} is
 
 \section{IF statement}
 
+The IF statement evaluates a condition and executes statements depending on whether the condition was true or false.
+
 \begin{syntax}
   \key{IF} \metaelement{condition} THEN
   \begin{1=}
@@ -1409,6 +1515,8 @@ where \metaelement{selection-object} is
 \subsubsection{General rules}
 
 \section{INITIALIZE statement}
+
+The INITIALIZE statement sets data items to their default values.
 
 \begin{syntax}
   \begin{1=}
@@ -1467,6 +1575,9 @@ where \metaelement{selection-object} is
 \subsubsection{General rules}
 
 \section{INITIATE statement}
+
+The INITIATE statement allows the program to begin generating the specified report.
+
 \begin{syntax}
   \pending{
     \key{INITIATE}
@@ -1481,6 +1592,8 @@ where \metaelement{selection-object} is
 \subsubsection{General rules}
 
 \section{INSPECT statement}
+
+The INSPECT statement counts the number of occurrences of a character string, replaces occurrences or both.
 
 \begin{syntax}
   \key{INSPECT}
@@ -1603,6 +1716,8 @@ where \metaelement{before-after-phrase} is
 
 \section{MERGE statement}
 
+The MERGE statements reads multiple files with the same record desciption, combines their records and sorts them.
+
 \begin{syntax}
   \key{MERGE} \identifier
   \begin{0-1}
@@ -1659,6 +1774,8 @@ where \metaelement{before-after-phrase} is
 
 \section{MOVE statement}
 
+The MOVE statement sets the value of one or more data items.
+
 \begin{syntax}
   \key{MOVE}
   \begin{0-1}
@@ -1680,6 +1797,8 @@ where \metaelement{before-after-phrase} is
 \subsubsection{General rules}
 
 \section{MULTIPLY statement}
+
+The MULTIPLY statement multiplies multiple numbers and stores the result.
 
 \format{simple}
 \begin{syntax}
@@ -1749,6 +1868,8 @@ where \metaelement{before-after-phrase} is
 
 \section{NEXT SENTENCE statement}
 
+The NEXT SENTENCE statement transfers execution to the first statement following the current sentence.
+
 \begin{syntax}[\archaiccolour]
     \key{NEXT} \key{SENTENCE}
 \end{syntax}
@@ -1758,6 +1879,8 @@ where \metaelement{before-after-phrase} is
 \subsubsection{General rules}
 
 \section{OPEN statement}
+
+The OPEN statement allows the program to access or modify specified files.
 
 \begin{syntax}
   \key{OPEN}
@@ -1802,9 +1925,17 @@ where \metaelement{sharing-mode} is
 
 \section{PERFORM statement}
 
+The PERFORM statement executes the specified procedures or statements one or more times.
+
 \format{procedure}
 \begin{syntax}
-  \key{PERFORM} \procedurename
+  \key{PERFORM} 
+  \miscext{
+    \begin{0-1}
+      \pending{IN \key{THREAD}}
+    \end{0-1}
+  }
+  \procedurename
   \begin{0-1}
     \begin{1=}
       \key{THROUGH} \\
@@ -1812,6 +1943,12 @@ where \metaelement{sharing-mode} is
     \end{1=}
     \procedurename
   \end{0-1}
+  
+  \miscext{
+    \begin{0-1}
+      \pending{\key{HANDLE} IN \identifier}
+    \end{0-1}
+  }
   \begin{0-1}
     \gnucobol{\key{FOREVER}} \\
     \metaelement{times-phrase} \\
@@ -1823,13 +1960,25 @@ where \metaelement{sharing-mode} is
 \format{inline}
 \begin{syntax}
   \key{PERFORM}
+  \miscext{
+    \begin{0-1}
+      \pending{IN \key{THREAD}}
+    \end{0-1}
+  }
   \begin{0-1}
     \gnucobol{\key{FOREVER}} \\
     \metaelement{times-phrase} \\
     \metaelement{until-phrase} \\
     \metaelement{varying-phrase}
   \end{0-1}
+  \miscext{
+    \begin{0-1}
+      \pending{\key{HANDLE} IN \identifier}
+    \end{0-1}
+  }
+  
   \imperativestatement
+  
   \begin{0-1}
     \key{END-PERFORM}
   \end{0-1}
@@ -1912,6 +2061,8 @@ and where \metaelement{varying-phrase} is
 
 \section{PURGE statement}
 
+The PURGE statement
+
 \begin{syntax}[\deletedcolour]
   \pending{\key{PURGE} \cdname}
 \end{syntax}
@@ -1921,6 +2072,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{READ statement}
+
+The READ statement transfer data from a file to the file's record or to a data item.
 
 \begin{syntax}
   \key{READ} \filename
@@ -1984,6 +2137,8 @@ and where \metaelement{varying-phrase} is
 
 \section{READY statement}
 
+The READY TRACE statement causes the name of procedures reached by execution to be displayed.
+
 \begin{syntax}[\miscextcolour]
   \key{READY} \key{TRACE}
 \end{syntax}
@@ -1993,6 +2148,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{RECEIVE statement}
+
+The RECEIVE statement transfers data from a communication descriptor to a data item.
 
 \begin{syntax}[\deletedcolour]
   \pending{
@@ -2024,6 +2181,8 @@ and where \metaelement{varying-phrase} is
 
 \section{RELEASE statement}
 
+The RELEASE statement provides a record for sorting.
+
 \begin{syntax}
   \key{RELEASE} \identifier
   \begin{0-1}
@@ -2042,6 +2201,8 @@ and where \metaelement{varying-phrase} is
 
 \section{RESET statement}
 
+The RESET TRACE stops the names of procedures reached by execution being displayed.
+
 \begin{syntax}[\miscextcolour]
   \key{RESET} \key{TRACE}
 \end{syntax}
@@ -2051,6 +2212,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{RETURN statement}
+
+The RETURN statement retrieves records from the sorting process in order.
 
 \begin{syntax}
   \key{RETURN} \filename RECORD
@@ -2075,17 +2238,29 @@ and where \metaelement{varying-phrase} is
 
 \section{REWRITE statement}
 
+The REWRITE statement replaces an existing record in the file with one provided by the program.
+
 \begin{syntax}
   \key{REWRITE}
-  \recordname
-  \begin{0-1}
-    \key{FROM}
+  \begin{1=}
+    \recordname
+    \begin{0-1}
+      \key{FROM}
+      \begin{1=}
+        \identifier \\
+        \literal \\
+        \functionname
+      \end{1=}
+    \end{0-1} \\
+
+    \key{FILE} \filename \key{FROM}
     \begin{1=}
       \identifier \\
       \literal \\
       \functionname
     \end{1=}
-  \end{0-1}
+  \end{1=}
+
   \begin{0-1}
     \pending{\metaelement{retry-phrase}}
   \end{0-1}
@@ -2113,6 +2288,8 @@ and where \metaelement{varying-phrase} is
 
 \section{ROLLBACK statement}
 
+The ROLLBACK statement deletes any pending file writes.
+
 \begin{syntax}[\miscextcolour]
   \key{ROLLBACK}
 \end{syntax}
@@ -2122,6 +2299,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{SEARCH statement}
+
+The SEARCH statement iterates through a table to find a record satisfying a condition.
 
 \format{simple}
 \begin{syntax}
@@ -2164,7 +2343,9 @@ and where \metaelement{varying-phrase} is
 
 \section{SEND statement}
 
-\format{FROM}
+The SEND statement provides data to a communication descriptor.
+
+\format{from}
 \begin{syntax}[\deletedcolour]
   \pending{
     \key{SEND} \cdname \key{FROM} \identifier
@@ -2221,6 +2402,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{SET statement}
+
+The SET statement sets the value or properties of a data item.
 
 \format{simple}
 \begin{syntax}
@@ -2329,11 +2512,28 @@ and where \metaelement{varying-phrase} is
   \key{SET} \key{LAST} \key{EXCEPTION} \key{TO} \key{OFF}
 \end{syntax}
 
+\format{thread}
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{SET} \key{THREAD}
+    \begin{0-1}
+      \identifier
+    \end{0-1}
+    \key{PRIORITY} \key{TO}
+    \begin{1=}
+      \identifier
+      \integer
+    \end{1=}
+  }
+\end{syntax}
+
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
 
 \section{SORT statement}
+
+The SORT statement sorts the record of a file.
 
 \begin{syntax}
   \key{SORT} \identifier
@@ -2401,6 +2601,8 @@ and where \metaelement{varying-phrase} is
 
 \section{START statement}
 
+The START statement changes the record currently being considered. It may also change the order in which records are accessed.
+
 \begin{syntax}
   \key{START} \filename
   \begin{0-1}
@@ -2438,6 +2640,8 @@ and where \metaelement{varying-phrase} is
 
 \section{STOP statement}
 
+The STOP statement terminates the run unit and returns control to the operating system.
+
 \format{standard}
 
 \begin{syntax}
@@ -2471,6 +2675,12 @@ and where \metaelement{varying-phrase} is
   \key{STOP} \literal
 \end{syntax}
 
+\format{identifier}
+
+\begin{syntax}[\miscextcolour]
+  \key{STOP} \identifier
+\end{syntax}
+
 \format{ACUCOBOL}
 
 \begin{syntax}[\miscextcolour]
@@ -2481,11 +2691,24 @@ and where \metaelement{varying-phrase} is
   \end{1=}
 \end{syntax}
 
+\format{thread}
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{STOP} \key{THREAD}
+    \begin{0-1}
+      \identifier
+    \end{0-1}
+  }
+\end{syntax}
+
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
 
 \section{STRING statement}
+
+The STRING statement appends multiples character strings and stores the result.
 
 \begin{syntax}
   \key{STRING}
@@ -2521,6 +2744,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{SUBTRACT statement}
+
+The SUBTRACT statement subtracts one set of numbers from another set of numbers and stores the results.
 
 \format{simple}
 \begin{syntax}
@@ -2606,11 +2831,48 @@ and where \metaelement{varying-phrase} is
   \end{0-1}
 \end{syntax}
 
+\format{table}
+\begin{syntax}
+  \pending{
+    \key{SUBTRACT} \key{TABLE} \identifier \key{TO} \identifier
+    \begin{0-1}
+      \metaelement{rounded-phrase}
+    \end{0-1}
+  }
+
+  \pending{
+    \begin{0-1}
+      \key{FROM} INDEX \integer \key{TO} \integer
+    \end{0-1}
+  }
+
+  \pending{
+    \begin{0-1}
+      \key{DESTINATION} INDEX \integer
+    \end{0-1}
+  }
+
+  \pending{
+    \begin{0+}
+      ON \key{SIZE} \key{ERROR} \imperativestatement \\
+      \key{NOT} ON \key{SIZE} \key{ERROR} \imperativestatement
+    \end{0+}
+  }
+
+  \pending{
+    \begin{0-1}
+      \key{END-SUBTRACT}
+    \end{0-1}
+  }
+\end{syntax}
+
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
 
 \section{SUPPRESS statement}
+
+The SUPPRESS statement suppresses the writing of a report group.
 
 \begin{syntax}
   \pending{
@@ -2623,6 +2885,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{TERMINATE statement}
+
+The TERMINATE statement prevents further writing of a report.
 
 \begin{syntax}
   \pending{
@@ -2638,6 +2902,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{TRANSFORM statement}
+
+The TRANSFORM statement replaces instances of character with another character.
 
 \begin{syntax}[\deletedcolour]
   \key{TRANSFORM} \identifier \key{FROM}
@@ -2658,6 +2924,8 @@ and where \metaelement{varying-phrase} is
 
 \section{UNLOCK statement}
 
+The UNLOCK statement releases all currently held locks on a file.
+
 \begin{syntax}
   \key{UNLOCK} \filename
   \begin{0-1}
@@ -2671,6 +2939,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{UNSTRING statement}
+
+The UNSTRING statement extracts substrings from a string and copies the substrings to specified data items.
 
 \begin{syntax}
   \key{UNSTRING} \identifier
@@ -2730,6 +3000,8 @@ and where \metaelement{varying-phrase} is
 \subsubsection{General rules}
 
 \section{USE statement}
+
+The USE statement indicates when a declarative should be executed.
 
 \format{file exception}
 \begin{syntax}
@@ -2804,17 +3076,29 @@ and where \metaelement{varying-phrase} is
 
 \section{WRITE statement}
 
+The WRITE statement provides a new record to the file.
+
 \format{sequential}
 \begin{syntax}
-  \key{WRITE} \recordname
-  \begin{0-1}
-    \key{FROM}
+  \key{WRITE}
+  \begin{1=}
+    \recordname
+    \begin{0-1}
+      \key{FROM}
+      \begin{1=}
+        \identifier \\
+        \literal \\
+        \functionname
+      \end{1=}
+    \end{0-1} \\
+
+    \key{FILE} \filename \key{FROM}
     \begin{1=}
       \identifier \\
       \literal \\
       \functionname
     \end{1=}
-  \end{0-1}
+  \end{1=}
 
   \begin{0-1}
     \begin{1=}
@@ -2872,15 +3156,25 @@ and where \metaelement{varying-phrase} is
 
 \format{random}
 \begin{syntax}
-  \key{WRITE} \recordname
-  \begin{0-1}
-    \key{FROM}
+  \key{WRITE}
+  \begin{1=}
+    \recordname
+    \begin{0-1}
+      \key{FROM}
+      \begin{1=}
+        \identifier \\
+        \literal \\
+        \functionname
+      \end{1=}
+    \end{0-1} \\
+
+    \key{FILE} \filename \key{FROM}
     \begin{1=}
       \identifier \\
       \literal \\
       \functionname
     \end{1=}
-  \end{0-1}
+  \end{1=}
 
   \begin{0-1}
     \begin{1=}
