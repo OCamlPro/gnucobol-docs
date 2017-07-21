@@ -15,7 +15,7 @@
 @comment ** file (including the "Tag Table" and "End Tag Table" lines) the  **
 @comment ** INFO file will be fine.  It will take a little longer for an    **
 @comment ** INFO reader to locate a node (a millisecond or two) but the     **
-@comment ** extra time will be unnoticible.                                 **
+@comment ** extra time will be unnoticeable.                                 **
 @comment *********************************************************************
 @comment ** SPECIAL INSTRUCTIONS WHEN RUNNING "TEXI2PDF":                   **
 @comment ** --------------------------------------------------------------- **
@@ -27,37 +27,45 @@
 @finalout
 @include Macros.texi
 @paragraphindent 0
-@set BUILD 23NOV2013
-@set VERSION 2.1
+@set BUILD 21July2017
+@set VERSION 2.2.rc0
 @comment %**end of header
 @setchapternewpage odd
 @comment *********************************************************************
 @comment ** COPYING POLICY STATEMENT                                        **
 @comment *********************************************************************
 @copying
-This manual documents GNU COBOL @value{VERSION}, @value{BUILD} build.
+This manual documents GnuCOBOL @value{VERSION}, @value{BUILD} build.
 
 @verbatim
-GNU-COBOL Copyright 2002-2007 Keisuke Nishida
-          Copyright 2007-2012 Roger While
-          Copyright 2013-2013 Ron Norman (RWCS for GNU COBOL)
-Document  Copyright 2009-2014 Gary L. Cutler
+Document  Copyright 2009-2014 Gary L. Cutler, FSF (Free Software Foundation).
+Updates:  Copyright 2014-2017 Vincent B. Coen, Gary L. Cutler & FSF.
 @end verbatim
 @quotation
-Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License [FDL], Version 1.3 or any later version published by the Free Software Foundation; with Invariant Section ''Introduction'', no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license is included in the section entitled ''GNU Free Documentation License''.
+
+The authors and copyright holders of the Cobol programming language itself used herein:
+
+
+FLOW-MATIC (trademark for Sperry Rand Corporation) Programming for the Univac(R) I & II. Data Automation Systems copyrighted 1958, 1959, by Sperry Rand Corporation; IBM commercial translator form F28-8013, copyrighted 1959 by IBM; FACT DSI27A5260-2760, copyrighted 1960 by Minneapolis-Honeywell,
+have specifically authorised the use of this material in whole or in part of the COBOL specifications. Such authorisation extends to the reproduction & use of COBOL specifications in programming manuals or similar publications.
+
+@end quotation
+@quotation
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License [FDL], Version 1.3 or any later version published by the Free Software Foundation; with Invariant Section ''Introduction'', no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license is included in the section entitled "GNU Free Documentation License".
 @end quotation
 @end copying
 @dircategory GNU-COBOL
 @direntry
-* GNU-COBOL: (gnucobpg)        GNU COBOL Programmer's Guide
+* GNU-COBOL: (gnucobpg)        GnuCOBOL Programmer's Guide
 @end direntry
 @comment *********************************************************************
 @comment ** TITLE PAGE (WHEN GENERATING PDF VIA TeX)                        **
 @comment *********************************************************************
 @titlepage
-@title GNU COBOL Programmer's Guide
+@title GnuCOBOL Programmer's Guide
 @subtitle For Version @value{VERSION} [@value{BUILD}]
 @author Gary L. Cutler (@email{cutlergl@@gmail.com}).
+@author For updates Vincent B. Coen (@email{vbcoen@@gmail.com}).
 @page
 @vskip 0pt plus 1filll
 @insertcopying
@@ -66,9 +74,9 @@ Permission is granted to copy, distribute and/or modify this document under the 
 @comment ** TABLE OF CONTENTS (WHEN GENERATING PDF VIA TeX)                 **
 @comment *********************************************************************
 @headings off
-@oddheading GNU COBOL @value{VERSION} [@value{BUILD}] Programmer's Guide @| @| @thispage
+@oddheading GnuCOBOL @value{VERSION} [@value{BUILD}] Programmer's Guide @| @| @thispage
 @oddfooting @today{} @| @| @value{CHAPNAME}
-@evenheading @thispage @| @| GNU COBOL @value{VERSION} [@value{BUILD}] Programmer's Guide
+@evenheading @thispage @| @| GnuCOBOL @value{VERSION} [@value{BUILD}] Programmer's Guide
 @evenfooting @value{CHAPNAME} @| @| @today{}
 @contents
 @comment *********************************************************************
@@ -76,8 +84,8 @@ Permission is granted to copy, distribute and/or modify this document under the 
 @comment *********************************************************************
 @ifinfo
 @node Top
-@top GNU COBOL Programmer's Guide
-This manual documents the 23NOV2013 build of GNU COBOL 2.1.
+@top GnuCOBOL Programmer's Guide
+This manual documents the @value{BUILD} build of GnuCOBOL @value{VERSION}  00June2017 build of GnuCOBOL 2.2.
 @menu
 List of Chapters and Appendices:
 
@@ -104,9 +112,9 @@ Full Contents:
 * 1:  Introduction.
 *   1.1:  Additional Reference Sources.
 *   1.2:  Introducing COBOL.
-*     1.2.1:  Why YOU Should Learn COBOL.
+*     1.2.2:  Why YOU Should Learn COBOL.
 *     1.2.2:  Programmer Productivity.
-*   1.3:  So What is GNU COBOL?.
+*   1.3:  So What is GnuCOBOL?.
 *     1.3.1:  Language Reserved Words.
 *     1.3.2:  User-Defined Words.
 *     1.3.3:  Case Insensitivity.
@@ -119,7 +127,7 @@ Full Contents:
 *     1.3.10: Sorting and Merging Data.
 *     1.3.11: String Manipulation Features.
 *     1.3.12: Screen Formatting Features.
-*       1.3.12.1: A Sample Screen.
+*       1.3.12.2: A Sample Screen.
 *       1.3.12.2: Color Palette and Video Attributes.
 *     1.3.13: Report Writer Features.
 *     1.3.14: Data Initialization.
@@ -136,7 +144,7 @@ Full Contents:
 *     1.3.22: Interfacing to Other Environments.
 
 * 2:  CDF - Compiler Directing Facility.
-*   2.1: COPY.
+*   2.2: COPY.
 *   2.2: REPLACE.
 *   2.3: >>DEFINE.
 *   2.4: >>IF.
@@ -157,18 +165,18 @@ Full Contents:
 *       4.1.4.3: Switch-Definition-Clause.
 *       4.1.4.4: Symbolic-Characters-Clause.
 *   4.2: INPUT-OUTPUT SECTION.
-*     4.2.1: SELECT.
-*       4.2.1.1: ORGANIZATION SEQUENTIAL.
-*       4.2.1.2: ORGANIZATION LINE SEQUENTIAL.
-*       4.2.1.3: ORGANIZATION RELATIVE.
-*       4.2.1.4: ORGANIZATION INDEXED.
+*     4.2.2: SELECT.
+*       4.2.2.1: ORGANIZATION SEQUENTIAL.
+*       4.2.2.2: ORGANIZATION LINE SEQUENTIAL.
+*       4.2.2.3: ORGANIZATION RELATIVE.
+*       4.2.2.4: ORGANIZATION INDEXED.
 *     4.2.2: SAME RECORD AREA.
 *     4.2.3: MULTIPLE FILE.
 
 * 5:  DATA DIVISION.
 *   5.1: Data Definition Principles.
 *   5.2: FILE SECTION.
-*     5.2.1: File/Sort-Description.
+*     5.2.2: File/Sort-Description.
 *     5.2.2: FILE-SECTION-Data-Item.
 *   5.3: WORKING-STORAGE SECTION.
 *   5.4: LOCAL-STORAGE SECTION.
@@ -268,7 +276,7 @@ Full Contents:
 *     6.14.7: ROUNDED.
 *   6.15: Special Registers.
 *   6.16: Intrinsic Functions.
-*   6.17: GNU COBOL Statements.
+*   6.17: GnuCOBOL Statements.
 
 * 7:  Report Writer Usage Notes.
 *   7.1: RWCS Lexicon.
@@ -285,14 +293,14 @@ Full Contents:
 
 * 8:  Interfacing With The OS.
 *   8.1: Compiling Programs.
-*     8.1.1: cobc - The GNU COBOL Compiler.
+*     8.1.1: cobc - The GnuCOBOL Compiler.
 *     8.1.2: Compilation Time Environment Variables.
 *     8.1.3: Locating Copybooks.
 *     8.1.4: Compiler Configuration Files.
 *   8.2: Running Programs.
-*     8.2.1: Direct Execution.
+*     8.2.2: Direct Execution.
 *     8.2.2: Executing Dynamically-Loadable Libraries.
-*       8.2.2.1: cobcrun - Command-line Execution.
+*       8.2.2.2: cobcrun - Command-line Execution.
 *       8.2.2.2: Dynamically Loaded Subprograms.
 *     8.2.3: Run Time Environment Variables.
 *     8.2.4: Program Arguments.
@@ -314,12 +322,12 @@ Full Contents:
 *     9.6.2: GLOBAL Data Items.
 *     9.6.3: EXTERNAL Data Items.
 *   9.7: Recursive Subprograms.
-*   9.8: Combining GNU COBOL and C Programs.
-*     9.9.1: GNU COBOL Run-Time Library Requirements.
-*     9.9.2: String Allocation Differences Between GNU COBOL and C.
-*     9.9.3: Matching C Data Types with GNU COBOL USAGEs.
-*     9.9.4: GNU COBOL Main Programs CALLing C Subprograms.
-*     9.9.5: C Main Programs Calling GNU COBOL Subprograms.
+*   9.8: Combining GnuCOBOL and C Programs.
+*     9.9.1: GnuCOBOL Run-Time Library Requirements.
+*     9.9.2: String Allocation Differences Between GnuCOBOL and C.
+*     9.9.3: Matching C Data Types with GnuCOBOL USAGE's.
+*     9.9.4: GnuCOBOL Main Programs CALLing C Subprograms.
+*     9.9.5: C Main Programs Calling GnuCOBOL Subprograms.
 
 * 10: Programming Style Suggestions.
 *   10.1: Marking Changes in Programs.
@@ -339,7 +347,7 @@ Full Contents:
 @end detailmenu
 @end menu
 @end ifinfo
-@settitle GNU COBOL Programmer's Guide Guide @value{VERSION} [@value{BUILD}]
+@settitle GnuCOBOL Programmer's Guide Guide @value{VERSION} [@value{BUILD}]
 @comment *********************************************************************
 @comment ** Document Body                                                   **
 @comment *********************************************************************

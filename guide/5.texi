@@ -37,7 +37,7 @@
 @comment *********************************************************************
 @comment ** 5.1 Data Definition Principles                                  **
 @comment *********************************************************************
-@newsection{5.1,Data Definition Principles}GNU COBOL data items, like those of other COBOL implementations, are described in a hierarchical manner.  This accommodates the fact that data items frequently need to be able to be broken up into subordinate items.  Take for example, the following logical layout of a portion of a data item named @syntax{Employee}:
+@newsection{5.1,Data Definition Principles}GnuCOBOL data items, like those of other COBOL implementations, are described in a hierarchical manner.  This accommodates the fact that data items frequently need to be able to be broken up into subordinate items.  Take for example, the following logical layout of a portion of a data item named @syntax{Employee}:
 @ifinfo
 @verbatim
                            Employee
@@ -59,7 +59,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @sp 1
 @center @image{hierarchy,6in,}
 @end iftex
-@* The @syntax{Employee} data item consists of two subordinate data items --- an @syntax{Employee-Name} and an @syntax{Employment-Dates} data item (presumably there would be a lot of others too, but we don't care about them right now).  As the diagram shows, each of those data items are, in turn, broken down into subordinate data items.  This hierarchy of data items can get rather @syntax{deep}, and GNU COBOL, like other COBOL implementations, can handle up to 49 levels of such hierarchical structures.
+@* The @syntax{Employee} data item consists of two subordinate data items --- an @syntax{Employee-Name} and an @syntax{Employment-Dates} data item (presumably there would be a lot of others too, but we don't care about them right now).  As the diagram shows, each of those data items are, in turn, broken down into subordinate data items.  This hierarchy of data items can get rather @syntax{deep}, and GnuCOBOL, like other COBOL implementations, can handle up to 49 levels of such hierarchical structures.
 @p As was presented earlier (@pxref{Structured Data}), a data item that is broken down into other data items is referred to as a group item, while one that isn't broken down is called an elementary item.
 @p COBOL uses the concept of a "level number" to indicate the level at which a data item occurs in a data structure such as the example shown above.  When these data items are defined, they are all defined together with a number in the range 1-49 specified in front of their names.  Over the years, a convention has come to exist among COBOL programmers that level numbers are always coded as two-digit numbers --- they don't @i{have} to be specified as two-digit numbers, but every example you see in this document will take that approach!
 @p The data item at the top, also referred to as a "record", always has a level number of 01.  After that, you may assign level numbers as you wish (01--02--03--04@dots{}, 01--05--10--15@dots{}, etc.), as long as you follow these simple rules:
@@ -68,7 +68,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item Every new level uses a level number that is strictly greater than the one used in the parent (next higher) level.
 @p @item When describing data hierarchies, you may never use a level number greater than 49 (except for 66, 77, 78 and 88 which have very special meanings --- see @pxref{Special Data Items}).
 @end enumerate
-@* So, the definition of these data items in a GNU COBOL program would go something like this:
+@* So, the definition of these data items in a GnuCOBOL program would go something like this:
 @verbatim
     01  Employee
         05 Employee-Name
@@ -85,8 +85,8 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
               15 Month
               15 Day
 @end verbatim
-@* The indentation is purely at the discretion of the programmer to make things easier for humans to read (the compiler couldn't care less).  Historically, COBOL implementations that required Fixed Format Mode source programs required that the @syntax{01} level number begin in Area A and that everything else begins in Area B.  GNU COBOL only requires that all data definition syntax occur in columns 8-72.  In Free Format Mode, of course, there aren't even those limitations.
-@p Did you notice that there are two each of @syntax{Year}, @syntax{Month} and @syntax{Day} data names defined?  Thet's perfectly legal, provided that each can be uniquely @syntax{qualified} so as to be distinct from the other.  Take for example the @syntax{Year} items.  One is defined as part of the @syntax{From-Date} data item while the other is defined as part of the "To-Date" data item.  In COBOL, we would actually code references to these two data items as either @syntax{Year OF From-Date} and @syntax{Year OF To-Date} or @syntax{Year IN From-Date} and @syntax{Year IN To-Date} (COBOL allows either @syntax{IN} or @syntax{OF} to be used).  Since these references would clarify any confusion to us as to which @syntax{Year} might be referenced, the GNU COBOL compiler won't be confused either.
+@* The indentation is purely at the discretion of the programmer to make things easier for humans to read (the compiler couldn't care less).  Historically, COBOL implementations that required Fixed Format Mode source programs required that the @syntax{01} level number begin in Area A and that everything else begins in Area B.  GnuCOBOL only requires that all data definition syntax occur in columns 8-72.  In Free Format Mode, of course, there aren't even those limitations.
+@p Did you notice that there are two each of @syntax{Year}, @syntax{Month} and @syntax{Day} data names defined?  That's perfectly legal, provided that each can be uniquely @syntax{qualified} so as to be distinct from the other.  Take for example the @syntax{Year} items.  One is defined as part of the @syntax{From-Date} data item while the other is defined as part of the "To-Date" data item.  In COBOL, we would actually code references to these two data items as either @syntax{Year OF From-Date} and @syntax{Year OF To-Date} or @syntax{Year IN From-Date} and @syntax{Year IN To-Date} (COBOL allows either @syntax{IN} or @syntax{OF} to be used).  Since these references would clarify any confusion to us as to which @syntax{Year} might be referenced, the GnuCOBOL compiler won't be confused either.
 @p The coding example shown above is incomplete --- it only describes the data item names and their hierarchical relationships to one other.  In addition, any valid data item definitions will also need to describe what type of data is to be contained in a data item (Numeric? Alphanumeric? Alphabetic?), how much data can be held in the data item and a multitude of other characteristics.
 @p When group items are being defined, subordinate items may be assigned a @syntax{name} of @syntaxidx{FILLER}.  There may be any number of @syntax{FILLER} items defined within a group item.  A data item named @syntax{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item.  Note that it is possible that the name of the group item itself might be specified as @syntax{FILLER} if there is no need to ever refer directly to the group structure itself.
 @comment *********************************************************************
@@ -128,7 +128,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @enumerate A
 @p @item The clause may only be specified in the @syntax{FD} of a sequential or line sequential file.  If used with a sequential file, the organization of that file will be implicitly changed to line sequential.
 @p @item The @syntax{FD} cannot be followed by record descriptions --- detailed descriptions of data to be printed to the file will be defined in the @syntaxref{REPORT SECTION}.
-@p @item If a @syntax{LINAGE} clause is also specified, Values specified for @syntax{LINAGE IS} and @syntax{FOOTING AT} will be ignored.  The values of @syntax{LINES AT BOTTOM} and @syntax{LINES AT TOP}, if any, will be honored.
+@p @item If a @syntax{LINAGE} clause is also specified, Values specified for @syntax{LINAGE IS} and @syntax{FOOTING AT} will be ignored.  The values of @syntax{LINES AT BOTTOM} and @syntax{LINES AT TOP}, if any, will be honoured.
 @end enumerate
 @item The following special rules apply only to sort/merge work files:
 @enumerate A
@@ -179,7 +179,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @diagram{WORKING-STORAGE-SECTION-Data-Item,DD-WSS-Data-Item,DD-WSS-Data-Item,DD-SYNC-LEFT-RIGHT}@p The working-storage section is used to describe data items that are not part of files, screens or reports and whose data values persist throughout the execution of the program.
 @enumerate
 @p @item The reserved words @syntax{BY}, @syntax{CHARACTER}, @syntax{IS}, @syntax{KEY}, @syntax{ON}, @syntax{RIGHT} (JUSTIFIED), @syntax{TIMES} and @syntax{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The reserved words @syntax{SYNCRONIZED} and @syntax{SYNCRONISED} are interchangeable.  Both may be abbreviated as @syntax{SYNC}.
+@p @item The reserved words @syntax{SYNCRONIZED} and @syntax{SYNCHRONISED} are interchangeable.  Both may be abbreviated as @syntax{SYNC}.
 @p @item The reserved word @syntax{PICTURE} may be abbreviated to @syntax{PIC}.
 @p @item The reserved word @syntax{JUSTIFIED} may be abbreviated to @syntax{JUST}.
 @p @item As the syntax diagram shows, the definition of a @clause{WORKING-STORAGE-SECTION-Data-Item} is a recursive one in that there may be any number of such specifications coded following one another.  The first such specification must have a level number of 01.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of a record.  The definition of a record is terminated when one of the following occurs:
@@ -189,7 +189,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item A division or section header is found --- this also marks the completion of a record and signifies the end of the working-storage section as well.
 @end itemize
 @item Every @clause{WORKING-STORAGE-SECTION-Data-Item} description must be terminated with a period.
-@p @item The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 through 49 are used to define data items that may be part of a hierarchical structure.  Level number 01 can also be used to define a constant --- an item with an unchangable value specified at compilation time.
+@p @item The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 through 49 are used to define data items that may be part of a hierarchical structure.  Level number 01 can also be used to define a constant --- an item with an unchangeable value specified at compilation time.
 @p @item Level numbers 66, 77, 78 and 88 all have special uses --- @xref{Special Data Items}, for details.
 @p @item Not specifying an @term{identifier-1} or @syntax{FILLER} immediately after the level number has the same effect as if @syntax{FILLER} were specified.  A data item named @syntax{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.
 @p @item Data items defined within the working-storage section are automatically initialized once --- as the program in which the data is defined is loaded into memory.  Subprograms may be loaded into memory more than once (see the @statementref{CANCEL}), in which case initialization will happen each time they are loaded.  @xref{Data Initialization}, for a discussion of the initialization rules.
@@ -200,10 +200,10 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @comment *********************************************************************
 @page
 @newsection{5.4,LOCAL-STORAGE SECTION}
-@diagram{LOCAL-STORAGE-SECTION-Data-Item,DD-LSS-Data-Item,DD-LSS-Data-Item,DD-SYNC-LEFT-RIGHT}@p The local-storage section is similar to working-storage, but describes data within a subprogram that will be dynamically allocated and initialized (automatically) each time the subprogram is executed.  @xref{Data Initialization}, for the rules of data ititialization.
+@diagram{LOCAL-STORAGE-SECTION-Data-Item,DD-LSS-Data-Item,DD-LSS-Data-Item,DD-SYNC-LEFT-RIGHT}@p The local-storage section is similar to working-storage, but describes data within a subprogram that will be dynamically allocated and initialized (automatically) each time the subprogram is executed.  @xref{Data Initialization}, for the rules of data initialization.
 @enumerate
 @p @item The reserved words @syntax{BY}, @syntax{CHARACTER} @syntax{IS}, @syntax{KEY}, @syntax{ON}, @syntax{RIGHT} (JUSTIFIED), @syntax{TIMES} and @syntax{WHEN}  are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The reserved words @syntax{SYNCRONIZED} and @syntax{SYNCRONISED} are interchangeable.  Both may be abbreviated as @syntax{SYNC}.
+@p @item The reserved words @syntax{SYNCRONIZED} and @syntax{SYNCHRONISED} are interchangeable.  Both may be abbreviated as @syntax{SYNC}.
 @p @item The reserved word @syntax{PICTURE} may be abbreviated to @syntax{PIC}.
 @p @item The reserved word @syntax{JUSTIFIED} may be abbreviated to @syntax{JUST}.
 @p @item As the syntax diagram shows, the definition of a @clause{LOCAL-STORAGE-SECTION-Data-Item} is a recursive one in that there may be any number of such specifications coded following one another.  The first such specification must have a level number of 01.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of a record.  The definition of a record is terminated when one of the following occurs:
@@ -212,7 +212,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item A division or section header is found --- this also marks the completion of a record and signifies the end of the local-storage section as well.
 @end itemize
 @item Every @clause{LOCAL-STORAGE-SECTION-Data-Item} description must be terminated with a period.
-@p @item The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 through 49 are used to define data items that may be part of a hierarchical structure.  Level number 01 can also be used to define a constant --- an item with an unchangable value specified at compilation time.
+@p @item The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 through 49 are used to define data items that may be part of a hierarchical structure.  Level number 01 can also be used to define a constant --- an item with an unchangeable value specified at compilation time.
 @p @item Level numbers 66, 77, 78 and 88 all have special uses --- @xref{Special Data Items}, for details.
 @p @item Not specifying an @term{identifier-1} or @syntax{FILLER} immediately after the level number has the same effect as if @syntax{FILLER} were specified.  A data item named @syntax{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.
 @p @item Local-storage cannot be used in nested subprograms.
@@ -226,7 +226,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @diagram{LINKAGE-SECTION-Data-Item,DD-LS-Data-Item,DD-LS-Data-Item,DD-SYNC-LEFT-RIGHT}@p The linkage section describes data within a subprogram that serves as either input arguments to or output results from the subprogram.
 @enumerate
 @p @item The reserved words @syntax{BY}, @syntax{CHARACTER}, @syntax{IS}, @syntax{KEY}, @syntax{ON} and @syntax{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The reserved words @syntax{SYNCRONIZED} and "@syntax{SYNCRONISED}" are interchangeable.  Both may be abbreviated as @syntax{SYNC}.
+@p @item The reserved words @syntax{SYNCRONIZED} and "@syntax{SYNCHRONISED}" are interchangeable.  Both may be abbreviated as @syntax{SYNC}.
 @p @item The reserved word @syntax{PICTURE} may be abbreviated to @syntax{PIC}.
 @p @item The reserved word @syntax{JUSTIFIED} may be abbreviated to @syntax{JUST}.
 @p @item As the syntax diagram shows, the definition of a @clause{LINKAGE-SECTION-Data-Item} is a recursive one in that there may be any number of such specifications coded following one another.  The first such specification must have a level number of 01.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of a record.  The definition of a record is terminated when one of the following occurs:
@@ -235,7 +235,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item A division or section header is found --- this also marks the completion of a record and signifies the end of the linkage section as well.
 @end itemize
 @item Every @clause{LINKAGE-SECTION-Data-Item} description must be terminated with a period.
-@p @item The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 through 49 are used to define data items that may be part of a hierarchical structure.  Level number 01 can also be used to define a constant --- an item with an unchangable value specified at compilation time.
+@p @item The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 through 49 are used to define data items that may be part of a hierarchical structure.  Level number 01 can also be used to define a constant --- an item with an unchangeable value specified at compilation time.
 @p @item Level numbers 66, 77, 78 and 88 all have special uses --- @xref{Special Data Items}, for details.
 @p @item It is expected that:
 @enumerate A
@@ -376,7 +376,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item @syntax{SECURE} and @syntax{NO-ECHO}
 @end itemize
 @item Data items defined in the screen section describe input, output or combination screen layouts to be used with @statementref{ACCEPT screen-data-item} or @statementref{DISPLAY screen-data-item} statements.  These screen layouts may define the entire available screen area or any subset of it.
-@p @item The term 'available screen area' is a nebulous one in those environments where command-line shell sessions are invoked within a graphical user-interface environment, as will be the case on Windows, OSX and most Unix/Linux systems --- these environments allow command-line session windows to exist with a variable number of available screen rows and columns.  When you are designing GNU COBOL screens, you need to do so with an awareness of the logical screen row/column geometry the program will be executing within.
+@p @item The term 'available screen area' is a nebulous one in those environments where command-line shell sessions are invoked within a graphical user-interface environment, as will be the case on Windows, OSX and most Unix/Linux systems --- these environments allow command-line session windows to exist with a variable number of available screen rows and columns.  When you are designing GnuCOBOL screens, you need to do so with an awareness of the logical screen row/column geometry the program will be executing within.
 @p @item Data items with level numbers 01 (Constants), 66, 78 and 88 may be used in the screen section;  they have the same syntax, rules and usage as they do in the other data division sections.
 @p @item Without @syntaxref{LINE} or @syntaxref{COLUMN} clauses, screen section fields will display on the console window beginning at whatever line/column coordinate is stated or implied by the @syntax{ACCEPT screen-data-item} or @statement{DISPLAY screen-data-item} that presents the screen item.  After a field is presented to the console window, the next field will be presented immediately following that field.
 @p @item A @syntax{LINE} clause explicitly stated in the definition of a screen section data item will override any @syntax{LINE} clause included on the @syntax{ACCEPT screen-data-item} or @statement{DISPLAY screen-data-item} that presents that data item to the screen.  The same is true of @syntax{COLUMN} clauses.
@@ -410,15 +410,15 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item  Constants defined in this way become undefined once an @syntax{END PROGRAM} or @syntax{END FUNCTION} is encountered in the input source.
 @p @item  Data descriptions of this form do not actually allocate any storage --- they merely define a name (@term{constant-name-1}) that may be used anywhere a numeric literal (@syntaxidx{BYTE-LENGTH} or @syntaxidx{LENGTH} options) or a literal of the same type as @term{literal-1} may be used.
 @p @item  The @term{constant-name-1} name may not be referenced on a CDF directive.
-@p @item  Care must be taken that @term{constant-name-1} does not duplicate any other data item name that has been defined in the program as references to that data item name will refer to the constant and not the data item.  The GNU COBOL compiler will not issue a warning about this condition.
+@p @item  Care must be taken that @term{constant-name-1} does not duplicate any other data item name that has been defined in the program as references to that data item name will refer to the constant and not the data item.  The GnuCOBOL compiler will not issue a warning about this condition.
 @p @item  The value specified for @term{usage-name} may be any @syntax{USAGE} that does not use a @syntaxref{PICTURE} clause.  These would be any of @syntax{BINARY-C-LONG}, @syntax{BINARY-CHAR}, @syntax{BINARY-DOUBLE}, @syntax{BINARY-LONG}, @syntax{BINARY-SHORT}, @syntax{COMP-1} (or @syntax{COMPUTATIONAL-1}), @syntax{COMP-2} (or @syntax{COMPUTATIONAL-2}), @syntax{FLOAT-DECIMAL-16}, @syntax{FLOAT-DECIMAL-34}, @syntax{FLOAT-LONG}, @syntax{FLOAT-SHORT}, @syntax{POINTER}, or @syntax{PROGRAM-POINTER}.
 @p @item  The @syntax{BYTE-LENGTH} clause will produce a numeric value for @term{constant-name-1} identical to that which would be returned by the @intrinsic{BYTE-LENGTH} executed against @term{identifier-1} or a data item declared with a @syntax{USAGE} of @term{usage-name}.
 @p @item  The @syntax{LENGTH} clause will produce a numeric value for @term{constant-name-1} identical to that which would be returned by the @intrinsic{LENGTH} executed against @term{identifier-1} or a data item declared with a @syntax{USAGE} of @term{usage-name}.
 @end enumerate
-@* Here is the listing of a GNU COBOL program that uses 01-level constants to display the length (in bytes) of the various picture-less usage types.
+@* Here is the listing of a GnuCOBOL program that uses 01-level constants to display the length (in bytes) of the various picture-less usage types.
 @verbatim
     IDENTIFICATION DIVISION.
-    PROGRAM-ID. USAGELengths.
+    PROGRAM-ID. Usage Lengths.
     DATA DIVISION.
     WORKING-STORAGE SECTION.
     01  Len-BINARY-C-LONG    CONSTANT AS LENGTH OF BINARY-C-LONG.
@@ -436,8 +436,8 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
     01  Len-PROGRAM-POINTER  CONSTANT AS LENGTH OF PROGRAM-POINTER.
     PROCEDURE DIVISION.
     000-Main.
-        DISPLAY "On this system, with this build of GNU COBOL, the"
-        DISPLAY "PICTURE-less USAGEs have these lengths (in bytes):"
+        DISPLAY "On this system, with this build of GnuCOBOL, the"
+        DISPLAY "PICTURE-less USAGE's have these lengths (in bytes):"
         DISPLAY " "
         DISPLAY "BINARY-C-LONG:    " Len-BINARY-C-LONG
         DISPLAY "BINARY-CHAR:      " Len-BINARY-CHAR
@@ -455,10 +455,10 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
         STOP RUN
         .
 @end verbatim
-@* The output of this program, on a Windows 7 system with a 32-bit MinGW build of GNU COBOL is:
+@* The output of this program, on a Windows 7 system with a 32-bit MinGW build of GnuCOBOL is:
 @verbatim
-    On this system, with this build of GNU COBOL, the
-    PICTURE-less USAGEs have these lengths (in bytes):
+    On this system, with this build of GnuCOBOL, the
+    PICTURE-less USAGE's have these lengths (in bytes):
 
     BINARY-C-LONG:    4
     BINARY-CHAR:      1
@@ -500,7 +500,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p The intent of a 77-level item is to be able to create a stand-alone elementary data item.
 @enumerate
 @p @item The reserved words @syntax{CHARACTER}, @syntax{IS}, @syntax{RIGHT} (JUSTIFIED) and @syntax{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The reserved word @syntax{JUSTIFIED} may be abbreviated as @syntax{JUST}, the reserved word @syntax{PICTURE} may be abbreviated as @syntax{PIC} and the reserved words @syntax{SYNCRONIZED} and @syntax{SYNCRONISED} may be abbreviated as @syntax{SYNC}.
+@p @item The reserved word @syntax{JUSTIFIED} may be abbreviated as @syntax{JUST}, the reserved word @syntax{PICTURE} may be abbreviated as @syntax{PIC} and the reserved words @syntax{SYNCRONIZED} and @syntax{SYNCHRONISED} may be abbreviated as @syntax{SYNC}.
 @p @item New programs requiring a stand-alone elementary item should be coded to use a level number of 01 rather than 77.
 @p @item @xref{Data Description Clauses}, for information on the usage of the various data description clauses.
 @end enumerate
@@ -518,7 +518,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item Constants defined in this way become undefined once an @syntax{END PROGRAM} or @syntax{END FUNCTION} is encountered in the input source.
 @p @item  Data descriptions of this form do not actually allocate any storage --- they merely define a name (@term{constant-name-1}) that may be used anywhere a literal of the same type as @term{literal-1} may be used.
 @p @item  The @term{constant-name-1} name may not be referenced on a CDF directive.
-@p @item  Care must be taken that @term{constant-name-1} does not duplicate any other data item name that has been defined in the program as references to that data item name will refer to the constant and not the data item.  The GNU COBOL compiler will not issue a warning about this condition.
+@p @item  Care must be taken that @term{constant-name-1} does not duplicate any other data item name that has been defined in the program as references to that data item name will refer to the constant and not the data item.  The GnuCOBOL compiler will not issue a warning about this condition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.8.5 88-Level Data Items                                       **
@@ -656,7 +656,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @enumerate
 @p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
 @p @item The reserved words @syntax{BACKGROUND-COLOR} and @syntax{BACKGROUND-COLOUR} are interchangeable.
-@p @item You specify colors by number (0-7), or by using the constant names provided in the "screenio.cpy" copybook (which is provided with all GNU COBOL source distributions).
+@p @item You specify colors by number (0-7), or by using the constant names provided in the "screenio.cpy" copybook (which is provided with all GnuCOBOL source distributions).
 @p @item Colors may also be specified using a numeric non-edited identifier whose value is in the range 0-7.
 @end enumerate
 @p @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
@@ -752,8 +752,8 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item The value of @term{integer-1} must be 1 or greater.
 @p @item If @term{identifier-1} is used to specify either an absolute or relative column position, @term{identifier-1} must be defined as a numeric item of any @syntaxref{USAGE} other than @syntax{COMPUTATIONAL-1} or @syntax{COMPUTATIONAL-2}, without editing symbols.  The value of @term{identifier-1} at the time the screen data item is presented must be 1 or greater.  Note that a @syntax{COMPUTATIONAL-1} or @syntax{COMPUTATIONAL-2} identifier will be accepted by the compiler, but will produce unpredictable results at run-time.
 @p @item The column coordinate of a field may be stated on an absolute basis (i.e. @syntax{COLUMN 5}) or on a relative basis based upon the end of the previously-presented field (i.e. @syntax{COLUMN PLUS 1}).
-@p @item The symbol @syntax{+} may be used in lieue of the word @syntax{PLUS}, if desired; if symbol @syntax{+} is used, however, there must be at least one space separating it from @term{integer-1}.  Failure to include this space will cause the symbol @syntax{+} sign to be simply treated as part of @term{integer-1} and will treat the @syntax{COLUMN} clause as an absolute column specification rather than a relative one.
-@p @item Using relative column positioning (@syntax{COLUMN PLUS}) has slightly different behavior depending upon the section in which the clause is used, as follows:
+@p @item The symbol @syntax{+} may be used in lieu of the word @syntax{PLUS}, if desired; if symbol @syntax{+} is used, however, there must be at least one space separating it from @term{integer-1}.  Failure to include this space will cause the symbol @syntax{+} sign to be simply treated as part of @term{integer-1} and will treat the @syntax{COLUMN} clause as an absolute column specification rather than a relative one.
+@p @item Using relative column positioning (@syntax{COLUMN PLUS}) has slightly different behaviour depending upon the section in which the clause is used, as follows:
 @enumerate A
 @p @item When used on a report section data item, @syntax{COLUMN PLUS} will position the start of the new field's value such that there are @term{integer-1} blank columns between the end of the previous field and the beginning of this field.
 @p If a report data item's description includes the @syntaxref{SOURCE}, @syntaxref{SUM} or @syntaxref{VALUE} clause but has no @syntax{COLUMN} clause, @syntax{COLUMN PLUS 1} will be assumed.
@@ -769,7 +769,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @diagram{CONSTANT Attribute,DD-CONSTANT,DD-CONSTANT,None}
 @center This syntax is valid in the following sections:
 @center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{SCREEN}
-@p This option signifies that the 01-level data item in whose declaration @syntax{CONSTANT} is specified will be treated as a symbolic name for a literal value, useable wherever a literal of the appropriate type could be used.
+@p This option signifies that the 01-level data item in whose declaration @syntax{CONSTANT} is specified will be treated as a symbolic name for a literal value, usable wherever a literal of the appropriate type could be used.
 @enumerate
 @p @item The value of a data item defined as a constant cannot be changed at run-time.  In fact, it is not syntactically acceptable to use such a data item as the destination field of any procedure division statement that stores a value.
 @p @item @xref{01-Level Constants}, for additional information.
@@ -787,7 +787,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item The @syntax{EMPTY-CHECK} and @syntaxref{REQUIRED} clauses are interchangeable, and may not be used together in the same data item description.
 @p @item In order to take effect, the user must first move the cursor into the field having this clause in its definition.
 @p @item The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item @i{unless} data has been entered into the field.  Function keys will still be allowed to terminate the @syntax{ACCEPT}.
-@p @item In order to be functional, this attribute must be supported by the underlying 'curses' package your GNU COBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @syntax{EMPTY-CHECK}.
+@p @item In order to be functional, this attribute must be supported by the underlying 'curses' package your GnuCOBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @syntax{EMPTY-CHECK}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.9.15 ERASE                                                    **
@@ -811,7 +811,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @diagram{EXTERNAL Attribute,DD-EXTERNAL,DD-EXTERNAL,None}
 @center This syntax is valid in the following sections:
 @center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}
-@p This clause marks a data item description, @syntax{FD} or @syntax{SD} @pxref{File/Sort-Description} as being sharable with other programs executed from the same execution thread.
+@p This clause marks a data item description, @syntax{FD} or @syntax{SD} @pxref{File/Sort-Description} as being shareable with other programs executed from the same execution thread.
 @enumerate
 @p @item By specifying the @syntax{EXTERNAL} clause on either an FD or an SD, the file description is capable of being shared between all programs executed from the same execution thread, provided an @syntax{EXTERNAL} clause is coded with the file's description in @i{each} program requiring it.  This sharing allows the file to be opened, read and/or written and closed in different programs.  This sharing applies to the record descriptions subordinate to the file description too.
 @p @item By specifying the @syntax{EXTERNAL} clause on the description of a data item, the data item is capable of being shared between all programs executed from the same execution thread, provided the data item is coded (with an @syntax{EXTERNAL} clause) in each program requiring it.
@@ -847,7 +847,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @enumerate
 @p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
 @p @item The reserved words @syntax{FOREGROUND-COLOR} and @syntax{FOREGROUND-COLOUR} are interchangeable.
-@p @item You specify colors by number (0-7), or by using the constant names provided in the "screenio.cpy" copybook (which is provided with all GNU COBOL source distributions).
+@p @item You specify colors by number (0-7), or by using the constant names provided in the "screenio.cpy" copybook (which is provided with all GnuCOBOL source distributions).
 @p @item Colors may also be specified using a numeric non-edited identifier whose value is in the range 0-7.
 @end enumerate
 @* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
@@ -861,7 +861,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @center @strong{SCREEN}
 @p This clause is used to specify either the data item a screen section field is to obtain it's value from when the screen is displayed, or a literal that will specify the value of that same field.
 @enumerate
-@p @item The @syntax{FROM}, @syntaxref{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data itsm's definition.
+@p @item The @syntax{FROM}, @syntaxref{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.9.20 FULL                                                     **
@@ -876,7 +876,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item The @syntax{FULL} and @syntaxref{LENGTH-CHECK} clauses are interchangeable, and may not be used together in the same data item description.
 @p @item In order for this clause to take effect at execution time, the user must move the cursor into the field having this clause in its definition.
 @p @item The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item unless the proper amount of data has been entered into the field.  Function keys will still be allowed to terminate the @syntax{ACCEPT}, however.
-@p @item In order to be functional, this attribute must be supported by the underlying 'curses' package your GNU COBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @syntax{FULL}.
+@p @item In order to be functional, this attribute must be supported by the underlying 'curses' package your GnuCOBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @syntax{FULL}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.9.21 GLOBAL                                                   **
@@ -886,7 +886,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @diagram{GLOBAL Attribute,DD-GLOBAL,DD-GLOBAL,None}
 @center This syntax is valid in the following sections:
 @center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{REPORT}
-@p This clause marks a data item, 01-level constant, @syntax{FD} (@pxref{File/Sort-Description}), @syntax{SD} (@pxref{File/Sort-Description}) or an @syntax{RD} (@pxref{REPORT SECTION}) as being sharable with any nested subprograms.
+@p This clause marks a data item, 01-level constant, @syntax{FD} (@pxref{File/Sort-Description}), @syntax{SD} (@pxref{File/Sort-Description}) or an @syntax{RD} (@pxref{REPORT SECTION}) as being shareable with any nested subprograms.
 @enumerate
 @p @item By specifying the @syntax{GLOBAL} clause on the description of a file or a report, that description is capable of being shared between a program and any nested subprograms within it, provided the @syntax{FD}, @syntax{SD} or @syntax{RD} is coded (with a @syntax{GLOBAL} clause) in each nested subprogram requiring it.  This sharing allows the file to be opened, read and/or written and closed or the report to be initiated or terminated in those programs.  Separately compiled programs may not share a @syntax{GLOBAL} file description, but they may share an @syntaxref{EXTERNAL} file description.  This sharing applies to the record descriptions subordinate to the file description and the report groups subordinate to the @syntax{RD} also.
 @p @item By specifying the @syntax{GLOBAL} clause on the description of a data item, the data item is capable of being shared between a program and any nested subprograms within it, provided the data item is coded (with a @syntax{GLOBAL} clause) in each program requiring it.
@@ -936,14 +936,14 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @diagram{JUSTIFIED Attribute,DD-JUSTIFIED,DD-JUSTIFIED,None}
 @center This syntax is valid in the following sections:
 @center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}, @strong{SCREEN}
-@p The presence of a @syntax{JUSTIFIED RIGHT} clause in a data item's definition alters the manner in which data is stored into the field from the default 'left-justified, space filled' behavior to 'right justified, space filled'.
+@p The presence of a @syntax{JUSTIFIED RIGHT} clause in a data item's definition alters the manner in which data is stored into the field from the default 'left-justified, space filled' behaviour to 'right justified, space filled'.
 @enumerate
 @p @item The reserved word @syntax{RIGHT} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
 @p @item The reserved word @syntax{JUSTIFIED} may be abbreviated as @syntax{JUST}.
 @p @item This clause is valid only on alphabetic (PIC A) or alphanumeric (PIC X) data items.
-@p @item The presence or absence of this clause influences the behavior of the @syntaxref{MOVE} statement as well as the @syntaxref{FROM}, @syntaxref{SOURCE} and @syntaxref{USING} data item description clauses.
+@p @item The presence or absence of this clause influences the behaviour of the @syntaxref{MOVE} statement as well as the @syntaxref{FROM}, @syntaxref{SOURCE} and @syntaxref{USING} data item description clauses.
 @p @item If the value being stored into the field is the same length as the receiving field, the presence or absence of the @syntax{JUSTIFIED RIGHT} clause on that field's description is irrelevant.
-@p @item The following examples illustrate the behavior of the presence and absence of the @syntax{JUSTIFIED RIGHT} clause when the field size is different than that of the value being stored.  In these examples, the symbol @i{b} represents a space.
+@p @item The following examples illustrate the behaviour of the presence and absence of the @syntax{JUSTIFIED RIGHT} clause when the field size is different than that of the value being stored.  In these examples, the symbol @i{b} represents a space.
 @p @center @b{When the value is shorter than the field size...}
 @p @multitable @columnfractions .5 .5
 @headitem Without JUSTIFIED @tab With JUSTIFIED
@@ -978,7 +978,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p The @syntax{LEFTLINE} clause will introduce a vertical line at the left edge of a screen field.
 @enumerate
 @p @item The @syntax{LEFTLINE}, @syntaxref{OVERLINE} and @syntaxref{UNDERLINE} clauses may be used in any combination in a single field's description.
-@p @item This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GNU COBOL implementation built using 'PDCurses' (such as Windows/MinGW builds).
+@p @item This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GnuCOBOL implementation built using 'PDCurses' (such as Windows/MinGW builds).
 @p @item Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will depend upon the video attribute capabilities of the terminal output drivers and 'curses' software being used.
 @end enumerate
 @* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
@@ -995,7 +995,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item The @syntaxref{FULL} and @syntax{LENGTH-CHECK} clauses are interchangeable, and may not be used together in the same data item description.
 @p @item In order for this clause to take effect at execution time, the user must move the cursor into the field having this clause in its definition.
 @p @item The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item unless the proper amount of data has been entered into the field.  Function keys will still be allowed to terminate the @syntax{ACCEPT}, however.
-@p @item In order to be functional, this attribute must be supported by the underlying 'curses' package your GNU COBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @syntax{LENGTH-CHECK}.
+@p @item In order to be functional, this attribute must be supported by the underlying 'curses' package your GnuCOBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @syntax{LENGTH-CHECK}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.9.27 LINE                                                     **
@@ -1014,7 +1014,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item The column location of a report item will be determined by the @syntaxref{COLUMN} clause.
 @p @item The value of @term{integer-1} must be 1 or greater.
 @p @item The report line number upon which the data item containing this clause along with any subordinate data items will be presented may be stated on an absolute basis (i.e. @syntax{LINE 5}) or on a relative basis based upon the previously-displayed line (i.e. @syntax{LINE PLUS 1}).
-@p @item The symbol @syntax{+} may be used in lieue of the word @syntax{PLUS}, if desired; if @syntax{+} is used, however, there must be at least one space separating it from @term{integer-1}.  Failure to include this space will cause the @syntax{+} to be simply treated as part of @term{integer-1} and will treat the LINE clause as an absolute line specification rather than a relative one.
+@p @item The symbol @syntax{+} may be used in lieu of the word @syntax{PLUS}, if desired; if @syntax{+} is used, however, there must be at least one space separating it from @term{integer-1}.  Failure to include this space will cause the @syntax{+} to be simply treated as part of @term{integer-1} and will treat the LINE clause as an absolute line specification rather than a relative one.
 @p @item The optional @syntaxidx{NEXT PAGE} clause specifies that --- regardless of whether or not the report group containing this clause @i{could} fit on the report page being currently generated, the report group will be @i{forced} to appear on a new page.
 @end enumerate
 @item The following points document the use for format 2 of the @syntax{LINE} clause:
@@ -1023,7 +1023,7 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @p @item The value of @term{integer-1} must be 1 or greater.
 @p @item If @term{identifier-1} is used to specify either an absolute or relative column position, @term{identifier-1} must be defined as a numeric item of any @syntaxref{USAGE} other than @syntax{COMPUTATIONAL-1} or @syntax{COMPUTATIONAL-2}, without editing symbols.  The value of @term{identifier-1} at the time the screen data item is presented must be 1 or greater.  Note that a @syntax{COMPUTATIONAL-1} or @syntax{COMPUTATIONAL-2} identifier will be accepted by the compiler, but will produce unpredictable results at run-time.
 @p @item The screen line number upon which the data item containing this clause along with any subordinate data items will be displayed may be stated on an absolute basis (i.e. @syntax{LINE 5}) or on a relative basis based upon the previously-displayed line (i.e. @syntax{LINE PLUS 1}).
-@p @item The symbol @syntax{+} may be used in lieue of the word @syntax{PLUS}, if desired; if @syntax{+} is used, however, there must be at least one space separating it from @term{integer-1}.  Failure to include this space will cause the @syntax{+} to be simply treated as part of @term{integer-1} and will treat the @syntax{LINE} clause as an absolute line specification rather than a relative one.
+@p @item The symbol @syntax{+} may be used in lieu of the word @syntax{PLUS}, if desired; if @syntax{+} is used, however, there must be at least one space separating it from @term{integer-1}.  Failure to include this space will cause the @syntax{+} to be simply treated as part of @term{integer-1} and will treat the @syntax{LINE} clause as an absolute line specification rather than a relative one.
 @p @item If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} or @syntaxref{VALUE} clause but has no LINE clause, the "current screen line" will be assumed.
 @end enumerate
 @end enumerate
@@ -1157,7 +1157,7 @@ C(3) - Character #3 of GRP(3)
 @p The @syntax{OVERLINE} clause will introduce a horizontal line at the top edge of a screen field.
 @enumerate
 @p @item The @syntaxref{LEFTLINE}, @syntax{OVERLINE} and @syntaxref{UNDERLINE} clauses may be used in any combination in a single field's description.
-@p @item This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GNU COBOL implementation built using 'PDCurses' (such as Windows/MinGW builds).
+@p @item This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GnuCOBOL implementation built using 'PDCurses' (such as Windows/MinGW builds).
 @p @item Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will depend upon the video attribute capabilities of the terminal output drivers and 'curses' software being used.
 @end enumerate
 @* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
@@ -1182,7 +1182,7 @@ C(3) - Character #3 of GRP(3)
 @p @item A
 Defines storage reserved for a single alphabetic character (@syntax{A}-@syntax{Z}, @syntax{a}-@syntax{z}).
 @p @item N
-Defines storage reserved for a single character in the computer's @define{National Characterset}.  Support for national charactersets in GNU COBOL is currently only partially implemented, and the compile- and run-time effect of using the @syntax{N} picture symbol is the same as if @syntax{X(2)} had been coded, with the additional effect that such a field will qualify as a @syntax{NATIONAL} or @syntax{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
+Defines storage reserved for a single character in the computer's @define{National Character set}.  Support for national character sets in GnuCOBOL is currently only partially implemented, and the compile- and run-time effect of using the @syntax{N} picture symbol is the same as if @syntax{X(2)} had been coded, with the additional effect that such a field will qualify as a @syntax{NATIONAL} or @syntax{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
 @p @item X
 Defines storage reserved for a single alphanumeric character (any character).
 @p @item 9
@@ -1201,7 +1201,7 @@ Defines an implied digit position that will be considered to be a zero when the 
 @p All computations and @syntaxref{MOVE} operations involving such a data item will behave as if the zeros were actually there.
 @p For example, let's say you need to allocate a data item that contains however many millions of dollars of revenue your company has in gross revenues this year:
 @p @t{01  Gross-Revenue    PIC 9(9).}
-@p In which case 9 characters of storage will be reserved.  The values 000000000 thru 999999999 will represent the gross-revenues.   But, if only the millions are tracked (meaning the last six digits are always going to be 0), you could define the field as:
+@p In which case 9 characters of storage will be reserved.  The values 000000000 through 999999999 will represent the gross-revenues.   But, if only the millions are tracked (meaning the last six digits are always going to be 0), you could define the field as:
 @p @t{01  Gross-Revenue  PIC 9(3)P(6).}
 @p Whenever Gross-Revenue is referenced in calculations, or whenever its value is moved to another data item, the value of Gross-Revenue will be treated as if it is nnn000000, where 'nnn' is the actual value in storage.
 @p If you wanted to store the value 128 million into that field, you would do so as if the @syntax{P}s were @syntax{9}s:
@@ -1287,7 +1287,7 @@ The @syntax{,} symbol serves as a thousands separator.  Many times, you'll see l
     MOVE 12345 TO My-Lottery-Winnings
     DISPLAY My-Lottery-Winnings
 @end verbatim
-@* The value "@t{0000012,345}" (a very disappointing one for my retirement plans, but a good thousands separator demo) will be displayed.  Notice how, since the first comma wasn't needed due to the meager amount I won, it behaved like another "9".
+@* The value "@t{0000012,345}" (a very disappointing one for my retirement plans, but a good thousands separator demo) will be displayed.  Notice how, since the first comma wasn't needed due to the meagre amount I won, it behaved like another "9".
 @end table
 @* If desired, you may reverse the roles of the @syntax{.} and @syntax{,} editing symbols by specifying @syntax{DECIMAL POINT IS COMMA} in the @syntaxref{SPECIAL-NAMES} paragraph.
 @p @item The following are insertion symbols.  They are used to insert an extra character (two in the case of "CR" and "DB") to signify the sign (positive or negative) of the numeric value that is moved into the field whose picture string contains one of these symbols, or the fact that the data item represents a currency (money) amount.  Only one of the @syntax{+}, @syntax{-}, @syntax{CR} or @syntax{DB} symbols may be used in a picture clause. In this context, when any of these symbols are used in a @term{picture-string}, they must be at the end.  The @syntax{+}, @syntax{-} and/or currency symbols may also be used as floating editing symbols at the @i{beginning} of the @term{picture-string} --- a subject that will be covered in the next numbered paragraph.
@@ -1334,7 +1334,7 @@ All @syntax{Z} symbols that correspond to character positions in which leading z
 @p @syntax{Z} and @syntax{*} should not be coded in the same @term{picture-string}
 @p @syntax{+} and @syntax{-} should not be coded in the same @term{picture-string}
 @p When multiple floating symbols are coded, even if there is only one of them used they will all be considered floating and will all be able to assume each other's properties.  For example, if a data item has a @syntax{PIC +$ZZZZ9.99} @term{picture-string}, and a value of 1 is moved to that field at run-time, the resulting value will be (the @i{b} symbol represents a space) @syntax{@i{bbbb}+$1.00}.  This is not consistent with many other COBOL implementations, where the result would have been @syntax{+$@i{bbbb}1.00}.
-@p Most other COBOL implementations reject the use of multiple occurrences of multiple floating editing symbols.  For example, they would reject @term{picture-string}s such as @syntax{+++$$$9.99}, @syntax{$$$ZZZ9.99} and so on.  GNU COBOL accepts these.  Programmers creating GNU COBOL programs should avoid such @term{picture-string}s if there is any liklihood that those programs may be used with other COBOL implementations.
+@p Most other COBOL implementations reject the use of multiple occurrences of multiple floating editing symbols.  For example, they would reject @term{picture-string}s such as @syntax{+++$$$9.99}, @syntax{$$$ZZZ9.99} and so on.  GnuCOBOL accepts these.  Programmers creating GnuCOBOL programs should avoid such @term{picture-string}s if there is any likelihood that those programs may be used with other COBOL implementations.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.9.34 PRESENT WHEN                                             **
@@ -1414,7 +1414,7 @@ All @syntax{Z} symbols that correspond to character positions in which leading z
 @p @item The @syntaxref{EMPTY-CHECK} and @syntax{REQUIRED} clauses are interchangeable, and may not be used together in the same data item description.
 @p @item In order to take effect, the user must first move the cursor into the field having this clause in its definition.
 @p @item The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item @i{unless} data has been entered into the field.  Function keys will still be allowed to terminate the @syntax{ACCEPT}.
-@p @item In order to be functional, this attribute must be supported by the underlying 'curses' package your GNU COBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @syntax{REQUIRED}.
+@p @item In order to be functional, this attribute must be supported by the underlying 'curses' package your GnuCOBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @syntax{REQUIRED}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.9.39 REVERSE-VIDEO                                            **
@@ -1465,9 +1465,9 @@ All @syntax{Z} symbols that correspond to character positions in which leading z
 @item 8 @tab 8 @tab x
 @item 9 @tab 9 @tab y
 @end multitable
-@p @item If the @syntax{SEPARATE CHARACTER} clause @i{is} used, then an actual @syntax{+} or @syntax{-} character will be inserted into the field's value as the first (@syntax{LEADING}) or last (@syntax{TRAILING}) character.  Note that having this character imbedded within the data item's storage does not prevent the data item from being used as a source field in arithmetic operations.
+@p @item If the @syntax{SEPARATE CHARACTER} clause @i{is} used, then an actual @syntax{+} or @syntax{-} character will be inserted into the field's value as the first (@syntax{LEADING}) or last (@syntax{TRAILING}) character.  Note that having this character embedded within the data item's storage does not prevent the data item from being used as a source field in arithmetic operations.
 @p @item When @syntax{SEPARATE CHARACTER} is specified, the @syntax{S} symbol in the data item's @syntax{PICTURE} must be counted when determining the data item's size.
-@p @item Neither the presence of an encoded digit (see above) nor an actual @syntax{+} or @syntax{-} character imbedded within the data item's storage prevents the data item from being used as a source field in arithmetic operations.
+@p @item Neither the presence of an encoded digit (see above) nor an actual @syntax{+} or @syntax{-} character embedded within the data item's storage prevents the data item from being used as a source field in arithmetic operations.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.9.42 SOURCE                                                   **
@@ -1512,7 +1512,7 @@ All @syntax{Z} symbols that correspond to character positions in which leading z
 @item The following points apply to the @syntaxidx{RESET} option:
 @enumerate A
 @p @item If the @syntax{RESET} option is coded, @syntax{FINAL} or @term{identifier-8} (whichever is coded on the @syntax{RESET}) must be one of the report's control breaks specified on the @syntax{CONTROLS} clause.
-@p @item If there is no @syntax{RESET} option coded, the sum counter will be reset back to zero after each time the control footing containing the @syntax{SUM} clause is presented.  This is the typical behavior that would be expected.
+@p @item If there is no @syntax{RESET} option coded, the sum counter will be reset back to zero after each time the control footing containing the @syntax{SUM} clause is presented.  This is the typical behaviour that would be expected.
 @p @item If, however, you want to reset the @syntax{SUM} counter only when the control footing for a control break higher in the control hierarchy is presented, specify that higher control break on the @syntax{RESET} option.
 @end enumerate
 @end enumerate
@@ -1552,7 +1552,7 @@ The following illustrates the allocation of a group of data items both without a
 @p This clause logically attaches a screen section data item to another data item defined elsewhere in the data division.
 @enumerate
 @p @item The @syntax{TO} clause is used to define a data-entry field with no initial value; when a value is entered, it will be saved to the specified identifier.
-@p @item The @syntaxref{FROM}, @syntax{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data itsm's definition.
+@p @item The @syntaxref{FROM}, @syntax{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.9.46 TYPE                                                     **
@@ -1581,7 +1581,7 @@ The following illustrates the allocation of a group of data items both without a
 @p The @syntax{UNDERLINE} clause will introduce a horizontal line at the bottom edge of a screen field.
 @enumerate
 @p @item The @syntaxref{LEFTLINE}, @syntaxref{OVERLINE} and @syntax{UNDERLINE} clauses may be used in any combination in a single field's description.
-@p @item This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GNU COBOL implementation built using 'PDCurses' (such as Windows/MinGW builds).
+@p @item This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GnuCOBOL implementation built using 'PDCurses' (such as Windows/MinGW builds).
 @p @item Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will depend upon the video attribute capabilities of the terminal output drivers and 'curses' software being used.
 @end enumerate
 @* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
@@ -1596,7 +1596,7 @@ The following illustrates the allocation of a group of data items both without a
 @p The @syntax{USAGE} clause defines the format that will be used to store the value of a data item.
 @enumerate
 @p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
-@p @item The following table summarizes the various USAGE specifications available in GNU COBOL.
+@p @item The following table summarizes the various USAGE specifications available in GnuCOBOL.
 @p @t{BINARY}@*@t{~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 @p @item @tab Range of Values:          @tab Defined by the quantity of @syntax{9}s and the presence or absence of an @syntax{S} in the @syntax{PICTURE}
@@ -1764,7 +1764,7 @@ The following illustrates the allocation of a group of data items both without a
 @end multitable
 @* @t{NATIONAL}@*@t{~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
-@p @item @tab @syntax{USAGE NATIONAL}, while syntactically recognized, is not supported by GNU COBOL
+@p @item @tab @syntax{USAGE NATIONAL}, while syntactically recognized, is not supported by GnuCOBOL
 @end multitable
 @* @t{PACKED-DECIMAL}@*@t{~~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
@@ -1825,13 +1825,13 @@ The following illustrates the allocation of a group of data items both without a
 @p @item Packed-decimal (i.e. @syntax{USAGE PACKED-DECIMAL}, @syntax{USAGE COMP-3} or @syntax{USAGE COMP-6}) data is stored as a series of bytes such that each byte contains two 4-bit fields, referred to as 'nibbles' (since they comprise half a "byte", they're just "nibbles" --- don't groan, I don't just make this stuff up!).  Each nibble represents a @syntax{9} in the @syntax{PICTURE} and each holds a single decimal digit encoded as its binary value (0 = 0000, 1 = 0001, @dots{} , 9 = 1001).
 @p The @i{last} byte of a @syntax{PACKED-DECIMAL} or @syntax{COMP-3} data item will always have its left nibble corresponding to the last @syntax{9} in the @syntax{PICTURE} and its right nibble reserved as a sign indicator.  This sign indicator is always present regardless of whether or not the @syntax{PICTURE} included an @syntax{S} symbol.
 @p The @i{first} byte of the data item will contain an unused left nibble if the @syntax{PICTURE} had an even number of @syntax{9} symbols in it.
-@p The sign indicator will have a value of a hexadecimal A thru F.  Traditional packed decimal encoding rules call for hecadecimal values of F, A, C or E ("FACE") in the sign nibble to indicate a positive value and B or D to represent a negative value (hexadecimal digits 0-9 are undefined).  Testing with a Windows MinGW/GNU COBOL implementation shows that --– in fact --– hex digit D represents a negative number and any other hexadecimal digit denotes a positive number.  Therefore, a @syntax{PIC S9(3) COMP-3} packed-decimal field with a value of -15 would be stored internally as a hexadecimal 015D in GNU COBOL.
+@p The sign indicator will have a value of a hexadecimal A through F.  Traditional packed decimal encoding rules call for hexadecimal values of F, A, C or E ("FACE") in the sign nibble to indicate a positive value and B or D to represent a negative value (hexadecimal digits 0-9 are undefined).  Testing with a Windows MinGW/GnuCOBOL implementation shows that --– in fact --– hex digit D represents a negative number and any other hexadecimal digit denotes a positive number.  Therefore, a @syntax{PIC S9(3) COMP-3} packed-decimal field with a value of -15 would be stored internally as a hexadecimal 015D in GnuCOBOL.
 @p If you attempt to store a negative number into a packed decimal field that has no @syntax{S} in its @syntax{PICTURE}, the absolute value of the negative number will actually be stored.
 @p @syntax{USAGE COMP-6} does not allow for negative values, therefore no sign nibble will be allocated.  A @syntax{USAGE COMP-6} data item containing an odd number of @syntax{9} symbols in its @syntax{PICTURE} will leave its leftmost nibble unused.
 @p @item The @syntax{USAGE} specifications @syntax{FLOAT-DECIMAL-16} and @syntax{FLOAT-DECIMAL-34} will encode data using IEEE 754 @syntax{Decimal64} and @syntax{Decimal128} format, respectively.  The former allows for up to 16 digits of exact precision while the latter offers 34.  The phrase "exact precision" is used because the traditional binary renderings of decimal real numbers in a floating-point format (@syntax{FLOAT-LONG} and @syntax{FLOAT-SHORT}, for example) only yield an approximation of the actual value because many decimal fractions cannot be precisely rendered in binary.  The Decimal64 and Decimal128 renderings, however, render decimal real numbers in encoded decimal form in much the same way that @syntax{PACKED-DECIMAL} renders a decimal integer in digit-by-digit decimal form.  The exact manner in which this rendering is performed is complex (Wikipedia has an excellent article on the subject – just search for @syntax{Decimal64}).
-@p @item GNU COBOL stores @syntax{FLOAT-DECIMAL-16} and @syntax{FLOAT-DECIMAL-34} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
+@p @item GnuCOBOL stores @syntax{FLOAT-DECIMAL-16} and @syntax{FLOAT-DECIMAL-34} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
 @p @item The @syntax{USAGE} specifications @syntax{FLOAT-LONG} and @syntax{FLOAT-SHORT} use the IEEE 754 @syntax{Binary64} and @syntax{Binary32} formats, respectively.  These are binary encodings of real decimal numbers, and as such cannot represent every possible value between the minimum and maximum values in the range for those usages.  Wikipedia has an excellent article on the Binary64 and Binary32 encoding schemes – just search on @syntax{Binary32} or @syntax{Binary64}.
-@p GNU COBOL stores @syntax{FLOAT-LONG} and @syntax{FLOAT-SHORT} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
+@p GnuCOBOL stores @syntax{FLOAT-LONG} and @syntax{FLOAT-SHORT} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
 @p @item A @syntax{USAGE} clause specified at the group item level will apply that @syntax{USAGE} to all subordinate data items, except those that themselves have a @syntax{USAGE} clause.
 @p @item The only @syntax{USAGE} that is allowed in the report section is @syntax{USAGE DISPLAY}.
 @end enumerate
@@ -1847,7 +1847,7 @@ The following illustrates the allocation of a group of data items both without a
 @enumerate
 @p @item When the screen item whose definition this clause is part of is displayed, the value currently in @term{identifier-1} will be automatically moved into the screen item first.
 @p @item When the screen item whose definition this clause is part of (or its parent) is accepted, the current contents of the screen item will be saved back to @term{identifier-1} at the conclusion of the @syntax{ACCEPT}.
-@p @item The @syntaxref{FROM}, @syntaxref{TO}, @syntax{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data itsm's definition.
+@p @item The @syntaxref{FROM}, @syntaxref{TO}, @syntax{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.9.50 VALUE                                                    **
@@ -1888,7 +1888,7 @@ PIC 9(3) VALUE ALL "1"  *> 111
 @p @item If there is no picture clause specified, the size of the screen data item will be the length of the @term{literal-1} value.
 @p @item If there is no picture clause and the @syntax{ALL} option is specified, the @syntax{ALL} option will be ignored.
 @end enumerate
-@item Giving a table an initial, compile-time value is one of the trickier aspects of COBOL data definition.  There are basically three standard techniques and a fourth that people familiar with other COBOL implementations but new to GNU COBOL may find interesting.  So, here are the three @i{standard} approaches:
+@item Giving a table an initial, compile-time value is one of the trickier aspects of COBOL data definition.  There are basically three standard techniques and a fourth that people familiar with other COBOL implementations but new to GnuCOBOL may find interesting.  So, here are the three @i{standard} approaches:
 @enumerate a
 @p @item Don't bother worrying about it at compile-time.  Use the @syntaxref{INITIALIZE} to initialize all data item occurrences in a table (at run-time) to their data-type-specific default values (numerics: 0, alphabetic and alphanumerics: spaces).
 @p @item Initialize small tables at compile time by including a @syntax{VALUE} clause on the group item that serves as a parent to the table, as follows:
@@ -1912,8 +1912,8 @@ PIC 9(3) VALUE ALL "1"  *> 111
 @end example
 @* Admittedly, this table is much more verbose than the one shown with a group @syntax{VALUE}.  What is good about this initialization technique, however, is that you can have as many @syntax{FILLER} and @syntax{VALUE} items as you need for a larger table, and those values can be as long as necessary!
 @end enumerate
-@item Many COBOL compilers do not allow the use of @syntax{VALUE} and @syntaxref{OCCURS} on the same data item; additionally, they don't allow a @syntax{VALUE} clause on a data item subordinate to an @syntax{OCCURS}.  GNU COBOL, however, has neither of these restrictions!
-@p Observe the following example, which illustrates a fourth manner in which tables may be initialized in GNU COBOL:
+@item Many COBOL compilers do not allow the use of @syntax{VALUE} and @syntaxref{OCCURS} on the same data item; additionally, they don't allow a @syntax{VALUE} clause on a data item subordinate to an @syntax{OCCURS}.  GnuCOBOL, however, has neither of these restrictions!
+@p Observe the following example, which illustrates a fourth manner in which tables may be initialized in GnuCOBOL:
 @p @example
 05  X           OCCURS 6 TIMES.
     10 A        PIC X(1) VALUE '?'.
@@ -1922,7 +1922,7 @@ PIC 9(3) VALUE ALL "1"  *> 111
 @end example
 @* In this example, all six @syntax{A} items will be initialized to "?", all six @syntax{B} items will be initialized to "%" and all six @syntax{N} items will be initialized to 10.  It's not clear exactly how many times this sort of initialization will be useful, but it's there if you need it.
 @end enumerate
-@item The @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} and @syntax{VALUE} clauses are mutually-exclusive in any screen section data itsm's definition.
+@item The @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} and @syntax{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @iftex
 @sp 3

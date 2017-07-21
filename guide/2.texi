@@ -1,9 +1,9 @@
 @comment *********************************************************************
 @comment ** 2. Compiler Directing Facility                                  **
 @comment *********************************************************************
-@newchapter{2,CDF - Compiler Directing Facility}The Compiler Directing Facility, or CDF, is a means of controlling the compilation of GNU COBOL programs.  CDF provides a mechanism for dynamically setting or resetting certain compiler switches, introducing new source code from one or more source code libraries, making dynamic source code modifications and conditionally processing or ignoring source statements altogether.  This is accomplished via a series of special CDF statements and directives that will appear in the program source code.
+@newchapter{2,CDF - Compiler Directing Facility}The Compiler Directing Facility, or CDF, is a means of controlling the compilation of GnuCOBOL programs.  CDF provides a mechanism for dynamically setting or resetting certain compiler switches, introducing new source code from one or more source code libraries, making dynamic source code modifications and conditionally processing or ignoring source statements altogether.  This is accomplished via a series of special CDF statements and directives that will appear in the program source code.
 @p When the compiler is operating in Fixed Format Mode, all CDF statements must begin in column eight (8) or beyond.
-@p There are two types of supported CDF statements in GNU COBOL --- Text Manipulation Statements and Compiler Directives.
+@p There are two types of supported CDF statements in GnuCOBOL --- Text Manipulation Statements and Compiler Directives.
 @p The CDF text manipulation statements @syntax{COPY} and @syntax{REPLACE} are used to introduce new code into programs either with or without changes, or may be used to modify existing statements already in the program.  Text manipulation statements are always terminated with a period.
 @p CDF directives, denoted by the presence of a ">>" character sequence as part of the statement name itself, are used to influence the process of program compilation.
 @p Compiler directives are @i{never} terminated with a period.@menu
@@ -29,7 +29,7 @@
 @p @item There is no difference between the use of the word @syntax{IN} and the word @syntax{OF} --- use the one you prefer.
 @p @item A period is absolutely mandatory at the end of every @syntax{COPY} statement, even if the statement occurs within the scope of another one where a period might appear disruptive, such as within the scope of an @syntaxref{IF} statement.  This mandatory period at the end of the statement will not, however, affect the statement scope in which the @syntax{COPY} occurs.
 @p @item Both @term{pseudo-text-2} and @term{partial-word-2} may be null.
-@p @item All @syntax{COPY} statements are located and the contents of the corresponding copybooks inserted into the program source code before the actual compilation process begins.  If a copybook contains a @syntax{COPY} statement, the copybook insertion process will be repeated to resolve the imbedded @syntax{COPY}.  This will continue until no unresolved @syntax{COPY} statements remain.  At that point, actual program compilation will begin.
+@p @item All @syntax{COPY} statements are located and the contents of the corresponding copybooks inserted into the program source code before the actual compilation process begins.  If a copybook contains a @syntax{COPY} statement, the copybook insertion process will be repeated to resolve the embedded @syntax{COPY}.  This will continue until no unresolved @syntax{COPY} statements remain.  At that point, actual program compilation will begin.
 @p @item @xref{Locating Copybooks}, for the specific rules on how copybooks are located by the compiler.
 @p @item The optional @syntaxidx{REPLACING} clause allows for one or more of either of the following kinds of text replacements to be made:
 @table @clause
@@ -37,7 +37,7 @@
 @p Replacement of one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
 @itemize
 @p @item This option cannot be used to replace part of a word, identifier or literal.
-@p @item Whatever preceeds the @syntax{BY} will be referred to here as the search string.
+@p @item Whatever precedes the @syntax{BY} will be referred to here as the search string.
 @p @item Single-item search strings can be specified by coding the @syntax{@term{identifier-1}}, @syntax{@term{literal-1}} or @syntax{@term{word-1}} being replaced.
 @p @item Multiple-item search strings can be specified using the @syntax{==@term{pseudo-text-1}==} option.  For example, to replace all occurrences of @syntax{UPON PRINTER}, you would specify @syntax{==UPON PRINTER==}.
 @p @item The replacement string, which follows the @syntax{BY}, may be specified using any of the four options.
@@ -56,7 +56,7 @@
 @diagram{CDF REPLACE Statement (Format 2),CDF-REPLACE-2,CDF-REPLACE-2,None}
 @diagram{CDF REPLACE Phrase-Clause,CDF-REPLACE-Phrase,CDF-REPLACE-Phrase,None}
 @diagram{CDF REPLACE String-Clause,CDF-REPLACE-String,CDF-REPLACE-String,None}@enumerate 1
-@p @item The @syntax{REPLACE} statement provides a mechanism for changing all or part of one or more GNU COBOL statements.
+@p @item The @syntax{REPLACE} statement provides a mechanism for changing all or part of one or more GnuCOBOL statements.
 @p @item A period is absolutely mandatory at the end of every @syntax{REPLACE} statement (either format), even if the statement occurs within the scope of another one where a period might appear disruptive (such as within the scope of an @syntaxref{IF} statement; the period will not, however, affect the statement scope in which the @syntax{REPLACE} occurs.
 @p @item The following points apply to Format 1 of the @syntax{REPLACE} statement:
 @enumerate A
@@ -66,7 +66,7 @@
 @p Replace one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
 @itemize @bullet
 @p @item This option cannot be used to replace part of a word, identifier or literal.
-@p @item Whatever preceeds the @syntax{BY} will be referred to here as the search string.
+@p @item Whatever precedes the @syntax{BY} will be referred to here as the search string.
 @p @item Search strings on @syntax{REPLACE} are always specified using the @syntax{==@term{pseudo-text-1}==} option.  For example, to replace all occurrences of @syntax{UPON PRINTER}, you would specify @syntax{==UPON PRINTER==}.
 @p @item The replacement string, which follows the @syntax{BY}, is specified using the @syntax{==@term{pseudo-text-2}==} option.  If @syntax{@term{pseudo-text-2}} is null (in other words, the replacement text is specified as @syntax{====}), all encountered occurrences of the search string will be deleted.
 @end itemize
@@ -96,7 +96,7 @@
 @p @item The reserved word @syntax{AS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
 @p @item CDF variables defined in this way become undefined once an @syntax{END PROGRAM} or @syntax{END FUNCTION} directive is encountered in the input source.
 @p @item The @directive{>>DEFINE} is one way to create CDF variables that may be processed by other CDF statements such as @syntaxref{>>IF}.  The @directiveref{>>SET} provides another way to create them.
-@p @item CDF variable names follow the rules for standard GNU COBOL user-defined names, and may not duplicate any CDF reserved word.  CDF variable names may duplicate COBOL reserved words, provided the @syntaxidx{CONSTANT} option is not specified, but such names are not recommended.
+@p @item CDF variable names follow the rules for standard GnuCOBOL user-defined names, and may not duplicate any CDF reserved word.  CDF variable names may duplicate COBOL reserved words, provided the @syntaxidx{CONSTANT} option is not specified, but such names are not recommended.
 @p @item The @syntax{CONSTANT} option is valid only in conjunction with @term{literal-1}.  When @syntax{CONSTANT} is specified, the CDF variable that is created may be used within your regular COBOL code as if it were a literal value.  Without this option, the CDF variable may only be referenced on other CDF statements.  The @syntaxidx{OFF} option is used to create a variable without assigning it any value.
 @p @item The @syntaxidx{PARAMETER} option is used to create a variable whose value is that of the environment variable of the same name.  Note that this value assignment occurs at compilation time, not program execution time.
 @p @item In the absence of the @syntaxidx{OVERRIDE} option, @term{cdf-variable-1} must not yet have been defined.  When the @syntax{OVERRIDE} option is specified, @term{cdf-variable-1} will be created with the specified value, if it had not yet been defined.  If it had already been defined, it will be redefined with the new value.
@@ -108,7 +108,7 @@
 @newsection{2.4,>>IF}
 @diagram{CDF >>IF Directive,CDF-IF,CDF-IF,None}
 @diagram{CDF-Conditional-Expression,CDF-Cond-Expr,CDF-Cond-Expr,None}
-@diagram{CDF-RelOp,CDF-RelOp,CDF-RelOp,None}@p The @directive{>>IF} causes the GNU COBOL compiler to process or ignore COBOL source statements, CDF text-manipulation statements and/or CDF directives depending upon the value of one or more conditional expressions based upon CDF variables.
+@diagram{CDF-RelOp,CDF-RelOp,CDF-RelOp,None}@p The @directive{>>IF} causes the GnuCOBOL compiler to process or ignore COBOL source statements, CDF text-manipulation statements and/or CDF directives depending upon the value of one or more conditional expressions based upon CDF variables.
 @enumerate
 @p @item The reserved words @syntax{IS}, @syntax{THAN} and @syntax{TO} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 @p @item Each @syntax{>>IF} directive must be terminated by an @syntaxidx{>>END-IF} directive.
@@ -126,7 +126,7 @@
 @enumerate A
 @p @item The @syntaxidx{DEFINED} option tests for whether @term{cdf-variable-1} has been defined, but not yet assigned a value (@syntax{>>DEFINE @dots{} OFF}); use the @syntax{NOT} option to test for the variable not being defined.
 @p @item The @syntaxidx{SET} option tests for whether @term{cdf-variable-1} has been given a value, either via a @syntax{>>SET} statement or via a @syntax{>>DEFINE} without the @syntax{OFF} option.
-@p @item Two CDF variables, two literals or a single CDF variable and a single literal may be compared against each other using a relational operator.  Unlike the standard GNU COBOL @statementref{IF}, multiple comparisons cannot be "AND"ed or "OR"ed together; you may nest a second @syntax{>>IF} inside the first, however, to simulate an "AND" and an "OR" may be simulated via the @syntax{>>ELIF} option.
+@p @item Two CDF variables, two literals or a single CDF variable and a single literal may be compared against each other using a relational operator.  Unlike the standard GnuCOBOL @statementref{IF}, multiple comparisons cannot be "AND"ed or "OR"ed together; you may nest a second @syntax{>>IF} inside the first, however, to simulate an "AND" and an "OR" may be simulated via the @syntax{>>ELIF} option.
 @p @item The @syntax{<>} symbol stands for @syntax{NOT EQUAL TO}.
 @end enumerate
 @end enumerate

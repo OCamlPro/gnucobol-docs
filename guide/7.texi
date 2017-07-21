@@ -20,16 +20,17 @@
 @comment *********************************************************************
 @comment ** 7.1 RWCS Lexicon                                                **
 @comment *********************************************************************
-@newsection{7.1,RWCS Lexicon}@p There are a number of terms that describe various aspects of the operation of the Report Writer Control System (RWCS).  Understanding the meanings of these terms is vital to developing an understanding of the subject.
+@newsection{7.1,RWCS Lexicon}@p Please see availability notes on this at 1.3.13.
+There are a number of terms that describe various aspects of the operation of the Report Writer Control System (RWCS).  Understanding the meanings of these terms is vital to developing an understanding of the subject.
 @table @i
 @p @item Control Break
 @p An event that is triggered when a control field on an RWCS-generated report changes value.  It is these events that trigger the generation of control heading and control footing groups.
 @p @item Control Field
 @p A field of data being presented within a detail group; as the various detail groups that comprise the report are presented, they are presumed to appear in sorted sequence of the control fields contained within them.  As an example, a department-by-department sales report for a chain of stores would probably be sorted by store number and -- within like store numbers -- be further sorted by department number.  The store number will undoubtedly serve as a control field for the report, allowing control heading groups to be presented before each sequence of detail groups for the same store and control footing groups to be presented after each such sequence.
 @p @item Control Footing
-@p A report group that appears immediately after one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as a summary of the detail group(s) that preceed it, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be followed by a control footing that provides a summation of the department-by-department sales for that store.
+@p A report group that appears immediately after one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as a summary of the detail group(s) that precede it, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be followed by a control footing that provides a summation of the department-by-department sales for that store.
 @p @item Control Heading
-@p A report group that appears immediately before one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as an introduction to the detail group(s) that follow, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be preceeded by a control heading that states the full name and location of the store.
+@p A report group that appears immediately before one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as an introduction to the detail group(s) that follow, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be preceded by a control heading that states the full name and location of the store.
 @p @item Detail Group
 @p A report group that contains the detailed data being presented for the report.
 @p @item Page Footing
@@ -39,7 +40,7 @@
 @p @item The current page number of the report
 @end itemize
 @item Page Heading
-@p A report group that appears at the top of every page of an RWCS-generated report. Information typically found sithin such a report group might be:
+@p A report group that appears at the top of every page of an RWCS-generated report. Information typically found within such a report group might be:
 @itemize @bullet
 @p @item A title for the report
 @p @item The date the report was generated
@@ -80,7 +81,7 @@
 @p @format
 @t{  _______________________________ }
 @t{ |                               |}
-@t{ | Top-of-page Unuseable Area    |}---# Lines: @t{LINES AT TOP} (LINAGE)
+@t{ | Top-of-page Unusable Area    |}---# Lines: @t{LINES AT TOP} (LINAGE)
 @t{ |_______________________________|}
 @t{ |                               |}---Line #: @t{HEADING} (RD)
 @t{ | Heading Area                  |}
@@ -94,7 +95,7 @@
 @t{ | Footing Area                  |}
 @t{ |_______________________________|}
 @t{ |                               |}
-@t{ | Bottom-of-page Unuseable Area |}---# Lines: @t{LINES AT BOTTOM} (LINAGE)
+@t{ | Bottom-of-page Unusable Area |}---# Lines: @t{LINES AT BOTTOM} (LINAGE)
 @t{ |_______________________________|}
 @end format
 @* When describing a report via the @syntaxrefalt{RD,REPORT SECTION} clause, the total number of usable lines are specified as the @syntax{PAGE LIMIT} value; this value is the sum of the number of lines contained in the Heading, Body and Footing Areas.
@@ -120,8 +121,8 @@
 @comment ** 7.4 How RWCS Builds Report Pages                                **
 @comment *********************************************************************
 @newsection{7.4,How RWCS Builds Report Pages}@p A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @syntax{ADVANCING PAGE} option.  Whether the data for a report line created via @syntax{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @syntax{WRITE @term{record-name} BEFORE ADVANCING PAGE} or @syntax{WRITE @term{record-name} AFTER ADVANCING PAGE}, respectively.
-@p The GNU COBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @syntax{RD} for the report (specifically the @syntax{PAGE LIMITS} and related options) and it's internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
-@p Because this is the way the GNU COBOL RWCS works, in order to design an RWCS-generated report you'll need to know answers to the following questions:
+@p The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @syntax{RD} for the report (specifically the @syntax{PAGE LIMITS} and related options) and it's internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
+@p Because this is the way the GnuCOBOL RWCS works, in order to design an RWCS-generated report you'll need to know answers to the following questions:
 @enumerate
 @p @item What printer(s) will the report be printed on?
 @p @item What paper orientation will you use, --- Landscape (long edge of the paper at the top and bottom of page), or Portrait (long edge of the paper at the left and right of page)?
@@ -137,7 +138,7 @@
 @p @item Print the file in a manner consistent with your answers to questions 1-4.
 @p @item Add any necessary additional digits to each record in your test file (if lines weren't full) or remove characters from the end of each record if lines wrapped.  If you made changes, reprint the file.
 @p @item Now that you know @i{exactly} how long each record may be, add additional records and reprint.  Continue until printing overflows to a second page.
-@p @item The first page you print is now a perfect template to use when designing reports --- it shows, given the answers to questiuons 1-4, every available printable character position on a page!  The number of lines printed on that page becomes your @syntax{PAGE LIMIT} value for the @syntax{RD}.
+@p @item The first page you print is now a perfect template to use when designing reports --- it shows, given the answers to questions 1-4, every available printable character position on a page!  The number of lines printed on that page becomes your @syntax{PAGE LIMIT} value for the @syntax{RD}.
 @end enumerate
 @* The remaining @syntax{PAGE LIMIT} values can be established as required by your report(s).
 @p Using @term{identifier} rather than @term{integer} specifications in the @syntax{RD} will give your program the ability --- at run time --- to accommodate multiple printers, fonts, font sizes and paper orientation.  Just follow the above steps for each combination you wish your program to support.
@@ -221,7 +222,7 @@ SORT SORT-FILE
 @comment *********************************************************************
 @comment ** 7.6.1 Data                                                      **
 @comment *********************************************************************
-@newsubsection{7.6.1,Data}@p Here is the data that the program will be reading.  Each record reflects the aggregated benchmark scoring for one particular CPU, as scores for benchmarks against that CPU have been reported to the @url{cpubenchmark.net} wwebsite by their PassMark benchmark software.  The data consists of four fields.  Fields are separated from one another by a single comma.  The descriptions of the fields are as follows:
+@newsubsection{7.6.1,Data}@p Here is the data that the program will be reading.  Each record reflects the aggregated benchmark scoring for one particular CPU, as scores for benchmarks against that CPU have been reported to the @url{cpubenchmark.net} website by their PassMark benchmark software.  The data consists of four fields.  Fields are separated from one another by a single comma.  The descriptions of the fields are as follows:
 @table @b
 @p @item Benchmark Score
 @p A five-digit number showing the aggregated benchmark scores for the CPU; the higher this number, the better the CPU performed in benchmark testing.
