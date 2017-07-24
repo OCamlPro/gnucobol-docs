@@ -6,20 +6,39 @@
 @p There are two types of supported CDF statements in GnuCOBOL --- Text Manipulation Statements and Compiler Directives.
 @p The CDF text manipulation statements @syntax{COPY} and @syntax{REPLACE} are used to introduce new code into programs either with or without changes, or may be used to modify existing statements already in the program.  Text manipulation statements are always terminated with a period.
 @p CDF directives, denoted by the presence of a ">>" character sequence as part of the statement name itself, are used to influence the process of program compilation.
-@p Compiler directives are @i{never} terminated with a period.@menu
-* 2.1: COPY.
-* 2.2: REPLACE.
-* 2.3: >>DEFINE.
-* 2.4: >>IF.
-* 2.5: >>SET.
-* 2.6: >>SOURCE.
-* 2.7: >>TURN.
+@p Compiler directives are @i{never} terminated with a period.
+@menu
+* 2.1 : CALL-CONVENTION.
+* 2.2 : COPY.
+* 2.3 : REPLACE.
+* 2.4 : >>DEFINE.
+* 2.5 : >>IF.
+* 2.6 : >>SET.
+* 2.7 : >>SOURCE.
+* 2.8 : >>TURN.
+* 2.9 : >>D.
+* 2.10: >>DISPLAY.
+* 2.11: >>PAGE.
+* 2.12: >>LISTING.
+* 2.13: >>LEAP-SECONDS.
+* 2.14: * Directives.
 @end menu
 @comment *********************************************************************
-@comment ** 2.1 COPY                                                        **
+@comment ** 2.1 >>CALL-CONVENTION                                           **
 @comment *********************************************************************
 @page
-@newsection{2.1,COPY}
+@newsection{2.1,>>CALL-CONVENTION}
+@diagram{CDF >>CALL-CONVENTION,CDF-CALL,CDF-CALL,None}@p This directive instructs the compiler how to treat references to program names and may be used to determine other details for interacting with a function or program. There are four options with COBOL being the default.@enumerate
+@p @item COBOL (the default) the program name is treated as a COBOL word that maps to the externalised name program to be called, cancelled or referenced in the program-address-identifier, applying the same mapping rules as for a program name for which no AS phrase is specified.
+@p @item EXTERN the program name is treated as an external reference.
+@p @item STDCALL. < more info needed >
+@p @item STATIC the program name is called as a included element and not dynamically which is the normal default.
+@end enumerate
+@comment *********************************************************************
+@comment ** 2.2 COPY                                                        **
+@comment *********************************************************************
+@page
+@newsection{2.2,COPY}
 @diagram{CDF COPY Statement,CDF-COPY,CDF-COPY,None}
 @diagram{CDF COPY Phrase-Clause,CDF-COPY-Phrase,CDF-COPY-Phrase,None}
 @diagram{CDF COPY String-Clause,CDF-COPY-String,CDF-COPY-String,None}@enumerate
@@ -48,10 +67,10 @@
 @end table
 @end enumerate
 @comment *********************************************************************
-@comment ** 2.2 REPLACE                                                     **
+@comment ** 2.3 REPLACE                                                     **
 @comment *********************************************************************
 @page
-@newsection{2.2,REPLACE}
+@newsection{2.3,REPLACE}
 @diagram{CDF REPLACE Statement (Format 1),CDF-REPLACE-1,CDF-REPLACE-1,None}
 @diagram{CDF REPLACE Statement (Format 2),CDF-REPLACE-2,CDF-REPLACE-2,None}
 @diagram{CDF REPLACE Phrase-Clause,CDF-REPLACE-Phrase,CDF-REPLACE-Phrase,None}
@@ -87,10 +106,10 @@
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 2.3 >>DEFINE Directive                                          **
+@comment ** 2.4 >>DEFINE Directive                                          **
 @comment *********************************************************************
 @page
-@newsection{2.3,>>DEFINE}
+@newsection{2.4,>>DEFINE}
 @diagram{CDF >>DEFINE Directive,CDF-DEFINE,CDF-DEFINE,None}@p Use the @directive{>>DEFINE} to create CDF variables and (optionally) assign them either literal or environment variable values.
 @enumerate
 @p @item The reserved word @syntax{AS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
@@ -102,10 +121,10 @@
 @p @item In the absence of the @syntaxidx{OVERRIDE} option, @term{cdf-variable-1} must not yet have been defined.  When the @syntax{OVERRIDE} option is specified, @term{cdf-variable-1} will be created with the specified value, if it had not yet been defined.  If it had already been defined, it will be redefined with the new value.
 @end enumerate
 @comment *********************************************************************
-@comment ** 2.4 >>IF Directive                                              **
+@comment ** 2.5 >>IF Directive                                              **
 @comment *********************************************************************
 @page
-@newsection{2.4,>>IF}
+@newsection{2.5,>>IF}
 @diagram{CDF >>IF Directive,CDF-IF,CDF-IF,None}
 @diagram{CDF-Conditional-Expression,CDF-Cond-Expr,CDF-Cond-Expr,None}
 @diagram{CDF-RelOp,CDF-RelOp,CDF-RelOp,None}@p The @directive{>>IF} causes the GnuCOBOL compiler to process or ignore COBOL source statements, CDF text-manipulation statements and/or CDF directives depending upon the value of one or more conditional expressions based upon CDF variables.
@@ -131,10 +150,10 @@
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 2.5 >>SET Directive                                             **
+@comment ** 2.6 >>SET Directive                                             **
 @comment *********************************************************************
 @page
-@newsection{2.5,>>SET}
+@newsection{2.6,>>SET}
 @diagram{CDF >>SET Directive,CDF-SET,CDF-SET,None}@p The @directive{>>SET} provides an alternate means of performing the actions of the @syntax{>>DEFINE} and @syntax{>>SOURCE} directives, as well as a means of controlling the compiler's @switchidx{-free}, @switchidx{-fixed} and @switchidx{-ffold-copy} from within program source code.
 @enumerate
 @p @item The reserved word @syntax{AS} is optional (only on the @syntax{SOURCEFORMAT} and @syntax{FOLDCOPYNAME} clauses) and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
@@ -152,10 +171,10 @@
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 2.6 >>SOURCE Directive                                          **
+@comment ** 2.7 >>SOURCE Directive                                          **
 @comment *********************************************************************
 @page
-@newsection{2.6,>>SOURCE}
+@newsection{2.7,>>SOURCE}
 @diagram{CDF >>SOURCE Directive,CDF-SOURCE,CDF-SOURCE,None}@p The @directive{>>SOURCE} puts the compiler into @syntax{FIXED} or @syntax{FREE} source-code format mode.  This, in effect, provides yet another mechanism for controlling the compiler's @switchidx{-free} and @switchidx{-fixed}.@idx{Fixed Format Mode}@idx{Free Format Mode}@idx{Source Line Format, Fixed}@idx{Source Line Format, Free}
 @enumerate
 @p @item The reserved words @syntax{FORMAT} and @syntax{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -164,11 +183,47 @@
 @p @item If the compiler is already in the specified mode, this statement will have no effect.
 @end enumerate
 @comment *********************************************************************
-@comment ** 2.7 >>TURN Directive                                            **
+@comment ** 2.8 >>TURN Directive                                            **
 @comment *********************************************************************
 @page
-@newsection{2.7,>>TURN}
-@diagram{CDF >>TURN Directive,CDF-TURN,CDF-TURN,CDF-TURN}
+@newsection{2.8,>>TURN}
+@diagram{CDF >>TURN Directive,CDF-TURN,CDF-TURN,None}@p The directive will (de-)activating exception checks.
+@comment ********************************************************************
+@comment ** 2.9 >>D Directive                                              **
+@comment ********************************************************************
+@page
+@newsection{2.9,>>D}
+@diagram{CDF >>D Directive,CDF-DEBUG,CDF-DEBUG,None}@p The directive removes all floating debug lines if debug mode not active. Otherwise will ignore the directive part of the line.
+@comment ********************************************************************
+@comment ** 2.10 >>>DISPLAY Directive                                      **
+@comment ********************************************************************
+@page
+@newsection{2.10,>>DISPLAY}
+@diagram{CDF >>DISPLAY Directive,CDF-DISPLAY,CDF-DISPLAY,None}@p The directive is a v1.0 extention and will display messages during compilation.
+@comment ********************************************************************
+@comment ** 2.11 >>PAGE Directive                                          **
+@comment ********************************************************************
+@page
+@newsection{2.11,>>PAGE}
+@diagram{CDF >>PAGE Directive,CDF-PAGE,CDF-PAGE,None}@p The directive allows usage of the IBM paging controls namely - EJECT, SKIP1, SKIP2, SKIP3 and TITLE.
+@comment ********************************************************************
+@comment ** 2.12 >>LISTING Directive                                       **
+@comment ********************************************************************
+@page
+@newsection{2.12,>>LISTING}
+@diagram{CDF >>LISTING Directive,CDF-LISTING,CDF-LISTING,None}@p The directive allows the program listing to be de-(activated).
+@comment ********************************************************************
+@comment ** 2.13 >>LEAP-SECONDS Directive                                  **
+@comment ********************************************************************
+@page
+@newsection{2.13,>>LEAP-SECONDS}
+@diagram{CDF >>LEAP-SECONDS Directive,CDF-LEAP,CDF-LEAP,CDF-LEAP}@p Allows for more than 60 seconds per minute.
+@comment ********************************************************************
+@comment ** 2.14 * Directives                                              **
+@comment ********************************************************************
+@page
+@newsection{2.14,* Directives}
+@diagram{CDF * Directive,CDF-DOLLAR,CDF-DOLLAR,None}@P Offers support for MF Compiler Directives.
 @iftex
 @sp 3
 @center ------------------------------------------------------------
