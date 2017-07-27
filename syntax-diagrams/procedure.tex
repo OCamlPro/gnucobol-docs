@@ -1,5 +1,227 @@
 \chapter{Procedure division}
 
+\section{Concepts}
+
+\subsection{Exceptions}
+
+\begin{itemize}
+\item EC-ALL
+
+\item EC-ARGUMENT
+  \begin{itemize}
+  \item EC-ARGUMENT-FUNCTION
+  \item EC-ARGUMENT-IMP
+  \end{itemize}
+\item EC-BOUND
+  \begin{itemize}
+  \item EC-BOUND-IMP
+  \item EC-BOUND-ODO
+  \item EC-BOUND-OVERFLOW
+  \item EC-BOUND-PTR
+  \item EC-BOUND-REF-MOD
+  \item EC-BOUND-SET
+  \item EC-BOUND-SUBSCRIPT
+  \item EC-BOUND-TABLE-LIMIT
+  \end{itemize}
+
+\item EC-DATA
+  \begin{itemize}
+  \item EC-DATA-CONVERSION
+  \item EC-DATA-IMP
+  \item EC-DATA-INCOMPATIBLE
+  \item EC-DATA-INTEGRITY % NOT IN STANDARD
+  \item EC-DATA-PTR-NULL
+  \item EC-DATA-NOT-DECIMAL-ENCODING % NOT IN STANDARD
+  \item EC-DATA-NOT-FINITE
+  % NOT IN GNUCOBOL \item EC-DATA-OVERFLOW
+  \end{itemize}
+
+\item EC-FLOW
+  \begin{itemize}
+  \item EC-FLOW-GLOBAL-EXIT
+  \item EC-FLOW-GLOBAL-GOBACK
+  \item EC-FLOW-IMP
+    % NOT IN GNUCOBOL \item EC-FLOW-RELEASE
+    % NOT IN GNUCOBOL \item EC-FLOW-REPORT
+  \item EC-FLOW-RETURN
+  \item EC-FLOW-SEARCH
+  \item EC-FLOW-USE
+  \end{itemize}
+
+\item EC-FUNCTION
+  \begin{itemize}
+  \item EC-FUNCTION-NOT-FOUND % NOT IN STANDARD
+  \item EC-FUNCTION-PTR-INVALID
+  \item EC-FUNCTION-PTR-NULL
+  \item EC-FUNCTION-ARG-OMITTED % NOT IN STANDARD
+  \end{itemize}
+
+\item EC-I-O
+  \begin{itemize}
+  \item EC-I-O-AT-END
+  \item EC-I-O-EOP
+  \item EC-I-O-EOP-OVERFLOW
+  \item EC-I-O-FILE-SHARING
+  \item EC-I-O-IMP
+  \item EC-I-O-INVALID-KEY
+  \item EC-I-O-LINAGE
+  \item EC-I-O-LOGIC-ERROR
+  \item EC-I-O-PERMANENT-ERROR
+  \item EC-I-O-RECORD-OPERATION
+  \end{itemize}
+
+\item EC-IMP
+  \begin{itemize}
+  \item \gnucobol{EC-IMP-ACCEPT}
+  \item \gnucobol{EC-IMP-DISPLAY}
+  \item \gnucobol{EC-IMP-UTC-UNKNOWN}
+  \end{itemize}
+
+\item EC-LOCALE
+  \begin{itemize}
+  \item EC-LOCALE-IMP
+  \item EC-LOCALE-INCOMPATIBLE
+  \item EC-LOCALE-INVALID
+  \item EC-LOCALE-INVALID-PTR
+  \item EC-LOCALE-MISSING
+  \item EC-LOCALE-SIZE
+  \end{itemize}
+
+\item EC-OO
+  \begin{itemize}
+  \item EC-OO-ARG-OMITTED % NOT IN STANDARD
+  \item EC-OO-CONFORMANCE
+  \item EC-OO-EXCEPTION
+    % NOT IN GNUCOBOL: \item EC-OO-FINALIZABLE
+  \item EC-OO-IMP
+  \item EC-OO-METHOD
+  \item EC-OO-NULL
+  \item EC-OO-RESOURCE
+  \item EC-OO-UNIVERSAL
+  \end{itemize}
+
+\item EC-ORDER
+  \begin{itemize}
+  \item EC-ORDER-IMP
+  \item EC-ORDER-NOT-SUPPORTED
+  \end{itemize}
+
+\item EC-OVERFLOW
+  \begin{itemize}
+  \item EC-OVERFLOW-IMP
+  \item EC-OVERFLOW-STRING
+  \item EC-OVERFLOW-UNSTRING
+  \end{itemize}
+
+\item EC-PROGRAM
+  \begin{itemize}
+  \item EC-PROGRAM-ARG-MISMATCH
+  \item EC-PROGRAM-ARG-OMITTED
+  \item EC-PROGRAM-CANCEL-ACTIVE
+  \item EC-PROGRAM-IMP
+  \item EC-PROGRAM-NOT-FOUND
+  \item EC-PROGRAM-PTR-NULL
+  \item EC-PROGRAM-RECURSIVE-CALL
+    % NOT IN STANDARD: EC-PROGRAM-RESOURCES
+  \end{itemize}
+
+\item EC-RAISING
+  \begin{itemize}
+  \item EC-RAISING-IMP
+  \item EC-RAISING-NOT-SPECIFIED
+  \end{itemize}
+
+\item EC-RANGE
+  \begin{itemize}
+  \item EC-RANGE-IMP
+  \item EC-RANGE-INDEX
+  \item EC-RANGE-INSPECT-SIZE
+  \item EC-RANGE-INVALID
+  \item EC-RANGE-PERFORM-VARYING
+  \item EC-RANGE-PTR
+  \item EC-RANGE-SEARCH-INDEX
+  \item EC-RANGE-SEARCH-NO-MATCH
+  \end{itemize}
+
+\item EC-REPORT
+  \begin{itemize}
+  \item EC-REPORT-ACTIVE
+  \item EC-REPORT-COLUMN-OVERLAP
+  \item EC-REPORT-FILE-MODE
+  \item EC-REPORT-IMP
+  \item EC-REPORT-INACTIVE
+  \item EC-REPORT-LINE-OVERLAP
+  \item EC-REPORT-NOT-TERMINATED
+  \item EC-REPORT-PAGE-LIMIT
+  \item EC-REPORT-PAGE-WIDTH
+  \item EC-REPORT-SUM-SIZE
+  \item EC-REPORT-VARYING
+  \end{itemize}
+
+\item EC-SCREEN
+  \begin{itemize}
+  \item EC-SCREEN-FIELD-OVERLAP
+  \item EC-SCREEN-IMP
+  \item EC-SCREEN-ITEM-TRUNCATED
+  \item EC-SCREEN-LINE-NUMBER
+  \item EC-SCREEN-STARTING-COLUMN
+  \end{itemize}
+
+\item EC-SIZE
+  \begin{itemize}
+  \item EC-SIZE-ADDRESS
+  \item EC-SIZE-EXPONENTIATION
+  \item EC-SIZE-IMP
+  \item EC-SIZE-OVERFLOW
+  \item EC-SIZE-TRUNCATION
+  \item EC-SIZE-UNDERFLOW
+  \item EC-SIZE-ZERO-DIVIDE
+  \end{itemize}
+
+\item EC-SORT-MERGE
+  \begin{itemize}
+  \item EC-SORT-MERGE-ACTIVE
+  \item EC-SORT-MERGE-FILE-OPEN
+  \item EC-SORT-MERGE-IMP
+  \item EC-SORT-MERGE-RELEASE
+  \item EC-SORT-MERGE-RETURN
+  \item EC-SORT-MERGE-SEQUENCE
+  \end{itemize}
+
+\item EC-STORAGE
+  \begin{itemize}
+  \item EC-STORAGE-IMP
+  \item EC-STORAGE-NOT-ALLOC
+  \item EC-STORAGE-NOT-AVAIL
+  \end{itemize}
+
+\item EC-USER
+
+\item EC-VALIDATE
+  \begin{itemize}
+  \item EC-VALIDATE-CONTENT
+  \item EC-VALIDATE-FORMAT
+  \item EC-VALIDATE-IMP
+  \item EC-VALIDATE-RELATION
+  \item EC-VALIDATE-VARYING
+  \end{itemize}
+
+\item EC-XML
+  \begin{itemize}
+  \item EC-XML-CODESET
+  \item EC-XML-CODESET-CONVERSION
+  \item EC-XML-COUNT
+  \item EC-XML-DOCUMENT-TYPE
+  \item EC-XML-IMPLICIT-CLOSE
+  \item EC-XML-INVALID
+  \item EC-XML-NAMESPACE
+  \item EC-XML-STACKED-OPEN
+  \item EC-XML-RANGE
+  \end{itemize}
+\end{itemize}
+
+\section{Procedure division header}
+
 \begin{syntax}
   \key{PROCEDURE} \key{DIVISION}
   \miscext{
