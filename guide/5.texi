@@ -1374,7 +1374,19 @@ All @syntax{Z} symbols that correspond to character positions in which leading z
 @diagram{PROTECTED Attribute,DD-PROTECTED,DD-PROTECTED,None}
 @center This syntax is valid in the following sections:
 @center @strong{SCREEN}
-@p The @syntax{PROTECTED} extended clause will specified field to be limited in size for input, regardless of the picture size.  MAYBE ??
+@enumerate
+@p The @syntax{PROTECTED} extended clause will effect the specified field to be limited in size, regardless of the picture size. OR DOES IT?
+@p @item The SIZE phrase specifies the size (length) of the field. After the ACCEPT or DISPLAY is finished, the cursor is placed immediately after the field defined by this clause, unless this would place the cursor outside of the current terminal window. In this case, the cursor is wrapped around to the beginning of the next line (scrolling the window if necessary).
+@p @item If the SIZE phrase is not used, then the field length defaults to the size of the item being accepted or displayed. If the CONVERT phrase is used, however, then the size of the field depends on the data type of the item and the verb being used.
+@enumerate A
+@p @item If the DISPLAY verb is executing, then the size is the same as if the CONVERT phrase were not specified except for numeric items. For numeric items, the size is the number of digits in the item, plus one if it is not an integer, plus one if it is signed. The remaining cases cover the size when an ACCEPT statement is used.
+@p @item If the item is numeric or numeric edited, then the size is the number of digits in the item, plus one if it is not an integer, plus one if it is signed.
+@p @item If the item is alphanumeric edited, then the size is set to the number of "A" or "X" positions specified in its PICTURE clause.
+@p @item For all other data types, the field size is set to the size of the item (same as if CONVERT were not specified).
+@end enumerate
+@p @item Note that the OUTPUT phrase changes the way in which the default field size is computed. See that heading above for details. Also note that the OUTPUT phrase affects only the way items are displayed on the screen; the internal format of accepted data is not affected.
+@p @item Note that you cannot supply the CONVERT phrase in the Screen Section. Thus the size of a Screen Section field is always the size of its screen entry unless the SIZE phrase is specified.
+@end enumerate
 @comment *********************************************************************
 @comment ** 5.9.37 REDEFINES                                                **
 @comment *********************************************************************
