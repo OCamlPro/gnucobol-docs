@@ -1,4 +1,3 @@
-
 # The GnuCOBOL Grammar for version 2.2
 
 ## Summary
@@ -34,12 +33,16 @@ create a ticket on the GnuCOBOL bug tracker and I'll look it into it.
 
 Compilation is simple:
 
+~~~~
     pdflatex ./grammar.tex
+~~~~
 
 All packages used are available on CTAN, so, with a TeX package manager,
 "missing package" errors should be easy to resolve. For example, with TeX Live:
 
+~~~~
     tlmgr --install <package-name>
+~~~~
 
 ## Licence
 
