@@ -20,7 +20,6 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{afterpage}
 \usepackage{tikz}
-\usepackage[printwatermark]{xwatermark}
 \usepackage[tocindentauto]{tocstyle}
 \usetocstyle{standard}
 \usepackage[most]{tcolorbox} % for coloured boxes and warning boxes
@@ -32,6 +31,8 @@
 \newcommand{\clearpageifnotfirst}[1]{%
   \ifnum\value{#1}>0 \clearpage{} \fi%
 }
+
+%% Title page
 
 \newtcolorbox{streak}[1][]{frame code={}
   halign title=flush center,
@@ -63,6 +64,26 @@
 %     \path[fill=yellow!50!black,draw=none] (interior.south west) rectangle node[white]{\Huge\bfseries !} ([xshift=4mm]interior.north west);
 %     },
 %   drop fuzzy shadow}
+
+%% Links in changelog.
+
+\newcommand{\bug}[1]{%
+  \href{https://sourceforge.net/p/open-cobol/bugs/#1}{bug \##1}%
+}
+\newcommand{\bugnoname}[1]{%
+  \href{https://sourceforge.net/p/open-cobol/bugs/#1}{\##1}%
+}
+\newcommand{\fr}[1]{%
+  \href{https://sourceforge.net/p/open-cobol/feature-requests/#1}{feature request \##1}%
+}
+\newcommand{\frnoname}[1]{%
+  \href{https://sourceforge.net/p/open-cobol/feature-requests/#1}{\##1}%
+}
+\newcommand{\patch}[1]{%
+  \href{https://sourceforge.net/p/open-cobol/patches/#1}{patch \##1}%
+}
+
+%% Syntax diagram stuff
 
 \newtcolorbox{syntaxbox}[1][]{enhanced,
   boxrule=0.4pt,left=1mm,right=1mm,top=1mm,bottom=1mm,%
@@ -147,16 +168,6 @@
 \newenvironment{1+}{$\left\{\left| \begin{tabular}{@{}l@{}}}{\end{tabular} \right|\right\}$}
 
 \begin{document}
-
-\newsavebox\mybox
-\savebox\mybox{\tikz[color=gray,opacity=0.3]\node{DRAFT};}
-% \newwatermark*[
-%   allpages,
-%   angle=45,
-%   scale=12,
-%   xpos=-42,
-%   ypos=39
-% ]{\usebox\mybox}
 
 \newlexicalelementwithname{arithmeticexpression}{arithmetic-expression}
 \newlexicalelementwithname{conditionname}{condition-name}
