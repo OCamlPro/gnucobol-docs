@@ -29,11 +29,8 @@
   \item EC-DATA-CONVERSION
   \item EC-DATA-IMP
   \item EC-DATA-INCOMPATIBLE
-  \item EC-DATA-INTEGRITY % NOT IN STANDARD
+  \item EC-DATA-OVERFLOW
   \item EC-DATA-PTR-NULL
-  \item EC-DATA-NOT-DECIMAL-ENCODING % NOT IN STANDARD
-  \item EC-DATA-NOT-FINITE
-  % NOT IN GNUCOBOL \item EC-DATA-OVERFLOW
   \end{itemize}
 
 \item EC-FLOW
@@ -41,8 +38,8 @@
   \item EC-FLOW-GLOBAL-EXIT
   \item EC-FLOW-GLOBAL-GOBACK
   \item EC-FLOW-IMP
-    % NOT IN GNUCOBOL \item EC-FLOW-RELEASE
-    % NOT IN GNUCOBOL \item EC-FLOW-REPORT
+  \item EC-FLOW-RELEASE
+  \item EC-FLOW-REPORT
   \item EC-FLOW-RETURN
   \item EC-FLOW-SEARCH
   \item EC-FLOW-USE
@@ -50,10 +47,8 @@
 
 \item EC-FUNCTION
   \begin{itemize}
-  \item EC-FUNCTION-NOT-FOUND % NOT IN STANDARD
   \item EC-FUNCTION-PTR-INVALID
   \item EC-FUNCTION-PTR-NULL
-  \item EC-FUNCTION-ARG-OMITTED % NOT IN STANDARD
   \end{itemize}
 
 \item EC-I-O
@@ -89,10 +84,9 @@
 
 \item EC-OO
   \begin{itemize}
-  \item EC-OO-ARG-OMITTED % NOT IN STANDARD
   \item EC-OO-CONFORMANCE
   \item EC-OO-EXCEPTION
-    % NOT IN GNUCOBOL: \item EC-OO-FINALIZABLE
+  \item EC-OO-FINALIZABLE
   \item EC-OO-IMP
   \item EC-OO-METHOD
   \item EC-OO-NULL
@@ -122,7 +116,7 @@
   \item EC-PROGRAM-NOT-FOUND
   \item EC-PROGRAM-PTR-NULL
   \item EC-PROGRAM-RECURSIVE-CALL
-    % NOT IN STANDARD: EC-PROGRAM-RESOURCES
+  \item EC-PROGRAM-RESOURCES
   \end{itemize}
 
 \item EC-RAISING
@@ -432,208 +426,184 @@ The ACCEPT statement transfers data provided by the user or the operating system
 where \metaelement{appearance-attribute-clauses} is
 
 \begin{syntax}[\miscextcolour]
-  \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{BELL} \\
-      \key{BEEP}
-    \end{1=}
-  \end{0-1}
+  WITH
+  \begin{1=}
+    \key{BELL} \\
+    \key{BEEP}
+  \end{1=} \\
+  
+  WITH
+  \begin{1=}
+    \key{BLINK} \\
+    \key{BLINKING}
+  \end{1=} \\
 
-  \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{BLINK} \\
-      \key{BLINKING}
-    \end{1=}
-  \end{0-1}
+  WITH
+  \begin{1=}
+    \key{HIGHLIGHT} \\
+    \key{HIGH} \\
+    \key{BOLD} \\
+    \key{LOWLIGHT} \\
+    \key{LOW}
+  \end{1=} \\
 
-  \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{HIGHLIGHT} \\
-      \key{HIGH} \\
-      \key{BOLD} \\
-      \key{LOWLIGHT} \\
-      \key{LOW}
-    \end{1=}
-  \end{0-1}
+  \pending{WITH \key{STANDARD}} \\
+  
+  \pending{WITH \key{BACKGROUND-HIGH}} \\
+  
+  \pending{WITH \key{BACKGROUND-STANDARD}} \\
+  
+  \pending{WITH \key{BACKGROUND-LOW}} \\
+  
+  WITH \key{LEFTLINE} \\
 
-  \begin{0-1}
-    WITH \key{LEFTLINE}
-  \end{0-1}
+  WITH \key{OVERLINE} \\
 
+  WITH \key{PROMPT}
   \begin{0-1}
-    WITH \key{OVERLINE}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH \key{PROMPT}
-    \begin{0-1}
-      \key{CHARACTER} IS
-      \begin{1=}
-        \identifier \\
-        \literal
-      \end{1=}
-    \end{0-1}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{REVERSE-VIDEO} \\
-      \key{REVERSED} \\
-      \key{REVERSE}
-    \end{1=}
-  \end{0-1}
-
-
-  \begin{0-1}
-    WITH PROTECTED \key{SIZE} IS
+    \key{CHARACTER} IS
     \begin{1=}
       \identifier \\
-      \integer
+      \literal
     \end{1=}
-  \end{0-1}
+  \end{0-1} \\
 
-  \begin{0-1}
+  WITH
+  \begin{1=}
+    \key{REVERSE-VIDEO} \\
+    \key{REVERSED} \\
+    \key{REVERSE}
+  \end{1=} \\
+
+  WITH PROTECTED \key{SIZE} IS
+  \begin{1=}
+    \identifier \\
+    \integer
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{UNDERLINE} \\
+    \key{UNDERLINED}
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{FOREGROUND-COLOR} \\
+    \key{FOREGROUND-COLOUR}
+  \end{1=}
+  IS
+  \begin{1=}
+    \identifier \\
+    \integer
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{BACKGROUND-COLOR} \\
+    \key{BACKGROUND-COLOUR}
+  \end{1=}
+  IS
+  \begin{1=}
+    \identifier \\
+    \integer
+  \end{1=} \\
+
+  \pending{
     WITH
     \begin{1=}
-      \key{UNDERLINE} \\
-      \key{UNDERLINED}
-    \end{1=}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{FOREGROUND-COLOR} \\
-      \key{FOREGROUND-COLOUR}
+      \key{COLOR} \\
+      \key{COLOUR}
     \end{1=}
     IS
     \begin{1=}
       \identifier \\
       \integer
     \end{1=}
-  \end{0-1}
+  } \\
 
+  WITH \key{SCROLL}
+  \begin{1=}
+    \key{UP} \\
+    \key{DOWN}
+  \end{1=}
   \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{BACKGROUND-COLOR} \\
-      \key{BACKGROUND-COLOUR}
-    \end{1=}
-    IS
     \begin{1=}
       \identifier \\
       \integer
     \end{1=}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH \key{SCROLL}
     \begin{1=}
-      \key{UP} \\
-      \key{DOWN}
+      \key{LINE} \\
+      \key{LINES}
     \end{1=}
-    \begin{0-1}
-      \begin{1=}
-        \identifier \\
-        \integer
-      \end{1=}
-      \begin{1=}
-        \key{LINE} \\
-        \key{LINES}
-      \end{1=}
-    \end{0-1}
   \end{0-1}
 \end{syntax}
 
 where \metaelement{accept-attribute-clauses} is
 
 \begin{syntax}[\miscextcolour]
+  WITH
+  \begin{1=}
+    \key{AUTO} \\
+    \key{TAB}
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{CONVERSION} \\
+    \key{CONVERT}
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{FULL} \\
+    \key{LENGTH-CHECK} \\
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{LOWER} \\
+    \key{UPPER}
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{NO-ECHO} \\
+    \key{NO} \key{ECHO} \\
+    \key{OFF}
+  \end{1=} \\
+
+  WITH
+  \begin{1=}
+    \key{REQUIRED} \\
+    \key{EMPTY-CHECK}
+  \end{1=} \\
+
+  WITH \key{SECURE} \\
+
+  WITH
   \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{AUTO} \\
-      \key{TAB}
-    \end{1=}
+    \key{NO}
   \end{0-1}
-
-  \begin{0-1}
-    WITH
+  \begin{1=}
+    \key{DEFAULT} \\
+    \key{UPDATE}
+  \end{1=} \\
+    
+  \begin{1=}
+    \key{WITH}
+    % TIME-OUT is context-sensitive, so WITH is required.
     \begin{1=}
-      \key{CONVERSION} \\
-      \key{CONVERT}
+      \key{TIMEOUT} \\
+      \key{TIME-OUT} \\
     \end{1=}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{FULL} \\
-      \key{LENGTH-CHECK} \\
-    \end{1=}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{LOWER} \\
-      \key{UPPER}
-    \end{1=}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{NO-ECHO} \\
-      \key{NO} \key{ECHO} \\
-      \key{OFF}
-    \end{1=}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH
-    \begin{1=}
-      \key{REQUIRED} \\
-      \key{EMPTY-CHECK}
-    \end{1=}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH \key{SECURE}
-  \end{0-1}
-
-  \begin{0-1}
-    WITH
-    \begin{0-1}
-      \key{NO}
-    \end{0-1}
-    \begin{1=}
-      \key{DEFAULT} \\
-      \key{UPDATE}
-    \end{1=}
-  \end{0-1}
-
-  \begin{0-1}
-    \begin{1=}
-      \key{WITH}
-      % TIME-OUT is context-sensitive, so WITH is required.
-      \begin{1=}
-        \key{TIMEOUT} \\
-        \key{TIME-OUT} \\
-      \end{1=}
-      AFTER \\
-
-      BEFORE \key{TIME}
-    \end{1=}
-
-    \begin{1=}
-      \identifier \\
-      \integer
-    \end{1=}
-  \end{0-1}
+    AFTER \\
+    BEFORE \key{TIME}
+  \end{1=}
+  \begin{1=}
+    \identifier \\
+    \integer
+  \end{1=}
 \end{syntax}
 
 % Shouldn't all the clauses except AT LINE/COLUMN be miscext?
@@ -717,6 +687,49 @@ where \metaelement{accept-attribute-clauses} is
 \format{message}
 \begin{syntax}[\deletedcolour]
   \pending{\key{ACCEPT} \cdname MESSAGE \key{COUNT}}
+\end{syntax}
+
+\format{from screen}
+\begin{syntax}[\miscextcolour]
+  \key{ACCEPT} \identifier \key{FROM} \key{SCREEN}
+  
+  \begin{1=}
+    \begin{1=}
+      \begin{1+}
+        AT \key{LINE} NUMBER
+        \begin{1=}
+          \identifier \\
+          \integer
+        \end{1=} \\
+
+        AT
+        \begin{1=}
+          \key{COLUMN} \\
+          \key{COL} \\
+          \miscext{\key{POSITION}}
+        \end{1=}
+        NUMBER
+        \begin{1=}
+          \identifier \\
+          \integer
+        \end{1=}
+      \end{1+} \\
+
+      \miscext{
+        \key{AT}
+        \begin{1=}
+          \identifier \\
+          \integer
+        \end{1=}
+      }
+    \end{1=} \\
+
+    \key{SIZE} IS
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  \end{1=}\ldots
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -898,7 +911,7 @@ The CALL statement transfers execution to another program, optionally with argum
 
 \begin{syntax}
   \key{CALL}
-  
+
   \miscext{
     \begin{0-1}
       \mnemonicname \\
@@ -907,7 +920,7 @@ The CALL statement transfers execution to another program, optionally with argum
       \pending{IN \key{THREAD}}
     \end{0-1}
   }
-  
+
   \begin{1=}
     \identifier \\
     \literal \\
@@ -920,13 +933,13 @@ The CALL statement transfers execution to another program, optionally with argum
       \end{1=}
     \end{0-1}
   \end{1=}
-  
+
   \miscext{
     \begin{0-1}
       \pending{\key{HANDLE} IN \identifier}
     \end{0-1}
   }
-  
+
   \begin{0-1}
     \key{USING}
     \begin{1=}
@@ -1007,6 +1020,7 @@ The CANCEL statement unloads a program from the operating system memory. This ha
 
 The CLOSE statement prevents the program from accessing or modifying an open file. It first processes all pending writes for the file and releases all locks still held in the file.
 
+\format{file}
 \begin{syntax}
   \key{CLOSE}
   \begin{1=}
@@ -1024,6 +1038,16 @@ The CLOSE statement prevents the program from accessing or modifying an open fil
       WITH \key{LOCK}
     \end{0-1}
   \end{1=} \ldots
+\end{syntax}
+
+\format{window}
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{CLOSE} \key{WINDOW} \identifier
+    \begin{0-1}
+      WITH \key{NO} \key{DISPLAY}
+    \end{0-1}
+  }
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1126,6 +1150,22 @@ The DELETE statement removes a record from a file or removes an entire file.
 
 \subsubsection{General rules}
 
+\section{DESTROY statement}
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{DESTROY}
+    \begin{1=}
+      \key{ALL} CONTROLS \\
+      \identifier\ldots
+    \end{1=}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \section{DISABLE statement}
 
 The DISABLE statement prevents the program from modifying or accessing an enabled communication descriptor.
@@ -1217,7 +1257,7 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
       \miscext{\key{OMITTED}}
     \end{1=}
 
-    \begin{0-1}
+    \begin{0+}
       \metaelement{position-clauses} \\
 
       \miscext{
@@ -1230,13 +1270,229 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
 
       \miscext{\key{MODE} IS \key{BLOCK}} \\
       \miscext{\metaelement{appearance-attribute-clauses}}
-    \end{0-1}
+    \end{0+}
   \end{1=} \miscext{\ldots}
 
   \begin{0+}
     ON \key{EXCEPTION} \imperativestatement \\
     \key{NOT} ON \key{EXCEPTION} \imperativestatement \\
   \end{0+}
+
+  \begin{0-1}
+    \key{END-DISPLAY}
+  \end{0-1}
+\end{syntax}
+
+\format{ordinary window}
+\begin{syntax}[\miscextcolour]
+  \key{DISPLAY}
+  \begin{1=}
+    \key{WINDOW} \\
+    \key{SUBWINDOW}
+  \end{1=}
+  \begin{0-1}
+    \key{UPON} \identifier
+  \end{0-1}
+
+  \begin{1=}
+    \key{POP-UP} AREA IS \identifier \\
+
+    \key{HANDLE}
+    \begin{0-1}
+      IS \\
+      IN
+    \end{0-1}
+    \identifier \\
+
+    \key{LINES} \integer \\
+    
+    \key{TITLE} IS
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+
+    WITH \key{NO}
+    \begin{0-1}
+      \key{SCROLL} \\
+      \key{WRAP}
+    \end{0-1} \\
+
+    \begin{0-1}
+      \key{SHADOW} \\
+      \key{BOXED}
+    \end{0-1} \\
+    
+    \metaelement{position-clauses} \\
+    \metaelement{appearance-attribute-clauses}
+  \end{1=}\ldots
+
+  \begin{0-1}
+    \key{END-DISPLAY}
+  \end{0-1}
+\end{syntax}
+
+\format{floating window}
+\begin{syntax}[\miscextcolour]
+  \key{DISPLAY} \key{FLOATING}
+  \begin{0-1}
+    \key{GRAPHICAL}
+  \end{0-1}
+  \key{WINDOW}
+  \begin{0-1}
+    \key{UPON} \identifier
+  \end{0-1}
+
+  \begin{1=}
+    \key{POP-UP} AREA IS \identifier \\
+
+    \key{HANDLE}
+    \begin{0-1}
+      IS \\
+      IN
+    \end{0-1}
+    \identifier \\
+
+    \key{LINES} \integer \\
+    
+    \key{TITLE} IS
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+
+    WITH \key{NO}
+    \begin{0-1}
+      \key{SCROLL} \\
+      \key{WRAP}
+    \end{0-1} \\
+
+    \begin{0-1}
+      \key{SHADOW} \\
+      \key{BOXED}
+    \end{0-1} \\
+
+    \metaelement{position-clauses} \\
+    \metaelement{appearance-attribute-clauses}
+  \end{1=}\ldots
+
+  \begin{0-1}
+    \key{END-DISPLAY}
+  \end{0-1}
+\end{syntax}
+
+\format{special window}
+\begin{syntax}[\miscextcolour]
+  \key{DISPLAY}
+  \begin{1=}
+    \key{INITIAL} \\
+    \key{STANDARD} \\
+    \key{INDEPENDENT}
+  \end{1=}
+  \begin{0-1}
+    \key{GRAPHICAL}
+  \end{0-1}
+  \key{WINDOW}
+  \begin{0-1}
+    \key{UPON} \identifier
+  \end{0-1}
+
+  \begin{1=}
+    \key{POP-UP} AREA IS \identifier \\
+
+    \key{HANDLE}
+    \begin{0-1}
+      IS \\
+      IN
+    \end{0-1}
+    \identifier \\
+
+    \key{LINES} \integer \\
+    
+    \key{TITLE} IS
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+
+    WITH \key{NO}
+    \begin{0-1}
+      \key{SCROLL} \\
+      \key{WRAP}
+    \end{0-1} \\
+
+    \begin{0-1}
+      \key{SHADOW} \\
+      \key{BOXED}
+    \end{0-1} \\
+
+    \metaelement{position-clauses} \\
+    \metaelement{appearance-attribute-clauses}
+  \end{1=}\ldots
+
+  \begin{0-1}
+    \key{END-DISPLAY}
+  \end{0-1}
+\end{syntax}
+
+\format{message box}
+\begin{syntax}[\miscextcolour]
+  \key{DISPLAY} \key{MESSAGE} BOX
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}\ldots
+  
+  \begin{0-1}
+    \key{TITLE}
+    \begin{0-1}
+      IS \\
+      =
+    \end{0-1}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+
+    \key{TYPE}
+    \begin{0-1}
+      IS \\
+      =
+    \end{0-1}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+
+    \key{ICON}
+    \begin{0-1}
+      IS \\
+      =
+    \end{0-1}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+
+    \key{DEFAULT}
+    \begin{0-1}
+      IS \\
+      =
+    \end{0-1}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+
+    \begin{1=}
+      \key{RETURNING} \\
+      \key{GIVING}
+    \end{1=}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=} \\
+  \end{0-1}\ldots
 
   \begin{0-1}
     \key{END-DISPLAY}
@@ -1260,7 +1516,7 @@ where \metaelement{position-clauses} is
         \key{COL} \\
         \miscext{\key{POSITION}}
       \end{1=}
-
+      NUMBER
       \begin{1=}
         \identifier \\
         \literal
@@ -1311,7 +1567,7 @@ where \metaelement{appearance-attribute-clauses} is
     \key{EOS} \\
 
     \begin{0-1}
-      \key{END} OF
+      \miscext{TO} \key{END} OF
     \end{0-1}
     \begin{1=}
       \key{LINE} \\
@@ -1328,6 +1584,11 @@ where \metaelement{appearance-attribute-clauses} is
     \key{LOW}
   \end{1=} \\
 
+  \pending{WITH \key{STANDARD}} \\
+  \pending{WITH \key{BACKGROUND-HIGH}} \\
+  \pending{WITH \key{BACKGROUND-STANDARD}} \\
+  \pending{WITH \key{BACKGROUND-LOW}} \\
+  
   WITH \key{OVERLINE} \\
 
   WITH
@@ -1370,6 +1631,19 @@ where \metaelement{appearance-attribute-clauses} is
     \identifier \\
     \integer
   \end{1=} \\
+
+  \pending{
+    WITH
+    \begin{1=}
+      \key{COLOR} \\
+      \key{COLOUR}
+    \end{1=}
+    IS
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
+  } \\
 
   WITH \key{SCROLL}
   \begin{1=}
@@ -2151,7 +2425,7 @@ The PERFORM statement executes the specified procedures or statements one or mor
 
 \format{procedure}
 \begin{syntax}
-  \key{PERFORM} 
+  \key{PERFORM}
   \miscext{
     \begin{0-1}
       \pending{IN \key{THREAD}}
@@ -2165,7 +2439,7 @@ The PERFORM statement executes the specified procedures or statements one or mor
     \end{1=}
     \procedurename
   \end{0-1}
-  
+
   \miscext{
     \begin{0-1}
       \pending{\key{HANDLE} IN \identifier}
@@ -2198,9 +2472,9 @@ The PERFORM statement executes the specified procedures or statements one or mor
       \pending{\key{HANDLE} IN \identifier}
     \end{0-1}
   }
-  
+
   \imperativestatement
-  
+
   \begin{0-1}
     \key{END-PERFORM}
   \end{0-1}
@@ -2486,6 +2760,7 @@ The REWRITE statement replaces an existing record in the file with one provided 
   \begin{0-1}
     \pending{\metaelement{retry-phrase}}
   \end{0-1}
+
   \begin{0-1}
     WITH
     \begin{0-1}
@@ -3165,7 +3440,11 @@ The UNLOCK statement releases all currently held locks on a file.
 The UNSTRING statement extracts substrings from a string and copies the substrings to specified data items.
 
 \begin{syntax}
-  \key{UNSTRING} \identifier
+  \key{UNSTRING}
+  \begin{1=}
+    \identifier \\
+    \miscext{\literal}
+  \end{1=}
 
   \begin{0-1}
     \key{DELIMITED} BY
