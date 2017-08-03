@@ -463,7 +463,7 @@ where \metaelement{appearance-attribute-clauses} is
 
   \begin{0-1}
     \key{BELL} \\
-    \key{BEEP}
+    \miscext{\key{BEEP}}
   \end{0-1}
 
   \key{BLANK}
@@ -517,7 +517,7 @@ where \metaelement{appearance-attribute-clauses} is
       \end{0-1}
     }
   }
-  
+
   \pending{
     \miscext{
       \begin{0-1}
@@ -525,7 +525,7 @@ where \metaelement{appearance-attribute-clauses} is
       \end{0-1}
     }
   }
-  
+
   \pending{
     \miscext{
       \begin{0-1}
@@ -533,7 +533,7 @@ where \metaelement{appearance-attribute-clauses} is
       \end{0-1}
     }
   }
-  
+
   \pending{
     \miscext{
       \begin{0-1}
@@ -746,6 +746,20 @@ where \metaelement{source-destination-clauses} is
 
 \section{Data division clauses}
 
+\subsection{ANY LENGTH clause}
+
+\begin{syntax}
+  \key{ANY}
+  \begin{1=}
+    \key{LENGTH} \\
+    \gnucobol{\key{NUMERIC}} \\
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{AUTO clause}
 
 The AUTO clause specifies that the screen cursor will immediate move to the next screen item when the current screen item is full.
@@ -762,6 +776,80 @@ The AUTO clause specifies that the screen cursor will immediate move to the next
 
 \subsubsection{General rules}
 
+\subsection{BACKGROUND-COLOR clause}
+
+\begin{syntax}
+  \begin{1=}
+    \key{BACKGROUND-COLOR} \\
+    \miscext{\key{BACKGROUND-COLOUR}}
+  \end{1=}
+  IS
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{BACKGROUND-HIGH clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{\key{BACKGROUND-HIGH}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{BACKGROUND-LOW clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{\key{BACKGROUND-LOW}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{BACKGROUND-STANDARD clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{\key{BACKGROUND-STANDARD}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{BELL clause}
+
+\begin{syntax}
+  \begin{1=}
+    \key{BELL} \\
+    \miscext{\key{BEEP}}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{BLANK clause}
+
+\begin{syntax}
+  \key{BLANK}
+  \begin{1=}
+    \key{LINE} \\
+    \key{SCREEN}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \subsection{BLANK WHEN ZERO clause}
 
@@ -789,6 +877,38 @@ The BLOCK clause specifies the size of a physical record, that is, how many logi
     \key{CHARACTERS} \\
     \key{RECORDS}
   \end{0-1}\\
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{BLINK clause}
+
+\begin{syntax}
+  \begin{1=}
+    \key{BLINK} \\
+    \miscext{\key{BLINKING}}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{COLOR clause}
+
+\begin{syntax}[\miscextcolour]
+  WITH
+  \begin{1=}
+    \key{COLOR} \\
+    \key{COLOUR}
+  \end{1=}
+  IS
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -850,6 +970,71 @@ The COLUMN clause specifies what column an item should be printed or displayed a
 
 \subsubsection{General rules}
 
+\subsection{DATA RECORDS clause}
+
+\begin{syntax}[\deletedcolour]
+  \key{DATA}
+  \begin{1=}
+    \key{RECORD} IS \\
+    \key{RECORDS} ARE
+  \end{1=}
+  \begin{1=}
+    \identifier
+  \end{1=}\ldots
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{DESTINATION clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{DESTINATION} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{DESTINATION COUNT clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{DESTINATION} \key{COUNT} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{DESTINATION TABLE OCCURS clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{
+    \key{DESTINATION} \key{TABLE} \key{OCCURS} \integer TIMES
+    \begin{0-1}
+      \key{INDEXED} BY
+      \begin{1=}
+        \cobolindexname
+      \end{1=}\ldots
+    \end{0-1}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{END KEY clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{END} \key{KEY} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{Entry name}
 
 The entry name specifies the name of the item being declared.
@@ -890,6 +1075,61 @@ The ERASE clause indicates part of the screen to be blanked before displaying th
 
 \subsubsection{General rules}
 
+\subsection{ERROR KEY clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{ERROR} \key{KEY} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{EXTERNAL clause}
+
+\begin{syntax}
+  IS \key{EXTERNAL}
+  \begin{0-1}
+    \key{AS} \literal
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{FOREGROUND-COLOR clause}
+
+\begin{syntax}
+  \begin{1=}
+    \key{FOREGROUND-COLOR} \\
+    \key{FOREGROUND-COLOUR}
+  \end{1=}
+  IS
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{FROM clause}
+
+\begin{syntax}
+  \key{FROM}
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{FULL clause}
 
 % TO-DO: Check! Is it until the screen can be exited successfully?
@@ -918,16 +1158,34 @@ The GLOBAL clause specifies that an item may be accessed from within nested prog
 
 \subsubsection{General rules}
 
-\subsection{PICTURE clause}
+\subsection{GRID clause}
 
-The PICTURE clause describes the general characteristics and editing requirements of an elementary data item.
+\begin{syntax}[\miscextcolour]
+  \pending{\key{GRID}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{INITIAL clause}
+
+\begin{syntax}
+  \key{INIITAL}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{HIGHLIGHT clause}
 
 \begin{syntax}
   \begin{1=}
-    \key{PICTURE} \\
-    \key{PIC}
+    \key{HIGHLIGHT} \\
+    \miscext{\key{HIGH}} \\
+    \miscext{\key{BOLD}}
   \end{1=}
-  IS \metaelement{picture-string-1}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -944,6 +1202,34 @@ The JUSTIFIED clause causes data smaller than the data item to be padded by spac
     \key{JUST}
   \end{1=}
   RIGHT
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{LABEL RECORDS clause}
+
+\begin{syntax}[\deletedcolour]
+  \key{LABEL}
+  \begin{1=}
+    \key{RECORD} IS \\
+    \key{RECORDS} ARE
+  \end{1=}
+  \begin{1=}
+    \key{STANDARD} \\
+    \key{OMITTED}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{LEFTLINE clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{\key{LEFTLINE}}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1031,6 +1317,49 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 
 \subsubsection{General rules}
 
+\subsection{LOWLIGHT clause}
+
+\begin{syntax}
+  \begin{1=}
+    \key{LOWLIGHT} \\
+    \miscext{\key{LOW}}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{MESSAGE DATE clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{MESSAGE} \key{DATE} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{MESSAGE TIME clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{MESSAGE} \key{TIME} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{MESSAGE COUNT clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{MESSAGE} \key{COUNT} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{NEXT GROUP clause}
 
 The NEXT GROUP clause specifies the number of blank lines that should follow the end of a report group.
@@ -1043,6 +1372,20 @@ The NEXT GROUP clause specifies the number of blank lines that should follow the
     \end{0-1}
     \integer \\
     \key{NEXT} \key{PAGE}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{NO ECHO clause}
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \key{NO} \key{ECHO} \\
+    \key{NO-ECHO} \\
+    \key{OFF}
   \end{1=}
 \end{syntax}
 
@@ -1156,12 +1499,55 @@ The OCCURS clause describes tables, repeated data items accessible by subscripts
 
 \subsubsection{General rules}
 
+\subsection{OVERLINE clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{\key{OVERLINE}}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{PICTURE clause}
+
+The PICTURE clause describes the general characteristics and editing requirements of an elementary data item.
+
+\begin{syntax}
+  \begin{1=}
+    \key{PICTURE} \\
+    \key{PIC}
+  \end{1=}
+  IS \metaelement{picture-string-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{PRESENT WHEN clause}
 
 The PRESENT WHEN clause specifies a condition under which a report section entry will be processed.
 
 \begin{syntax}
   \key{PRESENT} \key{WHEN} \condition
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{PROMPT clause}
+
+\begin{syntax}[\miscextcolour]
+  \key{PROMPT}
+  \begin{0-1}
+    \key{CHARACTER} IS
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  \end{0-1}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1196,6 +1582,30 @@ The RECORD clause specifies the number of bytes of a logical record.
 
 \subsubsection{General rules}
 
+\subsection{RECORDING MODE clause}
+
+\begin{syntax}[\deletedcolour]
+  \key{RECORDING} MODE IS
+  \begin{1=}
+    \begin{1=}
+      \key{F} \\
+      \key{FIXED} \\
+    \end{1=} \\
+
+    \begin{1=}
+      \key{V} \\
+      \key{VARIABLE} \\
+    \end{1=} \\
+
+    \key{U} \\
+    \key{S}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{REDEFINES clause}
 
 The REDEFINES clause indicates the data shares the same memory as an item with a different description.
@@ -1203,6 +1613,75 @@ The REDEFINES clause indicates the data shares the same memory as an item with a
 \begin{syntax}
   \key{REDEFINES} \identifier
 \end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{REPORT clause}
+
+\begin{syntax}
+  \pending{
+    \begin{1=}
+      \key{REPORT} IS \\
+      \key{REPORTS} ARE
+    \end{1=}
+    \begin{1=}
+      \identifier
+    \end{1=}\ldots
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{REQUIRED clause}
+
+\begin{syntax}
+  \begin{1=}
+    \key{REQUIRED} \\
+    \miscext{\key{EMPTY-CHECK}}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{REVERSE-VIDEO clause}
+
+\begin{syntax}
+  \begin{1=}
+    \key{REVERSE-VIDEO} \\
+    \miscext{\key{REVERSED}} \\
+    \miscext{\key{REVERSE}}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SECURE clause}
+
+\begin{syntax}
+  \key{SECURE}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{STATUS KEY clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{STATUS} \key{KEY} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 \subsection{SIGN clause}
 
@@ -1217,6 +1696,16 @@ The SIGN clause defines how to store item's sign.
   \begin{0-1}
     \key{SEPARATE} CHARACTER
   \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SIZE clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{\key{SIZE} IS \integer}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1240,7 +1729,38 @@ The SOURCE clause identifies data to be used in processing a report section entr
 
 The SUM clause provides a list of data items to be summed for use in an elementary report item.
 
+\subsection{STANDARD clause}
+
+\begin{syntax}[\miscextcolour]
+  WITH \key{STANDARD}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SYMBOLIC DESTINATION clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{SYMBOLIC} \key{DESTINATION} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SYMBOLIC TERMINAL clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{SYMBOLIC} \key{TERMINAL} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{SUM clause}
+
 \begin{syntax}
   \key{SUM} OF
   \begin{1=}
@@ -1253,6 +1773,56 @@ The SUM clause provides a list of data items to be summed for use in an elementa
       \key{FINAL}
     \end{1=}
   \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SYMBOLIC SOURCE clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{SYMBOLIC \key{SOURCE} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SYMBOLIC QUEUE clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{SYMBOLIC \key{QUEUE} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SYMBOLIC SUB-QUEUE-1 clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{SYMBOLIC \key{SUB-QUEUE-1} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SYMBOLIC SUB-QUEUE-2 clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{SYMBOLIC \key{SUB-QUEUE-2} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SYMBOLIC SUB-QUEUE-3 clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{SYMBOLIC \key{SUB-QUEUE-3} IS \identifier}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1274,6 +1844,26 @@ The SYNCHRONIZED clause specifies an item should be aligned in a byte boundary a
     \key{LEFT} \\
     \key{RIGHT}
   \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{TEXT LENGTH clause}
+
+\begin{syntax}[\deletedcolour]
+  \pending{\key{TEXT} \key{LENGTH} IS \identifier}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{TO clause}
+
+\begin{syntax}
+  \key{TO} \identifier
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1329,6 +1919,19 @@ The TYPE clause specifies when to print a report group.
       \key{REPORT} \key{HEADING} \\
       \key{RH}
     \end{1=}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{UNDERLINE clause}
+
+\begin{syntax}
+  \begin{1=}
+    \key{UNDERLINE} \\
+    \miscext{\key{UNDERLINED}}
   \end{1=}
 \end{syntax}
 
@@ -1507,6 +2110,16 @@ where \metaelement{handle-usages} is
 
 \subsubsection{General rules}
 
+\subsection{USING clause}
+
+\begin{syntax}
+  \key{USING} \identifier
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{VALUE clause}
 
 The VALUE clause specifies the initial value of the local-storage and working-storage section data items and the values to be used in INITALIZE statements.
@@ -1550,6 +2163,26 @@ The VALUE clause for condition-names specifies the values under which a conditio
   \begin{0-1}
     WHEN SET TO \key{FALSE} IS \literal
   \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{VALUE OF clause}
+
+\begin{syntax}[\deletedcolour]
+  \key{VALUE} \key{OF}
+  \begin{1=}
+    \key{FILE-ID} \\
+    \key{ID} \\
+    \identifier
+  \end{1=}
+  IS
+  \begin{1=}
+    \literal \\
+    \identifier
+  \end{1=}
 \end{syntax}
 
 \subsubsection{Syntax rules}
