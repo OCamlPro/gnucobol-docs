@@ -18,8 +18,6 @@
 \renewcommand*\oldstylenums[1]{\textosf{#1}}
 
 \usepackage[dvipsnames]{xcolor}
-\usepackage{afterpage}
-\usepackage{tikz}
 \usepackage[tocindentauto]{tocstyle}
 \usetocstyle{standard}
 \usepackage[most]{tcolorbox} % for coloured boxes and warning boxes
@@ -34,7 +32,7 @@
 
 %% Title page
 
-\newtcolorbox{streak}[1][]{frame code={}
+\newtcolorbox{streak}[1][]{frame code={},
   halign title=flush center,
   left=40mm,
   right=40mm,
@@ -205,7 +203,7 @@
 \frontmatter
 
 \begin{titlepage}
-  \pagecolor{Maroon!75}\afterpage{\nopagecolor}
+  \pagecolor{Maroon!75}
 
   \centering
 
@@ -228,11 +226,16 @@
 
   \vfill
 
-  % Bottom of the page
   \begin{streak}[top=3pt,bottom=3pt]
     {\Large \today\par}
   \end{streak}
 \end{titlepage}
+
+\ifpdf
+\nopagecolor
+\else
+\pagecolor{white}
+\fi
 
 \topskip0pt
 \vspace*{\fill}
