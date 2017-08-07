@@ -251,6 +251,8 @@
 @comment |                                                                   |
 @comment | Begin a new paragraph in a manner appropriate for either INFO or  |
 @comment | TeX.                                                              |
+@comment |                                                                   |
+@comment | NOTE: the additional line break before @end macro is necessary!!! |
 @comment +-------------------------------------------------------------------+
 @macro p
 @ifinfo
@@ -259,6 +261,16 @@
 @iftex
 @sp 0.5
 @end iftex
+
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | MACRO: registertext{xxxxx}                                        |
+@comment |                                                                   |
+@comment | Puts "xxxxx" into the document via a @syntax macro, adds          |
+@comment | " special register" text.                                         |
+@comment +-------------------------------------------------------------------+
+@macro registertext {v}
+@syntax{\v\} special register
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: register{xxxxx}                                            |
@@ -266,9 +278,12 @@
 @comment | Adds "xxxxx Special register" and "Special Registers, xxxxx" to   |
 @comment | the concept index and also puts "xxxxx" into the via a @syntax    |
 @comment | macro.                                                            |
+@comment |                                                                   |
+@comment | NOTE: the additional line break before @end macro is necessary!!! |
 @comment +-------------------------------------------------------------------+
 @macro register {v}
-@syntax{\v\} special register@idx{\v\ Special Register}@idx{Special Registers, \v\}
+@registertext{\v\}@idx{\v\ Special Register}@idx{Special Registers, \v\}
+
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: registerref{xxxxx}                                         |
@@ -278,7 +293,7 @@
 @comment | adds a cross-reference to "Special Registers".                    |
 @comment +-------------------------------------------------------------------+
 @macro registerref {v}
-@syntax{\v\} special register@idx{\v\ Special Register}@idx{Special Registers, \v\} (@pxref{Special Registers})
+@register{\v\} (@pxref{Special Registers})
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: registerrefalt{xxxxx,ref}                                  |
@@ -288,7 +303,7 @@
 @comment | adds a cross-reference to ref.                                    |
 @comment +-------------------------------------------------------------------+
 @macro registerrefalt {v,ref}
-@syntax{\v\} special register@idx{\v\ Special Register}@idx{Special Registers, \v\} (@pxref{\ref\})
+@register{\v\} (@pxref{\ref\})
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: statement{xxxxx}                                           |

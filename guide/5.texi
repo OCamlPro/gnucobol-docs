@@ -105,7 +105,8 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
 @comment *********************************************************************
 @page
 @newsubsection{5.2.1,File/Sort-Description}
-@diagram{File/Sort-Description,DD-FD-SD,DD-FD-SD,DD-FD-SD}@enumerate
+@diagram{File/Sort-Description,DD-FD-SD,DD-FD-SD,DD-FD-SD}
+@enumerate
 @p @item The reserved words @syntax{ARE}, @syntax{AT}, @syntax{CHARACTERS} (@syntax{RECORD} clause only), @syntax{CONTAINS}, @syntax{FROM}, @syntax{IN}, @syntax{IS}, @syntax{ON} and @syntax{WITH} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 @p @item The terms @syntax{RECORD IS} and @syntax{RECORDS ARE} are interchangeable.
 @p @item The terms @syntax{REPORT IS} and @syntax{REPORTS ARE} are interchangeable.
@@ -1179,22 +1180,22 @@ C(3) - Character #3 of GRP(3)
 @p @item In general, each picture symbol represents either a single character in storage or a single decimal digit.  There are a few exceptions, and they will be discussed as needed.
 @p @item When a @term{picture-string} contains a repeated sequence of symbols --- @syntax{PIC 9999/99/99} --- for example, the repetition can be specified using a parenthetic repeat count, as in @syntax{PIC 9(4)/9(2)/9(2)}.  Using repeat counts is optional and their use (or not) is entirely at the discretion of the programmer.  Many programmers use repetition for small sequences (@syntax{PIC XXX}) and repeat counts for larger ones (@syntax{PIC 9(9)}.
 @p @item This first set of picture symbols defines the basic data type of a data item.  Each symbol represents a single character's worth of storage.
-@table @syntax
-@p @item A
+@table @asis
+@p @item @syntax{A}
 Defines storage reserved for a single alphabetic character (@syntax{A}-@syntax{Z}, @syntax{a}-@syntax{z}).
-@p @item N
+@p @item @syntax{N}
 Defines storage reserved for a single character in the computer's @define{National Character set}.  Support for national character sets in GnuCOBOL is currently only partially implemented, and the compile- and run-time effect of using the @syntax{N} picture symbol is the same as if @syntax{X(2)} had been coded, with the additional effect that such a field will qualify as a @syntax{NATIONAL} or @syntax{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
-@p @item X
+@p @item @syntax{X}
 Defines storage reserved for a single alphanumeric character (any character).
-@p @item 9
+@p @item @syntax{9}
 Defines storage reserved for a single numeric digit character (@syntax{0}-@syntax{9}).
 @end table
 @* Typically, only one kind of each of those symbols is used in the same picture clause, but that isn't a requirement.  Data items that, of the three symbols above, use nothing but @syntax{A} picture symbols are known as @define{Alphabetic Data Items} while those that use @syntax{9} picture symbols without any @syntax{A} or @syntax{X} symbols (or those that have a @syntax{USAGE} without a @syntax{PICTURE}) are known as @define{Numeric Data Items}.  All other data items are referred to as @define{Alphanumeric Data Items}.
 @p If you need to allocate space for a data item whose format is two letters followed by five digits followed by three letters, you could use the @term{picture-string} @syntax{AA99999AAA}, @syntax{A(2)9(5)A(3)} @syntax{XXXXXXXXXX} or @syntax{X(10)}.  There is absolutely no functional difference whatsoever between the four --- none of them provide any functionality the others do not.  The first two probably make for better @i{documentation} of the expected field contents, but they don't provide any run-time enforcement capabilities.
 @p As far as enforcement goes, however, both alphabetic and numeric picture strings do provide for both compile-time and run-time enforcement capabilities.  In the case of compilation enforcement, the compiler can issue warning messages if you attempt to specify a non-numeric value for a numeric data item or if you attempt to @syntaxref{MOVE} a non-numeric data item to one that is numeric.  Similar capabilities exist for alphabetic data items.  At run-time, you may use a special class test (@pxref{Class Conditions}) to determine if the contents of a data item are entirely numeric or entirely alphabetic.
 @p @item The following picture symbols may be used with numeric data items.
-@table @syntax
-@p @item P
+@table @asis
+@p @item @syntax{P}
 Defines an implied digit position that will be considered to be a zero when the data item is referenced at run-time.  This symbol is used to allow data items that will contain very large values to be allocated using less storage by assuming a certain number of trailing zeros (one per @syntax{P}) to exist at the end of values.
 @p The @syntax{P} symbol is not allowed in conjunction with @syntax{N}.
 @p The @syntax{P} symbol may only be used at the beginning or end of a picture clause.
@@ -1208,19 +1209,19 @@ Defines an implied digit position that will be considered to be a zero when the 
 @p If you wanted to store the value 128 million into that field, you would do so as if the @syntax{P}s were @syntax{9}s:
 @p @t{MOVE 128000000 TO Gross-Revenue}
 @p A @syntaxref{DISPLAY} of a data item containing @syntax{P} symbols is a little strange.  The value displayed will be what is actually in storage, but the total size of the displayed value will be as if the @syntax{P} symbols had been @syntax{9}s.  Thus, after the above statement established a value for Gross-Revenue, a @syntax{DISPLAY Gross-Revenue} would produce output of '@t{000000128}'.
-@p @item S
+@p @item @syntax{S}
 This symbol, if used, must be the very first symbol in the @syntax{PICTURE} value.  A @syntax{S} indicates that the data item is @syntax{Signed}, meaning that negative values are possible for this data item.  Without an @syntax{S}, any negative values stored into this data item via a @syntax{MOVE} or arithmetic statement will have the negative sign stripped from it (in effect becoming the absolute value).
 @p The @syntax{S} symbol is not allowed in conjunction with @syntax{N}.
 @p The @syntax{S} symbol may only occur once in a picture string.  @xref{SIGN IS}, for further discussion of how negative values may be stored in a numeric data item.
-@p @item V
+@p @item @syntax{V}
 This symbol is used to define where an implied decimal-point (if any) is located in a numeric item.  Just as there may only be a single decimal point in a number so may there be no more than one @syntax{V} in a @syntax{PICTURE}.  Implied decimal points occupy no space in storage --- they just specify how values are used.  For example, if the value @syntax{1234} is in storage in a field defined as PIC 999V9, that value would be treated as 123.4 in any statements that referenced it.
 @p The @syntax{V} symbol is not allowed in conjunction with @syntax{N}.
 @p The @syntax{V} symbol may only occur once in a picture string.
 @end table
 @item Any editing symbols introduced past this point will, if coded in the picture clause of an otherwise numeric data item, transform that data item from a numeric to a @define{Numeric Edited} data item.  Numeric edited data items are treated as alphanumeric and may not serve either as table subscripts or as source arguments on an arithmetic statement.
 @item The following are the fixed insertion editing symbols that may be specified in a picture string.  Each of these editing symbols will insert a special character into the field value at the position it is specified in the picture string.  These editing symbols will each introduce one extra character into the total field size for each occurrence of the symbol in the picture string.
-@table @syntax
-@p @item B
+@table @asis
+@p @item @syntax{B}
 The @syntax{B} editing symbol introduces a blank into the field value for each occurrence.
 @p Multiple @syntax{B} symbols may be coded.
 @p The following example will format a ten digit number (presumably a telephone number) into a "@t{### ### ####}" layout:
@@ -1232,7 +1233,7 @@ The @syntax{B} editing symbol introduces a blank into the field value for each o
         DISPLAY Phone-Number
 @end verbatim
 @* This code will display "@t{518 555 1212}".
-@p @item 0
+@p @item @syntax{0}
 The @syntax{0} (zero) editing symbol introduces one "0" character into the field value for each occurrence in the picture string.
 @p Multiple @syntax{0} symbols may be coded.
 @p Here's an example:
@@ -1244,7 +1245,7 @@ The @syntax{0} (zero) editing symbol introduces one "0" character into the field
         DISPLAY Output-Item
 @end verbatim
 @* The above will display "@t{102030405}".
-@p @item /
+@p @item @syntax{/}
 The @syntax{/} editing symbol inserts one "/" character into the field value for each occurrence in the picture string.
 @p Multiple @syntax{/} symbols may be coded.
 @p This editing symbol is most-frequently used to format dates, as follows:
@@ -1258,8 +1259,8 @@ The @syntax{/} editing symbol inserts one "/" character into the field value for
 @* This example displays "@t{2014/02/07}".
 @end table
 @item The following are the numeric formatting symbols that may be specified in a picture string.  Each of these editing symbols will insert special characters into the field value to present numbers in a "friendly" format.  These editing symbols will each introduce one extra character into the total field size for each occurrence of the symbol in the picture string.  Numeric fields whose picture clause contains these characters may neither be used as source fields in any calculation nor may they serve as source fields for the transfer of data values to any data item other than an alphanumeric field.
-@table @syntax
-@p @item .
+@table @asis
+@p @item @syntax{.}
 The @syntax{.} symbol inserts a decimal point into a numeric field value.  When the contents of a numeric data item sending field are moved into a receiving data item whose picture clause contains the @syntax{.} editing symbol, implied (@syntax{V}) or actual decimal point in the sending data item or literal, respectively, will be aligned with the @syntax{.} symbol in the receiving field.  Digits are then transferred from the sending to the receiving field outward from the sending field's "V" or ".", truncating sending digits if there aren't enough positions in the receiving field.  Any digit positions in the receiving field that don't receive digits from the sending field, if any, will be set to 0.
 @p The @syntax{.} symbol is not allowed in conjunction with @syntax{N}.
 @p An example will probably help:
@@ -1277,7 +1278,7 @@ The @syntax{.} symbol inserts a decimal point into a numeric field value.  When 
 @end verbatim
 @* The example will display three results --- "@t{34567.89}", "@t{00019.00}" and "@t{00007.20}".
 @p Both data item definitions @i{appear} to have @i{two} decimal points in their picture clauses.  They actually don't, because the last character of every data item definition is always a period --- the period that ends the definition.
-@p @item ,
+@p @item @syntax{,}
 The @syntax{,} symbol serves as a thousands separator.  Many times, you'll see large numbers formatted with these symbols --- for example, 123,456,789.  This can be accomplished easily by adding thousands separator symbols to a picture string.  Thousands separator symbols that aren't needed will behave as if they were @syntax{9}s.
 @p The @syntax{,} symbol is not allowed in conjunction with @syntax{N}.
 @p Here's an example:
@@ -1292,43 +1293,43 @@ The @syntax{,} symbol serves as a thousands separator.  Many times, you'll see l
 @end table
 @* If desired, you may reverse the roles of the @syntax{.} and @syntax{,} editing symbols by specifying @syntax{DECIMAL POINT IS COMMA} in the @syntaxref{SPECIAL-NAMES} paragraph.
 @p @item The following are insertion symbols.  They are used to insert an extra character (two in the case of "CR" and "DB") to signify the sign (positive or negative) of the numeric value that is moved into the field whose picture string contains one of these symbols, or the fact that the data item represents a currency (money) amount.  Only one of the @syntax{+}, @syntax{-}, @syntax{CR} or @syntax{DB} symbols may be used in a picture clause. In this context, when any of these symbols are used in a @term{picture-string}, they must be at the end.  The @syntax{+}, @syntax{-} and/or currency symbols may also be used as floating editing symbols at the @i{beginning} of the @term{picture-string} --- a subject that will be covered in the next numbered paragraph.
-@table @syntax
-@p @item +
+@table @asis
+@p @item @syntax{+}
 If the value of the numeric value moved into the field is positive (0 or greater), a "+" character will be inserted.  If the value is negative (less than 0), a "-" character is inserted.
 @p The @syntax{+} symbol is not allowed in conjunction with @syntax{N}.
-@p @item -
+@p @item @syntax{-}
 If the value of the numeric value moved into the field is positive (0 or greater), a space will be inserted.  If the value is negative (less than 0), a "-" character is inserted.
 @p The @syntax{-} symbol is not allowed in conjunction with @syntax{N}.
-@p @item CR
+@p @item @syntax{CR}
 This symbol is coded as the two characters "C" and "R".  If the value of the numeric value moved into the field is positive (0 or greater), two spaces will be inserted.  If the value is negative (less than 0), the characters "CR" (credit) are inserted.
 @p The @syntax{CR} symbol is not allowed in conjunction with @syntax{N}.
-@p @item DB
+@p @item @syntax{DB}
 This symbol is coded as the two characters "D" and "B".  If the value of the numeric value moved into the field is positive (0 or greater), two spaces will be inserted.  If the value is negative (less than 0), the characters "DB" (debit) are inserted.
 @p The @syntax{DB} symbol is not allowed in conjunction with @syntax{N}.
-@p @item $
+@p @item @syntax{$}
 Regardless of the value moved into the field, this symbol will insert the currency symbol into the data item's value in the position where it occurs in the @term{picture-string} (@pxref{SPECIAL-NAMES}).
 @p The @syntax{$} symbol is not allowed in conjunction with @syntax{N}.
 @end table
 @item These editing symbols are known as floating replacement symbols.  These symbols may occur in sequences @i{before} any @syntax{9} editing symbols in the @term{picture-string} of a numeric data item.  Using these symbols transforms that numeric data item into a numerid @i{edited} data item, which can no longer be used in calculations or subscripts.
 @p @item Each of the following symbols behave like a @syntax{9}, until such point as all digits in the numeric value are exhausted and leading zeros are about to be inserted.  In effect, these editing symbols define what should happen to those leading zero.
-@table @syntax
-@p @item $
+@table @asis
+@p @item @syntax{$}
 Of those currency symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by the currency symbol in-effect for the program (@pxref{SPECIAL-NAMES}).  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.
 @p The @syntax{$} symbol is not allowed in conjunction with @syntax{N}.
 @p Any currency symbol coded to the right of a @syntax{.} will be treated exactly like a @syntax{9}.
-@p @item *
+@p @item @syntax{*}
 This symbol is referred to as a check protection symbol.  All check-protection symbols that correspond to character positions in which leading zeros reside will have their "0" values replaced by "*".
 @p The @syntax{*} symbol is not allowed in conjunction with @syntax{N}.
 @p Any check-suppression symbol coded to the right of a @syntax{.} will be treated exactly like a @syntax{9}.
-@p @item +
+@p @item @syntax{+}
 Of those @syntax{+} symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by a "+" if the value in the data item is zero or greater or a "-" otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @syntax{+} and @syntax{-} in the same @term{picture-string}.
 @p The @syntax{+} symbol is not allowed in conjunction with @syntax{N}.
 @p Any @syntax{+} symbol coded to the right of a @syntax{.} will be treated exactly like a @syntax{9}.
-@p @item -
+@p @item @syntax{-}
 Of those @syntax{-} symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by a space if the value in the data item is zero or greater or a "-" otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @syntax{+} and @syntax{-} in the same @term{picture-string}.
 @p The @syntax{-} symbol is not allowed in conjunction with @syntax{N}.
 @p Any @syntax{-} symbol coded to the right of a @syntax{.} will be treated exactly like a @syntax{9}.
-@p @item Z
+@p @item @syntax{Z}
 All @syntax{Z} symbols that correspond to character positions in which leading zeros reside will have their "0" values replaced by spaces.
 @p Any zero-suppression symbol coded to the right of a @syntax{.} will be treated exactly like a @syntax{9}.
 @end table

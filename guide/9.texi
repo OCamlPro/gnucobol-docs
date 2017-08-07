@@ -43,10 +43,10 @@
 @comment ** 9.2 Independent vs Contained vs Nested Subprograms              **
 @comment *********************************************************************
 @newsection{9.2,Independent vs Contained vs Nested Subprograms}@p Subprograms (either subroutines or user-defined functions) can be implemented in three different ways.
-@table @define
-@p @item Independent Subprograms
+@table @asis
+@p @item @define{Independent Subprograms}
 @p These are subprograms that are coded as the only COBOL program in their @topic{Compilation Unit}.
-@p @item Contained Subprograms
+@p @item @define{Contained Subprograms}
 @p These are subprograms which occur in the same Compilation Unit as a main program and/or other subprograms.  Each contained subprogram is separated from the next via an @syntax{END PROGRAM} marker line.  As an example@dots{}
 @p @example
 IDENTIFICATION DIVISION.
@@ -228,12 +228,12 @@ CALL "subroutine" USING BY REFERENCE arg-1
 END-CALL
 @end example
 @* The three ways arguments are passed are as follows.
-@table @syntax
-@p @item BY REFERENCE
+@table @asis
+@p @item @syntax{BY REFERENCE}
 @p When a subroutine argument is passed @syntaxidx{BY REFERENCE}, the subroutine is passed the @i{address} of the @i{actual data item} being passed as an argument.  The item may anything defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will "see" the results of that change when the subroutine returns control.  This is the default manner in which GnuCOBOL passes arguments to a subroutine, should no @syntax{BY} clauses be included on the @syntax{CALL}.
-@p @item BY CONTENT
+@p @item @syntax{BY CONTENT}
 @p When a subroutine is passed an argument @syntaxidx{BY CONTENT}, the subroutine is passed the @i{address} of a @i{copy} of the actual data being passed as an argument.  The item may anything defined within the data division of the program.  The copy is made each time the @syntax{CALL} statement is executed, immediately before the @syntax{CALL} actually takes place.  If the subroutine modifies the contents of this argument, it will be the @i{copy} that is modified, not the original data item; the calling program will therefore not "see" the results of that change when the subroutine returns control.
-@p @item BY VALUE
+@p @item @syntax{BY VALUE}
 @p Passing a subroutine argument @syntaxidx{BY VALUE} passes the @i{actual value} of the data being passed as an argument.  The item may be any elementary binary numeric item defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will not "see" the results of that change when the subroutine returns control.
 @end table
 @* The first two ways in which arguments may be passed (@syntax{BY REFERENCE} and @syntax{BY CONTENT}) are intended for use when a GnuCOBOL program is being called, while the first and third (@syntax{BY REFERENCE} and @syntax{BY VALUE}) are intended for use when a C program is being called.  You @i{can} use @syntax{BY VALUE} arguments when calling GnuCOBOL subroutines, but remember that those arguments are limited to being a numeric binary data item.

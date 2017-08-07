@@ -11,7 +11,7 @@
 * 6.4:  PROCEDURE DIVISION Sections and Paragraphs.
 * 6.5:  DECLARATIVES.
 * 6.6:  Table References.
-* 6.7:  Qualificati6.16.83on of Data Names.
+* 6.7:  Qualification of Data Names.
 * 6.8:  Reference Modifiers.
 * 6.9:  Arithmetic Expressions.
 * 6.10: Conditional Expressions.
@@ -183,18 +183,18 @@
     05 DEBUG-CONTENTS  PIC X(31).
 @end example
 @* where@dots{}
-@table @syntax
-@p @item DEBUG-LINE
+@table @asis
+@p @item @syntax{DEBUG-LINE}
 @dots{} is the program line number of the statement that triggered the declaratives procedure.
-@p @item DEBUG-NAME
+@p @item @syntax{DEBUG-NAME}
 @dots{} is the procedure name or identifier name that triggered the declaratives procedure.
-@p @item DEBUG-SUB-1
+@p @item @syntax{DEBUG-SUB-1}
 @dots{} is the first subscript value (if any) for the reference of the identifier that triggered the declaratives procedure.
-@p @item DEBUG-SUB-2
+@p @item @syntax{DEBUG-SUB-2}
 @dots{} is the second subscript value (if any) for the reference of the identifier that triggered the declaratives procedure.
-@p @item DEBUG-SUB-3
+@p @item @syntax{DEBUG-SUB-3}
 @dots{} is the third subscript value (if any) for the reference of the identifier that triggered the declaratives procedure.
-@p @item DEBUG-CONTENTS
+@p @item @syntax{DEBUG-CONTENTS}
 @dots{} is a (brief) statement of the manner in which the procedure that triggered the declaratives procedure was executed or the first 31 characters of the value of the identifier whose reference triggered the declaratives procedure (the value after the statement was executed).
 @end table
 @end enumerate
@@ -256,16 +256,16 @@ I J K L
 @p If no @term{length} is specified, a value equivalent to the remaining character positions from @term{start} to the end of @term{identifier-1} or to the end of the value returned by the function will be assumed.
 @p Both @term{start} and @term{length} may be specified as integer numeric literals, integer numeric data items or arithmetic expressions with an integer value.
 @p Here are a few examples:
-@table @syntax
-@p @item CUSTOMER-LAST-NAME (1:3)
+@table @asis
+@p @item @syntax{CUSTOMER-LAST-NAME (1:3)}
 @p References the first three characters of CUSTOMER-LAST-NAME.
-@p @item CUSTOMER-LAST-NAME (4:)
+@p @item @syntax{CUSTOMER-LAST-NAME (4:)}
 @p References all character positions of CUSTOMER-LAST-NAME from the fourth onward.
-@p @item FUNCTION CURRENT-DATE (5:2)
+@p @item @syntax{FUNCTION CURRENT-DATE (5:2)}
 @p References the current month as a 2-digit number in character form.  @xref{CURRENT-DATE}, for more information.
-@p @item Hex-Digits (Nibble + 1:1)
+@p @item @syntax{Hex-Digits (Nibble + 1:1)}
 @p Assuming that "Nibble" is a numeric data item with a value in the range 0-15, and Hex-Digits is a @syntax{PIC X(16)} item with a value of "0123456789ABCDEF", this converts that numeric value to a hexadecimal digit.
-@p @item Table-Entry (6) (7:5)
+@p @item @syntax{Table-Entry (6) (7:5)}
 @p References characters 7 through 11 (5 characters in total) in the 6th occurrence of Table-Entry.
 @end table
 @* Reference modification may be used anywhere an identifier is legal, including serving as the receiving field of statements like @syntaxref{MOVE}, @syntaxref{STRING} and @syntaxref{ACCEPT}, to name a few.
@@ -476,12 +476,12 @@ IF ACCOUNT-STATUS = 1 OR ACCOUNT-STATUS = 2 OR ACCOUNT-STATUS = 7
 IF ACCOUNT-STATUS = 1 OR 2 OR 7
 @end example
 @item Just as multiplication takes precedence over addition in arithmetic expressions, so does @syntax{AND} take precedence over @syntax{OR} in combined conditions.  Use parenthesis to change this precedence, if necessary.  For example:
-@table @syntax
-@p @item FALSE AND FALSE OR TRUE AND TRUE
+@table @asis
+@p @item @syntax{FALSE AND FALSE OR TRUE AND TRUE}
 @p Evaluates to TRUE
-@p @item (FALSE AND FALSE) OR (TRUE AND TRUE)
+@p @item @syntax{(FALSE AND FALSE) OR (TRUE AND TRUE)}
 @p Evaluates to TRUE (since AND has precedence over OR) - this is identical to the previous example
-@p @item (FALSE AND (FALSE OR TRUE)) AND TRUE
+@p @item @syntax{(FALSE AND (FALSE OR TRUE)) AND TRUE}
 @p Evaluates to FALSE
 @end table
 @end enumerate
@@ -494,12 +494,12 @@ IF ACCOUNT-STATUS = 1 OR 2 OR 7
 @enumerate
 @p @item The @syntax{NOT} operator has the highest precedence of all logical operators, just as a unary minus sign (which "negates" a numeric value) is the highest precedence arithmetic operator.
 @p @item Parenthesis must be used to explicitly signify the sequence in which conditions are evaluated and processed if the default precedence isn't desired.  For example:
-@table @syntax
-@p @item NOT TRUE AND FALSE AND NOT FALSE
+@table @asis
+@p @item @syntax{NOT TRUE AND FALSE AND NOT FALSE}
 @p Evaluates to FALSE AND FALSE AND TRUE which evaluates to FALSE
-@p @item NOT (TRUE AND FALSE AND NOT FALSE)
+@p @item @syntax{NOT (TRUE AND FALSE AND NOT FALSE)}
 @p Evaluates to NOT (FALSE) which evaluates to TRUE
-@p @item NOT TRUE AND (FALSE AND NOT FALSE)
+@p @item @syntax{NOT TRUE AND (FALSE AND NOT FALSE)}
 @p Evaluates to FALSE AND (FALSE AND TRUE) which evaluates to FALSE
 @end table
 @end enumerate
@@ -625,12 +625,12 @@ END-IF
 @end verbatim
 @* This clause may be used either in the file's @statementref{SELECT}, on the @statementref{OPEN} which initiates your program's use of the file, or both.  If a @syntax{SHARING} option is specified in @i{both} places, the specifications made on the @statement{OPEN} will take precedence over those from the @statement{SELECT}.
 @p Here are the meanings of the three options:
-@table @syntaxidx
-@p @item ALL OTHER
+@table @asis
+@p @item @syntaxidx{ALL OTHER}
 @p When your program opens a file with this sharing option in effect, no restrictions will be placed on other programs attempting to @syntax{OPEN} the file after your program did.  This is the default sharing mode.
-@p @item NO OTHER
+@p @item @syntaxidx{NO OTHER}
 @p When your program opens a file with this sharing option in effect, your program announces that it is unwilling to allow any other program to have any access to the file as long as you are using that file; @syntax{OPEN} attempts made in other programs will fail with a file status of 37 ("PERMISSION DENIED") until such time as you @syntaxref{CLOSE} the file.
-@p @item READ ONLY
+@p @item @syntaxidx{READ ONLY}
 @p Opening a file with this sharing option indicates you are willing to allow other programs to @syntax{OPEN} the file for input while you have it open.  If they attempt any other @syntax{OPEN}, theirs will fail with a file status of 37.  Of course, your program may fail if someone else got to the file first and opened it with a sharing option that imposed file-sharing limitations.
 @end table
 @* If the @syntax{SELECT} of a file is coded with a @syntax{FILE STATUS} clause, @syntax{OPEN} failures --- including those induced by sharing failures --- will be detectable by the program and a graceful recovery (or at least a graceful termination) will be possible.  If no such clause was coded, however, a runtime message will be issued and the program will be terminated.
@@ -670,17 +670,17 @@ END-IF
 @end verbatim
 @* The @syntax{WITH [ NO ] LOCK} option is the only one available to @syntax{REWRITE} or @statement{WRITE}s.
 @p The meanings of the various record locking options are as follows:
-@table @syntaxidx
-@p @item IGNORING LOCK
-@itemx WITH IGNORE LOCK
+@table @asis
+@p @item @syntaxidx{IGNORING LOCK}
+@itemx @syntaxidx{WITH IGNORE LOCK}
 These options (which are synonymous) inform GnuCOBOL that any locks held by other programs should be ignored.
-@p @item WITH LOCK
+@p @item @syntaxidx{WITH LOCK}
 Access to the record by other programs will be denied.
-@p @item WITH NO LOCK
+@p @item @syntaxidx{WITH NO LOCK}
 The record will not be locked.  This is the default locking option in effect for all statements.
-@p @item WITH KEPT LOCK
+@p @item @syntaxidx{WITH KEPT LOCK}
 When single record locking is in-effect, as a new record is accessed, locks held for previous records are released.  By using this option, not only is the newly-accessed record locked (as WITH LOCK would do), but prior record locks will be retained as well.  A subsequent @syntax{READ} without the @syntax{KEPT LOCK} option will release all "kept" locks, as will the @syntax{UNLOCK} statement.
-@p @item WITH WAIT
+@p @item @syntaxidx{WITH WAIT}
 This option informs GnuCOBOL that the program is willing to wait for a lock held (by another program) on the record being read to be released.
 @p Without this option, an attempt to read a locked record will be immediately aborted and a file status of 51 will be returned.
 @p With this option, the program will wait for a pre-configured time for the lock to be released.  If the lock is released within the preconfigured wait time, the read will be successful.  If the pre-configured wait time expires before the lock is released, the read attempt will be aborted and a 51 file status will be issued.
@@ -832,8 +832,8 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @p @item Use of a @syntax{ROUNDED} clause without a @syntax{MODE} specification is the same as specifying @syntax{ROUNDED MODE IS NEAREST-AWAY-FROM-ZERO}.
 @end enumerate
 @* The behaviour of the eight different rounding modes is defined in the following table.  Note that a "@dots{}" indicates the last digit repeats.  The examples assume an integer receiving field.
-@p @table @syntax
-@item AWAY-FROM-ZERO
+@p @table @asis
+@item @syntax{AWAY-FROM-ZERO}
 @p Rounding is to the nearest value of larger magnitude.
 @p @multitable @columnfractions .5 .5
 @item -3.510 @result{} -4 @tab +3.510 @result{} +4
@@ -842,7 +842,7 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @item -2.500 @result{} -3 @tab +2.500 @result{} +3
 @item -2.499@dots{} @result{} -3 @tab +2.499@dots{} @result{} +3
 @end multitable
-@item NEAREST-AWAY-FROM-ZERO
+@item @syntax{NEAREST-AWAY-FROM-ZERO}
 @p Rounding is to the nearest value (larger or smaller). If two values are equally near, the value with the larger absolute value is selected.
 @p @multitable @columnfractions .5 .5
 @item -3.510 @result{} -4 @tab +3.510 @result{} +4
@@ -851,7 +851,7 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @item -2.500 @result{} -3 @tab +2.500 @result{} +3
 @item -2.499@dots{} @result{} -2 @tab +2.499@dots{} @result{} +2
 @end multitable
-@item NEAREST-EVEN
+@item @syntax{NEAREST-EVEN}
 @p Rounding is to the nearest value (larger or smaller).  If two values are equally near, the value whose rightmost digit is @i{even} is selected. This mode is sometimes called "Banker's rounding".
 @p @multitable @columnfractions .5 .5
 @item -3.510 @result{} -4 @tab +3.510 @result{} +4
@@ -860,7 +860,7 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @item -2.500 @result{} -2 @tab +2.500 @result{} +2
 @item -2.499@dots{} @result{} -2 @tab +2.499@dots{} @result{} +2
 @end multitable
-@item NEAREST-TOWARD-ZERO
+@item @syntax{NEAREST-TOWARD-ZERO}
 @p Rounding is to the nearest value (larger or smaller).  If two values are equally near, the value with the smaller absolute value is selected.
 @p @multitable @columnfractions .5 .5
 @item -3.510 @result{} -4 @tab +3.510 @result{} +4
@@ -869,7 +869,7 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @item -2.500 @result{} -2 @tab +2.500 @result{} +2
 @item -2.499@dots{} @result{} -2 @tab +2.499@dots{} @result{} +2
 @end multitable
-@item PROHIBITED
+@item @syntax{PROHIBITED}
 @p No rounding is performed.  If the value cannot be represented exactly in the desired format, the EC-SIZE-TRUNCATION condition (exception code 1005) is set (and may be retrieved via the @syntaxrefalt{ACCEPT,ACCEPT FROM Runtime-Info} statement) and the results of the operation are undefined.
 @p @multitable @columnfractions .5 .5
 @item -3.510 @result{} Undefined @tab +3.510 @result{} Undefined
@@ -878,7 +878,7 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @item -2.500 @result{} Undefined @tab +2.500 @result{} Undefined
 @item -2.499@dots{} @result{} Undefined @tab +2.499@dots{} @result{} Undefined
 @end multitable
-@item TOWARD-GREATER
+@item @syntax{TOWARD-GREATER}
 @p Rounding is toward the nearest value whose algebraic value is larger.
 @p @multitable @columnfractions .5 .5
 @item -3.510 @result{} -3 @tab +3.510 @result{} +4
@@ -887,7 +887,7 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @item -2.500 @result{} -2 @tab +2.500 @result{} +3
 @item -2.499@dots{} @result{} -2 @tab +2.499@dots{} @result{} +3
 @end multitable
-@item TOWARD-LESSER
+@item @syntax{TOWARD-LESSER}
 @p Rounding is toward the nearest value whose algebraic value is smaller.
 @p @multitable @columnfractions .5 .5
 @item -3.510 @result{} -4 @tab +3.510 @result{} +3
@@ -896,7 +896,7 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @item -2.500 @result{} -3 @tab +2.500 @result{} +2
 @item -2.499@dots{} @result{} -3 @tab +2.499@dots{} @result{} +2
 @end multitable
-@item TRUNCATION
+@item @syntax{TRUNCATION}
 @p Rounding is to the nearest value whose magnitude is smaller.
 @p @multitable @columnfractions .5 .5
 @item -3.510 @result{} -3 @tab +3.510 @result{} +3
@@ -911,24 +911,24 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @comment *********************************************************************
 @page
 @newsection{6.15,Special Registers}GnuCOBOL, like other COBOL dialects, includes a number of data items that are automatically available to a programmer without the need to actually define them in the data division.  COBOL refers to such items as registers or special registers.  The special registers available to a GnuCOBOL program are as follows:
-@table @syntax
-@p @item COB-CRT-STATUS
+@table @asis
+@p @item @syntax{COB-CRT-STATUS}
 @p PIC 9(4) --- This is the default data item allocated for use by the @statementrefalt{ACCEPT @term{screen-data-item},ACCEPT screen-data-item}, if no @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} clause was specified..
-@p @item DEBUG-ITEM
+@p @item @syntax{DEBUG-ITEM}
 @p Group Item --- A group item in which debugging information generated by a @syntax{USE FOR DEBUGGING} section in the declaratives area of the procedure division will place information documenting why the @syntax{USE FOR DEBUGGING} procedure was invoked.  Consult the @syntaxref{DECLARATIVES} documentation for information on the structure of this register.
-@p @item LINAGE-COUNTER
+@p @item @syntax{LINAGE-COUNTER}
 @p BINARY-LONG SIGNED --- An occurrence of this register exists for each selected file having a @syntaxrefalt{LINAGE,File/Sort-Description} clause.  If there are multiple files whose file descriptions have @syntax{LINAGE} clauses, any explicit references to this register will require qualification (using @syntax{OF file-name}).  The value of this register will be the current logical line number within the page body.  The value of this register cannot be modified.
-@p @item LINE-COUNTER
+@p @item @syntax{LINE-COUNTER}
 @p BINARY-LONG SIGNED --- An occurrence of this register exists for each report defined in the program (via an @syntaxrefalt{RD,REPORT SECTION}).  If there are multiple reports, any explicit references to this register not made in the report section will require qualification (@syntax{OF report-name}).  The value of this register will be the current logical line number on the current page.  The value of this register cannot be modified.
-@p @item NUMBER-OF-CALL-PARAMETERS
+@p @item @syntax{NUMBER-OF-CALL-PARAMETERS}
 @p BINARY-LONG SIGNED --- This register contains the number of arguments passed to a subroutine --- the same value that would be returned by the @subpgmref{C$NARG}.  Its value will be zero when referenced in a main program.  This register, when referenced from within a user-defined function, returns a value of one (1) if the function has any number of arguments and a zero if it has no arguments.
-@p @item PAGE-COUNTER
+@p @item @syntax{PAGE-COUNTER}
 @p BINARY-LONG SIGNED --- An occurrence of this register exists for each report having an @syntaxrefalt{RD,REPORT SECTION}.  If there are multiple such reports, any explicit references to this register not made in the report section will require qualification ( @syntax{OF report-name}).  The value of this register will be the current report page number.  The value of this register cannot be modified.
-@p @item RETURN-CODE
+@p @item @syntax{RETURN-CODE}
 @p BINARY-LONG SIGNED --- This register provides a numeric data item into which a subroutine may @syntaxref{MOVE} a value (which will then be available to the calling program) prior to transferring control back to the program that called it, or into which a main program may @syntax{MOVE} a value before returning control to the operating system.  Many built-in subroutines will return a value using this register.  These values are --- by convention --- used to signify success (usually with a value of 0) or failure (usually with a non-zero value) of the process the program was attempting to perform.  This register may also be modified by a subprogram as a result of that subprogram's use of the @syntaxrefalt{RETURNING,PROCEDURE DIVISION RETURNING} clause.
-@p @item SORT-RETURN
+@p @item @syntax{SORT-RETURN}
 @p BINARY-LONG SIGNED --- This register is used to report the success/fail status of a @syntaxref{RELEASE} or @syntaxref{RETURN} statement.  A value of 0 is reported on success.  A value of 16 denotes failure.  An @syntaxrefalt{AT END,AT END + NOT AT END} condition on a @syntax{RETURN} is not considered a failure.
-@p @item WHEN-COMPILED
+@p @item @syntax{WHEN-COMPILED}
 @p PIC X(16) --- This register contains the date and time the program was compiled in the format "mm/dd/yyhh.mm.ss".  Note that only a two-digit year is provided.
 @end table
 @comment *********************************************************************
@@ -1241,7 +1241,8 @@ INTEGER-OF-BOOLEAN
 @p Since this function has no arguments, no parenthesis should be specified.
 @p The documentation of the @subpgmref{CBL_ERROR_PROC} built-in subroutine illustrates the use of this function.
 @p The following are the error type strings, and their corresponding exception codes and descriptions.
-@anchoridx{Error Exception Codes}@anchoridx{Error Type Strings}@multitable @columnfractions .075 .35 .575
+@anchoridx{Error Exception Codes}@anchoridx{Error Type Strings}
+@multitable @columnfractions .075 .35 .575
 @headitem Code @tab Error Type @tab Description
 @p @item 0101 @tab EC-ARGUMENT-FUNCTION @tab Function argument error
 @p @item 0202 @tab EC-BOUND-ODO @tab OCCURS @dots{} DEPENDING ON data item out of bounds
@@ -2117,7 +2118,8 @@ $$ presentvalue = \sum_{i=1}^N
 @end enumerate
 @item The optional @syntax{ON EXCEPTION} and @syntax{NOT ON EXCEPTION} clauses may be used to detect and react to the failure or success, respectively, of the screen I/O attempt.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
 @p After this format of the @syntax{ACCEPT} statement is executed, the program's @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} identifier will be populated with one of the following:
-@p @anchoridx{CRT STATUS Codes}@multitable @columnfractions .15 .85
+@p @anchoridx{CRT STATUS Codes}
+@multitable @columnfractions .15 .85
 @headitem Code @tab Meaning
 @item 0000 @tab ENTER key pressed
 @item 1001--1064 @tab F1--F64, respectively, were pressed
@@ -2215,11 +2217,11 @@ COB-SCR-KEY-END
 @p @item You can used extended attributes, useful for setting timeouts or positioning.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.17.1.9 ACCEPT exception-status                                **
+@comment ** 6.17.1.9 ACCEPT FROM EXCEPTION-STATUS                           **
 @comment *********************************************************************
 @page
-@newunit{6.17.1.9,ACCEPT exception-status}
-@diagram{ACCEPT exception-status,PD-ACCEPT-9,PD-ACCEPT-9,None}@p This format of the @statement{ACCEPT} will receive the status for any exceptions resulting from a previous valid verb.
+@newunit{6.17.1.9,ACCEPT FROM EXCEPTION-STATUS}
+@diagram{ACCEPT FROM EXCEPTION-STATUS,PD-ACCEPT-9,PD-ACCEPT-9,None}@p This format of the @statement{ACCEPT} will receive the status for any exceptions resulting from a previous valid verb.
 @enumerate
 @comment Syntactical Specifications:
 @p @item The following is an example of usage:
@@ -2362,7 +2364,7 @@ SET ADDRESS OF My-01-Item TO The-Pointer
 @item
 @item 1 @tab No @tab The calling program will flush processed arguments from the argument stack.@tab The called program (subroutine) will flush processed arguments from the argument stack.
 @item
-@item 2 @tab Yes @tab The @registerrefalt{RETURN-CODE,Special Registers} will be updated in addition to any @syntax{RETURNING} or @syntax{GIVING} data item. @tab The @register{RETURN-CODE} will not be updated (but any @syntax{RETURNING} or @syntax{GIVING} data item still will).
+@item 2 @tab Yes @tab The @registerrefalt{RETURN-CODE,Special Registers} will be updated in addition to any @syntax{RETURNING} or @syntax{GIVING} data item. @tab The @registertext{RETURN-CODE} will not be updated (but any @syntax{RETURNING} or @syntax{GIVING} data item still will).
 @item
 @item 3 @tab Yes @tab If CALL "literal" is used, the subroutine will be located and linked in with the calling program at compile time or may be dynamically located and loaded at execution time, depending on compiler switch settings and operating system capabilities.  @tab If CALL "literal" is used, the subroutine can only be located and linked with the calling program at compilation time.
 @item
@@ -2989,20 +2991,20 @@ All-Done.
 @p @item The reserved words @syntax{INITIALIZE} and @syntax{INITIALISE} are interchangeable.
 @p @item The @syntax{WITH FILLER}, @syntax{REPLACING} and @syntax{DEFAULT} clauses are meaningful only if @term{identifier-1} is a group item.  They are accepted if it's an elementary item, but will serve no purpose.  The @syntax{VALUE} clause is meaningful in both cases.
 @p @item A @term{category-name-1} and/or @term{category-name-2} may be any of the following:
-@table @syntaxidx
-@p @item ALPHABETIC
+@table @asis
+@p @item @syntaxidx{ALPHABETIC}
 @p The @syntaxref{PICTURE} of the data item only contains @syntax{A} symbols.
-@p @item ALPHANUMERIC
+@p @item @syntaxidx{ALPHANUMERIC}
 @p The @syntax{PICTURE} of the data item contains only @syntax{X} or a combination of @syntax{A} and @syntax{9} symbols.
-@p @item ALPHANUMERIC-EDITED
+@p @item @syntaxidx{ALPHANUMERIC-EDITED}
 @p The @syntax{PICTURE}  of the data item contains only @syntax{X} or a combination of @syntax{A} and @syntax{9} symbols plus at least one @syntax{B}, @syntax{0} (zero) or @syntax{/} symbol.
-@p @item NUMERIC
+@p @item @syntaxidx{NUMERIC}
 @p The data item is one that is described with a picture less @syntaxref{USAGE} or has a @syntax{PICTURE} composed of nothing but @syntax{P}, @syntax{9}, @syntax{S} and @syntax{V} symbols.
-@p @item NUMERIC-EDITED
+@p @item @syntaxidx{NUMERIC-EDITED}
 @p The @syntax{PICTURE} of the data item contains nothing but the symbol @syntax{9} and at least one of the editing symbols @syntax{$}, @syntax{+}, @syntax{-}, @syntax{CR}, @syntax{DB}, @syntax{.}, @syntax{,}, @syntax{*} or @syntax{Z}.
-@p @item NATIONAL
+@p @item @syntaxidx{NATIONAL}
 @p The data item is one containing nothing but the @syntax{N} symbol.
-@p @item NATIONAL-EDITED
+@p @item @syntaxidx{NATIONAL-EDITED}
 @p The data item contains nothing but @syntax{N}, @syntax{B}, @syntax{/} and @syntax{0} symbols.
 @end table
 @comment Semantic Specifications:
@@ -3360,14 +3362,14 @@ INSPECT Character-String
 @p @item Any attempt to open a file that is already open will fail with a file status of 41 (@pxref{File Status Codes}).  This is a fatal error that will terminate the program.
 @p @item Any open failure (including status 41) may be trapped using @syntaxref{DECLARATIVES} or an error procedure established using the @subpgmref{CBL_ERROR_PROC} built-in subroutine.  When either of these trap routines @i{exit}, however, the GnuCOBOL runtime system will still terminate the program after your trap logic is executed.  Ultimately, you cannot recover from an open failure.
 @p @item @anchoridx{File OPEN Modes}The @syntaxidx{INPUT}, @syntaxidx{OUTPUT}, @syntaxidx{I-O} and @syntaxidx{EXTEND} open modes inform GnuCOBOL of the manner in which you wish to use the file, as follows:
-@table @syntax
-@p @item INPUT
+@table @asis
+@p @item @syntax{INPUT}
 @p You may only read the existing contents of the file --- only the @syntax{CLOSE}, @syntax{READ}, @syntax{START} and @syntax{UNLOCK} statements will be allowed.  This enforcement takes place at execution time, not compilation time.
-@p @item OUTPUT
+@p @item @syntax{OUTPUT}
 @p You may only write new content (which will completely replace any previous file contents) to the file --- only the @syntax{CLOSE}, @syntax{UNLOCK} and @syntax{WRITE} statements will be allowed.  This enforcement takes place at execution time, not compilation time.
-@p @item I-O
+@p @item @syntax{I-O}
 @p You may perform any operation you wish against the file --- all file I/O statements will be allowed.
-@p @item EXTEND
+@p @item @syntax{EXTEND}
 @p You may only write new content (which will be appended after the previously existing file contents) to the file --- only the @syntax{CLOSE}, @syntax{UNLOCK} and @syntax{WRITE} statements will be allowed.  This enforcement takes place at execution time, not compilation time.  You cannot extend an empty file; this will not generate a runtime error, but no output will appear in the file.
 @end table
 @item The @syntaxidx{SHARING} clause informs the GnuCOBOL file runtime modules how you are willing to co-exist with any other GnuCOBOL programs that may attempt to open the same file after your program does.  @xref{File Sharing}, for an explanation of the @syntax{SHARING} clause.

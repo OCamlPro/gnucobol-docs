@@ -8,7 +8,7 @@
 @p CDF directives, denoted by the presence of a ">>" character sequence as part of the statement name itself, are used to influence the process of program compilation.
 @p Compiler directives are @i{never} terminated with a period.
 @menu
-* 2.1 : CALL-CONVENTION.
+* 2.1 : >>CALL-CONVENTION.
 * 2.2 : COPY.
 * 2.3 : REPLACE.
 * 2.4 : >>DEFINE.
@@ -28,7 +28,8 @@
 @comment *********************************************************************
 @page
 @newsection{2.1,>>CALL-CONVENTION}
-@diagram{CDF >>CALL-CONVENTION,CDF-CALL,CDF-CALL,None}@p This directive instructs the compiler how to treat references to program names and may be used to determine other details for interacting with a function or program. There are four options with COBOL being the default.@enumerate
+@diagram{CDF >>CALL-CONVENTION,CDF-CALL,CDF-CALL,None}@p This directive instructs the compiler how to treat references to program names and may be used to determine other details for interacting with a function or program. There are four options with COBOL being the default.
+@enumerate
 @p @item COBOL (the default) the program name is treated as a COBOL word that maps to the externalised name program to be called, cancelled or referenced in the program-address-identifier, applying the same mapping rules as for a program name for which no AS phrase is specified.
 @p @item EXTERN the program name is treated as an external reference.
 @p @item STDCALL. < more info needed >
@@ -41,7 +42,8 @@
 @newsection{2.2,COPY}
 @diagram{CDF COPY Statement,CDF-COPY,CDF-COPY,None}
 @diagram{CDF COPY Phrase-Clause,CDF-COPY-Phrase,CDF-COPY-Phrase,None}
-@diagram{CDF COPY String-Clause,CDF-COPY-String,CDF-COPY-String,None}@enumerate
+@diagram{CDF COPY String-Clause,CDF-COPY-String,CDF-COPY-String,None}
+@enumerate
 @p @item @syntax{COPY} statements are used to import copybooks (@pxref{Copybooks}) into a program.
 @p @item @syntax{COPY} statements may be used anywhere within a COBOL program where the code contained within the copybook would be syntactically valid.
 @p @item The optional @syntaxidx{SUPPRESS} clause (with or without the optional @syntaxidx{PRINTING} reserved word) is valid syntactically but is non-functional.  It is supported to facilitate compatibility with source code written for other versions of COBOL.
@@ -51,8 +53,8 @@
 @p @item All @syntax{COPY} statements are located and the contents of the corresponding copybooks inserted into the program source code before the actual compilation process begins.  If a copybook contains a @syntax{COPY} statement, the copybook insertion process will be repeated to resolve the embedded @syntax{COPY}.  This will continue until no unresolved @syntax{COPY} statements remain.  At that point, actual program compilation will begin.
 @p @item @xref{Locating Copybooks}, for the specific rules on how copybooks are located by the compiler.
 @p @item The optional @syntaxidx{REPLACING} clause allows for one or more of either of the following kinds of text replacements to be made:
-@table @clause
-@p @item Phrase-Clause
+@table @asis
+@p @item @clause{Phrase-Clause}
 @p Replacement of one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
 @itemize
 @p @item This option cannot be used to replace part of a word, identifier or literal.
@@ -62,7 +64,7 @@
 @p @item The replacement string, which follows the @syntax{BY}, may be specified using any of the four options.
 @p @item If the replacement string is a multiple-item phrase or is to be deleted altogether, you must use the @syntax{==@term{pseudo-text-2}==} option.  If @syntax{@term{pseudo-text-2}} is null (in other words, the replacement text is specified as @syntax{====}), all encountered occurrences of the search string will be deleted.
 @end itemize
-@item String-Clause
+@item @clause{String-Clause}
 @p Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @syntax{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @syntax{LEADING ==0100-== BY ====}.
 @end table
 @end enumerate
@@ -74,14 +76,15 @@
 @diagram{CDF REPLACE Statement (Format 1),CDF-REPLACE-1,CDF-REPLACE-1,None}
 @diagram{CDF REPLACE Statement (Format 2),CDF-REPLACE-2,CDF-REPLACE-2,None}
 @diagram{CDF REPLACE Phrase-Clause,CDF-REPLACE-Phrase,CDF-REPLACE-Phrase,None}
-@diagram{CDF REPLACE String-Clause,CDF-REPLACE-String,CDF-REPLACE-String,None}@enumerate 1
+@diagram{CDF REPLACE String-Clause,CDF-REPLACE-String,CDF-REPLACE-String,None}
+@enumerate 1
 @p @item The @syntax{REPLACE} statement provides a mechanism for changing all or part of one or more GnuCOBOL statements.
 @p @item A period is absolutely mandatory at the end of every @syntax{REPLACE} statement (either format), even if the statement occurs within the scope of another one where a period might appear disruptive (such as within the scope of an @syntaxref{IF} statement; the period will not, however, affect the statement scope in which the @syntax{REPLACE} occurs.
 @p @item The following points apply to Format 1 of the @syntax{REPLACE} statement:
 @enumerate A
 @p @item Format 1 of the @syntax{REPLACE} statement can be used to make changes to program source code in much the same way as the @syntaxidx{REPLACING} option of the @syntax{COPY} statement can, via these options:
-@table @clause
-@p @item Phrase-Clause
+@table @asis
+@p @item @clause{Phrase-Clause}
 @p Replace one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
 @itemize @bullet
 @p @item This option cannot be used to replace part of a word, identifier or literal.
@@ -89,7 +92,7 @@
 @p @item Search strings on @syntax{REPLACE} are always specified using the @syntax{==@term{pseudo-text-1}==} option.  For example, to replace all occurrences of @syntax{UPON PRINTER}, you would specify @syntax{==UPON PRINTER==}.
 @p @item The replacement string, which follows the @syntax{BY}, is specified using the @syntax{==@term{pseudo-text-2}==} option.  If @syntax{@term{pseudo-text-2}} is null (in other words, the replacement text is specified as @syntax{====}), all encountered occurrences of the search string will be deleted.
 @end itemize
-@item String-Clause
+@item @clause{String-Clause}
 @p Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @syntax{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @syntax{LEADING ==0100-== BY ====}.
 @end table
 @item Once a Format 1 @syntax{REPLACE} statement is encountered in the currently-compiling source file, Replace Mode becomes active, and the change(s) specified by that statement will be automatically made on all subsequent source statements the compiler reads from the file.
