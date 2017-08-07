@@ -38,10 +38,10 @@ Compilation is simple:
 ~~~~
 
 All packages used are available on CTAN, so, with a TeX package manager,
-"missing package" errors should be easy to resolve. For example, with TeX Live:
+"missing package" errors should be easy to resolve. For example, with TeX Live, the following command covers (most of) the packages required:
 
 ~~~~
-    tlmgr --install <package-name>
+    tlmgr install erewhon newtx roboto booktabs multirow microtype appendix koma-script symbol zapfding cyrillic ly1 etoolbox xkeyval fontaxes fontaxes mweights xcolor tcolorbox pgf l3packages l3kernel trimspaces listings boondox ec txfonts
 ~~~~
 
 ## Licence
