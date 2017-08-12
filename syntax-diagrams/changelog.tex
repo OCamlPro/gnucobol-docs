@@ -11,15 +11,22 @@ From 23 November 2013.
 \item \textbf{C API (screen)}: added several functions from Micro Focus' C to COBOL API: cob\_display\_text, cob\_sys\_get\_char, cob\_get\_char, cob\_get\_text, cob\_display\_formatted\_text, cob\_sys\_get\_csr\_pos, cob\_sys\_set\_csr\_pos, cobmove, cobaddstrc, cobprintf and cobgetch (feature requests \frnoname{148} and \frnoname{187}).
 \item \textbf{C API (signals)}: added cob\_raise to send signal to signal handlers.
 \item \textbf{C compiler support}: fixed errors in compilers without designated initializers.
+\item \textbf{cobc command-line options}: added -O3 to enable more optimisations.
+\item \textbf{cobc command-line options}: added -Wfatal-error to make the compiler abort on the first error.
+\item \textbf{cobc command-line options}: added -Wpossible-overlap to warn items that \emph{may} overlap (-Woverlap only warns if items definitely overlap).
+\item \textbf{cobc command-line options}: added -fmax-errors to set number of errors at which the compiler aborts.
+\item \textbf{cobc command-line options}: added -fwinmain to output WinMain instead of main (\fr{194}).
+\item \textbf{cobc command-line options}: added -t and -T for complete listing support (-t for 80-characters wide listings and -T for 132-characters wide) which includes cross-references (thanks to Dave Pitts).
+\item \textbf{cobc command-line options}: added -vvv (like -vv but passes verbose option to the linker as well) and -\#\#\# (like -v but commands are not executed).
+\item \textbf{cobc command-line options}: allow -, i.e. stdin, as a source file.
 \item \textbf{COBOL-85 NIST testsuite}: tests now refer to \$COBC and \$COBCRUN environment variables instead of directly calling cobc and cobcrun.
-\item \textbf{COBOL-85 NIST testsuite}: tests for obsolete feature flagging and now executed, if possible.
+\item \textbf{COBOL-85 NIST testsuite}: tests for obsolete feature flagging are now executed, if possible.
 \item \textbf{Comments}: added ACUCOBOL comments: \$ as synonym for * in indicator area and $\vert$ as synonym for floating comment indicator *>.
 \item \textbf{Communication facility}: added detection of communication facility syntax.
 \item \textbf{configure}: added useful error message when help2man, bison and flex are missing when they are needed.
 \item \textbf{curses}: fixed compilation errors when configured without curses (\bug{90}).
 \item \textbf{Error messages}: error messages are now lowercase, in line with the GNU Coding Standards (\bug{198}).
 \item \textbf{Error messages}: segfaults in the compiler now cause an error message to be displayed.
-\item \textbf{Error messages}: added -fmax-errors and -Wfatal-error options to set number of errors at which the compiler aborts.
 \item \textbf{Expressions}: resolve constant expressions and optimise constant decimals at compile time.
 \item \textbf{Expressions}: added support for IBM OS/VS COBOL's arithmetic.
 \item \textbf{Expressions}: improved error messages for malformed expressions.
@@ -29,34 +36,27 @@ From 23 November 2013.
 \item \textbf{Manpage}: added manpage generation and installation.
 \item \textbf{Nested programs}: Nested programs no longer need to have END PROGRAM.
 \item \textbf{National literals}: added basic support for national literals.
-\item \textbf{Numeric literals}: added ACUCOBOL numeric literals: B\#\ldots\, for binary, O\#\ldots\, for octal and X\#\ldots\, and H\#\ldots\, for hexadecimal.
-\item \textbf{Numeric literals}: fixed \bug{167} involving overly large numeric literals.
-\item \textbf{Listings}: added complete listing support (-t\slash{}-T compiler options), including cross-references (thanks to Dave Pitts).
+\item \textbf{Numeric literals}: added ACUCOBOL numeric literals: B\#\ldots\, for binary, O\#\ldots\, for octal, and X\#\ldots\ and H\#\ldots\, for hexadecimal.
 \item \textbf{Literals}: fixed heap corruptions caused by uncommon literals (\bug{195}).
 \item \textbf{Literals}: allow concatenation of literal and Boolean literals.
 \item \textbf{Microsoft Visual C++}: output when compiling with cl.exe is now filtered and temporary files are deleted.
-\item \textbf{Microsoft Windows}: added -fwinmain option to output WinMain instead of main (\fr{194}).
 \item \textbf{MinGW}: fixed use of wrong directory separator.
-\item \textbf{Optimisation}: added -O3 option.
 \item \textbf{Signals}: removed error message on SIGPIPE.
 \item \textbf{Signals}: added error message for SIGBUS.
-\item \textbf{stdin}: allow COBOL code to come from stdin.
 \item \textbf{User-defined functions}: function definitions must now end with END FUNCTION.
 \item \textbf{User-defined functions}: function definitions may no longer be nested in programs (\bug{255}).
-\item \textbf{Verbose output}: added -vvv and -\#\#\# options.
-\item \textbf{Warnings}: added -Wpossible-overlap to warn items that \emph{may} overlap (-Woverlap only warns if items definitely overlap).
 \item \textbf{Windows support}: allow linking with asm files.
 \end{itemize}
 
 \paragraph{Configuration options}
 \begin{itemize}
-\item \textbf{Aliases}: compiler configurations can now specify whether a reserved word is an alias for another reserved word.
 \item \textbf{Deleted compiler configuration options}: eject-statement, cobol85-reserved.
 \item \textbf{New compiler configurations}: all dialects have been split into standard and strict dialects, with strict dialects maintaining source compatibility with the dialect's compiler(s).
 \item \textbf{New compiler configurations}: acu for ACUCOBOL, cobol2014 for COBOL 2014, rm for RM-COBOL, xopen for X\slash{}Open.
-\item \textbf{New compiler configuration options}: accept-display-extensions, accept-update, accept-auto, acu-literals, arithmetic-osvs, call-overflow, console-is-crt, constant-01, constant-78, constant-folding, define-constant-directive, hexadecimal-boolean, hexadecimal-national-literals, incorrect-conf-sec-order, intrinsic-function, listing-statements, literal-length, move-figurative-constant-to-numeric, move-figurative-quote-to-numeric, move-ibm, national-literals, no-echo-means-secure, not-exception-before-exception, numeric-boolean, numeric-literal-length, numeric-value-for-edited-item, pic-length, program-name-redefinition, program-prototypes, reference-out-of-declaratives (\fr{179}), register, renames-uncommon-levels, reserved, reserved-words, stop-identifier, system-name, title-statement, use-for-debugging, word-length (\fr{43}).
+\item \textbf{New compiler configuration options}: accept-display-extensions, accept-update, accept-auto, acu-literals, arithmetic-osvs, call-overflow, console-is-crt, constant-01, constant-78, constant-folding, define-constant-directive, hexadecimal-boolean, hexadecimal-national-literals, incorrect-conf-sec-order, intrinsic-function, listing-statements, literal-length, move-figurative-constant-to-numeric, move-figurative-quote-to-numeric, move-ibm, national-literals, no-echo-means-secure, not-exception-before-exception, numeric-boolean, numeric-literal-length, numeric-value-for-edited-item, pic-length, program-name-redefinition, program-prototypes, reference-out-of-declaratives (\fr{179}), register, renames-uncommon-levels, reserved, reserved-words, stop-identifier, system-name, title-statement, use-for-debugging, word-length (\fr{43}). % TO-DO: expand
 \item \textbf{Renamed compiler configuration options}: debugging-line to debugging-mode, relaxed-syntax-check to relax-syntax-checks
 \item \textbf{Reserved words}: compiler configurations can now specify all the reserved words and context-sensitive words permitted.
+\item \textbf{Reserved words}: compiler configurations can now specify whether a reserved word is an alias for another reserved word. % TO-DO: Improve
 \item \textbf{Runtime configuration}: added ability to configure some libcob features at runtime.
 \item \textbf{Support options}: options which specify if a feature is supported can now take a ``+'' before their argument to indicate it takes effect only if it is less strict than ``ok''.
 \end{itemize}
@@ -66,7 +66,7 @@ From 23 November 2013.
 \item \textbf{\$ indicator character}: added \$ as an indicator for compiler directive lines.
 \item \textbf{\directiveindicator{}IF directive}: fixed \bug{263}, where nested \directiveindicator{}IF directives were not handled correctly.
 \item \textbf{New constants}: GCCOMP, GNUCOBOL.
-\item \textbf{New directives}: \directiveindicator{}CALL-CONVENTION, \directiveindicator{}LISTING, \directiveindicator{}PAGE.
+\item \textbf{New directives}: \directiveindicator{}CALL-CONVENTION, \directiveindicator{}LISTING, \directiveindicator{}PAGE. % TO-DO: Expand
 \item \textbf{New directives (detection only)}: *CBL, *CONTROL, TITLE.
 \item \textbf{New \directiveindicator{}SET phrase}: SOURCEFORMAT.
 \end{itemize}
@@ -85,15 +85,14 @@ From 23 November 2013.
 \paragraph{Environment division}
 \begin{itemize}
 \item \textbf{ASSIGN clause}: missing ASSIGN clauses are now detected at compile-time.
-\item \textbf{ASSIGN clause}: added PRINTER and PRINTER-1 mnemonics for writing to a printer.
-\item \textbf{ASSIGN clause}: added CARD-PUNCH, CARD-READER, CASSETTE, INPUT, INPUT-OUTPUT, MAGNETIC-TAPE and OUTPUT mnemonics for line sequential devices.
+\item \textbf{ASSIGN clause}: added PRINTER and PRINTER-1 device-names for writing to a printer.
+\item \textbf{ASSIGN clause}: added CARD-PUNCH, CARD-READER, CASSETTE, INPUT, INPUT-OUTPUT, MAGNETIC-TAPE and OUTPUT device-names for line sequential devices.
 \item \textbf{CALL-CONVENTION phrase}: statically calling functions with CALL-CONVENTION 74 no longer causes linker errors (\bug{316}).
 \item \textbf{CURRENCY phrase}: fixed \bug{182}, where a preceding SWITCH phrase caused an incorrect duplicate CURRENCY clause error.
 \item \textbf{File-control entry}: fixed \bug{71}, where referring to a global constant caused an internal error.
 \item \textbf{File-control entry}: fixed \bug{331}, where using an identifier in a file record qualified with the file's name caused an error.
 \item \textbf{FUNCTION phrase}: added checks for redefinition of function-(prototype-)names.
 \item \textbf{FUNCTION phrase}: compiler will no longer stop when it encounters a syntax error.
-\item \textbf{Locales}: user-defined LOCALEDIR now supported.
 \item \textbf{LOCK MODE clause}: fixed combination of LOCK MODE IS AUTOMATIC/MANUAL with LOCK ON MULTIPLE.
 \item \textbf{PROGRAM phrase}: added support for program-prototype-names.
 \item \textbf{SIGN clause}: improved syntax checks.
@@ -107,11 +106,11 @@ From 23 November 2013.
 \item \textbf{88-level items}: strengthened syntax checks.
 \item \textbf{ANY NUMERIC clause}: ANY NUMERIC items must now have PIC 9.
 \item \textbf{ANY LENGTH clause}: ANY LENGTH items may no longer be BY VALUE parameters (see \bug{219}).
-\item \textbf{ANY LENGTH clause}: ANY LENGTH items must now have PIC X or PIC A.
-\item \textbf{BLANK clause}: fixed \bug{143}, where BLANK LINE\slash{}SCREEN did not color line\slash{}screen.
+\item \textbf{ANY LENGTH clause}: ANY LENGTH items must now have PIC X or PIC N.
+\item \textbf{BLANK clause}: fixed \bug{143}, where BLANK LINE\slash{}SCREEN did not colour line\slash{}screen.
 \item \textbf{BLANK WHEN ZERO clause}: added checks that BLANK WHEN ZERO is not specified with PICTURE clauses containing S.
 \item \textbf{Constant items}: expressions in VALUE clauses now permitted.
-\item \textbf{Data description}: sizes may no longer exceed the maximum permitted size.
+\item \textbf{Data description}: added a maximum record length.
 \item \textbf{Data description}: increased maximum size of non-indexed file record to 64 MiB (maximum size of an indexed file record is 65535 bytes).
 \item \textbf{ERASE clause}: fixed \bug{186}, where ERASE EOL and ERASE EOS could be specified simultaneously.
 \item \textbf{FULL clause}: added warning for useless FULL clauses on numeric items (\fr{209}).
@@ -120,6 +119,7 @@ From 23 November 2013.
 \item \textbf{LOWLIGHT clause}: implemented.
 \item \textbf{OCCURS clause}: fixed internal compiler when used with SYNC (\bug{155}).
 \item \textbf{OCCURS clause}: allow KEY phrase and INDEXED phrase in any order.
+\item \textbf{OCCURS clause}: fixed \bug{167}, where overly large numeric literals where accepted in the OCCURS clause.
 \item \textbf{OCCURS clause (depending)}: require the minimum length to be less than the maximum length (\fr{99}).
 \item \textbf{OCCURS clause (depending)}: disabled nested OCCURS DEPENDING tables due to bugs.
 \item \textbf{OCCURS clause (screen-section)}: require relative LINE\slash{}COLUMN clauses in OCCURS entries (\bug{83}).
@@ -155,8 +155,8 @@ From 23 November 2013.
 \item \textbf{Addition of COMP-3 numbers}: fixed bug where COMP-3 addition failed.
 \item \textbf{Addition of floating-point numbers}: fixed incorrect addition of floating-point numbers.
 \item \textbf{CALL statement}: implemented \fr{101}, allowing more arguments to be provided.
-\item \textbf{CALL statement}: corrected CALL to cancelled modules.
-\item \textbf{CALL statement}: added RETURNING NOTHING.
+\item \textbf{CALL statement}: fixed behaviour when calling cancelled modules.
+\item \textbf{CALL statement}: added RETURNING NOTHING. % TO-DO: What does this do?
 \item \textbf{CALL statement}: the generation of C function declarations for static CALLs can now be disabled.
 \item \textbf{CALL statement}: added checks for static CALLs referring to C macros.
 \item \textbf{CALL statement}: warn if a literal containing the program-name contains spaces.
@@ -183,12 +183,13 @@ From 23 November 2013.
 \item \textbf{INITIALIZE statement}: fixed \bug{84}, where literals could be passed to INITIALIZE.
 \item \textbf{INITIALIZE statement}: fixed \bug{287}, where reference-modified group items were not treated like elementary items.
 \item \textbf{INSPECT statement}: fixed \bug{47}, where clauses were permitted in invalid orders.
-\item \textbf{LENGTH OF phrase}: fixed bugs \bugnoname{89} and \bugnoname{110}.
+\item \textbf{LENGTH OF phrase}: fixed \bug{89}, where the length of REDEFINES item where calculated incorrectly.
+\item \textbf{LENGTH OF phrase}: fixed \bug{110}, where LENGTH OF was not allowed in the UNTIL phrase of a PERFORM statement or in a VALUE clause.
 \item \textbf{MOVE statement}: added more checks for overlapping MOVE statements.
 \item \textbf{MOVE statement}: fixed truncation of COMP numbers not conforming to the binary-truncate setting (\bug{69}).
 \item \textbf{MOVE statement}: fixed \bug{344}, where trying to MOVE to a procedure-name caused a segfault.
-\item \textbf{MOVE statement}: added support for IBM's MOVE algorithm.
-\item \textbf{PERFORM statement}: fixed \bug{368}.
+\item \textbf{MOVE statement}: added support for IBM's character-by-character MOVE.
+\item \textbf{PERFORM statement}: fixed \bug{368}, where the compiler segfaulted when there was a PERFORM statement with an empty body and DEBUGGING MODE was specified.
 \item \textbf{Procedure division header}: fixed \bug{55}, where a user-defined function without parameters failed to compile.
 \item \textbf{Procedure division header}: disabled the BY VALUE phrase, pending a working implementation.
 \item \textbf{Procedure division header}: fixed \bug{349}, where BY VALUE pointer parameters lead to code that couldn't be compiled by older versions of Microsoft Visual C++ (patched by Mario Matos).
@@ -197,17 +198,17 @@ From 23 November 2013.
 \item \textbf{Procedure division header}: added entry-convention specifiers.
 \item \textbf{Procedure division header}: now mandatory in function definitions (see \bug{271}).
 \item \textbf{Procedure division header}: CHAINING programs may no longer be called by other programs (\bug{354}), per the ACUCOBOL implementation.
-\item \textbf{Reference modification}: fixed \bug{146}.
+\item \textbf{Reference modification}: fixed \bug{146}, where the length of reference-modified item in an OCCURS DEPENDING table was too long because it was assumed the OCCURS DEPENDING table was at its maximum size.
 \item \textbf{READ statement}: a failed second READ of a missing OPTIONAL file now results in a file status of 46, not 23.
 \item \textbf{REWRITE statement}: added REWRITE FILE (\fr{170}).
 \item \textbf{Screen I-O}: added detection of situations which raise EC-SCREEN-LINE-NUMBER, EC-SCREEN-STARTING-COLUMN and EC-SCREEN-ITEM-TRUNCATED.
 \item \textbf{Screen I-O}: added support for the LINE 0 and COL 0 extensions.
 \item \textbf{Screen I-O}: added some ACUCOBOL synonyms (NO ECHO, OFF, REVERSED, REVERSE, etc.).
-\item \textbf{Screen I-O}: added detection of ACUCOBOL's non-standard clauses TAB, NO-ECHO, STANDARD, BACKGROUND-HIGH, BACKGROUND-LOW, BACKGROUND-STANDARD and SIZE.
+\item \textbf{Screen I-O}: added detection of ACUCOBOL's non-standard clauses like TAB, NO-ECHO, STANDARD, BACKGROUND-HIGH, BACKGROUND-LOW, BACKGROUND-STANDARD and SIZE.
 \item \textbf{SEARCH statement (ALL)}: fixed \bug{314}, where SEARCH ALL with an empty OCCURS DEPENDING table did not exit as soon as possible.
 \item \textbf{Segment numbers}: added syntax checks.
 \item \textbf{SET statement (address)}: disallowed changing address of non-01\slash{}77-level item (\bug{366}).
-\item \textbf{SET statement (attribute)}: made HIGHLIGHT ON imply LOWLIGHT OFF and vice-versa.
+\item \textbf{SET statement (attribute)}: made HIGHLIGHT ON imply LOWLIGHT OFF and vice versa.
 \item \textbf{SET statement (exception)}: added.
 \item \textbf{SET statement (thread)}: added detection of ACUCOBOL extension.
 \item \textbf{STOP statement (identifier)}: added (see \bug{320}).
@@ -216,8 +217,9 @@ From 23 November 2013.
 \item \textbf{STRING statement}: strengthened syntax checks (\bug{259}).
 \item \textbf{SUBTRACT statement (corresponding)}: restricted to numeric items (\bug{235}).
 \item \textbf{SUBTRACT statement (table)}: added detection of SUBTRACT TABLE.
-\item \textbf{Tracing}: fixed \bug{216}.
-\item \textbf{UNSTRING statement}: fixed \bug{54} involving delimiter longer than one character.
+\item \textbf{Tracing}: fixed \bug{216}, where a segfault occurred with a program made from modules some of which had been compiled with tracing and physical CANCEL % TO-DO: Define "physical CANCEL"
+enabled and some of which hadn't.
+\item \textbf{UNSTRING statement}: fixed \bug{54}, where the POINTER value was calculated incorrectly when the delimiter was longer than one character.
 \item \textbf{UNSTRING statement}: allow a literal to be the subject of an UNSTRING.
 \item \textbf{WRITE statement}: added WRITE FILE (\fr{170}).
 \end{itemize}
