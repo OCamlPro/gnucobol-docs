@@ -921,19 +921,28 @@ The CALL statement transfers execution to another program, optionally with argum
     \end{0-1}
   }
 
+  
   \begin{1=}
-    \identifier \\
-    \literal \\
-    \functionname
-    \begin{0-1}
-      \key{AS}
-      \begin{1=}
-        \key{NESTED} \\
-        \metaelement{program-prototype-name}
-      \end{1=}
-    \end{0-1}
-  \end{1=}
+    \begin{1=}
+      \identifier \\
+      \literal \\
+      \functionname
+    \end{1=} \\
 
+    \begin{0-1}
+      \begin{1=}
+        \identifier \\
+        \literal \\
+        \functionname
+      \end{1=}
+      \key{AS}
+    \end{0-1}
+    \begin{1=}
+      \pending{\key{NESTED}} \\
+      \metaelement{program-prototype-name}
+    \end{1=}
+  \end{1=}
+  
   \miscext{
     \begin{0-1}
       \pending{\key{HANDLE} IN \identifier}
@@ -973,11 +982,11 @@ The CALL statement transfers execution to another program, optionally with argum
       \miscext{\key{GIVING}}
     \end{1=}
     \begin{1=}
-      INTO \identifier \\
+      \miscext{INTO} \identifier \\
       \key{ADDRESS} OF \identifier \\
       \gnucobol{\key{NOTHING}} \\
-      \key{NULL} \\
-      \key{OMITTED} \\
+      \miscext{\key{NULL}} \\ % TO-DO: Check this is not GnuCOBOL-only.
+      \miscext{\key{OMITTED}} \\ % TO-DO: Check this is not GnuCOBOL-only.
     \end{1=}
   \end{0-1}
 
