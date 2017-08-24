@@ -3,26 +3,21 @@
 ## Summary
 
 This document describes the syntax of COBOL as supported by GnuCOBOL. It is
-hoped it will complement Gary Cutler’s 2013 GnuCOBOL Programmer’s Guide which
-(at the date of creating this document) does not document recent features added
-to GnuCOBOL.
+hoped it will complement Gary Cutler and Vincent Coen’s GnuCOBOL Programmer’s
+Guide which (currently) does not document recent features added to GnuCOBOL.
 
 It is also formatted in LaTeX, so that everything looks a bit prettier.
 
 The syntax diagrams were transcribed from GnuCOBOL’s parsers. It thus replicates
 some unusual syntax rules and misses some syntax rules implemented outside the
-parser.  For example, the obsolete identification division comment paragraphs
-are allowed in any order and the syntax of a file-control entry does not
-distinguish between SEQUENTIAL, INDEXED and RELATIVE organisations.
+parser. For example, the obsolete identification division comment paragraphs are
+allowed in any order and the syntax of a file-control entry does not distinguish
+between SEQUENTIAL, INDEXED and RELATIVE organisations.
 
-This is a draft and so has many flaws. Designed to document features the
-Programmer’s Guide does not, it strangely lacks a list of these new
-features. Important syntax rules which cannot be contained in syntax diagrams
-are missing. There are no definitions of fundamental objects such as conditions
-and identifiers yet. If people find this document useful, I will try to fix
-these shortcomings.
+This is a draft and so has many flaws. If people find this document useful, I
+will try to fix these shortcomings.
 
-*Edward Hart*
+Edward Hart
 [`edward.dan.hart@gmail.com`](mailto:edward.dan.hart@gmail.com)
 
 ## Compiling
@@ -38,7 +33,8 @@ Compilation is simple:
 ~~~~
 
 All packages used are available on CTAN, so, with a TeX package manager,
-"missing package" errors should be easy to resolve. For example, with TeX Live, the following command covers (most of) the packages required:
+"missing package" errors should be easy to resolve. For example, with TeX Live,
+the following command covers (most of) the packages required:
 
 ~~~~
     tlmgr install erewhon newtx roboto booktabs multirow microtype appendix koma-script symbol zapfding cyrillic ly1 etoolbox xkeyval fontaxes fontaxes mweights xcolor tcolorbox pgf l3packages l3kernel trimspaces listings boondox ec txfonts
