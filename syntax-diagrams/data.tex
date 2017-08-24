@@ -623,6 +623,16 @@ where \metaelement{source-destination-clauses} is
       \key{AS} \literal
     \end{0-1} \\
 
+    \miscext{IS \key{EXTERNAL-FORM}} \\
+
+    \miscext{
+      IS \key{IDENTIFIED} BY
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+    } \\
+    
     IS \key{GLOBAL} \\
 
     \metaelement{justified-clause} \\
@@ -1096,6 +1106,24 @@ The ERASE clause indicates part of the screen to be blanked before displaying th
   \begin{0-1}
     \key{AS} \literal
   \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{EXTERNAL-FORM clause}
+
+\begin{syntax}[\miscextcolour]  
+  \begin{1+}
+    IS \key{EXTERNAL-FORM} \\
+
+    IS \key{IDENTIFIED} BY
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  \end{1+}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1731,12 +1759,32 @@ The SOURCE clause identifies data to be used in processing a report section entr
 
 \subsubsection{General rules}
 
-The SUM clause provides a list of data items to be summed for use in an elementary report item.
-
 \subsection{STANDARD clause}
 
 \begin{syntax}[\miscextcolour]
   WITH \key{STANDARD}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SUM clause}
+
+The SUM clause provides a list of data items to be summed for use in an elementary report item.
+
+\begin{syntax}
+  \key{SUM} OF
+  \begin{1=}
+    \metaelement{number-1}
+  \end{1=}\ldots
+  \begin{0-1}
+    \key{RESET} ON
+    \begin{1=}
+      \identifier \\
+      \key{FINAL}
+    \end{1=}
+  \end{0-1}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1757,26 +1805,6 @@ The SUM clause provides a list of data items to be summed for use in an elementa
 
 \begin{syntax}[\deletedcolour]
   \pending{\key{SYMBOLIC} \key{TERMINAL} IS \identifier}
-\end{syntax}
-
-\subsubsection{Syntax rules}
-
-\subsubsection{General rules}
-
-\subsection{SUM clause}
-
-\begin{syntax}
-  \key{SUM} OF
-  \begin{1=}
-    \metaelement{number-1}
-  \end{1=}\ldots
-  \begin{0-1}
-    \key{RESET} ON
-    \begin{1=}
-      \identifier \\
-      \key{FINAL}
-    \end{1=}
-  \end{0-1}
 \end{syntax}
 
 \subsubsection{Syntax rules}

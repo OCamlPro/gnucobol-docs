@@ -115,9 +115,11 @@
     \miscext{\textdollar}
   \end{1=}
   \key{DEFINE}
-  \begin{0-1}
-    \gnucobol{\key{CONSTANT}}
-  \end{0-1}
+  \gnucobol{
+    \begin{0-1}
+      \key{CONSTANT}
+    \end{0-1}
+  }
   \metaelement{compilation-variable-1} AS
   \begin{1=}
     \begin{1=}
@@ -155,7 +157,7 @@
 \section{EJECT statement}
 
 \begin{syntax}[\miscextcolour]
-  \pending{EJECT}
+  \pending{\key{EJECT}}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -252,7 +254,7 @@
 \section{PROCESS statement}
 
 \begin{syntax}[\miscextcolour]
-  \pending{PROCESS}
+  \pending{\key{PROCESS}}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -343,7 +345,7 @@
 \section{SKIP1 statement}
 
 \begin{syntax}[\miscextcolour]
-  \pending{SKIP1}
+  \pending{\key{SKIP1}}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -353,7 +355,7 @@
 \section{SKIP2 statement}
 
 \begin{syntax}[\miscextcolour]
-  \pending{SKIP2}
+  \pending{\key{SKIP2}}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -363,7 +365,7 @@
 \section{SKIP3 statement}
 
 \begin{syntax}[\miscextcolour]
-  \pending{SKIP3}
+  \pending{\key{SKIP3}}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -416,6 +418,69 @@
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
+
+\section{Predefined compilation variables}
+
+GnuCOBOL defines compilation variables when certain conditions are true. If the condition associated with a variable is false, the variable is not defined.
+
+\begin{centering}
+  \begin{longtable}[!h]{p{0.2\textwidth} p{0.7\textwidth}}
+    \toprule
+    \textbf{Name} & \textbf{Condition} \\
+    
+    \midrule  
+    DEBUG & The -d debug flag is specified. \\
+    
+    EXECUTABLE & The module being compiled contains the main program. \\
+    
+    GCCOMP & The size of a COMP item is determined according to the GnuCOBOL scheme, where for a PICTURE of length:
+    \begin{itemize}
+    \item 1--2, the item has 1 byte
+    \item 3--4, the item has 2 bytes
+    \item 5--9, the item has 4 bytes
+    \item 10--18, the item has 8 bytes.
+    \end{itemize} \\
+    
+    GNUCOBOL & GnuCOBOL is compiling the source unit. \\
+    
+    HOSTSIGNS & A packed-decimal item's value may be considered NUMERIC if the sign has value X"F". \\
+    
+    IBMCOMP & The size of a COMP item is determined according to the IBM scheme, where for a PICTURE of length:
+    \begin{itemize}
+    \item 1--4, the item has 2 bytes
+    \item 5--9, the item has 4 bytes
+    \item 10--18, the item has 8 bytes.
+    \end{itemize} \\
+    
+    MODULE & The module being compiled does not contain the main program. \\
+    
+    NOHOSTSIGNS & A packed-decimal item's value may not be considered NUMERIC if the sign has value X"F". \\
+    
+    NOIBMCOMP & The size of a COMP item is not determined according to the IBM scheme. \\
+    
+    NOSTICKY-LINKAGE & Sticky-linkage (linkage-section items remaining allocated between invocations) is not enabled. \\
+    
+    NOTRUNC & Numeric data items are truncated according to their internal representation. \\
+    
+    OCCOMP & The size of a COMP item is determined according to the GnuCOBOL scheme, where for a PICTURE of length:
+    \begin{itemize}
+    \item 1--2, the item has 1 byte
+    \item 3--4, the item has 2 bytes
+    \item 5--9, the item has 4 bytes
+    \item 10--18, the item has 8 bytes.
+    \end{itemize} \\
+    
+    OPENCOBOL & GnuCOBOL is compiling the source unit. \\
+    
+    P64 & Pointers are greater than 32 bits long \\
+    
+    STICKY-LINKAGE & Sticky-linkage (linkage-section items remaining allocated between invocations) is enabled. \\
+    
+    TRUNC & Numeric data items are truncated according to their PICTURE clauses. \\
+    \bottomrule
+  \end{longtable}
+\end{centering}
+
 
 %%% Local Variables:
 %%% mode: latex
