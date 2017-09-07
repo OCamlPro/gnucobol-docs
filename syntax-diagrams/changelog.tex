@@ -1,6 +1,6 @@
 \chapter{Changelog}
 
-From 23 November 2013.
+This list tracks changes made from 23 November 2013. This excludes many changes made in 2009--2013 which would be pertinent to those upgrading from a 2009 build of OpenCOBOL 1.1 found in many package repositories.
 
 \paragraph{General}
 \begin{itemize}
@@ -41,14 +41,18 @@ From 23 November 2013.
 \item \textbf{Literals}: fixed heap corruptions caused by uncommon literals (\bug{195}).
 \item \textbf{Literals}: allow concatenation of literal and Boolean literals.
 \item \textbf{Memory management}: all memory belonging to the parsers and lexers is freed upon a compiler abend.
+\item \textbf{Memory management}: fixed memory leaks due to recursive CALLs.
 \item \textbf{Microsoft Visual C++}: output when compiling with cl.exe is now filtered and temporary files are deleted.
 \item \textbf{MinGW}: fixed use of wrong directory separator.
 \item \textbf{Signals}: removed error message on SIGPIPE.
 \item \textbf{Signals}: added error message for SIGBUS.
+\item \textbf{Translations}: updated, with new support for German and Italian.
 \item \textbf{User-defined functions}: function definitions must now end with END FUNCTION.
 \item \textbf{User-defined functions}: function definitions may no longer be nested in programs (\bug{255}).
 \item \textbf{Windows support}: allow linking with asm files.
 \item \textbf{Windows support}: added support for DISAM in the batch file which creates distributables.
+\item \textbf{Windows support}: fixed environment-setting batch files not working with Microsoft Visual Studio 2017.
+\item \textbf{Windows support}: fixed 64-bit environment-setting batch files not checking the correct directories for binaries and libraries.
 \end{itemize}
 
 \paragraph{Configuration options}
@@ -92,6 +96,7 @@ From 23 November 2013.
 \item \textbf{ASSIGN clause}: missing ASSIGN clauses are now detected at compile-time.
 \item \textbf{ASSIGN clause}: added PRINTER and PRINTER-1 device-names for writing to a printer.
 \item \textbf{ASSIGN clause}: added CARD-PUNCH, CARD-READER, CASSETTE, INPUT, INPUT-OUTPUT, MAGNETIC-TAPE and OUTPUT device-names for line sequential devices.
+\item \textbf{ASSIGN clause}: temporarily prohibit BASED and linkage items in ASSIGN USING due to \bug{421}.
 \item \textbf{CALL-CONVENTION phrase}: statically calling functions with CALL-CONVENTION 74 no longer causes linker errors (\bug{316}).
 \item \textbf{CURRENCY phrase}: fixed \bug{182}, where a preceding SWITCH phrase caused an incorrect duplicate CURRENCY clause error.
 \item \textbf{File-control entry}: fixed \bug{71}, where referring to a global constant caused an internal error.
@@ -155,6 +160,9 @@ From 23 November 2013.
 \item \textbf{ACCEPT statement (screen)}: fixed segfault on ACCEPT OMITTED (\bug{300}).
 \item \textbf{ACCEPT statement (screen)}: added checks that screen attributes are not specified multiple times or after conflicting attributes.
 \item \textbf{ACCEPT statement (screen)}: fixed some phrases not being recognised without being preceded by WITH (\bug{402}).
+\item \textbf{ACCEPT statement (screen)}: fixed the backspace and delete keys not working and the insert key not toggling between insertion and overwriting.
+\item \textbf{ACCEPT statement (screen)}: cursor now changes with insertion\slash{}overwrite mode (if supported by the terminal).
+\item \textbf{ACCEPT statement (screen)}: a beep is emitted on attempts to \emph{insert} data into a full field.
 \item \textbf{ADD statement (corresponding)}: restricted to numeric items (\bug{235}).
 \item \textbf{ADD statement (table)}: added detection of ADD TABLE.
 \item \textbf{Addition of COMP-3 numbers}: fixed bug where COMP-3 addition failed.
@@ -236,6 +244,7 @@ enabled and some of which hadn't.
 \item \textbf{New functions (COBOL 2014)}: FORMATTED-CURRENT-DATE, FORMATTED-DATE, FORMATTED-DATETIME, FORMATTED-TIME, INTEGER-OF-FORMATTED-DATE, TEST-FORMATTED-DATETIME.
 \item \textbf{ISO-8601-date-handling functions}: added extension SYSTEM-OFFSET as replacement for last optional argument.
 \item \textbf{ISO-8601-date-handling functions}: added EC-IMP-UTC-UNKNOWN if a time format ending in Z is provided but the timezone cannot be found.
+\item \textbf{LENGTH function}: added detection of PHYSICAL phrase.
 \item \textbf{RANDOM function}: fixed non-random number generation.
 \end{itemize}
 
