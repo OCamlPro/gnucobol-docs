@@ -24,6 +24,7 @@
 \usepackage[tocindentauto]{tocstyle}
 \usetocstyle{standard}
 \usepackage[most]{tcolorbox} % for coloured boxes and warning boxes
+\usetikzlibrary{patterns}
 \usepackage[pdfauthor={Edward Hart},
             pdftitle={The GnuCOBOL 2.2 Grammar},
             pdfkeywords={GnuCOBOL,COBOL,manual,grammar,guide},
@@ -156,12 +157,19 @@
 \newcommand{\gnucobol}[1]{%
   \colorbox{\gnucobolcolour}{#1}}
 
-\newcommand{\miscextcolour}{blue!50}
+\newcommand{\miscextcolour}{cyan!30!white}
 \newcommand{\miscext}[1]{%
   \colorbox{\miscextcolour}{#1}}
 
 \newcommand{\pending}[1]{%
-  \textcolor{gray!75}{#1}}
+  \tikz[baseline=(n.base)]{\node[
+    pattern=north east lines, % overlay a pattern of north east lines
+    pattern color=black!50!white,
+    above=-1em
+    ] (n)
+    {#1};
+  }
+}
 
 \newcommand{\standard}[1]{%
   \colorbox{white}{#1}}
