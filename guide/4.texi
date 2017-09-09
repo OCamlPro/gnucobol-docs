@@ -16,12 +16,12 @@
 @detailmenu
 *   4.1.1: SOURCE-COMPUTER.
 *   4.1.2: OBJECT-COMPUTER.
-*   4.1.3: REPOSITORY.
-*   4.1.4: SPECIAL-NAMES.
-*     4.1.4.1: Alphabet-Name-Clause.
-*     4.1.4.2: Class-Definition-Clause.
-*     4.1.4.3: Switch-Definition-Clause.
-*     4.1.4.4: Symbolic-Characters-Clause.
+*   4.1.3: SPECIAL-NAMES.
+*     4.1.3.1: Alphabet-Name-Clause.
+*     4.1.3.2: Class-Definition-Clause.
+*     4.1.3.3: Switch-Definition-Clause.
+*     4.1.3.4: Symbolic-Characters-Clause.
+*   4.1.4: REPOSITORY.
 @end detailmenu
 * 4.2: INPUT-OUTPUT SECTION.
 @detailmenu
@@ -41,15 +41,15 @@
 @newsection{4.1,CONFIGURATION SECTION}
 @diagram{CONFIGURATION SECTION,ED-CONFIG-SECTION,ED-CONFIG-SECTION,None}@p This section defines the computer system upon which the program is being compiled and executed and also specifies any special environmental configuration or compatibility characteristics.
 @enumerate
-@p @item The four paragraphs in this section may be specified in any order.
+@p @item The four paragraphs in this section may be specified in any order but if not in this order, a warning will be issued.
 @p @item The configuration section is not allowed in a nested subprogram --- nested programs will inherit the configuration section settings of their parent program.
 @p @item If none of the features provided by the configuration section are required by a program, the entire @syntax{CONFIGURATION SECTION.} header may be omitted from the program.
 @end enumerate
 @menu
 * 4.1.1: SOURCE-COMPUTER.
 * 4.1.2: OBJECT-COMPUTER.
-* 4.1.3: REPOSITORY.
-* 4.1.4: SPECIAL-NAMES.
+* 4.1.3: SPECIAL-NAMES.
+* 4.1.4: REPOSITORY.
 @detailmenu
 *   4.1.4.1: Alphabet-Name-Clause.
 *   4.1.4.2: Class-Definition-Clause.
@@ -94,32 +94,10 @@
 @item Absence of a @syntax{CLASSIFICATION} clause will cause character classification to occur according to the rules for the computer's native character set (ASCII, EBCDIC, @dots{}).
 @end enumerate
 @comment *********************************************************************
-@comment ** 4.1.3 REPOSITORY                                                **
+@comment ** 4.1.3 SPECIAL-NAMES                                             **
 @comment *********************************************************************
 @page
-@newsubsection{4.1.3,REPOSITORY}
-@diagram{REPOSITORY,ED-REPOSITORY,ED-REPOSITORY,None}@p The REPOSITORY paragraph provides a way to control access to the various built-in intrinsic functions and any user defined functions that your program will be using.
-@enumerate
-@p @item The @syntax{REPOSITORY} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{REPOSITORY} settings of their parent program.
-@p @item The @syntaxidx{INTRINSIC} clause allows you to flag one or more (or @syntaxidx{ALL}) built-in intrinsic functions as being usable without the need to code the keyword @syntaxidx{FUNCTION} in front of the function names.
-@p @item As an alternative to using the @syntaxidx{ALL INTRINSIC} clause, you may instead compile your GnuCOBOL programs using the @switchidx{-fintrinsics=ALL}.
-@p @item The @term{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @syntax{AS} clause to provide an alias name for a built-in intrinsic function.
-@p @item The following example enables all intrinsic functions to be specified without the use of the @syntax{FUNCTION} keyword, (2) names two user-defined functions named "MY-FUNCTION-1" and "MY-FUNCTION-2" that will be used by the program and (3) specifies the alias names "SIGMA" for the intrinsic function "STANDARD-DEVIATION" and "MF2" for "MY-FUNCTION-2".
-@example
-
-REPOSITORY.
-    FUNCTION ALL INTRINSIC.
-    FUNCTION MY-FUNCTION-1.
-    FUNCTION MY-FUNCTION-2 AS "MF2".
-    FUNCTION STANDARD-DEVIATION AS "SIGMA".
-@end example
-@end enumerate
-@* @strong{A special note about user-defined functions} --- because you must name a user-defined function that your program will be using in the @syntax{REPOSITORY} paragraph, you may always reference that function from your program's procedure division without needing to use the @syntax{FUNCTION} keyword.
-@comment *********************************************************************
-@comment ** 4.1.4 SPECIAL-NAMES                                             **
-@comment *********************************************************************
-@page
-@newsubsection{4.1.4,SPECIAL-NAMES}
+@newsubsection{4.1.3,SPECIAL-NAMES}
 @diagram{SPECIAL-NAMES,ED-SPECIAL-NAMES-Info,ED-SPECIAL-NAMES-TeX,ED-SPECIAL-NAMES}
 @center @clause{Alphabet-Name-Clause}, @clause{Class-Definition-Clause},
 @center @clause{Switch-Definition-Clause} and @clause{Symbolic-Characters-Clause}
@@ -225,6 +203,28 @@ zh_CN, zh_HK, zh_MO, zh_SG, zh_TW, zu_ZA
 * 4.1.4.3: Switch-Definition-Clause.
 * 4.1.4.4: Symbolic-Characters-Clause.
 @end menu
+@comment *********************************************************************
+@comment ** 4.1.4 REPOSITORY                                                **
+@comment *********************************************************************
+@page
+@newsubsection{4.1.4,REPOSITORY}
+@diagram{REPOSITORY,ED-REPOSITORY,ED-REPOSITORY,None}@p The REPOSITORY paragraph provides a way to control access to the various built-in intrinsic functions and any user defined functions that your program will be using.
+@enumerate
+@p @item The @syntax{REPOSITORY} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{REPOSITORY} settings of their parent program.
+@p @item The @syntaxidx{INTRINSIC} clause allows you to flag one or more (or @syntaxidx{ALL}) built-in intrinsic functions as being usable without the need to code the keyword @syntaxidx{FUNCTION} in front of the function names.
+@p @item As an alternative to using the @syntaxidx{ALL INTRINSIC} clause, you may instead compile your GnuCOBOL programs using the @switchidx{-fintrinsics=ALL}.
+@p @item The @term{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @syntax{AS} clause to provide an alias name for a built-in intrinsic function.
+@p @item The following example enables all intrinsic functions to be specified without the use of the @syntax{FUNCTION} keyword, (2) names two user-defined functions named "MY-FUNCTION-1" and "MY-FUNCTION-2" that will be used by the program and (3) specifies the alias names "SIGMA" for the intrinsic function "STANDARD-DEVIATION" and "MF2" for "MY-FUNCTION-2".
+@example
+
+REPOSITORY.
+    FUNCTION ALL INTRINSIC.
+    FUNCTION MY-FUNCTION-1.
+    FUNCTION MY-FUNCTION-2 AS "MF2".
+    FUNCTION STANDARD-DEVIATION AS "SIGMA".
+@end example
+@end enumerate
+@* @strong{A special note about user-defined functions} --- because you must name a user-defined function that your program will be using in the @syntax{REPOSITORY} paragraph, you may always reference that function from your program's procedure division without needing to use the @syntax{FUNCTION} keyword.
 @comment *********************************************************************
 @comment ** 4.1.4.1 Alphabet-Name-Clause                                    **
 @comment *********************************************************************
