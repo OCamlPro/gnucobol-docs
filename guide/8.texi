@@ -755,7 +755,7 @@ cobcrun printaccount.exe acct=6625378
 @comment *********************************************************************
 @comment ** 8.3 Built-In System Subroutines                                 **
 @comment *********************************************************************
-@newsection{8.3,Built-In System Subroutines}@p There are a number of built-in system subroutines included with GnuCOBOL.  Generally, these routines are intended to match those available in Micro Focus COBOL (CBL_@dots{}) or ACUCOBOL (C$@dots{}).
+@newsection{8.3,Built-In System Subroutines}@p There are a number of built-in system subroutines included with GnuCOBOL.  Generally, these routines are intended to match those available in Micro Focus COBOL (CBL_GC@dots{}) or ACUCOBOL (C$@dots{}).
 @p These routines, all executed via their UPPER-CASE NAMES via the @statementref{CALL}, are capable of performing the following Functions:
 @itemize @bullet
 @p @item Changing the current directory
@@ -806,28 +806,33 @@ cobcrun printaccount.exe acct=6625378
 * 8.3.25: CBL_ERROR_PROC.
 * 8.3.26: CBL_EXIT_PROC.
 * 8.3.27: CBL_FLUSH_FILE.
-* 8.3.28: CBL_GET_CSR_POS.
-* 8.3.29: CBL_GET_CURRENT_DIR.
-* 8.3.30: CBL_GET_SCR_SIZE.
-* 8.3.31: CBL_IMP.
-* 8.3.32: CBL_NIMP.
-* 8.3.33: CBL_NOR.
-* 8.3.34: CBL_NOT.
-* 8.3.35: CBL_OC_NANOSLEEP.
-* 8.3.36: CBL_OPEN_FILE.
-* 8.3.37: CBL_OR.
-* 8.3.38: CBL_READ_FILE.
-* 8.3.39: CBL_RENAME_FILE.
-* 8.3.40: CBL_TOLOWER.
-* 8.3.41: CBL_TOUPPER.
-* 8.3.42: CBL_WRITE_FILE.
-* 8.3.43: CBL_XOR.
-* 8.3.44: SYSTEM.
-* 8.3.45: X"91".
-* 8.3.46: X"E4".
-* 8.3.47: X"E5".
-* 8.3.48: X"F4".
-* 8.3.49: X"F5".
+* 8.3.28: CBL_GC_FORK.
+* 8.3.29: CBL_GC_GETOPT:
+* 8.3.30: CBL_GC_HOSTED.
+* 8.3.31: CBL_GC_NANOSLEEP.
+* 8.3.32: CBL_GC_PRINTABLE.
+* 8.3.33: CBL_GC_WAITPID.
+* 8.3.34: CBL_GET_CSR_POS.
+* 8.3.35: CBL_GET_CURRENT_DIR.
+* 8.3.36: CBL_GET_SCR_SIZE.
+* 8.3.37: CBL_IMP.
+* 8.3.38: CBL_NIMP.
+* 8.3.39: CBL_NOR.
+* 8.3.40: CBL_NOT.
+* 8.3.42: CBL_OPEN_FILE.
+* 8.3.43: CBL_OR.
+* 8.3.44: CBL_READ_FILE.
+* 8.3.45: CBL_RENAME_FILE.
+* 8.3.46: CBL_TOLOWER.
+* 8.3.47: CBL_TOUPPER.
+* 8.3.48: CBL_WRITE_FILE.
+* 8.3.49: CBL_XOR.
+* 8.3.50: SYSTEM.
+* 8.3.51: X"91".
+* 8.3.52: X"E4".
+* 8.3.53: X"E5".
+* 8.3.54: X"F4".
+* 8.3.55: X"F5".
 @end menu
 @comment *********************************************************************
 @comment ** 8.3.1 C$CALLEDBY                                                **
@@ -883,7 +888,7 @@ cobcrun printaccount.exe acct=6625378
 @comment *********************************************************************
 @newsubsection{8.3.6,C$GETPID}
 @diagram{C$GETPID Built-In Subroutine,SS-C$GETPID,SS-C$GETPID,None}@p Use this subroutine to return the PID (process ID) of the executing GnuCOBOL program.  The PID value is returned into the @registerref{RETURN-CODE}.
-@p As you can see, there are no arguments to this routine.
+@p There are no arguments to this routine.
 @comment *********************************************************************
 @comment ** 8.3.7 C$JUSTIFY                                                 **
 @comment *********************************************************************
@@ -921,6 +926,7 @@ cobcrun printaccount.exe acct=6625378
 @newsubsection{8.3.11,C$PRINTABLE}
 @diagram{C$PRINTABLE Built-In Subroutine,SS-C$PRINTABLE,SS-C$PRINTABLE,None}@p The @syntax{C$PRINTABLE} subroutine converts the contents of the data-item specified as the first argument to printable characters.  Those characters that are deemed printable (as defined by the character set used by @term{data-item}) will remain unchanged, while those that are NOT printable will be converted to the character specified as the second argument.
 @p If no @term{char} argument is provided, a period (".") will be used.
+@p NOTE that CBL_GC_PRINTABLE replaces this although it is currently still supported for legacy reasons.
 @comment *********************************************************************
 @comment ** 8.3.12 C$SLEEP                                                  **
 @comment *********************************************************************
@@ -1121,8 +1127,7 @@ PROCEDURE DIVISION.
     DISPLAY
         'Executing a STOP RUN...'
     END-DISPLAY
-    GOBACK
-    .
+    GOBACK.
 END PROGRAM demoexitproc.
 
 IDENTIFICATION DIVISION.
@@ -1142,9 +1147,9 @@ PROCEDURE DIVISION.
     MOVE Now   TO Display-Time
     INSPECT Display-Time REPLACING ALL '/' BY ':'
     DISPLAY '***    ' Display-Date '  ' Display-Time '    ***'
-    GOBACK
-    .
+    GOBACK.
 END PROGRAM ExitProc.
+
 @end example
 @comment *********************************************************************
 @comment ** 8.3.27 CBL_FLUSH_FILE                                           **
@@ -1152,10 +1157,288 @@ END PROGRAM ExitProc.
 @newsubsection{8.3.27,CBL_FLUSH_FILE}
 @diagram{CBL_FLUSH_FILE Built-In Subroutine,SS-CBL_FLUSH_FILE,SS-CBL_FLUSH_FILE,None}@p In Micro Focus COBOL, calling this subroutine flushes any as-yet unwritten memory buffers for the (output) file whose file-handle is specified as the argument to disk.
 @p This routine is non-functional in GnuCOBOL.  It exists only to provide compatibility for applications that may have been developed for Micro Focus COBOL.
+
 @comment *********************************************************************
-@comment ** 8.3.28 CBL_GET_CSR_POS                                          **
+@comment ** 8.3.28 CBL_GC_FORK                                             **
 @comment *********************************************************************
-@newsubsection{8.3.28,CBL_GET_CSR_POS}
+@newsubsection{8.3.28,CBL_GC_FORK}
+@diagram{CBL_GC_FORK Built-In Subroute,SS-CBL_GC_FORK,SS-CBL_GC_FORK,None}
+@p CBL_GC_FORK allows you to fork the current COBOL process to a new one.
+@p The current content of the process’ storage (including LOCAL-STORAGE) will be identical, any file handles get invalid in the new process, positions and file / record locks are only available to the original process.
+@p This system routine is not available on Windows (exception: GCC on Cygwin).
+@p Parameters: none Returns: PID (the child process gets ’0’ returned, the calling process gets the PID of the created children).
+@p Negative values are returned for system dependand error codes and -1 if the function is not available on the current system.
+@p @example
+
+CBL_GC_FORK allows you to fork the current COBOL process to a new one. The current content
+of the process’ storage (including LOCAL-STORAGE) will be identical, any file handles get invalid
+in the new process, positions and file / record locks are only available to the original process.
+This system routine is not available on Windows (exception: GCC on Cygwin).
+Parameters: none Returns: PID (the child process gets ’0’ returned, the calling process gets
+the PID of the created children). Negative values are returned for system dependand error codes
+and -1 if the function is not available on the current system.
+
+ IDENTIFICATION DIVISION.
+ PROGRAM-ID. prog.
+ DATA DIVISION.
+ WORKING-STORAGE SECTION.
+ 01  CHILD-PID      PIC S9(9) BINARY.
+ 01  WAIT-STS       PIC S9(9) BINARY.
+ PROCEDURE DIVISION.
+     CALL     "CBL_GC_FORK" RETURNING CHILD-PID END-CALL
+     EVALUATE TRUE
+              WHEN CHILD-PID = ZERO
+                   PERFORM CHILD-CODE
+              WHEN CHILD-PID > ZERO
+                   PERFORM PARENT-CODE
+              WHEN CHILD-PID = -1
+                   DISPLAY ’CBL_GC_FORK is not available on the current system!’
+                   PERFORM CHILD-CODE
+                   MOVE 0 TO CHILD-PID
+                   PERFORM PARENT-CODE
+              WHEN OTHER
+                   MULTIPLY CHILD-PID BY -1 END-MULTIPLY
+                   DISPLAY ’CBL_GC_FORK returned system error: ’ CHILD-PID
+     END-EVALUATE
+     STOP     RUN.
+ CHILD-CODE.
+     CALL     "C$SLEEP" USING 1 END-CALL
+     DISPLAY  "Hello, I am the child"
+     MOVE     2 TO RETURN-CODE
+ PARENT-CODE.
+     DISPLAY  "Hello, I am the parent"
+     CALL     "CBL_GC_WAITPID" USING CHILD-PID RETURNING WAIT-STS
+     MOVE     0 TO RETURN-CODE
+     EVALUATE TRUE
+              WHEN WAIT-STS >= 0
+                   DISPLAY ’Child ended with status: ’ WAIT-STS
+              WHEN WAIT-STS = -1
+                   DISPLAY ’CBL_GC_WAITPID is not available on the current system!’
+              WHEN WAIT-STS < -1
+                   MULTIPLY -1 BY WAIT-STS END-MULTIPLY
+                   DISPLAY ’CBL_GC_WAITPID returned system error: ’ WAIT-STS
+     END-EVALUATE
+
+@end example
+@comment *********************************************************************
+@comment ** 8.3.29 CBL_GC_GETOPT                                           **
+@comment *********************************************************************
+@newsubsection{8.3.29,CBL_GC_GETOPT}
+@diagram{CBL_GC_GETOPT Built-In Subroutine,SS-CBL_GC_GETOPT,SS-CBL_GC_GETOPT,None}
+@p CBL_GC_GETOPT realises the quite well-known option parser, getopt, for GnuCOBOL.
+@p The usage of this system routine is described by the following example.
+@p @example
+
+ IDENTIFICATION DIVISION.
+ PROGRAM-ID. PROG.
+ DATA DIVISION.
+ WORKING-STORAGE SECTION.
+ 78  SHORTOPTIONS VALUE "jkl".
+ 01  LONGOPTIONS.
+     05 OPTIONRECORD OCCURS 2 TIMES.
+        10  OPTIONNAME   PIC X(25).
+        10  HAS-VALUE    PIC 9.
+        10  VALPOINT     POINTER VALUE NULL.
+        10  RETURN-VALUE PIC X(4).
+ 01  LONGIND             PIC 99.
+ 01  LONG-ONLY           PIC 9 VALUE 1.
+ 01  RETURN-CHAR         PIC X(4).
+ 01  OPT-VAL             PIC X(10).
+ 01  COUNTER             PIC 9 VALUE 0.
+
+We first need to define the necessary fields for getopt’s shortoptions (so), longoptions (lo),
+longoption index (longind), long-only-option (long-only) and also the fields for return values
+return-char and opt-val (arbitrary size with trimming, see return codes).
+The shortoptions are written down as an alphanumeric field (i.e., a string with arbitrary size)
+as follows:
+"ab:c::d"
+
+This means we want getopt to look for shortoptions named a, b, c or d and we demand an
+option value for b and we are accepting an optional one for c.
+The longoptions are defined as a table of records with oname, has-value, valpoint and val.
+
+oname defines the name of a longoption.
+ has-value defines if an option value is demanded (has-val = 1), optional (has-val = 2) or
+ not required (has-val = 0).
+valpoint is a pointer used to specify an address to save getopt’s return value to. The pointer
+ is optional. If it is NULL, getopt returns a value as usual. If you use the pointer it has to
+ point to a PIC X(4) field.
+The field val is a PIC X(4) character which is returned if the longoption was recognized.
+
+The longoption structure is immutable! You can only vary the number of records.
+Now we have the tools to run CBL_GC_GETOPT within the procedure division.
+
+PROCEDURE DIVISION.
+     MOVE     "version" to OPTIONNAME (1).
+     MOVE     0 TO HAS-VALUE (1).
+     MOVE     "V" TO RETURN-VALUE (1).
+     MOVE     "verbose" TO OPTIONNAME (2).
+     MOVE     0 TO HAS-VALUE (2).
+     MOVE     "V" TO RETURN-VALUE (2).
+     PERFORM  WITH TEST AFTER UNTIL RETURN-CODE = -1
+              CALL ’CBL_GC_GETOPT’ USING
+                  BY REFERENCE SHORTOPTIONS LONGOPTIONS LONGIND
+                  BY VALUE LONG-ONLY
+                  BY REFERENCE RETURN-CHAR OPT-VAL
+              END-CALL
+              DISPLAY RETURN-CHAR END-DISPLAY
+              DISPLAY OPT-VAL END-DISPLAY
+     END-PERFORM
+     STOP RUN.
+
+The example shows how we initialize all parameters and call the routine until CBL_GC_GETOPT
+runs out of options and returns -1.
+The return-char might contain the following:
+regular character if an option was recognized
+ ’ ?’ if we have an undefined or ambiguous option
+ ’1’ if we have a non-option (only if first byte of so is ’-’)
+ ’0’ if valpoint != NULL and we are writing the return value to the specified address
+ ’-1’ if we don’t have any more options (or reach the first non-option if first byte of so is ’+’)
+
+The return-codes of CBL_GC_GETOPT are:
+ 1 if we’ve got a non-option (only if first byte of so is ’-’)
+ 0 if valpoint != NULL and we are writing the return value to the specified address
+-1 if we don’t have any more options (or reach the first non-option if first byte of so is ’+’)
+ 2 if we have got an truncated option value in opt-val (because opt-val was too small)
+ 3 if we got a regular answer from getopt
+
+@end example
+@comment *********************************************************************
+@comment ** 8.3.30 CBL_GC_HOSTED                                           **
+@comment *********************************************************************
+@newsubsection{8.3.30,CBL_GC_HOSTED}
+@diagram{CBL_GC_HOSTED Built-In Subroutine,SS-CBL_GC_HOSTED,SS-CBL_GC_HOSTED,None}@p @example
+
+CBL_GC_HOSTED provides access to the following C hosted variables:
+ argc to binary-long by value
+ argv to pointer to char **
+ stdin, stdout, stderr to pointer
+ errno giving address of errno in pointer to binary-long, use based for more direct access
+   and conditional access to the following variables:
+tzname pointer to pointer to array of two char pointers
+timezone C long, will be seconds west of UTC
+daylight C int, will be 1 during daylight savings
+
+System will need to HAVE TIMEZONE defined for these to return anything meaningful.
+Attempts made when they are not available WILL return 1 from CBL GC HOSTED.
+
+It returns 0 when match, 1 on failure, case matters as does length, "arg" won’t match.
+The usage of this system routine is described by the following example.
+
+ IDENTIFICATION DIVISION.
+ PROGRAM-ID. HOSTED.
+ DATA DIVISION.
+ WORKING-STORAGE SECTION.
+ 01  Argc        BINARY-LONG.
+ 01  Argv        POINTER.
+ 01  Stdin       POINTER.
+ 01  Stdout      POINTER.
+ 01  Stderr      POINTER.
+ 01  Errno       POINTER.
+ 01  Err         BINARY-LONG BASED.
+ 01  Domain      FLOAT-LONG VALUE 3.0.
+ 01  Tzname      POINTER.
+ 01  Tznames     POINTER BASED.
+     05  Tzs     POINTER OCCURS 2.
+ 01  Timezone    BINARY-LONG.
+ 01  Daylight    BINARY-SHORT.
+*>
+ PROCEDURE DIVISION.
+     call     "CBL_GC_HOSTED" using stdin "stdin"
+     display  "stdin : " stdin
+     call     "feof" using by value stdin
+     display  "feof stdin : " return-code
+     call     "CBL_GC_HOSTED" using stdout "stdout"
+     display  "stdout : " stdout
+     call     "fprintf" using by value stdout by content "Hello" & x"0a"
+     call     "CBL_GC_HOSTED" using stderr "stderr"
+     display  "stderr : " stderr
+     call     "fprintf" using by value stderr by content "on err" & x"0a"
+     call     "CBL_GC_HOSTED" using argc "argc"
+     display  "argc : " argc
+     call     "CBL_GC_HOSTED" using argv "argv"
+     display  "argv : " argv
+     call     "args" using by value argc argv
+     call     "CBL_GC_HOSTED" using errno "errno"
+     display  "&errno : " errno
+     set      address of err to errno
+     display  "errno : " err
+     call     "acos" using by value domain
+     display  "errno after acos(3.0): " err ", EDOM is 33"
+     call     "CBL_GC_HOSTED" using argc "arg"
+     display  "’arg’ lookup : " return-code
+     call     "CBL_GC_HOSTED" using null "argc"
+     display  "null with argc : " return-code
+     display  "argc is still : " argc
+*> the following only returns zero if the system has HAVE_TIMEZONE set
+     call     "CBL_GC_HOSTED" using daylight "daylight "
+     display  "’timezone’ lookup : " return-code
+     if       return-code not = 0
+              display "system doesn’t has timezone"
+     else
+              display "timezone is : " timezone
+              call "CBL_GC_HOSTED" using daylight "daylight "
+              display "’daylight’ lookup : " return-code
+              display "daylight is : " daylight
+              set environment "TZ" to "PST8PDT"
+              call static "tzset" returning omitted on exception continue end-call
+              call "CBL_GC_HOSTED" using tzname "tzname"
+              display "’tzname’ lookup : " return-code
+*> tzs(1) will point to z"PST" and tzs(2) to z"PDT"
+              if   return-code equal 0 and tzname not equal null then
+                   set address of tznames to tzname
+                   if   tzs(1) not equal null then
+                        display "tzs #1 : " tzs(1)
+                   end-if
+                   if   tzs(2) not equal null then
+                        display "tzs #2 : " tzs(2)
+                   end-if
+              end-if
+     end-if
+     goback.
+ end program hosted.
+
+@end example
+
+@comment *********************************************************************
+@comment ** 8.3.31 CBL_GC_NANOSLEEP                                        **
+@comment *********************************************************************
+@newsubsection{8.3.31,CBL_GC_NANOSLEEP}
+@diagram{CBL_GC_NANOSLEEP Built-In Subroutine,SS-CBL_GC_NANOSLEEP,SS-CBL_GC_NANOSLEEP,None}@p This subroutine puts the program to sleep for the specified number of nanoseconds.
+@p The effective granularity of @term{nanoseconds-to-sleep} values will depend upon the granularity of the system clock your computer is using and the timing granularity of the operating system that computer is running.
+@p For example, You will not expect to see any difference whatsoever between values of 1, 100, 500 or 1000, but you should see a difference between values such as 250000000 and 500000000.
+@p The @term{nanoseconds-to-sleep} argument is a numeric literal or data item.
+@p There are one BILLION nanoseconds in a second, so if you wanted to put the program to sleep for 1/4 second you'd use a @term{nanoseconds-to-sleep} value of 250000000.
+@p Note that the legacy name of this routine starts with CBL_OC and is deprecated as is HOSTED and NANOSLEEP but will still work. It is recommended that all libary routines names starting with CBL_OC are replaced with CBL_GC to minimise issues.
+
+@comment *********************************************************************
+@comment ** 8.3.32 CBL_GC_PRINTABLE                                        **
+@comment *********************************************************************
+@newsubsection{8.3.32,CBL_GC_PRINTABLE}
+@diagram{CBL_GC_PRINTABLE Built-In Subroutine,SS-CBL_GC_PRINTABLE,SS-CBL_GC_PRINTABLE,None}
+@p The @syntax{CBL_GC_PRINTABLE} subroutine converts the contents of the data-item specified as the first argument to printable characters.
+@p Those characters that are deemed printable (as defined by the character set used by @term{data-item}) will remain unchanged, while those that are NOT printable will be converted to the character specified as the second argument.
+@p If no @term{char} argument is provided, a period (".") will be used.
+
+@comment *********************************************************************
+@comment ** 8.3.33 CBL_GC_WAITPID                                          **
+@comment *********************************************************************
+@newsubsection{8.3.33,CBL_GC_WAITPID}
+@diagram{CBL_GC_WAITPID Built-In Subroutine,SS-CBL_GC_WAITPID,SS-CBL_GC_WAITPID,None}
+@p @example
+CBL_GC_WAITPID allows you to wait until another system process ended. Additional you can check the process’ return code.
+Parameters: none Returns: function-status / child-status Negative values are returned for system dependand error codes and -1 if the function is not available on the current system.
+
+     CALL     "CBL_GC_WAITPID" USING CHILD-PID RETURNING WAIT-STS
+     MOVE     0 TO RETURN-CODE
+     DISPLAY  ’CBL_GC_WAITPID ended with status: ’ WAIT-STS
+
+@end example
+
+@comment *********************************************************************
+@comment ** 8.3.34 CBL_GET_CSR_POS                                          **
+@comment *********************************************************************
+@newsubsection{8.3.34,CBL_GET_CSR_POS}
 @diagram{CBL_GET_CSR_POS Built-In Subroutine,SS-CBL_GET_CSR_POS,SS-CBL_GET_CSR_POS,None}@p This subroutine will retrieve the current cursor location on the screen, returning a 2-byte value into the supplied @term{cursor-locn-buffer}.  The first byte of @term{cursor-locn-buffer} will receive the current line (row) location while the second receives the current column location.
 @p The returned location data will be in binary form, and will be based upon starting values of 0, meaning that if the cursor is located at line 15, column 12 at the time this routine is called, a value of (14,11) will be returned.
 @p The following is a typical @term{cursor-locn-buffer} definition:
@@ -1166,9 +1449,9 @@ END PROGRAM ExitProc.
 @end example
 @* Values of 1 (Line) and 1 (column) will be returned if GnuCOBOL was not generated to include screen I/O.
 @comment *********************************************************************
-@comment ** 8.3.29 CBL_GET_CURRENT_DIR                                      **
+@comment ** 8.3.35 CBL_GET_CURRENT_DIR                                      **
 @comment *********************************************************************
-@newsubsection{8.3.29,CBL_GET_CURRENT_DIR}
+@newsubsection{8.3.35,CBL_GET_CURRENT_DIR}
 @diagram{CBL_GET_CURRENT_DIR Built-In Subroutine,SS-CBL_GET_CURR_DIR,SS-CBL_GET_CURR_DIR,None}@p This retrieves the fully-qualified pathname of the current directory, saving up to @term{length} characters of that name into the specified @term{buffer}.
 @p The first argument is unused, but must be specified.  It must be specified @syntaxrefalt{BY VALUE,CALL}.
 @p The @term{length} argument must be specified @syntax{BY VALUE}.
@@ -1177,9 +1460,9 @@ The @term{buffer} argument must be specified @syntax{BY REFERENCE}.
 @p If the value specified for the @term{length} argument is LESS THAN the actual length of the @term{buffer} argument, the current directory path will be left-justified and space filled within the first @term{length} bytes of @term{buffer} --- any bytes in @term{buffer} after that point will be unchanged.
 @p If the routine is successful, a value of 0 will be returned to the @registerref{RETURN-CODE}.  If the routine failed because of a problem with an argument (such as a negative or 0 length), a value of 128 will result.  Finally, if the 1st argument value is anything but zero, the routine will fail with a 129 value.
 @comment *********************************************************************
-@comment ** 8.3.30 CBL_GET_SCR_SIZE                                         **
+@comment ** 8.3.36 CBL_GET_SCR_SIZE                                         **
 @comment *********************************************************************
-@newsubsection{8.3.30,CBL_GET_SCR_SIZE}
+@newsubsection{8.3.36,CBL_GET_SCR_SIZE}
 @diagram{CBL_GET_SCR_SIZE Built-In Subroutine,SS-CBL_GET_SCR_SIZE,SS-CBL_GET_SCR_SIZE,None}@p Use this subroutine to retrieve the current console screen size.
 @p When the system is running in a windowed environment, this will be the sizing of the console window in which the program is executing.  When the system is not running a windowing environment, the physical console screen attributes will be returned.  In environments such as a Windows console window, where the logical size of the window may far exceed that of the physical console window, the size returned will be that of the physical console window.  Two one-byte values will be returned --- the first will be the current number of lines (rows) while the second will be the number of columns.
 @p The returned size data will be in binary form.
@@ -1191,9 +1474,9 @@ The @term{buffer} argument must be specified @syntax{BY REFERENCE}.
 @* GnuCOBOL run-time screen management must have been initialized prior to CALLing this routine in order to receive meaningful values.  This means that a @statementref{DISPLAY screen-data-item} or a @statementref{ACCEPT screen-data-item} must have been executed prior to executing the @statement{CALL}.
 @p Zero values will be returned if the screen has not been initialized and values of 24 (lines) and 80 (columns) will be returned if GnuCOBOL was not generated to include screen I/O.
 @comment *********************************************************************
-@comment ** 8.3.31 CBL_IMP                                                  **
+@comment ** 8.3.37 CBL_IMP                                                  **
 @comment *********************************************************************
-@newsubsection{8.3.31,CBL_IMP}
+@newsubsection{8.3.37,CBL_IMP}
 @diagram{CBL_IMP Built-In Subroutine,SS-CBL_IMP,SS-CBL_IMP,None}
 @multitable @columnfractions 0.3 0.7
 @item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 1}  @tab This subroutine performs a bit-by-bit logical "implies" process between the left-most 8*@term{byte-length} corresponding bits of @term{item-1} and @term{item-2}, storing the resulting bit string into @term{item-2}.  The truth table shown to the left documents the IMP process.
@@ -1203,9 +1486,9 @@ The @term{buffer} argument must be specified @syntax{BY REFERENCE}.
 @p Any bits in @term{item-2} after the 8*@term{byte-length} point will be unaffected.
 @p A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.3.32 CBL_NIMP                                                 **
+@comment ** 8.3.38 CBL_NIMP                                                 **
 @comment *********************************************************************
-@newsubsection{8.3.32,CBL_NIMP}
+@newsubsection{8.3.38,CBL_NIMP}
 @diagram{CBL_NIMP Built-In Subroutine,SS-CBL_NIMP,SS-CBL_NIMP,None}
 @multitable @columnfractions 0.3 0.7
 @item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 0}  @tab This subroutine performs the negation of a bit-by-bit logical "implies" process between the left-most 8*@term{byte-length} corresponding bits of @term{item-1} and @term{item-2}, storing the resulting bit string into @term{item-2}.  The truth table shown to the left documents the NIMP process.
@@ -1215,9 +1498,9 @@ The @term{buffer} argument must be specified @syntax{BY REFERENCE}.
 @p Any bits in @term{item-2} after the 8*@term{byte-length} point will be unaffected.
 @p A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.3.33 CBL_NOR                                                  **
+@comment ** 8.3.39 CBL_NOR                                                  **
 @comment *********************************************************************
-@newsubsection{8.3.33,CBL_NOR}
+@newsubsection{8.3.39,CBL_NOR}
 @diagram{CBL_NOR Built-In Subroutine,SS-CBL_NOR,SS-CBL_NOR,None}
 @multitable @columnfractions 0.3 0.7
 @item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 0}  @tab This subroutine performs the negation of a bit-by-bit logical "or" process between the left-most 8*@term{byte-length} corresponding bits of @term{item-1} and @term{item-2}, storing the resulting bit string into @term{item-2}.  The truth table shown to the left documents the NOR process.
@@ -1227,25 +1510,18 @@ The @term{buffer} argument must be specified @syntax{BY REFERENCE}.
 @p Any bits in @term{item-2} after the 8*@term{byte-length} point will be unaffected.
 @p A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.3.34 CBL_NOT                                                  **
+@comment ** 8.3.40 CBL_NOT                                                  **
 @comment *********************************************************************
-@newsubsection{8.3.34,CBL_NOT}
+@newsubsection{8.3.40,CBL_NOT}
 @diagram{CBL_NOT Built-In Subroutine,SS-CBL_NOT,SS-CBL_NOT,None}@p This subroutine "flips" the left-most 8*@term{byte-length} bits of @term{item-1}, changing 0 bits to 1s and 1s to 0s.  The changes are made directly im @term{item-1}.
 @p The @term{item-1} argument must be a data item.  The length of @term{item-1} must be at least 8*@term{byte-length}.
 @p The @term{byte-length} argument may be a numeric literal or data item, and must be passed using @syntaxrefalt{BY VALUE,CALL}.
 @p Any bits in @term{item-1} after the 8*@term{byte-length} point will be unaffected.
 @p A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.3.35 CBL_OC_NANOSLEEP                                         **
+@comment ** 8.3.42 CBL_OPEN_FILE                                            **
 @comment *********************************************************************
-@newsubsection{8.3.35,CBL_OC_NANOSLEEP}
-@diagram{CBL_OC_NANOSLEEP Built-In Subroutine,SS-CBL_OC_NANOSLEEP,SS-CBL_OC_NANOSLEEP,None}@p This subroutine puts the program to sleep for the specified number of nanoseconds.  The effective granularity of @term{nanoseconds-to-sleep} values will depend upon the granularity of the system clock your computer is using and the timing granularity of the operating system that computer is running.  For example, I don't expect you'll see any difference whatsoever between values of 1, 100, 500 or 1000, but you should see a difference between values such as 250000000 and 500000000.
-@p The @term{nanoseconds-to-sleep} argument is a numeric literal or data item.
-@p There are one BILLION nanoseconds in a second, so if you wanted to put the program to sleep for 1/4 second you'd use a @term{nanoseconds-to-sleep} value of 250000000.
-@comment *********************************************************************
-@comment ** 8.3.36 CBL_OPEN_FILE                                            **
-@comment *********************************************************************
-@newsubsection{8.3.36,CBL_OPEN_FILE}
+@newsubsection{8.3.42,CBL_OPEN_FILE}
 @diagram{CBL_OPEN_FILE Built-In Subroutine,SS-CBL_OPEN_FILE,SS-CBL_OPEN_FILE,None}@p This routine opens an existing file for use as a byte-stream file usable by CBL_WRITE_FILE or CBL_READ_FILE.
 @p The @term{file-path} argument  is an alphanumeric literal or data-item.
 @p The @term{access-mode} argument is a numeric literal or data item with a PIC X USAGE COMP-X (or USAGE BINARY-CHAR) definition; it specifies how you wish to use the file, as follows:
@@ -1258,9 +1534,9 @@ The @term{buffer} argument must be specified @syntax{BY REFERENCE}.
 @p The final argument (@term{handle}) is a @syntax{PIC X(4) USAGE COMP-X} item that will receive the handle to the file.  That handle is used on all other byte-stream functions to reference this specific file.
 @p A @registerref{RETURN-CODE} value of -1 indicates an invalid argument, while a value of 0 indicates success.  A value of 35 means the file does not exist.
 @comment *********************************************************************
-@comment ** 8.3.37 CBL_OR                                                   **
+@comment ** 8.3.43 CBL_OR                                                   **
 @comment *********************************************************************
-@newsubsection{8.3.37,CBL_OR}
+@newsubsection{8.3.43,CBL_OR}
 @diagram{CBL_OR Built-In Subroutine,SS-CBL_OR,SS-CBL_OR,None}
 @multitable @columnfractions 0.3 0.7
 @item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 1}  @tab This subroutine performs a bit-by-bit logical "or" process between the left-most 8*@term{byte-length} corresponding bits of @term{item-1} and @term{item-2}, storing the resulting bit string into @term{item-2}.  The truth table shown to the left documents the OR process.
@@ -1270,9 +1546,9 @@ The @term{buffer} argument must be specified @syntax{BY REFERENCE}.
 @p Any bits in @term{item-2} after the 8*@term{byte-length} point will be unaffected.
 @p A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.3.38 CBL_READ_FILE                                            **
+@comment ** 8.3.44 CBL_READ_FILE                                            **
 @comment *********************************************************************
-@newsubsection{8.3.38,CBL_READ_FILE}
+@newsubsection{8.3.44,CBL_READ_FILE}
 @diagram{CBL_READ_FILE Built-In Subroutine,SS-CBL_READ_FILE,SS-CBL_READ_FILE,None}@p This routine reads @term{nbytes} of data starting at byte number @term{offset} from the byte-stream file defined by @term{handle} into the specified @term{buffer}.
 @p The @term{handle} argument (@syntax{PIC X(4) USAGE COMP-X}) must have been populated by a prior call to @subpgmref{CBL_OPEN_FILE}.
 @p The @term{offset} argument (@syntax{PIC X(8) USAGE COMP-X}) defines the location in the file of the first byte to be read.  The first byte of a file is byte offset 0.
@@ -1280,31 +1556,31 @@ The @term{buffer} argument must be specified @syntax{BY REFERENCE}.
 If the @term{flag} argument is specified as 128, the size of the file (in bytes) will be returned into the file offset argument (argument 2) upon completion.  Not all operating system/GnuCOBOL environments may be able to retrieve file sizes  in such cases, a value of zero will be returned.  The only other valid value for flags is 0.  This argument may be specified either as a numeric literal or as a @syntax{PIC X USAGE COMP-X} data item.
 @p Upon completion, the @registerref{RETURN-CODE} will be set to 0 if the read was successful or to 10 if an "end-of-file" condition occurred.  If a value of -1 is returned, a problem was identified with the subroutine arguments.
 @comment *********************************************************************
-@comment ** 8.3.39 CBL_RENAME_FILE                                          **
+@comment ** 8.3.45 CBL_RENAME_FILE                                          **
 @comment *********************************************************************
-@newsubsection{8.3.39,CBL_RENAME_FILE}
+@newsubsection{8.3.45,CBL_RENAME_FILE}
 @diagram{CBL_RENAME_FILE Built-In Subroutine,SS-CBL_RENAME_FILE,SS-CBL_RENAME_FILE,None}@p You may use this subroutine to rename a file.
 @p The file specified by @term{old-file-path} will be "renamed" to the name specified as @term{new-file-path}.  Each argument may be an alphanumeric literal or data item.
 @p Despite what the name of this routine might make you believe, this routine is more than just a simple "rename" --- it will actually move the file supplied as the 1st argument to the file specified as the 2nd argument.  Think of it as a two-step sequence, first copying the @term{old-file-path} file to the @term{new-file-path} file and then a second step where the @term{old-file-path} is deleted.
 @p If the attempt to move the file fails (for example, it doesn't exist), the @registerref{RETURN-CODE} will be set to 128; on successful completion it will be set to 0.
 @comment *********************************************************************
-@comment ** 8.3.40 CBL_TOLOWER                                              **
+@comment ** 8.3.46 CBL_TOLOWER                                              **
 @comment *********************************************************************
-@newsubsection{8.3.40,CBL_TOLOWER}
+@newsubsection{8.3.46,CBL_TOLOWER}
 @diagram{CBL_TOLOWER Built-In Subroutine,SS-CBL_TOLOWER,SS-CBL_TOLOWER,None}@p This routine will convert the first @term{convert-length} (a numeric literal or data item) characters of @term{data-item} (an alpha-numeric identifier) to lower-case.
 @p The @term{convert-length} argument must be specified @syntaxrefalt{BY VALUE,CALL}.  It specifies how many (leading) characters in data-item will be converted --- any characters after that will remain unchanged.
 @p If @term{convert-length} is negative or zero, no conversion will be performed.
 @comment *********************************************************************
-@comment ** 8.3.41 CBL_TOUPPER                                              **
+@comment ** 8.3.47 CBL_TOUPPER                                              **
 @comment *********************************************************************
-@newsubsection{8.3.41,CBL_TOUPPER}
+@newsubsection{8.3.47,CBL_TOUPPER}
 @diagram{CBL_TOUPPER Built-In Subroutine,SS-CBL_TOUPPER,SS-CBL_TOUPPER,None}@p This routine will convert the first @term{convert-length} (a numeric literal or data item) characters of @term{data-item} (an alpha-numeric identifier) to upper-case.
 @p The @term{convert-length} argument must be specified @syntaxrefalt{BY VALUE,CALL}.  It specifies how many (leading) characters in data-item will be converted --- any characters after that will remain unchanged.
 @p If @term{convert-length} is negative or zero, no conversion will be performed.
 @comment *********************************************************************
-@comment ** 8.3.42 CBL_WRITE_FILE                                           **
+@comment ** 8.3.48 CBL_WRITE_FILE                                           **
 @comment *********************************************************************
-@newsubsection{8.3.42,CBL_WRITE_FILE}
+@newsubsection{8.3.48,CBL_WRITE_FILE}
 @diagram{CBL_WRITE_FILE Built-In Subroutine,SS-CBL_WRITE_FILE,SS-CBL_WRITE_FILE,None}@p This routine writes @term{nbytes} of data from the specified @term{buffer} to the byte-stream file defined by @term{handle} starting at byte number @term{offset} within the file.
 @p The @term{handle} argument (@syntax{PIC X(4) USAGE COMP-X}) must have been populated by a prior call to CBL_OPEN_FILE.
 The offset argument (@syntax{PIC X(4) USAGE COMP-X}) defines the location in the file of the first byte to be written to.  The first byte of a file is byte offset 0.
@@ -1312,9 +1588,9 @@ The offset argument (@syntax{PIC X(4) USAGE COMP-X}) defines the location in the
 @p Currently, the only allowable value for the flags argument is 0.  This argument may be specified either as a numeric literal or as a @syntax{PIC X(1) USAGE COMP-X} data item.
 @p Upon completion, the @registerref{RETURN-CODE} will be set to 0 if the write was successful or to 30 if an I/O error condition occurred.  If a value of -1 is returned, a problem was identified with the subroutine arguments.
 @comment *********************************************************************
-@comment ** 8.3.43 CBL_XOR                                                  **
+@comment ** 8.3.49 CBL_XOR                                                  **
 @comment *********************************************************************
-@newsubsection{8.3.43,CBL_XOR}
+@newsubsection{8.3.49,CBL_XOR}
 @diagram{CBL_XOR Built-In Subroutine,SS-CBL_XOR,SS-CBL_XOR,None}
 @multitable @columnfractions 0.3 0.7
 @item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 0}  @tab This subroutine performs a bit-by-bit logical "exclusive or" process between the left-most 8*@term{byte-length} corresponding bits of @term{item-1} and @term{item-2}, storing the resulting bit string into @term{item-2}.  The truth table shown to the left documents the XOR process. @* @* The @term{item-1} argument may be an alphanumeric literal or a data item and @term{item-2} must be a data item.  The length of both @term{item-1} and @term{item-2} must be at least 8*@term{byte-length}.
@@ -1323,9 +1599,9 @@ The offset argument (@syntax{PIC X(4) USAGE COMP-X}) defines the location in the
 @p Any bits in @term{item-2} after the 8*@term{byte-length} point will be unaffected.
 @p A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.3.44 SYSTEM                                                   **
+@comment ** 8.3.50 SYSTEM                                                   **
 @comment *********************************************************************
-@newsubsection{8.3.44,SYSTEM}
+@newsubsection{8.3.50,SYSTEM}
 @diagram{SYSTEM Built-In Subroutine,SS-SYSTEM,SS-SYSTEM,None}@p This subroutine submits the specified @term{command} (an alphanumeric literal or data item) to a command shell for execution as if it were typed into a console/terminal window.
 @p A shell will be opened subordinate to the GnuCOBOL program issuing the call to @syntax{SYSTEM}.
 @p Output from the command (if any) will appear in the command window in which the GnuCOBOL program was executed.
@@ -1333,9 +1609,9 @@ The offset argument (@syntax{PIC X(4) USAGE COMP-X}) defines the location in the
 @p With native Windows Windows/MinGW builds, the shell environment will be the Windows console window command processor (usually "cmd.exe") appropriate for the version of Windows you're using.
 @p To trap output from the executed command and process it within the GnuCOBOL program, use a pipe (>) to send the command output to a temporary file which you read from within the program once control returns.
 @comment *********************************************************************
-@comment ** 8.3.45 X"91"                                                    **
+@comment ** 8.3.51 X"91"                                                    **
 @comment *********************************************************************
-@newsubsection{8.3.45,X"91"}
+@newsubsection{8.3.51,X"91"}
 @diagram{X"91" Built-In Subroutine,SS-X91,SS-X91,None}@p The original Micro Focus version of this routine is capable of providing a wide variety of functions.  GnuCOBOL supports just three of them:
 @itemize @bullet
 @p @item Turning runtime switches (SWITCH-1, @dots{} , SWITCH-8) on.
@@ -1359,19 +1635,19 @@ The offset argument (@syntax{PIC X(4) USAGE COMP-X}) defines the location in the
 @p Retrieves the number of arguments passed to the program executing the CALL X"91", saving that number into the @term{variable-arg} argument.  That should be a binary numeric data item (@syntax{USAGE BINARY-CHAR} is recommended).
 @end table
 @comment *********************************************************************
-@comment ** 8.3.46 X"E4"                                                    **
+@comment ** 8.3.52 X"E4"                                                    **
 @comment *********************************************************************
-@newsubsection{8.3.46,X"E4"}
+@newsubsection{8.3.52,X"E4"}
 @diagram{X"E4" Built-In Subroutine,SS-XE4,SS-XE4,None}@p Use X"E4" to clear the screen.  There are no arguments and no returned value.
 @comment *********************************************************************
-@comment ** 8.3.47 X"E5"                                                    **
+@comment ** 8.3.53 X"E5"                                                    **
 @comment *********************************************************************
-@newsubsection{8.3.47,X"E5"}
+@newsubsection{8.3.53,X"E5"}
 @diagram{X"E5" Built-In Subroutine,SS-XE5,SS-XE5,None}@p The X"E5" routine will sound the PC "bell".  There are no arguments and no returned value.
 @comment *********************************************************************
-@comment ** 8.3.48 X"F4"                                                    **
+@comment ** 8.3.54 X"F4"                                                    **
 @comment *********************************************************************
-@newsubsection{8.3.48,X"F4"}
+@newsubsection{8.3.54,X"F4"}
 @diagram{X"F4" Built-In Subroutine,SS-XF4,SS-XF4,None}@p This routine packs the low-order (rightmost) bit from each of the eight 1-byte items in @term{table} into the corresponding bit positions of the single-byte data item @term{byte}.
 @p The @term{byte} data item need be only a single byte in size.  If it is longer, the excess will be unaffected by this subroutine.
 @p The @term{table} data item must be at least 8 bytes long.  If it is longer, the excess will be ignored by this subroutine.
@@ -1381,9 +1657,9 @@ The offset argument (@syntax{PIC X(4) USAGE COMP-X}) defines the location in the
     05 Each-Byte OCCURS 8 TIMES USAGE BINARY-CHAR.
 @end example
 @comment *********************************************************************
-@comment ** 8.3.49 X"F5"                                                    **
+@comment ** 8.3.55 X"F5"                                                    **
 @comment *********************************************************************
-@newsubsection{8.3.49,X"F5"}
+@newsubsection{8.3.55,X"F5"}
 @diagram{X"F5" Built-In Subroutine,SS-XF5,SS-XF5,None}@p This routine unpacks each bit of the single-byte data item @term{byte} into the low-order (rightmost) bit of each of the corresponding eight 1-byte items in @term{table}.  The other seven bit positions of each of the first eight entries in @term{table} will be set to zero.
 @p The @term{byte} data item need be only a single byte in size.  If it is longer, the excess will be unaffected by this subroutine.
 @p The @term{table} data item must be at least 8 bytes long.  If it is longer, the excess will be ignored by this subroutine.
