@@ -23,11 +23,11 @@
 * 9.7: Recursive Subprograms.
 * 9.8: Combining GnuCOBOL and C Programs.
 @detailmenu
-*   9.9.1: GnuCOBOL Run-Time Library Requirements.
-*   9.9.2: String Allocation Differences Between GnuCOBOL and C.
-*   9.9.3: Matching C Data Types with GnuCOBOL USAGE's.
-*   9.9.4: GnuCOBOL Main Programs CALLing C Subprograms.
-*   9.9.5: C Main Programs Calling GnuCOBOL Subprograms.
+*   9.8.1: GnuCOBOL Run-Time Library Requirements.
+*   9.8.2: String Allocation Differences Between GnuCOBOL and C.
+*   9.8.3: Matching C Data Types with GnuCOBOL USAGE's.
+*   9.8.4: GnuCOBOL Main Programs CALLing C Subprograms.
+*   9.8.5: C Main Programs Calling GnuCOBOL Subprograms.
 @end detailmenu
 @end menu
 @comment *********************************************************************
@@ -445,20 +445,20 @@ Leaving RECURSIVEFUNC Returning +0000000720
 @comment *********************************************************************
 @newsection{9.8,Combining GnuCOBOL and C Programs}@p The upcoming sections deal the issues pertaining to calling C language programs from GnuCOBOL programs, and vice versa.  Two additional sections provide samples illustrating specifics as to how those issues are overcome in actual program code.
 @menu
-* 9.9.1: GnuCOBOL Run-Time Library Requirements.
-* 9.9.2: String Allocation Differences Between GnuCOBOL and C.
-* 9.9.3: Matching C Data Types with GnuCOBOL USAGE's.
-* 9.9.4: GnuCOBOL Main Programs CALLing C Subprograms.
-* 9.9.5: C Main Programs Calling GnuCOBOL Subprograms.
+* 9.8.1: GnuCOBOL Run-Time Library Requirements.
+* 9.8.2: String Allocation Differences Between GnuCOBOL and C.
+* 9.8.3: Matching C Data Types with GnuCOBOL USAGE's.
+* 9.8.4: GnuCOBOL Main Programs CALLing C Subprograms.
+* 9.8.5: C Main Programs Calling GnuCOBOL Subprograms.
 @end menu
 @comment *********************************************************************
-@comment ** 9.9.1 GnuCOBOL Run-Time Library Requirements                   **
+@comment ** 9.8.1 GnuCOBOL Run-Time Library Requirements                   **
 @comment *********************************************************************
-@newsubsection{9.9.1,GnuCOBOL Run-Time Library Requirements}@p Like most other implementations of the COBOL language, GnuCOBOL utilizes a run-time library.  When the first program executed in a given execution sequence is a GnuCOBOL program, any run-time library initialization will be performed by the compiled COBOL code in a manner that is transparent to the C-language programmer.  If, however, a C program is the first to execute, the burden of performing GnuCOBOL run-time library initialization falls upon the C program.  @xref{C Main Programs Calling GnuCOBOL Subprograms}, for an example of how to do this.
+@newsubsection{9.8.1,GnuCOBOL Run-Time Library Requirements}@p Like most other implementations of the COBOL language, GnuCOBOL utilizes a run-time library.  When the first program executed in a given execution sequence is a GnuCOBOL program, any run-time library initialization will be performed by the compiled COBOL code in a manner that is transparent to the C-language programmer.  If, however, a C program is the first to execute, the burden of performing GnuCOBOL run-time library initialization falls upon the C program.  @xref{C Main Programs Calling GnuCOBOL Subprograms}, for an example of how to do this.
 @comment *********************************************************************
-@comment ** 9.9.2 String Allocation Differences Between GnuCOBOL and C     **
+@comment ** 9.8.2 String Allocation Differences Between GnuCOBOL and C     **
 @comment *********************************************************************
-@newsubsection{9.9.2,String Allocation Differences Between GnuCOBOL and C}@p Both languages store strings as a fixed-length continuous sequence of characters.
+@newsubsection{9.8.2,String Allocation Differences Between GnuCOBOL and C}@p Both languages store strings as a fixed-length continuous sequence of characters.
 @p COBOL stores these character sequences up to a specific quantity limit imposed by the @syntaxref{PICTURE} clause of the data item.  For example: @syntax{01  LastName   PIC X(15).}.
 @p There is never an issue of exactly what the length of a string contained in a @syntaxrefalt{USAGE DISPLAY,USAGE} data item is --- there are always exactly how ever many characters as were allowed for by the @syntax{PICTURE} clause.  In the example above, "LastName" will always contain exactly fifteen characters; of course, there may be anywhere from 0 to 15 trailing SPACES as part of the current LastName value.
 @p C actually has no "string" data type; it stores strings as an array of @syntax{char} data type items where each element of the array is a single character.  Being an array, there is an upper limit to how many characters may be stored in a given "string".  For example:
@@ -482,9 +482,9 @@ INSPECT Data-From-a-C-Program
 @end example
 @end enumerate
 @comment *********************************************************************
-@comment ** 9.9.3 Matching C Data Types with GnuCOBOL USAGE's               **
+@comment ** 9.8.3 Matching C Data Types with GnuCOBOL USAGE's               **
 @comment *********************************************************************
-@newsubsection{9.9.3,Matching C Data Types with GnuCOBOL USAGE's}@p Matching up GnuCOBOL numeric Usage s with their C language data type equivalents is possible via the following chart:
+@newsubsection{9.8.3,Matching C Data Types with GnuCOBOL USAGE's}@p Matching up GnuCOBOL numeric Usage s with their C language data type equivalents is possible via the following chart:
 @multitable @columnfractions 0.5 0.5
 @p @headitem COBOL @tab C
 @item BINARY-CHAR [ UNSIGNED ] @tab unsigned char
@@ -519,9 +519,9 @@ INSPECT Data-From-a-C-Program
 @end multitable
 @p These are the ANSI2002 standard specifications for C-program data compatibility and GnuCOBOL programmers should get used to using them when data is being shared with C programs (they're good documentation too, highlighting the fact that the data will be "shared" with a C program).
 @comment *********************************************************************
-@comment ** 9.9.4 GnuCOBOL Main Programs CALLing C Subprograms             **
+@comment ** 9.8.4 GnuCOBOL Main Programs CALLing C Subprograms             **
 @comment *********************************************************************
-@newsubsection{9.9.4,GnuCOBOL Main Programs CALLing C Subprograms}@p Here's a sample of a GnuCOBOL program that CALLs a C subprogram.
+@newsubsection{9.8.4,GnuCOBOL Main Programs CALLing C Subprograms}@p Here's a sample of a GnuCOBOL program that CALLs a C subprogram.
 @smallformat
 @verbatim
 COBOL Calling Program               C Called Program
@@ -576,9 +576,9 @@ $
 @* Remember that the null characters are actually in the GnuCOBOL "Arg1" and "Arg2" data items.  They don't appear in the output, but they ARE there.
 @p Did you notice the output showing the contents of "Arg1" after the subroutine was called?  Those contents were unchanged!  The subroutine @i{definitely} changed that argument, but since the COBOL program passed that argument @syntax{BY CONTENT}, the change was made to a @i{copy} of the argument, not to the "Arg1" data item itself.
 @comment *********************************************************************
-@comment ** 9.9.5 C Main Programs Calling GnuCOBOL Subprograms             **
+@comment ** 9.8.5 C Main Programs Calling GnuCOBOL Subprograms             **
 @comment *********************************************************************
-@newsubsection{9.9.5,C Main Programs Calling GnuCOBOL Subprograms}@p Now, the roles of the two languages in the previous section will be reversed, having a C main program execute a GnuCOBOL subprogram.
+@newsubsection{9.8.5,C Main Programs Calling GnuCOBOL Subprograms}@p Now, the roles of the two languages in the previous section will be reversed, having a C main program execute a GnuCOBOL subprogram.
 @smallformat
 @verbatim
 C Calling Program                              GNU-COBOL Called Program

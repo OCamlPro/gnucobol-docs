@@ -30,8 +30,8 @@
 *     4.2.1.2: ORGANIZATION LINE SEQUENTIAL.
 *     4.2.1.3: ORGANIZATION RELATIVE.
 *     4.2.1.4: ORGANIZATION INDEXED.
-*   4.2.2: MULTIPLE FILE.
-*   4.2.3: SAME RECORD AREA.
+*   4.2.2: SAME RECORD AREA.
+*   4.2.3: MULTIPLE FILE.
 @end detailmenu
 @end menu
 @comment *********************************************************************
@@ -49,13 +49,11 @@
 * 4.1.1: SOURCE-COMPUTER.
 * 4.1.2: OBJECT-COMPUTER.
 * 4.1.3: SPECIAL-NAMES.
+*   4.1.3.1: Alphabet-Name-Clause.
+*   4.1.3.2: Class-Definition-Clause.
+*   4.1.3.3: Switch-Definition-Clause.
+*   4.1.3.4: Symbolic-Characters-Clause.
 * 4.1.4: REPOSITORY.
-@detailmenu
-*   4.1.4.1: Alphabet-Name-Clause.
-*   4.1.4.2: Class-Definition-Clause.
-*   4.1.4.3: Switch-Definition-Clause.
-*   4.1.4.4: Symbolic-Characters-Clause.
-@end detailmenu
 @end menu
 @comment *********************************************************************
 @comment ** 4.1.1 SOURCE-COMPUTER                                           **
@@ -198,11 +196,90 @@ zh_CN, zh_HK, zh_MO, zh_SG, zh_TW, zu_ZA
 @p The @syntax{CSP} positioning option stands for "No Spacing".  Testing on a MinGW build of GnuCOBOL shows that this too results in a formfeed being issued.
 @end enumerate
 @menu
-* 4.1.4.1: Alphabet-Name-Clause.
-* 4.1.4.2: Class-Definition-Clause.
-* 4.1.4.3: Switch-Definition-Clause.
-* 4.1.4.4: Symbolic-Characters-Clause.
+* 4.1.3.1: Alphabet-Name-Clause.
+* 4.1.3.2: Class-Definition-Clause.
+* 4.1.3.3: Switch-Definition-Clause.
+* 4.1.3.4: Symbolic-Characters-Clause.
 @end menu
+@comment *********************************************************************
+@comment ** 4.1.3.1 Alphabet-Name-Clause                                    **
+@comment *********************************************************************
+@page
+@newunit{4.1.3.1,Alphabet-Name-Clause}
+@diagram{SPECIAL-NAMES Alphabet-Clause,ED-SPECIAL-NAMES-AN-Info,ED-SPECIAL-NAMES-AN-TeX,None}
+@diagram{SPECIAL-NAMES ALPHABET Literal-Clause,ED-SPECIAL-NAMES-L-Info,ED-SPECIAL-NAMES-L-TeX,None}@p The @syntaxidx{ALPHABET} clause provides a means for relating a name to a specified character code set or collating sequence, including those you define yourself using the @term{literal-1} option.
+@enumerate
+@p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+@p @item The reserved words @syntax{THRU} and @syntax{THROUGH} are interchangeable.
+@p @item GnuCOBOL considers @syntaxidx{ASCII}, @syntaxidx{STANDARD-1} and @syntaxidx{STANDARD-2} to be interchangeable.
+@p @item @syntaxidx{NATIVE} specifies the system default character set.
+@p @item The following points apply to using the @term{literal-n} specifications to compose a custom character set:
+@enumerate A
+@p @item The @term{literal-n} values are either integers or alphanumeric quoted characters.  These represent a single character in the @syntax{NATIVE} character set, either by it's actual text value (alphanumeric quoted character) or by ordinal position in the @syntax{NATIVE} character set (integer),
+@p @item The sequence in which characters are defined in this clause specifies the relative order those characters should have when comparisons are made using this alphabet.
+@p @item Character positions in this list do not affect the actual binary storage values used for the characters --- binary values will still be those of the @syntax{NATIVE} character set.
+@p @item You may specify any of the figurative constants @syntax{SPACE}, @syntax{SPACES}, @syntax{ZERO}, @syntax{ZEROS}, @syntax{ZEROES}, @syntax{QUOTE}, @syntax{QUOTES}, @syntax{HIGH-VALUE}, @syntax{HIGH-VALUES}, @syntax{LOW-VALUE} or @syntax{LOW-VALUES} for any of the @term{literal-1}, @term{literal-2} or @term{literal-3} specifications.
+@end enumerate
+@item Once you have defined an alphabet name, that alphabet name may be used on specifications in @syntax{CODE-SET}, @syntax{COLLATING SEQUENCE}, or @syntax{SYMBOLIC CHARACTERS} clauses elsewhere in the program.
+@end enumerate
+@comment *********************************************************************
+@comment ** 4.1.3.2 Class-Definition-Clause                                 **
+@comment *********************************************************************
+@page
+@newunit{4.1.3.2,Class-Definition-Clause}
+@diagram{SPECIAL-NAMES Class-Definition-Clause,ED-SPECIAL-NAMES-CD,ED-SPECIAL-NAMES-CD,None}
+@enumerate
+@p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+@p @item The reserved words @syntax{THRU} and @syntax{THROUGH} are interchangeable.
+@p @item  Both @term{literal-1} and @term{literal-2} must be alphanumeric literals of length 1.
+@p @item  The literal(s) specified on this clause define the possible characters that may be found in a data item's value in order to be considered part of the class.
+@p @item For example, the following defines a class called "Hexadecimal", the definition of which specifies the only characters that may be present in an alphanumeric data item if that data item is to be part of the "Hexadecimal" class:
+@example
+
+CLASS Hexadecimal IS '0' THRU '9'
+                     'A' THRU 'F'
+                     'a' THRU 'f'
+@end example
+@item Once class "Hexadecimal" has been defined, program code could then use a statement such as @syntax{IF input-item IS Hexadecimal} to determine if the value of characters in a data item are valid according to that class.
+@end enumerate
+@comment *********************************************************************
+@comment ** 4.1.3.3 Switch-Definition-Clause                                **
+@comment *********************************************************************
+@page
+@newunit{4.1.3.3,Switch-Definition-Clause}
+@diagram{SPECIAL-NAMES Switch-Definition-Clause,ED-SPECIAL-NAMES-SD,ED-SPECIAL-NAMES-SD,None}@p The switch-definition clause associates a condition-name with a run-time execution switch so that the status of that switch may be tested from within a program.
+@enumerate
+@p @item The reserved words @syntax{IS} and @syntax{STATUS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+@p @item The valid @term{switch-name-1} names are @syntaxidx{SWITCH-n} (n=0-36).
+@p @item If the program is compiled with the @switchidx{-fsyntax-extension}, the switch names @syntaxidx{SWn} (n=0-15) are also valid; they correspond to @syntax{SWITCH-0} through @syntax{SWITCH-15}, respectively as well as @syntax{SWITCH-16} through @syntax{SWITCH-36}, @syntax{SWITCH 0} through @syntax{SWITCH 26} and @syntax{SWITCH A} through @syntax{SWITCH Z}.
+@p @item At execution time, each switch will be associated with a @envvarruntimeref{COB_SWITCH_n}, where "n" will have the value "0" through "15".  Any of these sixteen environment variables that have the value "ON" (regardless of upper- or lower-case value) will be considered to be set "on".  Any of these sixteen environment variables having no value at all or a value other than "ON" will be considered "OFF".
+@p @item Each specified switch must have at least one of a @syntax{IS @term{mnemonic-name-1}}, @syntax{ON STATUS} or an @syntax{OFF STATUS} option defined for it, otherwise there will be no way to reference the switch from within a GnuCOBOL program.
+@p @item The @syntax{IS @term{mnemonic-name-1}} syntax provides a means for setting the switch to either an ON or OFF value via the @statementref{SET}.
+@p @item The @syntaxidx{ON STATUS} and @syntaxidx{OFF STATUS} syntax provides a way of associating a condition-name with either the on or off status of the switch, so that status may be tested at execution time via the @statementref{IF}.
+@end enumerate
+@comment *********************************************************************
+@comment ** 4.1.3.4 Symbolic-Characters-Clause                              **
+@comment *********************************************************************
+@page
+@newunit{4.1.3.4,Symbolic-Characters-Clause}
+@diagram{SPECIAL-NAMES-Symbolic-Characters-Clause,ED-SPECIAL-NAMES-SC,ED-SPECIAL-NAMES-SC,None}@p This clause may be used to define your own figurative constants.
+@enumerate
+@p @item The reserved words @syntax{ARE}, @syntax{CHARACTERS} and @syntax{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+@p @item There must be exactly as many @term{integer-1} values specified as there are @term{symbolic-character-1} names.
+@p @item Each symbolic character name will be associated with the corresponding @term{integer-1}th character in the alphabet named in the @syntax{IN} clause.  The integer values are selecting characters from the alphabet by their ordinal position and not by their numeric value; thus, an integer of 15 will select the 15th character in the specified alphabet, regardless of the actual numeric value of the bit pattern that constitutes that character.
+@p @item If no @term{alphabet-name-1} is specified, the systems native character set will be assumed.
+@p @item The following two code examples define the same set of figurative constant names for five ASCII control characters (assuming that ASCII is the system's native character set).  The two examples are identical in their effects, even though the manner in which the figurative constants are defined is different.
+@smallformat
+
+@group
+@t{SYMBOLIC CHARACTERS NUL IS 1    SYMBOLIC CHARACTERS NUL SOH BEL DC1 DC2}
+@t{                    SOH IS 2                    ARE   1   2   8  18  19}
+@t{                    BEL IS 8}
+@t{                    DC1 IS 18}
+@t{                    DC2 IS 19}
+@end group
+@end smallformat
+@end enumerate
 @comment *********************************************************************
 @comment ** 4.1.4 REPOSITORY                                                **
 @comment *********************************************************************
@@ -225,85 +302,6 @@ REPOSITORY.
 @end example
 @end enumerate
 @* @strong{A special note about user-defined functions} --- because you must name a user-defined function that your program will be using in the @syntax{REPOSITORY} paragraph, you may always reference that function from your program's procedure division without needing to use the @syntax{FUNCTION} keyword.
-@comment *********************************************************************
-@comment ** 4.1.4.1 Alphabet-Name-Clause                                    **
-@comment *********************************************************************
-@page
-@newunit{4.1.4.1,Alphabet-Name-Clause}
-@diagram{SPECIAL-NAMES Alphabet-Clause,ED-SPECIAL-NAMES-AN-Info,ED-SPECIAL-NAMES-AN-TeX,None}
-@diagram{SPECIAL-NAMES ALPHABET Literal-Clause,ED-SPECIAL-NAMES-L-Info,ED-SPECIAL-NAMES-L-TeX,None}@p The @syntaxidx{ALPHABET} clause provides a means for relating a name to a specified character code set or collating sequence, including those you define yourself using the @term{literal-1} option.
-@enumerate
-@p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
-@p @item The reserved words @syntax{THRU} and @syntax{THROUGH} are interchangeable.
-@p @item GnuCOBOL considers @syntaxidx{ASCII}, @syntaxidx{STANDARD-1} and @syntaxidx{STANDARD-2} to be interchangeable.
-@p @item @syntaxidx{NATIVE} specifies the system default character set.
-@p @item The following points apply to using the @term{literal-n} specifications to compose a custom character set:
-@enumerate A
-@p @item The @term{literal-n} values are either integers or alphanumeric quoted characters.  These represent a single character in the @syntax{NATIVE} character set, either by it's actual text value (alphanumeric quoted character) or by ordinal position in the @syntax{NATIVE} character set (integer),
-@p @item The sequence in which characters are defined in this clause specifies the relative order those characters should have when comparisons are made using this alphabet.
-@p @item Character positions in this list do not affect the actual binary storage values used for the characters --- binary values will still be those of the @syntax{NATIVE} character set.
-@p @item You may specify any of the figurative constants @syntax{SPACE}, @syntax{SPACES}, @syntax{ZERO}, @syntax{ZEROS}, @syntax{ZEROES}, @syntax{QUOTE}, @syntax{QUOTES}, @syntax{HIGH-VALUE}, @syntax{HIGH-VALUES}, @syntax{LOW-VALUE} or @syntax{LOW-VALUES} for any of the @term{literal-1}, @term{literal-2} or @term{literal-3} specifications.
-@end enumerate
-@item Once you have defined an alphabet name, that alphabet name may be used on specifications in @syntax{CODE-SET}, @syntax{COLLATING SEQUENCE}, or @syntax{SYMBOLIC CHARACTERS} clauses elsewhere in the program.
-@end enumerate
-@comment *********************************************************************
-@comment ** 4.1.4.2 Class-Definition-Clause                                 **
-@comment *********************************************************************
-@page
-@newunit{4.1.4.2,Class-Definition-Clause}
-@diagram{SPECIAL-NAMES Class-Definition-Clause,ED-SPECIAL-NAMES-CD,ED-SPECIAL-NAMES-CD,None}
-@enumerate
-@p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
-@p @item The reserved words @syntax{THRU} and @syntax{THROUGH} are interchangeable.
-@p @item  Both @term{literal-1} and @term{literal-2} must be alphanumeric literals of length 1.
-@p @item  The literal(s) specified on this clause define the possible characters that may be found in a data item's value in order to be considered part of the class.
-@p @item For example, the following defines a class called "Hexadecimal", the definition of which specifies the only characters that may be present in an alphanumeric data item if that data item is to be part of the "Hexadecimal" class:
-@example
-
-CLASS Hexadecimal IS '0' THRU '9'
-                     'A' THRU 'F'
-                     'a' THRU 'f'
-@end example
-@item Once class "Hexadecimal" has been defined, program code could then use a statement such as @syntax{IF input-item IS Hexadecimal} to determine if the value of characters in a data item are valid according to that class.
-@end enumerate
-@comment *********************************************************************
-@comment ** 4.1.4.3 Switch-Definition-Clause                                **
-@comment *********************************************************************
-@page
-@newunit{4.1.4.3,Switch-Definition-Clause}
-@diagram{SPECIAL-NAMES Switch-Definition-Clause,ED-SPECIAL-NAMES-SD,ED-SPECIAL-NAMES-SD,None}@p The switch-definition clause associates a condition-name with a run-time execution switch so that the status of that switch may be tested from within a program.
-@enumerate
-@p @item The reserved words @syntax{IS} and @syntax{STATUS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The valid @term{switch-name-1} names are @syntaxidx{SWITCH-n} (n=0-36).
-@p @item If the program is compiled with the @switchidx{-fsyntax-extension}, the switch names @syntaxidx{SWn} (n=0-15) are also valid; they correspond to @syntax{SWITCH-0} through @syntax{SWITCH-15}, respectively as well as @syntax{SWITCH-16} through @syntax{SWITCH-36}, @syntax{SWITCH 0} through @syntax{SWITCH 26} and @syntax{SWITCH A} through @syntax{SWITCH Z}.
-@p @item At execution time, each switch will be associated with a @envvarruntimeref{COB_SWITCH_n}, where "n" will have the value "0" through "15".  Any of these sixteen environment variables that have the value "ON" (regardless of upper- or lower-case value) will be considered to be set "on".  Any of these sixteen environment variables having no value at all or a value other than "ON" will be considered "OFF".
-@p @item Each specified switch must have at least one of a @syntax{IS @term{mnemonic-name-1}}, @syntax{ON STATUS} or an @syntax{OFF STATUS} option defined for it, otherwise there will be no way to reference the switch from within a GnuCOBOL program.
-@p @item The @syntax{IS @term{mnemonic-name-1}} syntax provides a means for setting the switch to either an ON or OFF value via the @statementref{SET}.
-@p @item The @syntaxidx{ON STATUS} and @syntaxidx{OFF STATUS} syntax provides a way of associating a condition-name with either the on or off status of the switch, so that status may be tested at execution time via the @statementref{IF}.
-@end enumerate
-@comment *********************************************************************
-@comment ** 4.1.4.4 Symbolic-Characters-Clause                              **
-@comment *********************************************************************
-@page
-@newunit{4.1.4.4,Symbolic-Characters-Clause}
-@diagram{SPECIAL-NAMES-Symbolic-Characters-Clause,ED-SPECIAL-NAMES-SC,ED-SPECIAL-NAMES-SC,None}@p This clause may be used to define your own figurative constants.
-@enumerate
-@p @item The reserved words @syntax{ARE}, @syntax{CHARACTERS} and @syntax{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item There must be exactly as many @term{integer-1} values specified as there are @term{symbolic-character-1} names.
-@p @item Each symbolic character name will be associated with the corresponding @term{integer-1}th character in the alphabet named in the @syntax{IN} clause.  The integer values are selecting characters from the alphabet by their ordinal position and not by their numeric value; thus, an integer of 15 will select the 15th character in the specified alphabet, regardless of the actual numeric value of the bit pattern that constitutes that character.
-@p @item If no @term{alphabet-name-1} is specified, the systems native character set will be assumed.
-@p @item The following two code examples define the same set of figurative constant names for five ASCII control characters (assuming that ASCII is the system's native character set).  The two examples are identical in their effects, even though the manner in which the figurative constants are defined is different.
-@smallformat
-
-@group
-@t{SYMBOLIC CHARACTERS NUL IS 1    SYMBOLIC CHARACTERS NUL SOH BEL DC1 DC2}
-@t{                    SOH IS 2                    ARE   1   2   8  18  19}
-@t{                    BEL IS 8}
-@t{                    DC1 IS 18}
-@t{                    DC2 IS 19}
-@end group
-@end smallformat
-@end enumerate
 @comment *********************************************************************
 @comment ** 4.2 INPUT-OUTPUT SECTION                                        **
 @comment *********************************************************************
@@ -551,16 +549,10 @@ ORGANIZATION IS SEQUENTIAL
 @end itemize
 @end enumerate
 @comment *********************************************************************
-@comment ** 4.2.2 MULTIPLE FILE Statement                                   **
+@comment ** 4.2.2 SAME RECORD AREA Statement                                **
 @comment *********************************************************************
 @page
-@newsubsection{4.2.2,MULTIPLE FILE}
-@diagram{I-O-CONTROL MULTIPLE FILE,ED-IO-CONTROL-MULT,ED-IO-CONTROL-MULT,ED-IO-CONTROL-MULT}
-@comment *********************************************************************
-@comment ** 4.2.3 SAME RECORD AREA Statement                                **
-@comment *********************************************************************
-@page
-@newsubsection{4.2.3,SAME RECORD AREA}
+@newsubsection{4.2.2,SAME RECORD AREA}
 @diagram{I-O-CONTROL SAME AREA,ED-IO-CONTROL-SAME,ED-IO-CONTROL-SAME,ED-IO-CONTROL-SAME}@p The @syntax{SAME RECORD AREA} clause allows you to specify that multiple files should share the same input and output memory buffers.
 @enumerate
 @p @item The reserved words @syntax{AREA} and @syntax{FOR} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -568,6 +560,12 @@ ORGANIZATION IS SEQUENTIAL
 @p @item While coding only a single file name (the repeated @term{file-name-1} item) is syntactically valid, this statement will have no effect upon the program unless at least two files are specified.
 @p @item The effect of this statement will be to cause the specified files to share the same I/O buffer in memory.  These buffers can sometimes get quite large, and by having multiple files share the same buffer memory you may significantly cut down the amount of memory the program is using (thus making "room" for more procedural code or data).  If you do use this feature, take care to ensure that no more than one of the specified files are ever OPEN simultaneously.
 @end enumerate
+@comment *********************************************************************
+@comment ** 4.2.3 MULTIPLE FILE Statement                                   **
+@comment *********************************************************************
+@page
+@newsubsection{4.2.3,MULTIPLE FILE}
+@diagram{I-O-CONTROL MULTIPLE FILE,ED-IO-CONTROL-MULT,ED-IO-CONTROL-MULT,ED-IO-CONTROL-MULT}
 @iftex
 @sp 3
 @center ------------------------------------------------------------
