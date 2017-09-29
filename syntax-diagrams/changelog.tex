@@ -1,5 +1,45 @@
 \chapter{Changelog}
 
+\section{GnuCOBOL 2.\textit{x}}
+
+\paragraph{General}
+\begin{itemize}
+\item \textbf{Expressions}: fixed \bug{431}, where decimal constants were not initialised in INITIAL programs.
+\item \textbf{Nested programs}: fixed \bug{435}, where identifiers in the containing program where not propogated to the contained program, causing a segfault.
+\item \textbf{Signals}: added error message for SIGFPE (see \bug{434}).
+\item \textbf{Solaris support}: fixed errors when compiling in Solaris 10.
+\end{itemize}
+
+\paragraph{Configuration options}
+\begin{itemize}
+\item \textbf{IBM dialect}: reserved words updated to Enterprise COBOL V6.2.
+\item \textbf{incorrect-conf-sec-order option}: changed to ``ok'' from ``error'' in mf and default dialects.
+\item \textbf{New compiler configuration options}: display-special-fig-consts, free-redefines-position (\fr{211}), line-col-zero-default
+\end{itemize}
+
+\paragraph{Environment division}
+\begin{itemize}
+\item \textbf{ASSIGN clause}: re-enable use of linkage section or BASED items (\bug{421}).
+\item \textbf{CURRENCY phrase}: emit error when CURRENCY SIGN other than ``\$'' is entered.
+\end{itemize}
+
+\paragraph{Procedure division}
+\begin{itemize}
+\item \textbf{ACCEPT statement (screen)}: fixed ACCEPT WITH UPDATE and not working (\bug{423}).
+\item \textbf{ACCEPT statement (screen)}: fixed \bug{426}, where backspacing at the start of a field moved the cursor to the second-to-last character of the preceding field.
+\item \textbf{DISPLAY statement (screen)}: fixed DISPLAY LOW-VALUE not setting position of cursor for next DISPLAY statement (\bug{423}).
+\item \textbf{DISPLAY statement (screen)}: added configuration option to disable Micro Focus' special behaviour with some figurative constants (see \bug{423}).
+\item \textbf{DISPLAY statement (screen)}: fixed \bug{428}, where DISPLAY ALL ``x'' WITH SIZE only displayed ``x'' once.
+\item \textbf{STOP statement}: fixed the NORMAL phrase causing a compilation error (\bug{433}).
+\end{itemize}
+
+\paragraph{Intrinsic functions}
+\begin{itemize}
+\item \textbf{WHEN-COMPILED function}: fixed incorrect timezone missing sign and containing nonsense when negative (\bug{436}).
+\end{itemize}
+
+\section{GnuCOBOL 2.2}
+
 This list tracks changes made from 23 November 2013. This excludes many changes made in 2009--2013 which would be pertinent to those upgrading from a 2009 build of OpenCOBOL 1.1 found in many package repositories.
 
 \paragraph{General}
@@ -63,7 +103,7 @@ This list tracks changes made from 23 November 2013. This excludes many changes 
 \item \textbf{New compiler configuration options}: accept-display-extensions, accept-update, accept-auto, acu-literals, arithmetic-osvs, call-overflow, console-is-crt, constant-01, constant-78, constant-folding, define-constant-directive, hexadecimal-boolean, hexadecimal-national-literals, incorrect-conf-sec-order, intrinsic-function, listing-statements, literal-length, move-figurative-constant-to-numeric, move-figurative-quote-to-numeric, move-ibm, national-literals, no-echo-means-secure, not-exception-before-exception, numeric-boolean, numeric-literal-length, numeric-value-for-edited-item, pic-length, program-name-redefinition, program-prototypes, reference-out-of-declaratives (\fr{179}), register, renames-uncommon-levels, reserved, reserved-words, stop-identifier, system-name, title-statement, use-for-debugging, word-length (\fr{43}). % TO-DO: expand
 \item \textbf{Registers}: compiler configurations can now specify all the registers to generate.
 \item \textbf{Registers}: added registers not yet implemented by GnuCOBOL as reserved words.
-\item \textbf{Renamed compiler configuration options}: debugging-line to debugging-mode, relaxed-syntax-check to relax-syntax-checks
+\item \textbf{Renamed compiler configuration options}: debugging-line to debugging-mode, relaxed-syntax-check to relax-syntax-checks.
 \item \textbf{Reserved words}: compiler configurations can now specify all the reserved words and context-sensitive words permitted.
 \item \textbf{Reserved words}: compiler configurations can now specify whether a reserved word is an alias for another reserved word. % TO-DO: Improve
 \item \textbf{Runtime configuration}: added ability to configure some libcob features at runtime.
