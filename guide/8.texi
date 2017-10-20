@@ -2050,48 +2050,10 @@ The offset argument (@syntax{PIC X(4) USAGE COMP-X}) defines the location in the
 @comment *********************************************************************
 @comment ** 8.4 Binary Truncation                                           **
 @comment *********************************************************************
-@newsection{8.4,Binary Truncation}@p By default, the GnuCOBOL compiler will truncate binary data items to the precision indicated by their @syntaxref{PICTURE} clause, if they have one.  For example, the following data item will have 2 bytes of storage allocated for it:
-@p @center @t{01  Comp-5-Item   PIC 9(3) COMP-5.}
-@p Because of truncation, even though this field has enough bits allocated (16) to store values from 0 to 65535, it will be limited to values of 0 to 999 because of its @syntax{PICTURE}.
-@p Or is it?
-@p Take a look at the small demo program shown here.  This program will perform three different types of operations against a binary field, displaying the results of each:
-@p @example
-IDENTIFICATION DIVISION.
-PROGRAM-ID. DEMOTRUNC.
-ENVIRONMENT DIVISION.
-DATA DIVISION.
-WORKING-STORAGE SECTION.
-01  Bin-Item-1  PIC 9(3) COMP-5 VALUE 32760.
-01  Disp-Item-1 PIC 9(6).
-PROCEDURE DIVISION.
-000-Main.
-    MOVE Bin-Item-1 TO Disp-Item-1
-    DISPLAY 'Bin-Item-1='  Bin-Item-1 ' Disp-Item-1=' Disp-Item-1
-    ADD 5 TO Bin-Item-1
-    MOVE Bin-Item-1 TO Disp-Item-1
-    DISPLAY 'Bin-Item-1='  Bin-Item-1 ' Disp-Item-1=' Disp-Item-1
-    MOVE 32767 TO Bin-Item-1
-    MOVE Bin-Item-1 TO Disp-Item-1
-    DISPLAY 'Bin-Item-1='  Bin-Item-1 ' Disp-Item-1=' Disp-Item-1
-    STOP RUN
-    .
-@end example
-@* Here are the results when the program is compiled (with truncation in-effect by default) and executed:
-@p @example
-Bin-Item-1=760 Disp-Item-1=032760
-Bin-Item-1=765 Disp-Item-1=032765
-Bin-Item-1=767 Disp-Item-1=032767
-@end example
-@* You can see that truncation affected the @statement{DISPLAY}s but appears to have had no impact whatsoever on the @syntax{MOVE} and @statement{ADD}s.  This is the hidden secret about truncation in GnuCOBOL:  it doesn't really truncate the internally-stored values --- it just truncates the @syntax{DISPLAY} of them!
-@p If that same program is recompiled without truncation (by adding the @switchidx{-fnotrunc} switch to the 'cobc' command), the results are as follows:
-@p @example
-Bin-Item-1=32760 Disp-Item-1=032760
-Bin-Item-1=32765 Disp-Item-1=032765
-Bin-Item-1=32767 Disp-Item-1=032767
-@end example
-@* If this was all there was to the binary truncation issue it wouldn't be worth a section in this document.  The fact is, however, that binary truncation has a significant effect on the performance of GnuCOBOL programs.  When binary truncation is in effect, arithmetic operations performed against all types of numeric data items (even @syntax{USAGE DISPLAY}) are slowed down.
+@newsection{8.4,Binary Truncation}@p By default, the GnuCOBOL compiler will truncate binary data items to the precision indicated by their @syntaxref{PICTURE} clause, if they have one. This applies to COMP, BINARY and COMP-4 items Only.
+@* The fact is, however, that binary truncation has a significant effect on the performance of GnuCOBOL programs.  When binary truncation is in effect, arithmetic operations performed against all types of numeric data items (even @syntax{USAGE DISPLAY}) are slowed down.
 @p Before continuing, it's worth making the point that we're NOT talking about astronomical performance degradations here.  Today's computers are FAST, and a user sitting at the keyboard, running a GnuCOBOL program is unlikely to notice.  BUT @dots{} if you have a GnuCOBOL program that has to process large amounts of data, performing some significant "number crunching" against that data as it goes, the impact of truncation could become noticeable.
-@p The following program compares the performance of performing arithmetic operations (in a totally non-scientific, non-rigorous way) against data items with a @syntaxref{USAGE} of @syntax{DISPLAY}, @syntax{COMP}, @syntax{COMP-5} and @syntax{BINARY-LONG}.  It was actually my intent when I first wrote the program to merely demonstrate the relative performance differences between different types of numeric data storage, and it certainly met that objective.
+@p The following program compares the performance of performing arithmetic operations (in a totally non-scientific, non-rigorous way) against data items with a @syntaxref{USAGE} of @syntax{DISPLAY}, @syntax{COMP} and @syntax{BINARY-LONG}.  It was actually my intent when I first wrote the program to merely demonstrate the relative performance differences between different types of numeric data storage, and it certainly met that objective.
 @p @example
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DEMOMATH.
@@ -2104,7 +2066,6 @@ WORKING-STORAGE SECTION.
     05 BT-HU                    PIC 9(2).
 01  Binary-Item         BINARY-LONG SIGNED VALUE 0.
 01  Comp-Item           COMP    PIC S9(9)  VALUE 0.
-01  Comp-5-Item         COMP-5  PIC S9(9)  VALUE 0.
 01  Display-Item        DISPLAY PIC S9(9)  VALUE 0.
 01  End-Time.
     05 ET-HH                    PIC 9(2).
@@ -2130,14 +2091,6 @@ PROCEDURE DIVISION.
     PERFORM 100-Determine-Time-Diff
     DISPLAY 'USAGE COMP:    ' Time-Diff ' SECONDS'
     .
-030-Test-Usage-COMP-5.
-    ACCEPT Begin-Time FROM TIME
-    PERFORM Repeat-Count TIMES
-        ADD 7 TO Comp-5-Item
-    END-PERFORM
-    PERFORM 100-Determine-Time-Diff
-    DISPLAY 'USAGE COMP-5:  ' Time-Diff ' SECONDS'
-    .
 040-Test-Usage-BINARY.
     ACCEPT Begin-Time FROM TIME
     PERFORM Repeat-Count TIMES
@@ -2162,21 +2115,55 @@ PROCEDURE DIVISION.
 @p I also ran the tests multiple times, just to make sure I had consistent results (I did).  Like I mentioned earlier, this is not a rigorous, scientific benchmark of numeric performance; it's just a quick-and-dirty comparison.
 @p Here are the results:
 @p @example
-USAGE DISPLAY: 3.83 SECONDS
-USAGE COMP:    1.23 SECONDS
-USAGE COMP-5:  0.04 SECONDS
-USAGE BINARY:  0.04 SECONDS
+Test 1:
+USAGE DISPLAY:   1.72 SECONDS
+USAGE COMP:      0.62 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 2:
+USAGE DISPLAY:   1.69 SECONDS
+USAGE COMP:      0.61 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 3:
+USAGE DISPLAY:   1.69 SECONDS
+USAGE COMP:      0.65 SECONDS
+USAGE BINARY:    0.02 SECONDS
 @end example
-@* The results I saw here were consistent with those that would have been obtained from most of the COBOL implementations I have ever worked with --- @syntax{USAGE COMP} has a significant performance advantage over @syntax{USAGE DISPLAY}, @syntax{USAGE COMP-5} has a significant performance advantage over @syntax{USAGE COMP} and @syntax{USAGE BINARY-LONG} (and presumably the other @syntax{BINARY-@i{xxx}} usages as well) perform identically, within the measurement tolerances of the test, as @syntax{COMP-5}.  This was expected since @syntax{COMP-5} and @syntax{BINARY-@i{xxx}} both allocate data the same way.
-@p Imagine my surprise, however, when I discovered that the use of @switch{-fnotrunc} also made a significant difference:
+@* The results I saw here were consistent with those that would have been obtained from most of the COBOL implementations I have ever worked with --- @syntax{USAGE COMP} has a significant performance advantage over @syntax{USAGE DISPLAY} and @syntax{USAGE BINARY-LONG} (and presumably the other @syntax{BINARY-@i{xxx}} usages as well) perform identically, within the measurement tolerances of the test.
+@p Imagine my surprise, however, when I discovered that the use of @switch{-fnotrunc} also made a difference:
 @p @example
-USAGE DISPLAY: 3.85 SECONDS
-USAGE COMP:    0.09 SECONDS
-USAGE COMP-5:  0.04 SECONDS
-USAGE BINARY:  0.04 SECONDS
+Test 4:
+USAGE DISPLAY:   1.72 SECONDS
+USAGE COMP:      0.07 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 5:
+USAGE DISPLAY:   1.72 SECONDS
+USAGE COMP:      0.07 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 6:
+USAGE DISPLAY:   1.73 SECONDS
+USAGE COMP:      0.06 SECONDS
+USAGE BINARY:    0.02 SECONDS
 @end example
 @* As you can see, there was a huge drop in @syntax{USAGE COMP} timings by turning off truncation.  As a result, I see absolutely no reason whatsoever why the @switch{-fnotrunc} option shouldn't be used on all GnuCOBOL compilations.
 @p If you want to squeeze every last bit of performance out of your GnuCOBOL programs, don't forget to investigate the @switchidx{-O}, @switchidx{-O2} and the @switchidx{-Os}, all of which influence the optimization of compiled code.  Actually run programs using various optimization switches (or not) and compare execution times against those of unoptimized compiled versions of your programs.  Don't just compare the generated C code because sometimes the differences can't be "seen" at the C source-code level.
+@p @example
+Test 7:
+cobc -x demomath.cbl -O2;demomath
+USAGE DISPLAY:   1.68 SECONDS
+USAGE COMP:      0.60 SECONDS
+USAGE BINARY:    0.00 SECONDS
+
+Test 8:
+cobc -x demomath.cbl -fnotrunc -O2;demomath
+USAGE DISPLAY:   1.67 SECONDS
+USAGE COMP:      0.01 SECONDS
+USAGE BINARY:    0.00 SECONDS
+@end example
+@* All tests above carried out under Linux with a AMD FX8350 under very low loading prior to the test. I would have also tried on a i7-7700 but that is under Windows 10 and I do not have a GC version on it - Vince.
 @iftex
 @sp 3
 @center ------------------------------------------------------------
