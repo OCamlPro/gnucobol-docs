@@ -57,6 +57,7 @@ List of Chapters and Appendices:
 * B:  Appendix B - Reserved Word List.
 * C:  Appendix C - GNU Free Documentation License.
 * D:  Appendix D - Summary of Document Changes.
+* E:  Appendix E - Summary of Compiler Changes since 2009 and version v1-1.
 * I:  INDEX.
 
 Full Contents:
@@ -306,8 +307,7 @@ Full Contents:
 
 * D:  Appendix D - Summary of Document Changes.
 
-Amendment Changes for Programmers Guide
-***************************************
+* E:  Appendix E - Summary of Compiler Changes since 2009 and version v1-1.
 
 
 5th Edition, Update 1 - Sept 2017 for v2.2 Final.
@@ -348,6 +348,18 @@ Amendment Changes for Programmers Guide
 
 
   9. Checked and changed menus for incorrect or missing numbering.
+
+
+  10. 14/10 Bug #447 fixed (CDF Replacing trailing == missing.
+
+
+  11. 20/10 Bug #450 Removed example one and refs to COMP-5, added note
+     for the three usage types trunc applies to and amended the
+     performance test example with resulting figures.
+
+
+  12. 01/11 Added Appendix E for changes since 2009 thanks to Edward
+     Hart (see his grammar document).
 
 
 File: gnucobpg.info,  Node: Introduction,  Next: CDF - Compiler Directing Facility,  Prev: Top,  Up: Top
@@ -2879,7 +2891,7 @@ File: gnucobpg.info,  Node: REPLACE,  Next: >>DEFINE,  Prev: COPY,  Up: CDF - Co
                    CDF REPLACE Phrase-Clause Syntax
 =======================================================================
 
- { ==pseudo-text-1== } BY { ==pseudo-text-2 }
+ { ==pseudo-text-1== } BY { ==pseudo-text-2== }
                        ~~
 
 =======================================================================
@@ -10190,9 +10202,9 @@ value of a data item.
 
 
      Some CPUs � such as the Intel/AMD i386/x64 architecture processors
-     used in most Windows PCs � prefer to process binary data stored in
-     a little-endian format.  Since that format is more efficient on
-     those systems, it is referred to as the "native" binary format.
+     used in most Windows PCs � prefer to process binary data stored in a
+     little-endian format.  Since that format is more efficient on those
+     systems, it is referred to as the "native" binary format.
 
 
      On a system supporting only one format of binary storage
@@ -25586,8 +25598,8 @@ This system routine is not available on Windows (exception: GCC on
 Cygwin).
 
 
-Parameters: none Returns: PID (the child process gets ’0’ returned,
-the calling process gets the PID of the created children).
+Parameters: none Returns: PID (the child process gets ’0’ returned, the
+calling process gets the PID of the created children).
 
 
 Negative values are returned for system dependand error codes and -1 if
@@ -26703,75 +26715,11 @@ File: gnucobpg.info,  Node: Binary Truncation,  Prev: Built-In System Subroutine
 
 By default, the GnuCOBOL compiler will truncate binary data items to the
 precision indicated by their "PICTURE" (*note PICTURE::) clause, if they
-have one.  For example, the following data item will have 2 bytes of
-storage allocated for it:
-
-
-                    01 Comp-5-Item PIC 9(3) COMP-5.
-
-
-Because of truncation, even though this field has enough bits allocated
-(16) to store values from 0 to 65535, it will be limited to values of 0
-to 999 because of its "PICTURE".
-
-
-Or is it?
-
-
-Take a look at the small demo program shown here.  This program will
-perform three different types of operations against a binary field,
-displaying the results of each:
-
-
-     IDENTIFICATION DIVISION.
-     PROGRAM-ID. DEMOTRUNC.
-     ENVIRONMENT DIVISION.
-     DATA DIVISION.
-     WORKING-STORAGE SECTION.
-     01  Bin-Item-1  PIC 9(3) COMP-5 VALUE 32760.
-     01  Disp-Item-1 PIC 9(6).
-     PROCEDURE DIVISION.
-     000-Main.
-         MOVE Bin-Item-1 TO Disp-Item-1
-         DISPLAY 'Bin-Item-1='  Bin-Item-1 ' Disp-Item-1=' Disp-Item-1
-         ADD 5 TO Bin-Item-1
-         MOVE Bin-Item-1 TO Disp-Item-1
-         DISPLAY 'Bin-Item-1='  Bin-Item-1 ' Disp-Item-1=' Disp-Item-1
-         MOVE 32767 TO Bin-Item-1
-         MOVE Bin-Item-1 TO Disp-Item-1
-         DISPLAY 'Bin-Item-1='  Bin-Item-1 ' Disp-Item-1=' Disp-Item-1
-         STOP RUN
-         .
-
-Here are the results when the program is compiled (with truncation
-in-effect by default) and executed:
-
-
-     Bin-Item-1=760 Disp-Item-1=032760
-     Bin-Item-1=765 Disp-Item-1=032765
-     Bin-Item-1=767 Disp-Item-1=032767
-
-You can see that truncation affected the "DISPLAY" statements but
-appears to have had no impact whatsoever on the "MOVE" and "ADD"
-statements.  This is the hidden secret about truncation in GnuCOBOL: it
-doesn't really truncate the internally-stored values -- it just
-truncates the "DISPLAY" of them!
-
-
-If that same program is recompiled without truncation (by adding the
-"-fnotrunc" switch
-
-
-     Bin-Item-1=32760 Disp-Item-1=032760
-     Bin-Item-1=32765 Disp-Item-1=032765
-     Bin-Item-1=32767 Disp-Item-1=032767
-
-If this was all there was to the binary truncation issue it wouldn't be
-worth a section in this document.  The fact is, however, that binary
-truncation has a significant effect on the performance of GnuCOBOL
-programs.  When binary truncation is in effect, arithmetic operations
-performed against all types of numeric data items (even "USAGE DISPLAY")
-are slowed down.
+have one.  This applies to COMP, BINARY and COMP-4 items Only.
+The fact is, however, that binary truncation has a significant effect on
+the performance of GnuCOBOL programs.  When binary truncation is in
+effect, arithmetic operations performed against all types of numeric
+data items (even "USAGE DISPLAY") are slowed down.
 
 
 Before continuing, it's worth making the point that we're NOT talking
@@ -26785,7 +26733,7 @@ become noticeable.
 
 The following program compares the performance of performing arithmetic
 operations (in a totally non-scientific, non-rigorous way) against data
-items with a "USAGE" (*note USAGE::) of "DISPLAY", "COMP", "COMP-5" and
+items with a "USAGE" (*note USAGE::) of "DISPLAY", "COMP" and
 "BINARY-LONG".  It was actually my intent when I first wrote the program
 to merely demonstrate the relative performance differences between
 different types of numeric data storage, and it certainly met that
@@ -26803,7 +26751,6 @@ objective.
          05 BT-HU                    PIC 9(2).
      01  Binary-Item         BINARY-LONG SIGNED VALUE 0.
      01  Comp-Item           COMP    PIC S9(9)  VALUE 0.
-     01  Comp-5-Item         COMP-5  PIC S9(9)  VALUE 0.
      01  Display-Item        DISPLAY PIC S9(9)  VALUE 0.
      01  End-Time.
          05 ET-HH                    PIC 9(2).
@@ -26828,14 +26775,6 @@ objective.
          END-PERFORM
          PERFORM 100-Determine-Time-Diff
          DISPLAY 'USAGE COMP:    ' Time-Diff ' SECONDS'
-         .
-     030-Test-Usage-COMP-5.
-         ACCEPT Begin-Time FROM TIME
-         PERFORM Repeat-Count TIMES
-             ADD 7 TO Comp-5-Item
-         END-PERFORM
-         PERFORM 100-Determine-Time-Diff
-         DISPLAY 'USAGE COMP-5:  ' Time-Diff ' SECONDS'
          .
      040-Test-Usage-BINARY.
          ACCEPT Begin-Time FROM TIME
@@ -26874,29 +26813,47 @@ comparison.
 Here are the results:
 
 
-     USAGE DISPLAY: 3.83 SECONDS
-     USAGE COMP:    1.23 SECONDS
-     USAGE COMP-5:  0.04 SECONDS
-     USAGE BINARY:  0.04 SECONDS
+     Test 1:
+     USAGE DISPLAY:   1.72 SECONDS
+     USAGE COMP:      0.62 SECONDS
+     USAGE BINARY:    0.02 SECONDS
+
+     Test 2:
+     USAGE DISPLAY:   1.69 SECONDS
+     USAGE COMP:      0.61 SECONDS
+     USAGE BINARY:    0.02 SECONDS
+
+     Test 3:
+     USAGE DISPLAY:   1.69 SECONDS
+     USAGE COMP:      0.65 SECONDS
+     USAGE BINARY:    0.02 SECONDS
 
 The results I saw here were consistent with those that would have been
 obtained from most of the COBOL implementations I have ever worked with
 -- "USAGE COMP" has a significant performance advantage over "USAGE
-DISPLAY", "USAGE COMP-5" has a significant performance advantage over
-"USAGE COMP" and "USAGE BINARY-LONG" (and presumably the other
-"BINARY-xxx" usages as well) perform identically, within the measurement
-tolerances of the test, as "COMP-5".  This was expected since "COMP-5"
-and "BINARY-xxx" both allocate data the same way.
+DISPLAY" and "USAGE BINARY-LONG" (and presumably the other "BINARY-xxx"
+usages as well) perform identically, within the measurement tolerances
+of the test.
 
 
 Imagine my surprise, however, when I discovered that the use of
-"-fnotrunc" switch also made a significant difference:
+"-fnotrunc" switch also made a difference:
 
 
-     USAGE DISPLAY: 3.85 SECONDS
-     USAGE COMP:    0.09 SECONDS
-     USAGE COMP-5:  0.04 SECONDS
-     USAGE BINARY:  0.04 SECONDS
+     Test 4:
+     USAGE DISPLAY:   1.72 SECONDS
+     USAGE COMP:      0.07 SECONDS
+     USAGE BINARY:    0.02 SECONDS
+
+     Test 5:
+     USAGE DISPLAY:   1.72 SECONDS
+     USAGE COMP:      0.07 SECONDS
+     USAGE BINARY:    0.02 SECONDS
+
+     Test 6:
+     USAGE DISPLAY:   1.73 SECONDS
+     USAGE COMP:      0.06 SECONDS
+     USAGE BINARY:    0.02 SECONDS
 
 As you can see, there was a huge drop in "USAGE COMP" timings by turning
 off truncation.  As a result, I see absolutely no reason whatsoever why
@@ -26906,6 +26863,23 @@ compilations.
 
 If you want to squeeze every last bit of performance out of your
 GnuCOBOL programs, don't forget to investigate the "-O" switch
+
+
+     Test 7:
+     cobc -x demomath.cbl -O2;demomath
+     USAGE DISPLAY:   1.68 SECONDS
+     USAGE COMP:      0.60 SECONDS
+     USAGE BINARY:    0.00 SECONDS
+
+     Test 8:
+     cobc -x demomath.cbl -fnotrunc -O2;demomath
+     USAGE DISPLAY:   1.67 SECONDS
+     USAGE COMP:      0.01 SECONDS
+     USAGE BINARY:    0.00 SECONDS
+
+All tests above carried out under Linux with a AMD FX8350 under very low
+loading prior to the test.  I would have also tried on a i7-7700 but
+that is under Windows 10 and I do not have a GC version on it - Vince.
 
 
 File: gnucobpg.info,  Node: Sub-Programming,  Next: Programming Style Suggestions,  Prev: Interfacing With The OS,  Up: Top
@@ -30075,7 +30049,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: gnucobpg.info,  Node: Appendix D - Summary of Document Changes,  Next: INDEX,  Prev: Appendix C - GNU Free Documentation License,  Up: Top
+File: gnucobpg.info,  Node: Appendix D - Summary of Document Changes,  Next: Appendix E - Summary of Compiler Changes since 2009 and version v1-1,  Prev: Appendix C - GNU Free Documentation License,  Up: Top
 
 Appendix D - Summary of Document Changes
 ****************************************
@@ -30449,8 +30423,923 @@ Appendix D - Summary of Document Changes
 
   9. Checked and changed menus for incorrect or missing numbering.
 
+
+  10. 14/10 Bug #447 fixed (CDF Replacing trailing == missing.
+
+
+  11. 20/10 Bug #450 Removed example one and refs to COMP-5, added note
+     for the three usage types trunc applies to and amended the
+     performance test example with extra resulting figures.
+
+
+  12. 01/11 Added Appendix E for changes since 2009 thanks to Edward
+     Hart (see his grammar document).
+
 
-File: gnucobpg.info,  Node: INDEX,  Prev: Appendix D - Summary of Document Changes,  Up: Top
+File: gnucobpg.info,  Node: Appendix E - Summary of Compiler Changes since 2009 and version v1-1,  Next: INDEX,  Prev: Appendix D - Summary of Document Changes,  Up: Top
+
+Appendix E - Summary of Compiler Changes since 2009 and version v1-1
+********************************************************************
+
+
+Taken from Grammar Changelog Sept 2017.
+
+
+  1. General
+
+
+        * 64-bit numbers: fixed bugs in handling of 64-bit numbers (e.g.
+          bug #229).
+
+
+        * ACUCOBOL windows: added detection of ACUCOBOL’s window/message
+          box GUI syntax.
+
+
+        * C API (data): added several functions for getting and setting
+          cob_field items.
+
+
+        * C API (files): added cob_file_external_addr, cob_file_malloc
+          and cob_file_free.
+
+
+        * C API (screen): added several functions from Micro Focus C to
+          COBOL API: cob_display_text, cob_sys_get_char, cob_get_char,
+          cob_get_text, cob_display_formatted_text, cob_sys_get_csr_pos,
+          cob_sys_set_csr_pos, cobmove, cobaddstrc, cobprintf and
+          cobgetch (feature requests #148 and #187).
+
+
+        * C API (signals): added cob_raise to send signal to signal
+          handlers.
+
+
+        * C compiler support: fixed errors in compilers without
+          designated initializers.
+
+
+        * cobc command-line options: added -O3 to enable more
+          optimisations.
+
+
+        * cobc command-line options: added -Wfatal-error to make the
+          compiler abort on the first error.
+
+
+        * cobc command-line options: added -Wpossible-overlap to warn
+          items that may overlap (-Woverlap only warns if items
+          definitely overlap).
+
+
+        * cobc command-line options: added -fmax-errors to set number of
+          errors at which the compiler aborts.
+
+
+        * cobc command-line options: added -fwinmain to output WinMain
+          instead of main (feature request #194).
+
+
+        * cobc command-line options: added -t and -T for complete
+          listing support (-t for 80-characters wide listings and -T for
+          132-characters wide) which includes crossreferences.
+
+
+        * cobc command-line options: added -vvv (like -vv but passes
+          verbose option to the linker as well) and -### (like -v but
+          commands are not executed).
+
+
+        * cobc command-line options: allow -, i.e.  stdin, as a source
+          file.
+
+
+        * COBOL-85 NIST testsuite: tests now refer to $COBC, $COBCRUN
+          and $COBCRUN_DIRECT environment variables instead of directly
+          calling cobc and cobcrun, allowing the testsuite to run in
+          conjunction with tools like valgrind.
+
+
+        * COBOL-85 NIST testsuite: tests for obsolete feature flagging
+          are now executed, if possible.
+
+
+        * Comments: added ACUCOBOL comments: $ as synonym for * in
+          indicator area and j as synonym for floating comment indicator
+          *>.
+
+
+        * Communication facility: added detection of communication
+          facility syntax.
+
+
+        * configure: added useful error message when help2man, bison and
+          flex are missing when they are needed.
+
+
+        * curses: fixed compilation errors when configured without
+          curses (bug #90).
+
+
+        * Error messages: error messages are now lowercase, in line with
+          the GNU Coding Standards (bug #198).
+
+
+        * Error messages: segfaults in the compiler now cause an error
+          message to be displayed.
+
+
+        * Error messages: replaced instances of “ODO” by the clearer
+          “OCCURS DEPENDING ON”.
+
+
+        * Expressions: resolve constant expressions and optimise
+          constant decimals at compile time.
+
+
+        * Expressions: added support for IBM OS/VS COBOL’s arithmetic.
+
+
+        * Expressions: improved error messages for malformed
+          expressions.
+
+
+        * Indicators: invalid indicators no longer cause compilation to
+          immediately terminate (feature request #126).
+
+
+        * Information: output compiler version used to build GnuCOBOL
+          and any mathematical libraries used (feature request #169).
+
+
+        * Information: output what a reserved word is an alias for in
+          the –list-reserved output (feature request #214).
+
+
+        * Manpage: added manpage generation and installation.
+
+
+        * Nested programs: Nested programs no longer need to have END
+          PROGRAM.
+
+
+        * National literals: added basic support for national literals.
+
+
+        * Numeric literals: added ACUCOBOL numeric literals: B#..  .
+          for binary, O#..  .  for octal, and X#..  .  and H#..  .  for
+          hexadecimal.
+
+
+        * Literals: fixed heap corruptions caused by uncommon literals
+          (bug #195).
+
+
+        * Literals: allow concatenation of literal and Boolean literals.
+
+
+        * Memory management: all memory belonging to the parsers and
+          lexers is freed upon a compiler abend.
+
+
+        * Memory management: fixed memory leaks due to recursive CALLs.
+
+
+        * Microsoft Visual C++: output when compiling with cl.exe is now
+          filtered and temporary files are deleted.
+
+
+        * MinGW: fixed use of wrong directory separator.
+
+
+        * Signals: removed error message on SIGPIPE.
+
+
+        * Signals: added error message for SIGBUS.
+
+
+        * Translations: updated, with new support for German and
+          Italian.
+
+
+        * User-defined functions: function definitions must now end with
+          END FUNCTION.
+
+
+        * User-defined functions: function definitions may no longer be
+          nested in programs (bug #255).
+
+
+        * Windows support: allow linking with asm files.
+
+
+        * Windows support: added support for DISAM in the batch file
+          which creates distributables.
+
+
+        * Windows support: fixed environment-setting batch files not
+          working with Microsoft Visual Studio 2017.
+
+
+        * Windows support: fixed 64-bit environment-setting batch files
+          not checking the correct directories for binaries and
+          libraries.
+
+
+  2. Configuration options
+
+
+        * Deleted compiler configuration options: eject-statement,
+          cobol85-reserved.
+
+
+        * New compiler configurations: all dialects have been split into
+          standard and strict dialects, with strict dialects maintaining
+          source compatibility with the dialect’s compiler(s).
+
+
+        * New compiler configurations: acu for ACUCOBOL, cobol2014 for
+          COBOL 2014, rm for RM-COBOL, xopen for X/Open.
+
+
+        * New compiler configuration options: accept-display-extensions,
+          accept-update, accept-auto, acu-literals, arithmetic-osvs,
+          call-overflow, console-is-crt, constant-01, constant-78,
+          constant-folding, define-constant-directive,
+          hexadecimal-boolean, hexadecimal-national-literals,
+          incorrect-conf-sec-order, intrinsic-function,
+          listingstatements, literal-length,
+          move-figurative-constant-to-numeric,
+          move-figurativequote-to-numeric, move-ibm, national-literals,
+          no-echo-means-secure, not-exceptionbefore-exception,
+          numeric-boolean, numeric-literal-length,
+          numeric-value-for-editeditem, pic-length,
+          program-name-redefinition, program-prototypes,
+          reference-out-ofdeclaratives (feature request #179), register,
+          renames-uncommon-levels, reserved, reserved-words,
+          stop-identifier, system-name, title-statement,
+          use-for-debugging, word-length (feature request #43).
+
+
+        * Registers: compiler configurations can now specify all the
+          registers to generate.
+
+
+        * Registers: added registers not yet implemented by GnuCOBOL as
+          reserved words.
+
+
+        * Renamed compiler configuration options: debugging-line to
+          debugging-mode, relaxed-syntax-check to relax-syntax-checks
+
+
+        * Reserved words: compiler configurations can now specify all
+          the reserved words and context-sensitive words permitted.
+
+
+        * Reserved words: compiler configurations can now specify
+          whether a reserved word is an alias for another reserved word.
+
+
+        * Runtime configuration: added ability to configure some libcob
+          features at runtime.
+
+
+        * Support options: options which specify if a feature is
+          supported can now take a “+” before their argument to indicate
+          it takes effect only if the current level of support is less
+          strict than “ok”.
+
+
+  3. Compiler directives
+
+
+        * $ indicator character: added $ as an indicator for compiler
+          directive lines.
+
+
+        * >>IF directive: fixed bug #263, where nested >>IF directives
+          were not handled correctly.
+
+
+        * New constants: GCCOMP, GNUCOBOL.
+
+
+        * New directives: >>CALL-CONVENTION, >>LISTING, >>PAGE.
+
+
+        * New directives (detection only): *CBL, *CONTROL, TITLE.
+
+
+        * New >>SET phrase: SOURCEFORMAT.
+
+
+  4. Identification division
+
+
+        * Comment paragraphs: fixed invalid parsing of quote characters
+          inside comment paragraphs (bug #297).
+
+
+        * FUNCTION-ID: added checks for redefinition of function-names.
+
+
+        * INITIAL phrase: fixed premature deallocation of INITIAL
+          programs (bug #52).
+
+
+        * OPTIONS paragraph: added with implementation of DEFAULT
+          ROUNDED MODE and ENTRY-CONVENTION phrases and recognition of
+          INTERMEDIATE ROUNDING phrase.
+
+
+        * PROGRAM-ID: added checks for redefinition of program-names.
+
+
+        * PROGRAM-ID phrases: permit INITIAL or RECURSIVE before COMMON
+          (bug #244).
+
+
+        * Program/function-names: warn if program/function-names contain
+          spaces.
+
+
+  5. Environment division
+
+
+        * ASSIGN clause: missing ASSIGN clauses are now detected at
+          compile-time.
+
+
+        * ASSIGN clause: added PRINTER and PRINTER-1 device-names for
+          writing to a printer.
+
+
+        * ASSIGN clause: added CARD-PUNCH, CARD-READER, CASSETTE, INPUT,
+          INPUTOUTPUT, MAGNETIC-TAPE and OUTPUT device-names for line
+          sequential devices.
+
+
+        * ASSIGN clause: temporarily prohibit BASED and linkage items in
+          ASSIGN USING due to bug #421.
+
+
+        * CALL-CONVENTION phrase: statically calling functions with
+          CALL-CONVENTION 74 no longer causes linker errors (bug #316).
+
+
+        * CURRENCY phrase: fixed bug #182, where a preceding SWITCH
+          phrase caused an incorrect duplicate CURRENCY clause error.
+
+
+        * File-control entry: fixed bug #71, where referring to a global
+          constant caused an internal error.
+
+
+        * File-control entry: fixed bug #331, where using an identifier
+          in a file record qualified with the file’s name caused an
+          error.
+
+
+        * FUNCTION phrase: added checks for redefinition of
+          function-(prototype-)names.
+
+
+        * FUNCTION phrase: compiler will no longer stop when it
+          encounters a syntax error.
+
+
+        * LOCK MODE clause: fixed combination of LOCK MODE IS
+          AUTOMATIC/MANUAL with LOCK ON MULTIPLE.
+
+
+        * PROGRAM phrase: added support for program-prototype-names.
+
+
+        * SIGN clause: improved syntax checks.
+
+
+        * SWITCH phrase: added check for duplicate on/off clauses (bug
+          #136).
+
+
+        * SWITCH phrase: added new switch names: SWITCH-16 through to
+          SWITCH-36 (feature request #65), “SWITCH 1” to “SWITCH 26”
+          (and their aliases “SWITCH A” to “SWITCH Z”), UPSI-0 to UPSI-8
+          (equivalent to “SWITCH 0” to “SWITCH 8”) and USW-0 to USW-31
+          (equivalent to “SWITCH 0” to “SWITCH 31”).
+
+
+  6. Data division
+
+
+        * 78-level items: strengthened syntax checks.
+
+
+        * 88-level items: strengthened syntax checks.
+
+
+        * ANY NUMERIC clause: ANY NUMERIC items must now have PIC 9.
+
+
+        * ANY LENGTH clause: ANY LENGTH items may no longer be BY VALUE
+          parameters (see bug #219).
+
+
+        * ANY LENGTH clause: ANY LENGTH items must now have PIC X or PIC
+          N.
+
+
+        * BLANK clause: fixed bug #143, where BLANK LINE/SCREEN did not
+          colour line/screen.
+
+
+        * BLANK WHEN ZERO clause: added checks that BLANK WHEN ZERO is
+          not specified with PICTURE clauses containing S.
+
+
+        * Constant items: expressions in VALUE clauses now permitted.
+
+
+        * Data description: added a maximum record length.
+
+
+        * Data description: increased maximum size of non-indexed file
+          record to 64 MiB (maximum size of an indexed file record is
+          65535 bytes).
+
+
+        * ERASE clause: fixed bug #186, where ERASE EOL and ERASE EOS
+          could be specified simultaneously.
+
+
+        * FULL clause: added warning for useless FULL clauses on numeric
+          items (feature request #209).
+
+
+        * HIGHLIGHT and LOWLIGHT clauses: added checks that HIGHLIGHT
+          and LOWLIGHT are not specified simultaneously.
+
+
+        * Local-storage section: fixed bug #78, where local-storage
+          items where initialised after file section items.
+
+
+        * LOWLIGHT clause: implemented.
+
+
+        * OCCURS clause: fixed internal compiler when used with SYNC
+          (bug #155).
+
+
+        * OCCURS clause: allow KEY phrase and INDEXED phrase in any
+          order.
+
+
+        * OCCURS clause: fixed bug #167, where overly large numeric
+          literals where accepted in the OCCURS clause.
+
+
+        * OCCURS clause (depending): require the minimum length to be
+          less than the maximum length (feature request #99).
+
+
+        * OCCURS clause (depending): disabled nested OCCURS DEPENDING
+          tables due to bugs.
+
+
+        * OCCURS clause (screen-section): require relative LINE/COLUMN
+          clauses in OCCURS entries (bug #83).
+
+
+        * OCCURS clause (unbounded): added by Frank Swarbrick (patch
+          #50).
+
+
+        * PICTURE clause: restricted number of permitted PICTURE strings
+          (bug #232).
+
+
+        * PICTURE clause: improved checks of constant-names referenced
+          in PICTURE strings.
+
+
+        * RENAMES items: strengthened syntax checks.
+
+
+        * RESERVE clause: allow the optional word AREAS.
+
+
+        * Screen description: permit figurative constants in screen
+          items (bug #108).
+
+
+        * TALLY special register: added.
+
+
+        * USAGE clause: added ACUCOBOL’s HANDLE phrases (see feature
+          request #77).
+
+
+        * VALUE clause: VALUE clauses in REDEFINES entries now cause
+          warnings, not errors, for compatibility.
+
+
+        * Variable records: added checks that the minimum size of a
+          variable record is large enough to contain the record key.
+
+
+  7. Procedure division
+
+
+        * ACCEPT statement: added ESCAPE as synonym for EXCEPTION.
+
+
+        * ACCEPT statement: permit clauses in any order.
+
+
+        * ACCEPT statement: allow WITH before every screen attribute
+          clause.
+
+
+        * ACCEPT statement: entering control-C now terminates the
+          program.
+
+
+        * ACCEPT statement (screen): fixed failed ACCEPTs caused by a
+          buffer overflow.
+
+
+        * ACCEPT statement (screen): enhanced support for special keys
+          (insert, tab, delete, alt-delete, etc.).
+
+
+        * ACCEPT statement (screen): fixed bug #161 where screens
+          terminated after entering a few characters in a field.
+
+
+        * ACCEPT statement (screen): added DEFAULT as synonym for
+          UPDATE.
+
+
+        * ACCEPT statement (screen): ERASE and BLANK clauses in screens
+          are now ignored (bug #192).
+
+
+        * ACCEPT statement (screen): fixed bug #160 where ACCEPT
+          statement LINE/COLUMN clauses did not work.
+
+
+        * ACCEPT statement (screen): fixed segfault on ACCEPT OMITTED
+          (bug #300).
+
+
+        * ACCEPT statement (screen): added checks that screen attributes
+          are not specified multiple times or after conflicting
+          attributes.
+
+
+        * ACCEPT statement (screen): fixed some phrases not being
+          recognised without being preceded by WITH (bug #402).
+
+
+        * ACCEPT statement (screen): fixed the backspace and delete keys
+          not working and the insert key not toggling between insertion
+          and overwriting.
+
+
+        * ACCEPT statement (screen): cursor now changes with
+          insertion/overwrite mode (if supported by the terminal).
+
+
+        * ACCEPT statement (screen): a beep is emitted on attempts to
+          insert data into a full field.
+
+
+        * ADD statement (corresponding): restricted to numeric items
+          (bug #235).
+
+
+        * ADD statement (table): added detection of ADD TABLE.
+
+
+        * Addition of COMP-3 numbers: fixed bug where COMP-3 addition
+          failed.
+
+
+        * Addition of floating-point numbers: fixed incorrect addition
+          of floating-point numbers.
+
+
+        * CALL statement: implemented feature request #101, allowing
+          more arguments to be provided.
+
+
+        * CALL statement: fixed behaviour when calling cancelled
+          modules.
+
+
+        * CALL statement: added RETURNING NOTHING.
+
+
+        * CALL statement: the generation of C function declarations for
+          static CALLs can now be disabled.
+
+
+        * CALL statement: added checks for static CALLs referring to C
+          macros.
+
+
+        * CALL statement: warn if a literal containing the program-name
+          contains spaces.
+
+
+        * CALL statement: added detection of NESTED phrase.
+
+
+        * CANCEL statement: fixed crash caused by cancelling a cancelled
+          module.
+
+
+        * Conditions: restricted use of IS (bug #321).
+
+
+        * Conditions: added warnings for always true/false conditions
+          (including the reason why it is always true/false).
+
+
+        * DESTROY statement: added detection of DESTROY.
+
+
+        * DISPLAY statement: permit clauses in any order.
+
+
+        * DISPLAY statement: allow WITH before every screen attribute
+          clause.
+
+
+        * DISPLAY statement (screen): fixed bug where EC-SCREEN
+          exceptions did not trigger ON EXCEPTION handler (bug #243).
+
+
+        * DISPLAY statement (screen): fixed bugs in DISPLAY SPACES/ALL
+          X“02”/ALL X“07”.
+
+
+        * DISPLAY statement (screen): added checks that screen
+          attributes are not specified multiple times or after
+          conflicting attributes.
+
+
+        * DISPLAY statement (screen): DISPLAY OMITTED marked as
+          unfinished; currently equivalent to DISPLAY LOW-VALUE.
+
+
+        * DISPLAY statement (screen): fixed some phrases not being
+          recognised without being preceded by WITH (bug #402).
+
+
+        * END DECLARATIVES phrase: fixed bug #88, where an erroneous
+          unreachable code warning was emitted for code without a main
+          procedure.
+
+
+        * ENTRY statement: suppress incorrect unreachable code warnings.
+
+
+        * Exception handlers: permit NOT ON EXCEPTION/END-OF-PAGE/etc.
+          before ON EXCEPTION/END-OF-PAGE/etc.
+
+
+        * EXIT statement: added extension RETURNING/GIVING clause for
+          PROGRAM phrase.
+
+
+        * File I-O: added detection of and handling for error when no
+          disc space is available for output files.
+
+
+        * File I-O: added RETRY and ADVANCING ON LOCK as pending
+          features.
+
+
+        * File I-O: fixed detection of DISAM file handler.
+
+
+        * FREE statement: NULL addresses no longer cause an exception.
+
+
+        * GOBACK statement: added extension RETURNING/GIVING clause.
+
+
+        * INITIALIZE statement: fixed bug #84, where literals could be
+          passed to INITIALIZE.
+
+
+        * INITIALIZE statement: fixed bug #287, where reference-modified
+          group items were not treated like elementary items.
+
+
+        * INSPECT statement: fixed bug #47, where clauses were permitted
+          in invalid orders.
+
+
+        * LENGTH OF phrase: fixed bug #89, where the length of REDEFINES
+          item where calculated incorrectly.
+
+
+        * LENGTH OF phrase: fixed bug #110, where LENGTH OF was not
+          allowed in the UNTIL phrase of a PERFORM statement or in a
+          VALUE clause.
+
+
+        * MOVE statement: added more checks for overlapping MOVE
+          statements.
+
+
+        * MOVE statement: fixed truncation of COMP numbers not
+          conforming to the binary truncate setting (bug #69).
+
+
+        * MOVE statement: fixed bug #344, where trying to MOVE to a
+          procedure-name caused a segfault.
+
+
+        * MOVE statement: added support for IBM’s character-by-character
+          MOVE.
+
+
+        * PERFORM statement: fixed bug #368, where the compiler
+          segfaulted when there was a PERFORM statement with an empty
+          body and DEBUGGING MODE was specified.
+
+
+        * Procedure division header: fixed bug #55, where a user-defined
+          function without parameters failed to compile.
+
+
+        * Procedure division header: disabled the BY VALUE phrase,
+          pending a working implementation.
+
+
+        * Procedure division header: fixed bug #349, where BY VALUE
+          pointer parameters lead to code that couldn’t be compiled by
+          older versions of Microsoft Visual C++.
+
+
+        * Procedure division header: RETURNING items must now be
+          declared in the linkage section.
+
+
+        * Procedure division header: added RETURNING OMITTED.
+
+
+        * Procedure division header: added entry-convention specifiers.
+
+
+        * Procedure division header: now mandatory in function
+          definitions (see bug #271).
+
+
+        * Procedure division header: CHAINING programs may no longer be
+          called by other programs (bug #354), per the ACUCOBOL
+          implementation.
+
+
+        * Reference modification: fixed bug #146, where the length of
+          reference-modified item in an OCCURS DEPENDING table was too
+          long because it was assumed the OCCURS DEPENDING table was at
+          its maximum size.
+
+
+        * READ statement: a failed second READ of a missing OPTIONAL
+          file now results in a file status of 46, not 23.
+
+
+        * REWRITE statement: added REWRITE FILE (feature request #170).
+
+
+        * Screen I-O: added detection of situations which raise
+          EC-SCREEN-LINE-NUMBER, EC-SCREEN-STARTING-COLUMN and
+          EC-SCREEN-ITEM-TRUNCATED.
+
+
+        * Screen I-O: added support for the LINE 0 and COL 0 extensions.
+
+
+        * Screen I-O: added some ACUCOBOL synonyms (NO ECHO, OFF,
+          REVERSED, REVERSE, etc.).
+
+
+        * Screen I-O: added detection of ACUCOBOL’s non-standard clauses
+          like TAB, NOECHO, STANDARD, BACKGROUND-HIGH, BACKGROUND-LOW,
+          BACKGROUND-STANDARD and SIZE.
+
+
+        * SEARCH statement (ALL): fixed bug #314, where SEARCH ALL with
+          an empty OCCURS DEPENDING table did not exit as soon as
+          possible.
+
+
+        * Segment numbers: added syntax checks.
+
+
+        * SET statement (address): disallowed changing address of
+          non-01/77-level item (bug #366).
+
+
+        * SET statement (attribute): made HIGHLIGHT ON imply LOWLIGHT
+          OFF and vice versa.
+
+
+        * SET statement (exception): added.
+
+
+        * SET statement (thread): added detection of ACUCOBOL extension.
+
+
+        * STOP statement (identifier): added (see bug #320).
+
+
+        * STOP statement (literal): fixed segfault.
+
+
+        * STOP statement (thread): added detection of ACUCOBOL
+          extension.
+
+
+        * STRING statement: strengthened syntax checks (bug #259).
+
+
+        * SUBTRACT statement (corresponding): restricted to numeric
+          items (bug #235).
+
+
+        * SUBTRACT statement (table): added detection of SUBTRACT TABLE.
+
+
+        * Tracing: fixed bug #216, where a segfault occurred with a
+          program made from modules some of which had been compiled with
+          tracing and physical CANCEL enabled and some of which hadn’t.
+
+
+        * UNSTRING statement: fixed bug #54, where the POINTER value was
+          calculated incorrectly when the delimiter was longer than one
+          character.
+
+
+        * UNSTRING statement: allow a literal to be the subject of an
+          UNSTRING.
+
+
+        * WRITE statement: added WRITE FILE (feature request #170).
+
+
+  8. Intrinsic functions
+
+
+        * New functions (ACUCOBOL): ABSOLUTE-VALUE (synonym for ABS).
+
+
+        * New functions (COBOL 2014): FORMATTED-CURRENT-DATE,
+          FORMATTED-DATE, FORMATTED-DATETIME, FORMATTED-TIME,
+          INTEGER-OF-FORMATTED-DATE, TESTFORMATTED-DATETIME.
+
+
+        * ISO-8601-date-handling functions: added extension
+          SYSTEM-OFFSET as replacement for last optional argument.
+
+
+        * ISO-8601-date-handling functions: added EC-IMP-UTC-UNKNOWN if
+          a time format ending in Z is provided but the timezone cannot
+          be found.
+
+
+        * LENGTH function: added detection of PHYSICAL phrase.
+
+
+        * RANDOM function: fixed non-random number generation.
+
+
+  9. Built-in subprograms
+
+
+        * CBL_GC_FORK: added.
+
+
+        * CBL_GC_PRINTABLE: renamed from C$PRINTABLE.
+
+
+        * CBL_GC_WAITPID: added.
+
+
+        * CBL_SET_CSR_POS: added (feature requests #148 and #187).
+
+
+        * CBL_READ_KBD_CHAR: added (feature requests #148 and #187).
+
+
+File: gnucobpg.info,  Node: INDEX,  Prev: Appendix E - Summary of Compiler Changes since 2009 and version v1-1,  Up: Top
 
 Index
 *****
@@ -30508,8 +31397,6 @@ Index
                                                               (line   4)
 * -fintrinsics=ALL Compiler Switch.:     REPOSITORY.          (line   4)
 * -fixed Compiler Switch to start in Fixed Format Mode (remember that this is the default) or the "-free" switch: Format of Program Source Lines.
-                                                              (line   4)
-* -fnotrunc Compiler Switch switch to the 'cobc' command), the results are as follows:: Binary Truncation.
                                                               (line   4)
 * -foptional-file Compiler Switch, which automatically makes all files "OPTIONAL" except for those explicitly declared as "NOT OPTIONAL".: SELECT.
                                                               (line   4)
@@ -30982,7 +31869,6 @@ Index
 * Compiler Switches, -fintrinsics=ALL:   REPOSITORY.          (line   4)
 * Compiler Switches, -fixed:             Format of Program Source Lines.
                                                               (line  28)
-* Compiler Switches, -fnotrunc:          Binary Truncation.   (line  65)
 * Compiler Switches, -foptional-file:    SELECT.              (line   4)
 * Compiler Switches, -free:              Format of Program Source Lines.
                                                               (line   4)
@@ -31009,7 +31895,7 @@ Index
 * Compiler Switches, -o:                 cobc - The GnuCOBOL Compiler.
                                                               (line 344)
 * Compiler Switches, -o <1>:             Direct Execution.    (line  12)
-* Compiler Switches, -O:                 Binary Truncation.   (line 211)
+* Compiler Switches, -O:                 Binary Truncation.   (line 156)
 * Compiler Switches, -O2:                Binary Truncation.   (line   4)
 * Compiler Switches, -Os:                Binary Truncation.   (line   4)
 * Compiler Switches, -Wobsolete:         IDENTIFICATION DIVISION.
@@ -32162,6 +33048,8 @@ Index
 * SUBTRACT GIVING:                       SUBTRACT GIVING.     (line   6)
 * SUM:                                   SUM.                 (line   6)
 * SUM OF:                                SUM OF.              (line   6)
+* Summary of Compiler Changes since 2009 and version v1-1: Appendix E - Summary of Compiler Changes since 2009 and version v1-1.
+                                                              (line   6)
 * Summary of Document Changes:           Appendix D - Summary of Document Changes.
                                                               (line   6)
 * Summary Report:                        Appendix A - Glossary of Terms.
@@ -32357,488 +33245,489 @@ Index
 
 Tag Table:
 Node: Top1505
-Node: Introduction11082
-Node: Additional Reference Sources13285
-Node: Introducing COBOL14019
-Node: Why YOU Should Learn COBOL15051
-Node: Programmer Productivity21560
-Node: So What is GnuCOBOL?26221
-Node: Language Reserved Words29016
-Node: User-Defined Words29699
-Node: Case Insensitivity30415
-Node: Readability of Programs31094
-Node: Divisions Organize Programs37939
-Node: Copybooks38569
-Node: Structured Data39179
-Node: Files39691
-Ref: LINE ADVANCING41669
-Node: Table Handling52088
-Node: Sorting and Merging Data53402
-Node: String Manipulation Features54294
-Ref: String Manipulation Features-Footnote-159143
-Node: Screen Formatting Features59267
-Node: A Sample Screen60577
-Node: Color Palette and Video Attributes63274
-Node: Report Writer Features66908
-Node: Data Initialization70135
-Node: Syntax Diagram Conventions72011
-Node: Format of Program Source Lines75876
-Node: Program Structure81383
-Node: Comments87201
-Node: Literals89610
-Node: Numeric Literals89858
-Node: Alphanumeric Literals90728
-Node: Figurative Constants94062
-Node: Punctuation96345
-Node: LENGTH OF97280
-Node: Interfacing to Other Environments98804
-Node: CDF - Compiler Directing Facility99881
-Node: >>CALL-CONVENTION101078
-Node: COPY102081
-Node: REPLACE106163
-Node: >>DEFINE111483
-Node: >>IF113427
-Node: >>SET117725
-Node: >>SOURCE119571
-Node: >>TURN120437
-Node: >>D120973
-Node: >>DISPLAY121305
-Node: >>PAGE121721
-Node: >>LISTING122075
-Node: >>LEAP-SECONDS122460
-Node: * Directives122959
-Node: IDENTIFICATION DIVISION123584
-Node: ENVIRONMENT DIVISION127089
-Node: CONFIGURATION SECTION129506
-Node: SOURCE-COMPUTER130957
-Node: OBJECT-COMPUTER132278
-Node: SPECIAL-NAMES135158
-Ref: LOCALE Names137660
-Node: Alphabet-Name-Clause142586
-Node: Class-Definition-Clause145522
-Node: Switch-Definition-Clause147181
-Node: Symbolic-Characters-Clause148543
-Node: REPOSITORY150564
-Node: INPUT-OUTPUT SECTION152792
-Node: SELECT154364
-Ref: File Status Codes164408
-Node: ORGANIZATION SEQUENTIAL166010
-Node: ORGANIZATION LINE SEQUENTIAL168448
-Node: ORGANIZATION RELATIVE171553
-Node: ORGANIZATION INDEXED174237
-Node: SAME RECORD AREA176941
-Node: MULTIPLE FILE178438
-Node: DATA DIVISION178991
-Node: Data Definition Principles181677
-Node: FILE SECTION186701
-Node: File/Sort-Description187764
-Node: FILE-SECTION-Data-Item193418
-Node: WORKING-STORAGE SECTION198029
-Node: LOCAL-STORAGE SECTION202516
-Node: LINKAGE SECTION206380
-Node: REPORT SECTION211393
-Node: Report Group Definitions219348
-Node: REPORT SECTION Data Items222625
-Node: SCREEN SECTION225214
-Node: Special Data Items230255
-Node: 01-Level Constants230589
-Node: 66-Level Data Items236538
-Node: 77-Level Data Items237746
-Node: 78-Level Data Items239672
-Node: 88-Level Data Items241472
-Node: Data Description Clauses243983
-Node: ANY LENGTH245164
-Node: AUTO246058
-Node: AUTO-SKIP246885
-Node: AUTOTERMINATE247732
-Node: BACKGROUND-COLOR248605
-Node: BASED250024
-Node: BEEP250948
-Node: BELL251612
-Node: BLANK252276
-Node: BLANK WHEN ZERO253152
-Node: BLINK254101
-Node: COLUMN254762
-Node: CONSTANT258718
-Node: EMPTY-CHECK259735
-Node: ERASE261274
-Node: EXTERNAL262297
-Node: FALSE264150
-Node: FOREGROUND-COLOR265225
-Node: FROM266615
-Node: FULL267450
-Node: GLOBAL269057
-Node: GROUP INDICATE271207
-Node: HIGHLIGHT272387
-Node: JUSTIFIED273300
-Node: LEFTLINE276388
-Node: LENGTH-CHECK277663
-Node: LINE279324
-Node: LOWLIGHT283550
-Node: NEXT GROUP284598
-Node: NO-ECHO286233
-Node: OCCURS287209
-Node: OVERLINE291922
-Node: PICTURE293190
-Node: PRESENT WHEN313233
-Node: PROMPT314232
-Node: PROTECTED315397
-Node: REDEFINES318079
-Node: RENAMES320200
-Node: REQUIRED321377
-Node: REVERSE-VIDEO322904
-Node: SECURE323766
-Node: SIGN IS324732
-Node: SOURCE327060
-Node: SUM OF329133
-Node: SYNCRONIZED332784
-Node: TO334483
-Node: TYPE335380
-Node: UNDERLINE337375
-Node: USAGE338647
-Node: USING359609
-Node: VALUE360761
-Node: PROCEDURE DIVISION367374
-Node: PROCEDURE DIVISION USING369462
-Node: PROCEDURE DIVISION CHAINING373427
-Node: PROCEDURE DIVISION RETURNING377806
-Node: PROCEDURE DIVISION Sections and Paragraphs379987
-Node: DECLARATIVES381564
-Node: Table References387833
-Node: Qualification of Data Names389519
-Node: Reference Modifiers391448
-Node: Arithmetic Expressions393786
-Node: Conditional Expressions400409
-Node: Condition Names400915
-Node: Class Conditions402141
-Node: Sign Conditions404425
-Node: Switch-Status Conditions405139
-Node: Relation Conditions406219
-Node: Combined Conditions408923
-Node: Negated Conditions410487
-Node: Use of Periods411599
-Node: Use of VERB/END-VERB Constructs414021
-Node: Concurrent Access to Files416810
-Node: File Sharing417363
-Node: Record Locking419740
-Node: Common Clauses on Executable Statements423826
-Node: AT END + NOT AT END424331
-Node: CORRESPONDING426129
-Node: INVALID KEY + NOT INVALID KEY430548
-Node: ON EXCEPTION + NOT ON EXCEPTION431456
-Node: ON OVERFLOW + NOT ON OVERFLOW432552
-Node: ON SIZE ERROR + NOT ON SIZE ERROR433629
-Node: ROUNDED434933
-Node: Special Registers440228
-Node: Intrinsic Functions444379
-Node: ABS447953
-Node: ACOS448265
-Node: ANNUITY448783
-Node: ASIN449756
-Node: ATAN450273
-Node: BYTE-LENGTH450797
-Node: CHAR451587
-Node: COMBINED-DATETIME452774
-Node: CONCATENATE453390
-Node: COS454149
-Node: CURRENCY-SYMBOL454749
-Node: CURRENT-DATE455311
-Node: DATE-OF-INTEGER456349
-Node: DATE-TO-YYYYMMDD456849
-Node: DAY-OF-INTEGER457670
-Node: DAY-TO-YYYYDDD458166
-Node: E458952
-Node: EXCEPTION-FILE459356
-Node: EXCEPTION-LOCATION460097
-Node: EXCEPTION-STATEMENT461050
-Node: EXCEPTION-STATUS461769
-Ref: Error Exception Codes462503
-Node: EXP466438
-Node: EXP10466778
-Node: FACTORIAL467120
-Node: FRACTION-PART467490
-Node: HIGHEST-ALGEBRAIC467950
-Node: INTEGER468378
-Node: INTEGER-OF-DATE468751
-Node: INTEGER-OF-DAY469394
-Node: INTEGER-PART470037
-Node: LENGTH470425
-Node: LENGTH-AN471460
-Node: LOCALE-COMPARE472505
-Node: LOCALE-DATE473904
-Node: LOCALE-TIME474559
-Node: LOCALE-TIME-FROM-SECONDS475196
-Node: LOG475958
-Node: LOG10476306
-Node: LOWER-CASE476649
-Node: LOWEST-ALGEBRAIC477193
-Node: MAX477608
-Node: MEAN477966
-Node: MEDIAN478318
-Node: MIDRANGE478684
-Node: MIN479058
-Node: MOD479407
-Node: MODULE-CALLER-ID479753
-Node: MODULE-DATE480345
-Node: MODULE-FORMATTED-DATE480933
-Node: MODULE-ID481559
-Node: MODULE-PATH482131
-Node: MODULE-SOURCE482704
-Node: MODULE-TIME483288
-Node: MONETARY-DECIMAL-POINT484859
-Node: MONETARY-THOUSANDS-SEPARATOR485630
-Node: NUMERIC-DECIMAL-POINT486438
-Node: NUMERIC-THOUSANDS-SEPARATOR487220
-Node: NUMVAL488007
-Node: NUMVAL-C488786
-Node: NUMVAL-F490103
-Node: ORD490889
-Node: ORD-MAX491800
-Node: ORD-MIN492520
-Node: PI493241
-Node: PRESENT-VALUE493642
-Node: RANDOM494108
-Node: RANGE497211
-Node: REM497644
-Node: REVERSE497983
-Node: SECONDS-FROM-FORMATTED-TIME498354
-Node: SECONDS-PAST-MIDNIGHT499684
-Node: SIGN500201
-Node: SIN500549
-Node: SQRT501129
-Node: STANDARD-DEVIATION501662
-Node: STORED-CHAR-LENGTH502104
-Node: SUBSTITUTE502533
-Node: SUBSTITUTE-CASE503295
-Node: SUM503820
-Node: TAN504176
-Node: TEST-DATE-YYYYMMDD504772
-Node: TEST-DAY-YYYYDDD505533
-Node: TEST-NUMVAL506262
-Node: TEST-NUMVAL-C506839
-Node: TEST-NUMVAL-F507598
-Node: TRIM508174
-Node: UPPER-CASE508807
-Node: VARIANCE509342
-Node: WHEN-COMPILED509730
-Node: YEAR-TO-YYYY511088
-Node: GnuCOBOL Statements511815
-Node: ACCEPT514257
-Node: ACCEPT FROM CONSOLE514690
-Node: ACCEPT FROM COMMAND-LINE516016
-Node: ACCEPT FROM ENVIRONMENT518327
-Node: ACCEPT screen-data-item519822
-Ref: CRT STATUS Codes528166
-Node: ACCEPT FROM DATE/TIME530251
-Node: ACCEPT FROM Screen-Info531684
-Node: ACCEPT FROM Runtime-Info533294
-Node: ACCEPT OMITTED534955
-Node: ACCEPT FROM EXCEPTION-STATUS535794
-Node: ADD536673
-Node: ADD TO536873
-Node: ADD GIVING539545
-Node: ADD CORRESPONDING542564
-Node: ALLOCATE544973
-Node: ALTER547767
-Node: CALL549329
-Node: CANCEL558915
-Node: CLOSE559660
-Node: COMMIT561438
-Node: COMPUTE561840
-Node: CONTINUE564387
-Node: DELETE565181
-Node: DISPLAY567438
-Node: DISPLAY UPON device567731
-Node: DISPLAY UPON COMMAND-LINE569983
-Node: DISPLAY UPON ENVIRONMENT-NAME571594
-Node: DISPLAY screen-data-item573658
-Node: DIVIDE577743
-Node: DIVIDE INTO577967
-Node: DIVIDE INTO GIVING580820
-Node: DIVIDE BY GIVING584236
-Node: ENTRY587623
-Node: EVALUATE589122
-Node: EXIT596838
-Node: FREE603252
-Node: GENERATE604679
-Node: GOBACK607743
-Node: GO TO608349
-Node: Simple GO TO608537
-Node: GO TO DEPENDING ON610226
-Node: IF613760
-Node: INITIALIZE615878
-Node: INITIATE624974
-Node: INSPECT626294
-Node: MERGE642074
-Node: MOVE648814
-Node: Simple MOVE649003
-Node: MOVE CORRESPONDING650104
-Node: MULTIPLY650983
-Node: MULTIPLY BY651176
-Node: MULTIPLY GIVING653808
-Node: OPEN656528
-Ref: File OPEN Modes658805
-Node: PERFORM660005
-Node: Procedural PERFORM660222
-Node: Inline PERFORM664044
-Node: VARYING665041
-Node: READ670680
-Node: Sequential READ670871
-Node: Random READ675011
-Node: READY TRACE679693
-Node: RELEASE680339
-Node: RESET TRACE681116
-Node: RETURN681843
-Node: REWRITE683540
-Node: ROLLBACK686822
-Node: SEARCH687327
-Node: SEARCH ALL689770
-Node: SET695573
-Node: SET ENVIRONMENT695921
-Node: SET Program-Pointer697246
-Node: SET ADDRESS698805
-Node: SET Index699694
-Node: SET UP/DOWN700253
-Node: SET Condition Name701099
-Node: SET Switch702288
-Node: SET ATTRIBUTE703022
-Node: SORT704626
-Node: File-Based SORT704806
-Node: Table SORT713215
-Node: START715911
-Node: STOP720506
-Node: STRING723412
-Node: SUBTRACT726908
-Node: SUBTRACT FROM727145
-Node: SUBTRACT GIVING729592
-Node: SUBTRACT CORRESPONDING732190
-Node: SUPPRESS734664
-Node: TERMINATE736197
-Node: TRANSFORM737755
-Node: UNLOCK739197
-Node: UNSTRING740343
-Node: WRITE747633
-Node: Report Writer Usage Notes753858
-Node: RWCS Lexicon754400
-Node: The Anatomy of a Report758445
-Node: The Anatomy of a Report Page759499
-Node: How RWCS Builds Report Pages762430
-Node: Control Hierarchy766206
-Node: An Example771292
-Node: Data772063
-Node: Program780153
-Node: Generated Report Pages787619
-Node: Control Hierarchy (Revisited)796869
-Node: Turning PHYSICAL Page Formatting Into LOGICAL Formatting800131
-Node: Interfacing With The OS802780
-Node: Compiling Programs803542
-Node: cobc - The GnuCOBOL Compiler805311
-Ref: Compilation Unit820349
-Ref: Compilation Group821326
-Node: Compilation Time Environment Variables823759
-Node: Predefined Compilation Variables826633
-Node: Locating Copybooks828889
-Node: Compiler Configuration Files831397
-Node: Running Programs839541
-Node: Direct Execution840314
-Node: Executing Dynamically-Loadable Libraries841551
-Node: cobcrun - Command-line Execution842171
-Node: Dynamically Loaded Subprograms844776
-Node: Run Time Environment Variables846232
-Node: Program Arguments864276
-Node: Built-In System Subroutines864761
-Node: C$CALLEDBY869035
-Node: C$CHDIR869953
-Node: C$COPY870918
-Node: C$DELETE871680
-Node: C$FILEINFO872336
-Node: C$GETPID873393
-Node: C$JUSTIFY873804
-Node: C$MAKEDIR874635
-Node: C$NARG875395
-Node: C$PARAMSIZE875866
-Node: C$PRINTABLE876494
-Node: C$SLEEP877095
-Node: C$TOLOWER877635
-Node: C$TOUPPER878326
-Node: CBL_AND879017
-Node: CBL_CHANGE_DIR880460
-Node: CBL_CHECK_FILE_EXIST881357
-Node: CBL_CLOSE_FILE882780
-Node: CBL_COPY_FILE883688
-Node: CBL_CREATE_DIR884441
-Node: CBL_CREATE_FILE885244
-Node: CBL_DELETE_DIR886447
-Node: CBL_DELETE_FILE887308
-Node: CBL_EQ887955
-Node: CBL_ERROR_PROC889385
-Node: CBL_EXIT_PROC893580
-Node: CBL_FLUSH_FILE896621
-Node: CBL_GC_FORK897220
-Node: CBL_GC_GETOPT900748
-Node: CBL_GC_HOSTED905258
-Node: CBL_GC_NANOSLEEP910149
-Node: CBL_GC_PRINTABLE911554
-Node: CBL_GC_WAITPID912511
-Node: CBL_GET_CSR_POS913542
-Node: CBL_GET_CURRENT_DIR914539
-Node: CBL_GET_SCR_SIZE916214
-Node: CBL_IMP918055
-Node: CBL_NIMP919502
-Node: CBL_NOR920962
-Node: CBL_NOT922411
-Node: CBL_OPEN_FILE923250
-Node: CBL_OR924613
-Node: CBL_READ_FILE926051
-Node: CBL_RENAME_FILE927621
-Node: CBL_TOLOWER928833
-Node: CBL_TOUPPER929585
-Node: CBL_WRITE_FILE930336
-Node: CBL_XOR931595
-Node: SYSTEM933043
-Node: X"91"934229
-Node: X"E4"936402
-Node: X"E5"936748
-Node: X"F4"937094
-Node: X"F5"937853
-Node: Binary Truncation938598
-Node: Sub-Programming946199
-Node: Subprogram Types947248
-Node: Independent vs Contained vs Nested Subprograms948315
-Node: Alternate Entry Points951550
-Node: Dynamic vs Static Subprograms953415
-Ref: Locating Dynamically-Loadable Modules956091
-Node: Subprogram Execution Flow957110
-Node: Subroutine Execution Flow957594
-Node: User-Defined Function Execution Flow961092
-Node: Sharing Data Between Calling and Called Programs963664
-Node: Subprogram Arguments964127
-Node: Calling Program Considerations964412
-Node: Called Program Considerations966875
-Node: GLOBAL Data Items968106
-Node: EXTERNAL Data Items969383
-Node: Recursive Subprograms970788
-Node: Combining GnuCOBOL and C Programs975505
-Node: GnuCOBOL Run-Time Library Requirements976232
-Node: String Allocation Differences Between GnuCOBOL and C977052
-Node: Matching C Data Types with GnuCOBOL USAGE's980155
-Node: GnuCOBOL Main Programs CALLing C Subprograms982597
-Node: C Main Programs Calling GnuCOBOL Subprograms985947
-Node: Programming Style Suggestions990207
-Node: Marking Changes in Programs990784
-Node: Data Item Coding and Naming Conventions993811
-Node: Table Subscripting versus Table Indexing999366
-Node: Copybook Naming Conventions and Usage1004237
-Node: PROCEDURE DIVISION Sections Versus Paragraphs1005417
-Node: COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE1008842
-Node: Appendix A - Glossary of Terms1010708
-Ref: Imperative Statement1020932
-Node: Appendix B - Reserved Word List1029824
-Node: Appendix C - GNU Free Documentation License1039383
-Node: Appendix D - Summary of Document Changes1064593
-Node: INDEX1073749
-Ref: Environment Variables: Compilation-Time1124265
-Ref: Error Type Strings1158458
-Ref: Environment Variables: Run-Time1223803
+Node: Introduction11520
+Node: Additional Reference Sources13723
+Node: Introducing COBOL14457
+Node: Why YOU Should Learn COBOL15489
+Node: Programmer Productivity21998
+Node: So What is GnuCOBOL?26659
+Node: Language Reserved Words29454
+Node: User-Defined Words30137
+Node: Case Insensitivity30853
+Node: Readability of Programs31532
+Node: Divisions Organize Programs38377
+Node: Copybooks39007
+Node: Structured Data39617
+Node: Files40129
+Ref: LINE ADVANCING42107
+Node: Table Handling52526
+Node: Sorting and Merging Data53840
+Node: String Manipulation Features54732
+Ref: String Manipulation Features-Footnote-159581
+Node: Screen Formatting Features59705
+Node: A Sample Screen61015
+Node: Color Palette and Video Attributes63712
+Node: Report Writer Features67346
+Node: Data Initialization70573
+Node: Syntax Diagram Conventions72449
+Node: Format of Program Source Lines76314
+Node: Program Structure81821
+Node: Comments87639
+Node: Literals90048
+Node: Numeric Literals90296
+Node: Alphanumeric Literals91166
+Node: Figurative Constants94500
+Node: Punctuation96783
+Node: LENGTH OF97718
+Node: Interfacing to Other Environments99242
+Node: CDF - Compiler Directing Facility100319
+Node: >>CALL-CONVENTION101516
+Node: COPY102519
+Node: REPLACE106601
+Node: >>DEFINE111923
+Node: >>IF113867
+Node: >>SET118165
+Node: >>SOURCE120011
+Node: >>TURN120877
+Node: >>D121413
+Node: >>DISPLAY121745
+Node: >>PAGE122161
+Node: >>LISTING122515
+Node: >>LEAP-SECONDS122900
+Node: * Directives123399
+Node: IDENTIFICATION DIVISION124024
+Node: ENVIRONMENT DIVISION127529
+Node: CONFIGURATION SECTION129946
+Node: SOURCE-COMPUTER131397
+Node: OBJECT-COMPUTER132718
+Node: SPECIAL-NAMES135598
+Ref: LOCALE Names138100
+Node: Alphabet-Name-Clause143026
+Node: Class-Definition-Clause145962
+Node: Switch-Definition-Clause147621
+Node: Symbolic-Characters-Clause148983
+Node: REPOSITORY151004
+Node: INPUT-OUTPUT SECTION153232
+Node: SELECT154804
+Ref: File Status Codes164848
+Node: ORGANIZATION SEQUENTIAL166450
+Node: ORGANIZATION LINE SEQUENTIAL168888
+Node: ORGANIZATION RELATIVE171993
+Node: ORGANIZATION INDEXED174677
+Node: SAME RECORD AREA177381
+Node: MULTIPLE FILE178878
+Node: DATA DIVISION179431
+Node: Data Definition Principles182117
+Node: FILE SECTION187141
+Node: File/Sort-Description188204
+Node: FILE-SECTION-Data-Item193858
+Node: WORKING-STORAGE SECTION198469
+Node: LOCAL-STORAGE SECTION202956
+Node: LINKAGE SECTION206820
+Node: REPORT SECTION211833
+Node: Report Group Definitions219788
+Node: REPORT SECTION Data Items223065
+Node: SCREEN SECTION225654
+Node: Special Data Items230695
+Node: 01-Level Constants231029
+Node: 66-Level Data Items236978
+Node: 77-Level Data Items238186
+Node: 78-Level Data Items240112
+Node: 88-Level Data Items241912
+Node: Data Description Clauses244423
+Node: ANY LENGTH245604
+Node: AUTO246498
+Node: AUTO-SKIP247325
+Node: AUTOTERMINATE248172
+Node: BACKGROUND-COLOR249045
+Node: BASED250464
+Node: BEEP251388
+Node: BELL252052
+Node: BLANK252716
+Node: BLANK WHEN ZERO253592
+Node: BLINK254541
+Node: COLUMN255202
+Node: CONSTANT259158
+Node: EMPTY-CHECK260175
+Node: ERASE261714
+Node: EXTERNAL262737
+Node: FALSE264590
+Node: FOREGROUND-COLOR265665
+Node: FROM267055
+Node: FULL267890
+Node: GLOBAL269497
+Node: GROUP INDICATE271647
+Node: HIGHLIGHT272827
+Node: JUSTIFIED273740
+Node: LEFTLINE276828
+Node: LENGTH-CHECK278103
+Node: LINE279764
+Node: LOWLIGHT283990
+Node: NEXT GROUP285038
+Node: NO-ECHO286673
+Node: OCCURS287649
+Node: OVERLINE292362
+Node: PICTURE293630
+Node: PRESENT WHEN313673
+Node: PROMPT314672
+Node: PROTECTED315837
+Node: REDEFINES318519
+Node: RENAMES320640
+Node: REQUIRED321817
+Node: REVERSE-VIDEO323344
+Node: SECURE324206
+Node: SIGN IS325172
+Node: SOURCE327500
+Node: SUM OF329573
+Node: SYNCRONIZED333224
+Node: TO334923
+Node: TYPE335820
+Node: UNDERLINE337815
+Node: USAGE339087
+Node: USING360049
+Node: VALUE361201
+Node: PROCEDURE DIVISION367814
+Node: PROCEDURE DIVISION USING369902
+Node: PROCEDURE DIVISION CHAINING373867
+Node: PROCEDURE DIVISION RETURNING378246
+Node: PROCEDURE DIVISION Sections and Paragraphs380427
+Node: DECLARATIVES382004
+Node: Table References388273
+Node: Qualification of Data Names389959
+Node: Reference Modifiers391888
+Node: Arithmetic Expressions394226
+Node: Conditional Expressions400849
+Node: Condition Names401355
+Node: Class Conditions402581
+Node: Sign Conditions404865
+Node: Switch-Status Conditions405579
+Node: Relation Conditions406659
+Node: Combined Conditions409363
+Node: Negated Conditions410927
+Node: Use of Periods412039
+Node: Use of VERB/END-VERB Constructs414461
+Node: Concurrent Access to Files417250
+Node: File Sharing417803
+Node: Record Locking420180
+Node: Common Clauses on Executable Statements424266
+Node: AT END + NOT AT END424771
+Node: CORRESPONDING426569
+Node: INVALID KEY + NOT INVALID KEY430988
+Node: ON EXCEPTION + NOT ON EXCEPTION431896
+Node: ON OVERFLOW + NOT ON OVERFLOW432992
+Node: ON SIZE ERROR + NOT ON SIZE ERROR434069
+Node: ROUNDED435373
+Node: Special Registers440668
+Node: Intrinsic Functions444819
+Node: ABS448393
+Node: ACOS448705
+Node: ANNUITY449223
+Node: ASIN450196
+Node: ATAN450713
+Node: BYTE-LENGTH451237
+Node: CHAR452027
+Node: COMBINED-DATETIME453214
+Node: CONCATENATE453830
+Node: COS454589
+Node: CURRENCY-SYMBOL455189
+Node: CURRENT-DATE455751
+Node: DATE-OF-INTEGER456789
+Node: DATE-TO-YYYYMMDD457289
+Node: DAY-OF-INTEGER458110
+Node: DAY-TO-YYYYDDD458606
+Node: E459392
+Node: EXCEPTION-FILE459796
+Node: EXCEPTION-LOCATION460537
+Node: EXCEPTION-STATEMENT461490
+Node: EXCEPTION-STATUS462209
+Ref: Error Exception Codes462943
+Node: EXP466878
+Node: EXP10467218
+Node: FACTORIAL467560
+Node: FRACTION-PART467930
+Node: HIGHEST-ALGEBRAIC468390
+Node: INTEGER468818
+Node: INTEGER-OF-DATE469191
+Node: INTEGER-OF-DAY469834
+Node: INTEGER-PART470477
+Node: LENGTH470865
+Node: LENGTH-AN471900
+Node: LOCALE-COMPARE472945
+Node: LOCALE-DATE474344
+Node: LOCALE-TIME474999
+Node: LOCALE-TIME-FROM-SECONDS475636
+Node: LOG476398
+Node: LOG10476746
+Node: LOWER-CASE477089
+Node: LOWEST-ALGEBRAIC477633
+Node: MAX478048
+Node: MEAN478406
+Node: MEDIAN478758
+Node: MIDRANGE479124
+Node: MIN479498
+Node: MOD479847
+Node: MODULE-CALLER-ID480193
+Node: MODULE-DATE480785
+Node: MODULE-FORMATTED-DATE481373
+Node: MODULE-ID481999
+Node: MODULE-PATH482571
+Node: MODULE-SOURCE483144
+Node: MODULE-TIME483728
+Node: MONETARY-DECIMAL-POINT485299
+Node: MONETARY-THOUSANDS-SEPARATOR486070
+Node: NUMERIC-DECIMAL-POINT486878
+Node: NUMERIC-THOUSANDS-SEPARATOR487660
+Node: NUMVAL488447
+Node: NUMVAL-C489226
+Node: NUMVAL-F490543
+Node: ORD491329
+Node: ORD-MAX492240
+Node: ORD-MIN492960
+Node: PI493681
+Node: PRESENT-VALUE494082
+Node: RANDOM494548
+Node: RANGE497651
+Node: REM498084
+Node: REVERSE498423
+Node: SECONDS-FROM-FORMATTED-TIME498794
+Node: SECONDS-PAST-MIDNIGHT500124
+Node: SIGN500641
+Node: SIN500989
+Node: SQRT501569
+Node: STANDARD-DEVIATION502102
+Node: STORED-CHAR-LENGTH502544
+Node: SUBSTITUTE502973
+Node: SUBSTITUTE-CASE503735
+Node: SUM504260
+Node: TAN504616
+Node: TEST-DATE-YYYYMMDD505212
+Node: TEST-DAY-YYYYDDD505973
+Node: TEST-NUMVAL506702
+Node: TEST-NUMVAL-C507279
+Node: TEST-NUMVAL-F508038
+Node: TRIM508614
+Node: UPPER-CASE509247
+Node: VARIANCE509782
+Node: WHEN-COMPILED510170
+Node: YEAR-TO-YYYY511528
+Node: GnuCOBOL Statements512255
+Node: ACCEPT514697
+Node: ACCEPT FROM CONSOLE515130
+Node: ACCEPT FROM COMMAND-LINE516456
+Node: ACCEPT FROM ENVIRONMENT518767
+Node: ACCEPT screen-data-item520262
+Ref: CRT STATUS Codes528606
+Node: ACCEPT FROM DATE/TIME530691
+Node: ACCEPT FROM Screen-Info532124
+Node: ACCEPT FROM Runtime-Info533734
+Node: ACCEPT OMITTED535395
+Node: ACCEPT FROM EXCEPTION-STATUS536234
+Node: ADD537113
+Node: ADD TO537313
+Node: ADD GIVING539985
+Node: ADD CORRESPONDING543004
+Node: ALLOCATE545413
+Node: ALTER548207
+Node: CALL549769
+Node: CANCEL559355
+Node: CLOSE560100
+Node: COMMIT561878
+Node: COMPUTE562280
+Node: CONTINUE564827
+Node: DELETE565621
+Node: DISPLAY567878
+Node: DISPLAY UPON device568171
+Node: DISPLAY UPON COMMAND-LINE570423
+Node: DISPLAY UPON ENVIRONMENT-NAME572034
+Node: DISPLAY screen-data-item574098
+Node: DIVIDE578183
+Node: DIVIDE INTO578407
+Node: DIVIDE INTO GIVING581260
+Node: DIVIDE BY GIVING584676
+Node: ENTRY588063
+Node: EVALUATE589562
+Node: EXIT597278
+Node: FREE603692
+Node: GENERATE605119
+Node: GOBACK608183
+Node: GO TO608789
+Node: Simple GO TO608977
+Node: GO TO DEPENDING ON610666
+Node: IF614200
+Node: INITIALIZE616318
+Node: INITIATE625414
+Node: INSPECT626734
+Node: MERGE642514
+Node: MOVE649254
+Node: Simple MOVE649443
+Node: MOVE CORRESPONDING650544
+Node: MULTIPLY651423
+Node: MULTIPLY BY651616
+Node: MULTIPLY GIVING654248
+Node: OPEN656968
+Ref: File OPEN Modes659245
+Node: PERFORM660445
+Node: Procedural PERFORM660662
+Node: Inline PERFORM664484
+Node: VARYING665481
+Node: READ671120
+Node: Sequential READ671311
+Node: Random READ675451
+Node: READY TRACE680133
+Node: RELEASE680779
+Node: RESET TRACE681556
+Node: RETURN682283
+Node: REWRITE683980
+Node: ROLLBACK687262
+Node: SEARCH687767
+Node: SEARCH ALL690210
+Node: SET696013
+Node: SET ENVIRONMENT696361
+Node: SET Program-Pointer697686
+Node: SET ADDRESS699245
+Node: SET Index700134
+Node: SET UP/DOWN700693
+Node: SET Condition Name701539
+Node: SET Switch702728
+Node: SET ATTRIBUTE703462
+Node: SORT705066
+Node: File-Based SORT705246
+Node: Table SORT713655
+Node: START716351
+Node: STOP720946
+Node: STRING723852
+Node: SUBTRACT727348
+Node: SUBTRACT FROM727585
+Node: SUBTRACT GIVING730032
+Node: SUBTRACT CORRESPONDING732630
+Node: SUPPRESS735104
+Node: TERMINATE736637
+Node: TRANSFORM738195
+Node: UNLOCK739637
+Node: UNSTRING740783
+Node: WRITE748073
+Node: Report Writer Usage Notes754298
+Node: RWCS Lexicon754840
+Node: The Anatomy of a Report758885
+Node: The Anatomy of a Report Page759939
+Node: How RWCS Builds Report Pages762870
+Node: Control Hierarchy766646
+Node: An Example771732
+Node: Data772503
+Node: Program780593
+Node: Generated Report Pages788059
+Node: Control Hierarchy (Revisited)797309
+Node: Turning PHYSICAL Page Formatting Into LOGICAL Formatting800571
+Node: Interfacing With The OS803220
+Node: Compiling Programs803982
+Node: cobc - The GnuCOBOL Compiler805751
+Ref: Compilation Unit820789
+Ref: Compilation Group821766
+Node: Compilation Time Environment Variables824199
+Node: Predefined Compilation Variables827073
+Node: Locating Copybooks829329
+Node: Compiler Configuration Files831837
+Node: Running Programs839981
+Node: Direct Execution840754
+Node: Executing Dynamically-Loadable Libraries841991
+Node: cobcrun - Command-line Execution842611
+Node: Dynamically Loaded Subprograms845216
+Node: Run Time Environment Variables846672
+Node: Program Arguments864716
+Node: Built-In System Subroutines865201
+Node: C$CALLEDBY869475
+Node: C$CHDIR870393
+Node: C$COPY871358
+Node: C$DELETE872120
+Node: C$FILEINFO872776
+Node: C$GETPID873833
+Node: C$JUSTIFY874244
+Node: C$MAKEDIR875075
+Node: C$NARG875835
+Node: C$PARAMSIZE876306
+Node: C$PRINTABLE876934
+Node: C$SLEEP877535
+Node: C$TOLOWER878075
+Node: C$TOUPPER878766
+Node: CBL_AND879457
+Node: CBL_CHANGE_DIR880900
+Node: CBL_CHECK_FILE_EXIST881797
+Node: CBL_CLOSE_FILE883220
+Node: CBL_COPY_FILE884128
+Node: CBL_CREATE_DIR884881
+Node: CBL_CREATE_FILE885684
+Node: CBL_DELETE_DIR886887
+Node: CBL_DELETE_FILE887748
+Node: CBL_EQ888395
+Node: CBL_ERROR_PROC889825
+Node: CBL_EXIT_PROC894020
+Node: CBL_FLUSH_FILE897061
+Node: CBL_GC_FORK897660
+Node: CBL_GC_GETOPT901188
+Node: CBL_GC_HOSTED905698
+Node: CBL_GC_NANOSLEEP910589
+Node: CBL_GC_PRINTABLE911994
+Node: CBL_GC_WAITPID912951
+Node: CBL_GET_CSR_POS913982
+Node: CBL_GET_CURRENT_DIR914979
+Node: CBL_GET_SCR_SIZE916654
+Node: CBL_IMP918495
+Node: CBL_NIMP919942
+Node: CBL_NOR921402
+Node: CBL_NOT922851
+Node: CBL_OPEN_FILE923690
+Node: CBL_OR925053
+Node: CBL_READ_FILE926491
+Node: CBL_RENAME_FILE928061
+Node: CBL_TOLOWER929273
+Node: CBL_TOUPPER930025
+Node: CBL_WRITE_FILE930776
+Node: CBL_XOR932035
+Node: SYSTEM933483
+Node: X"91"934669
+Node: X"E4"936842
+Node: X"E5"937188
+Node: X"F4"937534
+Node: X"F5"938293
+Node: Binary Truncation939038
+Node: Sub-Programming945136
+Node: Subprogram Types946185
+Node: Independent vs Contained vs Nested Subprograms947252
+Node: Alternate Entry Points950487
+Node: Dynamic vs Static Subprograms952352
+Ref: Locating Dynamically-Loadable Modules955028
+Node: Subprogram Execution Flow956047
+Node: Subroutine Execution Flow956531
+Node: User-Defined Function Execution Flow960029
+Node: Sharing Data Between Calling and Called Programs962601
+Node: Subprogram Arguments963064
+Node: Calling Program Considerations963349
+Node: Called Program Considerations965812
+Node: GLOBAL Data Items967043
+Node: EXTERNAL Data Items968320
+Node: Recursive Subprograms969725
+Node: Combining GnuCOBOL and C Programs974442
+Node: GnuCOBOL Run-Time Library Requirements975169
+Node: String Allocation Differences Between GnuCOBOL and C975989
+Node: Matching C Data Types with GnuCOBOL USAGE's979092
+Node: GnuCOBOL Main Programs CALLing C Subprograms981534
+Node: C Main Programs Calling GnuCOBOL Subprograms984884
+Node: Programming Style Suggestions989144
+Node: Marking Changes in Programs989721
+Node: Data Item Coding and Naming Conventions992748
+Node: Table Subscripting versus Table Indexing998303
+Node: Copybook Naming Conventions and Usage1003174
+Node: PROCEDURE DIVISION Sections Versus Paragraphs1004354
+Node: COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE1007779
+Node: Appendix A - Glossary of Terms1009645
+Ref: Imperative Statement1019869
+Node: Appendix B - Reserved Word List1028761
+Node: Appendix C - GNU Free Documentation License1038320
+Node: Appendix D - Summary of Document Changes1063530
+Node: Appendix E - Summary of Compiler Changes since 2009 and version v1-11073121
+Node: INDEX1098424
+Ref: Environment Variables: Compilation-Time1148788
+Ref: Error Type Strings1182908
+Ref: Environment Variables: Run-Time1248253
 
 End Tag Table

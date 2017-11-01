@@ -1,7 +1,7 @@
 @comment *********************************************************************
 @comment ** E. Summary of Compiler Changes since 2009 and version v1.1      **
 @comment *********************************************************************
-@newappendix{E,Summary of Compiler Changes since 2009 and version v1-1}To GnuCobol Compiler v2.2. There may well be some changes made that are not documented here.
+@newappendix{E,Summary of Compiler Changes since 2009 and version v1-1}To GnuCOBOL Compiler v2.2. There may well be some changes made that are not documented here.
 @p Taken from Grammar Changelog Sept 2017.
 @enumerate
 @p @item General
@@ -22,10 +22,10 @@
 @p @item cobc command-line options: added -vvv (like -vv but passes verbose option to the linker as well) and -### (like -v but commands are not executed).
 @p @item cobc command-line options: allow -, i.e. stdin, as a source file.
 @p @item COBOL-85 NIST testsuite: tests now refer to $COBC, $COBCRUN and $COBCRUN_DIRECT environment variables instead of directly calling cobc and cobcrun, allowing the testsuite to run in conjunction with tools like valgrind.
-@p @item COBOL-85 NIST testsuite: tests for obsolete feature agging are now executed, if possible.
-@p @item Comments: added ACUCOBOL comments: $ as synonym for * in indicator area and j as synonym for oating comment indicator *>.
+@p @item COBOL-85 NIST testsuite: tests for obsolete feature flagging are now executed, if possible.
+@p @item Comments: added ACUCOBOL comments: $ as synonym for * in indicator area and j as synonym for floating comment indicator *>.
 @p @item Communication facility: added detection of communication facility syntax.
-@p @item configure: added useful error message when help2man, bison and ex are missing when they are needed.
+@p @item configure: added useful error message when help2man, bison and flex are missing when they are needed.
 @p @item curses: fixed compilation errors when configured without curses (bug #90).
 @p @item Error messages: error messages are now lowercase, in line with the GNU Coding Standards (bug #198).
 @p @item Error messages: segfaults in the compiler now cause an error message to be displayed.
@@ -62,7 +62,7 @@
 @p @item Deleted compiler configuration options: eject-statement, cobol85-reserved.
 @p @item New compiler configurations: all dialects have been split into standard and strict dialects, with strict dialects maintaining source compatibility with the dialect’s compiler(s).
 @p @item New compiler configurations: acu for ACUCOBOL, cobol2014 for COBOL 2014, rm for RM-COBOL, xopen for X/Open.
-@p @item New compiler configuration options: accept-display-extensions, accept-update, accept-auto, acu-literals, arithmetic-osvs, call-overow, console-is-crt, constant-01, constant-78, constant-folding, define-constant-directive, hexadecimal-boolean, hexadecimal-national-literals, incorrect-conf-sec-order, intrinsic-function, listingstatements, literal-length, move-figurative-constant-to-numeric, move-figurativequote-to-numeric, move-ibm, national-literals, no-echo-means-secure, not-exceptionbefore-exception, numeric-boolean, numeric-literal-length, numeric-value-for-editeditem, pic-length, program-name-redefinition, program-prototypes, reference-out-ofdeclaratives (feature request #179), register, renames-uncommon-levels, reserved, reserved-words, stop-identifier, system-name, title-statement, use-for-debugging, word-length (feature request #43).
+@p @item New compiler configuration options: accept-display-extensions, accept-update, accept-auto, acu-literals, arithmetic-osvs, call-overflow, console-is-crt, constant-01, constant-78, constant-folding, define-constant-directive, hexadecimal-boolean, hexadecimal-national-literals, incorrect-conf-sec-order, intrinsic-function, listingstatements, literal-length, move-figurative-constant-to-numeric, move-figurativequote-to-numeric, move-ibm, national-literals, no-echo-means-secure, not-exceptionbefore-exception, numeric-boolean, numeric-literal-length, numeric-value-for-editeditem, pic-length, program-name-redefinition, program-prototypes, reference-out-ofdeclaratives (feature request #179), register, renames-uncommon-levels, reserved, reserved-words, stop-identifier, system-name, title-statement, use-for-debugging, word-length (feature request #43).
 @p @item Registers: compiler configurations can now specify all the registers to generate.
 @p @item Registers: added registers not yet implemented by GnuCOBOL as reserved words.
 @p @item Renamed compiler configuration options: debugging-line to debugging-mode, relaxed-syntax-check to relax-syntax-checks
@@ -153,14 +153,14 @@
 @p @item ACCEPT statement: permit clauses in any order.
 @p @item ACCEPT statement: allow WITH before every screen attribute clause.
 @p @item ACCEPT statement: entering control-C now terminates the program.
-@p @item ACCEPT statement (screen): fixed failed ACCEPTs caused by a buffer overow.
+@p @item ACCEPT statement (screen): fixed failed ACCEPTs caused by a buffer overflow.
 @p @item ACCEPT statement (screen): enhanced support for special keys (insert, tab, delete, alt-delete, etc.).
 @p @item ACCEPT statement (screen): fixed bug #161 where screens terminated after entering a few characters in a field.
 @p @item ACCEPT statement (screen): added DEFAULT as synonym for UPDATE.
 @p @item ACCEPT statement (screen): ERASE and BLANK clauses in screens are now ignored (bug #192).
 @p @item ACCEPT statement (screen): fixed bug #160 where ACCEPT statement LINE/COLUMN clauses did not work.
 @p @item ACCEPT statement (screen): fixed segfault on ACCEPT OMITTED (bug #300).
-@p @item ACCEPT statement (screen): added checks that screen attributes are not specified multiple times or after conicting attributes.
+@p @item ACCEPT statement (screen): added checks that screen attributes are not specified multiple times or after conflicting attributes.
 @p @item ACCEPT statement (screen): fixed some phrases not being recognised without being preceded by WITH (bug #402).
 @p @item ACCEPT statement (screen): fixed the backspace and delete keys not working and the insert key not toggling between insertion and overwriting.
 @p @item ACCEPT statement (screen): cursor now changes with insertion/overwrite mode (if supported by the terminal).
@@ -168,7 +168,7 @@
 @p @item ADD statement (corresponding): restricted to numeric items (bug #235).
 @p @item ADD statement (table): added detection of ADD TABLE.
 @p @item Addition of COMP-3 numbers: fixed bug where COMP-3 addition failed.
-@p @item Addition of oating-point numbers: fixed incorrect addition of oating-point numbers.
+@p @item Addition of floating-point numbers: fixed incorrect addition of floating-point numbers.
 @p @item CALL statement: implemented feature request #101, allowing more arguments to be provided.
 @p @item CALL statement: fixed behaviour when calling cancelled modules.
 @p @item CALL statement: added RETURNING NOTHING.
@@ -184,7 +184,7 @@
 @p @item DISPLAY statement: allow WITH before every screen attribute clause.
 @p @item DISPLAY statement (screen): fixed bug where EC-SCREEN exceptions did not trigger ON EXCEPTION handler (bug #243).
 @p @item DISPLAY statement (screen): fixed bugs in DISPLAY SPACES/ALL X“02”/ALL X“07”.
-@p @item DISPLAY statement (screen): added checks that screen attributes are not specified multiple times or after conicting attributes.
+@p @item DISPLAY statement (screen): added checks that screen attributes are not specified multiple times or after conflicting attributes.
 @p @item DISPLAY statement (screen): DISPLAY OMITTED marked as unfinished; currently equivalent to DISPLAY LOW-VALUE.
 @p @item DISPLAY statement (screen): fixed some phrases not being recognised without being preceded by WITH (bug #402).
 @p @item END DECLARATIVES phrase: fixed bug #88, where an erroneous unreachable code warning was emitted for code without a main procedure.
