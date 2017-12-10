@@ -21,7 +21,7 @@
     \metaelement{local-storage-section}
   \end{0-1}\newline
   \begin{0-1}
-    \pending{\metaelement{report-section}}
+    \metaelement{report-section}
   \end{0-1}\newline
   \begin{0-1}
     \metaelement{screen-section}
@@ -75,9 +75,13 @@
     \deleted{
       \key{DATA}
       \begin{1=}
-        \key{RECORD} IS \\
-        \key{RECORDS} ARE
+        \key{RECORD} \\
+        \key{RECORDS}
       \end{1=}
+      \begin{0-1}
+        IS \\
+        ARE
+      \end{0-1}
       \begin{1=}
         \identifier
       \end{1=}\ldots
@@ -89,9 +93,13 @@
     \deleted{
       \key{LABEL}
       \begin{1=}
-        \key{RECORD} IS \\
-        \key{RECORDS} ARE
+        \key{RECORD} \\
+        \key{RECORDS}
       \end{1=}
+      \begin{0-1}
+        IS \\
+        ARE
+      \end{0-1}
       \begin{1=}
         \key{STANDARD} \\
         \key{OMITTED}
@@ -277,13 +285,11 @@
 
 \section{Report section}
 \begin{syntax}
-  \pending{
-    \key{REPORT} \key{SECTION}.\newline
-    \begin{0-1}
-      \metaelement{constant-definition} \\
-      \metaelement{report-description}
-    \end{0-1}\ldots
-  }
+  \key{REPORT} \key{SECTION}.\newline
+  \begin{0-1}
+    \metaelement{constant-definition} \\
+    \metaelement{report-description}
+  \end{0-1}\ldots
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -305,31 +311,25 @@
     \end{1=} \\
 
     \begin{1=}
-      \key{CONTROL} IS \\
-      \key{CONTROLS} ARE
+      \key{CONTROL} \\
+      \key{CONTROLS}
     \end{1=}
-    FINAL
+    \begin{0-1}
+      IS \\
+      ARE
+    \end{0-1}
     \begin{1=}
-      \identifier
-    \end{1=}\ldots \\
-
-    \key{PAGE}
-    \begin{0-1}
-      \key{LIMIT} IS \\
-      \key{LIMITS} ARE
-    \end{0-1}
-    \integer
-    \begin{0-1}
-      \key{LINE} \\
-      \key{LINES}
-    \end{0-1}
-    \begin{0-1}
-      \integer
       \begin{1=}
-        \key{COLUMNS} \\
-        \key{COLS}
-      \end{1=}
-    \end{0-1}
+        \identifier
+      \end{1=}\ldots \\
+      
+      \key{FINAL}
+      \begin{0-1}
+        \identifier
+      \end{0-1}\ldots \\
+    \end{1=} \\
+
+    \defdmetaelement{page-limits-clause}
   \end{0-1}\ldots\ {}.\newline
 
   \begin{1=}
@@ -337,30 +337,116 @@
   \end{1=}\ldots
 \end{syntax}
 
-where \metaelement{report-group-description} is
+where \defnmetaelement{page-limits-clause} is
 
 \begin{syntax}
-  \pending{
-    \metaelement{level-number} \metaelement{entry-name}
-    \begin{0-1}
-      \metaelement{blank-clause} \\
-      \metaelement{column-clause} \\
-      \key{GROUP} INDICATE \\
-      \metaelement{justified-clause} \\
-      \metaelement{line-clause} \\
-      \metaelement{next-group-clause} \\
-      \metaelement{picture-clause} \\
-      \metaelement{present-when-clause} \\
-      \metaelement{occurs-clause} \\
-      \metaelement{sign-clause} \\
-      \metaelement{source-clause} \\
-      \metaelement{sum-clause} \\
-      \metaelement{type-clause} \\
-      \key{USAGE} IS \key{DISPLAY} \\
-      \metaelement{value-clause} \\
-      \metaelement{varying-clause}
-    \end{0-1}\ldots\ {}.
-  }
+  \key{PAGE}
+  \begin{0-1}
+    \key{LIMIT} \\
+    \key{LIMITS}
+  \end{0-1}
+  \begin{0-1}
+    IS \\
+    ARE
+  \end{0-1}
+  \begin{1=}
+    \integer \\
+    \identifier
+  \end{1=}
+  \begin{1=}
+    \key{LINE} \\
+    \key{LINES}
+  \end{1=}
+  
+  \begin{0-1}
+    \begin{1=}
+      \integer \\
+      \identifier
+    \end{1=}
+    \begin{1=}
+      \key{COLUMNS} \\
+      \key{COLS}
+    \end{1=}
+  \end{0-1}
+  
+  \begin{0-1}
+    \key{HEADING} IS
+    \begin{1=}
+      \integer \\
+      \identifier
+    \end{1=} \\
+
+    \key{FIRST}
+    \begin{1=}
+      \key{DETAIL} \\
+      \key{DE}
+    \end{1=}
+    IS
+    \begin{1=}
+      \integer \\
+      \identifier
+    \end{1=} \\
+
+    \key{LAST}
+    \begin{1=}
+      \key{CONTROL} \key{HEADING} \\
+      \key{CH}
+    \end{1=}
+    IS
+    \begin{1=}
+      \integer \\
+      \identifier
+    \end{1=} \\
+
+    \key{LAST}
+    \begin{1=}
+      \key{DETAIL} \\
+      \key{DE}
+    \end{1=}
+    IS
+    \begin{1=}
+      \integer \\
+      \identifier
+    \end{1=} \\
+
+    \key{FOOTING} IS
+    \begin{1=}
+      \integer \\
+      \identifier
+    \end{1=} \\
+
+    \miscext{
+      \key{LINE} \key{LIMIT} IS
+      \begin{1=}
+        \integer \\
+        \identifier
+      \end{1=}
+    }
+  \end{0-1} \ldots
+\end{syntax}
+
+where \defnmetaelement{report-group-description} is
+
+\begin{syntax}
+  \metaelement{level-number} \metaelement{entry-name}
+  \begin{0-1}
+    \metaelement{blank-clause} \\
+    \metaelement{column-clause} \\
+    \key{GROUP} INDICATE \\
+    \metaelement{justified-clause} \\
+    \metaelement{line-clause} \\
+    \metaelement{next-group-clause} \\
+    \metaelement{picture-clause} \\
+    \metaelement{present-when-clause} \\
+    \metaelement{occurs-clause} \\
+    \metaelement{sign-clause} \\
+    \metaelement{source-clause} \\
+    \metaelement{sum-clause} \\
+    \metaelement{type-clause} \\
+    \key{USAGE} IS \key{DISPLAY} \\
+    \metaelement{value-clause} \\
+    \metaelement{varying-clause}
+  \end{0-1}\ldots\ {}.
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -383,6 +469,16 @@ where \metaelement{report-group-description} is
 \subsection{Screen description}
 \begin{syntax}
   \metaelement{level-number} \metaelement{entry-name}
+  \miscext{
+    \pending{
+      \begin{0-1}
+        \metaelement{control-definition}
+        \begin{0-1}
+          \metaelement{control-attributes}
+        \end{0-1}\ldots
+      \end{0-1}
+    }
+  }
   \begin{0-1}
     \metaelement{appearance-attribute-clauses} \\
 
@@ -393,14 +489,17 @@ where \metaelement{report-group-description} is
     \end{1=} \\
 
     \metaelement{column-clause} \\
-
+    \miscext{\pending{\metaelement{ccol-clause}}} \\
+    \miscext{\pending{\metaelement{cline-clause}}} \\
+    \miscext{\pending{\metaelement{csize-clause}}} \\
+    
     \key{ERASE}
     \begin{1=}
       \key{EOL} \\
       \key{EOS} \\
 
       \begin{0-1}
-        \key{END} OF
+        \miscext{TO} \key{END} OF
       \end{0-1}
       \begin{1=}
         \key{LINE} \\
@@ -441,12 +540,173 @@ where \metaelement{report-group-description} is
 
     \key{SECURE} \\
     \metaelement{sign-clause} \\
+    \miscext{\pending{\metaelement{size-clause}}} \\
     \metaelement{usage-clause} \\
     \metaelement{value-clause}
   \end{0-1}\ldots\ {}.
 \end{syntax}
 
-where \metaelement{appearance-attribute-clauses} is
+% TO-DO: Move to own section and have separate control definition section.
+
+% where \defnmetaelement{control-definition} is
+
+% \begin{syntax}[\miscextcolour]
+%   \begin{1=}
+%     \key{ACTIVEX} \\
+%     \key{BAR} \\
+%     \key{BITMAP} \\
+%     \key{CHECK-BOX} \\
+%     \key{COMBO-BOX} \\
+%     \key{DATE-ENTRY} \\
+%     \key{ENTRY-FIELD} \\
+%     \key{FRAME} \\
+%     \key{LABEL} \\
+%     \key{LIST-BOX} \\
+
+%     \key{OBJECT}
+%     \begin{1=}
+%       \identifier \\
+%       \integer
+%     \end{1=} \\
+    
+%     \key{PUSH-BUTTON} \\
+%     \key{RADIO-BUTTON} \\
+%     \key{SCROLL-BAR} \\
+%     \key{STATUS-BAR} \\
+%     \key{TREE-VIEW} \\
+%     \key{WEB-BROWSER}
+%   \end{1=}
+% \end{syntax}
+
+% where \defnmetaelement{control-attributes} is
+
+% \begin{syntax}[\miscextcolour]
+%   \begin{1=}
+%     \key{STYLE}
+%     \begin{0-1}
+%       IS \\
+%       =
+%     \end{0-1}
+%     \begin{1=}
+%       \identifier \\
+%       \integer
+%     \end{1=} \\
+
+%     \begin{0-1}
+%       \key{NOT}
+%     \end{0-1}
+%     \metaelement{control-style-name} \\
+
+%     \begin{1=}
+%       \key{PROPERTY} \integer \\
+%       \metaelement{control-property-name}
+%     \end{1=}
+%     \begin{0-1}
+%       IS \\
+%       ARE \\
+%       =
+%     \end{0-1}
+%     \begin{1=}
+%       \identifier \\
+%       \literal
+%     \end{1=}\ldots
+%   \end{1=} \ldots \\
+% \end{syntax}
+% 
+%where \defnmetaelement{control-style-name} is
+% \begin{syntax}[\miscextcolour]
+%   \begin{1=}
+%     \key{PERMANENT} \\
+%     \key{TEMPORARY} \\
+%     \key{NOTAB} \\
+%     \key{HEIGHT-IN-CELLS} \\
+%     \key{WIDTH-IN-CELLS} \\
+%     \key{THREEDIMENSIONAL} \\
+%     \key{OVERLAP-LEFT} \\
+%     \key{OVERLAP-TOP} \\
+%     \key{SELF-ACT} \\
+%     \key{NOTIFY} \\
+%     \key{LEFT} \\
+%     \key{RIGHT} \\
+%     \key{CENTER} \\
+%     \key{NO-KEY-LETTER} \\
+%     \key{TRANSPARENT} \\
+%     \key{NO-BOX} \\
+%     \key{MULTILINE} \\
+%     \key{VSCROLL} \\
+%     \key{VSCROLL-BAR} \\
+%     \key{USE-RETURN} \\
+%     \key{USE-TAB} \\
+%     \key{UPPER} \\
+%     \key{LOWER} \\
+%     \key{NO-AUTOSEL} \\
+%     \key{READ-ONLY} \\
+%     \key{NOTIFY-CHANGE} \\
+%     \key{NUMERIC} \\
+%     \key{SPINNER} \\
+%     \key{AUTO-SPIN} \\
+%     \key{DEFAULT-BUTTON} \\
+%     \key{ESCAPE-BUTTON} \\
+%     \key{OK-BUTTON} \\
+%     \key{CANCEL-BUTTON} \\
+%     \key{NO-AUTO-DEFAULT} \\
+%     \key{BITMAP} \\
+%     \key{SQUARE} \\
+%     \key{FRAMED} \\
+%     \key{UNFRAMED} \\
+%     \key{FLAT} \\
+%     \key{VTOP} \\
+%     \key{LEFT-TEXT} \\
+%     \key{UNSORTED} \\
+%     \key{NOTIFY-DBLCLICK} \\
+%     \key{NOTIFY-SELCHANGE} \\
+%     \key{PAGED} \\
+%     \key{NO-SEARCH} \\
+%     \key{DROP-DOWN} \\
+%     \key{STATIC-LIST} \\
+%     \key{DROP-LIST} \\
+%     \key{RAISED} \\
+%     \key{LOWERED} \\
+%     \key{ENGRAVED} \\
+%     \key{RIMMED} \\
+%     \key{HEAVY} \\
+%     \key{VERY-HEAVY} \\
+%     \key{ALTERNATE} \\
+%     \key{FULL-HEIGHT} \\
+%     \key{BUTTONS} \\
+%     \key{FIXED-WIDTH} \\
+%     \key{BOTTOM} \\
+%     \key{VERTICAL} \\
+%     \key{FLAT-BUTTONS} \\
+%     \key{HOT-TRACK} \\
+%     \key{NO-DIVIDERS} \\
+%     \key{NO-FOCUS} \\
+%     \key{DOTTED} \\
+%     \key{DASH} \\
+%     \key{DOTDASH} \\
+%     \key{BOXED} \\
+%     \key{HSCROLL} \\
+%     \key{COLUMN-HEADINGS} \\
+%     \key{ROW-HEADINGS} \\
+%     \key{TITLED-HEADINGS} \\
+%     \key{CENTERED-HEADINGS} \\
+%     \key{ADJUSTABLE-COLUMNS} \\
+%     \key{SHOW-LINES} \\
+%     \key{LINES-AT-ROOT} \\
+%     \key{SHOW-SEL-ALWAYS} \\
+%     \key{USE-ALT} \\
+%     \key{SHORT-DATE} \\
+%     \key{CENTURY-DATE} \\
+%     \key{LONG-DATE} \\
+%     \key{TIME} \\
+%     \key{NO-F4} \\
+%     \key{NO-UPDOWN} \\
+%     \key{RIGHT-ALIGN} \\
+%     \key{SHOW-NONE}
+%   \end{1=}
+% \end{syntax}
+
+where \defnmetaelement{appearance-attribute-clauses} is
 
 \begin{syntax}
   \begin{0-1}
@@ -568,20 +828,14 @@ where \metaelement{appearance-attribute-clauses} is
     \miscext{\key{REVERSED}} \\
     \miscext{\key{REVERSE}}
   \end{0-1}
-
-  \pending{
-    \begin{0-1}
-      \key{SIZE} IS \integer
-    \end{0-1}
-  }
-
+  
   \begin{0-1}
     \key{UNDERLINE} \\
     \miscext{\key{UNDERLINED}}
   \end{0-1}
 \end{syntax}
 
-where \metaelement{source-destination-clauses} is
+where \defnmetaelement{source-destination-clauses} is
 
 \begin{syntax}
   \begin{0-1}
@@ -656,7 +910,7 @@ where \metaelement{source-destination-clauses} is
     \end{1=}
     \begin{0-1}
       \key{LEFT} \\
-      \key{RIGHT}
+      \pending{\key{RIGHT}}
     \end{0-1} \\
 
     \metaelement{usage-clause} \\
@@ -730,7 +984,8 @@ where \metaelement{source-destination-clauses} is
       \end{1=}
       OF \identifier
     \end{1=} \\
-    \pending{\key{FROM} \identifier}
+    
+    \key{FROM} \identifier
   \end{1=}.
 \end{syntax}
 
@@ -742,12 +997,20 @@ where \metaelement{source-destination-clauses} is
       IS \key{GLOBAL}
     \end{0-1}
   }
-  \key{VALUE}
+  \begin{1=}
+    \key{VALUE} \\
+    \key{VALUES}
+  \end{1=}
   \begin{0-1}
     IS \\
     ARE
   \end{0-1}
-  \literal .
+  \begin{1=}
+    \literal \\
+    \key{START} OF \identifier \\
+    \key{NEXT}
+  \end{1=}
+  .
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -918,16 +1181,18 @@ The BLOCK clause specifies the size of a physical record, that is, how many logi
 \subsection{COLOR clause}
 
 \begin{syntax}[\miscextcolour]
-  WITH
-  \begin{1=}
-    \key{COLOR} \\
-    \key{COLOUR}
-  \end{1=}
-  IS
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
+  \pending{
+    WITH
+    \begin{1=}
+      \key{COLOR} \\
+      \key{COLOUR}
+    \end{1=}
+    IS
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  }
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -941,29 +1206,34 @@ The COLUMN clause specifies what column an item should be printed or displayed a
 \format{report-section}
 \begin{syntax}
   \begin{1=}
-    \begin{1=}
-      \key{COLUMN} \\
-      \key{COL}
-    \end{1=}
-    NUMBERS
-    \begin{0-1}
-      \key{IS} \\
-      \key{ARE}
-    \end{0-1} \\
-
-    \begin{1=}
-      \key{COLUMNS} \\
-      \key{COLS}
-    \end{1=}
-    ARE
+    \key{COLUMN} \\
+    \key{COLUMNS} \\
+    \key{COL} \\
+    \key{COLS}
   \end{1=}
+  \begin{0-1}
+    NUMBER \\
+    NUMBERS
+  \end{0-1}
+  \begin{0-1}
+    \key{LEFT} \\
+    \key{RIGHT} \\
+    \key{CENTER}
+  \end{0-1}
+  \begin{0-1}
+    IS \\
+    ARE
+  \end{0-1}
   \begin{1=}
     \begin{0-1}
       \key{PLUS}
     \end{0-1}
-    \integer
+    \integer \\
+
+    \begin{1=}
+      \integer
+    \end{1=} \ldots
   \end{1=}
-  \ldots
 \end{syntax}
 
 \format{screen-section}
@@ -983,6 +1253,70 @@ The COLUMN clause specifies what column an item should be printed or displayed a
     \identifier \\
     \integer
   \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{CCOL clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{CCOL} NUMBER IS
+    \begin{0-1}
+      + \\
+      - \\
+      \key{PLUS} \\
+      \key{MINUS}
+    \end{0-1}
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{CLINE clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{CLINE} NUMBER IS
+    \begin{0-1}
+      + \\
+      - \\
+      \key{PLUS} \\
+      \key{MINUS}
+    \end{0-1}
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{CSIZE clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{CSIZE}
+    \begin{0-1}
+      IS \\
+      =
+    \end{0-1}
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
+  }
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1317,25 +1651,22 @@ The LINE clause specifies the line an item should be printer or displayed on.
 
 \format{report section}
 \begin{syntax}
-  \begin{1=}
-    \key{LINE} NUMBERS
-    \begin{0-1}
-      \key{IS} \\
-      \key{ARE}
-    \end{0-1} \\
-
-    \key{LINES} ARE
-  \end{1=}
+  \key{LINE} NUMBER
+  \begin{0-1}
+    \key{IS} \\
+    \gnucobol{\key{ARE}}
+  \end{0-1} \\
   \begin{1=}
     \begin{0-1}
+      + \\
       \key{PLUS}
     \end{0-1}
     \integer \\
-    \key{NEXT} \key{PAGE}
+    ON \key{NEXT} \key{PAGE}
   \end{1=}\ldots
 \end{syntax}
 
-\format{screen section}
+\format{screen item}
 \begin{syntax}
   \key{LINE} NUMBER IS
   \begin{0-1}
@@ -1348,6 +1679,25 @@ The LINE clause specifies the line an item should be printer or displayed on.
     \identifier \\
     \integer
   \end{1=}
+\end{syntax}
+
+\format{screen control}
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{LINES}
+    \begin{0-1}
+      IS \\
+      =
+    \end{0-1}
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
+    \begin{0-1}
+      \key{CELL} \\
+      \key{PIXEL}
+    \end{0-1}
+  }
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1405,10 +1755,11 @@ The NEXT GROUP clause specifies the number of blank lines that should follow the
   \key{NEXT} \key{GROUP} IS
   \begin{1=}
     \begin{0-1}
+      + \\
       \key{PLUS}
     \end{0-1}
     \integer \\
-    \key{NEXT} \key{PAGE}
+    ON \key{NEXT} \key{PAGE}
   \end{1=}
 \end{syntax}
 
@@ -1567,7 +1918,38 @@ The PICTURE clause describes the general characteristics and editing requirement
 The PRESENT WHEN clause specifies a condition under which a report section entry will be processed.
 
 \begin{syntax}
-  \key{PRESENT} \key{WHEN} \condition
+  \begin{1=}
+    \key{PRESENT} \\
+    \miscext{\key{ABSENT}}
+  \end{1=}
+  \begin{1=}
+    \key{WHEN} \condition \\
+    
+    \miscext{
+      \begin{1=}
+        \key{BEFORE} \\
+        \key{AFTER}
+      \end{1=}
+      NEW
+      \begin{0-1}
+        \key{PAGE} \\
+        \identifier \\
+        OR
+      \end{0-1} \ldots
+    } \\
+
+    \miscext{
+      \begin{1=}
+        \key{JUSTIFIED} \\
+        \key{JUST}
+      \end{1=}
+      \begin{1=}
+        \key{BEFORE} \\
+        \key{AFTER}
+      \end{1=}
+      NEW \key{PAGE}
+    }
+  \end{1=}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1742,7 +2124,17 @@ The SIGN clause defines how to store item's sign.
 \subsection{SIZE clause}
 
 \begin{syntax}[\miscextcolour]
-  \pending{\key{SIZE} IS \integer}
+  \pending{
+    \key{SIZE}
+    \begin{0-1}
+      IS \\
+      =
+    \end{0-1}
+    \begin{1=}
+      \identifier \\
+      \integer
+    \end{1=}
+  }
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1784,11 +2176,15 @@ The SUM clause provides a list of data items to be summed for use in an elementa
     \metaelement{number-1}
   \end{1=}\ldots
   \begin{0-1}
-    \key{RESET} ON
     \begin{1=}
-      \identifier \\
-      \key{FINAL}
-    \end{1=}
+      \key{RESET} ON
+      \begin{1=}
+        \identifier \\
+        \key{FINAL}
+      \end{1=} \\
+
+      \key{UPON} \identifier
+  \end{1=}
   \end{0-1}
 \end{syntax}
 
@@ -1879,7 +2275,7 @@ The SYNCHRONIZED clause specifies an item should be aligned in a byte boundary a
   \end{1=}
   \begin{0-1}
     \key{LEFT} \\
-    \key{RIGHT}
+    \pending{\key{RIGHT}}
   \end{0-1}
 \end{syntax}
 
@@ -1915,21 +2311,39 @@ The TYPE clause specifies when to print a report group.
   \key{TYPE} IS
   \begin{1=}
     \begin{1=}
-      \begin{1=}
-        \key{CONTROL} \key{HEADING} \\
-        \key{CH}
-      \end{1=} \\
-      \begin{1=}
-        \key{CONTROL} \key{FOOTING} \\
-        \key{CF}
-      \end{1=}
+      \key{CONTROL} \key{HEADING} \\
+      \key{CH}
     \end{1=}
+    \begin{0-1}
+      ON \\
+      FOR
+    \end{0-1}
     \begin{1=}
       \identifier \\
       \key{FINAL}
     \end{1=}
     \begin{0-1}
       \key{OR} \key{PAGE}
+    \end{0-1} \\
+
+    \begin{1=}
+      \key{CONTROL} \key{FOOTING} \\
+      \key{CF}
+    \end{1=}
+    \begin{0-1}
+      ON \\
+      FOR
+    \end{0-1}
+    \begin{0-1}
+      \begin{1=}
+        \identifier \\
+        \key{FINAL}
+      \end{1=}
+      \begin{0-1}
+        \key{OR} \key{PAGE}
+      \end{0-1} \\
+
+      \key{ALL}
     \end{0-1} \\
 
     \begin{1=}
@@ -2014,7 +2428,7 @@ The USAGE clause specifies the representation of a data item in memory.
   \end{1=}
 \end{syntax}
 
-where \metaelement{fixed-length-integers} is
+where \defnmetaelement{fixed-length-integers} is
 
 \begin{syntax}
   \begin{1=}
@@ -2048,7 +2462,7 @@ where \metaelement{fixed-length-integers} is
   \end{1=}
 \end{syntax}
 
-where \metaelement{computation-usages} is
+where \defnmetaelement{computation-usages} is
 
 \begin{syntax}
   \begin{1=}
@@ -2108,7 +2522,7 @@ where \metaelement{computation-usages} is
   \end{1=}
 \end{syntax}
 
-where \metaelement{handle-usages} is
+where \defnmetaelement{handle-usages} is
 
 \begin{syntax}[\miscextcolour]
   \begin{1=}
@@ -2182,11 +2596,11 @@ The VALUE clause for condition-names specifies the values under which a conditio
 \begin{syntax}
   \begin{1=}
     \key{VALUE} \\
-    \key{VALUES}
+    \gnucobol{\key{VALUES}}
   \end{1=}
   \begin{0-1}
     IS \\
-    ARE
+    \gnucobol{ARE}
   \end{0-1}
   \begin{1=}
     \literal
@@ -2211,7 +2625,11 @@ The VALUE clause for condition-names specifies the values under which a conditio
 \subsection{VALUE OF clause}
 
 \begin{syntax}[\deletedcolour]
-  \key{VALUE} \key{OF}
+  \begin{1=}
+    \key{VALUE} \\
+    \gnucobol{\key{VALUES}}
+  \end{1=}
+  \key{OF}
   \begin{1=}
     \key{FILE-ID} \\
     \key{ID} \\

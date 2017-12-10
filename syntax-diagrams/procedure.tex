@@ -224,7 +224,7 @@
     \end{0-1}
   }
   \begin{0-1}
-    \metaelement{using-chaining-clause}
+    \defdmetaelement{using-chaining-clause}
   \end{0-1}
   \begin{0-1}
     \key{RETURNING}
@@ -234,7 +234,7 @@
     \end{1=}
   \end{0-1}.\newline
   \begin{0-1}
-    \metaelement{declaratives}
+    \defdmetaelement{declaratives}
   \end{0-1}\newline
   \begin{0-1}
     \metaelement{section-name-2} \key{SECTION}. \\
@@ -243,7 +243,7 @@
   \end{0-1} \ldots
 \end{syntax}
 
-where \metaelement{using-chaining-clause} is
+where \defnmetaelement{using-chaining-clause} is
 
 \begin{syntax}
   \begin{1=}
@@ -279,7 +279,7 @@ where \metaelement{using-chaining-clause} is
   \end{1=}\ldots
 \end{syntax}
 
-where \metaelement{declaratives} is
+where \defnmetaelement{declaratives} is
 
 \begin{syntax}
   \key{DECLARATIVES}.\newline
@@ -418,12 +418,12 @@ The ACCEPT statement transfers data provided by the user or the operating system
 
     \miscext{\key{FROM} \key{CRT}} \\
     \miscext{\key{MODE} IS \key{BLOCK}} \\
-    \miscext{\metaelement{appearance-attribute-clauses}} \\
-    \miscext{\metaelement{accept-attribute-clauses}}
+    \miscext{\defdmetaelement{accept-appearance-attribute-clauses}} \\
+    \miscext{\defdmetaelement{accept-attribute-clauses}}
   \end{0+}
 \end{syntax}
 
-where \metaelement{appearance-attribute-clauses} is
+where \defnmetaelement{accept-appearance-attribute-clauses} is
 
 \begin{syntax}[\miscextcolour]
   WITH
@@ -539,7 +539,7 @@ where \metaelement{appearance-attribute-clauses} is
   \end{0-1}
 \end{syntax}
 
-where \metaelement{accept-attribute-clauses} is
+where \defnmetaelement{accept-attribute-clauses} is
 
 \begin{syntax}[\miscextcolour]
   WITH
@@ -1267,7 +1267,7 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
     \end{1=}
 
     \begin{0+}
-      \metaelement{position-clauses} \\
+      \defdmetaelement{position-clauses} \\
 
       \miscext{
         \key{UPON}
@@ -1278,7 +1278,7 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
       } \\
 
       \miscext{\key{MODE} IS \key{BLOCK}} \\
-      \miscext{\metaelement{appearance-attribute-clauses}}
+      \miscext{\defdmetaelement{display-appearance-attribute-clauses}}
     \end{0+}
   \end{1=} \miscext{\ldots}
 
@@ -1332,8 +1332,8 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
       \key{BOXED}
     \end{0-1} \\
     
-    \metaelement{position-clauses} \\
-    \metaelement{appearance-attribute-clauses}
+    \defdmetaelement{position-clauses} \\
+    \defdmetaelement{display-appearance-attribute-clauses}
   \end{1=}\ldots
 
   \begin{0-1}
@@ -1381,8 +1381,8 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
       \key{BOXED}
     \end{0-1} \\
 
-    \metaelement{position-clauses} \\
-    \metaelement{appearance-attribute-clauses}
+    \defdmetaelement{position-clauses} \\
+    \defdmetaelement{display-appearance-attribute-clauses}
   \end{1=}\ldots
 
   \begin{0-1}
@@ -1435,8 +1435,8 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
       \key{BOXED}
     \end{0-1} \\
 
-    \metaelement{position-clauses} \\
-    \metaelement{appearance-attribute-clauses}
+    \defdmetaelement{position-clauses} \\
+    \defdmetaelement{display-appearance-attribute-clauses}
   \end{1=}\ldots
 
   \begin{0-1}
@@ -1508,7 +1508,7 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
   \end{0-1}
 \end{syntax}
 
-where \metaelement{position-clauses} is
+where \defnmetaelement{position-clauses} is
 
 \begin{syntax}
   \begin{1=}
@@ -1543,7 +1543,7 @@ where \metaelement{position-clauses} is
   \end{1=}
 \end{syntax}
 
-where \metaelement{appearance-attribute-clauses} is
+where \defnmetaelement{display-appearance-attribute-clauses} is
 
 \begin{syntax}[\miscextcolour]
   WITH
@@ -1790,44 +1790,42 @@ The ENABLE statement allows the program to access and modify a communication des
 The ENTRY statement indicates an alternative point of entry into the program.
 
 \begin{syntax}[\miscextcolour]
-  \begin{minipage}[!h]{1.0\linewidth}
-    \key{ENTRY}
-    \begin{0-1}
-      \mnemonicname
-    \end{0-1}
-    \literal
+  \key{ENTRY}
+  \begin{0-1}
+    \mnemonicname
+  \end{0-1}
+  \literal
 
-    \begin{0-1}
-      \key{USING}
+  \begin{0-1}
+    \key{USING}
+
+    \begin{1=}
+      \begin{0-1}
+        BY
+        \begin{1=}
+          \key{REFERENCE} \\
+          \gnucobol{\key{CONTENT}} \\
+          \key{VALUE}
+        \end{1=}
+      \end{0-1}
 
       \begin{1=}
-        \begin{0-1}
-          BY
-          \begin{1=}
-            \key{REFERENCE} \\
-            \gnucobol{\key{CONTENT}} \\
-            \key{VALUE}
-          \end{1=}
-        \end{0-1}
+        \gnucobol{\key{OMITTED}} \\
 
         \begin{1=}
-          \gnucobol{\key{OMITTED}} \\
-
+          \gnucobol{
+            \begin{0-1}
+              size-phrase
+            \end{0-1}
+          }
           \begin{1=}
-            \gnucobol{
-              \begin{0-1}
-                size-phrase
-              \end{0-1}
-            }
-            \begin{1=}
-              \identifier \\
-              \literal
-            \end{1=}
+            \identifier \\
+            \literal
           \end{1=}
-        \end{1=}\ldots
-      \end{1=}
-    \end{0-1}
-  \end{minipage}
+        \end{1=}
+      \end{1=}\ldots
+    \end{1=}
+  \end{0-1}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1856,9 +1854,9 @@ The EVALUATE statement evaluates one or more conditions and execute the statemen
 
   \begin{1=}
     \key{WHEN}
-    \metaelement{selection-object}
+    \defdmetaelement{selection-object}
     \begin{0-1}
-      \key{ALSO} \metaelement{selection-object}
+      \key{ALSO} \defdmetaelement{selection-object}
     \end{0-1}\ldots\ {}
     \imperativestatement
   \end{1=} \ldots
@@ -1872,7 +1870,7 @@ The EVALUATE statement evaluates one or more conditions and execute the statemen
   \end{0-1}
 \end{syntax}
 
-where \metaelement{selection-object} is
+where \defnmetaelement{selection-object} is
 
 \begin{syntax}
   \begin{1=}
@@ -1952,7 +1950,7 @@ The FREE statement returns memory to the operating system.
 The GENERATE statement a specified report entry.
 
 \begin{syntax}
-  \pending{\key{GENERATE} \reportname}
+  \key{GENERATE} \reportname
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -2084,12 +2082,61 @@ The INITIALIZE statement sets data items to their default values.
 The INITIATE statement allows the program to begin generating the specified report.
 
 \begin{syntax}
-  \pending{
-    \key{INITIATE}
+  \key{INITIATE}
+  \begin{1=}
+    \reportname
+  \end{1=} \ldots
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{INQUIRE statement}
+
+\format{control}
+\begin{syntax}[\miscextcolour]
+  \key{INQUIRE}
+  \begin{1=}
+    \identifier \\
+    \key{CONTROL}
+  \end{1=}
+  \begin{1=}
     \begin{1=}
-      \reportname
-    \end{1=} \ldots
-  }
+      \metaelement{control-property} \\
+      \key{LAYOUT-DATA}
+    \end{1=}
+    \begin{0-1}
+      IN \\
+      =
+    \end{0-1}
+    \identifier
+  \end{1=} \ldots
+\end{syntax}
+
+\format{window}
+\begin{syntax}[\miscextcolour]
+  \key{INQUIRE}
+  \begin{1=}
+    \identifier \\
+    
+    \key{WINDOW}
+    \begin{0-1}
+      \identifier
+    \end{0-1}
+  \end{1=}
+  \begin{1=}
+    \begin{1=}
+      \key{LAYOUT-MANAGER} \\
+      \key{SIZE} \\
+      \key{TITLE}
+    \end{1=}
+    \begin{0-1}
+      IN \\
+      =
+    \end{0-1}
+    \identifier
+  \end{1=} \ldots
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -2108,17 +2155,17 @@ The INSPECT statement counts the number of occurrences of a character string, re
     \functionname
   \end{1=}
   \begin{1=}
-    \metaelement{tallying-phrase}
+    \defdmetaelement{tallying-phrase}
     \begin{0-1}
-      \metaelement{replacing-phrase}
+      \defdmetaelement{replacing-phrase}
     \end{0-1} \\
 
-    \metaelement{replacing-phrase} \\
-    \metaelement{converting-phrase}
+    \defdmetaelement{replacing-phrase} \\
+    \defdmetaelement{converting-phrase}
   \end{1=}
 \end{syntax}
 
-where \metaelement{tallying-phrase} is
+where \defnmetaelement{tallying-phrase} is
 
 \begin{syntax}
   \key{TALLYING}
@@ -2144,12 +2191,12 @@ where \metaelement{tallying-phrase} is
       \end{1=}
     \end{1=}\ldots
     \begin{0-1}
-      before-after-phrase
+      \defdmetaelement{before-after-phrase}
     \end{0-1}
   \end{1=} \ldots
 \end{syntax}
 
-where \metaelement{replacing-phrase} is
+where \defnmetaelement{replacing-phrase} is
 
 \begin{syntax}
   \key{REPLACING}
@@ -2174,12 +2221,12 @@ where \metaelement{replacing-phrase} is
       \literal \\
     \end{1=}
     \begin{0-1}
-      \metaelement{before-after-phrase}
+      \defdmetaelement{before-after-phrase}
     \end{0-1} \\
   \end{1=} \ldots
 \end{syntax}
 
-where \metaelement{converting-phrase} is
+where \defnmetaelement{converting-phrase} is
 
 \begin{syntax}
   \key{CONVERTING}
@@ -2193,11 +2240,11 @@ where \metaelement{converting-phrase} is
     \literal
   \end{1=}
   \begin{0-1}
-    \metaelement{before-after-phrase}
+    \defdmetaelement{before-after-phrase}
   \end{0-1}
 \end{syntax}
 
-where \metaelement{before-after-phrase} is
+where \defnmetaelement{before-after-phrase} is
 
 \begin{syntax}
   \begin{0+}
@@ -2270,6 +2317,59 @@ The MERGE statements reads multiple files with the same record desciption, combi
       \end{1=}
       \procedurename
     \end{0-1}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{MODIFY statement}
+
+
+\format{control}
+\begin{syntax}[\miscextcolour]
+  \key{MODIFY}
+  \begin{1=}
+    \identifier \\
+    \key{CONTROL}
+  \end{1=}
+  \begin{1=}
+    \metaelement{control-attributes}
+  \end{1=} \ldots
+  
+  \begin{0-1}
+    \key{END-MODIFY}
+  \end{0-1}
+\end{syntax}
+
+\format{window}
+\begin{syntax}[\miscextcolour]
+  \key{MODIFY}
+  \begin{1=}
+    \identifier \\
+    
+    \key{WINDOW}
+    \begin{0-1}
+      \identifier
+    \end{0-1}
+  \end{1=}
+  \begin{1=}
+    \begin{1=}
+      \key{LAYOUT-MANAGER} \\
+      \key{SIZE} \\
+      \key{TITLE}
+    \end{1=}
+    \begin{0-1}
+      IN \\
+      =
+    \end{0-1}
+    \identifier
+  \end{1=} \ldots
+
+  
+  \begin{0-1}
+    \key{END-MODIFY}
   \end{0-1}
 \end{syntax}
 
@@ -2397,10 +2497,10 @@ The OPEN statement allows the program to access or modify specified files.
       \key{EXTEND}
     \end{1=}
     \begin{0-1}
-      \metaelement{sharing-mode}
+      \defdmetaelement{sharing-mode}
     \end{0-1}
     \begin{0-1}
-      \metaelement{retry-phrase}
+      \defdmetaelement{retry-phrase}
     \end{0-1}
     \begin{1=}
       \filename
@@ -2413,7 +2513,7 @@ The OPEN statement allows the program to access or modify specified files.
   \end{1=}\ldots
 \end{syntax}
 
-where \metaelement{sharing-mode} is
+where \defnmetaelement{sharing-mode} is
 
 \begin{syntax}
   \key{SHARING} WITH
@@ -2456,9 +2556,9 @@ The PERFORM statement executes the specified procedures or statements one or mor
   }
   \begin{0-1}
     \gnucobol{\key{FOREVER}} \\
-    \metaelement{times-phrase} \\
-    \metaelement{until-phrase} \\
-    \metaelement{varying-phrase}
+    \defdmetaelement{times-phrase} \\
+    \defdmetaelement{until-phrase} \\
+    \defdmetaelement{varying-phrase}
   \end{0-1}
 \end{syntax}
 
@@ -2472,9 +2572,9 @@ The PERFORM statement executes the specified procedures or statements one or mor
   }
   \begin{0-1}
     \gnucobol{\key{FOREVER}} \\
-    \metaelement{times-phrase} \\
-    \metaelement{until-phrase} \\
-    \metaelement{varying-phrase}
+    \defdmetaelement{times-phrase} \\
+    \defdmetaelement{until-phrase} \\
+    \defdmetaelement{varying-phrase}
   \end{0-1}
   \miscext{
     \begin{0-1}
@@ -2489,7 +2589,7 @@ The PERFORM statement executes the specified procedures or statements one or mor
   \end{0-1}
 \end{syntax}
 
-where \metaelement{times-phrase} is
+where \defnmetaelement{times-phrase} is
 
 \begin{syntax}
   \begin{1=}
@@ -2500,7 +2600,7 @@ where \metaelement{times-phrase} is
   \key{TIMES} \\
 \end{syntax}
 
-where \metaelement{until-phrase} is
+where \defnmetaelement{until-phrase} is
 
 \begin{syntax}
   \begin{0-1}
@@ -2517,7 +2617,7 @@ where \metaelement{until-phrase} is
   \end{1=} \\
 \end{syntax}
 
-and where \metaelement{varying-phrase} is
+and where \defnmetaelement{varying-phrase} is
 
 \begin{syntax}
   \begin{0-1}
@@ -2533,11 +2633,13 @@ and where \metaelement{varying-phrase} is
     \identifier \\
     \literal
   \end{1=}
-  \key{BY}
-  \begin{1=}
-    \identifier \\
-    \literal
-  \end{1=}
+  \begin{0-1}
+    \key{BY}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  \end{0-1}
   \key{UNTIL}
   \condition
 
@@ -2547,11 +2649,13 @@ and where \metaelement{varying-phrase} is
       \identifier \\
       \literal
     \end{1=}
-    \key{BY}
-    \begin{1=}
-      \identifier \\
-      \literal
-    \end{1=}
+    \begin{0-1}
+      \key{BY}
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+    \end{0-1}
 
     \key{UNTIL}
     \condition
@@ -3379,9 +3483,7 @@ The SUBTRACT statement subtracts one set of numbers from another set of numbers 
 The SUPPRESS statement suppresses the writing of a report group.
 
 \begin{syntax}
-  \pending{
-    \key{SUPPRESS} PRINTING
-  }
+  \key{SUPPRESS} PRINTING
 \end{syntax}
 
 \subsubsection{Syntax rules}

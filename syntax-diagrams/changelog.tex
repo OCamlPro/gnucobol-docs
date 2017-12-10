@@ -1,41 +1,87 @@
 \chapter{Changelog}
 
-\section{GnuCOBOL 2.\textit{x}}
+\section{GnuCOBOL 3.\textit{x}}
 
 \paragraph{General}
 \begin{itemize}
+\item \textbf{cobc command-line options}: disabled -fif-cutoff pending removal.
+\item \textbf{cobc command-line options}: added -O0 for disabling optimisations (\fr{255}).
+\item \textbf{cobc command-line options}: added -Wno-dialect to suppress dialect-specific warnings.
+\item \textbf{cobc command-line options}: added -Wother to enable miscellaneous warnings.
+\item \textbf{Copyfiles}: fixed segfault when GnuCOBOL tried and failed to open a copyfile (\bug{458}).
+\item \textbf{Copyfiles}: GnuCOBOL now checks for recursive copyfiles (\bug{467}).
+\item \textbf{Debugging}: Added debug logging for compiler developers (--enable-debug-log ./configure option).
+\item \textbf{DJGGP support}: added minimal support for DJGGP.
 \item \textbf{Expressions}: fixed \bug{431}, where decimal constants were not initialised in INITIAL programs.
+\item \textbf{IBM i support}: fixed segfault involving filepaths.
+\item \textbf{Modules}: enabled running of modules generated with older versions of GnuCOBOL (\fr{239}).
 \item \textbf{Nested programs}: fixed \bug{435}, where identifiers in the containing program where not propogated to the contained program, causing a segfault.
+\item \textbf{Recursion}: fixed \bug{222}, where the return value was lost when returning from a recursive call.
 \item \textbf{Signals}: added error message for SIGFPE (see \bug{434}).
-\item \textbf{Solaris support}: fixed errors when compiling in Solaris 10.
+\item \textbf{Solaris support}: fixed errors and warnings when compiling in Solaris 10.
 \end{itemize}
 
 \paragraph{Configuration options}
 \begin{itemize}
 \item \textbf{IBM dialect}: reserved words updated to Enterprise COBOL V6.2.
 \item \textbf{incorrect-conf-sec-order option}: changed to ``ok'' from ``error'' in mf and default dialects.
-\item \textbf{New compiler configuration options}: display-special-fig-consts, free-redefines-position (\fr{211}), line-col-zero-default
+\item \textbf{New compiler configuration options}: display-special-fig-consts, free-redefines-position (\fr{211}), line-col-zero-default, perform-without-varying-by, record-delimiter, record-delim-with-fixed-recs, sequential-delimiters
+\item \textbf{New runtime configuration options}: col\_just\_lrc (for enabling\slash{}disabling the LEFT\slash{}RIGHT\slash{}CENTER phrases of the report COLUMN clause)
+\end{itemize}
+
+\paragraph{Identification division}
+\begin{itemize}
+\item \textbf{OPTIONS paragraph}: added support for ARITHMETIC clause.
 \end{itemize}
 
 \paragraph{Environment division}
 \begin{itemize}
-\item \textbf{ASSIGN clause}: re-enable use of linkage section or BASED items (\bug{421}).
-\item \textbf{CURRENCY phrase}: emit error when CURRENCY SIGN other than ``\$'' is entered.
+\item \textbf{ASSIGN clause}: re-enabled use of linkage section or BASED items (\bug{421}).
+\item \textbf{CLASS phrase}: added recognition of ALPHANUMERIC\slash{}NATIONAL and alphabet phrases.
+\item \textbf{CURRENCY phrase}: changed to emit error when CURRENCY SIGN other than ``\$'' is entered.
+\item \textbf{CURRENCY phrase}: improved error messages for invalid currency signs.
+\item \textbf{EXTERN clause}: improved error messages (\bug{446}).
+\item \textbf{OCCURS clause}: correctly implemented nested OCCURS DEPENDING tables (ODOSLIDE).
+\item \textbf{RECORD DELIMITER phrase}:  added support for BINARY-SEQUENTIAL and LINE-SEQUENTIAL phrases.
+\item \textbf{RECORD DELIMITER phrase}: improved syntax checks (see \bug{442}).
+\end{itemize}
+
+\paragraph{Data division}
+\begin{itemize}
+\item \textbf{Screen section}: made some COBOL words context-sensitive to screen section.
+\item \textbf{SYNCHRONIZED clause}: deactivated RIGHT phrase, pending correct implementation (previously SYNCHRONIZED RIGHT was the same as SYNCHRONIZED LEFT).
 \end{itemize}
 
 \paragraph{Procedure division}
 \begin{itemize}
 \item \textbf{ACCEPT statement (screen)}: fixed ACCEPT WITH UPDATE and not working (\bug{423}).
 \item \textbf{ACCEPT statement (screen)}: fixed \bug{426}, where backspacing at the start of a field moved the cursor to the second-to-last character of the preceding field.
+\item \textbf{ACCEPT statement (temporal)}: fixed \bug{469}, where ACCEPT FROM DAY was off by $-1$.
+\item \textbf{CALL statement}: fixed ON EXCEPTION not working properly with -fstatic (\bug{462}).
 \item \textbf{DISPLAY statement (screen)}: fixed DISPLAY LOW-VALUE not setting position of cursor for next DISPLAY statement (\bug{423}).
 \item \textbf{DISPLAY statement (screen)}: added configuration option to disable Micro Focus' special behaviour with some figurative constants (see \bug{423}).
 \item \textbf{DISPLAY statement (screen)}: fixed \bug{428}, where DISPLAY ALL ``x'' WITH SIZE only displayed ``x'' once.
+\item \textbf{File I-O}: fixed \bug{457}, where file status 30 was set instead of the correct permanent error status (34, 35 or 37). 
+\item \textbf{INQUIRE statement}: added detection of.
+\item \textbf{LENGTH OF phrase}: fixed error message when used on group fields (\bug{175}).
+\item \textbf{PERFORM statement}: added check for non-zero item in BY phrase (\fr{268}).
+\item \textbf{PERFORM statement}: allow the BY phrase to be omitted, which is the same as specifying BY 1 (\fr{158}).
+\item \textbf{MODIFY statement}: added detection of.
+\item \textbf{Reference modification}: improved out-of-bounds error message (\bug{445}).
+\item \textbf{Report writer}: implemented, including features from COBOL 2002 and the IBM Report Writer.
+\item \textbf{SET statement}: fixed \bug{225}, where an invalid SET statement caused an error saying ``invalid MOVE statement''.
 \item \textbf{STOP statement}: fixed the NORMAL phrase causing a compilation error (\bug{433}).
 \end{itemize}
 
 \paragraph{Intrinsic functions}
 \begin{itemize}
-\item \textbf{WHEN-COMPILED function}: fixed incorrect timezone missing sign and containing nonsense when negative (\bug{436}).
+\item \textbf{WHEN-COMPILED function}: fixed timezone, which was missing its sign and contained nonsense when negative (\bug{436}).
+\end{itemize}
+
+\paragraph{Built-in subprograms}
+\begin{itemize}
+\item \textbf{C\$GETPID}: fixed wrong process ID being returned after forking (\bug{451}).
+\item \textbf{SYSTEM}: added workaround of buggy system() implementation on Windows, which removes leading and trailing quotes.
 \end{itemize}
 
 \section{GnuCOBOL 2.2}
@@ -48,7 +94,7 @@ This list tracks changes made from 23 November 2013. This excludes many changes 
 \item \textbf{ACUCOBOL windows}: added detection of ACUCOBOL's window\slash{}message box GUI syntax.
 \item \textbf{C API (data)}: added several functions for getting and setting cob\_field items.
 \item \textbf{C API (files)}: added cob\_file\_external\_addr, cob\_file\_malloc and cob\_file\_free.
-\item \textbf{C API (screen)}: added several functions from Micro Focus' C to COBOL API: cob\_display\_text, cob\_sys\_get\_char, cob\_get\_char, cob\_get\_text, cob\_display\_formatted\_text, cob\_sys\_get\_csr\_pos, cob\_sys\_set\_csr\_pos, cobmove, cobaddstrc, cobprintf and cobgetch (feature requests \frnoname{148} and \frnoname{187}).
+\item \textbf{C API (screen)}: added several functions from Micro Focus' C to COBOL API: cob\_display\_text, cob\_sys\_get\_char, cob\_get\_char, cob\_get\_text, cob\_display\_formatted\_text, cob\_sys\_get\_csr\_pos, cob\_sys\_set\_csr\_pos, cobmove, cobaddstrc, cobprintf and cobgetch (feature requests \frnoname{148} and~\frnoname{187}).
 \item \textbf{C API (signals)}: added cob\_raise to send signal to signal handlers.
 \item \textbf{C compiler support}: fixed errors in compilers without designated initializers.
 \item \textbf{cobc command-line options}: added -O3 to enable more optimisations.
@@ -293,8 +339,8 @@ enabled and some of which hadn't.
 \item \textbf{CBL\_GC\_FORK}: added.
 \item \textbf{CBL\_GC\_PRINTABLE}: renamed from C\$PRINTABLE.
 \item \textbf{CBL\_GC\_WAITPID}: added.
-\item \textbf{CBL\_SET\_CSR\_POS}: added (feature requests \frnoname{148} and \frnoname{187}).
-\item \textbf{CBL\_READ\_KBD\_CHAR}: added (feature requests \frnoname{148} and \frnoname{187}).
+\item \textbf{CBL\_SET\_CSR\_POS}: added (feature requests \frnoname{148} and~\frnoname{187}).
+\item \textbf{CBL\_READ\_KBD\_CHAR}: added (feature requests \frnoname{148} and~\frnoname{187}).
 \end{itemize}
 
 %%% Local Variables:

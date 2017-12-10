@@ -22,9 +22,7 @@
 \format{standard}
 
 \begin{syntax}
-  \begin{0-1}
-    \key{CONFIGURATION} \key{SECTION}.
-  \end{0-1}
+  \key{CONFIGURATION} \key{SECTION}.
   \newline
   \begin{0-1}
     \metaelement{source-computer-paragraph}
@@ -35,11 +33,10 @@
   \end{0-1}
   \newline
   \begin{0-1}
-    \metaelement{special-names-paragraph}
-  \end{0-1}
-  \newline
-  \begin{0-1}
-    \metaelement{special-names-entry}
+    \metaelement{special-names-header}
+    \begin{0-1}
+      \metaelement{special-names-entry}
+    \end{0-1} \ldots
   \end{0-1}
   \newline
   \begin{0-1}
@@ -47,9 +44,9 @@
   \end{0-1}
 \end{syntax}
 
-\format{gnucobol}
+\format{micro-focus-and-gnucobol}
 
-\begin{syntax}[\gnucobolcolour]
+\begin{syntax}[\miscextcolour]
   \begin{0-1}
     \key{CONFIGURATION} \key{SECTION}.
   \end{0-1}  
@@ -57,7 +54,7 @@
   \begin{0+}
     \metaelement{source-computer-paragraph} \\
     \metaelement{object-computer-paragraph} \\
-    \metaelement{special-names-paragraph} \\
+    \metaelement{special-names-header} \\
     \metaelement{special-names-entry} \\
     \metaelement{repository-paragraph}
   \end{0+}
@@ -131,8 +128,6 @@ The OBJECT-COMPUTER paragraph identifies the computer on which the runtime modul
 
 \subsection{SPECIAL-NAMES paragraph}
 
-
-
 \begin{syntax}
   \begin{0-1}
     \key{SPECIAL-NAMES}.
@@ -140,22 +135,11 @@ The OBJECT-COMPUTER paragraph identifies the computer on which the runtime modul
 
   \begin{0-1}
     \begin{1=}
-      \metaelement{mnemonic-name-clause} \\
-      \metaelement{alphabet-name-clause} \\
-      \metaelement{symbolic-characters-clause} \\
+      \defdmetaelement{mnemonic-name-clause} \\
+      \defdmetaelement{alphabet-name-clause} \\
+      \defdmetaelement{symbolic-characters-clause} \\
       \key{LOCALE} \metaelement{locale-name-1} IS \literal \\
-
-      \key{CLASS} \metaelement{class-name-1} IS
-      \begin{1=}
-        \literal
-        \begin{0-1}
-          \begin{1=}
-            \key{THRU} \\
-            \key{THROUGH}
-          \end{1=}
-          \literal
-        \end{0-1}
-      \end{1=}\ldots \\
+      \defdmetaelement{class-clause} \\
 
       \key{CURRENCY} SIGN IS \literal
       \begin{0-1}
@@ -172,7 +156,7 @@ The OBJECT-COMPUTER paragraph identifies the computer on which the runtime modul
   \end{0-1}\ldots
 \end{syntax}
 
-where \metaelement{mnemonic-name-clause} is
+where \defnmetaelement{mnemonic-name-clause} is
 
 \begin{syntax}
   \mnemonicname
@@ -189,7 +173,7 @@ where \metaelement{mnemonic-name-clause} is
   \end{1=}
 \end{syntax}
 
-where \metaelement{alphabet-name-clause} is
+where \defnmetaelement{alphabet-name-clause} is
 
 \begin{syntax}
   \key{ALPHABET} \metaelement{alphabet-name-1} IS
@@ -215,7 +199,7 @@ where \metaelement{alphabet-name-clause} is
   \end{1=}
 \end{syntax}
 
-where \metaelement{symbolic-characters-clause} is
+where \defnmetaelement{symbolic-characters-clause} is
 
 \begin{syntax}
   \key{SYMBOLIC} CHARACTERS
@@ -234,6 +218,33 @@ where \metaelement{symbolic-characters-clause} is
   \begin{0-1}
     \key{IN} \key{WORD}
   \end{0-1}
+\end{syntax}
+
+where \defnmetaelement{class-clause} is
+
+\begin{syntax}
+  \key{CLASS}
+  \begin{0-1}
+    FOR \key{ALPHANUMERIC} \\
+    \pending{FOR \key{NATIONAL}} \\
+  \end{0-1}
+  \metaelement{class-name-1} IS
+  \begin{1=}
+    \literal
+    \begin{0-1}
+      \begin{1=}
+        \key{THRU} \\
+        \key{THROUGH}
+      \end{1=}
+      \literal
+    \end{0-1}
+  \end{1=}\ldots
+  
+  \pending{
+    \begin{0-1}
+      \key{IN} \metaelement{alphabet-name-1}
+    \end{0-1}
+  }
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -299,11 +310,11 @@ where \metaelement{symbolic-characters-clause} is
     \key{FILE-CONTROL}.
   \end{0-1}\newline
   \begin{0-1}
-    \metaelement{file-control-entry}
+    \defdmetaelement{file-control-entry}
   \end{0-1} \ldots
 \end{syntax}
 
-\label{file-control-entry} where \metaelement{file-control-entry} is
+where \defnmetaelement{file-control-entry} is
 
 \begin{syntax}
   \key{SELECT}
@@ -313,23 +324,23 @@ where \metaelement{symbolic-characters-clause} is
   \end{0-1}
   \filename
   \begin{0-1}
-    \metaelement{assign-clause} \\
-    \metaelement{access-mode-clause} \\
-    \metaelement{alternative-record-key-clause} \\
-    \metaelement{collating-sequence-clause} \\
-    \metaelement{file-status-clause} \\
-    \metaelement{lock-mode-clause} \\
-    \metaelement{organization-clause} \\
-    \metaelement{padding-character-clause} \\
-    \metaelement{record-delimiter-clause} \\
-    \metaelement{record-key-clause} \\
-    \metaelement{relative-key-clause} \\
-    \metaelement{reserve-clause} \\
-    \metaelement{sharing-clause}
+    \defdmetaelement{assign-clause} \\
+    \defdmetaelement{access-mode-clause} \\
+    \defdmetaelement{alternative-record-key-clause} \\
+    \defdmetaelement{collating-sequence-clause} \\
+    \defdmetaelement{file-status-clause} \\
+    \defdmetaelement{lock-mode-clause} \\
+    \defdmetaelement{organization-clause} \\
+    \defdmetaelement{padding-character-clause} \\
+    \defdmetaelement{record-delimiter-clause} \\
+    \defdmetaelement{record-key-clause} \\
+    \defdmetaelement{relative-key-clause} \\
+    \defdmetaelement{reserve-clause} \\
+    \defdmetaelement{sharing-clause}
   \end{0-1}\ldots\ {}.
 \end{syntax}
 
-where \metaelement{assign-clause} is
+where \defnmetaelement{assign-clause} is
 
 \ {}\newline
 \begin{syntax}
@@ -380,7 +391,7 @@ where \metaelement{assign-clause} is
   \end{1=}
 \end{syntax}
 
-where \metaelement{access-mode-clause} is
+where \defnmetaelement{access-mode-clause} is
 
 \begin{syntax}
   \key{ACCESS} MODE IS
@@ -391,7 +402,7 @@ where \metaelement{access-mode-clause} is
   \end{1=}
 \end{syntax}
 
-where \metaelement{alternative-record-key-clause} is
+where \defnmetaelement{alternative-record-key-clause} is
 
 \begin{syntax}
   \key{ALTERNATE} RECORD KEY IS \identifier
@@ -421,13 +432,13 @@ where \metaelement{alternative-record-key-clause} is
   }
 \end{syntax}
 
-where \metaelement{collating-sequence-clause} is
+where \defnmetaelement{collating-sequence-clause} is
 
 \begin{syntax}
   \pending{COLLATING \key{SEQUENCE} IS \metaelement{collating-sequence-name-1}}
 \end{syntax}
 
-where \metaelement{file-status-clause} is
+where \defnmetaelement{file-status-clause} is
 
 \begin{syntax}
   \begin{0-1}
@@ -437,7 +448,7 @@ where \metaelement{file-status-clause} is
   \key{STATUS} IS \identifier
 \end{syntax}
 
-where \metaelement{lock-mode-clause} is
+where \defnmetaelement{lock-mode-clause} is
 
 \begin{syntax}
   \key{LOCK} MODE IS
@@ -463,7 +474,7 @@ where \metaelement{lock-mode-clause} is
   \end{1=}
 \end{syntax}
 
-where \metaelement{organization-clause} is
+where \defnmetaelement{organization-clause} is
 
 \begin{syntax}
   \begin{0-1}
@@ -481,7 +492,7 @@ where \metaelement{organization-clause} is
   \end{1=}
 \end{syntax}
 
-where \metaelement{padding-character-clause} is
+where \defnmetaelement{padding-character-clause} is
 
 \begin{syntax}
   \pending{
@@ -493,13 +504,18 @@ where \metaelement{padding-character-clause} is
   }
 \end{syntax}
 
-where \metaelement{record-delimiter-clause} is
+where \defnmetaelement{record-delimiter-clause} is
 
 \begin{syntax}
-  \pending{\key{RECORD} \key{DELIMITER} IS \key{STANDARD-1}}
+  \key{RECORD} \key{DELIMITER} IS
+  \begin{1=}
+    \pending{\key{STANDARD-1}} \\
+    \miscext{\key{LINE-SEQUENTIAL}} \\
+    \miscext{\key{BINARY-SEQUENTIAL}}
+  \end{1=}
 \end{syntax}
 
-where \metaelement{record-key-clause} is
+where \defnmetaelement{record-key-clause} is
 
 \begin{syntax}
   \key{RECORD} KEY IS \identifier
@@ -514,13 +530,13 @@ where \metaelement{record-key-clause} is
   \end{0-1}
 \end{syntax}
 
-where \metaelement{relative-key-clause} is
+where \defnmetaelement{relative-key-clause} is
 
 \begin{syntax}
   \key{RELATIVE} KEY IS \identifier
 \end{syntax}
 
-where \metaelement{reserve-clause} is
+where \defnmetaelement{reserve-clause} is
 
 \begin{syntax}
   \pending{
@@ -536,7 +552,7 @@ where \metaelement{reserve-clause} is
   }
 \end{syntax}
 
-where \metaelement{sharing-clause} is
+where \defnmetaelement{sharing-clause} is
 
 \begin{syntax}
   \key{SHARING} WITH

@@ -22,9 +22,10 @@ Edward Hart
 
 ## Compiling
 
-The document is known to compile with pdfLaTeX as part of TeX Live 2015/Debian,
-but might not work with plain LaTeX or with MiKTeX. If you have any problems,
-create a ticket on the GnuCOBOL bug tracker and I'll look it into it.
+The document is known to compile with pdfLaTeX as part of TeX Live 2015/Debian
+and MiKTeX 2.9, but might not work with other/older LaTeX distributions. If you
+have any problems, create a ticket on the GnuCOBOL bug tracker and I'll look it
+into it.
 
 Compilation is simple:
 
@@ -39,6 +40,8 @@ the following command covers (most of) the packages required:
 ~~~~
     tlmgr install erewhon newtx roboto booktabs multirow microtype appendix koma-script symbol zapfding cyrillic ly1 etoolbox xkeyval fontaxes fontaxes mweights xcolor tcolorbox pgf l3packages l3kernel trimspaces listings boondox ec txfonts
 ~~~~
+
+Ensure you install a version of newtx greater than or equal to v1.527.
 
 ## Licence
 
