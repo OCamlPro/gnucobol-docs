@@ -3472,8 +3472,8 @@ INSPECT Character-String
 @p A @statementref{START}
 @p An @statementref{UNLOCK}
 @p A @statementref{WRITE}
-@p @item Any attempt to open a file that is already open will fail with a file status of 41 (@pxref{File Status Codes}).  This is a fatal error that will terminate the program.
-@p @item Any open failure (including status 41) may be trapped using @syntaxref{DECLARATIVES} or an error procedure established using the @subpgmref{CBL_ERROR_PROC} built-in subroutine.  When either of these trap routines @i{exit}, however, the GnuCOBOL runtime system will still terminate the program after your trap logic is executed.  Ultimately, you cannot recover from an open failure.
+@p @item Any attempt to open a file that is already open will fail with a file status of 41 (@pxref{File Status Codes}).
+@p @item Any open failure (including status 41) may be trapped using @syntaxref{DECLARATIVES} or an error procedure established using the @subpgmref{CBL_ERROR_PROC} built-in subroutine or even just checking the status field defined.  It is up to the programmer to check for bad statuses and respond accordingly such as issue a CLOSE before dealing with the problem. 
 @p @item @anchoridx{File OPEN Modes}The @syntaxidx{INPUT}, @syntaxidx{OUTPUT}, @syntaxidx{I-O} and @syntaxidx{EXTEND} open modes inform GnuCOBOL of the manner in which you wish to use the file, as follows:
 @table @asis
 @p @item @syntax{INPUT}
