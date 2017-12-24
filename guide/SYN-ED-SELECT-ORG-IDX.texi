@@ -6,13 +6,17 @@
                      { ~~~~~~~    }
                      { RANDOM     }
                        ~~~~~~
-    [ RECORD KEY IS identifier-1
+    [ RECORD KEY IS { [ data-name-1       ]
       ~~~~~~
-          [ =|{SOURCE IS} identifier-2 ] ]
-               ~~~~~~
-    [ ALTERNATE RECORD KEY IS identifier-3
+                    { [ record-key-name-1 ] [ =|{SOURCE IS} data-name-2 ] ... ] }
+                                                 ~~~~~~
+    [ ALTERNATE RECORD KEY IS { [ data-name-3       ]
       ~~~~~~~~~ ~~~~~~
-          [ =|{SOURCE IS} identifier-4 ]
-               ~~~~~~
-          [ WITH DUPLICATES ] ]...
-                 ~~~~~~~~~~
+                              { [ record-key-name-2 ] [ =|{SOURCE IS} data-name-4 ] ... ] }
+                                                           ~~~~~~
+                              [ WITH DUPLICATES ] ]...
+                                     ~~~~~~~~~~
+                              [ SUPPRESS WHEN ALL literal     ]
+                                ~~~~~~~~~~~~~~~~~
+                              [ SUPPRESS WHEN SPACES | ZEROES ]
+                                ~~~~~~~~~~~~~~~~~~~~   ~~~~~~

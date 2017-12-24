@@ -1,28 +1,234 @@
 @comment *********************************************************************
-@comment ** 3. IDENTIFICATION DIVISION                                      **
+@comment ** 3. Compiler Directing Facility                                  **
 @comment *********************************************************************
-@newchapter{3,IDENTIFICATION DIVISION}
-@diagram{IDENTIFICATION DIVISION,ID-Overview,ID-Overview,ID-Overview}
-@diagram{PROGRAM-ID Type Clause,ID-PROGRAM-ID-Type,ID-PROGRAM-ID-Type,None}
-@p The identification division provides basic identification of the program by giving it a name and optionally defining some high-level characteristics via the eight pre-defined paragraphs that may be specified.
+@newchapter{3,CDF - Compiler Directing Facility}The Compiler Directing Facility, or CDF, is a means of controlling the compilation of GnuCOBOL programs.  CDF provides a mechanism for dynamically setting or resetting certain compiler switches, introducing new source code from one or more source code libraries, making dynamic source code modifications and conditionally processing or ignoring source statements altogether.  This is accomplished via a series of special CDF statements and directives that will appear in the program source code.
+@p When the compiler is operating in Fixed Format Mode, all CDF statements must begin in column eight (8) or beyond.
+@p There are two types of supported CDF statements in GnuCOBOL --- Text Manipulation Statements and Compiler Directives.
+@p The CDF text manipulation statements @syntax{COPY} and @syntax{REPLACE} are used to introduce new code into programs either with or without changes, or may be used to modify existing statements already in the program.  Text manipulation statements are always terminated with a period.
+@p CDF directives, denoted by the presence of a ">>" character sequence as part of the statement name itself, are used to influence the process of program compilation.
+@p Compiler directives are @i{never} terminated with a period.
+@menu
+* 3.1 : >>CALL-CONVENTION.
+* 3.2 : COPY.
+* 3.3 : REPLACE.
+* 3.4 : >>DEFINE.
+* 3.5 : >>IF.
+* 3.6 : >>SET.
+* 3.7 : >>SOURCE.
+* 3.8 : >>TURN.
+* 3.9 : >>D.
+* 3.10: >>DISPLAY.
+* 3.11: >>PAGE.
+* 3.12: >>LISTING.
+* 3.13: >>LEAP-SECONDS.
+* 3.14: * Directives.
+@end menu
+@comment *********************************************************************
+@comment ** 3.1 >>CALL-CONVENTION                                           **
+@comment *********************************************************************
+@page
+@newsection{3.1,>>CALL-CONVENTION}
+@diagram{CDF >>CALL-CONVENTION,CDF-CALL,CDF-CALL,None}@p This directive instructs the compiler how to treat references to program names and may be used to determine other details for interacting with a function or program. There are four options with COBOL being the default.
 @enumerate
-@p @item The paragraphs shown above may be coded in any sequence.
-@p @item The reserved words @syntax{AS}, @syntax{IS} and @syntax{PROGRAM} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item A @b{Type Clause} may be coded only when @syntaxidx{PROGRAM-ID} is specified.  If one is coded, either @syntax{COMMON}, @syntax{COMMON INITIAL} or @syntax{COMMON RECURSIVE} must be specified.
-@p @item While the actual @syntax{IDENTIFICATION DIVISION} or @syntax{ID DIVISION} header is optional, the @syntax{PROGRAM-ID} / @syntaxidx{FUNCTION-ID} paragraphs are not; only one or the other, however, may be coded.
-@p @item The compiler's @switchidx{-Wobsolete} will cause the GnuCOBOL compiler to issue warnings messages if these (or any other obsolete syntax) is used in a program.
-@p @item If specified, @term{literal-1} must be an actual alphanumeric literal and may not be a figurative constant.
-@p @item The @syntax{PROGRAM-ID} and @syntax{FUNCTION-ID} paragraphs serve to identify the program to the external (i.e. operating system) environment.  If there is no @syntax{AS} clause present, the @term{program-id} will serve as that external identification.  If there is an @syntax{AS} clause specified, that specified literal will serve as the external identification.  For the remainder of this document, that "external identification" will be referred to as the primary entry-point name.
-@p @item The @syntax{INITIAL}, @syntax{COMMON} and @syntax{RECURSIVE} words are used only within subprograms serving as subroutines.  Their purposes are as follows:
+@p @item COBOL (the default) the program name is treated as a COBOL word that maps to the externalised name program to be called, cancelled or referenced in the program-address-identifier, applying the same mapping rules as for a program name for which no AS phrase is specified.
+@p @item EXTERN the program name is treated as an external reference.
+@p @item STDCALL. < more info needed >
+@p @item STATIC the program name is called as a included element and not dynamically which is the normal default.
+@end enumerate
+@comment *********************************************************************
+@comment ** 3.2 COPY                                                        **
+@comment *********************************************************************
+@page
+@newsection{3.2,COPY}
+@diagram{CDF COPY Statement,CDF-COPY,CDF-COPY,None}
+@diagram{CDF COPY Phrase-Clause,CDF-COPY-Phrase,CDF-COPY-Phrase,None}
+@diagram{CDF COPY String-Clause,CDF-COPY-String,CDF-COPY-String,None}
+@enumerate
+@p @item @syntax{COPY} statements are used to import copybooks (@pxref{Copybooks}) into a program.
+@p @item @syntax{COPY} statements may be used anywhere within a COBOL program where the code contained within the copybook would be syntactically valid.
+@p @item The optional @syntaxidx{SUPPRESS} clause (with or without the optional @syntaxidx{PRINTING} reserved word) is valid syntactically but is non-functional.  It is supported to facilitate compatibility with source code written for other versions of COBOL.
+@p @item There is no difference between the use of the word @syntax{IN} and the word @syntax{OF} --- use the one you prefer.
+@p @item A period is absolutely mandatory at the end of every @syntax{COPY} statement, even if the statement occurs within the scope of another one where a period might appear disruptive, such as within the scope of an @syntaxref{IF} statement.  This mandatory period at the end of the statement will not, however, affect the statement scope in which the @syntax{COPY} occurs.
+@p @item Both @term{pseudo-text-2} and @term{partial-word-2} may be null.
+@p @item All @syntax{COPY} statements are located and the contents of the corresponding copybooks inserted into the program source code before the actual compilation process begins.  If a copybook contains a @syntax{COPY} statement, the copybook insertion process will be repeated to resolve the embedded @syntax{COPY}.  This will continue until no unresolved @syntax{COPY} statements remain.  At that point, actual program compilation will begin.
+@p @item @xref{Locating Copybooks}, for the specific rules on how copybooks are located by the compiler.
+@p @item The optional @syntaxidx{REPLACING} clause allows for one or more of either of the following kinds of text replacements to be made:
+@table @asis
+@p @item @clause{Phrase-Clause}
+@p Replacement of one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
+@itemize
+@p @item This option cannot be used to replace part of a word, identifier or literal.
+@p @item Whatever precedes the @syntax{BY} will be referred to here as the search string.
+@p @item Single-item search strings can be specified by coding the @syntax{@term{identifier-1}}, @syntax{@term{literal-1}} or @syntax{@term{word-1}} being replaced.
+@p @item Multiple-item search strings can be specified using the @syntax{==@term{pseudo-text-1}==} option.  For example, to replace all occurrences of @syntax{UPON PRINTER}, you would specify @syntax{==UPON PRINTER==}.
+@p @item The replacement string, which follows the @syntax{BY}, may be specified using any of the four options.
+@p @item If the replacement string is a multiple-item phrase or is to be deleted altogether, you must use the @syntax{==@term{pseudo-text-2}==} option.  If @syntax{@term{pseudo-text-2}} is null (in other words, the replacement text is specified as @syntax{====}), all encountered occurrences of the search string will be deleted.
+@end itemize
+@item @clause{String-Clause}
+@p Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @syntax{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @syntax{LEADING ==0100-== BY ====}.
+@end table
+@end enumerate
+@comment *********************************************************************
+@comment ** 3.3 REPLACE                                                     **
+@comment *********************************************************************
+@page
+@newsection{3.3,REPLACE}
+@diagram{CDF REPLACE Statement (Format 1),CDF-REPLACE-1,CDF-REPLACE-1,None}
+@diagram{CDF REPLACE Statement (Format 2),CDF-REPLACE-2,CDF-REPLACE-2,None}
+@diagram{CDF REPLACE Phrase-Clause,CDF-REPLACE-Phrase,CDF-REPLACE-Phrase,None}
+@diagram{CDF REPLACE String-Clause,CDF-REPLACE-String,CDF-REPLACE-String,None}
+@enumerate 1
+@p @item The @syntax{REPLACE} statement provides a mechanism for changing all or part of one or more GnuCOBOL statements.
+@p @item A period is absolutely mandatory at the end of every @syntax{REPLACE} statement (either format), even if the statement occurs within the scope of another one where a period might appear disruptive (such as within the scope of an @syntaxref{IF} statement; the period will not, however, affect the statement scope in which the @syntax{REPLACE} occurs.
+@p @item The following points apply to Format 1 of the @syntax{REPLACE} statement:
 @enumerate A
-@p @item @syntaxidx{COMMON} should be used only within subprograms that are nested subprograms.  A nested subprogram declared as @syntax{COMMON} may be called from any nested program in the source file being compiled, not just those "above" it in the nesting structure.
-@p @item The @syntaxidx{RECURSIVE} clause, if any, will cause the compiler to generate different object code for the subprogram that will enable it to invoke itself and to properly return back to the program that invoked it.
-@p User-defined functions (i.e. @syntax{FUNCTION-ID}) are always recursive.
-@p @item The @syntaxidx{INITIAL} clause, if specified, guarantees the subprogram will be in its initial (i.e. compiled) state each and every time it is executed, not just the first time.
+@p @item Format 1 of the @syntax{REPLACE} statement can be used to make changes to program source code in much the same way as the @syntaxidx{REPLACING} option of the @syntax{COPY} statement can, via these options:
+@table @asis
+@p @item @clause{Phrase-Clause}
+@p Replace one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
+@itemize @bullet
+@p @item This option cannot be used to replace part of a word, identifier or literal.
+@p @item Whatever precedes the @syntax{BY} will be referred to here as the search string.
+@p @item Search strings on @syntax{REPLACE} are always specified using the @syntax{==@term{pseudo-text-1}==} option.  For example, to replace all occurrences of @syntax{UPON PRINTER}, you would specify @syntax{==UPON PRINTER==}.
+@p @item The replacement string, which follows the @syntax{BY}, is specified using the @syntax{==@term{pseudo-text-2}==} option.  If @syntax{@term{pseudo-text-2}} is null (in other words, the replacement text is specified as @syntax{====}), all encountered occurrences of the search string will be deleted.
+@end itemize
+@item @clause{String-Clause}
+@p Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @syntax{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @syntax{LEADING ==0100-== BY ====}.
+@end table
+@item Once a Format 1 @syntax{REPLACE} statement is encountered in the currently-compiling source file, Replace Mode becomes active, and the change(s) specified by that statement will be automatically made on all subsequent source statements the compiler reads from the file.
+@p @item Replace Mode remains in-effect --- continuing to make source code changes --- until another Format 1 @syntax{REPLACE} is encountered, the end of currently compiling program source file is reached or a Format 2 @syntax{REPLACE} statement is encountered.
+@p @item When a Format 1 @syntax{REPLACE} statement with the @syntaxidx{ALSO} keyword is encountered without Replace Mode being currently active, the effect will be as if the @syntax{ALSO} had not been specified.  If Replace Mode already was in effect, the effect will be to "push" the current change specification(s) onto the top of a stack and add the specification(s) of the new statement to those that were already in effect.
+@p @item When a Format 1 @syntax{REPLACE} without the @syntax{ALSO} keyword is encountered, any stacked change specification(s), if any, will be discarded and the currently in-effect change specification(s), if any, will be replaced by those of the new statement.
+@p @item When the end of the currently-compiling source file is reached, Replace Mode is deactivated and any stacked replace specifications will be discarded --- compilation of the next source file (if any) will begin with Replace Mode inactive and no change specification(s) on the stack.
+@end enumerate
+@item The following points apply to Format 2 of the @syntax{REPLACE} statement:
+@enumerate A
+@p @item If Replace Mode is currently inactive, the Format 2 REPLACE statement will be ignored.
+@p @item If Replace Mode is currently active, a @syntax{REPLACE OFF.} will deactivate Replace Mode and discard any replace specification(s) on the stack.  The compiler will henceforth operate as if no @syntax{REPLACE} had ever been encountered, until such time as another Format 1 @syntax{REPLACE} is encountered.
+@p @item If Replace Mode is currently active, a @syntax{REPLACE LAST OFF.} will replace the current replace specification(s) with those popped off the top of the stack.  If there were no replace specification(s) on the stack, the effect will be as if a @syntax{REPLACE OFF.} had been coded.
 @end enumerate
 @end enumerate
+@comment *********************************************************************
+@comment ** 3.4 >>DEFINE Directive                                          **
+@comment *********************************************************************
+@page
+@newsection{3.4,>>DEFINE}
+@diagram{CDF >>DEFINE Directive,CDF-DEFINE,CDF-DEFINE,None}@p Use the @directive{>>DEFINE} to create CDF variables and (optionally) assign them either literal or environment variable values.
+@enumerate
+@p @item The reserved word @syntax{AS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+@p @item CDF variables defined in this way become undefined once an @syntax{END PROGRAM} or @syntax{END FUNCTION} directive is encountered in the input source.
+@p @item The @directive{>>DEFINE} is one way to create CDF variables that may be processed by other CDF statements such as @syntaxref{>>IF}.  The @directiveref{>>SET} provides another way to create them.
+@p @item CDF variable names follow the rules for standard GnuCOBOL user-defined names, and may not duplicate any CDF reserved word.  CDF variable names may duplicate COBOL reserved words, provided the @syntaxidx{CONSTANT} option is not specified, but such names are not recommended.
+@p @item The @syntax{CONSTANT} option is valid only in conjunction with @term{literal-1}.  When @syntax{CONSTANT} is specified, the CDF variable that is created may be used within your regular COBOL code as if it were a literal value.  Without this option, the CDF variable may only be referenced on other CDF statements.  The @syntaxidx{OFF} option is used to create a variable without assigning it any value.
+@p @item The @syntaxidx{PARAMETER} option is used to create a variable whose value is that of the environment variable of the same name.  Note that this value assignment occurs at compilation time, not program execution time.
+@p @item In the absence of the @syntaxidx{OVERRIDE} option, @term{cdf-variable-1} must not yet have been defined.  When the @syntax{OVERRIDE} option is specified, @term{cdf-variable-1} will be created with the specified value, if it had not yet been defined.  If it had already been defined, it will be redefined with the new value.
+@end enumerate
+@comment *********************************************************************
+@comment ** 3.5 >>IF Directive                                              **
+@comment *********************************************************************
+@page
+@newsection{3.5,>>IF}
+@diagram{CDF >>IF Directive,CDF-IF,CDF-IF,None}
+@diagram{CDF-Conditional-Expression,CDF-Cond-Expr,CDF-Cond-Expr,None}
+@diagram{CDF-RelOp,CDF-RelOp,CDF-RelOp,None}@p The @directive{>>IF} causes the GnuCOBOL compiler to process or ignore COBOL source statements, CDF text-manipulation statements and/or CDF directives depending upon the value of one or more conditional expressions based upon CDF variables.
+@enumerate
+@p @item The reserved words @syntax{IS}, @syntax{THAN} and @syntax{TO} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+@p @item Each @syntax{>>IF} directive must be terminated by an @syntaxidx{>>END-IF} directive.
+@p @item There may be any number of @syntaxidx{>>ELIF} clauses following an @syntax{>>IF}, including zero.
+@p @item There may no more than one @syntaxidx{>>ELSE} clause following an @syntax{>>IF}.  When @syntax{>>ELSE} is used, it must follow the @syntax{>>IF} and all @syntax{>>ELIF} clauses.
+@p @item Only one of the @clause{Program-Source-Lines-n} block of statements that lie within the scope of the @syntax{>>IF}-@syntax{>>END-IF} may be processed by the compiler.  Which one (if any) that gets processed will be decided as follows:
+@enumerate A
+@p @item Each @clause{CDF-Conditional-Expression-n} will be evaluated, in turn, in the sequence in which they are coded in the >>IF statement and any @syntax{>>ELIF} clauses that may be present until one evaluates to TRUE.  Once one of them evaluates to TRUE, the @clause{Program-Source-Lines-n} block of code that corresponds to the TRUE @clause{CDF-Conditional-Expression-n} will be one that is processed.  All others within the @syntax{>>IF}-@syntax{>>END-IF} scope will be ignored.
+@p @item If no @clause{CDF-Conditional-Expression} evaluates to TRUE, and there is an @syntax{>>ELSE} clause, the @clause{Program-Source-Lines-3} block of statements following the @syntax{>>ELSE} clause will be processed by the compiler and all others within the @syntax{>>IF}-@syntax{>>END-IF} scope will be ignored.
+@p @item If no @clause{CDF-Conditional-Expression-n} evaluates to TRUE and there is no @syntax{>>ELSE} clause, then none of the @clause{Program-Source-Lines-n} block of statements within the @syntax{>>IF}-@syntax{>>END-IF} scope will be processed by the compiler.
+@p @item If the @term{Program-Source-Lines-n}> statement block selected for processing is empty, no error results --- there will just be no code generated from the @syntax{>>IF}-@syntax{>>END-IF} structure.
+@end enumerate
+@item A @clause{Program-Source-Lines-n} block may contain any valid COBOL or CDF code.
+@p @item The following points pertain to any @clause{CDF-Conditional-Expression-n}:
+@enumerate A
+@p @item The @syntaxidx{DEFINED} option tests for whether @term{cdf-variable-1} has been defined, but not yet assigned a value (@syntax{>>DEFINE @dots{} OFF}); use the @syntax{NOT} option to test for the variable not being defined.
+@p @item The @syntaxidx{SET} option tests for whether @term{cdf-variable-1} has been given a value, either via a @syntax{>>SET} statement or via a @syntax{>>DEFINE} without the @syntax{OFF} option.
+@p @item Two CDF variables, two literals or a single CDF variable and a single literal may be compared against each other using a relational operator.  Unlike the standard GnuCOBOL @statementref{IF}, multiple comparisons cannot be "AND"ed or "OR"ed together; you may nest a second @syntax{>>IF} inside the first, however, to simulate an "AND" and an "OR" may be simulated via the @syntax{>>ELIF} option.
+@p @item The @syntax{<>} symbol stands for @syntax{NOT EQUAL TO}.
+@end enumerate
+@end enumerate
+@comment *********************************************************************
+@comment ** 3.6 >>SET Directive                                             **
+@comment *********************************************************************
+@page
+@newsection{3.6,>>SET}
+@diagram{CDF >>SET Directive,CDF-SET,CDF-SET,None}@p The @directive{>>SET} provides an alternate means of performing the actions of the @syntax{>>DEFINE} and @syntax{>>SOURCE} directives, as well as a means of controlling the compiler's @switchidx{-free}, @switchidx{-fixed} and @switchidx{-ffold-copy} from within program source code.
+@enumerate
+@p @item The reserved word @syntax{AS} is optional (only on the @syntax{SOURCEFORMAT} and @syntax{FOLDCOPYNAME} clauses) and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+@p @item CDF variables defined in this way become undefined once an @syntax{END PROGRAM} or @syntax{END FUNCTION} directive is encountered in the input source.
+@p @item The @syntaxidx{FOLDCOPYNAME} option provides the equivalent of specifying the compiler @switch{-ffold-copy=xxx}, where "xxx" is either @syntaxidx{UPPER} or @syntaxidx{LOWER}.
+@p @item The @syntaxidx{NOFOLDCOPYNAME} option turns off the effect of either the @syntax{>>SET FOLDCOPYNAME} statement or the compiler @switch{-ffold-copy=xxx}.
+@p @item If the @syntaxidx{CONSTANT} option is used, @term{literal-1} must also be used.  This option provides another means of defining constants that may be used anywhere in the program that a literal could be specified.
+@p @item The remaining options of the @directive{>>SET} provide equivalent functionality to the @syntax{>>DEFINE} and @syntax{>>SOURCE} directives, as follows:
+@enumerate A
+@p @item @syntax{>>SET @term{cdf-variable-1}} @equiv{} @syntax{>>DEFINE @term{cdf-variable-1} AS OFF}
+@p @item @syntax{>>SET @term{cdf-variable-1} AS @term{literal-1}} @equiv{} @syntax{>>DEFINE @term{cdf-variable-1} AS @term{literal-1}}
+@p @item @syntax{>>SET CONSTANT @term{cdf-variable-1} AS @term{literal-1}} @equiv{} @syntax{>>DEFINE CONSTANT @term{cdf-variable-1} AS @term{literal-1}}
+@p @item @syntax{>>SET SOURCEFORMAT AS FIXED} @equiv{} @syntax{>>SOURCE FORMAT IS FIXED}
+@p @item @syntax{>>SET SOURCEFORMAT AS FREE} @equiv{} @syntax{>>SOURCE FORMAT IS FREE}
+@end enumerate
+@end enumerate
+@comment *********************************************************************
+@comment ** 3.7 >>SOURCE Directive                                          **
+@comment *********************************************************************
+@page
+@newsection{3.7,>>SOURCE}
+@diagram{CDF >>SOURCE Directive,CDF-SOURCE,CDF-SOURCE,None}@p The @directive{>>SOURCE} puts the compiler into @syntax{FIXED} or @syntax{FREE} source-code format mode.  This, in effect, provides yet another mechanism for controlling the compiler's @switchidx{-free} and @switchidx{-fixed}.@idx{Fixed Format Mode}@idx{Free Format Mode}@idx{Source Line Format, Fixed}@idx{Source Line Format, Free}
+@enumerate
+@p @item The reserved words @syntax{FORMAT} and @syntax{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+@p @item You may switch between @syntax{FIXED} and @syntax{FREE} mode as desired.
+@p @item You may also use the @directive{>>SET} to perform this function.
+@p @item If the compiler is already in the specified mode, this statement will have no effect.
+@end enumerate
+@comment *********************************************************************
+@comment ** 3.8 >>TURN Directive                                            **
+@comment *********************************************************************
+@page
+@newsection{3.8,>>TURN}
+@diagram{CDF >>TURN Directive,CDF-TURN,CDF-TURN,None}@p The directive will (de-)activating exception checks.
+@comment ********************************************************************
+@comment ** 3.9 >>D Directive                                              **
+@comment ********************************************************************
+@page
+@newsection{3.9,>>D}
+@diagram{CDF >>D Directive,CDF-DEBUG,CDF-DEBUG,None}@p The directive removes all floating debug lines if debug mode not active. Otherwise will ignore the directive part of the line.
+@comment ********************************************************************
+@comment ** 3.10 >>>DISPLAY Directive                                      **
+@comment ********************************************************************
+@page
+@newsection{3.10,>>DISPLAY}
+@diagram{CDF >>DISPLAY Directive,CDF-DISPLAY,CDF-DISPLAY,None}@p The directive is a v1.0 extension and will display messages during compilation.
+@comment ********************************************************************
+@comment ** 3.11 >>PAGE Directive                                          **
+@comment ********************************************************************
+@page
+@newsection{3.11,>>PAGE}
+@diagram{CDF >>PAGE Directive,CDF-PAGE,CDF-PAGE,None}@p The directive allows usage of the IBM paging controls namely - EJECT, SKIP1, SKIP2, SKIP3 and TITLE.
+@comment ********************************************************************
+@comment ** 3.12 >>LISTING Directive                                       **
+@comment ********************************************************************
+@page
+@newsection{3.12,>>LISTING}
+@diagram{CDF >>LISTING Directive,CDF-LISTING,CDF-LISTING,None}@p The directive allows the program listing to be de-(activated).
+@comment ********************************************************************
+@comment ** 3.13 >>LEAP-SECONDS Directive                                  **
+@comment ********************************************************************
+@page
+@newsection{3.13,>>LEAP-SECONDS}
+@diagram{CDF >>LEAP-SECONDS Directive,CDF-LEAP,CDF-LEAP,CDF-LEAP}@p Allows for more than 60 seconds per minute.
+@comment ********************************************************************
+@comment ** 3.14 * Directives                                              **
+@comment ********************************************************************
+@page
+@newsection{3.14,* Directives}
+@diagram{CDF * Directive,CDF-DOLLAR,CDF-DOLLAR,None}@P Offers support for MF Compiler Directives.
 @iftex
 @sp 3
 @center ------------------------------------------------------------
-@center End of Chapter 3 --- IDENTIFICATION DIVISION
+@center End of Chapter 3 --- CDF - Compiler Directing Facility
 @end iftex

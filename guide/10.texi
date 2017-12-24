@@ -1,218 +1,1230 @@
 @comment *********************************************************************
-@comment ** 10. Programming Style Suggestions                               **
+@comment ** 10. Interfacing With The OS                                      **
 @comment *********************************************************************
-@newchapter{10,Programming Style Suggestions}@p This chapter deals with a variety of stylistic issues that may be of interest to someone who is just starting out learning and using COBOL.  Much of this chapter makes recommendations and suggestions for how to write your own programs.  The sample programs in the "Sample Programs" document (@pxref{Top,Top,Top,gnucobsp,Sample Programs}) were coded using almost all of these recommendations.
-@p There's no particular order of importance to the topics presented here.
+@newchapter{10,Interfacing With The OS}
 @menu
-* 10.1: Marking Changes in Programs.
-* 10.2: Data Item Coding and Naming Conventions.
-* 10.3: Table Subscripting versus Table Indexing.
-* 10.4: Copybook Naming Conventions and Usage.
-* 10.5: PROCEDURE DIVISION Sections Versus Paragraphs.
-* 10.6: COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE.
+* 10.1: Compiling Programs.
+@detailmenu
+*   10.1.1: cobc - The GnuCOBOL Compiler.
+*   10.1.2: Compilation Time Environment Variables.
+*   10.1.3: Predefined Compilation Variables.
+*   10.1.4: Locating Copybooks.
+*   10.1.5: Compiler Configuration Files.
+@end detailmenu
+* 10.2: Running Programs.
+@detailmenu
+*   10.2.1: Direct Execution.
+*   10.2.2: Executing Dynamically-Loadable Libraries.
+*     10.2.2.1: cobcrun - Command-line Execution.
+*     10.2.2.2: Dynamically Loaded Subprograms.
+*   10.2.3: Run Time Environment Variables.
+*   10.2.4: Program Arguments.
+@end detailmenu
+* 10.3: Binary Truncation.
 @end menu
 @comment *********************************************************************
-@comment ** 10.1,Marking Changes in Programs                                **
+@comment ** 10.1 Compiling Programs                                          **
 @comment *********************************************************************
-@newsection{10.1,  Marking Changes in Programs}
-@p Historically in the early 60's programs were first punched on to paper tape and by the mid 60's that was replaced almost totally, by punched cards although paper tape was still used by programmers for the odd few changes to their sources held on magnetic tape or disk as a portable paper tape punch could be put in your pocket. Now the problem with punched cards were there was 2,000 cards per box and that they could and did, get dropped. So, cc (column) 1 through 6 had the card sequence number in and that way if a box was dropped they could be feed in to a card sorter to be fixed. This was after the cards was cleaned up so that they were all in the same direction which one corner cut out helped.
-@p In the late 70's cards was also on its way out to the point where P.C's started being used (and no they were not made by IBM), so these columns could be used for other purposes including cc 73 - 80 instead of indicating the 8 character program name which was the maximum size allowed on a IBM system.
-@p For quite a while now (back to the late 1970's), the "sequence number area" of a COBOL statement (columns 1-6) has come to be used as a change indicator area.  Programmers would place a code in columns 1-6 of every line they changed in a program.  The author works in a COBOL shop where change indicators of the form "xxmmyy" are required on every altered line of a program --- "xx" is the initials of the programmer while "mmyy" are the month and two-digit year of the date the change was made.  This is frequently accompanied by a comment block at or near the top of a COBOL program providing general documentation of what changes were made and what change indicator was used to mark that change.
-@p The GCic sample program source listing (@pxref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}) provides an excellent example of such documentation.
-@p This technique of using columns 1-6 as a change indicator will ONLY work if fixed source-record format is in effect.
-@p Some COBOL shops prefer to use the eight-character Program Name Area (columns 73-80) as a change code area.
-@p Marking changes becomes more of a challenge when free-format source code is in effect.  Creating a top-of-program comment block to generically describe changes that have been made isn't difficult, even in free-form.  What IS difficult, however, is coming up with a scheme for per-statement mark up of changes that doesn't introduce a ridiculously excessive number of source lines to the program.  I'm not sure there is a good answer to this problem (if a reader has one, please let me know).  Generally, I've noticed that shops using free-format conventions for their COBOL source tend to stick with just the top-of-program comment block combined with minimal comment blocks sprinkled throughout the program noting areas that underwent major changes.
-@comment *********************************************************************
-@comment ** 10.2 Data Item Coding and Naming Conventions                    **
-@comment *********************************************************************
-@newsection{10.2,Data Item Coding and Naming Conventions}@p When programs get very large, it becomes more and more challenging to keep track of the data items that will be used in the program.  Here, in no particular order of importance, are a variety of conventions that can simply that problem.
-@p Remember that the points described here are intended to make things easier for you, the programmer.  No COBOL compiler cares one way or another whether any of these suggestions are followed.
-@enumerate
-@p @item Avoid the use of level 77 data items in new programs.  Once (1968 and before) there were valid reasons for creating level-77 data items, but since the 1974 ANSI standard of COBOL there really hasn't been any reason why an elementary level-01 data item couldn't have been used instead of a level-77 item.
-@p @item Allocate level-01 data items in alphabetical sequence in the program source wherever practical.  This will make it vastly easier to locate the definitions of 01-level items in the program source without having to resort to a compilation cross-reference listing and/or text editor "find" command to locate them.
-@p @item @i{Consider} prefixing data items with an indication of where in the program structure they were created.  For example:
-@itemize @bullet
-@p @item Start everything defined in the file section with "F-"
-@p @item Start everything defined in working-storage with  "WS-"
-@p @item Start everything defined in local-storage with "LS-"
-@p @item Start everything defined in the linkage section with  "L-"
-@p @item Start everything defined in the screen section with "S-"
-@p @item Start everything defined in the report section with "R-"
-@end itemize
-@* A convention such as this makes it simple, when you're reviewing code in the procedure division, to know in which section of the data division you should look in when locating the detailed description of a data item.  Once you're in the right division, coding convention #2 will assist in locating the data item definition.
-@p @item Consider including a trailing descriptor of the nature of all data items in their names.  The following chart presents a variety of such descriptors the author has encountered and used through the years.
-@table @b
-@p @item -ADDR
-@p The data item contains all or a part of an Address (City-ADDR, State-ADDR, Street-ADDR, @dots{})
-@p @item -BOOL
-@p A level-88 data item (which only has the value TRUE or FALSE)
-@p @item -CD
-@p A CODE whose value denotes information content above and beyond that of the mere value itself.  Some examples could be "Error-CD", "Status-CD", "Billing-CD"
-@p @item -CHR
-@p A data item containing a single character of data.
-@p @item -CONST
-@p A constant, specified as a level-78 data item, a level-01 item with the CONST attribute
-@p @item -DT
-@p The data item contains a complete or partial date (Birth-DT, Birth-Month-DT, Birth-Year-DT, @dots{})
-@p @item -DTTM
-@p A data item containing both a date and a time
-@p @item -FILE
-@p A file name.  Note that these items would probably also have a "F-" prefix.
-@p @item -IDX
-@p A data item used as a table index (see section 10.3)
-@p @item -NM
-@p All or a portion of a person's name.  These could be extended to include business names, product names, etc.
-@p @item -PTR
-@p A data item whose USAGE is POINTER
-@p @item -NUM
-@p A generic numeric data item that doesn't fit into any of the other categories
-@p @item -QTY
-@p A count of something
-@p @item -REC
-@p An 01-level item defined in the FILE SECTION (constituting the layout of a record within a file). Note that these items would probably also have a "F-" prefix.
-@p @item -SCR
-@p The data item contains a complete or partial screen description (appropriate for SCREEN SECTION 01-level data items).
-@p @item -SUB
-@p A numeric item used as a table subscript (see section 10.3)
-@p @item -TEL
-@p All or part of a telephone number
-@p @item -TM
-@p The data item contains a complete or partial time value
-@p @item -TXT
-@p The data item contains generic alphanumeric text that doesn't fit into any of the other categories.
+@newsection{10.1,Compiling Programs}@p Program source files should have extensions of ".cob" or ".cbl".
+@p Program file names should match exactly the specification of PROGRAM-ID (including case).
+@p Spaces cannot be included in primary entry-point names and therefore should not be included in program file names.
+@p The GnuCOBOL compiler will translate your COBOL program into C source code, compile that C source code into executable binary form using the "C" compiler specified when GnuCOBOL was built and link that executable binary into:
+@table @asis
+@p @item Directly executable form
+@p This is an executable file directly-executable from the command-line.  On Windows computers, this would be an ".exe" file.  On Unix systems, this will be a file with no specific extension, but with execute permissions.  This file will include the main program as well as any static-linked subprograms.
+@p @item Static-linkable form
+@p This is a single subprogram compiled into object-code form, ready to be linked in with a main program to form a directly-executable program.  On windows computers, these generally are ".o" (object-code) files.
+@p @item Dynamically-loadable executable form
+@p These are dynamically-loadable object code files ready to be invoked from other programs at execution time.  On Windows systems, these would be ".dll" files, while on Unix systems they are typically ".so" files (OSX uses ".dylib").
 @end table
-@* The above is by no means an exhaustive list, but good programmers will use as few of these descriptors as possible as having too many defeats any benefits of such classification/documentation efforts.
-@p @item Consider including an acronym to be inserted into the name of any data item defined directly or indirectly subordinate to an 01-level item, typically to be specified after any section-level tag, if you're using them.  For example, consider the names used in the following structure:
+@menu
+* 10.1.1: cobc - The GnuCOBOL Compiler.
+* 10.1.2: Compilation Time Environment Variables.
+* 10.1.3: Predefined Compilation Variables.
+* 10.1.4: Locating Copybooks.
+* 10.1.5: Compiler Configuration Files.
+@end menu
+@comment *********************************************************************
+@comment ** 10.1.1 cobc - The GnuCOBOL Compiler                             **
+@comment *********************************************************************
+@newsubsection{10.1.1,cobc - The GnuCOBOL Compiler}@p The GnuCOBOL compiler is named "cobc" ("cobc.exe" on a Windows system).
+@p The following describes the syntax and option switches of the cobc command.  This information may be displayed by entering the command "cobc --help" or "cobc -h".
+@verbatim
+Usage: cobc [options]... file...
+
+Options:
+  -h, -help             display this help and exit
+  -V, -version          display compiler version and exit
+  -i, -info             display compiler information (build/environment)
+  -v, -verbose          display compiler version and the commands
+                        invoked by the compiler
+  -vv, -verbose=2       like -v but additional pass verbose option
+                        to assembler/compiler
+  -vvv, -verbose=3      like -vv but additional pass verbose option
+                        to linker
+  -q, -brief            reduced displays, commands invoked not shown
+  -###                  like -v but commands not executed
+  -x                    build an executable program
+  -m                    build a dynamically loadable module (default)
+  -j [<args>], -job[=<args>]
+                        run program after build, passing <args>
+  -std=<dialect>        warnings/features for a specific dialect
+                        <dialect> can be one of:
+                        cobol2014, cobol2002, cobol85, default,
+                        ibm, mvs, bs2000, mf, acu;
+                        see configuration files in directory config
+  -F, -free             use free source format
+  -fixed                use fixed source format (default)
+  -O, -O2, -Os          enable optimization
+  -g                    enable C compiler debug / stack check / trace
+  -d, -debug            enable all run-time error checking
+  -o <file>             place the output into <file>
+  -b                    combine all input files into a single
+                        dynamically loadable module
+  -E                    pre-process only; do not compile or link
+  -C                    translation only; convert COBOL to C
+  -S                    compile only; output assembly file
+  -c                    compile and assemble, but do not link
+  -T <file>             generate and place wide program listing into <file>
+  -t <file>             generate and place a program listing into <file>
+  --tlines=<lines>      specify lines per page in listing, default = 55
+  --tsymbols            specify symbols in listing
+  -P[=<dir or file>]    generate preprocessed program listing (.lst)
+                        This excludes all comment lines and output is
+                        converted to free format left justified.
+                        For a neater listing, use -T or -t
+  -Xref                 specify cross reference in listing
+  -I <directory>        add <directory> to copy/include search path
+  -L <directory>        add <directory> to library search path
+  -l <lib>              link the library <lib>
+  -A <options>          add <options> to the C compile phase
+  -Q <options>          add <options> to the C link phase
+  -D <define>           define <define> for COBOL compilation
+  -K <entry>            generate CALL to <entry> as static
+  -conf=<file>          user-defined dialect configuration; see -std
+  -list-reserved        display reserved words
+  -list-intrinsics      display intrinsic functions
+  -list-mnemonics       display mnemonic names
+  -list-system          display system routines
+  -save-temps[=<dir>]   save intermediate files
+                        - default: current directory
+  -ext <extension>      add file extension for resolving COPY
+
+  -W                    enable all warnings
+  -Wall                 enable most warnings (all except as noted below)
+  -Wno-<warning>        disable warning enabled by -W or -Wall
+  -Wno-unfinished       do not warn if unfinished features are used
+                        - ALWAYS active
+  -Wno-pending          do not warn if pending features are mentioned
+                        - ALWAYS active
+  -Wobsolete            warn if obsolete features are used
+  -Warchaic             warn if archaic features are used
+  -Wredefinition        warn incompatible redefinition of data items
+  -Wconstant            warn inconsistent constant
+  -Woverlap             warn overlapping MOVE items
+  -Wpossible-overlap    warn MOVE items that may overlap depending on
+                        variables
+                        - NOT set with -Wall
+  -Wparentheses         warn lack of parentheses around AND within OR
+  -Wstrict-typing       warn type mismatch strictly
+  -Wimplicit-define     warn implicitly defined data items
+  -Wcorresponding       warn CORRESPONDING with no matching items
+  -Winitial-value       warn Initial VALUE clause ignored
+  -Wprototypes          warn missing FUNCTION prototypes/definitions
+  -Warithmetic-osvs     warn if arithmetic expression precision has changed
+  -Wcall-params         warn non 01/77 items for CALL params
+                        - NOT set with -Wall
+  -Wconstant-expression warn expressions that always resolve to true/false
+  -Wcolumn-overflow     warn text after program-text area, FIXED format
+                        - NOT set with -Wall
+  -Wterminator          warn lack of scope terminator END-XXX
+                        - NOT set with -Wall
+  -Wtruncate            warn possible field truncation
+                        - NOT set with -Wall
+  -Wlinkage             warn dangling LINKAGE items
+                        - NOT set with -Wall
+  -Wunreachable         warn unreachable statements
+                        - NOT set with -Wall
+  -Werror               treat all warnings as errors
+  -Werror=<warning>     treat specified <warning> as error
+
+  -fsign=[ASCII|EBCDIC] define display sign representation
+                        - default: machine native
+  -ffold-copy=[UPPER|LOWER]
+                        fold COPY subject to value
+                        - default: no transformation
+  -ffold-call=[UPPER|LOWER]
+                        fold PROGRAM-ID, CALL, CANCEL subject to value
+                        - default: no transformation
+  -fdefaultbyte=0..255 or any quoted character
+                        initialize fields without VALUE to decimal value
+                        - default: initialize to picture
+  -fmax-errors=<number> maximum number of errors to report
+                        - default: 100
+  -fintrinsics=[ALL|intrinsic function name(,name,...)]
+                        intrinsics to be used without FUNCTION keyword
+  -ftrace               generate trace code
+                        - executed SECTION/PARAGRAPH
+  -ftraceall            generate trace code
+                        - executed SECTION/PARAGRAPH/STATEMENTS
+                        - turned on by -debug
+  -fsyntax-only         syntax error checking only; don't emit any output
+  -fdebugging-line      enable debugging lines
+                        - 'D' in indicator column or floating >>D
+  -fsource-location     generate source location code
+                        - turned on by -debug/-g/-ftraceall
+  -fimplicit-init       automatic initialization of the COBOL runtime system
+  -fstack-check         PERFORM stack checking
+                        - turned on by -debug or -g
+  -fsyntax-extension    allow syntax extensions
+                        - e.g. switch name SW1, etc.
+  -fwrite-after         use AFTER 1 for WRITE of LINE SEQUENTIAL
+                        - default: BEFORE 1
+  -fmfcomment           '*' or '/' in column 1 treated as comment
+                        - FIXED format only
+  -facucomment          '$' in indicator area treated as '*',
+                        '|' treated as floating comment
+  -fnotrunc             allow numeric field overflow
+                        - non-ANSI behaviour
+  -fodoslide            adjust items following OCCURS DEPENDING
+                        - requires implicit/explicit relaxed syntax
+  -fsingle-quote        use a single quote (apostrophe) for QUOTE
+                        - default: double quote
+  -frecursive-check     check recursive program call
+  -foptional-file       treat all files as OPTIONAL
+                        - unless NOT OPTIONAL specified
+  -ftab-width=1..12     set number of spaces that are asumed for tabs
+  -ftext-column=72..255 set right margin for source (fixed format only)
+  -fpic-length=<number> maximum number of characters allowed in the
+                        character-string
+  -fword-length=1..61   maximum word-length for COBOL words / Programmer
+                        defined words
+  -fliteral-length=<number>
+                        maximum literal size in general
+  -fnumeric-literal-length=1..38
+                        maximum numeric literal size
+  -fassign-clause=<value>
+                        set way of interpreting ASSIGN
+  -fbinary-size=<value> binary byte size - defines the allocated bytes
+                        according to PIC
+  -fbinary-byteorder=<value>
+                        binary byte order
+  -ffilename-mapping    resolve file names at run time using environment
+                        variables.
+  -fpretty-display      alternate formatting of numeric fields
+  -fbinary-truncate     numeric truncation according to ANSI
+  -fcomplex-odo         allow complex OCCURS DEPENDING ON
+  -findirect-redefines  allow REDEFINES to other than last equal level number
+  -flarger-redefines-ok allow larger REDEFINES items
+  -frelax-syntax-checks allow certain syntax variations (e.g. REDEFINES
+                        position)
+  -fperform-osvs        exit point of any currently executing perform is
+                        recognized if reached
+  -farithmetic-osvs     limit precision in intermediate results to precision
+                        of final result
+  -fmove-ibm            MOVE operates as on IBM (left to right, byte by byte)
+  -fsticky-linkage      LINKAGE-SECTION items remain allocated between
+                        invocations
+  -frelax-level-hierarchy
+                        allow non-matching level numbers
+  -fhostsign            allow hexadecimal value 'F' for NUMERIC test of signed
+                        PACKED DECIMAL field
+  -faccept-update       set WITH UPDATE clause as default for ACCEPT dest-item,
+                        instead of WITH NO UPDATE
+  -faccept-auto         set WITH AUTO clause as default for ACCEPT dest-item,
+                        instead of WITH TAB
+  -fconsole-is-crt      assume CONSOLE IS CRT if not set otherwise
+  -fprogram-name-redefinition
+                        program names don't lead to a reserved identifier
+  -fno-echo-means-secure
+                        NO-ECHO hides input with asterisks like SECURE
+  -fcomment-paragraphs=<support>
+                        comment paragraphs in IDENTIFICATION DIVISION (AUTHOR,
+                        DATE-WRITTEN, ...)
+  -fmemory-size-clause=<support>
+                        MEMORY-SIZE clause
+  -fmultiple-file-tape-clause=<support>
+                        MULTIPLE-FILE-TAPE clause
+  -flabel-records-clause=<support>
+                        LABEL-RECORDS clause
+  -fvalue-of-clause=<support>
+                        VALUE-OF clause
+  -fdata-records-clause=<support>
+                        DATA-RECORDS clause
+  -ftop-level-occurs-clause=<support>
+                        OCCURS clause on top-level
+  -fsynchronized-clause=<support>
+                        SYNCHRONIZED clause
+  -fgoto-statement-without-name=<support>
+                        GOTO statement without name
+  -fstop-literal-statement=<support>
+                        STOP-literal statement
+  -fstop-identifier-statement=<support>
+                        STOP-identifier statement
+  -fdebugging-line=<support>
+                        DEBUGGING MODE and indicator 'D'
+  -fuse-for-debugging=<support>
+                        USE FOR DEBUGGING
+  -fpadding-character-clause=<support>
+                        PADDING CHARACTER clause
+  -fnext-sentence-phrase=<support>
+                        NEXT SENTENCE phrase
+  -flisting-statements=<support>
+                        listing-directive statements EJECT, SKIP1, SKIP2,
+                        SKIP3
+  -ftitle-statement=<support>
+                        listing-directive statement TITLE
+  -fentry-statement=<support>
+                        ENTRY statement
+  -fmove-noninteger-to-alphanumeric=<support>
+                        move noninteger to alphanumeric
+  -fodo-without-to=<support>
+                        OCCURS DEPENDING ON without to
+  -fsection-segments=<support>
+                        section segments
+  -falter-statement=<support>
+                        ALTER statement
+  -fcall-overflow=<support>
+                        OVERFLOW clause for CALL
+  -fnumeric-boolean=<support>
+                        boolean literals (B'1010')
+  -fhexadecimal-boolean=<support>
+                        hexadecimal-boolean literals (BX'A')
+  -fnational-literals=<support>
+                        national literals (N'UTF-16 string')
+  -fhexadecimal-national-literals=<support>
+                        hexadecimal-national literals (NX'265E')
+  -facucobol-literals=<support>
+                        ACUCOBOL-GT literals (#B #O #H #X)
+  -fword-continuation=<support>
+                        continuation of COBOL words
+  -fnot-exception-before-exception=<support>
+                        NOT ON EXCEPTION before ON EXCEPTION
+  -faccept-display-extensions=<support>
+                        extensions to ACCEPT and DISPLAY
+  -frenames-uncommon-levels=<support>
+                        RENAMES of 01-, 66- and 77-level items
+  -fconstant-78=<support>
+                        constant with level 78 item (note: has left to right
+                        precedence in expressions)
+  -fconstant-01=<support>
+                        constant with level 01 CONSTANT AS/FROM item
+  -fprogram-prototypes=<support>
+                        CALL/CANCEL with program-prototype-name
+  -freference-out-of-declaratives=<support>
+                        references to sections not in DECLARATIVES from within
+                        DECLARATIVES
+  -fnumeric-value-for-edited-item=<support>
+                        numeric literals in VALUE clause of numeric-edited
+                        items
+  -fincorrect-conf-sec-order=<support>
+                        incorrect order of CONFIGURATOIN SECTION paragraphs
+  -fdefine-constant-directive=<support>
+                        allow >> DEFINE CONSTANT var AS literal
+        where <support> is one of the following:
+                       'ok', 'warning', 'archaic', 'obsolete', 'skip',
+                       'ignore', 'error', 'unconformable'
+  -fnot-reserved=<word> word to be taken out of the reserved words list
+  -freserved=<word>     word to be added to reserved words list
+  -freserved=<word>:<alias>
+                        word to be added to reserved words list as alias
+@end verbatim
+@anchor{Compilation Unit}
+@* Each file specified on the @syntax{cobc} command constitutes a @define{Compilation Unit}.  A compilation unit may be a single GnuCOBOL program --- with or without nested subprograms(@pxref{Independent vs Contained vs Nested Subprograms}) --- or multiple GnuCOBOL programs, separated by @syntax{END PROGRAM} or @syntax{END FUNCTION} marker lines, as appropriate.  @xref{Independent vs Contained vs Nested Subprograms}, for some examples of these marker lines.
+@p A compilation unit may also be a C-language source program, recognized as such by having a file extension of @syntax{.c} or an assembly-language program, recognized by its file extension of ".s".  In such a case, @i{COBOL} compilation of that file will be bypassed by the @syntax{cobc} command; instead, the file will be passed directly to the C compiler or assembler (executed automatically by @syntax{cobc}).
+@p A compilation unit may @i{also} be an object-code module (output @i{from} the C compiler), recognized as such by having a file extension of @syntax{.o}.  In these situations, all compilation will be bypassed, and the object code will be "bound" into the generated executable by the loader (an "ld" command executed internally by the @syntax{cobc} command).
+@p Pre-compiled object-code subprograms may be automatically located by the GnuCOBOL compiler and the loader by using the @envvarcompile{LD_LIBRARY_PATH}.  If they are locatable through that environment variable, they need not be named on the @syntax{cobc} command.
+@anchor{Compilation Group}
+@p The collection of compilation units supplied on a @i{single} @syntax{cobc} execution constitute a @define{Compilation Group}.  All executable code produced from a single compilation group will be collected together into a single executable file, whose filename will be the same as that of the first compilation unit specified on the @syntax{cobc} command.
+@p The simplest mode of compilation is to generate a single executable file from one or more GnuCOBOL source files:
+@p @center @syntax{cobc -x mainprog.cbl sub1.cbl sub2.cbl}
+@p The main program must be the first program found in the first compilation unit ("mainprog.cbl").  The remainder of that compilation unit as well as the rest of the files in the compilation group ("sub1.cbl" and "sub2.cbl") must be independent and/or contained subprograms (@pxref{Independent vs Contained vs Nested Subprograms}).
+@p This command assumes that all source files are in the directory from which the @syntax{cobc} command was executed.  You are, of course, free to include full pathnames with any filename, if necessary.
+@p With the @switchidx{-x} on the compiler command, a single directly-executable executable file (UNIX, Windows/Cygwin, OSX) or "exe" file (Windows, Windows/MinGW) will be generated.  This executable file has the compiled code for all COBOL programs contained within the compilation group specified on the @syntax{cobc} command included in the file.
+@p Any subroutines or user-defined functions that weren't included in any of the source files comprising the compilation group will be treated as dynamically loadable subprograms (@pxref{Dynamic vs Static Subprograms}).
+@p Optionally, the @switchidx{-o} may be used in addition to @syntax{-x} to specify the name of the generated executable file.  If @switch{-o} is not specified, the filename of the 1st compilation unit will be used as the name of the executable file.  The appropriate extension for the generated file (".exe", on a Windows computer, for example) will be added to the filename that is explicitly specified or implicitly assumed for the output file.
+@p Compilations may be performed to generate dynamically-loadable modules (or dynamically-loadable libraries, as they are frequently called).  These compilations are performed by using the @switchidx{-m} instead of @switch{-x}:
+@p @center @syntax{cobc -m mainprog.cbl sub1.cbl sub2.cbl}
+@p When the @syntax{-m} switch is used, an operating-system specific dynamically-loadable module is generated @i{for each individual compilation unit}, using the filename of each compilation unit as the it's module filename and either an extension of ".so" (UNIX, Windows/Cygwin), "dylib" (OSX) or ".dll" (Windows, Windows/MinGW).
+@p You may compile GnuCOBOL subprograms into assembler source code which can then be assembled and linked with a main program when that main program is compiled.  To create such an assembler source file, compile the subprogram(s) as follows:
+@p @center @syntax{cobc -S sprog1.cbl}
+@p The above generates an assembler source file named "sprog1.s".  If you have multiple subprograms to compile this way, just string their file names out on the command --- each will be translated to it's own assembler source file.
+@p Later, when you wish to compile a calling program and combine any needed assembly language subroutines in (as static subroutines --- @pxref{Dynamic vs Static Subprograms}), use a command such as this:
+@p @center @syntax{cobc -x mainprog.cbl sprog1.s}
+@comment *********************************************************************
+@comment ** 10.1.2 Compilation Time Environment Variables                    **
+@comment *********************************************************************
+@newsubsection{10.1.2,Compilation Time Environment Variables}@anchoridx{Environment Variables: Compilation-Time}
+@p The following are the various environment variables that can play a role in the compilation of GnuCOBOL programs.
+@table @asis
+@p @item @syntaxidx{COB_CC} *
+@p Set to the name of the C compiler you wish GnuCOBOL to use.
+@p USE THIS FEATURE AT YOUR OWN RISK -- YOU SHOULD ALWAYS USE THE C COMPILER YOUR GnuCOBOL BUILD WAS GENERATED FOR
+@p @item @syntaxidx{COB_CFLAGS} *
+@p Set to any switches that you'd like to pass on to the C compiler from the @syntax{cobc} compiler (in addition to any that @syntax{cobc} will specify).
+@p @item @syntaxidx{COB_CONFIG_DIR} *
+@p Set to the path to the folder where GnuCOBOL "config" files are kept.
+@p @item @syntaxidx{COB_COPY_DIR} *
+@p If copybooks your program needs are NOT stored in the same directory as your program, set this environment variable to the folder in which the copybooks may be found (IBM mainframe programmers will recognize this as "SYSLIB").
+@p @item @syntaxidx{COB_LDADD}
+@p Set to any additional linker switches (ld) that can specify where standard libraries that must be linked with the program can be found.  The default is "" (null).
+@p @item @syntaxidx{COB_LDFLAGS}
+@p Set to any linker/loader (ld) switches that you'd like to pass on to the C compiler from the @syntax{cobc} compiler (in addition to any that cobc will specify).
+@p @item @syntaxidx{COB_LIBS} *
+@p Set to any linker switches (ld) that specify where standard libraries that must be linked with the program can be found.
+@p @item @syntaxidx{COBCPY}
+@p This environment variable provides an additional means of specifying where copybooks may be found by the compiler (see also COB_COPY_DIR, above).
+@p @item @syntaxidx{LD_LIBRARY_PATH}
+@p If you are planning on using static-linked subroutine libraries, set this variable to the path of the directory containing your libraries.
+@p @item @syntaxidx{TMPDIR}
+@itemx @syntaxidx{TMP}
+@p Set to a directory/folder appropriate to create temporary files in.  The intermediate working files created by the compiler will be created here (and deleted once they're no longer needed).
+@p The variable @syntax{TMPDIR} is checked for a valid path first; if that isn't set, then @syntax{TMP} is checked.
+@p On a Windows system, the @syntax{TMP} environment variable is normally set for you when you logon.  If you wish to use a different temporary folder, you may set @syntax{TMPDIR} yourself and have no fear of disrupting other Windows software that relies on TMP.
+@end table
+@multitable @columnfractions 0.01 0.99
+@p @item * @tab These environment variables have default values established for them when the version of GnuCOBOL you are using was built.  To see these default values, as well as other build-specific information, execute the command:
+@p @center @syntax{cobc -i}
+@end multitable
+@comment *********************************************************************
+@comment ** 10.1.3 Predefined Compilation Variables                          **
+@comment *********************************************************************
+@newsubsection{10.1.3,Predefined Compilation Variables}
+@p GnuCOBOL defines compilation variables when certain conditions are true.
+@p If the condition associated with a variable is false, the variable is not defined during compilations.
+@verbatim
+
+Name              Condition
+DEBUG             The -d debug flag is specified.
+EXECUTABLE        The module being compiled contains the main program.
+GCCOMP            The size of a COMP item is determined according to the GnuCOBOL
+                  scheme, where for a PICTURE of length:
+                     1-2,   the item has 1 byte
+                     3-4,   the item has 2 bytes
+                     5-9,   the item has 4 bytes
+                     10-18, the item has 8 bytes.
+GNUCOBOL          GnuCOBOL is compiling the source unit.
+HOSTSIGNS         A signed packed-decimal item’s value may be considered NUMERIC
+                  if the sign has value X"F".
+IBMCOMP           The size of a COMP item is determined according to the IBM
+                   scheme, where for a PICTURE of length:
+                     1-4,   the item has 2 bytes
+                     5-9,   the item has 4 bytes
+                     10-18, the item has 8 bytes.
+MODULE            The module being compiled does not contain the main program.
+NOHOSTSIGNS       A signed packed-decimal item’s value may not be considered
+NUMERIC           if the sign has value X"F".
+NOIBMCOMP         The size of a COMP item is not determined according to the IBM
+                  scheme.
+NOSTICKYLINKAGE   Sticky-linkage (linkage-section items remaining allocated
+                  between invocations) is not enabled.
+NOTRUNC           Numeric data items are truncated according to their internal
+                  representation.
+P64               Pointers are greater than 32 bits long
+STICKY-LINKAGE    Sticky-linkage (linkage-section items remaining allocated
+                  between invocations) is enabled.
+TRUNC             Numeric data items are truncated according to their PICTURE
+                  clauses.
+
+@end verbatim
+@comment *********************************************************************
+@comment ** 10.1.4 Locating Copybooks                                        **
+@comment *********************************************************************
+@newsubsection{10.1.4,Locating Copybooks}
+@p The GnuCOBOL compiler will attempt to locate copybooks by searching for them in the following folders.  The search will occur in the sequence shown below, and will terminate once a copybook is found.
+@enumerate
+@p @item The folder named as the @term{library-name-1} on the @statementref{COPY}.
+@p @item The folder in which the program being compiled resides.
+@p @item The folder named on the @switchidx{-I}.
+@p @item Each of the folders named on the @envvarcompile{COBCPY}.
+@p A single folder may be named or multiple folders may be specified, separated by a system-appropriate delimiter character.  When multiple folders are specified, they will be searched in the order they are named on the environment variable.
+@p If the GnuCOBOL compiler you are using was built to utilize a native Windows environment, use a semicolon (;) as the delimiter character.
+@p If, however, the GnuCOBOL compiler was built for a Unix, OSX or Linux environment, or was built for a Windows environment utilizing either the Cygwin or MinGW Unix emulators, use a colon character (:) as the delimiter.
+@p @item The @i{single} folder specified on the COB_COPY_DIR environment variable.
+@end enumerate
+@p As each of the above folders is searched for a copybook --- @syntax{COPY XXXXXXXX.}, for example --- the GnuCOBOL compiler will attempt to locate the copybook file by any of the following names, in the sequence shown:
+@enumerate
+@p @item XXXXXXXX.CPY
+@p @item XXXXXXXX.CBL
+@p @item XXXXXXXX.COB
+@p @item XXXXXXXX.cpy
+@p @item XXXXXXXX.cbl
+@p @item XXXXXXXX.cob
+@p @item XXXXXXXX
+@end enumerate
+@* The @statement{COPY} is case-sensitive on UNIX systems; @syntax{COPY copybookname} and @syntax{COPY COPYBOOKNAME} will both fail to locate the @syntax{CopyBookName} copybook on a UNIX system.
+@p Windows implementations of GnuCOBOL may, or may not, be similarly case sensitive with regard to copybook names, depending upon the Windows version and GnuCOBOL build options --- it is safest to simply treat the COPY command as case-sensitive in all environments.
+@p It is possible, however, to automatically cause all @statement{COPY}s to 'fold' the names of all copybooks to upper-case by specifying the @switchidx{-ffold-copy} with the "upper" option (i.e. @syntax{--fold-copy=upper}) to the GnuCOBOL compiler.  Similarly, names could be folded to lower-case by using the "lower" option (i.e. @syntax{--fold-copy=lower}.  If copybook libraries are maintained entirely using upper- or lower-case file names and extensions, either of these options will allow copybooks to be found regardless of how the programmer entered their names on @statement{COPY}s.
+@p Case-folding may also be turned on and off within the program source code using the CDF @statementref{>>SET}.
+@comment *********************************************************************
+@comment ** 10.1.5 Compiler Configuration Files                              **
+@comment *********************************************************************
+@newsubsection{10.1.5,Compiler Configuration Files}@p GnuCOBOL uses compiler configuration files to define various options that will control the compilation process.  These configuration files are specified using the @switchidx{-conf} compilation switch and are found in the folder defined by the @envvarcompile{COB_CONFIG_DIR}.
+@p If this is not defined under *nix it will default to /usr/local/share/gnucobol/config.
+@p The following is a verbatim listing of the "default" configuration file (the one used if you don't specify the @switch{-conf}), just to show you the types of settings that may appear:
+@verbatim
+# GnuCOBOL compiler configuration
+#
+# Copyright (C) 2001-2012, 2014-2017 Free Software Foundation, Inc.
+# Written by Keisuke Nishida, Roger While, Simon Sobisch, Edward Hart
+#
+
+# Value: any string
+name: "GnuCOBOL"
+
+# Value: enum
+standard-define                 0
+#        CB_STD_OC = 0,
+#        CB_STD_MF,
+#        CB_STD_IBM,
+#        CB_STD_MVS,
+#        CB_STD_BS2000,
+#        CB_STD_ACU,
+#        CB_STD_85,
+#        CB_STD_2002,
+#        CB_STD_2014
+
+# Value: int
+tab-width:                      8
+text-column:                    72
+# Maximum word-length for COBOL words / Programmer defined words
+# Be aware that GC checks the word length against COB_MAX_WORDLEN
+# first (currently 61)
+word-length:                    61
+
+# Maximum literal size in general
+literal-length:                 8191
+
+# Maximum numeric literal size (absolute maximum: 38)
+numeric-literal-length: 38
+
+# Maximum number of characters allowed in the character-string (max. 255)
+pic-length:                             255
+
+# Value: 'mf', 'ibm'
+#
+assign-clause:                  mf
+
+# If yes, file names are resolved at run time using
+# environment variables.
+# For example, given ASSIGN TO "DATAFILE", the file name will be
+#  1. the value of environment variable 'DD_DATAFILE' or
+#  2. the value of environment variable 'dd_DATAFILE' or
+#  3. the value of environment variable 'DATAFILE' or
+#  4. the literal "DATAFILE"
+# If no, the value of the assign clause is the file name.
+#
+filename-mapping:               yes
+
+# Alternate formatting of numeric fields
+pretty-display:                 yes
+
+# Allow complex OCCURS DEPENDING ON
+complex-odo:                    no
+
+# Allow REDEFINES to other than last equal level number
+indirect-redefines:             no
+
+# Binary byte size - defines the allocated bytes according to PIC
+# Value:         signed  unsigned  bytes
+#                ------  --------  -----
+# '2-4-8'        1 -  4    same        2
+#                5 -  9    same        4
+#               10 - 18    same        8
+#
+# '1-2-4-8'      1 -  2    same        1
+#                3 -  4    same        2
+#                5 -  9    same        4
+#               10 - 18    same        8
+#
+# '1--8'         1 -  2    1 -  2      1
+#                3 -  4    3 -  4      2
+#                5 -  6    5 -  7      3
+#                7 -  9    8 -  9      4
+#               10 - 11   10 - 12      5
+#               12 - 14   13 - 14      6
+#               15 - 16   15 - 16      7
+#               17 - 18   17 - 18      8
+#
+binary-size:                    1-2-4-8
+
+# Numeric truncation according to ANSI
+binary-truncate:                yes
+
+# Binary byte order
+# Value: 'native', 'big-endian'
+binary-byteorder:               big-endian
+
+# Allow larger REDEFINES items
+larger-redefines-ok:            no
+
+# Allow certain syntax variations (eg. REDEFINES position)
+relax-syntax-checks:            no
+
+# Perform type OSVS - If yes, the exit point of any currently
+# executing perform is recognized if reached.
+perform-osvs:                   no
+
+# Compute intermediate decimal results like IBM OSVS
+arithmetic-osvs:                no
+
+# MOVE like IBM (mvc); left to right, byte by byte
+move-ibm:               no
+
+# If yes, linkage-section items remain allocated
+# between invocations.
+sticky-linkage:                 no
+
+# If yes, allow non-matching level numbers
+relax-level-hierarchy:          no
+
+# If yes, evaluate constant expressions at compile time
+constant-folding:               yes
+
+# Allow Hex 'F' for NUMERIC test of signed PACKED DECIMAL field
+hostsign:                       no
+
+# If yes, set WITH UPDATE clause as default for ACCEPT dest-item,
+# except if WITH NO UPDATE clause is used
+accept-update:                  no
+
+# If yes, set WITH AUTO clause as default for ACCEPT dest-item,
+# except if WITH TAB clause is used
+accept-auto:                    no
+
+# If yes, DISPLAY's and ACCEPT's are, by default, done on the CRT (i.e.,
+# using curses).
+console-is-crt:                 no
+
+# If yes, allow redefinition of the current program's name. This prevents
+# its use in a prototype-format CALL/CANCEL statement.
+program-name-redefinition:      yes
+
+# If yes, NO ECHO/NO-ECHO/OFF is the same as SECURE (hiding input with
+# asterisks, not spaces).
+no-echo-means-secure:           no
+
+# Dialect features
+# Value: 'ok', 'warning', 'archaic', 'obsolete', 'skip', 'ignore', 'error',
+#        'unconformable'
+
+alter-statement:                        obsolete
+comment-paragraphs:                     obsolete
+call-overflow:                          archaic
+data-records-clause:                    obsolete
+debugging-mode:                         ok
+use-for-debugging:                      obsolete
+listing-statements:                     skip  # may be a user-defined word
+title-statement:                        skip  # may be a user-defined word
+entry-statement:                        ok
+goto-statement-without-name:            obsolete
+label-records-clause:                   obsolete
+memory-size-clause:                     obsolete
+move-noninteger-to-alphanumeric:        error
+move-figurative-constant-to-numeric:    archaic
+move-figurative-quote-to-numeric:       obsolete
+multiple-file-tape-clause:              obsolete
+next-sentence-phrase:                   archaic
+odo-without-to:                         warning
+padding-character-clause:               obsolete
+section-segments:                       ignore
+stop-literal-statement:                 obsolete
+stop-identifier-statement:              obsolete
+synchronized-clause:                    ok
+top-level-occurs-clause:                ok
+value-of-clause:                        obsolete
+numeric-boolean:                        ok
+hexadecimal-boolean:                    ok
+national-literals:                      ok
+hexadecimal-national-literals:          ok
+acu-literals:                   unconformable
+word-continuation:                      warning
+not-exception-before-exception:         ok
+accept-display-extensions:              ok
+renames-uncommon-levels:                ok
+constant-01:                            ok
+constant-78:                            ok
+program-prototypes:                     ok
+reference-out-of-declaratives:          warning
+numeric-value-for-edited-item:          ok
+incorrect-conf-sec-order:               warning
+define-constant-directive:              archaic
+
+
+# use complete word list; synonyms and exceptions are specified below
+reserved-words:         default
+
+# not-reserved:
+# Value: Word to be taken out of the reserved words list
+not-reserved:   TERMINAL
+
+# reserved:
+# Entries of the form word-1=word-2 define word-1 as an alias for default
+# reserved word word-2. No spaces are allowed around the equal sign.
+reserved:       AUTO-SKIP=AUTO
+reserved:       AUTOTERMINATE=AUTO
+reserved:       BACKGROUND-COLOUR=BACKGROUND-COLOR
+reserved:       BEEP=BELL
+reserved:       BINARY-INT=BINARY-LONG
+reserved:       BINARY-LONG-LONG=BINARY-DOUBLE
+reserved:       EMPTY-CHECK=REQUIRED
+reserved:       EQUALS=EQUAL
+reserved:       FOREGROUND-COLOUR=FOREGROUND-COLOR
+reserved:       INITIALISE=INITIALIZE
+reserved:       INITIALISED=INITIALIZED
+reserved:       LENGTH-CHECK=FULL
+reserved:       ORGANISATION=ORGANIZATION
+reserved:       SYNCHRONISED=SYNCHRONIZED
+reserved:       TIMEOUT=TIME-OUT
+
+@end verbatim
+@comment *********************************************************************
+@comment ** 10.2 Running Programs                                            **
+@comment *********************************************************************
+@newsection{10.2,Running Programs}@p Once GnuCOBOL programs have been compiled into either directly-executable programs (created via the @switch{-x}) or dynamically-loadable libraries (created via the @switch{-m}), those programs may be executed from any shell environment.  The exact manner in which the two are executed will differ, as described in the upcoming sections.
+@menu
+* 10.2.1: Direct Execution.
+* 10.2.2: Executing Dynamically-Loadable Libraries.
+@detailmenu
+*   10.2.2.1: cobcrun - Command-line Execution.
+*   10.2.2.2: Dynamically Loaded Subprograms.
+@end detailmenu
+* 10.2.3: Run Time Environment Variables.
+* 10.2.4: Program Arguments.
+@end menu
+@comment *********************************************************************
+@comment ** 10.2.1 Direct Execution                                          **
+@comment *********************************************************************
+@newsubsection{10.2.1,Direct Execution}@p GnuCOBOL programs compiled with the @switchidx{-x} will be generated as directly-executable programs.  For example, a native Windows or Windows/MinGW build of GnuCOBOL will generate an ".exe" file when the @switch{-x} switch is specified to the compiler.
+@p On Unix, OSX, or Windows/Cygwin builds, the @switch{-x} switch will generate an executable binary file, usually with no particular extension unless one is explicitly requested of the compiler via the @switchidx{-o}.
+@p On a UNIX system this means the programs may be executed from a command shell such as bash, csh, ksh and so forth.  When a GnuCOBOL program runs on a Windows system, it runs within a console window (i.e. "cmd.exe").  OSX versions of GnuCOBOL programs run within a "terminal.app" window.
+@p Interactions between the program and the user will take place using the standard input, standard output and standard error streams.  Any screen section I/O performed by the program will take place within the command shell "window".
+@p Direct program execution syntax is as follows:
+@p @center @syntax{[@i{path}]@i{program} [@i{arguments}]}
+@p For example:
+@p @center @syntax{/usr/local/printaccount ACCT=6625378}
+@p @center or
+@p @center @syntax{C:\\Users\\Me\\Documents\\Programs\\printaccount.exe ACCT=6625378}
+@comment *********************************************************************
+@comment ** 10.2.2 Executing Dynamically-Loadable Libraries                  **
+@comment *********************************************************************
+@newsubsection{10.2.2,Executing Dynamically-Loadable Libraries}@p As discussed previously, dynamically-loadable libraries are created via the compiler's @switch{-m}.  Once so created, the program(s) in these libraries are executed from the command line (via the GnuCOBOL @syntax{cobcrun} utility), or as dynamically-loadable subprograms.
+@menu
+* 10.2.2.1: cobcrun - Command-line Execution.
+* 10.2.2.2: Dynamically Loaded Subprograms.
+@end menu
+@comment *********************************************************************
+@comment ** 10.2.2.1 cobcrun - Command-line Execution                        **
+@comment *********************************************************************
+@newunit{10.2.2.1,cobcrun - Command-line Execution}@p It is possible to generate executable modules for all GnuCOBOL programs, not just subprograms, by choosing to use the @switchidx{-m} option to specify the loader output format, even for main programs.
+@p Some may prefer to compile their GnuCOBOL main programs into these dynamically-loadable modules in the interests of using the same general compilation command for all programs without having to think "Is it a main program or a subprogram?".
+@p Main programs compiled in this manner should be executed as follows:
+@p @center @syntax{[@i{path}]cobcrun @i{program} [@i{arguments}]}
+@p Do not specify the ".so" or ".dll" extension on the program name.  The @i{program} value must exactly match the primary entry-point name of the main program (including upper- and lower-case letters), unless you are planning on using "Call Folding" (@pxref{Dynamically Loaded Subprograms}).
+@p The general usage and syntax of cobcrun is as follows as issued by running cobcrun -h (or --help) :
+@verbatim
+COBOL driver program for GnuCOBOL modules
+
+Usage: cobcrun [options] PROGRAM [parameter ...]
+  or:  cobcrun options
+
+Options:
+  -h, -help                      display this help and exit
+  -V, -version                   display cobcrun and runtime version and exit
+  -i, -info                      display runtime information (build/environment)
+  -c <file>, -config=<file>      set runtime configuration from <file>
+  -r, -runtime-conf              display current runtime configuration
+                                 (value and origin for all settings)
+  -M <module>, -module=<module>  set entry point module name and/or load path
+                                 where -M module prepends any directory to the
+                                 dynamic link loader library search path
+                                 and any basename to the module preload list
+                                 (COB_LIBRARY_PATH and/or COB_PRELOAD)
+@end verbatim
+@* Here are two examples of using @syntax{cobcrun}.  First, on a Unix, OSX or Windows/Cygwin system:
 @p @example
-01  WS-File-Status-Message-TXT.
-    05 FILLER                     PIC X(13) VALUE 'Status Code: '.
-    05 WS-FSM-Status-CD           PIC 9(2).
-    05 FILLER                     PIC X(11) VALUE ', Meaning: '.
-    05 WS-FSM-Msg-TXT             PIC X(25).
+cd /usr/local
+cobcrun printaccount acct=6625378
 @end example
-@* The "-FSM-" acronyms make it easier to locate the description of the 01-item the status code and message text items belong to.
-@end enumerate
+@* Or, on a Native Windows or Windows/MinGW system:
+@p @example
+cd C:\Users\Me\Documents\Programs
+cobcrun printaccount.exe acct=6625378
+@end example
+@* Note how the @syntax{cobcrun} command does not allow a path to be specified with the program name --- the directory in which the programs dynamically loadable module exists must either be the current directory or must be defined in the current PATH.
 @comment *********************************************************************
-@comment ** 10.3 Table Subscripting versus Table Indexing                   **
+@comment ** 10.2.2.2 Dynamically Loaded Subprograms                          **
 @comment *********************************************************************
-@newsection{10.3,Table Subscripting versus Table Indexing}@p The elements of a table may be referenced either using a subscript or an index.  Syntactically, this is coded using parenthesis, as per the following three examples, all of which store the letter "A" into the 17th occurrence of a data item named WSS-Output-Image-TXT:
-@enumerate
-@p @item @t{MOVE 'A' TO WSS-Output-Image-TXT (17)}
-@p @item @t{MOVE 17 TO WSS-OI-SUB} @* @t{MOVE 'A' TO WSS-Output-Image-TXT (WSS-OI-SUB)}
-@p @item @t{SET WSS-OI-IDX TO 17} @* @t{MOVE 'A' TO WSS-Output-Image-TXT (WSS-OI-IDX)}
-@end enumerate
-@* The 1st and 2nd examples are referred to as @define{Subscripting} while the 3rd is known as @define{Indexing}.  The distinction is fairly simple.
-@p Indexing is the process of referencing an element of a table utilizing a data item with an explicitly or implicitly defined @syntaxref{USAGE} of @syntax{INDEX} to select the desired occurrence, while @dots{}
-@p Subscripting is the process of referencing an element of a table utilizing either a numeric constant or an unedited numeric data item to select the desired occurrence.
-@p Various implementations of COBOL generate object code that is quite different in each of these three situations, and GnuCOBOL is no exception.
-@p In general, table references such as example #1 (constant subscript) generate the smallest, simplest  and fastest object code while table references such as example #2 (numeric data item subscript) generate the largest, most-complicated and slowest object code.
-@p Table references such as example #3 (table indexing) generate object code that falls in the middle of the other two but is far closer in efficiency to example #1 than #2.
-@p Some COBOL statements (@syntaxref{SEARCH}, @syntaxref{SEARCH ALL} and the table-based @syntaxrefalt{SORT,Table SORT}) require you to index the affected table and to utilize that index with those statements.  With any other references to tables, the choice is left to the programmer as to which approach should be used.  In general, follow these rules:
-@enumerate
-@p @item Use constant subscripts (example #1) wherever possible/practical.
-@p @item If references to table elements are going to be performed many, many  times (tens or hundreds of thousands of times or more) during program execution, you will probably see a noticeable reduction in program execution time if you use indexing versus subscripting.
-@end enumerate
-@* It's impossible to perform any arithmetic operation against an index data item directly (other than a simple incrementation or decremental operation via the @statementref{SET UP/DOWN}).  Situations where any non-trivial computations are required to calculate the effective occurrence number for a table reference will require you to use a conventional unedited numeric data item as the receiving field for the calculation.  That calculated value would then need to be saved into the index data item via a @statement{SET Index}.
-@p If you only need to use the computed occurrence number once, you might as well just use the computed occurrence number data item as a subscript.  If, however, you will need to use a computed "subscript" many more times than once, the run-time overhead of converting that occurrence value to an index (via @syntax{SET Index}) will be worth the coding effort.
-@p Whew!
-@p If references to table elements are not going to be performed many, many times it probably won't make much difference whether you use indexing or subscripting.
-@p If you are comfortable with the "C" programming language, you might find the following simple GnuCOBOL program useful in exploring the differences between subscripting and indexing:
+@newunit{10.2.2.2,Dynamically Loaded Subprograms}@p Dynamically-loaded subprograms are executed (from a COBOL syntax point of view) just like any other subprograms.  What makes them unique, however, is that they are loaded into memory only when they are actually used the first time during the execution of a program.
+@p When a dynamically-loadable module needs to be loaded (because it is not already in memory from a previous subprogram execution), the dynamically-loadable library will be sought in the same directory from which the main program was loaded.  If it cannot be found there, each directory named in the @envvarruntimeref{PATH} will be searched.  If it was not located in any of those directories, the library specified by the @envvarruntime{COB_LIBRARY_PATH} will be searched.  Finally, if it @i{still} cannot be located, execution will be terminated with an error message ("libcob: Cannot find module 'xxxxxxxx'").
+@p The process of locating dynamically-loadable modules is case-sensitive on UNIX systems; @syntax{CALL "dynsub"} and @syntax{CALL "DYNSUB"} will both fail to locate the @syntax{DynSub.so} library on a UNIX system.
+@p Windows implementations of GnuCOBOL may, or may not, be similarly case sensitive with regard to library names, depending upon the Windows version and GnuCOBOL build options --- it is safest to simply treat library names as case-sensitive in all environments.
+@p It is possible, however, to automatically cause all library names to 'fold' to upper-case by specifying the @switchidx{-ffold-call} with the "upper" option (i.e. @syntax{--fold-call=upper}) to the GnuCOBOL compiler.  Similarly, library names could be folded to lower-case by using the "lower" option (i.e. @syntax{--fold-call=lower}.  If libraries are maintained entirely using upper- or lower-case file names, either of these options will allow libraries to be found regardless of how the programmer entered their names on @statement{CALL}s.
+@p @xref{Sub-Programming}, for a complete discussion of sub-programming.
+@comment *********************************************************************
+@comment ** 10.2.3 Run Time Environment Variables                            **
+@comment *********************************************************************
+@newsubsection{10.2.3,Run Time Environment Variables}@anchoridx{Environment Variables: Run-Time}@p The following is a list of the various environment variables that can play a role in the execution of GnuCOBOL programs.
+@table @asis
+@p @item @syntaxidx{COB_DISPLAY_WARNINGS}
+@p If set to a value of "Y", any run-time warnings (such as noting the implicit closing of open files when a @statementref{GOBACK} or @statementref{STOP} with the @syntax{RUN} option is executed) will be displayed.  Any other value for this environment variable (including not setting the variable at all) will suppress such messages.
+@p @item @syntaxidx{COB_LIBRARY_PATH}
+@p At runtime, GnuCOBOL will attempt to locate and load any application dynamically-loadable libraries using from the directory in which the program executable was found or, if it wasn't found there, using the @syntax{PATH} environment variable.  If these library files could be somewhere else, specify the directory path using this variable.
+@p @item @syntaxidx{COB_LOAD_CASE}
+@p If set to either @syntax{UPPER} or @syntax{LOWER}, this environment variable will internally convert referenced entry-point names to either upper- or lower-case before initiating searches for dynamically-loadable modules.  The @syntax{UPPER} and @syntax{LOWER} values of the environment variable are actually case-insensitive.
+@p @item @syntaxidx{COB_PHYSICAL_CANCEL}
+@p If set to "Y", "y" or "1", a @statementref{CANCEL} will physically unload a subprogram dynamically-loadable module.
+@p If set to anything else, a @statementref{CANCEL} logically unloads a module so that subsequent use will re-initialize the module as if it had actually been reloaded, but the overhead of actually reloading the module will be avoided.
+@p @item @syntaxidx{COB_PRE_LOAD}
+@p If set to any non-null value, this variable will cause all dynamically-loadable libraries to be loaded when the program begins execution (rather than searching for and loading the module upon first use).
+@p @item @syntaxidx{COB_SET_DEBUG}
+@p If a @syntaxrefalt{USE FOR DEBUGGING,DECLARATIVES} section exists, the code within it will be disabled unless this environment variable is set to a value of "Y", "y" or "1".
+@p @item @syntaxidx{COB_SET_TRACE}
+@p If the @switchidx{-ftrace} (trace procedures) or @switchidx{-ftraceall} (trace procedures and statements) was used when the program was compiled, setting this environment variable to a value of "Y" will activate the trace at the point the program begins execution.  Setting this environment variable to any other value (or never setting it to ANY value) will disable tracing.
+@p Tracing, if configured by one of the two switches described above, can also be controlled via the the @statementref{READY TRACE} and @statementref{RESET TRACE}.
+@p If COB_SET_TRACE is set to Y, then tracing will always occur regardless of the presence of READY TRACE or RESET TRACE so in effect they will have no action on program execution.
+@p @item @syntaxidx{COB_SCREEN_ESC}
+@p If set to any non-blank value, this variable allows a @statementref{ACCEPT screen-data-item} to detect the "Esc" key.
+@p @item @syntaxidx{COB_SCREEN_EXCEPTIONS}
+@p Setting this variable to any non-blank value will allow the @statementref{ACCEPT screen-data-item} to detect the pressing of the "Esc", "PgUp" and "PgDn" keys.
+@p @item @syntaxidx{COB_SORT_MEMORY}
+@p The value of this variable (an integer) will be used to define how much memory will be allocated for use in sorting.  If the value is 1048576 or greater, that value will be used "as is" as the amount of memory (in bytes) to allocate.  If the value is less than 1048576, the value will specify how many MB of memory will be allocated.  The default sort memory amount is 128 MB.
+@p @item @syntaxidx{COB_SWITCH_n}
+@p (n=0 to 15); These environment variables correspond to @syntax{SWITCH-0} through @syntax{SWITCH-15}, defined in the @syntaxref{SPECIAL-NAMES} paragraph.  Setting them to "ON" will activate them; any other value turns them off.
+@p @item @syntaxidx{COB_SYNC}
+@p If set to a value of upper- or lower-case "p", this variable will force a file commit every time a file is written to (ensuring that data is immediately written to the file rather than retained in memory until a future commit occurs).  This will slow-down update access to files, but will provide for better integrity in the event of a program failure.
+@p @item @syntaxidx{COB_TRACE_FILE}
+@p If set to any non-null value, this environment variable specifies the file to which all @switch{-ftrace} and @switch{-ftraceall} output will be written.
+@p If this is NOT set to a value, all @switch{-ftrace} and @switch{-ftraceall} output will be written to STDERR, where it may be piped via a "2> filename" on the command that executes the program.
+@p @item @syntaxidx{DB_HOME}
+@p If your GnuCOBOL build uses the Berkeley Database (BDB) package, use this environment variable to specify the folder in which the lock management files to be associated with all non-SORT files opened by the program will be stored.  @syntaxref{ORGANIZATION INDEXED} files will also have their data file allocated in the folder pointed to by this environment variable, if it exists..  Having this variable defined will activate record locking features on the @statementref{READ}, @statementref{REWRITE} and @statementref{WRITE}.  Even with DB_HOME, locking will not work with @syntaxref{ORGANIZATION SEQUENTIAL}, @syntaxref{ORGANIZATION LINE SEQUENTIAL} or ORGANIZATION RELATIVE files with GnuCOBOL builds created for Windows/MinGW.  @syntax{ORGANIZATION INDEXED} locks will work with Windows/MinGW + BDB and all locks will work for all file organizations with UNIX GnuCOBOL builds.
+@p @item @syntaxidx{PATH}
+@p The GnuCOBOL "bin" directory should be defined in the PATH.
+@p @item @syntaxidx{TMPDIR}
+@itemx @syntaxidx{TMP}
+@itemx @syntaxidx{TEMP}
+@p One of these environment variables must be set to a directory/folder appropriate to create temporary files in.  They will be checked in the order shown.  This will be used by the @statementref{SORT} and @statementref{MERGE} to create temporary work files.  You may also use this folder for any temporary files your application may require.
+@end table
+@p Also used during execution of programs is runtime.cfg also found in /usr/local/share/gnucobol/config for *nix and this file can also be changed to match your environment if needed.
+@p When viewing, note the Default settings.
+@verbatim
+# GnuCOBOL runtime configuration
+#
+# Copyright (C) 2015-2017 Free Software Foundation, Inc.
+# Written by Simon Sobisch, Ron Norman
+#
+# This file is part of the GnuCOBOL runtime.
+#
+
+
+#
+## General instructions
+#
+
+# The initial runtime.cfg file is found in the  $COB_CONFIG_DIR/config
+# (  COB_CONFIG_DIR  defaults to  installdir/gnucobol  ).
+# The environment variable  COB_RUNTIME_CONFIG  may define a different runtime
+# configuration file to read.
+
+# If settings are included in the runtime environment file multiple times
+# then the last setting value is used, no warning occurs.
+
+# Settings via environment variables always take precedence over settings
+# that are given in runtime configuration files. And the environment is
+# checked after completing processing of the runtime configuration file(s)
+
+# All values set to string variables or environment variables are checked
+# for  ${envvar}  and replacement is done at the time of the setting.
+
+# Any environment variable may be set with the directive  setenv  .
+# Example:  setenv COB_LIBARAY_PATH ${LD_LIBRARY_PATH}
+
+# Any environment variable may be unset with the directive  unsetenv
+# (one var per line).
+# Example:  unsetenv COB_LIBRARY_PATH
+
+# Runtime configuration files can include other files with the directive
+# include.
+# Example:  include my-runtime-configuration-file
+
+# To include another configuration file only if it is present use the directive
+# includeif.
+# You can also use  ${envvar}  inside this.
+# Example:  includeif ${HOME}/mygc.cfg
+
+# If you want to reset a parameter to its default value use:
+#    reset parametername
+
+# Most runtime variables have boolean values, some are switches, some have
+# string values, integer values and some are size values.
+# The boolean values will be evaluated as following:
+#       to true:          1, Y, ON, YES, TRUE  (no matter of case)
+#       to false:         0, N, OFF
+# A 'size' value is an integer optionally followed by K, M, or G for kilo, mega
+# or giga.
+
+# For convenience a parameter in the runtime.cfg file may be defined by using
+# either the environment variable name or the parameter name.
+# In most cases the environment variable name is the parameter name (in upper
+# case) with the prefix  COB_  .
+
+#
+## General environment
+#
+
+# Environment name:  COB_DISABLE_WARNINGS
+#   Parameter name:  disable_warnings
+#          Purpose:  turn off runtime warning messages
+#             Type:  boolean
+#          Default:  false
+#          Example:  DISABLE_WARNINGS  TRUE
+
+# Environment name:  COB_ENV_MANGLE
+#   Parameter name:  env_mangle
+#          Purpose:  names checked in the environment would get non alphanumeric
+#                    change to '_'
+#             Type:  boolean
+#          Default:  false
+#          Example:  ENV_MANGLE  TRUE
+
+# Environment name:  COB_SET_TRACE
+#   Parameter name:  set_trace
+#          Purpose:  to enable to COBOL trace feature
+#             Type:  boolean
+#          Default:  false
+#          Example:  SET_TRACE  TRUE
+
+# Environment name:  COB_TRACE_FILE
+#   Parameter name:  trace_file
+#          Purpose:  to define where COBOL trace output should go
+#             Type:  string
+#          Default:  stderr
+#          Example:  TRACE_FILE  ${HOME}/mytrace.log
+
+# Environment name:  COB_CURRENT_DATE
+#   Parameter name:  current_date
+#          Purpose:  specify an alternate Date/Time to be returned to ACCEPT clauses
+#                    this is used for testing purposes or to tweak a missing offset
+#                    partial setting is allowed
+#             Type:  numeric string in format YYYYDDMMHH24MISS or date string
+#          Default:  the operating system date is used
+#          Example:  COB_CURRENT_DATE "2016/03/16 16:40:52"
+#                    current_date YYYYMMDDHHMMSS+01:00
+
+#
+## Call environment
+#
+
+# Environment name:  COB_LIBRARY_PATH
+#   Parameter name:  library_path
+#          Purpose:  paths for dynamically-loadable modules
+#             Type:  string
+#             Note:  the default paths .:/installpath/extras are always
+#                    added to the given paths
+#          Example:  LIBRARY_PATH    /opt/myapp/test:/opt/myapp/production
+
+# Environment name:  COB_PRE_LOAD
+#   Parameter name:  pre_load
+#          Purpose:  modules that are loaded during startup, can be used
+#                    to CALL COBOL programs or C functions that are part
+#                    of a module library
+#             Type:  string
+#             Note:  the modules listed should NOT include extensions, the
+#                    runtime will use the right ones on the various platforms,
+#                    COB_LIBRARY_PATH is used to locate the modules
+#          Example:  PRE_LOAD      COBOL_function_library:external_c_library
+
+# Environment name:  COB_LOAD_CASE
+#   Parameter name:  load_case
+#          Purpose:  resolve ALL called program names to UPPER or LOWER case
+#             Type:  Only use  UPPER  or  LOWER
+#          Default:  if not set program names in CALL are case sensitive
+#          Example:  LOAD_CASE  UPPER
+
+# Environment name:  COB_PHYSICAL_CANCEL
+#   Parameter name:  physical_cancel
+#          Purpose:  physically unload a dynamically-loadable module on CANCEL,
+#                    this frees some RAM and allows the change of modules during
+#                    run-time but needs more time to resolve CALLs (both to
+#                    active and not-active programs)
+#            Alias:  default_cancel_mode, LOGICAL_CANCELS (0 = yes)
+#             Type:  boolean (evaluated for true only)
+#          Default:  false
+#          Example:  PHYSICAL_CANCEL  TRUE
+
+#
+## File I/O
+#
+
+# Environment name:  COB_VARSEQ_FORMAT
+#   Parameter name:  varseq_format
+#          Purpose:  declare format used for variable length sequential files
+#                    - different types and lengths precede each record
+#                    - 'length' is the data length & does not include the prefix
+#             Type:  0   means 2 byte record length (big-endian) + 2 NULs
+#                    1   means 4 byte record length (big-endian)
+#                    2   means 4 byte record length (local machine int)
+#                    3   means 2 byte record length (big-endian)
+#          Default:  0
+#          Example:  VARSEQ_FORMAT 1
+
+# Environment name:  COB_FILE_PATH
+#   Parameter name:  file_path
+#          Purpose:  define default location where data files are stored
+#             Type:  file path directory
+#          Default:  .  (current directory)
+#          Example:  FILE_PATH ${HOME}/mydata
+
+# Environment name:  COB_LS_FIXED
+#   Parameter name:  ls_fixed
+#          Purpose:  Defines if LINE SEQUENTIAL files should be fixed length
+#                    (or variable, by removing trailing spaces)
+#            Alias:  STRIP_TRAILING_SPACES  (0 = yes)
+#             Type:  boolean
+#          Default:  false
+#          Example:  LS_FIXED TRUE
+
+# Environment name:  COB_LS_NULLS
+#   Parameter name:  ls_nulls
+#          Purpose:  Defines for LINE SEQUENTIAL files what to do with data
+#                    which is not DISPLAY type.  This could happen if a LINE
+#                    SEQUENTIAL record has COMP data fields in it.
+#             Type:  boolean
+#          Default:  false
+#             Note:  The TRUE setting will handle files that contain COMP data
+#                    in a similar manner to the method used by Micro Focus COBOL
+#          Example:  LS_NULL = TRUE
+
+# Environment name:  COB_SYNC
+#   Parameter name:  sync
+#          Purpose:  Should the file be synced to disk after each write/update
+#             Type:  boolean
+#          Default:  false
+#          Example:  SYNC: TRUE
+
+# Environment name:  COB_SORT_MEMORY
+#   Parameter name:  sort_memory
+#          Purpose:  Defines how much RAM to assign for sorting data
+#                    if this size is exceeded the  SORT  will be done
+#                    on disk instead of memory
+#             Type:  size  but must be more than 1M
+#          Default:  128M
+#          Example:  SORT_MEMORY 64M
+
+# Environment name:  COB_SORT_CHUNK
+#   Parameter name:  sort_chunk
+#          Purpose:  Defines how much RAM to assign for sorting data in chunks
+#             Type:  size  but must be within 128K and 16M
+#          Default:  256K
+#          Example:  SORT_CHUNK 1M
+
+#
+## Screen I/O
+#
+
+# Environment name:  COB_BELL
+#   Parameter name:  bell
+#          Purpose:  Defines how a request for the screen to beep is handled
+#             Type:  FLASH, SPEAKER, FALSE, BEEP
+#          Default:  BEEP
+#          Example:  BELL SPEAKER
+
+# Environment name:  COB_REDIRECT_DISPLAY
+#   Parameter name:  redirect_display
+#          Purpose:  Defines if DISPLAY output should be sent to 'stderr'
+#             Type:  boolean
+#          Default:  false
+#          Example:  redirect_display Yes
+
+# Environment name:  COB_SCREEN_ESC
+#   Parameter name:  screen_esc
+#          Purpose:  Enable handling of ESC key during ACCEPT
+#             Type:  boolean
+#          Default:  false
+#             Note:  is only evaluated if COB_SCREEN_EXCEPTIONS is active
+#          Example:  screen_esc Yes
+
+# Environment name:  COB_SCREEN_EXCEPTIONS
+#   Parameter name:  screen_exceptions
+#          Purpose:  enable exceptions for function keys during ACCEPT
+#             Type:  boolean
+#          Default:  false
+#          Example:  screen_exceptions Yes
+
+# Environment name:  COB_TIMEOUT_SCALE
+#   Parameter name:  timeout_scale
+#          Purpose:  specify translation in milliseconds for ACCEPT clauses
+#                    BEFORE TIME value / AFTER TIMEOUT
+#             Type:  integer
+#                    0 means 1000 (Micro Focus COBOL compatible), 1 means 100
+#                    (ACUCOBOL compatible), 2 means 10, 3 means 1
+#          Default:  0
+#          Example:  timeout_scale 3
+
+# Environment name:  COB_INSERT_MODE
+#   Parameter name:  insert_mode
+#          Purpose:  specify default insert mode for ACCEPT; 0=off, 1=on
+#             Type:  boolean
+#          Default:  false
+#             Note:  also sets the cursor type (if available)
+#          Example:  insert_mode Y
+
+# Environment name:  COB_LEGACY
+#   Parameter name:  legacy
+#          Purpose:  keep behaviour of former runtime versions, currently only
+#                    for setting screen attributes for non input fields
+#             Type:  boolean
+#          Default:  not set
+#          Example:  legacy true
+
+# Environment name:  COB_EXIT_WAIT
+#   Parameter name:  exit_wait
+#          Purpose:  to wait on main program exit if an extended screenio
+#                    DISPLAY was issued without an ACCEPT following
+#             Type:  boolean
+#          Default:  true
+#          Example:  COB_EXIT_WAIT off
+
+# Environment name:  COB_EXIT_MSG
+#   Parameter name:  exit_msg
+#          Purpose:  string to display if COB_EXIT_WAIT is processed, set to ''
+#                    if no actual display but an ACCEPT should be done
+#             Type:  string
+#          Default:  'end of program, please press a key to exit' (localized)
+#          Example:  COB_EXIT_MSG ''
+
+# Note: If you want to slightly speed up a program's startup time, remove all
+#       of the comments from the actual real file that is processed
+
+
+@end verbatim
+@comment *********************************************************************
+@comment ** 10.2.4 Program Arguments                                         **
+@comment *********************************************************************
+@newsubsection{10.2.4,Program Arguments}@p Regardless of the manner in which a main program is executed (i.e. directly or via @syntax{cobcrun}), any arguments specified to the program may be retrieved via any of the following:
+@itemize @bullet
+@p @item @syntaxref{ACCEPT FROM COMMAND-LINE}
+@p @item @syntaxref{PROCEDURE DIVISION CHAINING}
+@end itemize
+@comment *********************************************************************
+@comment ** 10.3 Binary Truncation                                           **
+@comment *********************************************************************
+@newsection{10.3,Binary Truncation}@p By default, the GnuCOBOL compiler will truncate binary data items to the precision indicated by their @syntaxref{PICTURE} clause, if they have one. This applies to COMP, BINARY and COMP-4 items Only.
+@* The fact is, however, that binary truncation has a significant effect on the performance of GnuCOBOL programs.  When binary truncation is in effect, arithmetic operations performed against all types of numeric data items (even @syntax{USAGE DISPLAY}) are slowed down.
+@p Before continuing, it's worth making the point that we're NOT talking about astronomical performance degradations here.  Today's computers are FAST, and a user sitting at the keyboard, running a GnuCOBOL program is unlikely to notice.  BUT @dots{} if you have a GnuCOBOL program that has to process large amounts of data, performing some significant "number crunching" against that data as it goes, the impact of truncation could become noticeable.
+@p The following program compares the performance of performing arithmetic operations (in a totally non-scientific, non-rigorous way) against data items with a @syntaxref{USAGE} of @syntax{DISPLAY}, @syntax{COMP} and @syntax{BINARY-LONG}.  It was actually my intent when I first wrote the program to merely demonstrate the relative performance differences between different types of numeric data storage, and it certainly met that objective.
 @p @example
 IDENTIFICATION DIVISION.
-PROGRAM-ID.  SUBVSINDEX.
+PROGRAM-ID. DEMOMATH.
 DATA DIVISION.
 WORKING-STORAGE SECTION.
-01  WS-TABLE-SUB                BINARY-LONG.
-01  WS-TABLE.
-    05 WS-TABLE-ENTRY           OCCURS 20 TIMES
-                                INDEXED BY WS-TABLE-IDX
-                                PIC X(1).
+01  Begin-Time.
+    05 BT-HH                    PIC 9(2).
+    05 BT-MM                    PIC 9(2).
+    05 BT-SS                    PIC 9(2).
+    05 BT-HU                    PIC 9(2).
+01  Binary-Item         BINARY-LONG SIGNED VALUE 0.
+01  Comp-Item           COMP    PIC S9(9)  VALUE 0.
+01  Display-Item        DISPLAY PIC S9(9)  VALUE 0.
+01  End-Time.
+    05 ET-HH                    PIC 9(2).
+    05 ET-MM                    PIC 9(2).
+    05 ET-SS                    PIC 9(2).
+    05 ET-HU                    PIC 9(2).
+78  Repeat-Count                VALUE 10000000.
+01  Time-Diff                   PIC ZZ9.99.
 PROCEDURE DIVISION.
-000-Main SECTION.
-E1. MOVE 'A' TO WS-TABLE-ENTRY (17)
+010-Test-Usage-DISPLAY.
+    ACCEPT  Begin-Time FROM TIME
+    PERFORM Repeat-Count TIMES
+        ADD 7 TO Display-Item
+    END-PERFORM
+    PERFORM 100-Determine-Time-Diff
+    DISPLAY 'USAGE DISPLAY: ' Time-Diff ' SECONDS'
     .
-E2. MOVE 17 TO WS-TABLE-SUB
-    MOVE 'A' TO WS-TABLE-ENTRY (WS-TABLE-SUB)
+020-Test-Usage-COMP.
+    ACCEPT Begin-Time FROM TIME
+    PERFORM Repeat-Count TIMES
+        ADD 7 TO Comp-Item
+    END-PERFORM
+    PERFORM 100-Determine-Time-Diff
+    DISPLAY 'USAGE COMP:    ' Time-Diff ' SECONDS'
     .
-E3. SET WS-TABLE-IDX TO 17
-    MOVE 'A' TO WS-TABLE-ENTRY (WS-TABLE-SUB)
+040-Test-Usage-BINARY.
+    ACCEPT Begin-Time FROM TIME
+    PERFORM Repeat-Count TIMES
+        ADD 7 TO Binary-Item
+    END-PERFORM
+    PERFORM 100-Determine-Time-Diff
+    DISPLAY 'USAGE BINARY:  ' Time-Diff ' SECONDS'
+    .
+099-Done.
+    STOP RUN
+    .
+100-Determine-Time-Diff.
+    ACCEPT End-Time FROM TIME
+    COMPUTE Time-Diff =
+      ( (ET-HH * 360000 + ET-MM * 6000 + ET-SS * 100 + ET-HU)
+      - (BT-HH * 360000 + BT-MM * 6000 + BT-SS * 100 + BT-HU) )
+      / 100
     .
 @end example
-@* Compile this program as follows (the assumption is made that you are executing the @syntax{cobc} command from the directory in which the above program source code (subvsindex.cbl) exists.
-@p @center @t{cobc -C -save-temps subvsindex.cbl}
-@p After this command is executed, the file "subvsindex.c" will contain the procedure division C code and "subvsindex.c.1.h" will contain the working-storage C code.  Compare the generated C code for each of the three @statement{MOVE}s.
-@comment *********************************************************************
-@comment ** 10.4 Copybook Naming Conventions and Usage                      **
-@comment *********************************************************************
-@newsection{10.4,Copybook Naming Conventions and Usage}@p Since the intent of a copybook is to introduce COBOL code into a particular spot in a program via the @statementref{COPY}, it is always a good idea to prefix copybook names with a character sequence that identifies where in a program it's contents are intended to be copyed.
-@p For example:
-@table @asis
-@p @item @syntax{IDxxxxxxxx}
-@p Copybooks containing code intended for the identification division.  These will be rare as you almost never encounter copied code in the identification division.
-@p @item @syntax{EDxxxxxxxx}
-@p Copybooks containing code intended for use in the environment division.  These copybooks are generally used for predefined @syntaxref{SPECIAL-NAMES} or @syntaxrefalt{FILE-CONTROL,INPUT-OUTPUT SECTION} syntax,
-@p @item @syntax{DDxxxxxxxx}
-Copybooks that contain data definitions.
-@p @item @syntax{PDxxxxxxxx}
-Copybooks that contain executable instructions.
-@end table
-@comment *********************************************************************
-@comment ** 10.5,PROCEDURE DIVISION Sections Versus Paragraphs              **
-@comment *********************************************************************
-@newsection{10.5,PROCEDURE DIVISION Sections Versus Paragraphs}@p The issue of whether to use section and/or paragraph names (collectively referred to as procedure names) within the procedure division is one of near religious significance with many COBOL programmers.
-@p COBOL programming standards used by many organizations that use the language generally call for procedure names to:
-@enumerate
-@p @item Contain a leading numeric component (for example: @syntax{2000-Update-Customer}), AND@dots{}
-@p @item Be defined in the procedure division in non-decreasing sequence of that numeric component.
-@end enumerate
-@* When you are looking at or editing any large COBOL program that has been created with programming standards that include these two rules, it is always a simple thing to know whether a reference to a procedure is being made to code that exists before or after your current location in the program, simply by comparing the numeric component of the current procedure's name with the one in question.
-@p Technically, GnuCOBOL does not require ANY procedure names be defined unless:
-@enumerate
-@p @item You are using the @statementref{ALTER} (the use of which should be avoided at all costs)
-@p @item You are using a procedural @statementrefalt{PERFORM,Procedural PERFORM}
-@p @item You are using a @statementref{GO TO}
-@p @item You are using a @statementref{MERGE} with an @syntax{OUTPUT PROCEDURE}
-@p @item You are using a @statementref{SORT} with either (or both) an @syntax{INPUT PROCEDURE} or @syntax{OUTPUT PROCEDURE}
-@p @item You are using @syntaxref{DECLARATIVES}
-@end enumerate
-@* Since it is difficult to write any non-trivial COBOL program that uses none of the above, lets assume you will be including at least one section or paragraph in your GnuCOBOL programs.
-@p I like to use procedure division paragraphs and sections as follows:
-@enumerate
-@p @item The very first procedure defined in the procedure division of my programs, assuming no @syntaxref{DECLARATIVES} are defined, will be a section named "000-Main".  The declaration of this procedure will immediately follow the procedure division header (or @syntax{END DECLARATIVES} if @syntax{DECLARATIVES} are used).
-@p @item Any procedures referenced by @syntax{MERGE}, @syntax{PERFORM}, or @syntax{SORT} statements will be defined as sections.
-@p @item Any procedures referenced by @syntax{GO TO} statements will be defined as paragraphs, and those paragraphs will be defined in the same section as the @syntax{GO TO} statements that reference them.  In other words, @statement{GO TO}s may not be used to transfer control to a point in a different section.  This is @i{NOT} a GnuCOBOL rule --- this is my own personal programming practice intended to improve the readability and maintainability of my programs.
-@p @item I always include a numeric prefix to all procedure names I define, for the reasons stated earlier.
-@p @item I do not use @syntax{THRU} on any @syntax{MERGE}, @syntax{PERFORM} or @statement{SORT} unless the programming standards of the shop in which I am working require it.  My reasoning for this is that it is too easy to accidentally introduce a new procedure into the scope of a @syntax{THRU}.
-@end enumerate
-@comment *********************************************************************
-@comment ** 10.6 COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE                **
-@comment *********************************************************************
-@newsection{10.6,COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE}@p Over the years, there has been much debate over the efficiency and arithmetic accuracy of using the @statementref{COMPUTE} rather than the four basic  arithmetic operation statements.
-@p Here are the facts --- draw your own conclusions as to which approach is more appropriate under which circumstances.
-@enumerate
-@p @item The @statement{COMPUTE} supports exponentiation (via the "**" operator) --- there is no equivalent basic arithmetic statement.  Although you could simulate integral exponentiation (raising a value to the third power, for example) using @statement{MULTIPLY}s, and you may use the @intrinsicref{SQRT} to find a square root, there's just no (easy) way to find the cube-root of a value without using the @statement{COMPUTE}.
-@p @item For non-trivial computations, @statement{COMPUTE}s "read" better.  Take this, for example:
+@* Each data item has 7 added to it ten @i{million} times.
+@p The time (to one-one-hundredth of a second) will be retrieved before and after each test and the difference between the two is displayed.  This is why the computations were done so many times --- it was to make sure the timing was "measurable" with only a 1/100 second "stopwatch".
+@p I also ran the tests multiple times, just to make sure I had consistent results (I did).  Like I mentioned earlier, this is not a rigorous, scientific benchmark of numeric performance; it's just a quick-and-dirty comparison.
+@p Here are the results:
 @p @example
-COMPUTE R = (A + B * C) / D
+Test 1:
+USAGE DISPLAY:   1.72 SECONDS
+USAGE COMP:      0.62 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 2:
+USAGE DISPLAY:   1.69 SECONDS
+USAGE COMP:      0.61 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 3:
+USAGE DISPLAY:   1.69 SECONDS
+USAGE COMP:      0.65 SECONDS
+USAGE BINARY:    0.02 SECONDS
 @end example
-@* As compared to:
+@* The results I saw here were consistent with those that would have been obtained from most of the COBOL implementations I have ever worked with --- @syntax{USAGE COMP} has a significant performance advantage over @syntax{USAGE DISPLAY} and @syntax{USAGE BINARY-LONG} (and presumably the other @syntax{BINARY-@i{xxx}} usages as well) perform identically, within the measurement tolerances of the test.
+@p Imagine my surprise, however, when I discovered that the use of @switch{-fnotrunc} also made a difference:
 @p @example
-MULTIPLY B BY C GIVING TEMP
-ADD A TO TEMP
-DIVIDE TEMP BY D GIVING R
+Test 4:
+USAGE DISPLAY:   1.72 SECONDS
+USAGE COMP:      0.07 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 5:
+USAGE DISPLAY:   1.72 SECONDS
+USAGE COMP:      0.07 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 6:
+USAGE DISPLAY:   1.73 SECONDS
+USAGE COMP:      0.06 SECONDS
+USAGE BINARY:    0.02 SECONDS
 @end example
-@* For non-trivial computations, @statement{COMPUTE}s may execute faster than the equivalent chain of basic arithmetic statements.  For example, the COMPUTE statement shown above executes about 25% faster on my computer using GnuCOBOL than does the MULTIPLY-ADD-DIVIDE sequence.
-@p @item For trivial computations, on the other hand, I prefer the inherent readability of a statement such as this:
+@* As you can see, there was a huge drop in @syntax{USAGE COMP} timings by turning off truncation.  As a result, I see absolutely no reason whatsoever why the @switch{-fnotrunc} option shouldn't be used on all GnuCOBOL compilations.
+@p If you want to squeeze every last bit of performance out of your GnuCOBOL programs, don't forget to investigate the @switchidx{-O}, @switchidx{-O2} and the @switchidx{-Os}, all of which influence the optimization of compiled code.  Actually run programs using various optimization switches (or not) and compare execution times against those of unoptimized compiled versions of your programs.  Don't just compare the generated C code because sometimes the differences can't be "seen" at the C source-code level.
 @p @example
-ADD 1 TO WSS-Input-Trans-QTY
+Test 7:
+cobc -x demomath.cbl -O2;demomath
+USAGE DISPLAY:   1.68 SECONDS
+USAGE COMP:      0.60 SECONDS
+USAGE BINARY:    0.00 SECONDS
+
+Test 8:
+cobc -x demomath.cbl -fnotrunc -O2;demomath
+USAGE DISPLAY:   1.67 SECONDS
+USAGE COMP:      0.01 SECONDS
+USAGE BINARY:    0.00 SECONDS
 @end example
-@* to this:
-@p @example
-COMPUTE WS-Input-Trans-QTY = WS-Input-Trans-QTY + 1
-@end example
-@end enumerate
+@* All tests above carried out under Linux with a AMD FX8350 under very low loading prior to the test. I would have also tried on a i7-7700 but that is under Windows 10 and I do not have a GC version on it - Vince.
 @iftex
 @sp 3
 @center ------------------------------------------------------------
-@center End of Chapter 10 --- Programming Style Suggestions
+@center End of Chapter 10 --- Interfacing With The OS
 @end iftex

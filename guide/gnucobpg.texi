@@ -94,15 +94,17 @@ This manual documents the @value{BUILD} build of GnuCOBOL @value{VERSION}  00Jun
 List of Chapters and Appendices:
 
 * 1:  Introduction.
-* 2:  CDF - Compiler Directing Facility.
-* 3:  IDENTIFICATION DIVISION.
-* 4:  ENVIRONMENT DIVISION.
-* 5:  DATA DIVISION.
-* 6:  PROCEDURE DIVISION.
-* 7:  Report Writer Usage Notes.
-* 8:  Interfacing With The OS.
-* 9:  Sub-Programming.
-* 10: Programming Style Suggestions.
+* 2:  Language Fundamentals.
+* 3:  CDF - Compiler Directing Facility.
+* 4:  IDENTIFICATION DIVISION.
+* 5:  ENVIRONMENT DIVISION.
+* 6:  DATA DIVISION.
+* 7:  PROCEDURE DIVISION.
+* 8:  Functions.
+* 9:  Report Writer Usage Notes.
+* 10:  Interfacing With The OS.
+* 11:  Sub-Programming.
+* 12: Programming Style Suggestions.
 * A:  Appendix A - Glossary of Terms.
 * B:  Appendix B - Reserved Word List.
 * C:  Appendix C - GNU Free Documentation License.
@@ -119,236 +121,241 @@ Full Contents:
 *     1.2.2:  Why YOU Should Learn COBOL.
 *     1.2.2:  Programmer Productivity.
 *   1.3:  So What is GnuCOBOL?.
-*     1.3.1:  Language Reserved Words.
-*     1.3.2:  User-Defined Words.
-*     1.3.3:  Case Insensitivity.
-*     1.3.4:  Readability of Programs.
-*     1.3.5:  Divisions Organize Programs.
-*     1.3.6:  Copybooks.
-*     1.3.7:  Structured Data.
-*     1.3.8:  Files.
-*     1.3.9:  Table Handling.
-*     1.3.10: Sorting and Merging Data.
-*     1.3.11: String Manipulation Features.
-*     1.3.12: Screen Formatting Features.
-*       1.3.12.2: A Sample Screen.
-*       1.3.12.2: Color Palette and Video Attributes.
-*     1.3.13: Report Writer Features.
-*     1.3.14: Data Initialization.
-*     1.3.15: Syntax Diagram Conventions.
-*     1.3.16: Format of Program Source Lines.
-*     1.3.17: Program Structure.
-*     1.3.18: Comments.
-*     1.3.19: Literals.
-*       1.3.19.1: Numeric Literals.
-*       1.3.19.2: Alphanumeric Literals.
-*       1.3.19.3: Figurative Constants.
-*     1.3.20: Punctuation.
-*     1.3.21: LENGTH OF.
-*     1.3.22: Interfacing to Other Environments.
 
-* 2:  CDF - Compiler Directing Facility.
-*   2.1 : >>CALL-CONVENTION.
-*   2.2 : COPY.
-*   2.3 : REPLACE.
-*   2.4 : >>DEFINE.
-*   2.5 : >>IF.
-*   2.6 : >>SET.
-*   2.7 : >>SOURCE.
-*   2.8 : >>TURN.
-*   2.9 : >>D.
-*   2.10: >>DISPLAY.
-*   2.11: >>PAGE.
-*   2.12: >>LISTING.
-*   2.13: >>LEAP-SECONDS.
-*   2.14: * Directives.
+* 2:  Language Fundamentals.
+*   2.1: The Cobol Language - The Basics.
+*     2.1.1:  Language Reserved Words.
+*     2.1.2:  User-Defined Words.
+*     2.1.3:  Case Insensitivity.
+*     2.1.4:  Readability of Programs.
+*     2.1.5:  Divisions Organize Programs.
+*     2.1.6:  Copybooks.
+*     2.1.7:  Structured Data.
+*     2.1.8:  Files.
+*     2.1.9:  Table Handling.
+*     2.1.10: Sorting and Merging Data.
+*     2.1.11: String Manipulation Features.
+*     2.1.12: Screen Formatting Features.
+*       2.1.12.2: A Sample Screen.
+*       2.1.12.2: Color Palette and Video Attributes.
+*     2.1.13: Report Writer Features.
+*     2.1.14: Data Initialization.
+*     2.1.15: Syntax Diagram Conventions.
+*     2.1.16: Format of Program Source Lines.
+*     2.1.17: Program Structure.
+*     2.1.18: Comments.
+*     2.1.19: Literals.
+*       2.1.19.1: Numeric Literals.
+*       2.1.19.2: Alphanumeric Literals.
+*       2.1.19.3: Figurative Constants.
+*     2.1.20: Punctuation.
+*     2.1.21: Interfacing to Other Environments.
+*   2.2: The Cobol Language - Advanced Techniques.
+*   2.2.1:  Table References.
+*   2.2.2:  Qualification of Data Names.
+*   2.2.3:  Reference Modifiers.
+*   2.2.4:  Arithmetic Expressions.
+*   2.2.5: Conditional Expressions.
+*     2.2.5.1: Condition Names.
+*     2.2.5.2: Class Conditions.
+*     2.2.5.3: Sign Conditions.
+*     2.2.5.4: Switch-Status Conditions.
+*     2.2.5.5: Relation Conditions.
+*     2.2.5.6: Combined Conditions.
+*     2.2.5.7: Negated Conditions.
+*   2.2.6: Use of Periods.
+*   2.2.7: Use of VERB/END-VERB Constructs.
+*   2.2.8: Concurrent Access to Files.
+*     2.2.8.1: File Sharing.
+*     2.2.8.2: Record Locking.
 
-* 3:  IDENTIFICATION DIVISION.
+* 3:  CDF - Compiler Directing Facility.
+*   3.1 : >>CALL-CONVENTION.
+*   3.2 : COPY.
+*   3.3 : REPLACE.
+*   3.4 : >>DEFINE.
+*   3.5 : >>IF.
+*   3.6 : >>SET.
+*   3.7 : >>SOURCE.
+*   3.8 : >>TURN.
+*   3.9 : >>D.
+*   3.10: >>DISPLAY.
+*   3.11: >>PAGE.
+*   3.12: >>LISTING.
+*   3.13: >>LEAP-SECONDS.
+*   3.14: * Directives.
 
-* 4:  ENVIRONMENT DIVISION.
-*   4.1: CONFIGURATION SECTION.
-*     4.1.1: SOURCE-COMPUTER.
-*     4.1.2: OBJECT-COMPUTER.
-*     4.1.3: SPECIAL-NAMES.
-*       4.1.3.1: Alphabet-Name-Clause.
-*       4.1.3.2: Class-Definition-Clause.
-*       4.1.3.3: Switch-Definition-Clause.
-*       4.1.3.4: Symbolic-Characters-Clause.
-*     4.1.4: REPOSITORY.
-*   4.2: INPUT-OUTPUT SECTION.
-*     4.2.1: SELECT.
-*       4.2.1.1: ORGANIZATION SEQUENTIAL.
-*       4.2.1.2: ORGANIZATION LINE SEQUENTIAL.
-*       4.2.1.3: ORGANIZATION RELATIVE.
-*       4.2.1.4: ORGANIZATION INDEXED.
-*     4.2.2: SAME RECORD AREA.
-*     4.2.3: MULTIPLE FILE.
+* 4:  IDENTIFICATION DIVISION.
 
-* 5:  DATA DIVISION.
-*   5.1: Data Definition Principles.
-*   5.2: FILE SECTION.
-*     5.2.2: File/Sort-Description.
-*     5.2.2: FILE-SECTION-Data-Item.
-*   5.3: WORKING-STORAGE SECTION.
-*   5.4: LOCAL-STORAGE SECTION.
-*   5.5: LINKAGE SECTION.
-*   5.6: REPORT SECTION.
-*     5.6.1: Report Group Definitions.
-*     5.6.2: REPORT SECTION Data Items.
-*   5.7: SCREEN SECTION.
-*   5.8: Special Data Items.
-*     5.8.1: 01-Level Constants.
-*     5.8.2: 66-Level Data Items.
-*     5.8.3: 77-Level Data Items.
-*     5.8.4: 78-Level Data Items.
-*     5.8.5: 88-Level Data Items.
-*   5.9: Data Description Clauses.
-*     5.9.1:  ANY LENGTH.
-*     5.9.2:  AUTO.
-*     5.9.3:  AUTO-SKIP.
-*     5.9.4:  AUTOTERMINATE.
-*     5.9.5:  BACKGROUND-COLOR.
-*     5.9.6:  BASED.
-*     5.9.7:  BEEP.
-*     5.9.8:  BELL.
-*     5.9.9:  BLANK.
-*     5.9.10: BLANK WHEN ZERO.
-*     5.9.11: BLINK.
-*     5.9.12: COLUMN.
-*     5.9.13: CONSTANT.
-*     5.9.14: EMPTY-CHECK.
-*     5.9.15: EXTERNAL.
-*     5.9.16: ERASE.
-*     5.9.17: FALSE.
-*     5.9.18: FOREGROUND-COLOR.
-*     5.9.19: FROM.
-*     5.9.20: FULL.
-*     5.9.21: GLOBAL.
-*     5.9.22: GROUP INDICATE.
-*     5.9.23: HIGHLIGHT.
-*     5.9.24: JUSTIFIED.
-*     5.9.25: LEFTLINE.
-*     5.9.26: LENGTH-CHECK.
-*     5.9.27: LINE.
-*     5.9.28: LOWLIGHT.
-*     5.9.29: NEXT GROUP.
-*     5.9.30: NO-ECHO.
-*     5.9.31: OCCURS.
-*     5.9.32: OVERLINE.
-*     5.9.33: PICTURE.
-*     5.9.34: PRESENT WHEN.
-*     5.9.35: PROMPT.
-*     5.9.36: PROTECTED.
-*     5.9.37: REDEFINES.
-*     5.9.38: RENAMES.
-*     5.9.39: REQUIRED.
-*     5.9.40: REVERSE-VIDEO.
-*     5.9.41: SECURE.
-*     5.9.42: SIGN.
-*     5.9.43: SOURCE.
-*     5.9.44: SUM.
-*     5.9.45: SYNCRONIZED.
-*     5.9.46: TO.
-*     5.9.47: TYPE.
-*     5.9.48: UNDERLINE.
-*     5.9.49: USAGE.
-*     5.9.50: USING.
-*     5.9.51: VALUE.
+* 5:  ENVIRONMENT DIVISION.
+*   5.1: CONFIGURATION SECTION.
+*     5.1.1: SOURCE-COMPUTER.
+*     5.1.2: OBJECT-COMPUTER.
+*     5.1.3: SPECIAL-NAMES.
+*       5.1.3.1: Alphabet-Name-Clause.
+*       5.1.3.2: Class-Definition-Clause.
+*       5.1.3.3: Switch-Definition-Clause.
+*       5.1.3.4: Symbolic-Characters-Clause.
+*     5.1.4: REPOSITORY.
+*   5.2: INPUT-OUTPUT SECTION.
+*     5.2.1: SELECT.
+*       5.2.1.1: ORGANIZATION SEQUENTIAL.
+*       5.2.1.2: ORGANIZATION LINE SEQUENTIAL.
+*       5.2.1.3: ORGANIZATION RELATIVE.
+*       5.2.1.4: ORGANIZATION INDEXED.
+*     5.2.2: SAME RECORD AREA.
+*     5.2.3: MULTIPLE FILE.
 
-* 6:  PROCEDURE DIVISION.
-*   6.1:  PROCEDURE DIVISION USING.
-*   6.2:  PROCEDURE DIVISION CHAINING.
-*   6.3:  PROCEDURE DIVISION RETURNING.
-*   6.4:  PROCEDURE DIVISION Sections and Paragraphs.
-*   6.5:  DECLARATIVES.
-*   6.6:  Table References.
-*   6.7:  Qualification of Data Names.
-*   6.8:  Reference Modifiers.
-*   6.9:  Arithmetic Expressions.
-*   6.10: Conditional Expressions.
-*     6.10.1: Condition Names.
-*     6.10.2: Class Conditions.
-*     6.10.3: Sign Conditions.
-*     6.10.4: Switch-Status Conditions.
-*     6.10.5: Relation Conditions.
-*     6.10.6: Combined Conditions.
-*     6.10.7: Negated Conditions.
-*   6.11: Use of Periods.
-*   6.12: Use of VERB/END-VERB Constructs.
-*   6.13: Concurrent Access to Files.
-*     6.13.1: File Sharing.
-*     6.13.2: Record Locking.
-*   6.14: Common Clauses on Executable Statements.
-*     6.14.1: AT END + NOT AT END.
-*     6.14.2: CORRESPONDING.
-*     6.14.3: INVALID KEY + NOT INVALID KEY.
-*     6.14.4: ON EXCEPTION + NOT ON EXCEPTION.
-*     6.14.5: ON OVERFLOW + NOT ON OVERFLOW.
-*     6.14.6: ON SIZE ERROR + NOT ON SIZE ERROR.
-*     6.14.7: ROUNDED.
-*   6.15: Special Registers.
-*   6.16: Intrinsic Functions.
-*   6.17: GnuCOBOL Statements.
+* 6:  DATA DIVISION.
+*   6.1: Data Definition Principles.
+*   6.2: FILE SECTION.
+*     6.2.2: File/Sort-Description.
+*     6.2.2: FILE-SECTION-Data-Item.
+*   6.3: WORKING-STORAGE SECTION.
+*   6.4: LOCAL-STORAGE SECTION.
+*   6.5: LINKAGE SECTION.
+*   6.6: REPORT SECTION.
+*     6.6.1: Report Group Definitions.
+*     6.6.2: REPORT SECTION Data Items.
+*   6.7: SCREEN SECTION.
+*   6.8: Special Data Items.
+*     6.8.1: 01-Level Constants.
+*     6.8.2: 66-Level Data Items.
+*     6.8.3: 77-Level Data Items.
+*     6.8.4: 78-Level Data Items.
+*     6.8.5: 88-Level Data Items.
+*   6.9: Data Description Clauses.
+*     6.9.1:  ANY LENGTH.
+*     6.9.2:  AUTO.
+*     6.9.3:  AUTO-SKIP.
+*     6.9.4:  AUTOTERMINATE.
+*     6.9.5:  BACKGROUND-COLOR.
+*     6.9.6:  BASED.
+*     6.9.7:  BEEP.
+*     6.9.8:  BELL.
+*     6.9.9:  BLANK.
+*     6.9.10: BLANK WHEN ZERO.
+*     6.9.11: BLINK.
+*     6.9.12: COLUMN.
+*     6.9.13: CONSTANT.
+*     6.9.14: EMPTY-CHECK.
+*     6.9.15: EXTERNAL.
+*     6.9.16: ERASE.
+*     6.9.17: FALSE.
+*     6.9.18: FOREGROUND-COLOR.
+*     6.9.19: FROM.
+*     6.9.20: FULL.
+*     6.9.21: GLOBAL.
+*     6.9.22: GROUP INDICATE.
+*     6.9.23: HIGHLIGHT.
+*     6.9.24: JUSTIFIED.
+*     6.9.25: LEFTLINE.
+*     6.9.26: LENGTH-CHECK.
+*     6.9.27: LINE.
+*     6.9.28: LOWLIGHT.
+*     6.9.29: NEXT GROUP.
+*     6.9.30: NO-ECHO.
+*     6.9.31: OCCURS.
+*     6.9.32: OVERLINE.
+*     6.9.33: PICTURE.
+*     6.9.34: PRESENT WHEN.
+*     6.9.35: PROMPT.
+*     6.9.36: PROTECTED.
+*     6.9.37: REDEFINES.
+*     6.9.38: RENAMES.
+*     6.9.39: REQUIRED.
+*     6.9.40: REVERSE-VIDEO.
+*     6.9.41: SECURE.
+*     6.9.42: SIGN.
+*     6.9.43: SOURCE.
+*     6.9.44: SUM.
+*     6.9.45: SYNCRONIZED.
+*     6.9.46: TO.
+*     6.9.47: TYPE.
+*     6.9.48: UNDERLINE.
+*     6.9.49: USAGE.
+*     6.9.50: USING.
+*     6.9.51: VALUE.
 
-* 7:  Report Writer Usage Notes.
-*   7.1: RWCS Lexicon.
-*   7.2: The Anatomy of a Report.
-*   7.3: The Anatomy of a Report Page.
-*   7.4: How RWCS Builds Report Pages.
-*   7.5: Control Hierarchy.
-*   7.6: An Example.
-*     7.6.1: Data.
-*     7.6.2: Program.
-*     7.6.3: Generated Report Pages.
-*   7.7: Control Hierarchy (Revisited).
-*   7.8: Turning PHYSICAL Page Formatting Into LOGICAL Formatting.
+* 7:  PROCEDURE DIVISION.
+*   7.1:  PROCEDURE DIVISION USING.
+*   7.2:  PROCEDURE DIVISION CHAINING.
+*   7.3:  PROCEDURE DIVISION RETURNING.
+*   7.4:  PROCEDURE DIVISION Sections and Paragraphs.
+*   7.5:  DECLARATIVES.
+*   7.6: Common Clauses on Executable Statements.
+*     7.6.1: AT END + NOT AT END.
+*     7.6.2: CORRESPONDING.
+*     7.6.3: INVALID KEY + NOT INVALID KEY.
+*     7.6.4: ON EXCEPTION + NOT ON EXCEPTION.
+*     7.6.5: ON OVERFLOW + NOT ON OVERFLOW.
+*     7.6.6: ON SIZE ERROR + NOT ON SIZE ERROR.
+*     7.6.7: ROUNDED.
+*   7.7: Special Registers.
+*   7.8: GnuCOBOL Statements.
 
-* 8:  Interfacing With The OS.
-*   8.1: Compiling Programs.
-*     8.1.1: cobc - The GnuCOBOL Compiler.
-*     8.1.2: Compilation Time Environment Variables.
-*     8.1.3: Predefined Compilation Variables.
-*     8.1.4: Locating Copybooks.
-*     8.1.5: Compiler Configuration Files.
-*   8.2: Running Programs.
-*     8.2.1: Direct Execution.
-*     8.2.2: Executing Dynamically-Loadable Libraries.
-*       8.2.2.1: cobcrun - Command-line Execution.
-*       8.2.2.2: Dynamically Loaded Subprograms.
-*     8.2.3: Run Time Environment Variables.
-*     8.2.4: Program Arguments.
-*   8.3: Built-In System Subroutines.
-*   8.4: Binary Truncation.
+* 8: Functions.
+*   8.1: Intrinsic Functions.
+*   8.2: Built-In System Subroutines.
 
-* 9:  Sub-Programming.
-*   9.1: Subprogram Types.
-*   9.2: Independent vs Contained vs Nested Subprograms.
-*   9.3: Alternate Entry Points.
-*   9.4: Dynamic vs Static Subprograms.
-*   9.5: Subprogram Execution Flow.
-*     9.5.1: Subroutine Execution Flow.
-*     9.5.2: User-Defined Function Execution Flow.
-*   9.6: Sharing Data Between Calling and Called Programs.
-*     9.6.1: Subprogram Arguments.
-*       9.6.1.1: Calling Program Considerations.
-*       9.6.1.2: Called Program Considerations.
-*     9.6.2: GLOBAL Data Items.
-*     9.6.3: EXTERNAL Data Items.
-*   9.7: Recursive Subprograms.
-*   9.8: Combining GnuCOBOL and C Programs.
-*     9.8.1: GnuCOBOL Run-Time Library Requirements.
-*     9.8.2: String Allocation Differences Between GnuCOBOL and C.
-*     9.8.3: Matching C Data Types with GnuCOBOL USAGE's.
-*     9.8.4: GnuCOBOL Main Programs CALLing C Subprograms.
-*     9.8.5: C Main Programs Calling GnuCOBOL Subprograms.
+* 9:  Report Writer Usage Notes.
+*   9.1: RWCS Lexicon.
+*   9.2: The Anatomy of a Report.
+*   9.3: The Anatomy of a Report Page.
+*   9.4: How RWCS Builds Report Pages.
+*   9.5: Control Hierarchy.
+*   9.6: An Example.
+*     9.6.1: Data.
+*     9.6.2: Program.
+*     9.6.3: Generated Report Pages.
+*   9.7: Control Hierarchy (Revisited).
+*   9.8: Turning PHYSICAL Page Formatting Into LOGICAL Formatting.
 
-* 10: Programming Style Suggestions.
-*   10.1: Marking Changes in Programs.
-*   10.2: Data Item Coding and Naming Conventions.
-*   10.3: Table Subscripting versus Table Indexing.
-*   10.4: Copybook Naming Conventions and Usage.
-*   10.5: PROCEDURE DIVISION Sections Versus Paragraphs.
-*   10.6: COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE.
+* 10:  Interfacing With The OS.
+*   10.1: Compiling Programs.
+*     10.1.1: cobc - The GnuCOBOL Compiler.
+*     10.1.2: Compilation Time Environment Variables.
+*     10.1.3: Predefined Compilation Variables.
+*     10.1.4: Locating Copybooks.
+*     10.1.5: Compiler Configuration Files.
+*   10.2: Running Programs.
+*     10.2.1: Direct Execution.
+*     10.2.2: Executing Dynamically-Loadable Libraries.
+*       10.2.2.1: cobcrun - Command-line Execution.
+*       10.2.2.2: Dynamically Loaded Subprograms.
+*     10.2.3: Run Time Environment Variables.
+*     10.2.4: Program Arguments.
+*   10.3: Binary Truncation.
+
+* 11:  Sub-Programming.
+*  11.1: Subprogram Types.
+*  11.2: Independent vs Contained vs Nested Subprograms.
+*  11.3: Alternate Entry Points.
+*  11.4: Dynamic vs Static Subprograms.
+*  11.5: Subprogram Execution Flow.
+*    11.5.1: Subroutine Execution Flow.
+*    11.5.2: User-Defined Function Execution Flow.
+*  11.6: Sharing Data Between Calling and Called Programs.
+*    11.6.1: Subprogram Arguments.
+*      11.6.1.1: Calling Program Considerations.
+*      11.6.1.2: Called Program Considerations.
+*    11.6.2: GLOBAL Data Items.
+*    11.6.3: EXTERNAL Data Items.
+*  11.7: Recursive Subprograms.
+*  11.8: Combining GnuCOBOL and C Programs.
+*    11.8.1: GnuCOBOL Run-Time Library Requirements.
+*    11.8.2: String Allocation Differences Between GnuCOBOL and C.
+*    11.8.3: Matching C Data Types with GnuCOBOL USAGE's.
+*    11.8.4: GnuCOBOL Main Programs CALLing C Subprograms.
+*    11.8.5: C Main Programs Calling GnuCOBOL Subprograms.
+
+* 12: Programming Style Suggestions.
+*   12.1: Marking Changes in Programs.
+*   12.2: Data Item Coding and Naming Conventions.
+*   12.3: Table Subscripting versus Table Indexing.
+*   12.4: Copybook Naming Conventions and Usage.
+*   12.5: PROCEDURE DIVISION Sections Versus Paragraphs.
+*   12.6: COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE.
 
 * A:  Appendix A - Glossary of Terms.
 
@@ -387,6 +394,8 @@ Full Contents:
 @include 8.texi
 @include 9.texi
 @include 10.texi
+@include 11.texi
+@include 12.texi
 @include A.texi
 @include B.texi
 @include C.texi
