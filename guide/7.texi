@@ -547,6 +547,7 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 *   7.8.39.6: SET Condition Name
 *   7.8.39.7: SET Switch
 *   7.8.39.8: SET ATTRIBUTE
+*   7.8.39.9: SET LAST EXCEPTION
 @end detailmenu
 * 7.8.40: SORT
 @detailmenu
@@ -2295,7 +2296,7 @@ END-PERFORM
 @* Here's a more practical view of the difference.  Let's say that a table has 1,000 entries in it.  With a sequential search, on average, you'll have to check 500 of them to find an entry and you'll have to look at all 1,000 of them to find that an entry doesn't exist.
 @p With a binary search, express the number of entries as a binary number (1,000 = 1111101000), count the number of digits in the result (which is, essentially, what a logarithm is, when rounded up to the next integer --- the number of digits a decimal number would have if expressed in the logarithm's number base).  In this case, we end up with 10 --- THAT is the worst-case number of tests required to find an entry or to identify that it doesn't exist.  That's quite an improvement!
 @comment *********************************************************************
-@comment ** 7.8.39 SET                                                     **
+@comment ** 7.8.39 SET                                                      **
 @comment *********************************************************************
 @page
 @newsubsection{7.8.39,SET}
@@ -2308,9 +2309,10 @@ END-PERFORM
 * 7.8.39.6: SET Condition Name
 * 7.8.39.7: SET Switch
 * 7.8.39.8: SET ATTRIBUTE
+* 7.8.39.9: SET LAST EXCEPTION
 @end menu
 @comment *********************************************************************
-@comment ** 7.8.39.1 SET ENVIRONMENT                                       **
+@comment ** 7.8.39.1 SET ENVIRONMENT                                        **
 @comment *********************************************************************
 @newunit{7.8.39.1,SET ENVIRONMENT}
 @diagram{SET ENVIRONMENT,PD-SET-1,PD-SET-1,None}@p The @statement{SET ENVIRONMENT} provides a straight-forward means of setting environment values from within a program.
@@ -2329,7 +2331,7 @@ DISPLAY "VALUE" UPON ENVIRONMENT-VALUE
 SET ENVIRONMENT "VARNAME" TO "VALUE"
 @end example
 @comment *********************************************************************
-@comment ** 7.8.39.2 SET Program-Pointer                                   **
+@comment ** 7.8.39.2 SET Program-Pointer                                    **
 @comment *********************************************************************
 @page
 @newunit{7.8.39.2,SET Program-Pointer}
@@ -2343,7 +2345,7 @@ SET ENVIRONMENT "VARNAME" TO "VALUE"
 @p @item Once the address of a procedure division code area has been acquired in this way, the address could be passed to a subroutine (usually written in C) for whatever use it needs it for.  For examples of @syntax{PROGRAM-POINTER}s at work, see the discussions of the @subpgmref{CBL_ERROR_PROC} and @subpgmref{CBL_EXIT_PROC}.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.39.3 SET ADDRESS                                           **
+@comment ** 7.8.39.3 SET ADDRESS                                            **
 @comment *********************************************************************
 @page
 @newunit{7.8.39.3,SET ADDRESS}
@@ -2356,7 +2358,7 @@ SET ENVIRONMENT "VARNAME" TO "VALUE"
 @p @item If the @syntax{ADDRESS OF} clause is absent after the @syntax{TO}, the contents of @term{pointer-name-2} will serve as the address to be assigned.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.39.4 SET Index                                             **
+@comment ** 7.8.39.4 SET Index                                              **
 @comment *********************************************************************
 @page
 @newunit{7.8.39.4,SET Index}
@@ -2367,7 +2369,7 @@ SET ENVIRONMENT "VARNAME" TO "VALUE"
 @p @item Either the @syntaxref{USAGE} of @term{index-name-1} should be @syntax{INDEX}, or @term{index-name-1} must be identified in a table @syntax{INDEXED BY} clause.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.39.5 SET UP/DOWN                                           **
+@comment ** 7.8.39.5 SET UP/DOWN                                            **
 @comment *********************************************************************
 @page
 @newunit{7.8.39.5,SET UP/DOWN}
@@ -2379,7 +2381,7 @@ SET ENVIRONMENT "VARNAME" TO "VALUE"
 @p @item The typical usage when @term{identifier-1} is a @syntax{USAGE INDEX} data item is to increment it's value @syntax{UP} or @syntax{DOWN} by 1, since an index is usually being used to sequentially walk through the elements of a table.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.39.6 SET Condition Name                                    **
+@comment ** 7.8.39.6 SET Condition Name                                     **
 @comment *********************************************************************
 @page
 @newunit{7.8.39.6,SET Condition Name}
@@ -2392,7 +2394,7 @@ SET ENVIRONMENT "VARNAME" TO "VALUE"
 @p @item When specifying @syntax{FALSE}, the value assigned to each parent data item will be the value specified for the @syntax{FALSE} clause of the condition name's definition; if any @term{condition-name-1} occurrence lacks a @syntax{FALSE} clause, the @syntax{SET} statement will be rejected by the compiler.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.39.7 SET Switch                                            **
+@comment ** 7.8.39.7 SET Switch                                             **
 @comment *********************************************************************
 @page
 @newunit{7.8.39.7,SET Switch}
@@ -2404,7 +2406,7 @@ SET ENVIRONMENT "VARNAME" TO "VALUE"
 @p @item Switches may be tested via the @statementref{IF} and a Switch-Status Condition.  @xref{Switch-Status Conditions}, for more information.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.39.8 SET ATTRIBUTE                                         **
+@comment ** 7.8.39.8 SET ATTRIBUTE                                          **
 @comment *********************************************************************
 @page
 @newunit{7.8.39.8,SET ATTRIBUTE}
@@ -2416,7 +2418,19 @@ SET ENVIRONMENT "VARNAME" TO "VALUE"
 @p @item The attributes shown in the syntax diagram are the only ones that may be altered by this statement.  @xref{Data Description Clauses}, for information on their usage.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.40 SORT                                                    **
+@comment ** 7.8.39.9 SET LAST EXCEPTION                                     **
+@comment *********************************************************************
+@page
+@newunit{7.8.39.9,SET LAST EXCEPTION}
+@diagram{SET ATTRIBUTE,PD-SET-9,PD-SET-9,None}@p The @statement{SET LAST EXCEPTION} will set the last program exception status to indicate no exception.
+@enumerate
+@comment Syntactical Specifications:
+@comment Semantic Specifications:
+@p @item The predefined object reference EXCEPTION-OBJECT is set to null, and the last exception status is set to indicate no exception.
+@p @item This action resets the global exception object completely (FUNCTION EXCEPTION-{FILE, LOCATION, STATEMENT, STATUS } ), and will not show anything afterwards), no matter what the last exception was (such as a divide by zero). Use with care.
+@end enumerate
+@comment *********************************************************************
+@comment ** 7.8.40 SORT                                                     **
 @comment *********************************************************************
 @page
 @newsubsection{7.8.40,SORT}
@@ -2425,7 +2439,7 @@ SET ENVIRONMENT "VARNAME" TO "VALUE"
 * 7.8.40.2: Table SORT
 @end menu
 @comment *********************************************************************
-@comment ** 7.8.40.1 File-Based SORT                                       **
+@comment ** 7.8.40.1 File-Based SORT                                        **
 @comment *********************************************************************
 @newunit{7.8.40.1,File-Based SORT}
 @diagram{File-Based SORT,PD-SORT-1-Info,PD-SORT-1-TeX,PD-DUPLICATES}@p This format of the @statement{SORT} is designed to sort large volumes of data according to one or more key fields.
