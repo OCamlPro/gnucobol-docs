@@ -810,12 +810,11 @@ cobcrun printaccount.exe acct=6625378
 @verbatim
 # GnuCOBOL runtime configuration
 #
-# Copyright (C) 2015-2017 Free Software Foundation, Inc.
+# Copyright (C) 2015-2018 Free Software Foundation, Inc.
 # Written by Simon Sobisch, Ron Norman
 #
 # This file is part of the GnuCOBOL runtime.
 #
-
 
 #
 ## General instructions
@@ -868,6 +867,9 @@ cobcrun printaccount.exe acct=6625378
 # In most cases the environment variable name is the parameter name (in upper
 # case) with the prefix  COB_  .
 
+# Note: If you want to *slightly* speed up a program's startup time, remove all
+#       of the comments from the actual real configuration file that is processed
+
 #
 ## General environment
 #
@@ -887,9 +889,18 @@ cobcrun printaccount.exe acct=6625378
 #          Default:  false
 #          Example:  ENV_MANGLE  TRUE
 
+# Environment name:  COB_SET_DEBUG
+#   Parameter name:  debugging_mode
+#          Purpose:  to enable USE ON DEBUGGING procedures that were active
+#                    during compile-time because of WITH DEBUGGING MODE,
+#                    otherwise the code generated will be skipped
+#             Type:  boolean
+#          Default:  false
+#          Example:  COB_SET_DEBUG  1
+
 # Environment name:  COB_SET_TRACE
 #   Parameter name:  set_trace
-#          Purpose:  to enable to COBOL trace feature
+#          Purpose:  to enable COBOL trace feature
 #             Type:  boolean
 #          Default:  false
 #          Example:  SET_TRACE  TRUE
@@ -903,9 +914,9 @@ cobcrun printaccount.exe acct=6625378
 
 # Environment name:  COB_CURRENT_DATE
 #   Parameter name:  current_date
-#          Purpose:  specify an alternate Date/Time to be returned to ACCEPT clauses
-#                    this is used for testing purposes or to tweak a missing offset
-#                    partial setting is allowed
+#          Purpose:  specify an alternate Date/Time to be returned to ACCEPT
+#                    clauses this is used for testing purposes or to tweak
+#                    a missing offset partial setting is allowed
 #             Type:  numeric string in format YYYYDDMMHH24MISS or date string
 #          Default:  the operating system date is used
 #          Example:  COB_CURRENT_DATE "2016/03/16 16:40:52"
@@ -960,7 +971,7 @@ cobcrun printaccount.exe acct=6625378
 #   Parameter name:  varseq_format
 #          Purpose:  declare format used for variable length sequential files
 #                    - different types and lengths precede each record
-#                    - 'length' is the data length & does not include the prefix
+#                    - 'length' is the data length, does not include the prefix
 #             Type:  0   means 2 byte record length (big-endian) + 2 NULs
 #                    1   means 4 byte record length (big-endian)
 #                    2   means 4 byte record length (local machine int)
@@ -1093,8 +1104,18 @@ cobcrun printaccount.exe acct=6625378
 #          Default:  'end of program, please press a key to exit' (localized)
 #          Example:  COB_EXIT_MSG ''
 
-# Note: If you want to slightly speed up a program's startup time, remove all
-#       of the comments from the actual real file that is processed
+#
+## Report I/O
+#
+
+# Environment name:  COB_COL_JUST_LRC
+#   Parameter name:  col_just_lrc
+#          Purpose:  If true, then COLUMN defined as LEFT, RIGHT or CENTER
+#                    will have the data justified within the field limits
+#                    If false, then the data is just copied into the column as is
+#             Type:  boolean
+#          Default:  TRUE
+#          Example:  col_just_lrc True
 
 
 @end verbatim
