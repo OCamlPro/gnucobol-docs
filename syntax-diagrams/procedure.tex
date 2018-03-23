@@ -421,6 +421,41 @@ The ACCEPT statement transfers data provided by the user or the operating system
     \miscext{\defdmetaelement{accept-appearance-attribute-clauses}} \\
     \miscext{\defdmetaelement{accept-attribute-clauses}}
   \end{0+}
+
+
+  \begin{0+}
+    ON
+    \begin{1=}
+      \key{EXCEPTION} \\
+      \miscext{\key{ESCAPE}}
+    \end{1=}
+    \miscext{
+      \pending{
+        \begin{0-1}
+          \identifier
+        \end{0-1}
+      }
+    }
+    \imperativestatement \\
+
+    \key{NOT} ON
+    \begin{1=}
+      \key{EXCEPTION} \\
+      \miscext{\key{ESCAPE}}
+    \end{1=}
+    \miscext{
+      \pending{
+        \begin{0-1}
+          \identifier
+        \end{0-1}
+      }
+    }
+    \imperativestatement \\
+  \end{0+}
+
+  \begin{0-1}
+    \key{END-ACCEPT}
+  \end{0-1}
 \end{syntax}
 
 where \defnmetaelement{accept-appearance-attribute-clauses} is
@@ -431,7 +466,7 @@ where \defnmetaelement{accept-appearance-attribute-clauses} is
     \key{BELL} \\
     \key{BEEP}
   \end{1=} \\
-  
+
   WITH
   \begin{1=}
     \key{BLINK} \\
@@ -448,13 +483,13 @@ where \defnmetaelement{accept-appearance-attribute-clauses} is
   \end{1=} \\
 
   \pending{WITH \key{STANDARD}} \\
-  
+
   \pending{WITH \key{BACKGROUND-HIGH}} \\
-  
+
   \pending{WITH \key{BACKGROUND-STANDARD}} \\
-  
+
   \pending{WITH \key{BACKGROUND-LOW}} \\
-  
+
   WITH \key{LEFTLINE} \\
 
   WITH \key{OVERLINE} \\
@@ -474,6 +509,8 @@ where \defnmetaelement{accept-appearance-attribute-clauses} is
     \key{REVERSED} \\
     \key{REVERSE}
   \end{1=} \\
+
+  \pending{WITH \key{SAME}} \\
 
   WITH PROTECTED \key{SIZE} IS
   \begin{1=}
@@ -548,6 +585,10 @@ where \defnmetaelement{accept-attribute-clauses} is
     \key{TAB}
   \end{1=} \\
 
+  \pending{
+    WITH CONTROL \key{KEY} IN \identifier
+  }
+
   WITH
   \begin{1=}
     \key{CONVERSION} \\
@@ -589,7 +630,7 @@ where \defnmetaelement{accept-attribute-clauses} is
     \key{DEFAULT} \\
     \key{UPDATE}
   \end{1=} \\
-    
+
   \begin{1=}
     \key{WITH}
     % TIME-OUT is context-sensitive, so WITH is required.
@@ -672,6 +713,11 @@ where \defnmetaelement{accept-attribute-clauses} is
         \key{EXCEPTION} \\
         \key{ESCAPE}
       \end{1=}
+      \pending{
+        \begin{0-1}
+          \identifier
+        \end{0-1}
+      }
       \imperativestatement \\
 
       \key{NOT} ON
@@ -679,6 +725,11 @@ where \defnmetaelement{accept-attribute-clauses} is
         \key{EXCEPTION} \\
         \key{ESCAPE}
       \end{1=}
+      \pending{
+        \begin{0-1}
+          \identifier
+        \end{0-1}
+      }
       \imperativestatement \\
     \end{0+}
   \end{minipage}
@@ -693,7 +744,7 @@ where \defnmetaelement{accept-attribute-clauses} is
 \begin{syntax}[\miscextcolour]
   \pending{
     \key{ACCEPT} \identifier \key{FROM} \key{SCREEN}
-    
+
     \begin{1=}
       \begin{1=}
         \begin{1+}
@@ -923,7 +974,7 @@ The CALL statement transfers execution to another program, optionally with argum
     \end{0-1}
   }
 
-  
+
   \begin{1=}
     \begin{1=}
       \identifier \\
@@ -944,7 +995,7 @@ The CALL statement transfers execution to another program, optionally with argum
       \metaelement{program-prototype-name}
     \end{1=}
   \end{1=}
-  
+
   \miscext{
     \begin{0-1}
       \pending{\key{HANDLE} IN \identifier}
@@ -1314,7 +1365,7 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
     \identifier \\
 
     \key{LINES} \integer \\
-    
+
     \key{TITLE} IS
     \begin{1=}
       \identifier \\
@@ -1331,7 +1382,7 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
       \key{SHADOW} \\
       \key{BOXED}
     \end{0-1} \\
-    
+
     \defdmetaelement{position-clauses} \\
     \defdmetaelement{display-appearance-attribute-clauses}
   \end{1=}\ldots
@@ -1363,7 +1414,7 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
     \identifier \\
 
     \key{LINES} \integer \\
-    
+
     \key{TITLE} IS
     \begin{1=}
       \identifier \\
@@ -1417,7 +1468,7 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
     \identifier \\
 
     \key{LINES} \integer \\
-    
+
     \key{TITLE} IS
     \begin{1=}
       \identifier \\
@@ -1451,7 +1502,7 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
     \identifier \\
     \literal
   \end{1=}\ldots
-  
+
   \begin{0-1}
     \key{TITLE}
     \begin{0-1}
@@ -1597,7 +1648,7 @@ where \defnmetaelement{display-appearance-attribute-clauses} is
   \pending{WITH \key{BACKGROUND-HIGH}} \\
   \pending{WITH \key{BACKGROUND-STANDARD}} \\
   \pending{WITH \key{BACKGROUND-LOW}} \\
-  
+
   WITH \key{OVERLINE} \\
 
   WITH
@@ -1606,6 +1657,8 @@ where \defnmetaelement{display-appearance-attribute-clauses} is
     \key{REVERSED} \\
     \key{REVERSE}
   \end{1=} \\
+
+  \pending{WITH \key{SAME}} \\
 
   WITH \key{SIZE} IS
   \begin{1=}
@@ -2119,7 +2172,7 @@ The INITIATE statement allows the program to begin generating the specified repo
   \key{INQUIRE}
   \begin{1=}
     \identifier \\
-    
+
     \key{WINDOW}
     \begin{0-1}
       \identifier
@@ -2337,7 +2390,7 @@ The MERGE statements reads multiple files with the same record desciption, combi
   \begin{1=}
     \metaelement{control-attributes}
   \end{1=} \ldots
-  
+
   \begin{0-1}
     \key{END-MODIFY}
   \end{0-1}
@@ -2348,7 +2401,7 @@ The MERGE statements reads multiple files with the same record desciption, combi
   \key{MODIFY}
   \begin{1=}
     \identifier \\
-    
+
     \key{WINDOW}
     \begin{0-1}
       \identifier
@@ -2367,7 +2420,7 @@ The MERGE statements reads multiple files with the same record desciption, combi
     \identifier
   \end{1=} \ldots
 
-  
+
   \begin{0-1}
     \key{END-MODIFY}
   \end{0-1}
@@ -3677,6 +3730,23 @@ The USE statement indicates when a declarative should be executed.
       \key{EXCEPTION-CONDITION} \\
       \key{EC}
     \end{1=}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{VALIDATE statement}
+
+The VALIDATE statement performs various validation tasks for a data item.
+
+\begin{syntax}
+  \pending{
+    \key{VALIDATE}
+    \begin{1=}
+      \identifier
+    \end{1=} \dots
   }
 \end{syntax}
 

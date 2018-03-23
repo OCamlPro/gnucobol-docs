@@ -49,7 +49,7 @@
 \begin{syntax}[\miscextcolour]
   \begin{0-1}
     \key{CONFIGURATION} \key{SECTION}.
-  \end{0-1}  
+  \end{0-1}
   \newline
   \begin{0+}
     \metaelement{source-computer-paragraph} \\
@@ -239,7 +239,7 @@ where \defnmetaelement{class-clause} is
       \literal
     \end{0-1}
   \end{1=}\ldots
-  
+
   \pending{
     \begin{0-1}
       \key{IN} \metaelement{alphabet-name-1}
@@ -326,12 +326,13 @@ where \defnmetaelement{file-control-entry} is
   \begin{0-1}
     \defdmetaelement{assign-clause} \\
     \defdmetaelement{access-mode-clause} \\
-    \defdmetaelement{alternative-record-key-clause} \\
+    \defdmetaelement{alternate-record-key-clause} \\
     \defdmetaelement{collating-sequence-clause} \\
     \defdmetaelement{file-status-clause} \\
     \defdmetaelement{lock-mode-clause} \\
     \defdmetaelement{organization-clause} \\
     \defdmetaelement{padding-character-clause} \\
+    \defdmetaelement{password-clause} \\
     \defdmetaelement{record-delimiter-clause} \\
     \defdmetaelement{record-key-clause} \\
     \defdmetaelement{relative-key-clause} \\
@@ -402,34 +403,37 @@ where \defnmetaelement{access-mode-clause} is
   \end{1=}
 \end{syntax}
 
-where \defnmetaelement{alternative-record-key-clause} is
+where \defnmetaelement{alternate-record-key-clause} is
 
 \begin{syntax}
   \key{ALTERNATE} RECORD KEY IS \identifier
-  \pending{
-    \begin{0-1}
-      \begin{1=}
-        = \\
-        \key{SOURCE} IS \\
-      \end{1=}
-      \begin{1=}
-        \identifier
-      \end{1=}\ldots
-    \end{0-1}
-  }
+  \begin{0-1}
+    \begin{1=}
+      = \\
+      \key{SOURCE} IS
+    \end{1=}
+    \begin{1=}
+      \identifier
+    \end{1=}\ldots
+  \end{0-1}
   \begin{0-1}
     WITH \key{DUPLICATES}
   \end{0-1}
-  \pending{
-    \begin{0-1}
-      \key{SUPPRESS} \key{WHEN}
-      \begin{1=}
-        \key{ALL} \literal \\
-        \key{SPACE} \\
-        \key{ZERO}
-      \end{1=}
-    \end{0-1}
+  \miscext{
+    \pending{
+      \begin{0-1}
+        \key{PASSWORD} IS \identifier
+      \end{0-1}
+    }
   }
+  \begin{0-1}
+    \key{SUPPRESS} \key{WHEN}
+    \begin{1=}
+      \key{ALL} \literal \\
+      \key{SPACE} \\
+      \key{ZERO}
+    \end{1=}
+  \end{0-1}
 \end{syntax}
 
 where \defnmetaelement{collating-sequence-clause} is
@@ -446,6 +450,11 @@ where \defnmetaelement{file-status-clause} is
     \key{SORT}
   \end{0-1}
   \key{STATUS} IS \identifier
+  \miscext{
+    \begin{0-1}
+      \identifier
+    \end{0-1}
+  }
 \end{syntax}
 
 where \defnmetaelement{lock-mode-clause} is
@@ -504,14 +513,22 @@ where \defnmetaelement{padding-character-clause} is
   }
 \end{syntax}
 
+where \defnmetaelement{password-clause} is
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{PASSWORD} IS \identifier
+  }
+\end{syntax}
+
 where \defnmetaelement{record-delimiter-clause} is
 
 \begin{syntax}
   \key{RECORD} \key{DELIMITER} IS
   \begin{1=}
     \pending{\key{STANDARD-1}} \\
-    \miscext{\key{LINE-SEQUENTIAL}} \\
-    \miscext{\key{BINARY-SEQUENTIAL}}
+    \key{LINE-SEQUENTIAL} \\
+    \key{BINARY-SEQUENTIAL}
   \end{1=}
 \end{syntax}
 
@@ -521,13 +538,21 @@ where \defnmetaelement{record-key-clause} is
   \key{RECORD} KEY IS \identifier
   \begin{0-1}
     \begin{1=}
-      = \\
+      \miscext{=} \\
       \key{SOURCE} IS
     \end{1=}
     \begin{1=}
       \identifier
     \end{1=}\ldots
   \end{0-1}
+
+  \miscext{
+    \pending{
+      \begin{0-1}
+        \key{PASSWORD} IS \identifier
+      \end{0-1}
+    }
+  }
 \end{syntax}
 
 where \defnmetaelement{relative-key-clause} is

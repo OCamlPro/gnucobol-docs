@@ -313,29 +313,18 @@
   \key{SET}
   \begin{1=}
     \gnucobol{
-      \key{CONSTANT} \metaelement{compilation-variable-1} AS \literal
+      \key{CONSTANT} \metaelement{compilation-variable-1} \literal
     } \\
 
     \gnucobol{
       \metaelement{compilation-variable-2}
       \begin{0-1}
-        AS \literal
+        \literal
       \end{0-1}
     } \\
 
-    \key{SOURCEFORMAT} AS \literal \\
-
-    \begin{1=}
-      \key{NO-FOLD-COPY-NAME} \\
-      \key{NOFOLDCOPYNAME}
-    \end{1=} \\
-
-    \begin{1=}
-      \key{FOLD-COPY-NAME} \\
-      \key{FOLDCOPYNAME}
-    \end{1=}
-    AS \literal
-  \end{1=} \ldots
+    \metaelement{micro-focus-directive}
+  \end{1=}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -419,6 +408,124 @@
 
 \subsubsection{General rules}
 
+\section{Micro Focus directives}
+
+\subsection{ADDRSV directive}
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \key{ADDRSV} \\
+    \key{ADD-RSV}
+  \end{1=}
+  \literal \dots % TO-DO: Replace with MF-directive-literal
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{ADDSYN directive}
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \key{ADDSYN} \\
+    \key{ADD-SYN}
+  \end{1=}
+  \literal = \literal
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{COMP1 directive}
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \key{COMP1} \\
+    \key{COMP-1}
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{FOLDCOPYNAME directive}
+
+\format{enable}
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \key{FOLDCOPYNAME} \\
+    \key{FOLD-COPY-NAME}
+  \end{1=}
+  \literal \\
+\end{syntax}
+
+\format{disable}
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \key{NOFOLDCOPYNAME} \\
+    \key{NOFOLD-COPY-NAME} \\
+    \key{NO-FOLD-COPY-NAME}
+  \end{1=} \\
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{MAKESYN directive}
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \key{MAKESYN} \\
+    \key{MAKE-SYN}
+  \end{1=}
+  \literal = \literal
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{OVERRIDE directive}
+
+\begin{syntax}[\miscextcolour]
+  \key{OVERRIDE}
+  \begin{1=}
+    \literal = \literal
+  \end{1=} \dots
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{REMOVE directive}
+
+\begin{syntax}[\miscextcolour]
+  \key{REMOVE} \literal \dots
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{SOURCEFORMAT directive}
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \key{SOURCEFORMAT} \\
+    \key{SOURCE-FORMAT}
+  \end{1=}
+  \literal
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \section{Predefined compilation variables}
 
 GnuCOBOL defines compilation variables when certain conditions are true. If the condition associated with a variable is false, the variable is not defined.
@@ -427,12 +534,12 @@ GnuCOBOL defines compilation variables when certain conditions are true. If the 
   \begin{longtable}[!h]{p{0.2\textwidth} p{0.7\textwidth}}
     \toprule
     \textbf{Name} & \textbf{Condition} \\
-    
-    \midrule  
+
+    \midrule
     DEBUG & The -d debug flag is specified. \\
-    
+
     EXECUTABLE & The module being compiled contains the main program. \\
-    
+
     GCCOMP & The size of a COMP item is determined according to the GnuCOBOL scheme, where for a PICTURE of length:
     \begin{itemize}
     \item 1--2, the item has 1 byte
@@ -440,28 +547,28 @@ GnuCOBOL defines compilation variables when certain conditions are true. If the 
     \item 5--9, the item has 4 bytes
     \item 10--18, the item has 8 bytes.
     \end{itemize} \\
-    
+
     GNUCOBOL & GnuCOBOL is compiling the source unit. \\
-    
+
     HOSTSIGNS & A \emph{signed} packed-decimal item's value may be considered NUMERIC if the sign has value X"F". \\
-    
+
     IBMCOMP & The size of a COMP item is determined according to the IBM scheme, where for a PICTURE of length:
     \begin{itemize}
     \item 1--4, the item has 2 bytes
     \item 5--9, the item has 4 bytes
     \item 10--18, the item has 8 bytes.
     \end{itemize} \\
-    
+
     MODULE & The module being compiled does not contain the main program. \\
-    
+
     NOHOSTSIGNS & A \emph{signed} packed-decimal item's value may not be considered NUMERIC if the sign has value X"F". \\
-    
+
     NOIBMCOMP & The size of a COMP item is not determined according to the IBM scheme. \\
-    
+
     NOSTICKY-LINKAGE & Sticky-linkage (linkage-section items remaining allocated between invocations) is not enabled. \\
-    
+
     NOTRUNC & Numeric data items are truncated according to their internal representation. \\
-    
+
     OCCOMP & The size of a COMP item is determined according to the GnuCOBOL scheme, where for a PICTURE of length:
     \begin{itemize}
     \item 1--2, the item has 1 byte
@@ -469,13 +576,13 @@ GnuCOBOL defines compilation variables when certain conditions are true. If the 
     \item 5--9, the item has 4 bytes
     \item 10--18, the item has 8 bytes.
     \end{itemize} \\
-    
+
     OPENCOBOL & GnuCOBOL is compiling the source unit. \\
-    
+
     P64 & Pointers are greater than 32 bits long. \\
-    
+
     STICKY-LINKAGE & Sticky-linkage (linkage-section items remaining allocated between invocations) is enabled. \\
-    
+
     TRUNC & Numeric data items are truncated according to their PICTURE clauses. \\
     \bottomrule
   \end{longtable}
