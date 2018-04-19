@@ -186,7 +186,7 @@ END PROGRAM PROG1.
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 11.6 Sharing Data Between Calling and Called Programs            **
+@comment ** 11.6 Sharing Data Between Calling and Called Programs           **
 @comment *********************************************************************
 @page
 @newsection{11.6,Sharing Data Between Calling and Called Programs}
@@ -200,15 +200,15 @@ END PROGRAM PROG1.
 * 11.6.3: EXTERNAL Data Items.
 @end menu
 @comment *********************************************************************
-@comment ** 11.6.1 Subprogram Arguments                                      **
+@comment ** 11.6.1 Subprogram Arguments                                     **
 @comment *********************************************************************
-@newsubsection{11.5.1,Subprogram Arguments}
+@newsubsection{11.6.1,Subprogram Arguments}
 @menu
 * 11.6.1.1: Calling Program Considerations.
 * 11.6.1.2: Called Program Considerations.
 @end menu
 @comment *********************************************************************
-@comment ** 11.6.1.1 Calling Program Considerations                          **
+@comment ** 11.6.1.1 Calling Program Considerations                         **
 @comment *********************************************************************
 @newunit{11.6.1.1,Calling Program Considerations}@p Data items defined in a calling program may be passed to either type of called program (subroutine or user-defined function) as arguments.
 @p Arguments must be described in both the calling and called programs, and while they don't need to have the same names in both programs, they should be described in an identical manner with regard to the following characteristics:
@@ -218,7 +218,7 @@ END PROGRAM PROG1.
 @p @item @syntaxref{SYNCRONIZED}
 @p @item @syntaxref{USAGE}
 @end itemize
-@* A subroutine may be passed a maximum of 36 arguments; if you build the GnuCOBOL software yourself from the distributed source, you CAN change this value by altering the defined value of @syntax{COB_MAX_FIELD_PARAMS} in the "common.h" header file.  There is no built-in GnuCOBOL limit to how many arguments a user-defined function may be passed.
+@* A subroutine may be passed a maximum of 251 arguments; if you build the GnuCOBOL software yourself from the distributed source, you CAN change this value by altering the defined value of @syntax{COB_MAX_FIELD_PARAMS} in the "call.h" header file but also see 7.8.5.11 for more information.  There is no built-in GnuCOBOL limit to how many arguments a user-defined function may be passed.
 @p Whether or not changes made to an argument within a subroutine will be "visible" to the calling program depends on how the argument was passed.  There are three ways in which arguments may be passed from a calling program to a subroutine, as defined by the use of optional @syntax{BY} clauses in the @syntaxref{CALL} statement's list of arguments.
 @p As an example, the following statement passes three arguments to a subroutine --- each argument is passed differently.
 @p @example
