@@ -1,12 +1,12 @@
 @comment *********************************************************************
-@comment ** 2. Cobol Fundamentals                                           **
+@comment ** 2. COBOL Fundamentals                                           **
 @comment *********************************************************************
-@newchapter{2,Cobol Fundamentals}This chapter describes the syntax, semantics and usage of the Cobol programming language as implemented by the current version of GnuCOBOL. For the resr of this document the Language is spelt as Cobol to ease reading however the compiler name retains the mixed case of GnuCOBOL.
-@p This document is intended to serve as a full-function reference and user's guide suitable for both those readers learning Cobol for the first time as usage as a training tool, as well as those already familiar with some dialect of the Cobol language.
-@p Separate manuals exists that just contains the details of the GnuCOBOL implementation which is designed strictly for experienced Cobol programmers taken from this guide. These do NOT contain any training subject matter.
-@p These manauls are GnuCOBOL Quick Reference and this contains just the Cobol semantics in a short document while the other, GnuCOBOL Programmers Reference contains only the Cobol Language elements taken from this document again for experienced Cobol programmers needing the Cobol implementation as used in GnuCOBOL.
+@newchapter{2,Cobol Fundamentals}This chapter describes the syntax, semantics and usage of the COBOL programming language as implemented by the current version of GnuCOBOL. For the resr of this document the Language is spelt as COBOL to ease reading however the compiler name retains the mixed case of GnuCOBOL.
+@p This document is intended to serve as a full-function reference and user's guide suitable for both those readers learning COBOL for the first time as usage as a training tool, as well as those already familiar with some dialect of the COBOL language.
+@p Separate manuals exists that just contains the details of the GnuCOBOL implementation which is designed strictly for experienced COBOL programmers taken from this guide. These do NOT contain any training subject matter.
+@p These manauls are GnuCOBOL Quick Reference and this contains just the COBOL semantics in a short document while the other, GnuCOBOL Programmers Reference contains only the COBOL Language elements taken from this document again for experienced COBOL programmers needing the COBOL implementation as used in GnuCOBOL.
 @menu
-* 2.1:  The Cobol Language - The Basics.
+* 2.1:  The COBOL Language - The Basics.
 @comment @detailmenu
 *   2.1.1:  Language Reserved Words.
 *   2.1.2:  User-Defined Words.
@@ -37,9 +37,9 @@
 @comment @end detailmenu
 @end menu
 @comment *********************************************************************
-@comment ** 2.1 The Cobol Language                                          **
+@comment ** 2.1 The COBOL Language                                          **
 @comment *********************************************************************
-@newsection{2.1,The Cobol Language - The Basics}
+@newsection{2.1,The COBOL Language - The Basics}
 @menu
 * 2.1.1:  Language Reserved Words.
 * 2.1.2:  User-Defined Words.
@@ -75,7 +75,7 @@
 @comment *********************************************************************
 @newsubsection{2.1.1,Language Reserved Words}Cobol programs consist of a sequence of words and symbols.  Words, which consist of sequences of letters (upper- and/or lower-case), digits, dashes ("-") and/or underscores ("_") may have a pre-defined, specific, meaning to the compiler or may be invented by the programmer for his/her purposes.
 @p The GnuCOBOL language specification defines over 1130 @define{Reserved Words} --- words to which the compiler assigns a special meaning.
-@p Programmers may use a reserved word as @i{part} of a word they are creating themselves, but may not create their own word as an exact duplicate (without regard to case) of a Cobol reserved word. Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines and reserved words. The list of reserved words can be changed by adding or removing specific words for a given compile or as a default by use of the line command --std=. See the specific config files that are by default, held in /usr/local/share/gnucobol/config. Also using the option "FUNCTION ALL INTRINSIC", will add another 100+ reserved words.
+@p Programmers may use a reserved word as @i{part} of a word they are creating themselves, but may not create their own word as an exact duplicate (without regard to case) of a COBOL reserved word. Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines and reserved words. The list of reserved words can be changed by adding or removing specific words for a given compile or as a default by use of the line command --std=. See the specific config files that are by default, held in /usr/local/share/gnucobol/config. Also using the option "FUNCTION ALL INTRINSIC", will add another 100+ reserved words.
 @p @xref{Appendix B - Reserved Word List}, for a complete list of GnuCOBOL reserved words for the current release.
 @p For any given version of GnuCOBOL you can also list the full current set of reserved words by running cobc with --list-reserved, --list-intrinsic, --list-system as well as --list-mnemonics. Again subject to variation depending on usage of the --std line command.
 @comment *********************************************************************
@@ -83,19 +83,19 @@
 @comment *********************************************************************
 @newsubsection{2.1.2,User-Defined Words}When you write GnuCOBOL programs, you'll need to create a variety of words to represent various aspects of the program, the program's data and the external environment in which the program will run.  This will include internal names by which data files will be referenced, data item names and names of executable logic procedures.
 @p User-defined words may be composed from the characters "A" through "Z" (upper- and/or lower-case), "0" through "9", dash ("-")@idx{- (Character in Words/Names)} and underscore ("_")@idx{_ (Character in user-defined words)}.  User-defined words may neither start nor end with hyphen or underscore characters.
-@p Other programming languages provide the programmer with a similar capability of creating their own words (names) for parts of a program; Cobol is somewhat unusual when compared to other languages in that user-defined words may @i{start} with a digit.
+@p Other programming languages provide the programmer with a similar capability of creating their own words (names) for parts of a program; COBOL is somewhat unusual when compared to other languages in that user-defined words may @i{start} with a digit.
 @p With the exception of logic procedure names, which may consist entirely of nothing but digits, user-defined words must contain at least one letter.
 @comment *********************************************************************
 @comment ** 2.1.3 Case Insensitivity                                        **
 @comment *********************************************************************
-@newsubsection{2.1.3,Case Insensitivity}All Cobol implementations allow the use of both upper and lower case letters in program coding.  GnuCOBOL is completely insensitive to the case used when writing reserved words or user-defined names.  Thus, @syntax{AAAAA}, @syntax{aaaaa}, @syntax{Aaaaa} and @syntax{AaAaA} are all the same word as far as GnuCOBOL is concerned.
+@newsubsection{2.1.3,Case Insensitivity}All COBOL implementations allow the use of both upper and lower case letters in program coding.  GnuCOBOL is completely insensitive to the case used when writing reserved words or user-defined names.  Thus, @syntax{AAAAA}, @syntax{aaaaa}, @syntax{Aaaaa} and @syntax{AaAaA} are all the same word as far as GnuCOBOL is concerned.
 @p The only time the case used does matter is within quoted character strings, where character values will be exactly as coded.
-@p By convention throughout this document, Cobol reserved words will be shown entirely in UPPER-CASE while those words that were created by a programmer will be represented by tokens in mixed or lower case.
+@p By convention throughout this document, COBOL reserved words will be shown entirely in UPPER-CASE while those words that were created by a programmer will be represented by tokens in mixed or lower case.
 @p This isn't a bad practice to use in actual programs, as it leads to programs where it is much easier to distinguish reserved words from user-defined ones!
 @comment *********************************************************************
 @comment ** 2.1.4 Readability of Programs                                   **
 @comment *********************************************************************
-@newsubsection{2.1.4,Readability of Programs}The most vociferous critics of Cobol frequently focus on the wordiness of the language, often citing the case of a so-called "Hello World" program as the "proof" that Cobol is so much more tedious to program in than more "modern" languages.  This tedium is cited as such a significant impact to programmer productivity that, in their opinions, Cobol can't go away quickly enough.
+@newsubsection{2.1.4,Readability of Programs}The most vociferous critics of COBOL frequently focus on the wordiness of the language, often citing the case of a so-called "Hello World" program as the "proof" that COBOL is so much more tedious to program in than more "modern" languages.  This tedium is cited as such a significant impact to programmer productivity that, in their opinions, COBOL can't go away quickly enough.
 @p Here are two different "Hello World" applications --- one written in Java and the second in GnuCOBOL.  First, the Java version:
 @verbatim
     Class HelloWorld {
@@ -112,7 +112,7 @@
         DISPLAY "Hello World!".
 @end verbatim
 @*Both of the above programs could have been written on a single line, if desired, and both languages allow a programmer to use (or not use) indentation as they see fit to improve program readability.  Sounds like a tie so far.
-@p Let's look at how much more "wordy" Cobol is than Java.  Count the characters in the two programs.  The Java program has 95 (not counting carriage returns and any indentation).  The Cobol program has 89 (again, not counting carriage returns and indentation)!  Technically, it could have been only 65 because the @syntax{IDENTIFICATION DIVISION.} header is actually optional.  Clearly, "Hello World" doesn't look any more concise in Java than it does in Cobol.
+@p Let's look at how much more "wordy" COBOL is than Java.  Count the characters in the two programs.  The Java program has 95 (not counting carriage returns and any indentation).  The COBOL program has 89 (again, not counting carriage returns and indentation)!  Technically, it could have been only 65 because the @syntax{IDENTIFICATION DIVISION.} header is actually optional.  Clearly, "Hello World" doesn't look any more concise in Java than it does in COBOL.
 @p Let's look at a different problem.  Surely a program that asks a user to input a positive integer, generates the sum of all positive integers from 1 to that number and then prints the result will be MUCH shorter and MUCH easier to understand when coded in Java than in COBOL, right?
 @p You can be the judge.  First, the Java version:
 @verbatim
@@ -130,7 +130,7 @@
         }
     }
 @end verbatim
-@*And now for the Cobol version:
+@*And now for the COBOL version:
 @verbatim
     IDENTIFICATION DIVISION.
     PROGRAM-ID. SumOfIntegers.
@@ -147,48 +147,48 @@
     END-PERFORM
     DISPLAY "The sum is " sum.
 @end verbatim
-@*My familiarity with Cobol may be prejudicing my opinion, but it doesn't appear to me that the Java code is any simpler than the Cobol code.  In case you're interested in character counts, the Java code comes in at 278 (not counting indentation characters).  The Cobol code is 298 (274 without the @syntax{IDENTIFICATION DIVISION.} header).
-@p Despite what you've seen here, the more complex the programming logic being implemented, the more concise the Java code will appear to be, even compared to 2002-standard Cobol.  That conciseness comes with a price though --- program code readability.  Java (or C or C++ or C#) programs are generally intelligible only to trained programmers.  Cobol programs can, however,  be quite understandable by non-programmers.  This is actually a side-effect of the "wordiness" of the language, where Cobol statements use natural English words to describe their actions.  This inherent readability has come in handy many times throughout my career when I've had to learn obscure business (or legal) processes by reading the Cobol program code that supports them.
-@p The "modern" languages, like Java, also have their own "boilerplate" infrastructure overhead that must be coded in order to write the logic that is necessary in the program.  Take for example the @syntax{public static void main(String[] arg)} and @syntax{import java.util.Scanner;} statements.  The critics tend to forget about this when they criticize Cobol for it's structural "overhead".
-@p When it first was developed, Cobol's easily-readable syntax made it profoundly different from anything that had been seen before.  For the first time, it was possible to specify logic in a manner that was --- at least to some extent --- comprehensible even to non-programmers.  Take for example, the following code written in FORTRAN --- a language developed only a year before COBOL:
+@*My familiarity with COBOL may be prejudicing my opinion, but it doesn't appear to me that the Java code is any simpler than the COBOL code.  In case you're interested in character counts, the Java code comes in at 278 (not counting indentation characters).  The COBOL code is 298 (274 without the @syntax{IDENTIFICATION DIVISION.} header).
+@p Despite what you've seen here, the more complex the programming logic being implemented, the more concise the Java code will appear to be, even compared to 2002-standard COBOL.  That conciseness comes with a price though --- program code readability.  Java (or C or C++ or C#) programs are generally intelligible only to trained programmers.  COBOL programs can, however,  be quite understandable by non-programmers.  This is actually a side-effect of the "wordiness" of the language, where COBOL statements use natural English words to describe their actions.  This inherent readability has come in handy many times throughout my career when I've had to learn obscure business (or legal) processes by reading the COBOL program code that supports them.
+@p The "modern" languages, like Java, also have their own "boilerplate" infrastructure overhead that must be coded in order to write the logic that is necessary in the program.  Take for example the @syntax{public static void main(String[] arg)} and @syntax{import java.util.Scanner;} statements.  The critics tend to forget about this when they criticize COBOL for it's structural "overhead".
+@p When it first was developed, COBOL's easily-readable syntax made it profoundly different from anything that had been seen before.  For the first time, it was possible to specify logic in a manner that was --- at least to some extent --- comprehensible even to non-programmers.  Take for example, the following code written in FORTRAN --- a language developed only a year before COBOL:
 @verbatim
     EXT = PRICE * IQTY
     INVTOT = INVTOT + EXT
 @end verbatim
-@*With its original limitation on the length of variable names (one- to six-character names comprised of a letter followed by up to five letters and/or digits), it's implicit rule that variable were automatically created as real (floating-point) unless their name started with a letter in the range I-N, and its use of algebraic notation to express actions being taken, FORTRAN wasn't a particularly readable language, even for programmers.  Compare this with the equivalent Cobol code:
+@*With its original limitation on the length of variable names (one- to six-character names comprised of a letter followed by up to five letters and/or digits), it's implicit rule that variable were automatically created as real (floating-point) unless their name started with a letter in the range I-N, and its use of algebraic notation to express actions being taken, FORTRAN wasn't a particularly readable language, even for programmers.  Compare this with the equivalent COBOL code:
 @verbatim
     MULTIPLY price BY quantity GIVING extended-amount
     ADD extended-amount TO invoice-total
 @end verbatim
-@*Clearly, even a non-programmer could at least conceptually understand what was going on!   Over time, languages like FORTRAN evolved more robust variable names, and Cobol introduced a more formula-based syntactical capability for arithmetic operations, but FORTRAN was never as readable as Cobol.
-@p Because of its inherent readability, I would MUCH rather be handed an assignment to make significant changes to a Cobol program about which I know nothing than to be asked to do the same with a C, C++, C# or Java program.
-@p Those that argue that it is too boring / wasteful / time-consuming / insulting (pick one) to have to code a Cobol program "from scratch" are clearly ignorant of the following facts:
+@*Clearly, even a non-programmer could at least conceptually understand what was going on!   Over time, languages like FORTRAN evolved more robust variable names, and COBOL introduced a more formula-based syntactical capability for arithmetic operations, but FORTRAN was never as readable as COBOL.
+@p Because of its inherent readability, I would MUCH rather be handed an assignment to make significant changes to a COBOL program about which I know nothing than to be asked to do the same with a C, C++, C# or Java program.
+@p Those that argue that it is too boring / wasteful / time-consuming / insulting (pick one) to have to code a COBOL program "from scratch" are clearly ignorant of the following facts:
 @itemize @bullet
-@p @item Many systems have program-development tools available to ease the task of coding programs; those tools that concentrate on Cobol are capable of providing templates for much of the "overhead" verbiage of any program@dots{}
+@p @item Many systems have program-development tools available to ease the task of coding programs; those tools that concentrate on COBOL are capable of providing templates for much of the "overhead" verbiage of any program@dots{}
 @p @item Good programmers have --- for decades --- maintained their own skeleton "template" programs for a variety of program types; simply load a template into a text editor and you've got a good start to the program@dots{}
-@p @item Legend has it that there's actually only been ONE program ever written in COBOL, and all programs ever "written" thereafter were simply derivatives of that one.  Although this is clearly intended as a (probably) bad joke, it is nevertheless close to the very simple truth that many programmers"reuse" existing Cobol programs when creating new ones.  There's certainly nothing preventing this from happening with programs written in other languages, but it does seem to happen more in Cobol shops.  It's ironic that "code re-usability" is one of the arguments used to justify the existence of the "modern" languages.
+@p @item Legend has it that there's actually only been ONE program ever written in COBOL, and all programs ever "written" thereafter were simply derivatives of that one.  Although this is clearly intended as a (probably) bad joke, it is nevertheless close to the very simple truth that many programmers"reuse" existing COBOL programs when creating new ones.  There's certainly nothing preventing this from happening with programs written in other languages, but it does seem to happen more in COBOL shops.  It's ironic that "code re-usability" is one of the arguments used to justify the existence of the "modern" languages.
 @end itemize
 @comment *********************************************************************
 @comment ** 2.1.5 Divisions Organize Programs                               **
 @comment *********************************************************************
 @newsubsection{2.1.5,Divisions Organize Programs}COBOL programs are structured into four major areas of coding, each with its own purpose.  These four areas are known as divisions.
 @p Each division may consist of a variety of sections and each section consists of one or more paragraphs.  A paragraph consists of sentences, each of which consists of one or more statements.
-@p This hierarchical structure of program components standardizes the composition of all Cobol programs.  Much of this manual describes the various divisions, sections, paragraphs and statements that may comprise any Cobol program.
+@p This hierarchical structure of program components standardizes the composition of all COBOL programs.  Much of this manual describes the various divisions, sections, paragraphs and statements that may comprise any COBOL program.
 @comment *********************************************************************
 @comment ** 2.1.6 Copybooks                                                 **
 @comment *********************************************************************
 @newsubsection{2.1.6,Copybooks}A @define{Copybook} is a segment of program code that may be utilized by multiple programs simply by having those programs use the @statementref{COPY} to import that code.  This code may define files, data structures or procedural code.
-@p Today's current programming languages have a statement (usually, this statement is named "import", "include" or "#include") that performs this same function.  What makes the Cobol copybook feature different than the "include" facility in newer languages, however, is the fact that the @statement{COPY} can edit the imported source code as it is being copied.  This capability makes copybook libraries extremely valuable to making code reusable.
+@p Today's current programming languages have a statement (usually, this statement is named "import", "include" or "#include") that performs this same function.  What makes the COBOL copybook feature different than the "include" facility in newer languages, however, is the fact that the @statement{COPY} can edit the imported source code as it is being copied.  This capability makes copybook libraries extremely valuable to making code reusable.
 @comment *********************************************************************
 @comment ** 2.1.7 Structured Data                                           **
 @comment *********************************************************************
-@newsubsection{2.1.7,Structured Data}A contiguous area of storage within the memory space of a program that may be referenced, by name, in a Cobol program is referred to as a @define{Data Item}.  Other programming languages use the term variable, property or attribute to describe the same thing.
-@p Cobol introduced the concept of structured data.  The principle of structured data in Cobol is based on the idea of being able to group related and contiguously-allocated data items together into a single aggregate data item, called a @define{Group Item}.  For example, a 35-character 'Employee-Name' group item might consist of a 20-character 'Last-Name' followed by a 14-character 'First-Name' and a 1-character 'Middle-Initial'.
-@p A data item that isn't itself formed from other data items is referred to in Cobol as an @define{Elementary Item}.  In the previous example, 'Last-Name', 'First-Name' and 'Middle-Initial' are all elementary items.
+@newsubsection{2.1.7,Structured Data}A contiguous area of storage within the memory space of a program that may be referenced, by name, in a COBOL program is referred to as a @define{Data Item}.  Other programming languages use the term variable, property or attribute to describe the same thing.
+@p COBOL introduced the concept of structured data.  The principle of structured data in COBOL is based on the idea of being able to group related and contiguously-allocated data items together into a single aggregate data item, called a @define{Group Item}.  For example, a 35-character 'Employee-Name' group item might consist of a 20-character 'Last-Name' followed by a 14-character 'First-Name' and a 1-character 'Middle-Initial'.
+@p A data item that isn't itself formed from other data items is referred to in COBOL as an @define{Elementary Item}.  In the previous example, 'Last-Name', 'First-Name' and 'Middle-Initial' are all elementary items.
 @comment *********************************************************************
 @comment ** 2.1.8 Files                                                     **
 @comment *********************************************************************
-@newsubsection{2.1.8,Files}One of Cobol's strengths is the wide variety of data files it is capable of accessing.  GnuCOBOL programs, like those created with other Cobol implementations, need to have the structure of any files they will be reading and/or writing described to them.  The highest-level characteristic of a file's structure is defined by specifying the organization of the file, as follows:
+@newsubsection{2.1.8,Files}One of COBOL's strengths is the wide variety of data files it is capable of accessing.  GnuCOBOL programs, like those created with other COBOL implementations, need to have the structure of any files they will be reading and/or writing described to them.  The highest-level characteristic of a file's structure is defined by specifying the organization of the file, as follows:
 @p @table @asis
 @p @item @syntaxidx{ORGANIZATION LINE SEQUENTIAL}@idx{ORGANISATION LINE SEQUENTIAL}
 @p These are files with the simplest of all internal structures.  Their contents are structured simply as a series of identically- or differently-sized data records, each terminated by a special end-of-record delimiter character.  An ASCII line-feed character (hexadecimal 0A) is the end-of-record delimiter character used by any UNIX or pseudo-UNIX (MinGW, Cygwin, OSX) GnuCOBOL build.  A truly native Windows build would use a carriage-return, line-feed (hexadecimal 0D0A) sequence.
@@ -238,21 +238,21 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.9. Table Handling                                           **
 @comment *********************************************************************
-@newsubsection{2.1.9,Table Handling}Other programming languages have arrays, Cobol has tables.  They're basically the same thing.  There are two special statements that exist in the Cobol language --- @syntaxref{SEARCH} and @syntaxref{SEARCH ALL} --- that make finding data in a table easy.
+@newsubsection{2.1.9,Table Handling}Other programming languages have arrays, COBOL has tables.  They're basically the same thing.  There are two special statements that exist in the COBOL language --- @syntaxref{SEARCH} and @syntaxref{SEARCH ALL} --- that make finding data in a table easy.
 @p The first can search a table sequentially, stopping only when either a table entry matching one of any number of search conditions is found, or when all table entries have been checked against the search criteria and none matched any of those criteria.
 @p The second can perform an extremely fast search against a table sorted by and searched against a key field contained in each table entry.  The algorithm used for such a search is a binary search (also known as a half-interval search).  This algorithm ensures that only a small number of entries in the table need to be checked in order to find a desired entry or to determine that the desired entry doesn't exist in the table.  The larger the table, the more effective this search becomes.  For example, a binary search of a table containing 32,768 entries will be able to locate a particular entry or determine the entry doesn't exist by looking at no more than fifteen (15) entries!  The algorithm is explained in detail in the documentation of the @statementref{SEARCH ALL}.
-@p Finally, Cobol has the ability to perform in-place sorts of the data that is found in a table.
+@p Finally, COBOL has the ability to perform in-place sorts of the data that is found in a table.
 @comment *********************************************************************
 @comment ** 2.1.10. Sorting and Merging Data                                **
 @comment *********************************************************************
-@newsubsection{2.1.10,Sorting and Merging Data}The Cobol language includes a powerful @statementref{SORT} that can sort large amounts of data according to arbitrarily complex key structures.  This data may originate from within the program or may be contained in one or more external files.  The sorted data may be written automatically to one or more output files or may be processed, record-by-record in the sorted sequence.
+@newsubsection{2.1.10,Sorting and Merging Data}The COBOL language includes a powerful @statementref{SORT} that can sort large amounts of data according to arbitrarily complex key structures.  This data may originate from within the program or may be contained in one or more external files.  The sorted data may be written automatically to one or more output files or may be processed, record-by-record in the sorted sequence.
 @p A companion statement --- @syntaxref{MERGE} --- can combine the contents of multiple files together, provided those files are all pre-sorted in a similar manner according to the same key structure.  The resulting output will consist of the contents of all of the input files, merged together and sequenced according to the common key structure(s).  The output generated by a @statement{MERGE} may be written automatically to one or more output files or may be processed internally by the program.
 @p A special form of the @statement{SORT} also exists just to sort the data that resides in a table.  This is particularly useful if you wish to use @syntax{SEARCH ALL} against the table.
 @comment *********************************************************************
 @comment ** 2.1.11. String Manipulation Features                            **
 @comment *********************************************************************
 @newsubsection{2.1.11,String Manipulation Features}There have been programming languages designed specifically for the processing of text strings, and there have been programming languages designed for the sole purpose of performing high-powered numerical computations.  Most programming languages fall somewhere in the middle.
-@p Cobol is no exception, although it does include some very powerful string manipulation capabilities; GnuCOBOL actually has even more string-manipulation capabilities than many other Cobol implementations.  The following summarizes GnuCOBOL's string-processing capabilities:
+@p COBOL is no exception, although it does include some very powerful string manipulation capabilities; GnuCOBOL actually has even more string-manipulation capabilities than many other COBOL implementations.  The following summarizes GnuCOBOL's string-processing capabilities:
 @p @b{Concatenate two or more strings:}
 @itemize @bullet
 @p @item @intrinsicref{CONCATENATE}.
@@ -346,7 +346,7 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.12. Screen Formatting Features                              **
 @comment *********************************************************************
-@newsubsection{2.1.12,Screen Formatting Features}The COBOL2002 standard formalizes extensions to the Cobol language that allow for the definition and processing of text-based screens, as is a typical function on mainframe and midframe computers as well as on many point-of-sale (i.e. "cash register") systems.  GnuCOBOL implements virtually all the screen-handling features described by COBOL2002.
+@newsubsection{2.1.12,Screen Formatting Features}The COBOL2002 standard formalizes extensions to the COBOL language that allow for the definition and processing of text-based screens, as is a typical function on mainframe and midframe computers as well as on many point-of-sale (i.e. "cash register") systems.  GnuCOBOL implements virtually all the screen-handling features described by COBOL2002.
 @p These features allow fields to be displayed at specific row/column positions, various colors and video attributes to be assigned to screen fields and the pressing of specific function keys (F1, F2, @dots{}) to be detectable.  All of this takes place through the auspices of the @syntaxref{SCREEN SECTION} and special formats of the @statementref{ACCEPT} and the @statementref{DISPLAY}.
 @p The COBOL2002 standard, and therefore GnuCOBOL, only covers textual user interface (TUI) screens (those comprised of ASCII characters presented using a variety of visual attributes) and not the more-advanced graphical user interface (GUI) screen design and processing capabilities built into most modern operating systems.  There are subroutine-based packages available that can do full GUI presentation --- most of which may be called by GnuCOBOL programs, with a moderate research time investment (Tcl/Tk, for example) --- but none are currently included with GnuCOBOL.
 @menu
@@ -442,7 +442,7 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.13. Report Writer Features                                  **
 @comment *********************************************************************
-@newsubsection{2.1.13,Report Writer Features}GnuCOBOL includes an implementation of the Report Writer Control System, or RWCS. The reportwriter module is now fully implemented as of version 3.0. This is a standardized, optional add-on feature to the Cobol language which automates much of the mechanics involved in the generation of printed reports by:
+@newsubsection{2.1.13,Report Writer Features}GnuCOBOL includes an implementation of the Report Writer Control System, or RWCS. The reportwriter module is now fully implemented as of version 3.0. This is a standardized, optional add-on feature to the COBOL language which automates much of the mechanics involved in the generation of printed reports by:
 @enumerate
 @p @item Controlling the pagination of reports, including:
 @enumerate A
@@ -483,7 +483,7 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @p @item Data items with an explicit @syntaxref{VALUE} clause in their definition will be initialized to that specific value.
 @end itemize
 @* The various sections of the data division each have their own rules as to when the actions described above will occur --- consult the documentation on those sections for additional information.
-@p These default initialization rules can vary quite substantially from one Cobol implementation to another.  For example, it is quite common for data division storage to be initialized to all binary zeros except for those data items where @syntax{VALUE} clauses are present.  Take care when working with applications originally developed for another Cobol implementation to ensure that GnuCOBOL's default initialization rules won't prove disruptive.
+@p These default initialization rules can vary quite substantially from one COBOL implementation to another.  For example, it is quite common for data division storage to be initialized to all binary zeros except for those data items where @syntax{VALUE} clauses are present.  Take care when working with applications originally developed for another COBOL implementation to ensure that GnuCOBOL's default initialization rules won't prove disruptive.
 @p @item A programmer may use the @statementref{INITIALIZE} to initialise any group or elementary data item at any time.  This statement provides far more initialization options than just the simple rules stated above.
 @p @item When the @statementref{ALLOCATE} statement is used to allocate a data item or to simply allocate an area of storage of a size specified on the @syntax{ALLOCATE}, that allocation may occur with or without initialization, as per the programmer's needs.
 @end enumerate
@@ -494,7 +494,7 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @p @table @t
 @p @item MANDATORY-RESERVED-WORD
 @itemx ~~~~~~~~~~~~~~~~~~~~~~~
-@p Reserved words of the Cobol language will appear in UPPER-CASE.  When they appear underlined, as this one is, they are required reserved words.
+@p Reserved words of the COBOL language will appear in UPPER-CASE.  When they appear underlined, as this one is, they are required reserved words.
 @p @item OPTIONAL-RESERVED-WORD
 @p When reserved words appear without underlining, as this one is, they are optional; such reserved words are available in the language syntax merely to improve readability --- their presence or absence has no effect upon the program.
 @p @item ABBREVIATION
@@ -503,7 +503,7 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @p @item substitutable-items
 @p Generic terms representing user-defined substitutable items will be shown entirely in lower-case in syntax diagrams.  When such items are referenced in text, they will appear as @term{substitutable-items}.
 @p @item Complex-Syntax-Clause
-@p Items appearing in Mixed Case within a syntax diagram represent complex clauses of other syntax elements that may appear in that position.  Some Cobol syntax gets quite complicated, and using a convention such as this significantly reduces the complexity of a syntax diagram.  When such items are referenced in text, they will appear as @clause{Complex-Syntax-Clause}.
+@p Items appearing in Mixed Case within a syntax diagram represent complex clauses of other syntax elements that may appear in that position.  Some COBOL syntax gets quite complicated, and using a convention such as this significantly reduces the complexity of a syntax diagram.  When such items are referenced in text, they will appear as @clause{Complex-Syntax-Clause}.
 @p @item [ ]
 @p Square bracket meta characters on syntax diagrams document language syntax that is optional.  The [] characters themselves should not be coded.  If a syntax diagram contains "a [b] c", the "a" and "c" syntax elements are mandatory but the "b" element is optional.
 @p @item |
@@ -526,9 +526,9 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.16. Format of Program Source Lines                          **
 @comment *********************************************************************
-@newsubsection{2.1.16,Format of Program Source Lines}Prior to the COBOL2002 standard, source statements in Cobol programs were structured around 80-column punched cards.  This means that each source line in a Cobol program consisted of five different "areas", defined by their column number(s).
-@p As of the COBOL2002 standard, a second mode now exists for Cobol source code statements --- in this mode of operation, Cobol statements may each be up to 255 characters long, with no specific requirements as to what should appear in which columns.
-@p Of course, in keeping with the long-standing Cobol tradition of maintaining backwards compatibility with older standards, programmers (and, of course, compliant Cobol compilers) are capable of working in either mode.  It is even possible to switch back and forth in the same program.  The  terms @define{Fixed Format Mode}@idx{Source Line Format, Fixed} and @define{Free Format Mode}@idx{Source Line Format, Free} are used to refer to these two modes of source code formatting.
+@newsubsection{2.1.16,Format of Program Source Lines}Prior to the COBOL2002 standard, source statements in COBOL programs were structured around 80-column punched cards.  This means that each source line in a COBOL program consisted of five different "areas", defined by their column number(s).
+@p As of the COBOL2002 standard, a second mode now exists for COBOL source code statements --- in this mode of operation, COBOL statements may each be up to 255 characters long, with no specific requirements as to what should appear in which columns.
+@p Of course, in keeping with the long-standing COBOL tradition of maintaining backwards compatibility with older standards, programmers (and, of course, compliant COBOL compilers) are capable of working in either mode.  It is even possible to switch back and forth in the same program.  The  terms @define{Fixed Format Mode}@idx{Source Line Format, Fixed} and @define{Free Format Mode}@idx{Source Line Format, Free} are used to refer to these two modes of source code formatting.
 @p The GnuCOBOL compiler (cobc) supports both of these source line format modes, defaulting to Fixed Format Mode lacking any other information.
 @p The compiler can be instructed to operate in either mode in any of the following four ways:
 @enumerate
@@ -538,12 +538,12 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @p @item You may use the @directiveref{>>SOURCE} to switch to Free Format Mode (@syntax{>>SOURCE FORMAT IS FREE}) or Fixed Format Mode (@syntax{>>SOURCE FORMAT IS FIXED}.
 @end enumerate
 @* Using methods 2-4 above, you may switch back and forth between the two formats at will.
-@p The last three options above are all equivalent; all three are supported by GnuCOBOL so that source code compatibility may be maintained with a wide variety of other Cobol implementations.  With all three, if the compiler is @i{currently} in Fixed Format Mode, the @syntax{>>} must begin in column 8 or beyond, provided no part of the directive extends past column 72.  If the compiler is currently in Free Format Mode, the @syntax{>>} may appear in any column, provided no part of the directive extends past column 255.
+@p The last three options above are all equivalent; all three are supported by GnuCOBOL so that source code compatibility may be maintained with a wide variety of other COBOL implementations.  With all three, if the compiler is @i{currently} in Fixed Format Mode, the @syntax{>>} must begin in column 8 or beyond, provided no part of the directive extends past column 72.  If the compiler is currently in Free Format Mode, the @syntax{>>} may appear in any column, provided no part of the directive extends past column 255.
 @p Depending upon which source format mode the compiler is in, you will need to follow various rules for the format mode currently in effect.  These rules are presented in the upcoming paragraphs.
 @p The following discussion presents the various components of every GnuCOBOL source line record when the compiler is operating in Fixed Format Mode.  Remember that this is the default mode for the GnuCOBOL compiler.
 @table @b
 @p @item 1-6@idx{Sequence Number Area (Columns 1-6)}@idx{Columns 1-6 (Sequence Number Area)} - Sequence Number Area
-@p Historically, back in the days when punched-cards were used to submit Cobol program source to a Cobol compiler, this part of a Cobol statement was reserved for a six-digit sequence number.  While the contents of this area are ignored by Cobol compilers, it existed so that a program actually punched on 80-character cards could --- if the card deck were dropped on the floor --- be run through a card sorter machine and restored to it's proper sequence.  Of course, this isn't necessary today; if truth be told, it hasn't been necessary for a long time.
+@p Historically, back in the days when punched-cards were used to submit COBOL program source to a COBOL compiler, this part of a COBOL statement was reserved for a six-digit sequence number.  While the contents of this area are ignored by COBOL compilers, it existed so that a program actually punched on 80-character cards could --- if the card deck were dropped on the floor --- be run through a card sorter machine and restored to it's proper sequence.  Of course, this isn't necessary today; if truth be told, it hasn't been necessary for a long time.
 @p @xref{Marking Changes in Programs}, for discussion of a valuable use to which the sequence number area may be put today.
 @p @item 7@idx{Indicator Area (Column 7)}@idx{Column 7 (Indicator Area)} - Indicator Area
 @p Column 7 serves as an indicator in which one of five possible values will appear --- space, @syntax{D} (or @syntax{d}), @syntax{-} (dash), @syntax{/} or @syntax{*}.  The meanings of these characters are as follows:
@@ -562,9 +562,9 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @* @item 8-11@idx{Area "A" (Columns 8-11)}@idx{Columns 8-11 (Area "A")} - Area "A"
 @p Language DIVISION, SECTION and paragraph section headers must begin in Area A, as must the level numbers 01, 77 in data description entries and the "FD" and "SD" file and SORT description headers.
 @p @item 12-72@idx{Area "B" (Columns 12-72)}@idx{Columns 12-72 (Area "B")} - Area "B"
-@p All other Cobol programming language components are coded in these columns.
+@p All other COBOL programming language components are coded in these columns.
 @p @item 73-80@idx{Program Name Area (Columns 73-80)}@idx{Columns 73-80 (Program Name Area)} - Program Name Area
-@p This is another obsolete area of Cobol statements.  This part of every statement also hails back to the day when programs were punched on cards; it was expected that the name of the program (or at least the first 8 characters of it) would be punched here so that --- if a dropped Cobol source deck contained more than one program --- that handy card sorter machine could be used to first separate the cards by program name and then sort them by sequence number.  Today's Cobol compilers (including GnuCOBOL) simply ignore anything past column 72.
+@p This is another obsolete area of COBOL statements.  This part of every statement also hails back to the day when programs were punched on cards; it was expected that the name of the program (or at least the first 8 characters of it) would be punched here so that --- if a dropped COBOL source deck contained more than one program --- that handy card sorter machine could be used to first separate the cards by program name and then sort them by sequence number.  Today's COBOL compilers (including GnuCOBOL) simply ignore anything past column 72.
 @p @xref{Marking Changes in Programs}, for discussion of a valuable use to which the program name area may be put today.
 @end table
 @comment *********************************************************************
@@ -599,7 +599,7 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @p @item As with the other divisions, the procedure division may consist of sections and those sections may --- in turn --- consist of paragraphs.  Unlike the other divisions, however, section and paragraph names are defined by the programmer, and there may not be any defined at all if the programmer so wishes.
 @p @item Each Event-Handler-Routine will be a separate section devoted to trapping a particular run-time event.  If there are no such sections coded, the @syntax{DECLARATIVES.} and @syntax{END DECLARATIVES.} lines may be omitted.
 @end itemize
-@item A single file of Cobol source code may contain:
+@item A single file of COBOL source code may contain:
 @itemize @bullet
 @p @item A portion of a program; these files are known as copybooks
 @p @item A single program.  In this case, the @syntax{END PROGRAM} or @statement{END FUNCTION} is optional.
@@ -618,7 +618,7 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @item @p
 @item Full-line comments @tab @b{FIXED} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding an asterisk ("*") in column seven (7).@idx{* In Column 7 (Comment)} @p @b{FREE} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding the sequence "*>", starting in any column, as the first non-blank characters on the line.@idx{*> (Comment)}
 @item @p
-@item Full-line comments with form-feed @tab @b{FIXED} --- An entire source line will be treated as a comment by coding a slash ("/") in column seven (7).  Many Cobol compilers will also issue a form-feed in the program listing so that the "/" line is at the top of a new page.  The GnuCOBOL compiler does not support this form-feed behaviour. @p The GnuCOBOL Interactive Compiler, or GCic, @i{does} support this form-feed behaviour when it generates program source listings!  @xref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}, for the source and cross-reference listing (produced by GCic) of this program --- you can see the effect of "/" there.@idx{/ In Column 7 (Comment)} @p @b{FREE} --- There is no Free Source Mode equivalent to "/".
+@item Full-line comments with form-feed @tab @b{FIXED} --- An entire source line will be treated as a comment by coding a slash ("/") in column seven (7).  Many COBOL compilers will also issue a form-feed in the program listing so that the "/" line is at the top of a new page.  The GnuCOBOL compiler does not support this form-feed behaviour. @p The GnuCOBOL Interactive Compiler, or GCic, @i{does} support this form-feed behaviour when it generates program source listings!  @xref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}, for the source and cross-reference listing (produced by GCic) of this program --- you can see the effect of "/" there.@idx{/ In Column 7 (Comment)} @p @b{FREE} --- There is no Free Source Mode equivalent to "/".
 @item @p
 @item Partial-line comments @tab @b{FIXED} --- Any text following the character sequence "*>" on a source line will be treated as a comment.  The "*" must appear in column seven (7) or beyond. @p @b{FREE} --- Any text following the character sequence "*>" on a source line will be treated as a comment.  The "*" may appear in any column.
 @item @p
@@ -679,7 +679,7 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @t{                                                    "be continued.".}
 @end smallexample
 @* If your program is using Free Format Mode, there's less need to continue long alphanumeric literals because statements may be as long as 255 characters.
-@p Numeric literals may be split across lines just as alphanumeric literals are, using either of the above techniques and both reserved and user-defined words can be split across lines too (using the first technique).  The continuation of numeric literals and user-defined/reserved words is provided merely to provide compatibility with older Cobol versions and programs, but should not be used with new programs --- it just makes for ugly-looking programs.
+@p Numeric literals may be split across lines just as alphanumeric literals are, using either of the above techniques and both reserved and user-defined words can be split across lines too (using the first technique).  The continuation of numeric literals and user-defined/reserved words is provided merely to provide compatibility with older COBOL versions and programs, but should not be used with new programs --- it just makes for ugly-looking programs.
 @comment *********************************************************************
 @comment ** 2.1.19.3 Figurative Constants                                   **
 @comment *********************************************************************
@@ -716,7 +716,7 @@ CALL "SUBPGM" USING SPACES
 @comment ** 2.1.20 Punctuation                                              **
 @comment *********************************************************************
 @newsubsection{2.1.20,Punctuation}A comma (",")@idx{, (Punctuation)} or a semicolon (";")@idx{; (Punctuation)} may be inserted into a GnuCOBOL program to improve readability at any spot where white space would be legal, except of course within alphanumeric literals (unless you actually @i{mean} for those characters to be part of the alphanumeric literals value).  These characters are always optional.
-@p The use of comma characters can cause confusion to a Cobol compiler if the @syntax{DECIMAL POINT IS COMMA} clause is used in the @syntaxref{SPECIAL-NAMES} paragraph, as might be the case in Europe.  The following statement, which calls a subroutine passing it two arguments (the numeric constants 1 and 2):
+@p The use of comma characters can cause confusion to a COBOL compiler if the @syntax{DECIMAL POINT IS COMMA} clause is used in the @syntaxref{SPECIAL-NAMES} paragraph, as might be the case in Europe.  The following statement, which calls a subroutine passing it two arguments (the numeric constants 1 and 2):
 @p @center @t{CALL "SUBROUTINE" USING 1,2}
 @p Would --- with @syntax{DECIMAL POINT IS COMMA} in effect --- actually be interpreted as a subroutine call with 1 argument (the non-integer numeric literal whose value is 1 and 2 tenths).  For this reason, it is best to always follow a comma with a space.
 @p The period character (".")@idx{. (Punctuation)} is used to terminate statements in the identification, environment and data divisions and sentences in the procedure division.  Syntax diagrams describing code in the first three divisions will explicitly show where periods need to occur.
@@ -725,13 +725,13 @@ CALL "SUBPGM" USING SPACES
 @comment ** 2.1.21 Interfacing to Other Environments                        **
 @comment *********************************************************************
 @newsubsection{2.1.21,Interfacing to Other Environments}
-@p Through the @statement{CALL}, Cobol programs may invoke other Cobol programs serving as subprograms.  This is quite similar to cross-program linkage capabilities provided by other languages.  In GnuCOBOL's case, the @syntax{CALL} facility is powerful enough to be tailored to the point where a GnuCOBOL program can communicate with operating system, database management and run-time library APIs, even if they weren't written in Cobol themselves.  @xref{GnuCOBOL Main Programs CALLing C Subprograms}, for an example of how a GnuCOBOL program could invoke a C-language subprogram, passing information back and forth between the two.
+@p Through the @statement{CALL}, COBOL programs may invoke other COBOL programs serving as subprograms.  This is quite similar to cross-program linkage capabilities provided by other languages.  In GnuCOBOL's case, the @syntax{CALL} facility is powerful enough to be tailored to the point where a GnuCOBOL program can communicate with operating system, database management and run-time library APIs, even if they weren't written in COBOL themselves.  @xref{GnuCOBOL Main Programs CALLing C Subprograms}, for an example of how a GnuCOBOL program could invoke a C-language subprogram, passing information back and forth between the two.
 @p The fact that GnuCOBOL supports a full-featured two-way interface with C-language programs means that --- even if you cannot access a library API directly --- you could always do so via a small C "wrapper" program that is @syntax{CALL}ed by a GnuCOBOL program.
 @comment *********************************************************************
-@comment ** 2.2 The Cobol Language - Advanced Techniques                    **
+@comment ** 2.2 The COBOL Language - Advanced Techniques                    **
 @comment *********************************************************************
 @page
-@newsection{2.2,The Cobol Language - Advanced Techniques}
+@newsection{2.2,The COBOL Language - Advanced Techniques}
 @menu
 * 2.2.1:  Table References.
 * 2.2.2:  Qualification of Data Names.
@@ -758,7 +758,7 @@ CALL "SUBPGM" USING SPACES
 @comment *********************************************************************
 @comment ** 2.2.1 Table References                                          **
 @comment *********************************************************************
-@newsubsection{2.2.1,Table References}COBOL uses parenthesis to specify the subscripts used to reference table entries (tables in Cobol are what other programming languages refer to as arrays).
+@newsubsection{2.2.1,Table References}COBOL uses parenthesis to specify the subscripts used to reference table entries (tables in COBOL are what other programming languages refer to as arrays).
 @p For example, observe the following data structure which defines a 4 column by 3 row grid of characters:
 @p @example
 01  GRID.
@@ -774,13 +774,13 @@ I J K L
 @end example
 @* Then @syntax{GRID-CHARACTER (2, 3)} references the "G" and @syntax{GRID-CHARACTER (3, 2)} references the "J".
 @p Subscripts may be specified as numeric (integer) literals, numeric (integer) data items, data items created with any of the picture-less integer @syntaxref{USAGE} specifications, @syntax{USAGE INDEX} data items or arithmetic expressions resulting in a non-zero integer value.
-@p In the above examples, a comma is used as a separator character between the two subscript values; semicolons (@syntax{;}) are also valid subscript separator characters, as are spaces!  The use of a comma or semicolon separator in such a situation is technically optional, but by convention most Cobol programmers use one or the other.  The use of no separator character (other than a space) is not recommended, even though it is syntactically correct, as this practice can lead to programmer-unfriendly code.  It isn't too difficult to read and understand @syntax{GRID-CHARACTER(2 3)}, but it's another story entirely when trying to comprehend @syntax{GRID-CHARACTER(I + 1 J / 3)} (instead of @syntax{GRID-CHARACTER(I + 1, J / 3)}).  The compiler accepts it, but too much of this would make @i{my} head hurt.
+@p In the above examples, a comma is used as a separator character between the two subscript values; semicolons (@syntax{;}) are also valid subscript separator characters, as are spaces!  The use of a comma or semicolon separator in such a situation is technically optional, but by convention most COBOL programmers use one or the other.  The use of no separator character (other than a space) is not recommended, even though it is syntactically correct, as this practice can lead to programmer-unfriendly code.  It isn't too difficult to read and understand @syntax{GRID-CHARACTER(2 3)}, but it's another story entirely when trying to comprehend @syntax{GRID-CHARACTER(I + 1 J / 3)} (instead of @syntax{GRID-CHARACTER(I + 1, J / 3)}).  The compiler accepts it, but too much of this would make @i{my} head hurt.
 @comment *********************************************************************
 @comment ** 2.2.2 Qualification of Data Names                               **
 @comment *********************************************************************
 @page
 @newsubsection{2.2.2,Qualification of Data Names}COBOL allows data names to be duplicated within a program, provided references to those data names may be made in such a manner as to make those references unique through a process known as qualification.
-@p To see qualification at work, observe the following segments of two data records defined in a Cobol program:
+@p To see qualification at work, observe the following segments of two data records defined in a COBOL program:
 @verbatim
 01  EMPLOYEE.                     01  CUSTOMER.
     05 MAILING-ADDRESS.               05 MAILING-ADDRESS.
@@ -794,7 +794,7 @@ I J K L
 @* Now, let's deal with the problem of setting the CITY portion of an EMPLOYEEs MAILING-ADDRESS to "Philadelphia".  Clearly, @syntax{MOVE 'Philadelphia' TO CITY} cannot work because the compiler will be unable to determine which of the two CITY fields you are referring to.
 @p In an attempt to correct the problem, we could qualify the reference to CITY as @syntax{MOVE 'Philadelphia' TO CITY OF MAILING-ADDRESS}.
 @p Unfortunately that too is insufficient because it still insufficiently specifies which CITY is being referenced.  To truly identify which specific CITY you want, you'd have to code @syntax{MOVE 'Philadelphia' TO CITY OF MAILING-ADDRESS OF EMPLOYEE}.
-@p Now there can be no confusion as to which CITY is being changed.  Fortunately, you don't need to be quite so specific; Cobol allows intermediate and unnecessary qualification levels to be omitted.  This allows @syntax{MOVE 'Philadelphia' TO CITY OF EMPLOYEE} to do the job nicely.
+@p Now there can be no confusion as to which CITY is being changed.  Fortunately, you don't need to be quite so specific; COBOL allows intermediate and unnecessary qualification levels to be omitted.  This allows @syntax{MOVE 'Philadelphia' TO CITY OF EMPLOYEE} to do the job nicely.
 @p If you need to qualify a reference to a table, do so by coding something like @syntax{@term{identifier-1} OF @term{identifier-2} ( subscript(s) )}.
 @p The reserved word @syntax{IN} may be used in lieu of @syntax{OF}.
 @comment *********************************************************************
@@ -803,7 +803,7 @@ I J K L
 @page
 @newsubsection{2.2.3,Reference Modifiers}
 @diagram{Reference Modifier (Format 1),PD-Ref-Mod-1,PD-Ref-Mod-1,None}
-@diagram{Reference Modifier (Format 2),PD-Ref-Mod-2,PD-Ref-Mod-2,None}@p The Cobol '85 standard introduced the concept of a reference modifier to facilitate references to only a portion of a data item; GnuCOBOL fully supports reference modification.
+@diagram{Reference Modifier (Format 2),PD-Ref-Mod-2,PD-Ref-Mod-2,None}@p The COBOL '85 standard introduced the concept of a reference modifier to facilitate references to only a portion of a data item; GnuCOBOL fully supports reference modification.
 @p The @term{start} value indicates the starting character position being referenced (character position values start with 1, not 0 as is the case in some programming languages) and @term{length} specifies how many characters are wanted.
 @p If no @term{length} is specified, a value equivalent to the remaining character positions from @term{start} to the end of @term{identifier-1} or to the end of the value returned by the function will be assumed.
 @p Both @term{start} and @term{length} may be specified as integer numeric literals, integer numeric data items or arithmetic expressions with an integer value.
@@ -840,7 +840,7 @@ I J K L
 @item Level 2 --- Exponentiation (@syntax{**} or @syntax{^})
 @cindex ** (Exponentiation)
 @cindex ^ (Exponentiation)
-@p The value of the left argument is raised to the power indicated by the right argument.  Non-integer powers are allowed.  The @syntax{^} and @syntax{**} operators are both supported to provide compatibility with programs written for other Cobol implementations.
+@p The value of the left argument is raised to the power indicated by the right argument.  Non-integer powers are allowed.  The @syntax{^} and @syntax{**} operators are both supported to provide compatibility with programs written for other COBOL implementations.
 @item Level 3 --- Multiplication (@syntax{*}) and division (@syntax{/})
 @cindex * (Multiplication)
 @cindex / (Division)
@@ -870,7 +870,7 @@ COMPUTE I=C-D+1
 @p @item If there is no @syntax{C-D} data item, then are there @syntax{C} and @syntax{D} data items?  If not, the @syntax{COMPUTE} statement is in error.  If there are, however, then code will be generated to subtract the value of @syntax{D} from @syntax{C} and add 1 to the result.
 @end enumerate
 @* Had there been at least one space to the left and/or the right of the @syntax{-}, there would have been no ambiguity --- the compiler would have been forced to use the individual @syntax{C} and @syntax{D} data items.
-@p To avoid any possible ambiguity, as well as to improve program readability, it's considered good Cobol programming practice to always code at least one space to both the left and right of every operator in arithmetic expressions as well as the @syntax{=} sign on a COMPUTE.
+@p To avoid any possible ambiguity, as well as to improve program readability, it's considered good COBOL programming practice to always code at least one space to both the left and right of every operator in arithmetic expressions as well as the @syntax{=} sign on a COMPUTE.
 @p Here are some examples of how the precedence of operations affects the results of arithmetic expressions (all examples use numeric literals, to simplify the discussion).
 @p @multitable @columnfractions .3 .1 .6
 @headitem Expression @tab Result @tab Notes
@@ -945,7 +945,7 @@ IF XL
 @p @item The @syntax{NOT} option reverses the TRUE/FALSE value of the condition.
 @p @item Note that what constitutes a "letter" (or upper/lower case too, for that manner) may be influenced through the use of @syntax{CHARACTER CLASSIFICATION} specifications in the @syntaxref{OBJECT-COMPUTER} paragraph.
 @p @item Only data items whose @syntaxref{USAGE} is either explicitly or implicitly defined as @syntax{DISPLAY} may be used in @syntax{NUMERIC} or any of the @syntax{ALPHABETIC} class conditions.
-@p @item Some Cobol implementations disallow the use of group items or @syntax{PIC A} items with @syntax{NUMERIC} class conditions and the use of @syntax{PIC 9} items with @syntax{ALPHABETIC} class conditions.  GnuCOBOL has no such restrictions.
+@p @item Some COBOL implementations disallow the use of group items or @syntax{PIC A} items with @syntax{NUMERIC} class conditions and the use of @syntax{PIC 9} items with @syntax{ALPHABETIC} class conditions.  GnuCOBOL has no such restrictions.
 @p @item The @syntaxidx{OMITTED} class condition is used when it is necessary for a subprogram to determine whether or not a particular argument was passed to it.  In such class conditions, @term{identifier-1} must be a linkage section item defined on the @syntax{USING} clause of the subprograms @syntax{PROCEDURE DIVISION} header.  @xref{PROCEDURE DIVISION USING}, for additional information.
 @end enumerate
 @* The @term{class-name-1} option allows you to test for a user-defined class.  Here's an example.  First, assume the following @syntaxref{SPECIAL-NAMES} definition of the user-defined class "Hexadecimal":
@@ -1059,13 +1059,13 @@ IF ACCOUNT-STATUS = 1 OR 2 OR 7
 @comment ** 2.2.6 Use of Periods                                            **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.6,Use of Periods}All Cobol implementations distinguish between sentences and statements in the procedure division.  A @define{Statement} is a single executable Cobol instruction.  For example, these are all statements:
+@newsubsection{2.2.6,Use of Periods}All COBOL implementations distinguish between sentences and statements in the procedure division.  A @define{Statement} is a single executable COBOL instruction.  For example, these are all statements:
 @p @example
 MOVE SPACES TO Employee-Address
 ADD 1 TO Record-Counter
 DISPLAY "Record-Counter=" Record-Counter
 @end example
-@* Some Cobol statements have a "scope of applicability" associated with them where one or more other statements can be considered to be part of or related to the statement in question.  An example of such a situation might be the following, where the interest on a loan is being calculated and displayed --- 4% interest if the loan balance is under $10000 and 4.5% otherwise (WARNING -- the following code has an error!):
+@* Some COBOL statements have a "scope of applicability" associated with them where one or more other statements can be considered to be part of or related to the statement in question.  An example of such a situation might be the following, where the interest on a loan is being calculated and displayed --- 4% interest if the loan balance is under $10000 and 4.5% otherwise (WARNING -- the following code has an error!):
 @p @example
 IF Loan-Balance < 10000
     MULTIPLY Loan-Balance BY 0.04 GIVING Interest
@@ -1074,7 +1074,7 @@ ELSE
 DISPLAY "Interest Amount = " Interest
 @end example
 @* In this example, the IF statement actually has a scope that can include two sets of associated statements -- one set to be executed when the @syntaxref{IF} condition is TRUE and another if it is FALSE.
-@p Unfortunately, there's a problem with the above.  A human being looking at that code would probably infer that the @syntaxref{DISPLAY} statement, because of its lack of indentation, is to be executed regardless of the TRUE/FALSE value of the @syntax{IF} condition.  Unfortunately, the GnuCOBOL compiler (or any other Cobol compiler for that matter) won't see it that way because it really couldn't care less what sort of indentation, if any, is used.  In fact, any Cobol compiler would be just as happy to see the code written like this:
+@p Unfortunately, there's a problem with the above.  A human being looking at that code would probably infer that the @syntaxref{DISPLAY} statement, because of its lack of indentation, is to be executed regardless of the TRUE/FALSE value of the @syntax{IF} condition.  Unfortunately, the GnuCOBOL compiler (or any other COBOL compiler for that matter) won't see it that way because it really couldn't care less what sort of indentation, if any, is used.  In fact, any COBOL compiler would be just as happy to see the code written like this:
 @p @example
 IF Loan-Balance < 10000 MULTIPLY Loan-balance
 BY 0.04 GIVING Interest ELSE MULTIPLY
@@ -1083,7 +1083,7 @@ Loan-Balance BY 0.045 GIVING Interest DISPLAY
 @end example
 @* So how then do we inform the compiler that the @syntax{DISPLAY} statement is outside the scope of the @syntax{IF}?
 @p That's where sentences come in.
-@p A Cobol @define{Sentence} is defined as any arbitrarily long sequence of statements, followed by a period (.) character.  The period character is what terminates the scope of a set of statements.  Therefore, our example should have been coded like this:
+@p A COBOL @define{Sentence} is defined as any arbitrarily long sequence of statements, followed by a period (.) character.  The period character is what terminates the scope of a set of statements.  Therefore, our example should have been coded like this:
 @p @example
 IF Loan-Balance < 10000
     MULTIPLY Loan-Balance BY 0.04 GIVING Interest
@@ -1096,7 +1096,7 @@ DISPLAY "Interest Amount = " Interest
 @comment ** 2.2.7 Use of VERB/END-VERB Constructs                           **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.7,Use of VERB/END-VERB Constructs}Prior to the 1985 Cobol standard, using a period character was the only way to signal the end of a statement's scope.  @p Unfortunately, this caused some problems.  Take a look at this code:
+@newsubsection{2.2.7,Use of VERB/END-VERB Constructs}Prior to the 1985 COBOL standard, using a period character was the only way to signal the end of a statement's scope.  @p Unfortunately, this caused some problems.  Take a look at this code:
 @p @example
 IF A = 1
     IF B = 1
@@ -1108,7 +1108,7 @@ ELSE *> This ELSE has a problem!
         DISPLAY "NEITHER A NOR B = 1".
 @end example
 @* The problem with this code is that indentation --- so critical to improving the human-readability of a program --- can provide an erroneous view of the logical flow.  An @syntax{ELSE} is always associated with the most-recently encountered @syntax{IF}; this means the emphasized @syntax{ELSE} will be associated with the @syntax{IF B = 1} statement, not the @syntax{IF A = 1} statement as the indentation would appear to imply.
-@p This sort of problem led to a band-aid solution --- the @syntaxidx{NEXT SENTENCE} clause --- being added to the Cobol language.
+@p This sort of problem led to a band-aid solution --- the @syntaxidx{NEXT SENTENCE} clause --- being added to the COBOL language.
 @p @example
 IF A = 1
     IF B = 1
@@ -1122,7 +1122,7 @@ ELSE
         DISPLAY "NEITHER A NOR B = 1".
 @end example
 @* The @syntax{NEXT SENTENCE} clause informs the compiler that if the @syntax{B = 1} condition is false, control should fall into the first statement that follows the next period.
-@p With the 1985 standard for COBOL, a much more elegant solution was introduced.  Any Cobol @define{Verb} (the first reserved word of a statement) that needed such a thing was allowed to use an @syntax{END-verb} construct to end it's scope without disrupting the scope of any other statement it might have been in.  Any Cobol 85 compiler would have allowed the following solution to our problem:
+@p With the 1985 standard for COBOL, a much more elegant solution was introduced.  Any COBOL @define{Verb} (the first reserved word of a statement) that needed such a thing was allowed to use an @syntax{END-verb} construct to end it's scope without disrupting the scope of any other statement it might have been in.  Any COBOL 85 compiler would have allowed the following solution to our problem:
 @p @example
 IF A = 1
     IF B = 1
@@ -1148,14 +1148,14 @@ ELSE
     END-IF
 END-IF
 @end example
-@* Cobol (GnuCOBOL included) still requires that each procedure division paragraph contain at least one sentence if there is any executable code in that paragraph, but a popular coding style is now to simply code a single period right before the end of each paragraph.
-@p The standard for the Cobol language shows the various @syntax{END-verb} clauses are optional because using a period as a scope-terminator remains legal.
+@* COBOL (GnuCOBOL included) still requires that each procedure division paragraph contain at least one sentence if there is any executable code in that paragraph, but a popular coding style is now to simply code a single period right before the end of each paragraph.
+@p The standard for the COBOL language shows the various @syntax{END-verb} clauses are optional because using a period as a scope-terminator remains legal.
 @p If you will be porting existing code over to GnuCOBOL, you'll find it an accommodating facility capable of conforming to whatever language and coding standards that code is likely to use.  If you are creating new GnuCOBOL programs, however, I would strongly counsel you to use the @syntax{END-verb} structures in those programs.
 @comment *********************************************************************
 @comment ** 2.2.8 Concurrent Access to Files                                **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.8,Concurrent Access to Files}The manipulation of data files is one of the Cobol language's great strengths.  There are features built into Cobol to deal with the possibility that multiple programs may be attempting to access the same file concurrently.  Multiple program concurrent access is dealt with in two ways --- file sharing and record locking.
+@newsubsection{2.2.8,Concurrent Access to Files}The manipulation of data files is one of the COBOL language's great strengths.  There are features built into COBOL to deal with the possibility that multiple programs may be attempting to access the same file concurrently.  Multiple program concurrent access is dealt with in two ways --- file sharing and record locking.
 @p Not all GnuCOBOL implementations support file sharing and record-locking options.  Whether they do or not depends upon the operating system they were built for and the build options that were used when the specific GnuCOBOL implementation was generated.
 @menu
 * 2.2.8.1: File Sharing.
@@ -1241,5 +1241,5 @@ This option informs GnuCOBOL that the program is willing to wait for a lock held
 @iftex
 @sp 3
 @center ------------------------------------------------------------
-@center End of Chapter 2 --- Cobol Fundamentals
+@center End of Chapter 2 --- COBOL Fundamentals
 @end iftex
