@@ -109,7 +109,9 @@ The OBJECT-COMPUTER paragraph identifies the computer on which the runtime modul
           \key{MODULES}
         \end{1=}
       } \\
-      PROGRAM COLLATING \key{SEQUENCE} IS \metaelement{collating-sequence-1} \\
+
+      PROGRAM COLLATING \key{SEQUENCE} IS \defdmetaelement{collating-sequences}\\
+
       \deleted{\key{SEGMENT-LIMIT} IS \integer} \\
       CHARACTER \key{CLASSIFICATION} IS
       \begin{1=}
@@ -120,6 +122,24 @@ The OBJECT-COMPUTER paragraph identifies the computer on which the runtime modul
       \end{1=}
     \end{0-1}\ldots\ {}.
   \end{0-1}
+\end{syntax}
+
+where \defnmetaelement{collating-sequences} is:
+
+\begin{syntax}
+  \begin{1=}
+    IS \metaelement{alphanumeric-collating-sequence}
+    \pending{
+      \begin{0-1}
+        \metaelement{national-collating-sequence}
+      \end{0-1}
+    } \\
+
+    \begin{1+}
+      FOR \key{ALPHANUMERIC} IS \metaelement{alphanumeric-collating-sequence} \\
+      \pending{FOR \key{NATIONAL} IS \metaelement{national-collating-sequence}}
+    \end{1+}
+  \end{1=} \\
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -138,6 +158,7 @@ The OBJECT-COMPUTER paragraph identifies the computer on which the runtime modul
       \defdmetaelement{mnemonic-name-clause} \\
       \defdmetaelement{alphabet-name-clause} \\
       \defdmetaelement{symbolic-characters-clause} \\
+      \miscext{\defdmetaelement{symbolic-constant-class}} \\
       \key{LOCALE} \metaelement{locale-name-1} IS \literal \\
       \defdmetaelement{class-clause} \\
 
@@ -218,6 +239,15 @@ where \defnmetaelement{symbolic-characters-clause} is
   \begin{0-1}
     \key{IN} \key{WORD}
   \end{0-1}
+\end{syntax}
+
+where \defnmetaelement{symbolic-constant-clause} is
+
+\begin{syntax}[\miscextcolour]
+  \key{SYMBOLIC} \key{CONSTANT}
+  \begin{1=}
+    \identifier IS \literal
+  \end{1=}\ldots
 \end{syntax}
 
 where \defnmetaelement{class-clause} is
@@ -417,7 +447,11 @@ where \defnmetaelement{alternate-record-key-clause} is
     \end{1=}\ldots
   \end{0-1}
   \begin{0-1}
-    WITH \key{DUPLICATES}
+    WITH
+    \begin{0-1}
+      \key{NO}
+    \end{0-1}
+    \key{DUPLICATES}
   \end{0-1}
   \miscext{
     \pending{
@@ -468,18 +502,28 @@ where \defnmetaelement{lock-mode-clause} is
         \key{AUTOMATIC}
       \end{1=}
       \begin{0-1}
-        \key{WITH} \key{LOCK} \key{ON}
+        \key{WITH} LOCK \key{ON}
         \begin{0-1}
           \key{MULTIPLE}
         \end{0-1}
         \begin{1=}
           \key{RECORD} \\
           \key{RECORDS}
-        \end{1=} \\
-        \miscext{\pending{\key{WITH }\key{ROLLBACK}}}
+        \end{1=}
+      \end{0-1}
+      \begin{0-1}
+        \miscext{\pending{WITH \key{ROLLBACK}}}
       \end{0-1}
     \end{1=} \\
-    \miscext{\key{EXCLUSIVE}}
+    
+    \miscext{
+      \key{EXCLUSIVE}
+      \pending{
+        \begin{0-1}
+          WITH \key{MASS-UPDATE}
+        \end{0-1}
+      }
+    }
   \end{1=}
 \end{syntax}
 
@@ -552,6 +596,16 @@ where \defnmetaelement{record-key-clause} is
         \key{PASSWORD} IS \identifier
       \end{0-1}
     }
+  }
+
+  \miscext{
+    \begin{0-1}
+      WITH
+      \begin{0-1}
+        \key{NO}
+      \end{0-1}
+      \key{DUPLICATES}
+    \end{0-1}
   }
 \end{syntax}
 

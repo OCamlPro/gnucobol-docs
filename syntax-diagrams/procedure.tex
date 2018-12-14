@@ -381,6 +381,11 @@ The ACCEPT statement transfers data provided by the user or the operating system
 \begin{syntax}
   \key{ACCEPT}
   \begin{1=}
+    \miscext{
+      \begin{0-1}
+        \defdmetaelement{position-specifier}
+      \end{0-1}
+    }
     \identifier \\
     \miscext{\key{OMITTED}}
   \end{1=}
@@ -398,7 +403,8 @@ The ACCEPT statement transfers data provided by the user or the operating system
         \begin{1=}
           \key{COLUMN} \\
           \key{COL} \\
-          \miscext{\key{POSITION}}
+          \miscext{\key{POSITION}} \\
+          \miscext{\key{POS}}
         \end{1=}
         NUMBER
         \begin{1=}
@@ -458,10 +464,41 @@ The ACCEPT statement transfers data provided by the user or the operating system
   \end{0-1}
 \end{syntax}
 
+where \defnmetaelement{position-specifier} is
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    (\ \defdmetaelement{position-specifier-num}\ ,\ \defdmetaelement{position-specifier-num}\ ) \\
+    (\ ,\ \defdmetaelement{position-specifier-num}\ ) \\
+    (\ \defdmetaelement{position-specifier-num}\ ,\ )
+  \end{1=}
+\end{syntax}
+
+where \defnmetaelement{position-specifier-num} is
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+  \begin{0-1}
+    \begin{1=}
+      + \\
+      -
+    \end{1=}
+    \literal
+  \end{0-1}
+\end{syntax}
+
 where \defnmetaelement{accept-appearance-attribute-clauses} is
 
 \begin{syntax}[\miscextcolour]
   WITH
+  \miscext{
+    \begin{0-1}
+      \key{NO}
+    \end{0-1}
+  }
   \begin{1=}
     \key{BELL} \\
     \key{BEEP}
@@ -680,14 +717,17 @@ where \defnmetaelement{accept-attribute-clauses} is
     \end{1=} \\
 
     \key{COMMAND-LINE} \\
-    \key{ESCAPE} \key{KEY} \\
+    \key{ESCAPE} KEY \\
     \key{EXCEPTION} \key{STATUS} \\
+    \pending{\key{INPUT} \key{STATUS}} \\
 
     \begin{1=}
       \key{LINES} \\
       \key{LINE} \key{NUMBER}
     \end{1=} \\
 
+    \pending{\key{TERMINAL-INFO}} \\
+    \pending{\key{SYSTEM-INFO}} \\
     \key{USER} \key{NAME} \\
     \key{WORD}
   \end{1=}
@@ -758,7 +798,8 @@ where \defnmetaelement{accept-attribute-clauses} is
           \begin{1=}
             \key{COLUMN} \\
             \key{COL} \\
-            \miscext{\key{POSITION}}
+            \miscext{\key{POSITION}} \\
+            \miscext{\key{POS}}
           \end{1=}
           NUMBER
           \begin{1=}
@@ -786,6 +827,11 @@ where \defnmetaelement{accept-attribute-clauses} is
 \end{syntax}
 
 \subsubsection{Syntax rules}
+
+\paragraph{Format 2}
+\begin{enumerate}
+\item Position specifiers may not be used with any of the ON EXCEPTION clauses.
+\end{enumerate}
 
 \subsubsection{General rules}
 
@@ -933,6 +979,18 @@ The ALLOCATE statement requests memory from the operating system for a BASED dat
       }
     \end{0-1}
   \end{1=}
+
+  \miscext{
+    \pending{
+      \begin{0-1}
+        \key{LOC}
+        \begin{1=}
+          24 \\
+          31
+        \end{1=}
+      \end{0-1}
+    }
+  }
 
   \begin{0-1}
     \key{RETURNING} \identifier
@@ -1096,8 +1154,9 @@ The CLOSE statement prevents the program from accessing or modifying an open fil
         FOR \key{REMOVAL}
       \end{0-1} \\
 
-      WITH \key{NO} \key{REWIND} \\
-      WITH \key{LOCK}
+      \pending{WITH \key{NO} \key{REWIND}} \\
+      WITH \key{LOCK} \\ % TO-DO: Check!
+      \pending{\deleted{REVERSED}}
     \end{0-1}
   \end{1=} \ldots
 \end{syntax}
@@ -1343,6 +1402,34 @@ The DISPLAY statement displays data to a user or sends data to the operating sys
   \end{0-1}
 \end{syntax}
 
+\format{Microsoft screen}
+\begin{syntax}[\miscextcolour]
+  \key{DISPLAY}
+  \begin{1=}
+    \key{ERASE} \\
+
+    \defdmetaelement{disp-position-specifier}
+    \begin{1=}
+      \identifier \\
+      \literal \\
+      \key{ERASE}
+    \end{1=}\ldots
+  \end{1=}
+
+  \begin{0-1}
+    \key{WITH}
+    \begin{1=}
+      \defdmetaelement{display-appearance-attribute-clauses}
+    \end{1=}\ldots
+  \end{0-1}
+
+  \gnucobol{
+    \begin{0-1}
+      \key{END-DISPLAY}
+    \end{0-1}
+  }
+\end{syntax}
+
 \format{ordinary window}
 \begin{syntax}[\miscextcolour]
   \key{DISPLAY}
@@ -1574,7 +1661,8 @@ where \defnmetaelement{position-clauses} is
       \begin{1=}
         \key{COLUMN} \\
         \key{COL} \\
-        \miscext{\key{POSITION}}
+        \miscext{\key{POSITION}} \\
+        \miscext{\key{POS}}
       \end{1=}
       NUMBER
       \begin{1=}
@@ -1677,7 +1765,10 @@ where \defnmetaelement{display-appearance-attribute-clauses} is
     \key{FOREGROUND-COLOR} \\
     \key{FOREGROUND-COLOUR}
   \end{1=}
-  IS
+  \begin{0-1}
+    IS \\
+    =
+  \end{0-1}
   \begin{1=}
     \identifier \\
     \integer
@@ -1688,7 +1779,10 @@ where \defnmetaelement{display-appearance-attribute-clauses} is
     \key{BACKGROUND-COLOR} \\
     \key{BACKGROUND-COLOUR}
   \end{1=}
-  IS
+  \begin{0-1}
+    IS \\
+    =
+  \end{0-1}
   \begin{1=}
     \identifier \\
     \integer
@@ -1721,6 +1815,32 @@ where \defnmetaelement{display-appearance-attribute-clauses} is
       \key{LINE} \\
       \key{LINES}
     \end{1=}
+  \end{0-1}
+\end{syntax}
+
+where \defnmetaelement{disp-position-specifier} is
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    (\ \defdmetaelement{disp-position-specifier-num}\ ,\ \defdmetaelement{disp-position-specifier-num}\ ) \\
+    (\ ,\ \defdmetaelement{disp-position-specifier-num}\ ) \\
+    (\ \defdmetaelement{disp-position-specifier-num}\ ,\ )
+  \end{1=}
+\end{syntax}
+
+where \defnmetaelement{disp-position-specifier-num} is
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+  \begin{0-1}
+    \begin{1=}
+      + \\
+      -
+    \end{1=}
+    \literal
   \end{0-1}
 \end{syntax}
 
@@ -2543,27 +2663,36 @@ The OPEN statement allows the program to access or modify specified files.
 \begin{syntax}
   \key{OPEN}
   \begin{1=}
-    \begin{1=}
-      \key{INPUT} \\
-      \key{OUTPUT} \\
-      \key{I-O} \\
-      \key{EXTEND}
-    \end{1=}
-    \begin{0-1}
-      \defdmetaelement{sharing-mode}
-    \end{0-1}
-    \begin{0-1}
-      \defdmetaelement{retry-phrase}
-    \end{0-1}
-    \begin{1=}
-      \filename
-    \end{1=} \ldots
-    \begin{0-1}
-      WITH \key{NO} \key{REWIND} \\
-      WITH \key{LOCK} \\
-      \deleted{\key{REVERSED}}
-    \end{0-1}
+    \defdmetaelement{open-body}
   \end{1=}\ldots
+\end{syntax}
+
+where \defnmetaelement{open-body} is
+
+\begin{syntax}
+  \miscext{
+    \begin{0-1}
+      \key{EXCLUSIVE}
+    \end{0-1}
+  }
+  \begin{1=}
+    \key{INPUT} \\
+    \key{OUTPUT} \\
+    \key{I-O} \\
+    \key{EXTEND}
+  \end{1=}
+  \begin{0-1}
+    \defdmetaelement{sharing-mode}
+  \end{0-1}
+  \begin{0-1}
+    \metaelement{retry-phrase}
+  \end{0-1}
+  \begin{1=}
+    \filename
+  \end{1=}\ldots
+  \begin{0-1}
+    \defdmetaelement{open-options}
+  \end{0-1}
 \end{syntax}
 
 where \defnmetaelement{sharing-mode} is
@@ -2575,6 +2704,37 @@ where \defnmetaelement{sharing-mode} is
     \key{NO} OTHER \\
     \key{READ} \key{ONLY}
   \end{1=}
+\end{syntax}
+
+where \defnmetaelement{open-options} is
+
+\begin{syntax}
+  \miscext{
+    \begin{0-1}
+      \begin{0-1}
+        FOR \\
+        WITH
+      \end{0-1}
+      \begin{1=}
+        \key{LOCK} \\
+        \pending{\key{MASS-UPDATE}} \\
+        \pending{\key{BULK-ADDITION}}
+      \end{1=} \\
+
+      \key{ALLOWING}
+      \begin{1=}
+        \key{ALL} \\
+        \key{READERS} \\
+        \key{UPDATERS} \\
+        \key{WRITERS} \\
+        \key{NO} OTHERS
+      \end{1=}
+    \end{0-1}
+  }
+  \begin{0-1}
+    WITH \key{NO} \key{REWIND} \\
+    \deleted{\key{REVERSED}}
+  \end{0-1}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -3398,6 +3558,10 @@ The STRING statement appends multiples character strings and stores the result.
     ON \key{OVERFLOW} \imperativestatement \\
     \key{NOT} ON \key{OVERFLOW} \imperativestatement
   \end{0+}
+
+  \begin{0-1}
+    \key{END-STRING}
+  \end{0-1}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -3654,7 +3818,7 @@ The UNSTRING statement extracts substrings from a string and copies the substrin
   \end{0+}
 
   \begin{0-1}
-    \key{END-OVERFLOW}
+    \key{END-UNSTRING}
   \end{0-1}
 \end{syntax}
 
@@ -3903,6 +4067,178 @@ The WRITE statement provides a new record to the file.
 
 \subsubsection{General rules}
 
+
+\section{XML GENERATE statement}
+
+The XML GENERATE statement creates an XML document based on the structure and contents of the input data item.
+
+\begin{syntax}[\miscextcolour]
+  \key{XML} \key{GENERATE} \identifier \key{FROM} \identifier
+
+  \begin{0-1}
+    \key{COUNT} IN \identifier
+  \end{0-1}
+
+  \begin{0-1}
+    WITH \key{ENCODING}
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH \key{XML-DECLARATION}
+  \end{0-1}
+
+  \begin{0-1}
+    WITH \key{ATTRIBUTES}
+  \end{0-1}
+
+  \begin{0-1}
+    \key{NAMESPACE} IS
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    \begin{0-1}
+      \key{NAMESPACE-PREFIX} IS
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+    \end{0-1}
+  \end{0-1}
+
+  \begin{0-1}
+    \key{NAME} OF
+    \begin{1=}
+      \identifier IS \literal
+    \end{1=}\dots
+  \end{0-1}
+
+  \begin{0-1}
+    \key{TYPE} OF
+    \begin{1=}
+      \identifier IS
+      \begin{1=}
+        ATTRIBUTE \\
+        ELEMENT \\
+        CONTENT
+      \end{1=}
+    \end{1=}\dots
+  \end{0-1}
+
+  \begin{0-1}
+    SUPPRESS
+    \begin{1=}
+      \identifier \\
+
+      \key{EVERY}
+      \begin{1=}
+        \begin{1=}
+          \key{NUMERIC} \\
+          \key{NONNUMERIC}
+        \end{1=}
+        \begin{0-1}
+          \key{ATTRIBUTE} \\
+          \key{ELEMENT} \\
+          \key{CONTENT}
+        \end{0-1} \\
+
+        \begin{1=}
+          \key{ATTRIBUTE} \\
+          \key{ELEMENT} \\
+          \key{CONTENT}
+        \end{1=}
+      \end{1=} \\
+
+      \key{WHEN}
+      \begin{0-1}
+        \defdmetaelement{non-quote-alnum-fig-const}
+        \key{OR}
+      \end{0-1}\ldots
+      \defdmetaelement{non-quote-alnum-fig-const}
+    \end{1=}\ldots
+  \end{0-1}
+
+  \begin{0+}
+    ON \key{EXCEPTION} \imperativestatement \\
+    \key{NOT} ON \key{EXCEPTION} \imperativestatement
+  \end{0+}
+
+  \begin{0-1}
+    \key{END-XML}
+  \end{0-1}
+\end{syntax}
+
+where \defnmetaelement{non-quote-alnum-fig-const} is
+
+\begin{syntax}
+  \begin{1=}
+    ZERO \\
+    ZEROES \\
+    ZEROS \\
+    SPACE \\
+    SPACES \\
+    HIGH-VALUE \\
+    HIGH-VALUES \\
+    LOW-VALUE \\
+    LOW-VALUES
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{XML PARSE statement}
+
+The XML PARSE statement starts an event-driven XML parser; the processing procedure is performed as each component of the XML document is identified in order.
+
+\pending{
+  \begin{syntax}[\miscextcolour]
+    \key{XML} \key{PARSE} \identifier
+
+    \begin{0-1}
+      WITH \key{ENCODING}
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+    \end{0-1}
+
+    \begin{0-1}
+      \key{RETURNING} \key{NATIONAL}
+    \end{0-1}
+
+    \begin{0-1}
+      \key{VALIDATING} WITH \identifier
+    \end{0-1}
+
+    \key{PROCESSING} \key{PROCEDURE} IS \procedurename
+    \begin{0-1}
+      \begin{1=}
+        \key{THROUGH} \\
+        \key{THRU}
+      \end{1=}
+      \procedurename
+    \end{0-1}
+
+    \begin{0+}
+      ON \key{EXCEPTION} \imperativestatement \\
+      \key{NOT} ON \key{EXCEPTION} \imperativestatement
+    \end{0+}
+
+    \begin{0-1}
+      \key{END-XML}
+    \end{0-1}
+  \end{syntax}
+}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
 
 %%% Local Variables:
 %%% mode: latex
