@@ -904,6 +904,8 @@ ALLOCATE My-01-Item
 ALLOCATE LENGTH OF My-01-Item CHARACTERS RETURNING The-Pointer
 SET ADDRESS OF My-01-Item TO The-Pointer
 @end example
+@p @item With this form My-01-Item can either be defined with the "BASED" attribute or be defined in LINKAGE SECTION.
+Instead of LENGTH OF My-01-Item you may also use a size smaller to the maximum field size as long as you ensure that the complete field is never used.
 @item Referencing a @syntax{BASED} data item either before its storage has been allocated or after its storage has been released (via the @statement{FREE}) will lead to "unpredictable results".  That's how reference manuals and standards specifications talk about this situation.  In the author's experience, the results are all too predictable --- the program aborts from an attempt to reference an unallocated area of memory.
 @end enumerate
 @comment *********************************************************************
