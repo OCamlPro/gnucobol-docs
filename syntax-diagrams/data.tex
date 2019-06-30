@@ -898,7 +898,14 @@ where \defnmetaelement{source-destination-clauses} is
       \key{PICTURE} \\
       \key{PIC}
     \end{1=}
-    IS \metaelement{picture-string-1} \\
+    IS \metaelement{picture-string-1}
+    \begin{0-1}
+      \key{LOCALE}
+      \begin{0-1}
+        IS \metaelement{locale-name-1}
+      \end{0-1}
+      \key{SIZE} IS \integer
+    \end{0-1}\\
 
     \key{REDEFINES} \identifier \\
 
@@ -1654,11 +1661,19 @@ The LINE clause specifies the line an item should be printer or displayed on.
 
 \format{report section}
 \begin{syntax}
-  \key{LINE} NUMBER
-  \begin{0-1}
-    \key{IS} \\
-    \gnucobol{\key{ARE}}
-  \end{0-1} \\
+  \begin{1=}
+    \key{LINE}
+    \begin{0-1}
+      NUMBER \\
+      NUMBERS
+    \end{0-1}
+    \begin{0-1}
+      \key{IS} \\
+      \gnucobol{\key{ARE}}
+    \end{0-1}\\
+
+    \key{LINES} ARE
+  \end{1=}
   \begin{1=}
     \begin{0-1}
       + \\
@@ -1910,6 +1925,13 @@ The PICTURE clause describes the general characteristics and editing requirement
     \key{PIC}
   \end{1=}
   IS \metaelement{picture-string-1}
+  \begin{0-1}
+    \key{LOCALE}
+    \begin{0-1}
+      IS \metaelement{locale-name-1}
+    \end{0-1}
+    \key{SIZE} IS \integer
+  \end{0-1}
 \end{syntax}
 
 \subsubsection{Syntax rules}

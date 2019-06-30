@@ -1,4 +1,4 @@
-# The GnuCOBOL Grammar for version 2.2
+# The GnuCOBOL Grammar for version 3.1-dev
 
 ## Summary
 

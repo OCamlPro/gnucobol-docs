@@ -1,6 +1,6 @@
 \chapter{Changelog}
 
-\section{GnuCOBOL 3.0-dev}
+\section{GnuCOBOL 3.1-dev}
 
 \paragraph{General}
 \begin{itemize}
@@ -16,11 +16,15 @@
 \item \textbf{cobc command-line options}: added -Wno-dialect to suppress dialect-specific warnings.
 \item \textbf{cobc command-line options}: added -Wother to enable miscellaneous warnings.
 \item \textbf{cobcrun command-line options}: renamed -runtime-conf to -runtime-config.
+\item \textbf{COBOL-85 NIST testsuite}: tests can now be downloaded from Sourceforge when the NIST website is unavailable (\bug{563}).
+\item \textbf{COBOL-85 NIST testsuite}: tests can now be performed individually by running make in the test module directory.
 \item \textbf{Copyfiles}: fixed segfault when GnuCOBOL tried and failed to open a copyfile (\bug{458}).
 \item \textbf{Copyfiles}: GnuCOBOL now checks for recursive copyfiles (\bug{467}).
 \item \textbf{Debugging}: Added debug logging for compiler developers (-{}-enable-debug-log ./configure option).
+\item \textbf{Dependencies}: GnuCOBOL now (optionally) depends on libxml2 and cJSON (for XML and JSON I-O).
 \item \textbf{DJGGP support}: added minimal support for DJGGP.
 \item \textbf{Error messages}: runtime error messages now use translated versions (depending on a user's language).
+\item \textbf{Error messages}: added checks for version control conflict markers in source code.
 \item \textbf{Expressions}: fixed \bug{431}, where decimal constants were not initialised in INITIAL programs.
 \item \textbf{EXTFH}: added support for the external file handler (EXTFH) interface, letting users provide a custom file handler.
 \item \textbf{IBM i support}: fixed segfault involving filepaths
@@ -29,6 +33,7 @@
 \item \textbf{Listings}: now require the size of a listing page to be at least 20 lines.
 \item \textbf{Listings}: fixed segfault in listing programs with large REPLACE arguments (\bug{515}).
 \item \textbf{Modules}: enabled running of modules generated with older versions of GnuCOBOL (\fr{239}).
+\item \textbf{National literals}: added Fujitsu NC national character literals (\fr{352}).
 \item \textbf{Nested programs}: fixed \bug{435}, where identifiers in the containing program where not propagated to the contained program, causing a segfault.
 \item \textbf{OrangeC support}: added minimal support for OrangeC.
 \item \textbf{Recursion}: fixed \bug{222}, where the return value was lost when returning from a recursive call.
@@ -37,23 +42,24 @@
 \item \textbf{Signals}: added error message for SIGFPE (see \bug{434}).
 \item \textbf{Solaris support}: fixed errors and warnings when compiling in Solaris 10.
 \item \textbf{Tracing}: added new options for controlling tracing (see \fr{242}).
+\item \textbf{User-defined words}: increased default maximum user-defined length to 63 characters (per COBOL~202X draft standard).
 \end{itemize}
 
 \paragraph{Configuration options}
 \begin{itemize}
 \item \textbf{IBM dialect}: reserved words updated to Enterprise COBOL V6.2.
 \item \textbf{incorrect-conf-sec-order option}: changed to ``ok'' from ``error'' in mf and default dialects.
-\item \textbf{New compiler configuration options}: binary-comp-1, display-special-fig-consts, free-redefines-position (\fr{211}), line-col-zero-default, move-figurative-space-to-numeric, move-non-numeric-lit-to-numeric-is-zero, missing-statement, perform-without-varying-by, record-delimiter, record-delim-with-fixed-recs, screen-section-rules, sequential-delimiters, symbolic-constant, xml-generate, xml-generate-extra-phrases, zero-length-literals.
-\item \textbf{New runtime configuration options}: col\_just\_lrc (for enabling\slash{}disabling the LEFT\slash{}RIGHT\slash{}CENTER phrases of the report COLUMN clause), printer and display\_print\_pipe (for specifying what command should be executed before DISPLAY UPON PRINTER; similar to Micro Focus' COBPRINTER option); display\_print\_file (name of file which DISPLAY UPON PRINTER will append its output to), trace\_format, dump\_file and dump\_width.
+\item \textbf{New compiler configuration options}: binary-comp-1, call-convention-mnemonic, call-convention-linkage, continue-after, display-special-fig-consts, free-redefines-position (\fr{211}), line-col-zero-default, national-character-literals move-figurative-space-to-numeric, move-non-numeric-lit-to-numeric-is-zero, missing-statement, perform-without-varying-by, record-delimiter, record-delim-with-fixed-recs, records-mismatch-record-clause, screen-section-rules, sequential-delimiters, symbolic-constant, xml-generate-extra-phrases, zero-length-literals.
+\item \textbf{New runtime configuration options}: col\_just\_lrc (for enabling\slash{}disabling the LEFT\slash{}RIGHT\slash{}CENTER phrases of the report COLUMN clause), printer and display\_print\_pipe (for specifying what command should be executed before DISPLAY UPON PRINTER; similar to Micro Focus' COBPRINTER option); display\_print\_file (name of file which DISPLAY UPON PRINTER will append its output to), display\_punch\_file (name of file to created upon first DISPLAY UPON SYSPUNCH), trace\_format, dump\_file and dump\_width.
 \item \textbf{Registers}: disabling a register also removes the reserved word with the same name, if it exists (\fr{278}).
-\item \textbf{Registers}: added COL and LIN.
+\item \textbf{Registers}: added COL and LIN. added LINKAGE phrase.
 \end{itemize}
 
 \paragraph{Compiler directives}
 \begin{itemize}
 \item \textbf{COPY statement}: added support for copybook and library names containing periods as text-names. For example,  ``COPY copybook.cpy.'' is now accepted. See \fr{344}.
 \item \textbf{Fujitsu @OPTIONS directive}: added recognition of.
-\item \textbf{New directives}: ADDRSV, ADDSYN, MAKESYN, OVERRIDE and REMOVE (\fr{210}); COMP1.
+\item \textbf{New directives}: ADDRSV, ADDSYN, MAKESYN, OVERRIDE and REMOVE (\fr{210}); CALLFH and COMP1.
 \end{itemize}
 
 \paragraph{Identification division}
@@ -64,15 +70,22 @@
 \paragraph{Environment division}
 \begin{itemize}
 \item \textbf{ALTERNATE RECORD KEY clause}: implemented split keys (SOURCE IS; \fr{23}) and sparse keys (SUPPRESS WHEN; \fr{281}).
+\item \textbf{ALPHABET clause}: added recognition of more pre-defined alphabets.
 \item \textbf{ASSIGN clause}: re-enabled use of linkage section or BASED items (\bug{421}).
+\item \textbf{ASSIGN clause}: added SYSPCH and SYSPUNCH device-names for writing to a punch file (this is not related to CARD-PUNCH).
+\item \textbf{ASSIGN clause}: added device-names S01 through to S05.
+\item \textbf{CALL-CONVENTION phrase}: added C and PASCAL (see \fr{311}).
 \item \textbf{CLASS phrase}: added recognition of ALPHANUMERIC\slash{}NATIONAL and alphabet phrases.
+\item \textbf{CLASS phrase}: fixed \bug{566}, where class-names were not inherited by nested subprograms.
 \item \textbf{CURRENCY phrase}: changed to emit error when CURRENCY SIGN other than ``\$'' is entered.
 \item \textbf{CURRENCY phrase}: improved error messages for invalid currency signs.
 \item \textbf{EXTERN clause}: improved error messages (\bug{446}).
 \item \textbf{FILE STATUS clause}: added detection of VSAM secondary status identifier (\fr{51}).
+\item \textbf{I-O-CONTROL paragraph}: added detection of APPLY COMMIT clause (from the COBOL~202X draft standard).
 \item \textbf{OBJECT-COMPUTER paragraph}: added recognition of NATIONAL collating sequences.
 \item \textbf{OCCURS clause}: correctly implemented nested OCCURS DEPENDING tables (ODOSLIDE).
 \item \textbf{PASSWORD clause}: added detection of.
+\item \textbf{RECORD clause}: fixed behaviour in the IBM dialect when the maximum record length does not match the length in the RECORD clause.
 \item \textbf{RECORD DELIMITER phrase}:  added support for BINARY-SEQUENTIAL and LINE-SEQUENTIAL phrases.
 \item \textbf{RECORD DELIMITER phrase}: improved syntax checks (see \bug{442}).
 \item \textbf{RECORD KEY clause}: implemented sparse keys (SOURCE IS; \fr{23}).
@@ -84,8 +97,13 @@
 \item \textbf{ANY LENGTH clause}: fixed \bug{487}, where literals moved to ANY LENGTH items were incorrectly truncated.
 \item \textbf{ANY LENGTH clause}: fixed \bug{511}, where comparisons treated ANY LENGTH items as having just one character.
 \item \textbf{ANY LENGTH clause}: fixed segfault when referencing linkage-section ANY LENGTH items in the first compiled program.
+\item \textbf{COLUMN clause}: ``COL +1'' and similar clauses are no longer allowed; there must now be a space between the sign and the number.
 \item \textbf{COLUMN clause (screen)}: added POS as synonym for COLUMN.
+\item \textbf{LINE clause}: ``LINE +1'' and similar clauses are no longer allowed; there must now be a space between the sign and the number.
+\item \textbf{LINE clause (report)}: allow LINES instead of LINE.
 \item \textbf{PICTURE clause}: added recognition of PIC 1(n).
+\item \textbf{PICTURE clause}: improved error messages.
+\item \textbf{PICTURE clause}: added recognition of LOCALE phrase.
 \item \textbf{RECORD VARYING clause}: fixed \bug{441}, where an FD could be declared as RECORD VARYING, but have records of only one size.
 \item \textbf{Screen section}: made some COBOL words context-sensitive to screen section.
 \item \textbf{Screen description}: the rules on which clauses must be specified when now depend on the dialect (see \bug{382}).
@@ -110,32 +128,46 @@
 \item \textbf{ACCEPT statement (temporal)}: fixed \bug{469}, where ACCEPT FROM DAY was off by $-1$.
 \item \textbf{ALLOCATE statement}: added recognition of LOC clause.
 \item \textbf{CALL statement}: fixed ON EXCEPTION not working properly with -fstatic (\bug{462}).
+\item \textbf{CALL statement}: added LINKAGE phrase (\fr{311}).
 \item \textbf{CANCEL statement}: fixed segfault in recursive programs (\bug{98}).
 \item \textbf{Conditions}: strengthened syntax checks for abbreviated conditions.
+\item \textbf{Conditions}: improved error messages (\bug{567}).
+\item \textbf{CONTINUE (after)}: added support for (from COBOL~202X draft standard). See \fr{354}.
 \item \textbf{DISPLAY statement (printer)}: allow for redirecting DISPLAY UPON PRINTER(-1) to files based on the runtime configuration.
 \item \textbf{DISPLAY statement (screen)}: fixed DISPLAY LOW-VALUE not setting position of cursor for next DISPLAY statement (\bug{423}).
 \item \textbf{DISPLAY statement (screen)}: added configuration option to disable Micro Focus' special behaviour with some figurative constants (see \bug{423}).
 \item \textbf{DISPLAY statement (screen)}: fixed \bug{428}, where DISPLAY ALL ``x'' WITH SIZE only displayed ``x'' once.
 \item \textbf{DISPLAY statement (screen)}: added support for Microsoft COBOL's position specifiers and ERASE phrase.
+\item \textbf{ENTRY statement}: added LINKAGE phrase (\fr{311}).
+\item \textbf{Error messages}: runtime error messages now include ``error: '' after the fil before the actual error message.
 \item \textbf{EVALUATE statement}: added partial support for WHEN clauses not containing any statements, which transfer control to the next WHEN clause containing a statement, if any (so the behaviour is like C's switch statement).
 \item \textbf{Exceptions}: the exception status is now only reset by SET LAST EXCEPTION TO OFF.
 \item \textbf{Exceptions}: fixed EC-SIZE-OVERFLOW being raised when EC-SIZE-ZERO-DIVIDE is active (\bug{223}).
 \item \textbf{File I-O}: fixed \bug{457}, where file status 30 was set instead of the correct permanent error status (34, 35 or 37).
 \item \textbf{File I-O}: added support for VBISAM 2.1.1.
+\item \textbf{File I-O}: error messages from libcob now include the file I-O statement that caused them, when known.
 \item \textbf{Floating-point arithmetic}: fixed incorrect SIZE ERROR exceptions (see \bug{470}).
 \item \textbf{Floating-point arithmetic}: fixed \bug{478}, where calculations with the SIZE ERROR phrase have different results to calculations without it.
 \item \textbf{Floating-point arithmetic}: now activate the SIZE ERROR handler when a floating-point variable is set to a non-finite value (see \bug{122}).
-\item \textbf{INQUIRE statement}: added detection of.
+\item \textbf{INQUIRE statement}: added recognition of.
+\item \textbf{JSON GENERATE statement}: added (\patch{45}).
+\item \textbf{JSON PARSE statement}: added recognition of.
 \item \textbf{LENGTH OF phrase}: fixed error message when used on group fields (\bug{175}).
 \item \textbf{LENGTH OF phrase}: allow non-numeric literals.
-\item \textbf{PERFORM statement}: added check for non-zero item in BY phrase (\fr{268}).
-\item \textbf{PERFORM statement}: allow the BY phrase to be omitted, which is the same as specifying BY 1 (\fr{158}).
-\item \textbf{PERFORM statement (inline)}: added partial support for inline PERFORM statements not containing any statements.
-\item \textbf{MODIFY statement}: added detection of.
+\item \textbf{MODIFY statement}: added recognition of.
 \item \textbf{MOVE statement}: added options to interpret moving non-numeric values to numeric items as moving zero to numeric items.
 \item \textbf{MOVE statement}: improved detection of overlapping MOVEs when using reference modification.
 \item \textbf{MOVE statement}: fixed remaining cases of \bug{220}, involving numeric-edited items.
+\item \textbf{MOVE statement}: fixed incorrect truncation of COMP-4 items.
+\item \textbf{PERFORM statement}: added check for non-zero item in BY phrase (\fr{268}).
+\item \textbf{PERFORM statement}: allow the BY phrase to be omitted, which is the same as specifying BY 1 (\fr{158}).
+\item \textbf{PERFORM statement (inline)}: added partial support for inline PERFORM statements not containing any statements.
+\item \textbf{Procedure division header}: added recognition of MEMORY SIZE phrase.
+\item \textbf{Procedure division header}: added LINKAGE phrase (\fr{311}).
+\item \textbf{RAISE statement}: added recognition of.
 \item \textbf{Reference modification}: improved out-of-bounds error message (\bug{445}).
+\item \textbf{SORT statement}: added sorting of tables without keys (\patch{42}).
+\item \textbf{SORT statement}: added recognition of more COLLATING SEQUENCE phrases.
 \item \textbf{OPEN statement}: fail with file status 39 when the first record of an indexed file is larger than specified in the FD.
 \item \textbf{OPEN statement}: fixed segfault when attempting to open a file in a non-existent folder (\bug{520}).
 \item \textbf{OPEN statement}: added ACUCOBOL locking clauses.
@@ -145,7 +177,8 @@
 \item \textbf{REWRITE statement (indexed)}: now sets file status to 02 when duplicate key is detected.
 \item \textbf{SET statement}: fixed \bug{225}, where an invalid SET statement caused an error saying ``invalid MOVE statement''.
 \item \textbf{STOP statement}: fixed the NORMAL phrase causing a compilation error (\bug{433}).
-\item \textbf{VALIDATE statement}: added detection of.
+\item \textbf{USE statement (exception)}: improved recognition of.
+\item \textbf{VALIDATE statement}: added recognition of.
 \item \textbf{WRITE statement}: fixed compilation error when writing to a GLOBAL file in a subprogram (\bug{87}).
 \item \textbf{WRITE statement (indexed)}: now sets file status to 02 when duplicate key is detected.
 \item \textbf{XML GENERATE statement}: added (\patch{41}).
@@ -372,6 +405,7 @@ This list tracks changes made from 23 November 2013. This excludes many changes 
 \item \textbf{INSPECT statement}: fixed \bug{47}, where clauses were permitted in invalid orders.
 \item \textbf{LENGTH OF phrase}: fixed \bug{89}, where the length of REDEFINES item where calculated incorrectly.
 \item \textbf{LENGTH OF phrase}: fixed \bug{110}, where LENGTH OF was not allowed in the UNTIL phrase of a PERFORM statement or in a VALUE clause.
+\item \textbf{MERGE statement}: added recognition of more COLLATING SEQUENCE phrases.
 \item \textbf{MOVE statement}: added more checks for overlapping MOVE statements.
 \item \textbf{MOVE statement}: fixed truncation of COMP numbers not conforming to the binary-truncate setting (\bug{69}).
 \item \textbf{MOVE statement}: fixed \bug{344}, where trying to MOVE to a procedure-name caused a segfault.

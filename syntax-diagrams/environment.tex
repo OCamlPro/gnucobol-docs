@@ -110,7 +110,7 @@ The OBJECT-COMPUTER paragraph identifies the computer on which the runtime modul
         \end{1=}
       } \\
 
-      PROGRAM COLLATING \key{SEQUENCE} IS \defdmetaelement{collating-sequences}\\
+      PROGRAM COLLATING \key{SEQUENCE} \defdmetaelement{collating-sequences}\\
 
       \deleted{\key{SEGMENT-LIMIT} IS \integer} \\
       CHARACTER \key{CLASSIFICATION} IS
@@ -139,7 +139,7 @@ where \defnmetaelement{collating-sequences} is:
       FOR \key{ALPHANUMERIC} IS \metaelement{alphanumeric-collating-sequence} \\
       \pending{FOR \key{NATIONAL} IS \metaelement{national-collating-sequence}}
     \end{1+}
-  \end{1=} \\
+  \end{1=}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -199,24 +199,54 @@ where \defnmetaelement{alphabet-name-clause} is
 \begin{syntax}
   \key{ALPHABET} \metaelement{alphabet-name-1} IS
   \begin{1=}
-    \key{ASCII} \\
-    \key{EBCDIC} \\
-    \key{NATIVE} \\
-    \key{STANDARD-1} \\
-    \key{STANDARD-2} \\
+    \begin{0-1}
+      FOR \key{ALPHANUMERIC}
+    \end{0-1}
     \begin{1=}
-      \literal
-      \begin{0-1}
-        \begin{1=}
-          \key{THROUGH} \\
-          \key{THRU}
-        \end{1=}
-        \literal \\
-        \begin{1=}
-          \key{ALSO} \literal
-        \end{1=}\ldots
-      \end{0-1}
-    \end{1=}\ldots
+      \key{ASCII} \\
+      \key{EBCDIC} \\
+      \key{STANDARD-1} \\
+      \key{STANDARD-2} \\
+      \key{NATIVE} \\
+      \key{LOCALE} \\
+      \begin{1=}
+        \literal
+        \begin{0-1}
+          \begin{1=}
+            \key{THROUGH} \\
+            \key{THRU}
+          \end{1=}
+          \literal \\
+          \begin{1=}
+            \key{ALSO} \literal
+          \end{1=}\ldots
+        \end{0-1}
+      \end{1=}\ldots      
+    \end{1=} \\
+
+    \begin{0-1}
+      FOR \key{NATIONAL}
+    \end{0-1}
+    \begin{1=}
+      \pending{\key{UTF-8}} \\
+      \pending{\key{UTF-16}} \\
+      \pending{\key{UCS-4}} \\
+      \key{NATIVE} \\
+      \key{LOCALE} \\
+      \begin{1=}
+        \literal
+        \begin{0-1}
+          \begin{1=}
+            \key{THROUGH} \\
+            \key{THRU}
+          \end{1=}
+          \literal \\
+          \begin{1=}
+            \key{ALSO} \literal
+          \end{1=}\ldots
+        \end{0-1}
+      \end{1=}\ldots      
+    \end{1=} \\
   \end{1=}
 \end{syntax}
 
@@ -358,6 +388,7 @@ where \defnmetaelement{file-control-entry} is
     \defdmetaelement{access-mode-clause} \\
     \defdmetaelement{alternate-record-key-clause} \\
     \defdmetaelement{collating-sequence-clause} \\
+    \defdmetaelement{collating-sequence-key-clause} \\
     \defdmetaelement{file-status-clause} \\
     \defdmetaelement{lock-mode-clause} \\
     \defdmetaelement{organization-clause} \\
@@ -473,7 +504,31 @@ where \defnmetaelement{alternate-record-key-clause} is
 where \defnmetaelement{collating-sequence-clause} is
 
 \begin{syntax}
-  \pending{COLLATING \key{SEQUENCE} IS \metaelement{collating-sequence-name-1}}
+  \pending{
+    COLLATING \key{SEQUENCE}
+
+    \begin{1=}
+      IS \metaelement{alphanumeric-collating-sequence}
+      \pending{
+        \begin{0-1}
+          \metaelement{national-collating-sequence}
+        \end{0-1}
+      } \\
+
+      \begin{1+}
+        FOR \key{ALPHANUMERIC} IS \metaelement{alphanumeric-collating-sequence} \\
+        \pending{FOR \key{NATIONAL} IS \metaelement{national-collating-sequence}}
+      \end{1+}
+    \end{1=}
+  }
+\end{syntax}
+
+where \defnmetaelement{collating-sequence-key-clause} is
+
+\begin{syntax}
+  \pending{
+    COLLATING \key{SEQUENCE} \key{OF} \identifier IS \metaelement{alphabet-name-1}
+  }
 \end{syntax}
 
 where \defnmetaelement{file-status-clause} is
@@ -652,6 +707,13 @@ where \defnmetaelement{sharing-clause} is
     \key{I-O-CONTROL}.
   \end{0-1}\newline
   \begin{1=}
+    \pending{
+      \key{APPLY} \key{COMMIT} ON
+      \begin{0-1}
+        \identifier
+      \end{0-1}\dots
+    } \\
+    
     \key{SAME}
     \begin{0-1}
       \key{RECORD} \\

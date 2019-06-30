@@ -69,9 +69,16 @@
   \begin{itemize}
   \item \gnucobol{EC-IMP-ACCEPT}
   \item \gnucobol{EC-IMP-DISPLAY}
+  \item \gnucobol{EC-IMP-FEATURE-DISABLED}
+  \item \gnucobol{EC-IMP-FEATURE-MISSING}
   \item \gnucobol{EC-IMP-UTC-UNKNOWN}
   \end{itemize}
 
+\item \gnucobol{EC-JSON}
+  \begin{itemize}
+  \item \gnucobol{EC-JSON-IMP}
+  \end{itemize}
+  
 \item EC-LOCALE
   \begin{itemize}
   \item EC-LOCALE-IMP
@@ -220,7 +227,12 @@
   \key{PROCEDURE} \key{DIVISION}
   \miscext{
     \begin{0-1}
-      \mnemonicname
+      \metaelement{call-convention-phrase}
+    \end{0-1}
+  }
+  \miscext{
+    \begin{0-1}
+      \metaelement{linkage-phrase}
     \end{0-1}
   }
   \begin{0-1}
@@ -259,24 +271,50 @@ where \defnmetaelement{using-chaining-clause} is
     \end{1=}
     \miscext{
       \begin{0-1}
-        \begin{0-1}
-          \key{UNSIGNED}
-        \end{0-1}
-        \key{SIZE} IS
-        \begin{1=}
-          \key{AUTO} \\
-          \integer
-        \end{1=} \\
-
-        \key{SIZE} IS \key{DEFAULT}
+        \defdmetaelement{param-size}
       \end{0-1}
     }
-
     \begin{0-1}
       \key{OPTIONAL}
     \end{0-1}
     \identifier
+    \miscext{
+      \pending{
+        \begin{0-1}
+          \defdmetaelement{memory-size}
+        \end{0-1}
+      }
+    }
   \end{1=}\ldots
+\end{syntax}
+
+where \defnmetaelement{param-size} is
+
+\begin{syntax}[\miscextcolour]
+  \begin{0-1}
+    \begin{0-1}
+      \key{UNSIGNED}
+    \end{0-1}
+    \key{SIZE} IS
+    \begin{1=}
+      \key{AUTO} \\
+      \integer
+    \end{1=} \\
+
+    \key{SIZE} IS \key{DEFAULT}
+  \end{0-1}
+\end{syntax}
+
+where \defnmetaelement{memory-size} is
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    WITH \key{MEMORY} \key{SIZE} IS
+    \begin{0-1}
+      \identifier \\
+      \literal
+    \end{0-1}
+  }
 \end{syntax}
 
 where \defnmetaelement{declaratives} is
@@ -300,6 +338,40 @@ where \defnmetaelement{declaratives} is
 
 \section{Common phrases}
 
+\subsection{Call-convention phrase}
+
+\begin{syntax}[\miscextcolour]
+  \begin{0-1}
+    \key{C} \\
+    \key{EXTERN} \\
+    \key{PASCAL} \\
+    \key{STATIC} \\
+    \key{STDCALL} \\
+    \mnemonicname
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\subsection{LINKAGE phrase}
+
+\begin{syntax}[\miscextcolour]
+  \key{WITH}
+  \begin{0-1}
+    \key{C} \\
+    \key{PASCAL} \\
+    \key{STDCALL}
+    
+  \end{0-1}
+  \key{LINKAGE}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{RETRY phrase}
 
 \begin{syntax}
@@ -316,7 +388,6 @@ where \defnmetaelement{declaratives} is
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
-
 
 \subsection{ROUNDED phrase}
 
@@ -598,7 +669,7 @@ where \defnmetaelement{accept-appearance-attribute-clauses} is
 
   WITH \key{SCROLL}
   \begin{1=}
-    \key{UP} \\
+    UP \\
     \key{DOWN}
   \end{1=}
   \begin{0-1}
@@ -1025,13 +1096,15 @@ The CALL statement transfers execution to another program, optionally with argum
 
   \miscext{
     \begin{0-1}
-      \mnemonicname \\
+      \metaelement{call-convention-phrase}
     \end{0-1}
     \begin{0-1}
       \pending{IN \key{THREAD}}
     \end{0-1}
+    \begin{0-1}
+      \metaelement{linkage-phrase}
+    \end{0-1}
   }
-
 
   \begin{1=}
     \begin{1=}
@@ -1154,9 +1227,8 @@ The CLOSE statement prevents the program from accessing or modifying an open fil
         FOR \key{REMOVAL}
       \end{0-1} \\
 
-      \pending{WITH \key{NO} \key{REWIND}} \\
-      WITH \key{LOCK} \\ % TO-DO: Check!
-      \pending{\deleted{REVERSED}}
+      WITH \key{NO} \key{REWIND} \\
+      WITH \key{LOCK}
     \end{0-1}
   \end{1=} \ldots
 \end{syntax}
@@ -1222,10 +1294,16 @@ The COMPUTE statement evaluates an arithmetic expression and stores the result.
 
 \section{CONTINUE statement}
 
-The CONTINUE statement has no effect on program execution.
+The plain format of the CONTINUE statement has no effect on program execution. The after format of the CONTINUE statement pauses execution for a specified length of time.
 
+\format{plain}
 \begin{syntax}
   \key{CONTINUE}
+\end{syntax}
+
+\format{after}
+\begin{syntax}
+  \key{CONTINUE} \key{AFTER} \expression \key{SECONDS}
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -1803,7 +1881,7 @@ where \defnmetaelement{display-appearance-attribute-clauses} is
 
   WITH \key{SCROLL}
   \begin{1=}
-    \key{UP} \\
+    UP \\
     \key{DOWN}
   \end{1=}
   \begin{0-1}
@@ -1963,11 +2041,15 @@ The ENABLE statement allows the program to access and modify a communication des
 The ENTRY statement indicates an alternative point of entry into the program.
 
 \begin{syntax}[\miscextcolour]
-  \key{ENTRY}
+  \key{ENTRY} 
   \begin{0-1}
-    \mnemonicname
+    \metaelement{call-convention-phrase}
   \end{0-1}
   \literal
+  
+  \begin{0-1}
+    \metaelement{linkage-phrase}
+  \end{0-1}
 
   \begin{0-1}
     \key{USING}
@@ -2439,9 +2521,89 @@ where \defnmetaelement{before-after-phrase} is
 
 \subsubsection{General rules}
 
+\section{JSON GENERATE statement}
+
+The JSON GENERATE statement converts a JSON record based on the structure and content of the input data item.
+
+\begin{syntax}[\miscextcolour]
+  \key{JSON} \key{GENERATE} \identifier \key{FROM} \identifier
+
+  \begin{0-1}
+    \key{COUNT} IN \identifier
+  \end{0-1}
+
+  \begin{0-1}
+    \key{NAME} OF
+    \begin{1=}
+      \identifier IS \literal
+    \end{1=}\dots
+  \end{0-1}
+
+  \begin{0-1}
+    \key{SUPPRESS}
+    \begin{1=}
+      \identifier
+    \end{1=} \dots
+  \end{0-1}
+
+  \begin{0+}
+    ON \key{EXCEPTION} \imperativestatement \\
+    \key{NOT} ON \key{EXCEPTION} \imperativestatement
+  \end{0+}
+
+  \begin{0-1}
+    \key{END-JSON}
+  \end{0-1}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{JSON PARSE statement}
+
+The JSON PARSE statement starts an event-driven JSON parser; the processing procedure is performed as each component of the JSON document is identified in order.
+
+\pending{
+  \begin{syntax}[\miscextcolour]
+    \key{JSON} \key{PARSE} \identifier \key{INTO} \identifier
+
+    \begin{0-1}
+      WITH \key{DETAIL}
+    \end{0-1}
+
+    \begin{0-1}
+      \key{NAME} OF
+      \begin{1=}
+        \identifier IS \literal
+      \end{1=}\dots
+    \end{0-1}
+
+    \begin{0-1}
+      \key{SUPPRESS}
+      \begin{1=}
+        \identifier
+      \end{1=} \dots
+    \end{0-1}
+
+    \begin{0+}
+      ON \key{EXCEPTION} \imperativestatement \\
+      \key{NOT} ON \key{EXCEPTION} \imperativestatement
+    \end{0+}
+
+    \begin{0-1}
+      \key{END-JSON}
+    \end{0-1}
+  \end{syntax}
+}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \section{MERGE statement}
 
-The MERGE statements reads multiple files with the same record desciption, combines their records and sorts them.
+The MERGE statement reads multiple files with the same record desciption, combines their records and sorts them.
 
 \begin{syntax}
   \key{MERGE} \identifier
@@ -2465,7 +2627,20 @@ The MERGE statements reads multiple files with the same record desciption, combi
   \end{0-1}
 
   \begin{0-1}
-    COLLATING \key{SEQUENCE} IS \identifier
+    COLLATING \key{SEQUENCE} IS
+    \begin{1=}
+      IS \metaelement{alphanumeric-collating-sequence}
+      \pending{
+        \begin{0-1}
+          \metaelement{national-collating-sequence}
+        \end{0-1}
+      } \\
+
+      \begin{1+}
+        FOR \key{ALPHANUMERIC} IS \metaelement{alphanumeric-collating-sequence} \\
+        \pending{FOR \key{NATIONAL} IS \metaelement{national-collating-sequence}}
+      \end{1+}
+    \end{1=}
   \end{0-1}
 
   \begin{0-1}
@@ -2889,6 +3064,23 @@ The PURGE statement
   \pending{\key{PURGE} \cdname}
 \end{syntax}
 
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{RAISE statement}
+
+The PURGE statement
+
+\pending{
+  \begin{syntax}
+    \key{RAISE}
+    \begin{1=}
+      \key{EXCEPTION} \metaelement{exception-name} \\
+      \identifier
+    \end{1=}
+  \end{syntax}
+}
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
@@ -3356,7 +3548,7 @@ The SET statement sets the value or properties of a data item.
 
 \section{SORT statement}
 
-The SORT statement sorts the record of a file.
+The SORT statement sorts the record of a file or a table.
 
 \begin{syntax}
   \key{SORT} \identifier
@@ -3380,7 +3572,20 @@ The SORT statement sorts the record of a file.
   \end{0-1}
 
   \begin{0-1}
-    COLLATING \key{SEQUENCE} IS \identifier
+    COLLATING \key{SEQUENCE} IS
+    \begin{1=}
+      IS \metaelement{alphanumeric-collating-sequence}
+      \pending{
+        \begin{0-1}
+          \metaelement{national-collating-sequence}
+        \end{0-1}
+      } \\
+
+      \begin{1+}
+        FOR \key{ALPHANUMERIC} IS \metaelement{alphanumeric-collating-sequence} \\
+        \pending{FOR \key{NATIONAL} IS \metaelement{national-collating-sequence}}
+      \end{1+}
+    \end{1=}
   \end{0-1}
 
   \begin{0-1}
@@ -3891,9 +4096,11 @@ The USE statement indicates when a declarative should be executed.
   \pending{
     \key{USE}
     \begin{1=}
-      \key{EXCEPTION-CONDITION} \\
-      \key{EC}
-    \end{1=}
+      \key{EXCEPTION} \metaelement{exception-name}
+      \begin{0-1}
+        \key{FILE} \filename
+      \end{0-1}\dots
+    \end{1=}\dots
   }
 \end{syntax}
 
@@ -4070,7 +4277,7 @@ The WRITE statement provides a new record to the file.
 
 \section{XML GENERATE statement}
 
-The XML GENERATE statement creates an XML document based on the structure and contents of the input data item.
+The XML GENERATE statement creates an XML document based on the structure and content of the input data item.
 
 \begin{syntax}[\miscextcolour]
   \key{XML} \key{GENERATE} \identifier \key{FROM} \identifier
@@ -4122,9 +4329,9 @@ The XML GENERATE statement creates an XML document based on the structure and co
     \begin{1=}
       \identifier IS
       \begin{1=}
-        ATTRIBUTE \\
-        ELEMENT \\
-        CONTENT
+        \key{ATTRIBUTE} \\
+        \key{ELEMENT} \\
+        \key{CONTENT}
       \end{1=}
     \end{1=}\dots
   \end{0-1}
@@ -4157,7 +4364,7 @@ The XML GENERATE statement creates an XML document based on the structure and co
       \begin{0-1}
         \defdmetaelement{non-quote-alnum-fig-const}
         \key{OR}
-      \end{0-1}\ldots
+      \end{0-1}\ldots\
       \defdmetaelement{non-quote-alnum-fig-const}
     \end{1=}\ldots
   \end{0-1}
