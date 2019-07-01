@@ -180,7 +180,7 @@
 @comment ** 2.1.6 Copybooks                                                 **
 @comment *********************************************************************
 @newsubsection{2.1.6,Copybooks}A @define{Copybook} is a segment of program code that may be utilized by multiple programs simply by having those programs use the @statementref{COPY} to import that code.  This code may define files, data structures or procedural code.
-@p Today's current programming languages have a statement (usually, this statement is named "import", "include" or "#include") that performs this same function.  What makes the COBOL copybook feature different than the "include" facility in newer languages, however, is the fact that the @statement{COPY} can edit the imported source code as it is being copied.  This capability makes copybook libraries extremely valuable to making code reusable.
+@p Today's current programming languages have a statement (usually, this statement is named "import", "include" or "#include") that performs this same function.  What makes the COBOL copybook feature different than the "include" facility in newer languages, however, is the fact that the @statement{COPY} can edit the imported source code as it is being copied.  This capability makes copybook libraries extremely valuable to making code reusable. Also see section 3. Compiler Directing Facility commands COPY and REPLACE.
 @comment *********************************************************************
 @comment ** 2.1.7 Structured Data                                           **
 @comment *********************************************************************
@@ -644,6 +644,15 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @p @item Non-integer fixed point values such as 1.317 or -2.95.
 @p @item Floating-point values using "Enn" notation such as 9.92E25, representing 9.92 x 10^25 (10 raised to the 25th power) or 5.7E-14, representing 5.7 x 10^-14 (10 raised to the -14th power).  Both the mantissa (the number before the E) and the exponent (the number after the E) may be explicitly specified as positive (with a +), negative (with a -) or unsigned (and therefore implicitly positive).  A floating-point literals value must be within the range -1.7 x 10^308  to +1.7 x 10^308 with no more than 15 decimal digits of precision.
 @p @item Hexadecimal numeric literals@idx{Hexadecimal Numeric Literal}@idx{Numeric Literal (Hexadecimal)} such as H"1F" (31 decimal), h'22' (34 decimal) or H'DEAD' (57005 decimal).  The H character may either be upper- or lower-case and either single quote (') or double-quote (") characters may be used in a hexadecimal literal, provided both aren't used in the same literal.  Hexadecimal numeric literals are limited to a maximum of sixteen hexadecimal digits (a 64-bit value).
+@p @item Null terminated literals@idx{Null Terminated Literals} using Z"character".
+@p @item Raw C string using L"characters".
+@p @item Binary using B#0 or 1.
+@p @item Octal using O#0 - 7. (That is the letter O).
+@p @item Hexadecimal number using H# or X# 0 - F.
+@p @item Boolean Literals (Standard) B" character ".
+@p @item Boolean Literals (Hexadecimal) BX" hex character ".
+@p @item National Literals (Standard) N" character "  or NC" character ".
+@p @item National Literals (Hexadecimal)  NX" character ".
 @end itemize
 @comment *********************************************************************
 @comment ** 2.1.19.2 Alphanumeric Literals                                  **
