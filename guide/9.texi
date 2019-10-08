@@ -80,7 +80,7 @@
 @p @format
 @t{  _______________________________ }
 @t{ |                               |}
-@t{ | Top-of-page Unusable Area    |}---# Lines: @t{LINES AT TOP} (LINAGE)
+@t{ | Top-of-page Unusable Area     |}---# Lines: @t{LINES AT TOP} (LINAGE)
 @t{ |_______________________________|}
 @t{ |                               |}---Line #: @t{HEADING} (RD)
 @t{ | Heading Area                  |}
@@ -94,7 +94,7 @@
 @t{ | Footing Area                  |}
 @t{ |_______________________________|}
 @t{ |                               |}
-@t{ | Bottom-of-page Unusable Area |}---# Lines: @t{LINES AT BOTTOM} (LINAGE)
+@t{ | Bottom-of-page Unusable Area  |}---# Lines: @t{LINES AT BOTTOM} (LINAGE)
 @t{ |_______________________________|}
 @end format
 @* When describing a report via the @syntaxrefalt{RD,REPORT SECTION} clause, the total number of usable lines are specified as the @syntax{PAGE LIMIT} value; this value is the sum of the number of lines contained in the Heading, Body and Footing Areas.
@@ -925,6 +925,7 @@ AMD    A8
 Family  Model  Benchmark Score (High to Low)
 ======  ====== =============================
 A8      6600K   4719
+
 ____________________________________________
 @end example
 @comment *********************************************************************
@@ -954,7 +955,7 @@ ____________________________________________
 01  TYPE IS PAGE HEADING.
 @b{    05 LINE NUMBER 1.                          *> NEW}
 @b{       10 COL 1  VALUE X'0C'.                  *> NEW}
-@b{    05 LINE NUMBER PLUS 1.                     *> CHANGED}
+@b{    05 LINE NUMBER PLUS 1.                 *> CHANGED}
        10 COL 1  SOURCE WS-Date PIC 9999/99/99.
        10 COL 14 VALUE 'CPU Benchmark Scores'.
        10 COL 37 VALUE 'Page:'.
@@ -970,7 +971,7 @@ ____________________________________________
        10 COL 1  SOURCE WS-Starz PIC X(44).
 @end example
 @* RWCS will still be counting lines to decide when to close off one page and start a new one, but when a new page is started it's page heading will @i{physically} form-feed the printer when the report is printed.  As long as any printer you plan on using supports at least as many physical print lines as what is defined as the @syntax{PAGE LIMIT} value in whatever paper orientation and font you plan on (or are limited to) printing in, you have now divorced your program from the physical realities of the printer!
-@p Of course, whatever software you are using to deliver the printed document to the printer with must allow the ASCII form-feed character to pass through to the printer.
+@p Of course, whatever software you are using to deliver the printed document to the printer with, must allow the ASCII form-feed character to pass through to the printer.
 @iftex
 @sp 3
 @center ------------------------------------------------------------
