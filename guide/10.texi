@@ -6,6 +6,8 @@
 * 10.1: Compiling Programs.
 @detailmenu
 *   10.1.1: cobc - The GnuCOBOL Compiler.
+*   10.1.1,1: cobc option -XRef an example.
+*   10.1.1,2: Cross Reference listing using cobxref.
 *   10.1.2: Compilation Time Environment Variables.
 *   10.1.3: Predefined Compilation Variables.
 *   10.1.4: Locating Copybooks.
@@ -39,6 +41,8 @@
 @end table
 @menu
 * 10.1.1: cobc - The GnuCOBOL Compiler.
+* 10.1.1,1: cobc option -XRef an example.
+* 10.1.1,2: Cross Reference listing using cobxref.
 * 10.1.2: Compilation Time Environment Variables.
 * 10.1.3: Predefined Compilation Variables.
 * 10.1.4: Locating Copybooks.
@@ -96,8 +100,9 @@ Options:
   -P[=<dir or file>]     generate preprocessed program listing (.lst)
   -Xref                  generate cross reference through 'cobxref'
                          (V. Coen's 'cobxref' must be in path)
-                         {This uses the internal tool only.
-                         To use Cobxref you must run this separately.}
+                         {This uses the internal tool only. See 10.1.1.1 for example output.
+                         To use Cobxref you must run this separately. See second example as 10.1.1.2}
+
   -I <directory>         add <directory> to copy/include search path
   -L <directory>         add <directory> to library search path
   -l <lib>               link the library <lib>
@@ -444,6 +449,189 @@ Compiler dialect configuration options:
 @p The above generates an assembler source file named "sprog1.s".  If you have multiple subprograms to compile this way, just string their file names out on the command --- each will be translated to it's own assembler source file.
 @p Later, when you wish to compile a calling program and combine any needed assembly language subroutines in (as static subroutines --- @pxref{Dynamic vs Static Subprograms}), use a command such as this:
 @p @center @syntax{cobc -x mainprog.cbl sprog1.s}
+@comment *********************************************************************
+@comment ** 10.1.1.1 -X GnuCOBOL Compiler option                            **
+@comment *********************************************************************
+@newsubsection{10.1.1.1,cobc option -Xref an example}
+@p The following shows the output from using -Xref.
+@verbatim
+
+   Using the internal -Xref as extra options -X -t prog.list:
+
+   GnuCOBOL 3.1-dev.0      prog.cbl             Fri Dec  6 14:17:52 2019  Page 0001
+
+LINE    PG/LN  A...B............................................................
+
+000001  000001 IDENTIFICATION   DIVISION.
+000002  000002 PROGRAM-ID.      prog.
+000003  000003 ENVIRONMENT DIVISION.
+000004  000004 CONFIGURATION SECTION.
+000005  000005 DATA             DIVISION.
+000006  000006 WORKING-STORAGE  SECTION.
+000007  000007 COPY 'values.cpy'.
+000001C 000001 78  I   VALUE 20.
+000002C 000002 78  J   VALUE 5000.
+000003C 000003 78  M   VALUE 5.
+000008  000008 01  SETUP-REC.
+000009  000009     05  FL1       PIC X(04).
+000010  000010     05  FL2       PIC ZZZZZ.
+000011  000011     05  FL3       PIC 9(04).
+000012  000012     05  FL4       PIC 9(08) COMP.
+000013  000013     05  FL5       PIC 9(04) COMP-4.
+000014  000014     05  FL6       PIC Z,ZZZ.99.
+000015  000015     05  FL7       PIC S9(05) SIGN LEADING SEPARATE.
+000016  000016     05  FL8       PIC X(04).
+000017  000017     05  FL9 REDEFINES FL8 PIC 9(04).
+000018  000018     05  FLA.
+000019  000019         10  FLB OCCURS I TIMES.
+000020  000020             15  FLC PIC X(02).
+000021  000021         10  FLD   PIC X(20).
+000022  000022     05  FLD1      PIC X(100).
+000023  000025     05  FLD3      PIC X(3).
+000024  000026     05  FLD4      PIC X(4).
+000025  000023     05  FLD2 OCCURS M TO J TIMES DEPENDING ON FL5.
+000026  000024         10  FILLER PIC X(01).
+000027  000027 PROCEDURE        DIVISION.
+000028  000028     STOP RUN.
+GnuCOBOL 3.1-dev.0      prog.cbl             Fri Dec  6 14:17:52 2019  Page 0002
+
+NAME                           DEFINED                REFERENCES
+
+SETUP-REC                      8      referenced by child
+FL1                            9      not referenced
+FL2                            10     not referenced
+FL3                            11     not referenced
+FL4                            12     not referenced
+FL5                            13       25
+FL6                            14     not referenced
+FL7                            15     not referenced
+FL8                            16     not referenced
+FL9                            17     not referenced
+FLA                            18     not referenced
+FLB                            19     not referenced
+FLC                            20     not referenced
+FLD                            21     not referenced
+FLD1                           22     not referenced
+FLD3                           23     not referenced
+FLD4                           24     not referenced
+FLD2                           25     not referenced
+
+GnuCOBOL 3.1-dev.0      prog.cbl             Fri Dec  6 14:17:52 2019  Page 0003
+
+LABEL                          DEFINED                REFERENCES
+
+E prog                         27
+
+0 warnings in compilation group
+0 errors in compilation group
+@end verbatim
+@comment *********************************************************************
+@comment ** 10.1.1.2 Cross reference using cobxref                          **
+@comment *********************************************************************
+@newsubsection{10.1.1.2, Cross Reference listing using cobxref}
+@p This program is found in the contrib area or by itself in Sourceforge under its own name (cobxref).
+@p The following shows the output from using cobxref with the same program example.
+@verbatim
+
+Using cobxref with command  "cobxref prog.cbl" :
+
+ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    1
+
+     1  000001 IDENTIFICATION   DIVISION.
+     2  000002 PROGRAM-ID.      prog.
+     3  000003 ENVIRONMENT DIVISION.
+     4  000004 CONFIGURATION SECTION.
+     5  000005 DATA             DIVISION.
+     6  000006 WORKING-STORAGE  SECTION.
+     7  000007*COPY 'values.cpy'.
+     8  000001 78  I   VALUE 20.
+     9  000002 78  J   VALUE 5000.
+    10  000003 78  M   VALUE 5.
+    11  000008 01  SETUP-REC.
+    12  000009     05  FL1       PIC X(04).
+    13  000010     05  FL2       PIC ZZZZZ.
+    14  000011     05  FL3       PIC 9(04).
+    15  000012     05  FL4       PIC 9(08) COMP.
+    16  000013     05  FL5       PIC 9(04) COMP-4.
+    17  000014     05  FL6       PIC Z,ZZZ.99.
+    18  000015     05  FL7       PIC S9(05) SIGN LEADING SEPARATE.
+    19  000016     05  FL8       PIC X(04).
+    20  000017     05  FL9 REDEFINES FL8 PIC 9(04).
+    21  000018     05  FLA.
+    22  000019         10  FLB OCCURS I TIMES.
+    23  000020             15  FLC PIC X(02).
+    24  000021         10  FLD   PIC X(20).
+    25  000022     05  FLD1      PIC X(100).
+    26  000025     05  FLD3      PIC X(3).
+    27  000026     05  FLD4      PIC X(4).
+    28  000023     05  FLD2 OCCURS M TO J TIMES DEPENDING ON FL5.
+    29  000024         10  FILLER PIC X(01).
+    30  000027 PROCEDURE        DIVISION.
+    31  000028     STOP RUN.
+    32        *>>>Info: Total Copy Depth Used = 02
+ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    2
+Symbols of Module: PROG (PROG)
+------------------------------
+
+Data Section (WORKING-STORAGE)  Defn     Locations
+-------------------------------+---------------------------------------------------------------
+
+FL1                             000012W
+FL2                             000013W
+FL3                             000014W
+FL4                             000015W
+FL5                             000016W  000028
+FL6                             000017W
+FL7                             000018W
+FL8                             000019W  000020
+FL9                             000020W
+FLA                             000021W
+FLB                             000022W
+FLC                             000023W
+FLD                             000024W
+FLD1                            000025W
+FLD2                            000028W
+FLD3                            000026W
+FLD4                            000027W
+I                               000008W  000022
+J                               000009W  000028
+M                               000010W  000028
+SETUP-REC                       000011W
+ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    3
+Symbols of Module: PROG (PROG)
+------------------------------
+Procedure                       Defn     Locations
+-------------------------------+---------------------------------------------------------------
+
+None
+ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    4
+Symbols of Module: PROG (PROG)
+------------------------------
+Unreferenced Working Storage Symbols
+
+FL1                             000012W
+FL2                             000013W
+FL3                             000014W
+FL4                             000015W
+FL6                             000017W
+FL7                             000018W
+FL9                             000020W
+FLA                             000021W
+FLB                             000022W
+FLC                             000023W
+FLD                             000024W
+FLD1                            000025W
+FLD2                            000028W
+FLD3                            000026W
+FLD4                            000027W
+SETUP-REC                       000011W
+ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    5
+Symbols of Module: PROG (PROG)
+------------------------------
+Unreferenced Procedures
+
+None
+@end verbatim
 @comment *********************************************************************
 @comment ** 10.1.2 Compilation Time Environment Variables                    **
 @comment *********************************************************************
