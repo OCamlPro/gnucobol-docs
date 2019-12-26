@@ -172,7 +172,8 @@ where \defnmetaelement{collating-sequences} is:
       \key{CURSOR} IS \identifier \\
       \key{CRT} \key{STATUS} IS \identifier \\
       \miscext{\pending{\key{SCREEN-CONTROL} IS \identifier}} \\
-      \miscext{\pending{\key{EVENT-STATUS} IS \identifier}}
+      \miscext{\pending{\key{EVENT-STATUS} IS \identifier}} \\
+      \miscext{\key{TOP} IS \identifier}
     \end{1=}\ldots\ {}.
   \end{0-1}\ldots
 \end{syntax}
@@ -384,11 +385,13 @@ where \defnmetaelement{file-control-entry} is
   \end{0-1}
   \filename
   \begin{0-1}
+    \defdmetaelement{actual-key-clause} \\
     \defdmetaelement{assign-clause} \\
     \defdmetaelement{access-mode-clause} \\
     \defdmetaelement{alternate-record-key-clause} \\
     \defdmetaelement{collating-sequence-clause} \\
     \defdmetaelement{collating-sequence-key-clause} \\
+    \defdmetaelement{file-limit-clause} \\
     \defdmetaelement{file-status-clause} \\
     \defdmetaelement{lock-mode-clause} \\
     \defdmetaelement{organization-clause} \\
@@ -398,18 +401,29 @@ where \defnmetaelement{file-control-entry} is
     \defdmetaelement{record-key-clause} \\
     \defdmetaelement{relative-key-clause} \\
     \defdmetaelement{reserve-clause} \\
-    \defdmetaelement{sharing-clause}
+    \defdmetaelement{sharing-clause} \\
+    \defdmetaelement{track-area-clause} \\
+    \defdmetaelement{track-limit-clause}
   \end{0-1}\ldots\ {}.
+\end{syntax}
+
+where \defnmetaelement{actual-key-clause} is
+
+\ {} \newline
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{ACTUAL} KEY IS \identifier
+  }
 \end{syntax}
 
 where \defnmetaelement{assign-clause} is
 
-\ {}\newline
 \begin{syntax}
   \key{ASSIGN}
   \begin{0-1}
     \key{TO} \\
-    \key{USING}
+    \key{USING} \\
+    \miscext{TO \key{VARYING}}
   \end{0-1}
   \miscext{
     \begin{0-1}
@@ -531,6 +545,35 @@ where \defnmetaelement{collating-sequence-key-clause} is
   }
 \end{syntax}
 
+where \defnmetaelement{file-limit-clause} is
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \begin{1=}
+      \key{FILE-LIMIT} \\
+      \key{FILE-LIMITS}
+    \end{1=}
+    \begin{1=}
+      IS \\
+      ARE
+    \end{1=}
+    \begin{1=}
+      \begin{1=}
+        \identifier \\
+        \literal
+      \end{1=}
+      \begin{1=}
+        \key{THROUGH} \\
+        \key{THRU}
+      \end{1=}
+      \begin{1=}
+        \identifier \\
+        \literal      
+      \end{1=}
+    \end{1=} \ldots
+  }
+\end{syntax}
+
 where \defnmetaelement{file-status-clause} is
 
 \begin{syntax}
@@ -580,6 +623,14 @@ where \defnmetaelement{lock-mode-clause} is
       }
     }
   \end{1=}
+\end{syntax}
+
+where \defnmetaelement{nominal-key-clause} is
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{NOMINAL} KEY IS \identifier
+  }
 \end{syntax}
 
 where \defnmetaelement{organization-clause} is
@@ -697,6 +748,31 @@ where \defnmetaelement{sharing-clause} is
   \end{1=}
 \end{syntax}
 
+where \defnmetaelement{track-area-clause} is
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{TRACK-AREA} IS
+    \begin{1=}
+      \identifier \\
+      \literal
+    \end{1=}
+    CHARACTERS
+  }
+\end{syntax}
+
+where \defnmetaelement{track-area-clause} is
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{TRACK-LIMIT} IS \integer
+    \begin{1=}
+      \key{TRACK} \\
+      \key{TRACKS}
+    \end{1=}
+  }
+\end{syntax}
+
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
@@ -708,10 +784,56 @@ where \defnmetaelement{sharing-clause} is
   \end{0-1}\newline
   \begin{1=}
     \pending{
-      \key{APPLY} \key{COMMIT} ON
-      \begin{0-1}
-        \identifier
-      \end{0-1}\dots
+      \key{APPLY} \key{COMMIT} ON \identifier\ldots
+    } \\
+
+    \miscext{
+      \pending{
+        \key{APPLY}
+        \begin{1=}
+          \key{CORE-INDEX} \\
+          \key{EXTENDED-SEARCH} \\
+          \key{LOCK-HOLDING} \\
+          \key{PRINT-CONTROL} \\
+          \key{RECORD-OVERFLOW} \\
+          \key{WRITE-ONLY} \\
+          \key{WRITE-VERIFY}
+        \end{1=}
+        ON \filename\ldots
+      }
+    } \\
+
+    \miscext{
+      \pending{
+        \key{APPLY}
+        \begin{1=}
+          \key{CYL-INDEX} \\
+          \key{MASTER-INDEX}
+        \end{1=}
+        TO \integer ON \filename\ldots
+      }
+    } \\
+
+    \pending{
+      \miscext{
+        \key{APPLY} \key{CYL-OVERFLOW} OF \integer
+        \begin{1=}
+          \key{TRACK} \\
+          \key{TRACKS}
+        \end{1=}
+        ON \filename\ldots
+      }
+    } \\
+
+    \pending{
+      \miscext{
+        \key{APPLY}
+        \begin{1=}
+          \key{CORE-INDEX} \\
+          \key{REORG-CRITERIA}
+        \end{1=}
+        TO \identifier ON \filename\ldots
+      }
     } \\
     
     \key{SAME}
@@ -733,6 +855,18 @@ where \defnmetaelement{sharing-clause} is
           \key{POSITION} \integer
         \end{0-1}
       \end{1=}\ldots
+    } \\
+
+    \deleted{
+      \key{RERUN} ON \filename EVERY
+      \begin{1=}
+        \integer \key{RECORDS} \\
+        \key{END} OF
+        \begin{1=}
+          \key{REEL} \\
+          \key{UNIT}
+        \end{1=}
+      \end{1=}
     }
   \end{1=}\ldots\ {}.
 \end{syntax}

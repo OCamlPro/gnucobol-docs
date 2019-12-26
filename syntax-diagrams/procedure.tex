@@ -2040,6 +2040,7 @@ The ENABLE statement allows the program to access and modify a communication des
 
 The ENTRY statement indicates an alternative point of entry into the program.
 
+\format{usual}
 \begin{syntax}[\miscextcolour]
   \key{ENTRY} 
   \begin{0-1}
@@ -2081,6 +2082,11 @@ The ENTRY statement indicates an alternative point of entry into the program.
       \end{1=}\ldots
     \end{1=}
   \end{0-1}
+\end{syntax}
+
+\format{for GO TO}
+\begin{syntax}[\gnucobolcolour]
+  \key{ENTRY} \key{FOR} \key{GO} \key{TO} \literal
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -2216,11 +2222,13 @@ The GENERATE statement a specified report entry.
 
 The GO TO statement transfer execution to another part of the program.
 
+\format{usual}
 \begin{syntax}
   \key{GO} TO
   \begin{1=}
-    \procedurename
-  \end{1=} \ldots
+    \procedurename \ldots \\
+    \gnucobol{\key{ENTRY} \metaelement{entry-name} \ldots}
+  \end{1=}
   \begin{0-1}
     \key{DEPENDING} ON \identifier
   \end{0-1}
@@ -2536,14 +2544,14 @@ The JSON GENERATE statement converts a JSON record based on the structure and co
     \key{NAME} OF
     \begin{1=}
       \identifier IS \literal
-    \end{1=}\dots
+    \end{1=}\ldots
   \end{0-1}
 
   \begin{0-1}
     \key{SUPPRESS}
     \begin{1=}
       \identifier
-    \end{1=} \dots
+    \end{1=} \ldots
   \end{0-1}
 
   \begin{0+}
@@ -2576,14 +2584,14 @@ The JSON PARSE statement starts an event-driven JSON parser; the processing proc
       \key{NAME} OF
       \begin{1=}
         \identifier IS \literal
-      \end{1=}\dots
+      \end{1=}\ldots
     \end{0-1}
 
     \begin{0-1}
       \key{SUPPRESS}
       \begin{1=}
         \identifier
-      \end{1=} \dots
+      \end{1=} \ldots
     \end{0-1}
 
     \begin{0+}
@@ -2903,7 +2911,15 @@ where \defnmetaelement{open-options} is
         \key{UPDATERS} \\
         \key{WRITERS} \\
         \key{NO} OTHERS
-      \end{1=}
+      \end{1=} \\
+
+      \pending{
+        \begin{1=}
+          \key{DISP} \\
+          \key{LEAVE} \\
+          \key{REREAD}
+        \end{1=}
+      }
     \end{0-1}
   }
   \begin{0-1}
@@ -3542,6 +3558,20 @@ The SET statement sets the value or properties of a data item.
   }
 \end{syntax}
 
+\format{file-handler}
+\begin{syntax}[\miscextcolour]
+  \key{SET}
+  \begin{1=}
+    \identifier
+  \end{1=}\ldots
+  \key{TO} \key{ADDRESS} OF
+  \begin{1=}
+    \key{FH--FCD} \\
+    \key{FH--KEYDEF}
+  \end{1=}
+  OF \filename
+\end{syntax}
+
 \subsubsection{Syntax rules}
 
 \subsubsection{General rules}
@@ -4099,8 +4129,8 @@ The USE statement indicates when a declarative should be executed.
       \key{EXCEPTION} \metaelement{exception-name}
       \begin{0-1}
         \key{FILE} \filename
-      \end{0-1}\dots
-    \end{1=}\dots
+      \end{0-1}\ldots
+    \end{1=}\ldots
   }
 \end{syntax}
 
@@ -4117,7 +4147,7 @@ The VALIDATE statement performs various validation tasks for a data item.
     \key{VALIDATE}
     \begin{1=}
       \identifier
-    \end{1=} \dots
+    \end{1=} \ldots
   }
 \end{syntax}
 
@@ -4321,7 +4351,7 @@ The XML GENERATE statement creates an XML document based on the structure and co
     \key{NAME} OF
     \begin{1=}
       \identifier IS \literal
-    \end{1=}\dots
+    \end{1=}\ldots
   \end{0-1}
 
   \begin{0-1}
@@ -4333,7 +4363,7 @@ The XML GENERATE statement creates an XML document based on the structure and co
         \key{ELEMENT} \\
         \key{CONTENT}
       \end{1=}
-    \end{1=}\dots
+    \end{1=}\ldots
   \end{0-1}
 
   \begin{0-1}
