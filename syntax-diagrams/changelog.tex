@@ -4,6 +4,53 @@
 
 \paragraph{General}
 \begin{itemize}
+\item \textbf{EXTFH}: added support for the external file handler (EXTFH) interface, letting users provide a custom file handler.
+\item \textbf{EXTFH}: the old OpenCOBOL EXTFH interface (built into GnuCOBOL with the -{}-with-seqra-extfh and -{}-with-index-extfh build options) has been marked as obsolete.  
+\end{itemize}
+
+\paragraph{Configuration options}
+\begin{itemize}
+\item \textbf{New compiler configurations}: realia for CA Realia II.
+\item \textbf{New compiler configuration options}: reference-bounds-check and report-column-plus.
+\item \textbf{New runtime configuration options}:
+  \begin{itemize}
+  \item keycheck (check whether INDEXED file keys match the SELECT specification exactly).
+  \end{itemize}
+\item \textbf{New runtime configuration environment variables}: IO\_OPTIONS, IX\_OPTIONS,\linebreak LA\_OPTIONS, LS\_OPTIONS, RL\_OPTIONS, SQ\_OPTIONS and IO\_$x$, where $x$ is any ASSIGN EXTERNAL name used in a program.
+\end{itemize}
+
+\paragraph{Compiler directives}
+\begin{itemize}
+\item \textbf{SET directive}: added XFD phrase.
+\end{itemize}
+
+\paragraph{Environment division}
+\begin{itemize}
+\item \textbf{ASSIGN clause}: allow ``ASSIGN VARYING \ldots''.
+\item \textbf{FILE-CONTROL entries}: added detection of the OS\slash{}VS-era phrases ACTUAL KEY, FILE-LIMIT, NOMINAL KEY, TRACK-AREA and TRACK-LIMIT.
+\item \textbf{I-O-CONTROL paragraph}: added detection of the OS\slash{}VS-era clauses CORE-INDEX, CYL-INDEX, CYL-OVERFLOW, EXTENDED-SEARCH, LOCK-HOLDING, MASTER-INDEX, PRINT-CONTROL, RECORD OVERFLOW, REORG-CRITERIA, WRITE-ONLY and WRITE-VERIFY.
+\item \textbf{RERUN clause}: added detection of.
+\end{itemize}
+
+\paragraph{Procedure division}
+\begin{itemize}
+\item \textbf{File I-O}: added support for multiple simultaneous file handlers.
+\item \textbf{File I-O}: allow file-handler to be configured for individual files or organizations using environment variables (or dictionary files).
+\item \textbf{File I-O}: added support for INDEXED files based on LMDB.
+\item \textbf{File I-O}: added initial support for ODBC and OCI as file-handlers.
+\item \textbf{File I-O}: changed file status for detecting bad data in line sequential files from 34 to 71.
+\item \textbf{File I-O (BDB)}: fixed file status after OPEN OUTPUT on an OPTIONAL file.
+\item \textbf{File I-O (ISAM)}: fixed bug involving START\ \ldots\ LESS EQUAL followed by READ PREVIOUS.
+\item \textbf{OPEN statement}: added detection of OS\slash{}VS-era input mode phrases.
+\item \textbf{SET statement}: added support for FH-{}-FCD and FH-{}-KEYDEF.
+\item \textbf{SUBTRACT statement}: fixed \bug{603}, where subtracting an integer from a floating-point variable lead to incorrect results.
+\item \textbf{WRITE statement (indexed)}: fixed bug involving file status 21.
+\end{itemize}
+
+\section{GnuCOBOL 3.1-dev}
+
+\paragraph{General}
+\begin{itemize}
 \item \textbf{C API (configuration)}: added cob\_set\_runtime\_option and cob\_get\_runtime\_option for specifying the file handle which printer output or trace output should go to.
 \item \textbf{cobc command-line options}: added -fcallfh (and COBOL-IT alias -use-extfh).
 \item \textbf{cobc command-line options}: added -fdump to dump data of all modules on abend of program.
@@ -28,8 +75,6 @@
 \item \textbf{Error messages}: added checks for version control conflict markers in source code.
 \item \textbf{Error messages}: fixed \bug{586}, where GnuCOBOL would cause a buffer overflow when outputting an error message with a very long literal.
 \item \textbf{Expressions}: fixed \bug{431}, where decimal constants were not initialised in INITIAL programs.
-\item \textbf{EXTFH}: added support for the external file handler (EXTFH) interface, letting users provide a custom file handler.
-\item \textbf{EXTFH}: the old OpenCOBOL EXTFH interface (built into GnuCOBOL with the --with-seqra-extfh and --with-index-extfh build options) has been marked as obsolete.
 \item \textbf{IBM i support}: fixed segfault involving filepaths
 \item \textbf{Listings}: fixed the substitution of tokens in quotes in copyfiles (\bug{494}).
 \item \textbf{Listings}: fixed some cases of cross-reference listings containing wrong line numbers.
@@ -56,10 +101,18 @@
 \item \textbf{IBM dialect}: reserved words updated to Enterprise COBOL V6.2.
 \item \textbf{incorrect-conf-sec-order option}: changed to ``ok'' from ``error'' in mf and default dialects.
 \item \textbf{MF dialect}: added ARGUMENT-NUMBER and ARGUMENT-VALUE as reserved words.
-\item \textbf{New compiler configurations}: realia for CA Realia II.
-\item \textbf{New compiler configuration options}: binary-comp-1, call-convention-mnemonic, call-convention-linkage, continue-after, display-special-fig-consts, free-redefines-position (\fr{211}), hp-octal-literals, goto-entry, line-col-zero-default, national-character-literals move-figurative-space-to-numeric, move-non-numeric-lit-to-numeric-is-zero, missing-statement, perform-without-varying-by, record-delimiter, record-delim-with-fixed-recs, records-mismatch-record-clause, reference-bounds-check, report-column-plus, screen-section-rules, sequential-delimiters, symbolic-constant, xml-generate-extra-phrases, zero-length-literals.
-\item \textbf{New runtime configuration options}: col\_just\_lrc (for enabling\slash{}disabling the LEFT\slash{}RIGHT\slash{}CENTER phrases of the report COLUMN clause), printer and display\_print\_pipe (for specifying what command should be executed before DISPLAY UPON PRINTER; similar to Micro Focus' COBPRINTER option); display\_print\_file (name of file which DISPLAY UPON PRINTER will append its output to), display\_punch\_file (name of file to created upon first DISPLAY UPON SYSPUNCH), keycheck (check whether INDEXED file keys match the SELECT specification exactly), mouse\_flags (to let mouse clicks move the cursor in ACCEPT), mouse\_interval (maximum time between mouse press and mouse release events for them to recognised as a click), trace\_format, dump\_file and dump\_width.
-\item \textbf{New runtime configuration environment variables}: IO\_OPTIONS, IX\_OPTIONS,\linebreak LA\_OPTIONS, LS\_OPTIONS, RL\_OPTIONS, SQ\_OPTIONS and IO\_$x$, where $x$ is any ASSIGN EXTERNAL name used in a program.
+\item \textbf{New compiler configuration options}: binary-comp-1, call-convention-mnemonic, call-convention-linkage, continue-after, display-special-fig-consts, free-redefines-position (\fr{211}), hp-octal-literals, goto-entry, line-col-zero-default, national-character-literals move-figurative-space-to-numeric, move-non-numeric-lit-to-numeric-is-zero, missing-statement, perform-without-varying-by, record-delimiter, record-delim-with-fixed-recs, records-mismatch-record-clause, screen-section-rules, sequential-delimiters, symbolic-constant, xml-generate-extra-phrases, zero-length-literals.
+\item \textbf{New runtime configuration options}:
+  \begin{itemize}
+  \item col\_just\_lrc (for enabling\slash{}disabling the LEFT\slash{}RIGHT\slash{}CENTER phrases of the report COLUMN clause),
+  \item printer and display\_print\_pipe (for specifying what command should be executed before DISPLAY UPON PRINTER; similar to Micro Focus' COBPRINTER option);
+  \item display\_print\_file (name of file which DISPLAY UPON PRINTER will append its output to), display\_punch\_file (name of file to created upon first DISPLAY UPON SYSPUNCH),
+  \item mouse\_flags (to let mouse clicks move the cursor in ACCEPT),
+  \item mouse\_interval (maximum time between mouse press and mouse release events for them to recognised as a click),
+  \item trace\_format,
+  \item dump\_file and
+  \item dump\_width.
+  \end{itemize}
 \item \textbf{Registers}: disabling a register also removes the reserved word with the same name, if it exists (\fr{278}).
 \item \textbf{Registers}: added COL and LIN.
 \item \textbf{Runtime configuration options}: use the system's file path separator instead of always using : (so the path separator is now ; on Windows). (See \bug{610}.)
@@ -94,10 +147,8 @@
 \item \textbf{CURSOR phrase}: fixed \bug{579}, where the CURSOR data item was not used for the initially positioning the cursor in an ACCEPT statement.
 \item \textbf{CURSOR phrase}: fixed for data items of length 4 characters.
 \item \textbf{EXTERN clause}: improved error messages (\bug{446}).
-\item \textbf{FILE-CONTROL entries}: added detection of the OS/VS-era phrases ACTUAL KEY, FILE-LIMIT, NOMINAL KEY, TRACK-AREA and TRACK-LIMIT.
 \item \textbf{FILE STATUS clause}: added detection of VSAM secondary status identifier (\fr{51}).
 \item \textbf{I-O-CONTROL paragraph}: added detection of APPLY COMMIT clause (from the COBOL~202X draft standard).
-\item \textbf{I-O-CONTROL paragraph}: added detection of the OS/VS-era clauses CORE-INDEX, CYL-INDEX, CYL-OVERFLOW, EXTENDED-SEARCH, LOCK-HOLDING, MASTER-INDEX, PRINT-CONTROL, RECORD OVERFLOW, REORG-CRITERIA, WRITE-ONLY and WRITE-VERIFY.
 \item \textbf{OBJECT-COMPUTER paragraph}: added recognition of NATIONAL collating sequences.
 \item \textbf{OCCURS clause}: correctly implemented nested OCCURS DEPENDING tables (ODOSLIDE).
 \item \textbf{PASSWORD clause}: added detection of.
@@ -105,7 +156,6 @@
 \item \textbf{RECORD DELIMITER phrase}:  added support for BINARY-SEQUENTIAL and LINE-SEQUENTIAL phrases.
 \item \textbf{RECORD DELIMITER phrase}: improved syntax checks (see \bug{442}).
 \item \textbf{RECORD KEY clause}: implemented sparse keys (SOURCE IS; \fr{23}).
-\item \textbf{RERUN clause}: added detection of
 \item \textbf{TOP phrase}: added as mnemonic for ADVANCING PAGE.
 \end{itemize}
 
@@ -165,13 +215,6 @@
 \item \textbf{File I-O}: fixed \bug{457}, where file status 30 was set instead of the correct permanent error status (34, 35 or 37).
 \item \textbf{File I-O}: added support for VBISAM 2.1.1.
 \item \textbf{File I-O}: error messages from libcob now include the file I-O statement that caused them, when known.
-\item \textbf{File I-O}: added support for multiple simultaneous file handlers.
-\item \textbf{File I-O}: allow file-handler to be configured for individual files or organizations using environment variables (or dictionary files).
-\item \textbf{File I-O}: added support for INDEXED files based on LMDB.
-\item \textbf{File I-O}: added initial support for ODBC and OCI as file-handlers.
-\item \textbf{File I-O}: changed file status from 34 to 71 upon detecting bad data in line sequential files.
-\item \textbf{File I-O (BDB)}: fixed file status after OPEN OUTPUT on an OPTIONAL file.
-\item \textbf{File I-O (ISAM)}: fixed bug involving START ... LESS EQUAL followed by READ PREVIOUS.
 \item \textbf{Floating-point arithmetic}: fixed incorrect SIZE ERROR exceptions (see \bug{470}).
 \item \textbf{Floating-point arithmetic}: fixed \bug{478}, where calculations with the SIZE ERROR phrase have different results to calculations without it.
 \item \textbf{Floating-point arithmetic}: now activate the SIZE ERROR handler when a floating-point variable is set to a non-finite value (see \bug{122}).
@@ -186,7 +229,6 @@
 \item \textbf{MOVE statement}: improved detection of overlapping MOVEs when using reference modification.
 \item \textbf{MOVE statement}: fixed remaining cases of \bug{220}, involving numeric-edited items.
 \item \textbf{MOVE statement}: fixed incorrect truncation of COMP-4 items.
-\item \textbf{OPEN statement}: added detection of OS/VS-era input mode phrases.
 \item \textbf{PERFORM statement}: added check for non-zero item in BY phrase (\fr{268}).
 \item \textbf{PERFORM statement}: allow the BY phrase to be omitted, which is the same as specifying BY 1 (\fr{158}).
 \item \textbf{PERFORM statement (inline)}: added partial support for inline PERFORM statements not containing any statements.
@@ -195,7 +237,6 @@
 \item \textbf{RAISE statement}: added recognition of.
 \item \textbf{READ statement (relative)}: fixed file status on end of file.
 \item \textbf{Reference modification}: improved out-of-bounds error message (\bug{445}).
-\item \textbf{SET statement}: added support for FH-{}-FCD and FH-{}-KEYDEF.
 \item \textbf{SORT statement}: added sorting of tables without keys (\patch{42}).
 \item \textbf{SORT statement}: added recognition of more COLLATING SEQUENCE phrases.
 \item \textbf{OPEN statement}: fail with file status 39 when the first record of an indexed file is larger than specified in the FD.
@@ -208,12 +249,10 @@
 \item \textbf{SET statement}: fixed \bug{225}, where an invalid SET statement caused an error saying ``invalid MOVE statement''.
 \item \textbf{SET statement}: fixed \bug{543}.
 \item \textbf{STOP statement}: fixed the NORMAL phrase causing a compilation error (\bug{433}).
-\item \textbf{SUBTRACT statement}: fixed \bug{603}, where subtracting an integer from a floating-point variable lead to incorrect results.
 \item \textbf{USE statement (exception)}: improved recognition of.
 \item \textbf{VALIDATE statement}: added recognition of.
 \item \textbf{WRITE statement}: fixed compilation error when writing to a GLOBAL file in a subprogram (\bug{87}).
 \item \textbf{WRITE statement (indexed)}: now sets file status to 02 when duplicate key is detected.
-\item \textbf{WRITE statement (indexed)}: fixed bug involving file status 21.
 \item \textbf{XML GENERATE statement}: added (\patch{41}).
 \item \textbf{XML PARSE statement}: added recognition of.
 \end{itemize}
@@ -269,11 +308,11 @@ This list tracks changes made from 23 November 2013. This excludes many changes 
 \item \textbf{Error messages}: segfaults in the compiler now cause an error message to be displayed.
 \item \textbf{Error messages}: replaced instances of ``ODO'' by the clearer ``OCCURS DEPENDING ON''.
 \item \textbf{Expressions}: resolve constant expressions and optimise constant decimals at compile time.
-\item \textbf{Expressions}: added support for IBM OS/VS COBOL's arithmetic.
+\item \textbf{Expressions}: added support for IBM OS\slash{}VS COBOL's arithmetic.
 \item \textbf{Expressions}: improved error messages for malformed expressions.
 \item \textbf{Indicators}: invalid indicators no longer cause compilation to immediately terminate (\fr{126}).
 \item \textbf{Information}: output compiler version used to build GnuCOBOL and any mathematical libraries used (\fr{169}).
-\item \textbf{Information}: output what a reserved word is an alias for in the --list-reserved output (\fr{214}).
+\item \textbf{Information}: output what a reserved word is an alias for in the -{}-list-reserved output (\fr{214}).
 \item \textbf{Manpage}: added manpage generation and installation.
 \item \textbf{Nested programs}: Nested programs no longer need to have END PROGRAM.
 \item \textbf{National literals}: added basic support for national literals.
@@ -337,7 +376,6 @@ This list tracks changes made from 23 November 2013. This excludes many changes 
 \item \textbf{ASSIGN clause}: added PRINTER and PRINTER-1 device-names for writing to a printer.
 \item \textbf{ASSIGN clause}: added CARD-PUNCH, CARD-READER, CASSETTE, INPUT, INPUT-OUTPUT, MAGNETIC-TAPE and OUTPUT device-names for line sequential devices.
 \item \textbf{ASSIGN clause}: temporarily prohibit BASED and linkage items in ASSIGN USING due to \bug{421}.
-\item \textbf{ASSIGN clause}: allow ``ASSIGN VARYING \ldots''.
 \item \textbf{CALL-CONVENTION phrase}: statically calling functions with CALL-CONVENTION 74 no longer causes linker errors (\bug{316}).
 \item \textbf{CURRENCY phrase}: fixed \bug{182}, where a preceding SWITCH phrase caused an incorrect duplicate CURRENCY clause error.
 \item \textbf{File-control entry}: fixed \bug{71}, where referring to a global constant caused an internal error.
