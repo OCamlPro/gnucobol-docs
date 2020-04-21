@@ -78,7 +78,7 @@
   \begin{itemize}
   \item \gnucobol{EC-JSON-IMP}
   \end{itemize}
-  
+
 \item EC-LOCALE
   \begin{itemize}
   \item EC-LOCALE-IMP
@@ -363,7 +363,7 @@ where \defnmetaelement{declaratives} is
     \key{C} \\
     \key{PASCAL} \\
     \key{STDCALL}
-    
+
   \end{0-1}
   \key{LINKAGE}
 \end{syntax}
@@ -1250,7 +1250,7 @@ The CLOSE statement prevents the program from accessing or modifying an open fil
 The COMMIT statement forces all pending file writes to be processed.
 
 \begin{syntax}[\miscextcolour]
-  \key{COMMIT}
+  \key{COMMIT} TRANSACTION
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -2048,12 +2048,12 @@ The ENTRY statement indicates an alternative point of entry into the program.
 
 \format{usual}
 \begin{syntax}[\miscextcolour]
-  \key{ENTRY} 
+  \key{ENTRY}
   \begin{0-1}
     \metaelement{call-convention-phrase}
   \end{0-1}
   \literal
-  
+
   \begin{0-1}
     \metaelement{linkage-phrase}
   \end{0-1}
@@ -3340,7 +3340,7 @@ The REWRITE statement replaces an existing record in the file with one provided 
 The ROLLBACK statement deletes any pending file writes.
 
 \begin{syntax}[\miscextcolour]
-  \key{ROLLBACK}
+  \key{ROLLBACK} TRANSACTION
 \end{syntax}
 
 \subsubsection{Syntax rules}
@@ -3677,6 +3677,7 @@ The SORT statement sorts the record of a file or a table.
 
 The START statement changes the record currently being considered. It may also change the order in which records are accessed.
 
+\format{file}
 \begin{syntax}
   \key{START} \filename
   \begin{0-1}
@@ -3704,6 +3705,13 @@ The START statement changes the record currently being considered. It may also c
   \begin{0-1}
     \key{END-START}
   \end{0-1}
+\end{syntax}
+
+\format{transaction}
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{START} TRANSACTION
+  }
 \end{syntax}
 
 \subsubsection{Syntax rules}

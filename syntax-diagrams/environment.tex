@@ -222,7 +222,7 @@ where \defnmetaelement{alphabet-name-clause} is
             \key{ALSO} \literal
           \end{1=}\ldots
         \end{0-1}
-      \end{1=}\ldots      
+      \end{1=}\ldots
     \end{1=} \\
 
     \begin{0-1}
@@ -246,7 +246,7 @@ where \defnmetaelement{alphabet-name-clause} is
             \key{ALSO} \literal
           \end{1=}\ldots
         \end{0-1}
-      \end{1=}\ldots      
+      \end{1=}\ldots
     \end{1=} \\
   \end{1=}
 \end{syntax}
@@ -394,6 +394,7 @@ where \defnmetaelement{file-control-entry} is
     \defdmetaelement{file-limit-clause} \\
     \defdmetaelement{file-status-clause} \\
     \defdmetaelement{lock-mode-clause} \\
+    \defdmetaelement{nominal-key-clause} \\
     \defdmetaelement{organization-clause} \\
     \defdmetaelement{padding-character-clause} \\
     \defdmetaelement{password-clause} \\
@@ -419,51 +420,73 @@ where \defnmetaelement{actual-key-clause} is
 where \defnmetaelement{assign-clause} is
 
 \begin{syntax}
-  \key{ASSIGN}
-  \begin{0-1}
-    \key{TO} \\
-    \key{USING} \\
-    \miscext{TO \key{VARYING}}
-  \end{0-1}
-  \miscext{
-    \begin{0-1}
-      \key{DYNAMIC} \\
-      \key{EXTERNAL}
-    \end{0-1}
-  }
+  \key{ASSIGN} TO
   \begin{1=}
+    \begin{0-1}
+      \metaelement{device-or-line-adv-file}
+    \end{0-1}
+    \literal \\
+
     \miscext{
       \begin{0-1}
-        \key{LINE} \key{ADVANCING} FILE
+        \key{EXTERNAL} \\
+        \key{DYNAMIC}
       \end{0-1}
     }
     \begin{1=}
-      \literal \\
-      \identifier
-    \end{1=}\\
+      \defdmetaelement{device} \\
 
-    \begin{1=}
-      \miscext{\key{CARD-PUNCH}} \\
-      \miscext{\key{CARD-READER}} \\
-      \miscext{\key{CASSETTE}} \\
-      \key{DISC} \\
-      \xopen{\key{DISK}} \\
-      \miscext{\key{DISPLAY}} \\
-      \miscext{\key{INPUT}} \\
-      \miscext{\key{INPUT-OUTPUT}} \\
-      \miscext{\key{KEYBOARD}} \\
-      \miscext{\key{MAGNETIC-TAPE}} \\
-      \miscext{\key{OUTPUT}} \\
-      \miscext{\key{PRINTER-1}} \\
-      \xopen{\key{PRINTER}} \\
-      \key{PRINT} \\
-      \key{RANDOM} \\
-      \key{TAPE}
-    \end{1=}
+      \begin{0-1}
+        \defdmetaelement{device-or-line-adv-file}
+      \end{0-1}
+      \begin{1=}
+        \metaelement{external-file-name} \\
+        \miscext{\identifier}
+      \end{1=}
+    \end{1=} \\
+
     \begin{0-1}
-      \literal \\
-      \identifier
+      \defdmetaelement{device-or-line-adv-file}
     \end{0-1}
+    \begin{1=}
+      \key{USING} \\
+      \miscext{\key{VARYING}}
+    \end{1=}
+    \identifier \\
+
+    \miscext{\key{DISK} \key{FROM} \identifier} \\
+  \end{1=}
+\end{syntax}
+
+where \defnmetaelement{device-or-line-adv-file} is
+
+\begin{syntax}
+  \begin{1=}
+    \defdmetaelement{device} \\
+    \miscext{\key{LINE} \key{ADVANCING} FILE}
+  \end{1=}
+\end{syntax}
+
+where \defnmetaelement{device} is
+
+\begin{syntax}
+  \begin{1=}
+    \miscext{\key{CARD-PUNCH}} \\
+    \miscext{\key{CARD-READER}} \\
+    \miscext{\key{CASSETTE}} \\
+    \key{DISC} \\
+    \xopen{\key{DISK}} \\
+    \miscext{\key{DISPLAY}} \\
+    \miscext{\key{INPUT}} \\
+    \miscext{\key{INPUT-OUTPUT}} \\
+    \miscext{\key{KEYBOARD}} \\
+    \miscext{\key{MAGNETIC-TAPE}} \\
+    \miscext{\key{OUTPUT}} \\
+    \miscext{\key{PRINTER-1}} \\
+    \xopen{\key{PRINTER}} \\
+    \key{PRINT} \\
+    \key{RANDOM} \\
+    \key{TAPE}
   \end{1=}
 \end{syntax}
 
@@ -491,6 +514,7 @@ where \defnmetaelement{alternate-record-key-clause} is
       \identifier
     \end{1=}\ldots
   \end{0-1}
+
   \begin{0-1}
     WITH
     \begin{0-1}
@@ -498,6 +522,7 @@ where \defnmetaelement{alternate-record-key-clause} is
     \end{0-1}
     \key{DUPLICATES}
   \end{0-1}
+
   \miscext{
     \pending{
       \begin{0-1}
@@ -505,13 +530,9 @@ where \defnmetaelement{alternate-record-key-clause} is
       \end{0-1}
     }
   }
+
   \begin{0-1}
-    \key{SUPPRESS} \key{WHEN}
-    \begin{1=}
-      \key{ALL} \literal \\
-      \key{SPACE} \\
-      \key{ZERO}
-    \end{1=}
+    \key{SUPPRESS} \key{WHEN} \literal
   \end{0-1}
 \end{syntax}
 
@@ -568,7 +589,7 @@ where \defnmetaelement{file-limit-clause} is
       \end{1=}
       \begin{1=}
         \identifier \\
-        \literal      
+        \literal
       \end{1=}
     \end{1=} \ldots
   }
@@ -613,7 +634,7 @@ where \defnmetaelement{lock-mode-clause} is
         \miscext{\pending{WITH \key{ROLLBACK}}}
       \end{0-1}
     \end{1=} \\
-    
+
     \miscext{
       \key{EXCLUSIVE}
       \pending{
@@ -814,8 +835,8 @@ where \defnmetaelement{track-area-clause} is
       }
     } \\
 
-    \pending{
-      \miscext{
+    \miscext{
+      \pending{
         \key{APPLY} \key{CYL-OVERFLOW} OF \integer
         \begin{1=}
           \key{TRACK} \\
@@ -825,8 +846,8 @@ where \defnmetaelement{track-area-clause} is
       }
     } \\
 
-    \pending{
-      \miscext{
+    \miscext{
+      \pending{
         \key{APPLY}
         \begin{1=}
           \key{CORE-INDEX} \\
@@ -835,7 +856,7 @@ where \defnmetaelement{track-area-clause} is
         TO \identifier ON \filename\ldots
       }
     } \\
-    
+
     \key{SAME}
     \begin{0-1}
       \key{RECORD} \\
