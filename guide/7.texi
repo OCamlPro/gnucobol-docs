@@ -1,3 +1,4 @@
+
 @comment *********************************************************************
 @comment ** 7. PROCEDURE DIVISION                                           **
 @comment *********************************************************************
@@ -700,6 +701,19 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @p @anchoridx{CRT STATUS Codes}
 @multitable @columnfractions .15 .85
 @headitem Code @tab Meaning
+@item @tab Mouse masks
+@item 1     @tab Auto Mouse Handling
+@item 2     @tab Mouse Allow left Down
+@item 4     @tab Mouse Allow left Up
+@item 8     @tab Mouse Allow left Double
+@item 16    @tab Mouse Allow middle Down
+@item 32    @tab Mouse Allow middle Up
+@item 64    @tab Mouse Allow middle Double
+@item 128   @tab Mouse Allow right Down
+@item 256   @tab Mouse Allow right Up
+@item 512   @tab Mouse Allow right Double
+@item 1024  @tab Mouse Allow Move
+@item 16384 @tab Mouse Allow All Screen Actions -  Reserved operation
 @item 0000 @tab ENTER key pressed
 @item 1001--1064 @tab F1--F64, respectively, were pressed
 @item 2001 @tab PgUp was pressed
@@ -712,12 +726,101 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 @item 2008 @tab Back Tab
 @item 2009 @tab Key Left
 @item 2010 @tab Key Right
+@item 2011 @tab Insert Key on accept omitted
+@item 2012 @tab Delete Key on accept omitted
+@item 2013 @tab Backspace Key on accept omitted
+@item 2014 @tab Home Key on accept omitted
+@item 2015 @tab End Key on accept omitted
+@item 2040-@tab 2095 Exception keys for Mouse Handling
+@item 2040 @tab Mouse Move
+@item 2041 @tab Left Pressed
+@item 2042 @tab Left Released
+@item 2043 @tab Left Dbl Click
+@item 2044 @tab Mid Pressed
+@item 2045 @tab Mid Released
+@item 2046 @tab Mid Dbl Click
+@item 2047 @tab Right Pressed
+@item 2048 @tab Right Released
+@item 2049 @tab Right Dbl Click
+@item 2050 @tab Shift Move
+@item 2051 @tab Shift Left Pressed
+@item 2052 @tab Shift Left Released
+@item 2053 @tab Shift Left Dbl Click
+@item 2054 @tab Shift Mid Pressed
+@item 2055 @tab Shift Mid Released
+@item 2056-@tab Shift Mid Dbl Click
+@item 2057 @tab Shift Right Pressed
+@item 2058 @tab Shift Right Released
+@item 2059 @tab Shift Right Dbl Click
+@item 2060 @tab Ctrl Move
+@item 2061 @tab Ctrl Left Pressed
+@item 2062 @tab Ctrl Left Released
+@item 2063 @tab Ctrl Left Dbl Click
+@item 2064 @tab Ctrl Mid Pressed
+@item 2065 @tab Ctrl Mid Released
+@item 2066 @tab Ctrl Mid Dbl Click
+@item 2067 @tab Ctrl Right Pressed
+@item 2068 @tab Ctrl Right Released
+@item 2069 @tab Ctrl Right Dbl Click
+@item 2070 @tab Alt Move
+@item 2071 @tab Alt Left Pressed
+@item 2072 @tab Alt Left Released
+@item 2073-@tab Alt Left Dbl Click
+@item 2074 @tab Alt Mid Pressed
+@item 2075 @tab Alt Mid Released
+@item 2076 @tab Alt Mid Dbl Click
+@item 2077 @tab Alt Right Pressed
+@item 2078 @tab Alt Right Released
+@item 2079 @tab Alt Right Dbl Click
+@item 2080 @tab Wheel Up
+@item 2081 @tab Wheel Down
+@item 2082 @tab Wheel Left
+@item 2083 @tab Wheel Right
+@item 2084 @tab Shift Wheel Up
+@item 2085 @tab Shift Wheel Down
+@item 2086 @tab Shift Wheel Left
+@item 2087 @tab Shift Wheel Right
+@item 2088 @tab Ctrl Wheel Up
+@item 2089 @tab Ctrl Wheel Down
+@item 2090 @tab Ctrl Wheel Left
+@item 2091 @tab Ctrl Wheel Right
+@item 2092 @tab Alt Wheel Up
+@item 2093 @tab Alt Wheel Down
+@item 2094 @tab Alt Wheel Left
+@item 2095 @tab Alt Wheel Right
+@item @tab Input validation
 @item 8000 @tab NO Field
 @item 8001 @tab Time Out
+@item @tab Other errors
 @item 9000 @tab Fatal
 @item 9001 @tab Max Field
+
 @end multitable
 @item The actual key pressed to generate a function key (Fn) will depend on the type of terminal device you're using (PC, Macintosh, VT100, etc.) and what type of enhanced display driver was configured with the version of GnuCOBOL you're using.  For example, on a GnuCOBOL build for a Windows PC using MinGW and PDCurses, F1-F12 are the actual F-keys on the PC keyboard, F13-F24 are entered by shifting the F-keys, F25-F36 are entered by holding Ctrl while pressing an F-key and F37-F48 are entered by holding Alt while pressing an F-key.  On the other hand, a GnuCOBOL implementation built for Windows using Cygwin and NCurses treats the PCs F1-F12 keys as the actual F1-F12, while shifted F-keys will enter F11-F20.  With Cygwin/NCurses, Ctrl- and Alt-modified F-keys aren't recognized.  Neither are Shift-F11 or Shift-F12.
+Mouse Key codes are populated only if mouse management has been enabled. To enable mouse it is first necessary to set COB_MOUSE_FLAGS (either externally via terminal command, or internally via ?set environment? to the applicable ?mouse mask? (specifying which activities you wish the program to detect). Here is an example of setting the mask from a COBOL program:
+@verbatim
+COPY "screenio.cpy".
+
+01  mouse-flags PIC 9(4).
+
+...
+
+    COMPUTE mouse-flags = COB-AUTO-MOUSE-HANDLING
+                        + COB-ALLOW-LEFT-DOWN
+                        + COB-ALLOW-MIDDLE-DOWN
+                        + COB-ALLOW-RIGHT-DOWN
+
+    SET ENVIRONMENT "COB_MOUSE_FLAGS" TO mouse-flags.
+
+@end verbatim
+@item Once that has been done, every (extended) ACCEPT, will return a value in COB_CRT_STATUS reflecting mouse activity, when such activity occurs.
+The applicable values are shown in screenio.cpy under ?Exception keys for mouse handling?.
+If you define a variable in SPECIAL NAMES as follows:
+@verbatim
+SPECIAL-NAMES.
+   CURSOR IS data-name.   *> where data-name is PIC 9(4) or 9(6).
+@end verbatim
+@item The cursor or mouse position will be returned as well. The position is expressed as row and column (rrcc or rrrccc).
 @p @item Numeric keypad keys are not recognizable on Windows MinGW/PDCurses builds of GnuCOBOL, regardless of the number lock settings.  Windows Cygwin/NCurses builds recognize numeric keypad inputs properly.  Although not tested during the preparation of this documentation, I would expect native Windows builds using PDCurses to behave as MinGW builds do and native Unix builds using NCurses to behave as do Cygwin builds.
 @item The optional @syntax{EXCEPTION-STATUS} clause may be used to detect exceptions from a prior arithmetic verb such as COMPUTE to recover any errors produced. These are recovered using the function @syntax{EXCEPTION-STATUS}.
 @end enumerate
@@ -1152,8 +1255,9 @@ DISPLAY "Demonstration Value" UPON ENVIRONMENT-VALUE
 @end enumerate
 @item The optional @syntax{ON EXCEPTION} and @syntax{NOT ON EXCEPTION} clauses may be used to detect and react to the failure or success, respectively, of the screen I/O attempt.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
 @end enumerate
-@item When DISPLAY is used with Line and column where multiple variables or literals are used before 'LINE' only the first will be displayed. If this is needed then the use of CONCATENATE to built more than one element together prior to the display, i.e., DISPLAY FUNCTION CONCATENATE (VARS-1 VARS-2) AT 0201.
-@item When DISPLAY is used without line or column controls only one variable or literal may will appear on a line, so the use of the above example should also be employed.
+@p When DISPLAY is used with Line and column where multiple variables or literals are used before 'LINE' only the first will be displayed.
+If this is needed then the use of CONCATENATE to built more than one element together prior to the display, i.e., DISPLAY FUNCTION CONCATENATE (VARS-1 VARS-2) AT 0201.
+@p When DISPLAY is used without line or column controls only one variable or literal may will appear on a line, so the use of the above example should also be employed.
 @comment *********************************************************************
 @comment ** 7.8.13 DIVIDE                                                  **
 @comment *********************************************************************
