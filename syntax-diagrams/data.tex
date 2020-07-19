@@ -892,6 +892,13 @@ where \defnmetaelement{source-destination-clauses} is
 
     \metaelement{justified-clause} \\
 
+    \pending{\miscext{
+        \key{LIKE} \identifier
+        \begin{0-1}
+          ( \literal )
+        \end{0-1}
+    }} \\
+
     \metaelement{occurs-clause} \\
 
     \begin{1=}
@@ -912,6 +919,16 @@ where \defnmetaelement{source-destination-clauses} is
     \key{SAME} AS \identifier \\
 
     \metaelement{sign-clause} \\
+    \metaelement{special-names-clause} \\
+
+    IS \key{TYPEDEF}
+    \pending{
+      \begin{0-1}
+        \key{STRONG}
+      \end{0-1}
+    } \\
+
+    \key{TYPE} TO \metaelement{type-name-1}
 
     \begin{1=}
       \key{SYNCHRONIZED} \\
@@ -1627,6 +1644,21 @@ A 1- or 2-digit integer having a value that is either between 1 and 49 or is 66,
 
 \subsubsection{General rules}
 
+\subsection{LIKE clause}
+
+\begin{syntax}[\miscextcolour]
+  \pending{
+    \key{LIKE} \identifier
+    \begin{0-1}
+      ( \literal )
+    \end{0-1}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{LINAGE clause}
 
 % TO-DO: Define logical page.
@@ -2193,6 +2225,21 @@ The SOURCE clause identifies data to be used in processing a report section entr
 
 \subsubsection{General rules}
 
+\subsection{SPECIAL-NAMES clause}
+
+\begin{syntax}[\miscextcolour]
+  IS \key{SPECIAL-NAMES}
+  \begin{1=}
+    \key{CURSOR} \\
+    \pending{\key{SCREEN} \key{CONTROL}} \\
+    \pending{\key{EVENT} \key{STATUS}} \\
+  \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{STANDARD clause}
 
 \begin{syntax}[\miscextcolour]
@@ -2342,8 +2389,16 @@ The SYNCHRONIZED clause specifies an item should be aligned in a byte boundary a
 
 \subsection{TYPE clause}
 
-The TYPE clause specifies when to print a report group.
+The TYPE clause for a data description entry specifies that the data is given by a type declaration.
 
+The TYPE clause for a report group specifies when the group is printed.
+
+\format{type-name}
+\begin{syntax}
+  \key{TYPE} TO \metaelement{type-name-1}
+\end{syntax}
+
+\format{report-group}
 \begin{syntax}
   \key{TYPE} IS
   \begin{1=}
@@ -2414,6 +2469,21 @@ The TYPE clause specifies when to print a report group.
 
 \subsubsection{General rules}
 
+\subsubsection{TYPEDEF clause}
+
+\begin{syntax}
+  IS \key{TYPEDEF}
+  \pending{
+    \begin{0-1}
+      \key{STRONG}
+    \end{0-1}
+  }
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
 \subsection{UNDERLINE clause}
 
 The UNDERLINE clause specifies that each character of a field is to be displayed with an underline.
@@ -2462,7 +2532,9 @@ The USAGE clause specifies the representation of a data item in memory.
     \miscext{\key{POINTER}} \\
     \key{PROGRAM-POINTER} \\
 
-    \miscext{\defdmetaelement{handle-usages}}
+    \miscext{\defdmetaelement{handle-usages}} \\
+
+    \miscext{\metaelement{type-name-1}}
   \end{1=}
 \end{syntax}
 
@@ -2472,6 +2544,7 @@ where \defnmetaelement{fixed-length-integers} is
   \begin{1=}
     \begin{1=}
       \key{BINARY-CHAR} \\
+      \key{BINARY-SHORT} \\
 
       \begin{1=}
         \key{BINARY-LONG} \\

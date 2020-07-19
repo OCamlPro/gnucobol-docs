@@ -695,13 +695,17 @@ where \defnmetaelement{accept-attribute-clauses} is
 
   \pending{
     WITH CONTROL \key{KEY} IN \identifier
-  }
+  } \\
 
   WITH
   \begin{1=}
     \key{CONVERSION} \\
     \key{CONVERT}
   \end{1=} \\
+
+  \pending{
+    WITH \key{CURSOR} IS \literal
+  } \\
 
   WITH
   \begin{1=}
@@ -1336,6 +1340,14 @@ The DELETE statement removes a record from a file or removes an entire file.
   \begin{1=}
     \filename
   \end{1=} \ldots
+
+  \gnucobol{
+    \begin{0+}
+      \key{INVALID} KEY \imperativestatement \\
+      \key{NOT} \key{INVALID} KEY \imperativestatement
+    \end{0+}
+  }
+
   \gnucobol{
     \begin{0-1}
       \key{END-DELETE}
@@ -2154,6 +2166,68 @@ where \defnmetaelement{selection-object} is
     \key{TRUE} \\
     \key{FALSE}
   \end{1=}
+\end{syntax}
+
+\subsubsection{Syntax rules}
+
+\subsubsection{General rules}
+
+\section{EXHIBIT statement}
+
+
+\begin{syntax}[\miscextcolour]
+  \key{EXHIBIT}
+  \pending{
+    \begin{0-1}
+      \key{CHANGED}
+    \end{0-1}
+  }
+  \begin{0-1}
+    \key{NAMED}
+  \end{0-1}
+  \begin{0-1}
+    \defdmetaelement{exhibit-pos-spec}
+  \end{0-1}
+  \begin{0-1}
+    \key{ERASE}
+  \end{0-1}
+
+  \begin{1=}
+    \literal \\
+    \identifier
+  \end{1=}\ldots
+
+  \pending{
+    \begin{0-1}
+      \key{UPON} \mnemonicname
+    \end{0-1}
+  }
+\end{syntax}
+
+where \defnmetaelement{exhibit-pos-spec} is
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    (\ \defdmetaelement{exhibit-pos-spec-num}\ ,\ \defdmetaelement{exhibit-pos-spec-num}\ ) \\
+    (\ ,\ \defdmetaelement{exhibit-pos-spec-num}\ ) \\
+    (\ \defdmetaelement{exhibit-pos-spec-num}\ ,\ )
+  \end{1=}
+\end{syntax}
+
+where \defnmetaelement{exhibit-pos-spec-num} is
+
+\begin{syntax}[\miscextcolour]
+  \begin{1=}
+    \identifier \\
+    \literal
+  \end{1=}
+  \begin{0-1}
+    \begin{1=}
+      + \\
+      -
+    \end{1=}
+    \literal
+  \end{0-1}
 \end{syntax}
 
 \subsubsection{Syntax rules}
