@@ -1146,7 +1146,7 @@ COBOL representation.
 @p 2) Argument-2 shall be of class alphabetic, alphanumeric, or national.
 @p 3) Argument-1 and argument-2 may be of different classes.
 @p 4) Neither argument-1 nor argument-2 shall be a zero-length literal.
-@p 5) Ordering-name-1, if specified, shall be associated with a cultural ordering table in the ORDER TABLE clause of the SPEClAL-NAMES paragraph. Ordering-name-“I identifies the ordering table to be used for the comparison. if ordering-name-1 is not specified, the default ordering table 'ISO14651_2010_TABLE1‘ described in Appendix A of ISO/IEC 14651:2011 shall be used.
+@p 5) Ordering-name-1, if specified, shall be associated with a cultural ordering table in the ORDER TABLE clause of the SPEClAL-NAMES paragraph. Ordering-name-1 identifies the ordering table to be used for the comparison. If ordering-name-1 is not specified, the default ordering table `ISO14651_2010_TABLE1' described in Appendix A of ISO/IEC 14651:2011 shall be used.
 @p 6) Argument-4, if specified, shall be a positive nonzero integer.
 @p Returned values:
 @p 1) If argument-4 is unspecified, the highest level defined in the ordering table is used for the comparison.
@@ -1618,18 +1618,18 @@ END PROGRAM ExitProc.
 @newsubsection{8.2.28,CBL_GC_FORK}
 @diagram{CBL_GC_FORK Built-In Subroute,SS-CBL_GC_FORK,SS-CBL_GC_FORK,None}
 @p CBL_GC_FORK allows you to fork the current COBOL process to a new one.
-@p The current content of the process’ storage (including LOCAL-STORAGE) will be identical, any file handles get invalid in the new process, positions and file and record locks are only available to the original process.
+@p The current content of the process' storage (including LOCAL-STORAGE) will be identical, any file handles get invalid in the new process, positions and file and record locks are only available to the original process.
 @p This system routine is not available on Windows (exception: GCC on Cygwin).
-@p Parameters: none Returns: PID (the child process gets ’0’ returned, the calling process gets the PID of the created children).
+@p Parameters: none Returns: PID (the child process gets '0' returned, the calling process gets the PID of the created children).
 @p Negative values are returned for system dependant error codes and -1 if the function is not available on the current system.
 @p @example
 
 CBL_GC_FORK allows you to fork the current COBOL process to a new one. The
-current content of the process’ storage (including LOCAL-STORAGE) will be
+current content of the process' storage (including LOCAL-STORAGE) will be
 identical, any file handles get invalid in the new process, positions and
 file / record locks are only available to the original process.
 This system routine is not available on Windows (exception: GCC on Cygwin).
-Parameters: none Returns: PID (the child process gets ’0’ returned, the calling
+Parameters: none Returns: PID (the child process gets '0' returned, the calling
 process gets the PID of the created children). Negative values are returned for
 system dependant error codes and -1 if the function is not available on the
 current system.
@@ -1648,14 +1648,14 @@ current system.
               WHEN CHILD-PID > ZERO
                    PERFORM PARENT-CODE
               WHEN CHILD-PID = -1
-                   DISPLAY ’CBL_GC_FORK is not available on the current'
-                   ' system!’
+                   DISPLAY 'CBL_GC_FORK is not available on the current'
+                   ' system!'
                    PERFORM CHILD-CODE
                    MOVE 0 TO CHILD-PID
                    PERFORM PARENT-CODE
               WHEN OTHER
                    MULTIPLY CHILD-PID BY -1 END-MULTIPLY
-                   DISPLAY ’CBL_GC_FORK returned system error: ’ CHILD-PID
+                   DISPLAY 'CBL_GC_FORK returned system error: ' CHILD-PID
      END-EVALUATE
      STOP     RUN.
  CHILD-CODE.
@@ -1668,13 +1668,13 @@ current system.
      MOVE     0 TO RETURN-CODE
      EVALUATE TRUE
               WHEN WAIT-STS >= 0
-                   DISPLAY ’Child ended with status: ’ WAIT-STS
+                   DISPLAY 'Child ended with status: ' WAIT-STS
               WHEN WAIT-STS = -1
-                   DISPLAY ’CBL_GC_WAITPID is not available on the '
-                   'current system!’
+                   DISPLAY 'CBL_GC_WAITPID is not available on the '
+                   'current system!'
               WHEN WAIT-STS < -1
                    MULTIPLY -1 BY WAIT-STS END-MULTIPLY
-                   DISPLAY ’CBL_GC_WAITPID returned system error: ’ WAIT-STS
+                   DISPLAY 'CBL_GC_WAITPID returned system error: ' WAIT-STS
      END-EVALUATE
 
 @end example
@@ -1705,7 +1705,7 @@ current system.
  01  OPT-VAL             PIC X(10).
  01  COUNTER             PIC 9 VALUE 0.
 
-We first need to define the necessary fields for getopt’s shortoptions (so),
+We first need to define the necessary fields for getopt's shortoptions (so),
 longoptions (lo), longoption index (longind), long-only-option (long-only)
 and also the fields for return values return-char and opt-val (arbitrary
 size with trimming, see return codes).
@@ -1721,7 +1721,7 @@ The longoptions are defined as a table of records with oname, has-value,
 oname defines the name of a longoption.
  has-value defines if an option value is demanded (has-val = 1), optional
  (has-val = 2) or not required (has-val = 0).
-valpoint is a pointer used to specify an address to save getopt’s return
+valpoint is a pointer used to specify an address to save getopt's return
  value to. The pointer is optional. If it is NULL, getopt returns a value
  as usual. If you use the pointer it has to point to a PIC X(4) field.
 The field val is a PIC X(4) character which is returned if the longoption
@@ -1739,7 +1739,7 @@ PROCEDURE DIVISION.
      MOVE     0 TO HAS-VALUE (2).
      MOVE     "V" TO RETURN-VALUE (2).
      PERFORM  WITH TEST AFTER UNTIL RETURN-CODE = -1
-              CALL ’CBL_GC_GETOPT’ USING
+              CALL 'CBL_GC_GETOPT' USING
                   BY REFERENCE SHORTOPTIONS LONGOPTIONS LONGIND
                   BY VALUE LONG-ONLY
                   BY REFERENCE RETURN-CHAR OPT-VAL
@@ -1753,19 +1753,19 @@ The example shows how we initialize all parameters and call the routine until
 CBL_GC_GETOPT runs out of options and returns -1.
 The return-char might contain the following:
 regular character if an option was recognized
- ’ ?’ if we have an undefined or ambiguous option
- ’1’  if we have a non-option (only if first byte of so is ’-’)
- ’0’  if valpoint != NULL and we are writing the return value to the specified
+ ' ?' if we have an undefined or ambiguous option
+ '1'  if we have a non-option (only if first byte of so is '-')
+ '0'  if valpoint != NULL and we are writing the return value to the specified
       address
- ’-1’ if we don’t have any more options (or reach the first non-option if first
-      byte of so is ’+’)
+ '-1' if we don't have any more options (or reach the first non-option if first
+      byte of so is '+')
 
 The return-codes of CBL_GC_GETOPT are:
- 1 if we’ve got a non-option (only if first byte of so is ’-’)
+ 1 if we've got a non-option (only if first byte of so is '-')
  0 if valpoint != NULL and we are writing the return value to the specified
    address
--1 if we don’t have any more options (or reach the first non-option if first
-   byte of so is ’+’)
+-1 if we don't have any more options (or reach the first non-option if first
+   byte of so is '+')
  2 if we have got an truncated option value in opt-val (because opt-val was
    too small)
  3 if we got a regular answer from getopt
@@ -1793,7 +1793,7 @@ meaningful.
 Attempts made when they are not available WILL return 1 from CBL GC HOSTED.
 
 It returns 0 when match, 1 on failure, case matters as does length, "arg"
-won’t match.
+won't match.
 The usage of this system routine is described by the following example.
 
  IDENTIFICATION DIVISION.
@@ -1837,25 +1837,25 @@ The usage of this system routine is described by the following example.
      call     "acos" using by value domain
      display  "errno after acos(3.0): " err ", EDOM is 33"
      call     "CBL_GC_HOSTED" using argc "arg"
-     display  "’arg’ lookup : " return-code
+     display  "'arg' lookup : " return-code
      call     "CBL_GC_HOSTED" using null "argc"
      display  "null with argc : " return-code
      display  "argc is still : " argc
 *> the following only returns zero if the system has HAVE_TIMEZONE set
      call     "CBL_GC_HOSTED" using daylight "daylight "
-     display  "’timezone’ lookup : " return-code
+     display  "'timezone' lookup : " return-code
      if       return-code not = 0
-              display "system doesn’t has timezone"
+              display "system doesn't has timezone"
      else
               display "timezone is : " timezone
               call "CBL_GC_HOSTED" using daylight "daylight "
-              display "’daylight’ lookup : " return-code
+              display "'daylight' lookup : " return-code
               display "daylight is : " daylight
               set environment "TZ" to "PST8PDT"
               call static "tzset" returning omitted on exception
                         continue end-call
               call "CBL_GC_HOSTED" using tzname "tzname"
-              display "’tzname’ lookup : " return-code
+              display "'tzname' lookup : " return-code
 *> tzs(1) will point to z"PST" and tzs(2) to z"PDT"
               if   return-code equal 0 and tzname not equal null then
                    set address of tznames to tzname
@@ -1900,14 +1900,14 @@ The usage of this system routine is described by the following example.
 @diagram{CBL_GC_WAITPID Built-In Subroutine,SS-CBL_GC_WAITPID,SS-CBL_GC_WAITPID,None}
 @p @example
 CBL_GC_WAITPID allows you to wait until another system process ended.
-Additional you can check the process’ return code.
+Additional you can check the process' return code.
 Parameters: none Returns: function-status / child-status Negative values
 are returned for system dependant error codes and -1 if the function is not
 available on the current system.
 
      CALL     "CBL_GC_WAITPID" USING CHILD-PID RETURNING WAIT-STS
      MOVE     0 TO RETURN-CODE
-     DISPLAY  ’CBL_GC_WAITPID ended with status: ’ WAIT-STS
+     DISPLAY  'CBL_GC_WAITPID ended with status: ' WAIT-STS
 
 @end example
 @comment *********************************************************************

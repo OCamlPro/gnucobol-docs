@@ -550,7 +550,7 @@ PROCEDURE DIVISION.                   printf("Arg1=%s\n",arg1);
 @* The idea is to pass two string and one full-word unsigned arguments to the subprogram, have the subprogram print them out, change all three and pass a return code of 2 back to the caller.  The caller will then re-display the three arguments (showing changes only to the two @syntax{BY REFERENCE} arguments), display the return code and halt.
 @p While simple, these two programs illustrate the techniques required quite nicely.
 @p Note how the COBOL program ensures that a null end-of-string terminator is present on both string arguments.
-@p Since the C program is planning on making changes to all three arguments, it declares all three as pointers in the function header and references the third argument as a pointer in the function body.  It actually had no choice for the two string (char array) arguments --– they must be defined as pointers in the function even though the function code references them without the leading “*” that normally signifies pointers.
+@p Since the C program is planning on making changes to all three arguments, it declares all three as pointers in the function header and references the third argument as a pointer in the function body.  It actually had no choice for the two string (char array) arguments --- they must be defined as pointers in the function even though the function code references them without the leading ``*'' that normally signifies pointers.
 @p These programs are compiled and executed as follows.
 @p @example
 $ cobc -x maincob.cbl subc.c
