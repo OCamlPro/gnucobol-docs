@@ -85,7 +85,9 @@
 @comment ** 2.1.2 User-Defined Words                                        **
 @comment *********************************************************************
 @newsubsection{2.1.2,User-Defined Words}When you write GnuCOBOL programs, you'll need to create a variety of words to represent various aspects of the program, the program's data and the external environment in which the program will run.  This will include internal names by which data files will be referenced, data item names and names of executable logic procedures.
-@p User-defined words may be composed from the characters "A" through "Z" (upper- and/or lower-case), "0" through "9", dash ("-")@idx{- (Character in Words/Names)} and underscore ("_")@idx{_ (Character in user-defined words)}.  User-defined words may neither start nor end with hyphen or underscore characters.
+@p User-defined words may be composed from the characters "A" through "Z" (upper- and/or lower-case), "0" through "9", dash ("-")
+@idx{- (Character in Words/Names)} and underscore ("_")
+@idx{_ (Character in user-defined words)}.  User-defined words may neither start nor end with hyphen or underscore characters.
 @p Other programming languages provide the programmer with a similar capability of creating their own words (names) for parts of a program; COBOL is somewhat unusual when compared to other languages in that user-defined words may @i{start} with a digit.
 @p With the exception of logic procedure names, which may consist entirely of nothing but digits, user-defined words must contain at least one letter.
 @comment *********************************************************************
@@ -180,7 +182,8 @@
 @comment *********************************************************************
 @comment ** 2.1.6 Copybooks                                                 **
 @comment *********************************************************************
-@newsubsection{2.1.6,Copybooks}A @define{Copybook} is a segment of program code that may be utilized by multiple programs simply by having those programs use the @statementref{COPY} to import that code.  This code may define files, data structures or procedural code.
+@statementref{COPY}jkl
+@newsubsection{2.1.6,Copybooks}A @define{Copybook} is a segment of program code that may be utilized by multiple programs simply by having those programs use the @statement{COPY} to import that code.  This code may define files, data structures or procedural code.
 @p Today's current programming languages have a statement (usually, this statement is named "import", "include" or "#include") that performs this same function.  What makes the COBOL copybook feature different than the "include" facility in newer languages, however, is the fact that the @statement{COPY} can edit the imported source code as it is being copied.  This capability makes copybook libraries extremely valuable to making code reusable. Also see section 3. Compiler Directing Facility commands COPY and REPLACE.
 @comment *********************************************************************
 @comment ** 2.1.7 Structured Data                                           **
@@ -193,7 +196,8 @@
 @comment *********************************************************************
 @newsubsection{2.1.8,Files}One of COBOL's strengths is the wide variety of data files it is capable of accessing.  GnuCOBOL programs, like those created with other COBOL implementations, need to have the structure of any files they will be reading and/or writing described to them.  The highest-level characteristic of a file's structure is defined by specifying the organization of the file, as follows:
 @p @table @asis
-@p @item @syntaxidx{ORGANIZATION LINE SEQUENTIAL}@idx{ORGANISATION LINE SEQUENTIAL}
+@p @item @syntax{ORGANIZATION LINE SEQUENTIAL}
+@idx{ORGANISATION LINE SEQUENTIAL}
 @p These are files with the simplest of all internal structures.  Their contents are structured simply as a series of identically- or differently-sized data records, each terminated by a special end-of-record delimiter character.  An ASCII line-feed character (hexadecimal 0A) is the end-of-record delimiter character used by any UNIX or pseudo-UNIX (MinGW, Cygwin, OSX) GnuCOBOL build.  A truly native Windows build would use a carriage-return, line-feed (hexadecimal 0D0A) sequence.
 @p Records must be read from or written to these files in a purely sequential manner.  The only way to read (or write) record number 100 would be to have read (or written) records number 1 through 99 first.
 @p When the file is written to by a GnuCOBOL program, the delimiter sequence will be automatically appended to each data record as it is written to the file.  A @syntaxref{WRITE} to this type of file will be done as if a @syntax{BEFORE ADVANCING 1 LINE} clause were specified on the @syntax{WRITE}, if no @syntax{ADVANCING} clause is coded.
@@ -204,7 +208,8 @@
 @p These are files with an internal structure similar to that of a line sequential file.  These files are defined (without an explicit @syntax{ORGANIZATION} specification) using the @syntax{LINE ADVANCING} clause on their @statementref{SELECT}.
 @p When this kind of file is written to by a GnuCOBOL program, an end-of-record delimiter sequence will be automatically added to each data record as it is written to the file.  A @syntax{WRITE} to this type of file will be done as if an @syntax{AFTER ADVANCING 1 LINE} clause were specified on the @syntax{WRITE}, if no @syntax{ADVANCING} clause is coded.
 @p Like line sequential files, these files should not be defined to contain any exact binary data fields because the contents of those fields could inadvertently have the end-of-record sequence as part of their values --- this would confuse the runtime system when reading the file, and it would interpret that value as an actual end-of-record sequence.
-@p @item @syntaxidx{ORGANIZATION SEQUENTIAL}@idx{ORGANISATION SEQUENTIAL}
+@p @item @syntax{ORGANIZATION SEQUENTIAL}
+@idx{ORGANISATION SEQUENTIAL}
 @p These files also have a simple internal structure.  Their contents are structured simply as an arbitrarily-long sequence of data characters.  This sequence of characters will be treated as a series of fixed-length records simply by logically splitting the sequence of characters up into fixed-length segments, each as long as the maximum record size defined in the program.  There are no special end-of-record delimiter characters in the file and when the file is written to by a GnuCOBOL program, no delimiter sequence is appended to the data.
 @p Records in this type of file are all the same physical length, except possibly for the very last record in the file, which may be shorter than the others.  If variable-length logical records are defined to the program, the space occupied by each physical record in the file will occupy the space described by the longest record description in the program.
 @p So, if a file contains 1275 characters of data, and a program defines the structure of that file as containing 100-character records, then the file contents will consist of twelve (12) 100-character records with a final record containing only 75 characters.
@@ -218,7 +223,8 @@
 @center @samp{DDDDEEEEEE}
 @p There may be times where this is exactly what you were looking for.  More often than not, however, this is not desirable behaviour.  Suggestion: use a copybook to describe the record layouts of any file; this guarantees that multiple programs accessing that file will "see" the same record sizes and layouts by coding a @statementref{COPY} to import the record layout(s) rather than hand-coding them.
 @p These files @i{can} contain exact binary data fields.  This is possible because --- since there is no character sequence that constitutes an end-of-record delimiter --- the contents of record fields are irrelevant to the reading process.
-@p @item @syntaxidx{ORGANIZATION RELATIVE}@idx{ORGANISATION RELATIVE}
+@p @item @syntax{ORGANIZATION RELATIVE}
+@idx{ORGANISATION RELATIVE}
 @p The contents of these files consist of a series of fixed-length data records prefixed with a four-byte record header.  The record header contains the length of the data, in bytes.  The byte-count does not include the four-byte record header.
 @p Records in this type of file are all the same physical length.  If variable-length logical records are defined to the program, the space occupied by each physical record in the file will occupy the maximum possible space, and the logical record length field will contain the number of bytes of data in the record that are actually in use.
 @p This file organization was defined to accommodate either sequential or random processing.  With a @syntax{RELATIVE} file, it is possible to read or write record 100 directly, without having to have first read or written records 1-99.  The GnuCOBOL runtime system uses the program-defined maximum record size to calculate a relative byte position in the file where the record header and data begin, and then transfers the necessary data to or from the program.
@@ -227,7 +233,8 @@
 @p Care must be taken that programs reading such a file describe records whose length is exactly the same as that used by the programs that created the file.  It won't end well if the GnuCOBOL runtime library interprets a four-byte ASCII character string as a record length when it transfers data from the file into the program!
 @p Suggestion: use a copybook to describe the record layouts of any file; this guarantees that multiple programs accessing that file will "see" the same record sizes and layouts by coding a @statementref{COPY} to import the record layout(s) rather than hand-coding them.
 @p These files can contain exact binary data fields.  The contents of record fields are irrelevant to the reading process as there is no end-of-record delimiter.
-@p @item @syntaxidx{ORGANIZATION INDEXED}@idx{ORGANISATION INDEXED}
+@p @item @syntax{ORGANIZATION INDEXED}
+@idx{ORGANISATION INDEXED}
 @p This is the most advanced file structure available to GnuCOBOL programs.  It's not possible to describe the physical structure of such files because that structure will vary depending upon which advanced file-management facility was included into the GnuCOBOL build you will be using (Berkeley Database [BDB], VBISAM, etc.).  We will --- instead --- discuss the logical structure of the file.
 @p There will be multiple structures stored for an @syntax{INDEXED} file.  The first will be a data component, which may be thought of as being similar to the internal structure of a relative file.  Data records may not, however, be directly accessed by their record number as would be the case with a relative file, nor may they be processed sequentially by their physical sequence in the file.
 @p The remaining structures will be one or more index components.  An index component is a data structure that (somehow) enables the contents of a field, called a primary key, within each data record (a customer number, an employee number, a product code, a name, etc.) to be converted to a record number so that the data record for any given primary key value can be directly read, written and/or deleted.  Additionally, the index data structure is defined in such a manner as to allow the file to be processed sequentially, record-by-record, in ascending sequence of the primary key field values.  Whether this index structure exists as a binary-searchable tree structure (b-tree), an elaborate hash structure or something else is pretty much irrelevant to the programmer --- the behaviour of the structure will be as it was just described.  The actual mechanism used will depend upon the advanced file-management package was included into your GnuCOBOL implementation when it was built.
@@ -241,15 +248,15 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.9. Table Handling                                           **
 @comment *********************************************************************
-@newsubsection{2.1.9,Table Handling}Other programming languages have arrays, COBOL has tables.  They're basically the same thing.  There are two special statements that exist in the COBOL language --- @syntaxref{SEARCH} and @syntaxref{SEARCH ALL} --- that make finding data in a table easy.
+@newsubsection{2.1.9,Table Handling}Other programming languages have arrays, COBOL has tables.  They're basically the same thing.  There are two special statements that exist in the COBOL language --- @syntax{SEARCH} and @syntax{SEARCH ALL} --- that make finding data in a table easy.
 @p The first can search a table sequentially, stopping only when either a table entry matching one of any number of search conditions is found, or when all table entries have been checked against the search criteria and none matched any of those criteria.
 @p The second can perform an extremely fast search against a table sorted by and searched against a key field contained in each table entry.  The algorithm used for such a search is a binary search (also known as a half-interval search).  This algorithm ensures that only a small number of entries in the table need to be checked in order to find a desired entry or to determine that the desired entry doesn't exist in the table.  The larger the table, the more effective this search becomes.  For example, a binary search of a table containing 32,768 entries will be able to locate a particular entry or determine the entry doesn't exist by looking at no more than fifteen (15) entries!  The algorithm is explained in detail in the documentation of the @statementref{SEARCH ALL}.
 @p Finally, COBOL has the ability to perform in-place sorts of the data that is found in a table.
 @comment *********************************************************************
 @comment ** 2.1.10. Sorting and Merging Data                                **
 @comment *********************************************************************
-@newsubsection{2.1.10,Sorting and Merging Data}The COBOL language includes a powerful @statementref{SORT} that can sort large amounts of data according to arbitrarily complex key structures.  This data may originate from within the program or may be contained in one or more external files.  The sorted data may be written automatically to one or more output files or may be processed, record-by-record in the sorted sequence.
-@p A companion statement --- @syntaxref{MERGE} --- can combine the contents of multiple files together, provided those files are all pre-sorted in a similar manner according to the same key structure.  The resulting output will consist of the contents of all of the input files, merged together and sequenced according to the common key structure(s).  The output generated by a @statement{MERGE} may be written automatically to one or more output files or may be processed internally by the program.
+@newsubsection{2.1.10,Sorting and Merging Data}The COBOL language includes a powerful @statement{SORT} that can sort large amounts of data according to arbitrarily complex key structures.  This data may originate from within the program or may be contained in one or more external files.  The sorted data may be written automatically to one or more output files or may be processed, record-by-record in the sorted sequence.
+@p A companion statement --- @syntax{MERGE} --- can combine the contents of multiple files together, provided those files are all pre-sorted in a similar manner according to the same key structure.  The resulting output will consist of the contents of all of the input files, merged together and sequenced according to the common key structure(s).  The output generated by a @statement{MERGE} may be written automatically to one or more output files or may be processed internally by the program.
 @p A special form of the @statement{SORT} also exists just to sort the data that resides in a table.  This is particularly useful if you wish to use @syntax{SEARCH ALL} against the table.
 @comment *********************************************************************
 @comment ** 2.1.11. String Manipulation Features                            **
@@ -531,7 +538,9 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @newsubsection{2.1.16,Format of Program Source Lines}Prior to the COBOL2002 standard, source statements in COBOL programs were structured around 80-column punched cards.  This means that each source line in a COBOL program consisted of five different "areas", defined by their column number(s).
 @p As of the COBOL2002 standard, a second mode now exists for COBOL source code statements --- in this mode of operation, COBOL statements may each be up to 255 characters long, with no specific requirements as to what should appear in which columns.
-@p Of course, in keeping with the long-standing COBOL tradition of maintaining backwards compatibility with older standards, programmers (and, of course, compliant COBOL compilers) are capable of working in either mode.  It is even possible to switch back and forth in the same program.  The  terms @define{Fixed Format Mode}@idx{Source Line Format, Fixed} and @define{Free Format Mode}@idx{Source Line Format, Free} are used to refer to these two modes of source code formatting.
+@p Of course, in keeping with the long-standing COBOL tradition of maintaining backwards compatibility with older standards, programmers (and, of course, compliant COBOL compilers) are capable of working in either mode.  It is even possible to switch back and forth in the same program.  The  terms @define{Fixed Format Mode}
+@idx{Source Line Format, Fixed} and @define{Free Format Mode}
+@idx{Source Line Format, Free} are used to refer to these two modes of source code formatting.
 @p The GnuCOBOL compiler (cobc) supports both of these source line format modes, defaulting to Fixed Format Mode lacking any other information.
 @p The compiler can be instructed to operate in either mode in any of the following four ways:
 @enumerate
@@ -545,10 +554,14 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @p Depending upon which source format mode the compiler is in, you will need to follow various rules for the format mode currently in effect.  These rules are presented in the upcoming paragraphs.
 @p The following discussion presents the various components of every GnuCOBOL source line record when the compiler is operating in Fixed Format Mode.  Remember that this is the default mode for the GnuCOBOL compiler.
 @table @b
-@p @item 1-6@idx{Sequence Number Area (Columns 1-6)}@idx{Columns 1-6 (Sequence Number Area)} - Sequence Number Area
+@p @item 1-6
+@idx{Sequence Number Area (Columns 1-6)}
+@idx{Columns 1-6 (Sequence Number Area)} - Sequence Number Area
 @p Historically, back in the days when punched-cards were used to submit COBOL program source to a COBOL compiler, this part of a COBOL statement was reserved for a six-digit sequence number.  While the contents of this area are ignored by COBOL compilers, it existed so that a program actually punched on 80-character cards could --- if the card deck were dropped on the floor --- be run through a card sorter machine and restored to it's proper sequence.  Of course, this isn't necessary today; if truth be told, it hasn't been necessary for a long time.
 @p @xref{Marking Changes in Programs}, for discussion of a valuable use to which the sequence number area may be put today.
-@p @item 7@idx{Indicator Area (Column 7)}@idx{Column 7 (Indicator Area)} - Indicator Area
+@p @item 7
+@idx{Indicator Area (Column 7)}
+@idx{Column 7 (Indicator Area)} - Indicator Area
 @p Column 7 serves as an indicator in which one of five possible values will appear --- space, @syntax{D} (or @syntax{d}), @syntax{-} (dash), @syntax{/} or @syntax{*}.  The meanings of these characters are as follows:
 @table @asis
 @p @item space
@@ -562,11 +575,17 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @p @item -
 @p The line is a continuation of the previous line.  These are needed only when an alphanumeric literal (quoted character string), reserved word or user-defined word are being split across lines.
 @end table
-@* @item 8-11@idx{Area "A" (Columns 8-11)}@idx{Columns 8-11 (Area "A")} - Area "A"
+@* @item 8-11
+@idx{Area "A" (Columns 8-11)}
+@idx{Columns 8-11 (Area "A")} - Area "A"
 @p Language DIVISION, SECTION and paragraph section headers must begin in Area A, as must the level numbers 01, 77 in data description entries and the "FD" and "SD" file and SORT description headers.
-@p @item 12-72@idx{Area "B" (Columns 12-72)}@idx{Columns 12-72 (Area "B")} - Area "B"
+@p @item 12-72
+@idx{Area "B" (Columns 12-72)}
+@idx{Columns 12-72 (Area "B")} - Area "B"
 @p All other COBOL programming language components are coded in these columns.
-@p @item 73-80@idx{Program Name Area (Columns 73-80)}@idx{Columns 73-80 (Program Name Area)} - Program Name Area
+@p @item 73-80
+@idx{Program Name Area (Columns 73-80)}
+@idx{Columns 73-80 (Program Name Area)} - Program Name Area
 @p This is another obsolete area of COBOL statements.  This part of every statement also hails back to the day when programs were punched on cards; it was expected that the name of the program (or at least the first 8 characters of it) would be punched here so that --- if a dropped COBOL source deck contained more than one program --- that handy card sorter machine could be used to first separate the cards by program name and then sort them by sequence number.  Today's COBOL compilers (including GnuCOBOL) simply ignore anything past column 72.
 @p @xref{Marking Changes in Programs}, for discussion of a valuable use to which the program name area may be put today.
 @end table
@@ -619,13 +638,18 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @headitem Comment Type @tab Source Mode --- Description
 @item Blank Lines @tab @b{FIXED} --- Blank lines may be inserted as desired. @p @b{FREE} --- Blank lines may be inserted as desired.
 @item @p
-@item Full-line comments @tab @b{FIXED} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding an asterisk ("*") in column seven (7).@idx{* In Column 7 (Comment)} @p @b{FREE} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding the sequence "*>", starting in any column, as the first non-blank characters on the line.@idx{*> (Comment)}
+@item Full-line comments @tab @b{FIXED} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding an asterisk ("*") in column seven (7).
+@idx{* In Column 7 (Comment)} @p @b{FREE} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding the sequence "*>", starting in any column, as the first non-blank characters on the line.
+@idx{*> (Comment)}
 @item @p
-@item Full-line comments with form-feed @tab @b{FIXED} --- An entire source line will be treated as a comment by coding a slash ("/") in column seven (7).  Many COBOL compilers will also issue a form-feed in the program listing so that the "/" line is at the top of a new page.  The GnuCOBOL compiler does not support this form-feed behaviour. @p The GnuCOBOL Interactive Compiler, or GCic, @i{does} support this form-feed behaviour when it generates program source listings!  @xref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}, for the source and cross-reference listing (produced by GCic) of this program --- you can see the effect of "/" there.@idx{/ In Column 7 (Comment)} @p @b{FREE} --- There is no Free Source Mode equivalent to "/".
+@item Full-line comments with form-feed @tab @b{FIXED} --- An entire source line will be treated as a comment by coding a slash ("/") in column seven (7).  Many COBOL compilers will also issue a form-feed in the program listing so that the "/" line is at the top of a new page.  The GnuCOBOL compiler does not support this form-feed behaviour. @p The GnuCOBOL Interactive Compiler, or GCic, @i{does} support this form-feed behaviour when it generates program source listings!  @xref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}, for the source and cross-reference listing (produced by GCic) of this program --- you can see the effect of "/" there.
+@idx{/ In Column 7 (Comment)} @p @b{FREE} --- There is no Free Source Mode equivalent to "/".
 @item @p
 @item Partial-line comments @tab @b{FIXED} --- Any text following the character sequence "*>" on a source line will be treated as a comment.  The "*" must appear in column seven (7) or beyond. @p @b{FREE} --- Any text following the character sequence "*>" on a source line will be treated as a comment.  The "*" may appear in any column.
 @item @p
-@item Comments that may be treated as code, typically for debugging purposes @tab @b{FIXED} --- By coding a "D" in column 7@idx{D In Column 7 (Debugging Line)} (upper- or lower-case), an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler. @p @b{FREE} --- By specifying the character sequence ">>D"@idx{>>D (Debugging Line)} (upper- or lower-case) as the first non-blank characters on a source line, an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler. @p Debugging statements may be compiled either by specifying the @switchidx{-fdebugging-line} on the GnuCOBOL compiler or by adding the @syntaxidx{WITH DEBUGGING MODE} clause to the @syntax{SOURCE-COMPUTER} paragraph.
+@item Comments that may be treated as code, typically for debugging purposes @tab @b{FIXED} --- By coding a "D" in column 7
+@idx{D In Column 7 (Debugging Line)} (upper- or lower-case), an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler. @p @b{FREE} --- By specifying the character sequence ">>D"
+@idx{>>D (Debugging Line)} (upper- or lower-case) as the first non-blank characters on a source line, an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler. @p Debugging statements may be compiled either by specifying the @switch{-fdebugging-line} on the GnuCOBOL compiler or by adding the @syntax{WITH DEBUGGING MODE} clause to the @syntax{SOURCE-COMPUTER} paragraph.
 @end multitable
 @comment *********************************************************************
 @comment ** 2.1.19 Literals                                                 **
@@ -639,13 +663,17 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.19.1 Numeric Literals                                       **
 @comment *********************************************************************
-@newunit{2.1.19.1,Numeric Literals}A numeric literal@idx{Literals (Numeric)} is a numeric constant which may be used as an array subscript, as a value in arithmetic expressions, or in any procedural statement where a numeric value may be used.  Numeric literals may take any of the following forms:
+@newunit{2.1.19.1,Numeric Literals}A numeric literal
+@idx{Literals (Numeric)} is a numeric constant which may be used as an array subscript, as a value in arithmetic expressions, or in any procedural statement where a numeric value may be used.  Numeric literals may take any of the following forms:
 @itemize @bullet
 @p @item Integers such as 1, 56, 2192 or -54.
 @p @item Non-integer fixed point values such as 1.317 or -2.95.
 @p @item Floating-point values using "Enn" notation such as 9.92E25, representing 9.92 x 10^25 (10 raised to the 25th power) or 5.7E-14, representing 5.7 x 10^-14 (10 raised to the -14th power).  Both the mantissa (the number before the E) and the exponent (the number after the E) may be explicitly specified as positive (with a +), negative (with a -) or unsigned (and therefore implicitly positive).  A floating-point literals value must be within the range -1.7 x 10^308  to +1.7 x 10^308 with no more than 15 decimal digits of precision.
-@p @item Hexadecimal numeric literals@idx{Hexadecimal Numeric Literal}@idx{Numeric Literal (Hexadecimal)} such as H"1F" (31 decimal), h'22' (34 decimal) or H'DEAD' (57005 decimal).  The H character may either be upper- or lower-case and either single quote (') or double-quote (") characters may be used in a hexadecimal literal, provided both aren't used in the same literal.  Hexadecimal numeric literals are limited to a maximum of sixteen hexadecimal digits (a 64-bit value).
-@p @item Null terminated literals@idx{Null Terminated Literals} using Z"character".
+@p @item Hexadecimal numeric literals
+@idx{Hexadecimal Numeric Literal}
+@idx{Numeric Literal (Hexadecimal)} such as H"1F" (31 decimal), h'22' (34 decimal) or H'DEAD' (57005 decimal).  The H character may either be upper- or lower-case and either single quote (') or double-quote (") characters may be used in a hexadecimal literal, provided both aren't used in the same literal.  Hexadecimal numeric literals are limited to a maximum of sixteen hexadecimal digits (a 64-bit value).
+@p @item Null terminated literals
+@idx{Null Terminated Literals} using Z"character".
 @p @item Raw C string using L"characters".
 @p @item Binary using B#0 or 1.
 @p @item Octal using O#0 - 7. (That is the letter O).
@@ -658,17 +686,24 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.19.2 Alphanumeric Literals                                  **
 @comment *********************************************************************
-@newunit{2.1.19.2,Alphanumeric Literals}An alphanumeric literal@idx{Literals (Alphanumeric)} is a character string suitable for display on a computer screen, printing on a report, transmission through a communications connection or storage in alphanumeric or alphabetic data items.
+@newunit{2.1.19.2,Alphanumeric Literals}An alphanumeric literal
+@idx{Literals (Alphanumeric)} is a character string suitable for display on a computer screen, printing on a report, transmission through a communications connection or storage in alphanumeric or alphabetic data items.
 @p An alphanumeric literal is not valid for use in arithmetic expressions unless it is first converted to it's numeric computational equivalent; there are three numeric conversion intrinsic functions built into GnuCOBOL that can perform this conversion --- @syntaxref{NUMVAL}, @syntaxref{NUMVAL-C} and @syntaxref{NUMVAL-F}.
 @p Alphanumeric literals may take any of the following forms:
 @itemize @bullet
-@p @item A sequence of characters enclosed by a pair of single-quote (')@idx{' (Apostrophe)} or double-quote (")@idx{" (Quote)} characters constitutes a string literal.  The double-quote character (") may be used as a data character within an apostrophe-delimited string literal, and an apostrophe may be used as a data character within a double-quote-delimited string literal.  If an apostrophe character must be included as a data character within an apostrophe-delimited string literal, express that character as two consecutive apostrophes ('').  If a double-quote character must be included as a data character within a double-quote-delimited string literal, express that character as two consecutive double-quotes ("").
-@p @item A literal formed according to the same rules as for a string literal (above), but prefixed with the letter "Z" (upper- or lower-case) constitutes a zero-delimited string literal.  These literals differ from ordinary string literals in that they will be explicitly terminated with a byte of hexadecimal value 00.  These @define{Zero-Delimited Alphanumeric Literals}@idx{Alphanumeric Literal (Zero-Delimited)} are easily passable to C subprograms, as this is the convention C uses to store character strings.
-@p @item A @define{Hexadecimal Alphanumeric Literal}@idx{Alphanumeric Literal (Hexadecimal)} such as X"4A4B4C" (4A4B4C16 = the ASCII string 'JKL'), x'20' (an ASCII space) or X'30313233' (3031323316 = the ASCII string '0123').  The "X" character may either be upper- or lower-case and either single quote (') or double-quote (") characters may be used.  These hexadecimal alphanumeric literals should always consist of an even number of hexadecimal digits, because each character is represented by eight bits worth of data (2 hex digits).  Hexadecimal alphanumeric literals may be of almost unlimited length.
+@p @item A sequence of characters enclosed by a pair of single-quote (')
+@idx{' (Apostrophe)} or double-quote (")
+@idx{" (Quote)} characters constitutes a string literal.  The double-quote character (") may be used as a data character within an apostrophe-delimited string literal, and an apostrophe may be used as a data character within a double-quote-delimited string literal.  If an apostrophe character must be included as a data character within an apostrophe-delimited string literal, express that character as two consecutive apostrophes ('').  If a double-quote character must be included as a data character within a double-quote-delimited string literal, express that character as two consecutive double-quotes ("").
+@p @item A literal formed according to the same rules as for a string literal (above), but prefixed with the letter "Z" (upper- or lower-case) constitutes a zero-delimited string literal.  These literals differ from ordinary string literals in that they will be explicitly terminated with a byte of hexadecimal value 00.  These @define{Zero-Delimited Alphanumeric Literals}
+@idx{Alphanumeric Literal (Zero-Delimited)} are easily passable to C subprograms, as this is the convention C uses to store character strings.
+@p @item A @define{Hexadecimal Alphanumeric Literal}
+@idx{Alphanumeric Literal (Hexadecimal)} such as X"4A4B4C" (4A4B4C16 = the ASCII string 'JKL'), x'20' (an ASCII space) or X'30313233' (3031323316 = the ASCII string '0123').  The "X" character may either be upper- or lower-case and either single quote (') or double-quote (") characters may be used.  These hexadecimal alphanumeric literals should always consist of an even number of hexadecimal digits, because each character is represented by eight bits worth of data (2 hex digits).  Hexadecimal alphanumeric literals may be of almost unlimited length.
 @end itemize
 @* Alphanumeric literals too long to fit on a single line may be continued to the next line in one of two ways:
 @enumerate
-@p @item If you are using Fixed Format Mode, the alphanumeric literal can be run right up to and including column 72.  The literal may then be continued on the next line anywhere after column 11 by coding another quote or apostrophe (whichever was used to begin the literal originally).  The continuation line must also have a hyphen (-)@idx{- In Column 7 (Continuation)}@idx{Continuation (- in Column 7)} coded in the indicator area (column 7).  Here is an example (the scale is just for column number reference):
+@p @item If you are using Fixed Format Mode, the alphanumeric literal can be run right up to and including column 72.  The literal may then be continued on the next line anywhere after column 11 by coding another quote or apostrophe (whichever was used to begin the literal originally).  The continuation line must also have a hyphen (-)
+@idx{- In Column 7 (Continuation)}
+@idx{Continuation (- in Column 7)} coded in the indicator area (column 7).  Here is an example (the scale is just for column number reference):
 @end enumerate
 @smallexample
 @t{         1         2         3         4         5         6         7   }
@@ -680,7 +715,9 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @t{      -                                                "ed.".}
 @end smallexample
 @enumerate 2
-@item Regardless of whether the compiler is operating in Fixed or Free Format Mode, GnuCOBOL allows alphanumeric literals to be broken up into separate fragments.  These fragments have their own beginning and ending quote/apostrophe characters and are "glued together" at compilation time using "&"@idx{& (Literal Concatenation)}@idx{Literal Concatenation (&)} characters.  No continuation indicator is needed.  Here's an example:
+@item Regardless of whether the compiler is operating in Fixed or Free Format Mode, GnuCOBOL allows alphanumeric literals to be broken up into separate fragments.  These fragments have their own beginning and ending quote/apostrophe characters and are "glued together" at compilation time using "&"
+@idx{& (Literal Concatenation)}
+@idx{Literal Concatenation (&)} characters.  No continuation indicator is needed.  Here's an example:
 @end enumerate
 @smallexample
 @t{         1         2         3         4         5         6         7   }
@@ -709,29 +746,32 @@ CALL "SUBPGM" USING SPACES
 @end example
 @* The following are the GnuCOBOL figurative constants and their respective equivalent values.
 @table @asis
-@p @item @syntaxidx{ZERO}
+@p @item @syntax{ZERO}
 @p This figurative constant has a value of numeric 0 (zero).  @syntax{ZEROS} and @syntax{ZEROES} are both synonyms of @syntax{ZERO}.
-@p @item @syntaxidx{SPACE}
+@p @item @syntax{SPACE}
 @p This figurative constant has a value of one or more space characters.  @syntax{SPACES} is a synonym of @syntax{SPACE}.
-@p @item @syntaxidx{QUOTE}
+@p @item @syntax{QUOTE}
 @p This figurative constant has a value of one or more double-quote characters (").  @syntax{QUOTES} is a synonym of @syntax{QUOTE}.
-@p @item @syntaxidx{LOW-VALUE}
+@p @item @syntax{LOW-VALUE}
 @p This figurative constant has a value of one or more of whatever character occupies the lowest position in the program's collating sequence as defined in the @syntaxref{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set).  @syntax{LOW-VALUES} is a synonym of @syntax{LOW-VALUE}.
 @p When the character set in use is ASCII with no collating sequence modifications, the @syntax{LOW-VALUES} figurative constant value is the ASCII "NUL" character.  Because character sets can be redefined, however, you should not rely on this fact --- use the @syntax{NULL} figurative constant instead.
-@p @item @syntaxidx{HIGH-VALUE}
+@p @item @syntax{HIGH-VALUE}
 @p This figurative constant has a value of one or more of whatever character occupies the highest position in the program's collating sequence as defined in the @syntax{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set).  @syntax{HIGH-VALUES} is a synonym of @syntax{HIGH-VALUE}.
-@p @item @syntaxidx{NULL}
+@p @item @syntax{NULL}
 @p A character comprised entirely of zero-bits (regardless of the programs collating sequence).
 @end table
 @* Programmers may create their own figurative constants via the @syntaxrefalt{SYMBOLIC CHARACTERS,Symbolic-Characters-Clause} clause of the @syntaxref{SPECIAL-NAMES} paragraph.
 @comment *********************************************************************
 @comment ** 2.1.20 Punctuation                                              **
 @comment *********************************************************************
-@newsubsection{2.1.20,Punctuation}A comma (",")@idx{, (Punctuation)} or a semicolon (";")@idx{; (Punctuation)} may be inserted into a GnuCOBOL program to improve readability at any spot where white space would be legal, except of course within alphanumeric literals (unless you actually @i{mean} for those characters to be part of the alphanumeric literals value).  These characters are always optional.
+@newsubsection{2.1.20,Punctuation}A comma (",")
+@idx{, (Punctuation)} or a semicolon (";")
+@idx{; (Punctuation)} may be inserted into a GnuCOBOL program to improve readability at any spot where white space would be legal, except of course within alphanumeric literals (unless you actually @i{mean} for those characters to be part of the alphanumeric literals value).  These characters are always optional.
 @p The use of comma characters can cause confusion to a COBOL compiler if the @syntax{DECIMAL POINT IS COMMA} clause is used in the @syntaxref{SPECIAL-NAMES} paragraph, as might be the case in Europe.  The following statement, which calls a subroutine passing it two arguments (the numeric constants 1 and 2):
 @p @center @t{CALL "SUBROUTINE" USING 1,2}
 @p Would --- with @syntax{DECIMAL POINT IS COMMA} in effect --- actually be interpreted as a subroutine call with 1 argument (the non-integer numeric literal whose value is 1 and 2 tenths).  For this reason, it is best to always follow a comma with a space.
-@p The period character (".")@idx{. (Punctuation)} is used to terminate statements in the identification, environment and data divisions and sentences in the procedure division.  Syntax diagrams describing code in the first three divisions will explicitly show where periods need to occur.
+@p The period character (".")
+@idx{. (Punctuation)} is used to terminate statements in the identification, environment and data divisions and sentences in the procedure division.  Syntax diagrams describing code in the first three divisions will explicitly show where periods need to occur.
 @p The rules for where and when periods are needed in the procedure division are somewhat complicated.  @xref{Use of Periods}, for the details.
 @comment *********************************************************************
 @comment ** 2.1.21 Interfacing to Other Environments                        **
@@ -951,14 +991,14 @@ IF XL
 @newsubsection{2.2.5.2,Class Conditions}
 @diagram{Class-Condition,PD-Class-Cond,PD-Class-Cond,None}@p Class conditions evaluate the type of data that is currently stored in a data item.
 @enumerate
-@p @item The @syntaxidx{NUMERIC} class test considers only the characters "0", "1", @dots{} , "9" to be numeric; only a data item containing nothing but digits will pass a @syntax{NUMERIC} class test.  Spaces, decimal points, commas, currency signs, plus signs, minus signs and any other characters except the digit characters will all fail @syntax{NUMERIC} class tests.
-@p @item The @syntaxidx{ALPHABETIC} class test considers only upper-case letters, lower-case letters and spaces to be alphabetic in nature.
-@p @item The @syntaxidx{ALPHABETIC-LOWER} and @syntaxidx{ALPHABETIC-UPPER} class conditions consider only spaces and the respective type of letters to be acceptable in order to pass such a class test.
+@p @item The @syntax{NUMERIC} class test considers only the characters "0", "1", @dots{} , "9" to be numeric; only a data item containing nothing but digits will pass a @syntax{NUMERIC} class test.  Spaces, decimal points, commas, currency signs, plus signs, minus signs and any other characters except the digit characters will all fail @syntax{NUMERIC} class tests.
+@p @item The @syntax{ALPHABETIC} class test considers only upper-case letters, lower-case letters and spaces to be alphabetic in nature.
+@p @item The @syntax{ALPHABETIC-LOWER} and @syntax{ALPHABETIC-UPPER} class conditions consider only spaces and the respective type of letters to be acceptable in order to pass such a class test.
 @p @item The @syntax{NOT} option reverses the TRUE/FALSE value of the condition.
 @p @item Note that what constitutes a "letter" (or upper/lower case too, for that manner) may be influenced through the use of @syntax{CHARACTER CLASSIFICATION} specifications in the @syntaxref{OBJECT-COMPUTER} paragraph.
 @p @item Only data items whose @syntaxref{USAGE} is either explicitly or implicitly defined as @syntax{DISPLAY} may be used in @syntax{NUMERIC} or any of the @syntax{ALPHABETIC} class conditions.
 @p @item Some COBOL implementations disallow the use of group items or @syntax{PIC A} items with @syntax{NUMERIC} class conditions and the use of @syntax{PIC 9} items with @syntax{ALPHABETIC} class conditions.  GnuCOBOL has no such restrictions.
-@p @item The @syntaxidx{OMITTED} class condition is used when it is necessary for a subprogram to determine whether or not a particular argument was passed to it.  In such class conditions, @term{identifier-1} must be a linkage section item defined on the @syntax{USING} clause of the subprograms @syntax{PROCEDURE DIVISION} header.  @xref{PROCEDURE DIVISION USING}, for additional information.
+@p @item The @syntax{OMITTED} class condition is used when it is necessary for a subprogram to determine whether or not a particular argument was passed to it.  In such class conditions, @term{identifier-1} must be a linkage section item defined on the @syntax{USING} clause of the subprograms @syntax{PROCEDURE DIVISION} header.  @xref{PROCEDURE DIVISION USING}, for additional information.
 @end enumerate
 @* The @term{class-name-1} option allows you to test for a user-defined class.  Here's an example.  First, assume the following @syntaxref{SPECIAL-NAMES} definition of the user-defined class "Hexadecimal":
 @p @example
@@ -978,15 +1018,15 @@ SPECIAL-NAMES.
 @newsubsection{2.2.5.3,Sign Conditions}
 @diagram{Sign-Condition,PD-Sign-Cond,PD-Sign-Cond,None}@p Sign conditions evaluate the numeric state of a data item defined with a @syntaxref{PICTURE} and/or @syntaxref{USAGE} that supports numeric values.
 @enumerate
-@p @item A @syntaxidx{POSITIVE} or @syntaxidx{NEGATIVE} class condition will be TRUE only if the value of @term{identifier-1} is strictly greater than or less than zero, respectively.
-@p @item A @syntaxidx{ZERO} class condition can be passed only if the value of @term{identifier-1} is exactly zero.
+@p @item A @syntax{POSITIVE} or @syntax{NEGATIVE} class condition will be TRUE only if the value of @term{identifier-1} is strictly greater than or less than zero, respectively.
+@p @item A @syntax{ZERO} class condition can be passed only if the value of @term{identifier-1} is exactly zero.
 @p @item The @syntax{NOT} option reverses the TRUE/FALSE value of the condition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 2.2.5.4 Switch-Status Conditions                                **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.5.4,Switch-Status Conditions}In the @syntaxref{SPECIAL-NAMES} paragraph, an external switch name can be associated with one or more condition names.  These condition names may then be used to test the ON/OFF status of the external switch.
+@newsubsection{2.2.5.4,Switch-Status Conditions}In the @syntax{SPECIAL-NAMES} paragraph, an external switch name can be associated with one or more condition names.  These condition names may then be used to test the ON/OFF status of the external switch.
 @p Here are the relevant sections of code in a program named "testprog", which is designed to simply announce if SWITCH-1 is on:
 @p @example
 @dots{}
@@ -1029,8 +1069,8 @@ $
 @newsubsection{2.2.5.6,Combined Conditions}
 @diagram{Combined Condition,PD-Comb-Cond,PD-Comb-Cond,None}@p A combined condition is one that computes a TRUE/FALSE value from the TRUE/FALSE values of two other conditions (which could themselves be combined conditions).
 @enumerate
-@p @item If either condition has a value of TRUE, the result of @syntaxidx{OR}ing the two together will result in a value of TRUE.  @syntax{OR}ing two FALSE conditions will result in a value of FALSE.
-@p @item In order for @syntaxidx{AND} to yield a value of TRUE, both conditions must have a value of TRUE.  In all other circumstances, @syntax{AND} produces a FALSE value.
+@p @item If either condition has a value of TRUE, the result of @syntax{OR}ing the two together will result in a value of TRUE.  @syntax{OR}ing two FALSE conditions will result in a value of FALSE.
+@p @item In order for @syntax{AND} to yield a value of TRUE, both conditions must have a value of TRUE.  In all other circumstances, @syntax{AND} produces a FALSE value.
 @p @item When chaining multiple, similar conditions together with the same operator (OR/AND), and left or right arguments have common subjects, it is possible to abbreviate the program code.  For example:
 @p @example
 IF ACCOUNT-STATUS = 1 OR ACCOUNT-STATUS = 2 OR ACCOUNT-STATUS = 7
@@ -1120,7 +1160,7 @@ ELSE *> This ELSE has a problem!
         DISPLAY "NEITHER A NOR B = 1".
 @end example
 @* The problem with this code is that indentation --- so critical to improving the human-readability of a program --- can provide an erroneous view of the logical flow.  An @syntax{ELSE} is always associated with the most-recently encountered @syntax{IF}; this means the emphasized @syntax{ELSE} will be associated with the @syntax{IF B = 1} statement, not the @syntax{IF A = 1} statement as the indentation would appear to imply.
-@p This sort of problem led to a band-aid solution --- the @syntaxidx{NEXT SENTENCE} clause --- being added to the COBOL language.
+@p This sort of problem led to a band-aid solution --- the @syntax{NEXT SENTENCE} clause --- being added to the COBOL language.
 @p @example
 IF A = 1
     IF B = 1
@@ -1178,7 +1218,7 @@ END-IF
 @comment *********************************************************************
 @newsubsection{2.2.8.1,File Sharing}GnuCOBOL controls concurrent-file access at the highest level through the concept of file sharing, enforced when a program attempts to open a file.  This is accomplished via a UNIX operating-system routine called "fcntl()".  That module is not currently supported by Windows and is not present in the MinGW Unix-emulation package.  GnuCOBOL builds created using a MinGW environment will be incapable of supporting file-sharing controls --- files will always be shared in such environments.  A GnuCOBOL build created using the Cygwin environment on Windows @i{would} have access to "fcntl()" and therefore @i{will} support file sharing.  Of course, actual Unix builds of GnuCOBOL, as well as OSX builds, should have no issues because "fcntl()" should be available.
 @p Any limitations imposed on a successful @syntaxref{OPEN} will remain in place until your program either issues a @syntaxref{CLOSE} against the file or the program terminates.
-@p File sharing is controlled through the use of a @syntaxidx{SHARING} clause:
+@p File sharing is controlled through the use of a @syntax{SHARING} clause:
 @verbatim
     SHARING WITH { ALL OTHER }
     ~~~~~~~      { ~~~       }
@@ -1190,11 +1230,11 @@ END-IF
 @* This clause may be used either in the file's @statementref{SELECT}, on the @statementref{OPEN} which initiates your program's use of the file, or both.  If a @syntax{SHARING} option is specified in @i{both} places, the specifications made on the @statement{OPEN} will take precedence over those from the @statement{SELECT}.
 @p Here are the meanings of the three options:
 @table @asis
-@p @item @syntaxidx{ALL OTHER}
+@p @item @syntax{ALL OTHER}
 @p When your program opens a file with this sharing option in effect, no restrictions will be placed on other programs attempting to @syntax{OPEN} the file after your program did.  This is the default sharing mode.
-@p @item @syntaxidx{NO OTHER}
+@p @item @syntax{NO OTHER}
 @p When your program opens a file with this sharing option in effect, your program announces that it is unwilling to allow any other program to have any access to the file as long as you are using that file; @syntax{OPEN} attempts made in other programs will fail with a file status of 37 ("PERMISSION DENIED") until such time as you @syntaxref{CLOSE} the file.
-@p @item @syntaxidx{READ ONLY}
+@p @item @syntax{READ ONLY}
 @p Opening a file with this sharing option indicates you are willing to allow other programs to @syntax{OPEN} the file for input while you have it open.  If they attempt any other @syntax{OPEN}, theirs will fail with a file status of 37.  Of course, your program may fail if someone else got to the file first and opened it with a sharing option that imposed file-sharing limitations.
 @end table
 @* If the @syntax{SELECT} of a file is coded with a @syntax{FILE STATUS} clause, @syntax{OPEN} failures --- including those induced by sharing failures --- will be detectable by the program and a graceful recovery (or at least a graceful termination) will be possible.  If no such clause was coded, however, a runtime message will be issued and the program will be terminated.
@@ -1202,24 +1242,47 @@ END-IF
 @comment ** 2.2.8.2 Record Locking                                          **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.8.2,Record Locking}Record-locking is supported by advanced file-management software built-in to the GnuCOBOL implementation you are using.  This software provides a single point-of-control for access to files --- usually @syntaxref{ORGANIZATION INDEXED} files.  One such runtime package capable of doing this is the Berkeley Database (BDB) package --- a package frequently used in GnuCOBOL builds to support indexed files.
+@newsubsection{2.2.8.2,Record Locking}Record-locking is supported by advanced file-management software built-in to the GnuCOBOL implementation you are using.  This software provides a single point-of-control for access to files --- usually @syntax{ORGANIZATION INDEXED} files.  One such runtime package capable of doing this is the Berkeley Database (BDB) package --- a package frequently used in GnuCOBOL builds to support indexed files.
 @p The various I/O statements your program can execute are capable of imposing limitations on access by other concurrently-executing programs to the file record they just accessed.  These limitations are syntactically imposed by placing a lock on the record using a @syntax{LOCK} clause.  Other records in the file remain available, assuming that file-sharing limitations imposed at the time the file was opened didn't prevent access to the entire file.
 @enumerate
-@p @item If the GnuCOBOL build you are using was configured to use the Berkeley Database (BDB) package for indexed file I/O, record locking will be available by using the @envvarruntimeref{DB_HOME}.
-@p @item If the @syntaxref{SELECT} statement or file @syntaxref{OPEN} specifies @syntax{SHARING WITH NO OTHER}, record locking will be disabled.
-@p @item If the file's @syntax{SELECT} contains a @syntaxidx{LOCK MODE IS AUTOMATIC} clause, every time a record is read from the file, that record is automatically locked.  Other programs may access @i{other} records within the file, but not a locked record.
-@p @item If the file's @syntax{SELECT} contains a @syntaxidx{LOCK MODE IS MANUAL} clause, locks are placed on records @i{only} when a @statement{READ} executed against the file includes a @syntax{LOCK} clause (this clause will be discussed shortly).
-@p @item If the @syntax{LOCK ON} clause @i{is} specified in the file's @syntax{SELECT}, locks (either automatically or manually acquired) will continue to accumulate as more and more records are read, until they are explicitly released.  This is referred to as @define{multiple record locking}.
+@item
+If the GnuCOBOL build you are using was configured to use the Berkeley Database (BDB) package for indexed file I/O, record locking will be available by using the @envvarruntime{DB_HOME}.
+
+@item
+If the @syntaxref{SELECT} statement or file @syntaxref{OPEN} specifies @syntax{SHARING WITH NO OTHER}, record locking will be disabled.
+
+@item
+If the file's @syntax{SELECT} contains a @syntax{LOCK MODE IS AUTOMATIC} clause, every time a record is read from the file, that record is automatically locked.  Other programs may access @i{other} records within the file, but not a locked record.
+
+@item
+If the file's @syntax{SELECT} contains a @syntax{LOCK MODE IS MANUAL} clause, locks are placed on records @i{only} when a @statement{READ} executed against the file includes a @syntax{LOCK} clause (this clause will be discussed shortly).
+
+@item
+If the @syntax{LOCK ON} clause @i{is} specified in the file's @syntax{SELECT}, locks (either automatically or manually acquired) will continue to accumulate as more and more records are read, until they are explicitly released.  This is referred to as @define{multiple record locking}.
 @p Locks acquired vie multiple record locking remain in-effect until the program holding the lock@dots{}
 @itemize @bullet
-@p @item @dots{}terminates, or @dots{}
-@p @item @dots{}executes a @statementref{CLOSE} against the file, or @dots{}
-@p @item @dots{}executes an @statementref{UNLOCK} against the file, or @dots{}
-@p @item @dots{}executes a @statementref{COMMIT} or @dots{}
-@p @item @dots{}executes a @statementref{ROLLBACK}.
+
+@item
+@dots{}terminates, or @dots{}
+
+@item
+@dots{}executes a @statementref{CLOSE} against the file, or @dots{}
+
+@item
+@dots{}executes an @statementref{UNLOCK} against the file, or @dots{}
+
+@item
+@dots{}executes a @statementref{COMMIT} or @dots{}
+
+@item
+@dots{}executes a @statementref{ROLLBACK}.
 @end itemize
-@item If the @syntaxidx{LOCK ON} clause is @i{not} specified, then the next I/O statement your program executes, except for @syntaxref{START}, will release the lock.  This is referred to as @define{single record locking}.
-@p @item A @syntax{LOCK} clause, which may be coded on a @syntaxref{READ}, @syntaxref{REWRITE} or @statementref{WRITE} looks like this:
+
+@item
+If the @syntaxref{LOCK ON} clause is @i{not} specified, then the next I/O statement your program executes, except for @syntaxref{START}, will release the lock.  This is referred to as @define{single record locking}.
+
+@item
+A @syntax{LOCK} clause, which may be coded on a @syntaxref{READ}, @syntaxref{REWRITE} or @statementref{WRITE} looks like this:
 @verbatim
     { IGNORING LOCK    }
     { ~~~~~~~~ ~~~~    }
@@ -1235,16 +1298,21 @@ END-IF
 @* The @syntax{WITH [ NO ] LOCK} option is the only one available to @syntax{REWRITE} or @statement{WRITE}s.
 @p The meanings of the various record locking options are as follows:
 @table @asis
-@p @item @syntaxidx{IGNORING LOCK}
+
+@item @syntax{IGNORING LOCK}
 @itemx @syntaxidx{WITH IGNORE LOCK}
 These options (which are synonymous) inform GnuCOBOL that any locks held by other programs should be ignored.
-@p @item @syntaxidx{WITH LOCK}
+
+@item @syntax{WITH LOCK}
 Access to the record by other programs will be denied.
-@p @item @syntaxidx{WITH NO LOCK}
+
+@item @syntax{WITH NO LOCK}
 The record will not be locked.  This is the default locking option in effect for all statements.
-@p @item @syntaxidx{WITH KEPT LOCK}
+
+@item @syntax{WITH KEPT LOCK}
 When single record locking is in-effect, as a new record is accessed, locks held for previous records are released.  By using this option, not only is the newly-accessed record locked (as WITH LOCK would do), but prior record locks will be retained as well.  A subsequent @syntax{READ} without the @syntax{KEPT LOCK} option will release all "kept" locks, as will the @syntax{UNLOCK} statement.
-@p @item @syntaxidx{WITH WAIT}
+
+@item @syntax{WITH WAIT}
 This option informs GnuCOBOL that the program is willing to wait for a lock held (by another program) on the record being read to be released.
 @p Without this option, an attempt to read a locked record will be immediately aborted and a file status of 51 will be returned.
 @p With this option, the program will wait for a pre-configured time for the lock to be released.  If the lock is released within the preconfigured wait time, the read will be successful.  If the pre-configured wait time expires before the lock is released, the read attempt will be aborted and a 51 file status will be issued.
