@@ -20,7 +20,8 @@
 @comment *********************************************************************
 @comment ** 9.1 RWCS Lexicon                                                **
 @comment *********************************************************************
-@newsection{9.1,RWCS Lexicon}@p There are a number of terms that describe various aspects of the operation of the Report Writer Control System (RWCS).  Understanding the meanings of these terms is vital to developing an understanding of the subject.
+@newsection{9.1,RWCS Lexicon}
+@p There are a number of terms that describe various aspects of the operation of the Report Writer Control System (RWCS).  Understanding the meanings of these terms is vital to developing an understanding of the subject.
 @table @i
 @p @item Control Break
 @p An event that is triggered when a control field on an RWCS-generated report changes value.  It is these events that trigger the generation of control heading and control footing groups.
@@ -56,7 +57,8 @@
 @comment *********************************************************************
 @comment ** 9.2 The Anatomy of a Report                                     **
 @comment *********************************************************************
-@newsection{9.2,The Anatomy of a Report}@p Every report has the same basic structure, as shown here, even though not all reports will have all of the groups shown.  In fact, it is a very unusual report indeed that actually has every one of these groups:
+@newsection{9.2,The Anatomy of a Report}
+@p Every report has the same basic structure, as shown here, even though not all reports will have all of the groups shown.  In fact, it is a very unusual report indeed that actually has every one of these groups:
 @itemize @bullet
 @p @item REPORT HEADING
 @p @item PAGE HEADING [1]
@@ -76,7 +78,8 @@
 @comment *********************************************************************
 @comment ** 9.3 The Anatomy of a Report Page                                **
 @comment *********************************************************************
-@newsection{9.3,The Anatomy of a Report Page}@p Each page of a report is divided into as many as five (5) areas, as shown in the following diagram.
+@newsection{9.3,The Anatomy of a Report Page}
+@p Each page of a report is divided into as many as five (5) areas, as shown in the following diagram.
 @p @format
 @t{  _______________________________ }
 @t{ |                               |}
@@ -119,7 +122,8 @@
 @comment *********************************************************************
 @comment ** 9.4 How RWCS Builds Report Pages                                **
 @comment *********************************************************************
-@newsection{9.4,How RWCS Builds Report Pages}@p A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @syntax{ADVANCING PAGE} option.  Whether the data for a report line created via @syntax{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @syntax{WRITE @term{record-name} BEFORE ADVANCING PAGE} or @syntax{WRITE @term{record-name} AFTER ADVANCING PAGE}, respectively.
+@newsection{9.4,How RWCS Builds Report Pages}
+@p A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @syntax{ADVANCING PAGE} option.  Whether the data for a report line created via @syntax{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @syntax{WRITE @term{record-name} BEFORE ADVANCING PAGE} or @syntax{WRITE @term{record-name} AFTER ADVANCING PAGE}, respectively.
 @p The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @syntax{RD} for the report (specifically the @syntax{PAGE LIMITS} and related options) and it's internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
 @p Because this is the way the GnuCOBOL RWCS works, in order to design an RWCS-generated report you'll need to know answers to the following questions:
 @enumerate
@@ -144,7 +148,8 @@
 @comment *********************************************************************
 @comment ** 9.5 Control Hierarchy                                           **
 @comment *********************************************************************
-@newsection{9.5,Control Hierarchy}@p Every report that employs control breaks has a natural hierarchy of those control breaks based upon the manner in which the data the report is being generated from is sorted.  This concept is best understood using an example which assumes a COBOL program to process sales data collected from every computerized cash register across a chain of stores having multiple departments is being developed.
+@newsection{9.5,Control Hierarchy}
+@p Every report that employs control breaks has a natural hierarchy of those control breaks based upon the manner in which the data the report is being generated from is sorted.  This concept is best understood using an example which assumes a COBOL program to process sales data collected from every computerized cash register across a chain of stores having multiple departments is being developed.
 @p The application that collects data from the various cash registers at each store will generate data records that look like this to a COBOL program:
 @p @example
 01  Sales-For-Register.
@@ -212,7 +217,8 @@ SORT SORT-FILE
 @comment *********************************************************************
 @comment ** 9.6 An Example                                                  **
 @comment *********************************************************************
-@newsection{9.6,An Example}@p This section contains an example of the RWCS at work.  The complete program, presented here, is a stripped-down version of a program I have used to generate a report for a class I teach on PC hardware.  This report will provide benchmark statistics on a variety of popular AMD and Intel CPUs.  The data for the report was obtained from the website @url{www.cpubenchmark.net} in December of 2013.  By the time you are reading this, that data will most likely have become rather out-of-date, but it illustrates RWCS well enough.
+@newsection{9.6,An Example}
+@p This section contains an example of the RWCS at work.  The complete program, presented here, is a stripped-down version of a program I have used to generate a report for a class I teach on PC hardware.  This report will provide benchmark statistics on a variety of popular AMD and Intel CPUs.  The data for the report was obtained from the website @url{www.cpubenchmark.net} in December of 2013.  By the time you are reading this, that data will most likely have become rather out-of-date, but it illustrates RWCS well enough.
 @menu
 * 9.6.1: Data.
 * 9.6.2: Program.
@@ -221,7 +227,8 @@ SORT SORT-FILE
 @comment *********************************************************************
 @comment ** 9.6.1 Data                                                      **
 @comment *********************************************************************
-@newsubsection{9.6.1,Data}@p Here is the data that the program will be reading.  Each record reflects the aggregated benchmark scoring for one particular CPU, as scores for benchmarks against that CPU have been reported to the @url{cpubenchmark.net} website by their PassMark benchmark software.  The data consists of four fields.  Fields are separated from one another by a single comma.  The descriptions of the fields are as follows:
+@newsubsection{9.6.1,Data}
+@p Here is the data that the program will be reading.  Each record reflects the aggregated benchmark scoring for one particular CPU, as scores for benchmarks against that CPU have been reported to the @url{cpubenchmark.net} website by their PassMark benchmark software.  The data consists of four fields.  Fields are separated from one another by a single comma.  The descriptions of the fields are as follows:
 @table @b
 @p @item Benchmark Score
 @p A five-digit number showing the aggregated benchmark scores for the CPU; the higher this number, the better the CPU performed in benchmark testing.
@@ -314,7 +321,8 @@ SORT SORT-FILE
 @comment *********************************************************************
 @comment ** 9.6.2 Program                                                   **
 @comment *********************************************************************
-@newsubsection{9.6.2,Program}@p Here is the program that will be producing the report.  Pay attention to how the data is sorted and how the control hierarchy (@syntax{CONTROLS ARE}) relates to the @syntax{SORT}.
+@newsubsection{9.6.2,Program}
+@p Here is the program that will be producing the report.  Pay attention to how the data is sorted and how the control hierarchy (@syntax{CONTROLS ARE}) relates to the @syntax{SORT}.
 @p @example
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DEMORWCS.
@@ -527,7 +535,8 @@ END DECLARATIVES.
 @comment *********************************************************************
 @comment ** 9.6.3 Generated Report Pages                                    **
 @comment *********************************************************************
-@newsubsection{9.6.3,Generated Report Pages}@p Finally, here's the report the program generates!
+@newsubsection{9.6.3,Generated Report Pages}
+@p Finally, here's the report the program generates!
 @p @example
 2013/12/24   CPU Benchmark Scores   Page:  1
 ********************************************
@@ -835,7 +844,8 @@ ____________________________________________
 @comment *********************************************************************
 @comment ** 9.7 Control Hierarchy (Revisited)                               **
 @comment *********************************************************************
-@newsection{9.7,Control Hierarchy (Revisited)}@p The sample program just discussed presents a great opportunity to show what can happen if you don't define the control hierarchy of a report properly.
+@newsection{9.7,Control Hierarchy (Revisited)}
+@p The sample program just discussed presents a great opportunity to show what can happen if you don't define the control hierarchy of a report properly.
 @p I changed the @syntax{CONTROLS ARE} clause on the sample program from this:
 @p @example
 CONTROLS ARE FINAL
@@ -931,7 +941,8 @@ ____________________________________________
 @comment *********************************************************************
 @comment ** 9.8 Turning PHYSICAL Page Formatting Into LOGICAL Formatting    **
 @comment *********************************************************************
-@newsection{9.8,Turning PHYSICAL Page Formatting Into LOGICAL Formatting}@p You can trick RWCS into using the PAGE LIMIT values as logical specifications rather than physical ones quite easily --- simply include an ASCII form-feed (X'0C') character into your page heading design!  Here's how the sample program shown earlier could be easily modified:
+@newsection{9.8,Turning PHYSICAL Page Formatting Into LOGICAL Formatting}
+@p You can trick RWCS into using the PAGE LIMIT values as logical specifications rather than physical ones quite easily --- simply include an ASCII form-feed (X'0C') character into your page heading design!  Here's how the sample program shown earlier could be easily modified:
 @p Simply Change This@dots{}
 @p @example
 01  TYPE IS PAGE HEADING.

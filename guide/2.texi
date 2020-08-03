@@ -1,7 +1,8 @@
 @comment *********************************************************************
 @comment ** 2. COBOL Fundamentals                                           **
 @comment *********************************************************************
-@newchapter{2,COBOL Fundamentals} This chapter describes the syntax, semantics and usage of the COBOL programming language as implemented by the current version of GnuCOBOL. For the rest of this document the Language is spelt as COBOL to ease reading however the compiler name retains the mixed case of GnuCOBOL.
+@newchapter{2,COBOL Fundamentals}
+This chapter describes the syntax, semantics and usage of the COBOL programming language as implemented by the current version of GnuCOBOL. For the rest of this document the Language is spelt as COBOL to ease reading however the compiler name retains the mixed case of GnuCOBOL.
 @p This document is intended to serve as a full-function reference and user's guide suitable for both those readers learning COBOL for the first time as usage as a training tool, as well as those already familiar with some dialects of the COBOL language.
 @p A separate manual exists that just contains the details of the Cobol grammar as implemented in GnuCOBOL, which is designed strictly for experienced COBOL programmers and this is taken from this guide. This does NOT contain any training subject matter.
 @p These extra manuals are: GnuCOBOL Quick Reference containing just the COBOL semantics / grammar in a short document while the other,  GnuCOBOL Sample Programs, shows detailed example Cobol programs with indication of syntax used in each program.
@@ -75,7 +76,8 @@
 @comment *********************************************************************
 @comment ** 2.1.1 Language Reserved Words                                   **
 @comment *********************************************************************
-@newsubsection{2.1.1,Language Reserved Words}Cobol programs consist of a sequence of words and symbols.  Words, which consist of sequences of letters (upper- and/or lower-case), digits, dashes ("-") and/or underscores ("_") may have a pre-defined, specific, meaning to the compiler or may be invented by the programmer for his/her purposes.
+@newsubsection{2.1.1,Language Reserved Words}
+Cobol programs consist of a sequence of words and symbols.  Words, which consist of sequences of letters (upper- and/or lower-case), digits, dashes ("-") and/or underscores ("_") may have a pre-defined, specific, meaning to the compiler or may be invented by the programmer for his/her purposes.
 @p The GnuCOBOL language specification defines over 1130 @define{Reserved Words} --- words to which the compiler assigns a special meaning. This list and number applies to the default list which covers many implementations and that it is possible to limit the list to either a specific implementation via -std=xyz[-strict] or to manually unreserve words if they are used in existing sources as user-defined words.
 @p Programmers may use a reserved word as @i{part} of a word they are creating themselves, but may not create their own word as an exact duplicate (without regard to case) of a COBOL reserved word. Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines and reserved words. The list of reserved words can be changed by adding or removing specific words for a given compile or as a default by use of the steering command -std and -conf. See the specific config files that are by default, held in /usr/local/share/gnucobol/config. Also using the option "FUNCTION ALL INTRINSIC", will add another 100+ reserved words. These can be modified to match the requirements of a business or project team but be warned that these are updated when a new version of the compiler is built so might be more prudent to create your own configuation based on an existing one but with a different name.
 @p In addition, you can add and/or remove reserved words by adding one of these options to cobc to add -freserved-words=<value> or freserved=<word> or to remove -fnot-reserved=<word>. As well as -freserved=<word>:<alias> to create an alias for a word as well as -fnot-register=<word> or -fregister=<word> to remove or add, a special register word.
@@ -84,7 +86,8 @@
 @comment *********************************************************************
 @comment ** 2.1.2 User-Defined Words                                        **
 @comment *********************************************************************
-@newsubsection{2.1.2,User-Defined Words}When you write GnuCOBOL programs, you'll need to create a variety of words to represent various aspects of the program, the program's data and the external environment in which the program will run.  This will include internal names by which data files will be referenced, data item names and names of executable logic procedures.
+@newsubsection{2.1.2,User-Defined Words}
+When you write GnuCOBOL programs, you'll need to create a variety of words to represent various aspects of the program, the program's data and the external environment in which the program will run.  This will include internal names by which data files will be referenced, data item names and names of executable logic procedures.
 @p User-defined words may be composed from the characters "A" through "Z" (upper- and/or lower-case), "0" through "9", dash ("-")
 @idx{- (Character in Words/Names)} and underscore ("_")
 @idx{_ (Character in user-defined words)}.  User-defined words may neither start nor end with hyphen or underscore characters.
@@ -93,14 +96,16 @@
 @comment *********************************************************************
 @comment ** 2.1.3 Case Insensitivity                                        **
 @comment *********************************************************************
-@newsubsection{2.1.3,Case Insensitivity}All COBOL implementations allow the use of both upper and lower case letters in program coding.  GnuCOBOL is completely insensitive to the case used when writing reserved words or user-defined names.  Thus, @syntax{AAAAA}, @syntax{aaaaa}, @syntax{Aaaaa} and @syntax{AaAaA} are all the same word as far as GnuCOBOL is concerned.
+@newsubsection{2.1.3,Case Insensitivity}
+All COBOL implementations allow the use of both upper and lower case letters in program coding.  GnuCOBOL is completely insensitive to the case used when writing reserved words or user-defined names.  Thus, @syntax{AAAAA}, @syntax{aaaaa}, @syntax{Aaaaa} and @syntax{AaAaA} are all the same word as far as GnuCOBOL is concerned.
 @p The only time the case used does matter is within quoted character strings, where character values will be exactly as coded.
 @p By convention throughout this document, COBOL reserved words will be shown entirely in UPPER-CASE while those words that were created by a programmer will be represented by tokens in mixed or lower case.
 @p This isn't a bad practice to use in actual programs, as it leads to programs where it is much easier to distinguish reserved words from user-defined ones!
 @comment *********************************************************************
 @comment ** 2.1.4 Readability of Programs                                   **
 @comment *********************************************************************
-@newsubsection{2.1.4,Readability of Programs}The most vociferous critics of COBOL frequently focus on the wordiness of the language, often citing the case of a so-called "Hello World" program as the "proof" that COBOL is so much more tedious to program in than more "modern" languages.  This tedium is cited as such a significant impact to programmer productivity that, in their opinions, COBOL can't go away quickly enough.
+@newsubsection{2.1.4,Readability of Programs}
+The most vociferous critics of COBOL frequently focus on the wordiness of the language, often citing the case of a so-called "Hello World" program as the "proof" that COBOL is so much more tedious to program in than more "modern" languages.  This tedium is cited as such a significant impact to programmer productivity that, in their opinions, COBOL can't go away quickly enough.
 @p Here are two different "Hello World" applications --- one written in Java and the second in GnuCOBOL.  First, the Java version:
 @verbatim
     Class HelloWorld {
@@ -176,25 +181,30 @@
 @comment *********************************************************************
 @comment ** 2.1.5 Divisions Organize Programs                               **
 @comment *********************************************************************
-@newsubsection{2.1.5,Divisions Organize Programs}COBOL programs are structured into four major areas of coding, each with its own purpose.  These four areas are known as divisions.
+@newsubsection{2.1.5,Divisions Organize Programs}
+COBOL programs are structured into four major areas of coding, each with its own purpose.  These four areas are known as divisions.
 @p Each division may consist of a variety of sections and each section consists of one or more paragraphs.  A paragraph consists of sentences, each of which consists of one or more statements.
 @p This hierarchical structure of program components standardizes the composition of all COBOL programs.  Much of this manual describes the various divisions, sections, paragraphs and statements that may comprise any COBOL program.
 @comment *********************************************************************
 @comment ** 2.1.6 Copybooks                                                 **
 @comment *********************************************************************
-@statementref{COPY}jkl
-@newsubsection{2.1.6,Copybooks}A @define{Copybook} is a segment of program code that may be utilized by multiple programs simply by having those programs use the @statement{COPY} to import that code.  This code may define files, data structures or procedural code.
+@statementref{COPY}
+jkl
+@newsubsection{2.1.6,Copybooks}
+A @define{Copybook} is a segment of program code that may be utilized by multiple programs simply by having those programs use the @statement{COPY} to import that code.  This code may define files, data structures or procedural code.
 @p Today's current programming languages have a statement (usually, this statement is named "import", "include" or "#include") that performs this same function.  What makes the COBOL copybook feature different than the "include" facility in newer languages, however, is the fact that the @statement{COPY} can edit the imported source code as it is being copied.  This capability makes copybook libraries extremely valuable to making code reusable. Also see section 3. Compiler Directing Facility commands COPY and REPLACE.
 @comment *********************************************************************
 @comment ** 2.1.7 Structured Data                                           **
 @comment *********************************************************************
-@newsubsection{2.1.7,Structured Data}A contiguous area of storage within the memory space of a program that may be referenced, by name, in a COBOL program is referred to as a @define{Data Item}.  Other programming languages use the term variable, property or attribute to describe the same thing.
+@newsubsection{2.1.7,Structured Data}
+A contiguous area of storage within the memory space of a program that may be referenced, by name, in a COBOL program is referred to as a @define{Data Item}.  Other programming languages use the term variable, property or attribute to describe the same thing.
 @p COBOL introduced the concept of structured data.  The principle of structured data in COBOL is based on the idea of being able to group related and contiguously-allocated data items together into a single aggregate data item, called a @define{Group Item}.  For example, a 35-character 'Employee-Name' group item might consist of a 20-character 'Last-Name' followed by a 14-character 'First-Name' and a 1-character 'Middle-Initial'.
 @p A data item that isn't itself formed from other data items is referred to in COBOL as an @define{Elementary Item}.  In the previous example, 'Last-Name', 'First-Name' and 'Middle-Initial' are all elementary items.
 @comment *********************************************************************
 @comment ** 2.1.8 Files                                                     **
 @comment *********************************************************************
-@newsubsection{2.1.8,Files}One of COBOL's strengths is the wide variety of data files it is capable of accessing.  GnuCOBOL programs, like those created with other COBOL implementations, need to have the structure of any files they will be reading and/or writing described to them.  The highest-level characteristic of a file's structure is defined by specifying the organization of the file, as follows:
+@newsubsection{2.1.8,Files}
+One of COBOL's strengths is the wide variety of data files it is capable of accessing.  GnuCOBOL programs, like those created with other COBOL implementations, need to have the structure of any files they will be reading and/or writing described to them.  The highest-level characteristic of a file's structure is defined by specifying the organization of the file, as follows:
 @p @table @asis
 @p @item @syntax{ORGANIZATION LINE SEQUENTIAL}
 @idx{ORGANISATION LINE SEQUENTIAL}
@@ -248,20 +258,23 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.9. Table Handling                                           **
 @comment *********************************************************************
-@newsubsection{2.1.9,Table Handling}Other programming languages have arrays, COBOL has tables.  They're basically the same thing.  There are two special statements that exist in the COBOL language --- @syntax{SEARCH} and @syntax{SEARCH ALL} --- that make finding data in a table easy.
+@newsubsection{2.1.9,Table Handling}
+Other programming languages have arrays, COBOL has tables.  They're basically the same thing.  There are two special statements that exist in the COBOL language --- @syntax{SEARCH} and @syntax{SEARCH ALL} --- that make finding data in a table easy.
 @p The first can search a table sequentially, stopping only when either a table entry matching one of any number of search conditions is found, or when all table entries have been checked against the search criteria and none matched any of those criteria.
 @p The second can perform an extremely fast search against a table sorted by and searched against a key field contained in each table entry.  The algorithm used for such a search is a binary search (also known as a half-interval search).  This algorithm ensures that only a small number of entries in the table need to be checked in order to find a desired entry or to determine that the desired entry doesn't exist in the table.  The larger the table, the more effective this search becomes.  For example, a binary search of a table containing 32,768 entries will be able to locate a particular entry or determine the entry doesn't exist by looking at no more than fifteen (15) entries!  The algorithm is explained in detail in the documentation of the @statementref{SEARCH ALL}.
 @p Finally, COBOL has the ability to perform in-place sorts of the data that is found in a table.
 @comment *********************************************************************
 @comment ** 2.1.10. Sorting and Merging Data                                **
 @comment *********************************************************************
-@newsubsection{2.1.10,Sorting and Merging Data}The COBOL language includes a powerful @statement{SORT} that can sort large amounts of data according to arbitrarily complex key structures.  This data may originate from within the program or may be contained in one or more external files.  The sorted data may be written automatically to one or more output files or may be processed, record-by-record in the sorted sequence.
+@newsubsection{2.1.10,Sorting and Merging Data}
+The COBOL language includes a powerful @statement{SORT} that can sort large amounts of data according to arbitrarily complex key structures.  This data may originate from within the program or may be contained in one or more external files.  The sorted data may be written automatically to one or more output files or may be processed, record-by-record in the sorted sequence.
 @p A companion statement --- @syntax{MERGE} --- can combine the contents of multiple files together, provided those files are all pre-sorted in a similar manner according to the same key structure.  The resulting output will consist of the contents of all of the input files, merged together and sequenced according to the common key structure(s).  The output generated by a @statement{MERGE} may be written automatically to one or more output files or may be processed internally by the program.
 @p A special form of the @statement{SORT} also exists just to sort the data that resides in a table.  This is particularly useful if you wish to use @syntax{SEARCH ALL} against the table.
 @comment *********************************************************************
 @comment ** 2.1.11. String Manipulation Features                            **
 @comment *********************************************************************
-@newsubsection{2.1.11,String Manipulation Features}There have been programming languages designed specifically for the processing of text strings, and there have been programming languages designed for the sole purpose of performing high-powered numerical computations.  Most programming languages fall somewhere in the middle.
+@newsubsection{2.1.11,String Manipulation Features}
+There have been programming languages designed specifically for the processing of text strings, and there have been programming languages designed for the sole purpose of performing high-powered numerical computations.  Most programming languages fall somewhere in the middle.
 @p COBOL is no exception, although it does include some very powerful string manipulation capabilities; GnuCOBOL actually has even more string-manipulation capabilities than many other COBOL implementations.  The following summarizes GnuCOBOL's string-processing capabilities:
 @p @b{Concatenate two or more strings:}
 @itemize @bullet
@@ -356,7 +369,8 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.12. Screen Formatting Features                              **
 @comment *********************************************************************
-@newsubsection{2.1.12,Screen Formatting Features}The COBOL2002 standard formalizes extensions to the COBOL language that allow for the definition and processing of text-based screens, as is a typical function on mainframe and midframe computers as well as on many point-of-sale (i.e. "cash register") systems.  GnuCOBOL implements virtually all the screen-handling features described by COBOL2002.
+@newsubsection{2.1.12,Screen Formatting Features}
+The COBOL2002 standard formalizes extensions to the COBOL language that allow for the definition and processing of text-based screens, as is a typical function on mainframe and midframe computers as well as on many point-of-sale (i.e. "cash register") systems.  GnuCOBOL implements virtually all the screen-handling features described by COBOL2002.
 @p These features allow fields to be displayed at specific row/column positions, various colors and video attributes to be assigned to screen fields and the pressing of specific function keys (F1, F2, @dots{}) to be detectable.  All of this takes place through the auspices of the @syntaxref{SCREEN SECTION} and special formats of the @statementref{ACCEPT} and the @statementref{DISPLAY}.
 @p The COBOL2002 standard, and therefore GnuCOBOL, only covers textual user interface (TUI) screens (those comprised of ASCII characters presented using a variety of visual attributes) and not the more-advanced graphical user interface (GUI) screen design and processing capabilities built into most modern operating systems.  There are subroutine-based packages available that can do full GUI presentation --- most of which may be called by GnuCOBOL programs, with a moderate research time investment (Tcl/Tk, for example) --- but none are currently included with GnuCOBOL.
 @menu
@@ -452,7 +466,8 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.13. Report Writer Features                                  **
 @comment *********************************************************************
-@newsubsection{2.1.13,Report Writer Features}GnuCOBOL includes an implementation of the Report Writer Control System, or RWCS. The reportwriter module is now fully implemented as of version 3.0. This is a standardized, optional add-on feature to the COBOL language which automates much of the mechanics involved in the generation of printed reports by:
+@newsubsection{2.1.13,Report Writer Features}
+GnuCOBOL includes an implementation of the Report Writer Control System, or RWCS. The reportwriter module is now fully implemented as of version 3.0. This is a standardized, optional add-on feature to the COBOL language which automates much of the mechanics involved in the generation of printed reports by:
 @enumerate
 @p @item Controlling the pagination of reports, including:
 @enumerate A
@@ -484,7 +499,8 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.14. Data Initialization                                     **
 @comment *********************************************************************
-@newsubsection{2.1.14,Data Initialization}There are three ways in which data division data gets initialized.
+@newsubsection{2.1.14,Data Initialization}
+There are three ways in which data division data gets initialized.
 @enumerate
 @p @item When a program or subprogram is first executed, much of the data in it's data division will be initialized as follows:
 @itemize @bullet
@@ -500,7 +516,8 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.15. Syntax Diagram Conventions                              **
 @comment *********************************************************************
-@newsubsection{2.1.15,Syntax Diagram Conventions}Syntax of the GnuCOBOL language will be described in special "syntax diagrams" using the following syntactical-description techniques:
+@newsubsection{2.1.15,Syntax Diagram Conventions}
+Syntax of the GnuCOBOL language will be described in special "syntax diagrams" using the following syntactical-description techniques:
 @p @table @t
 @p @item MANDATORY-RESERVED-WORD
 @itemx ~~~~~~~~~~~~~~~~~~~~~~~
@@ -536,7 +553,8 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.16. Format of Program Source Lines                          **
 @comment *********************************************************************
-@newsubsection{2.1.16,Format of Program Source Lines}Prior to the COBOL2002 standard, source statements in COBOL programs were structured around 80-column punched cards.  This means that each source line in a COBOL program consisted of five different "areas", defined by their column number(s).
+@newsubsection{2.1.16,Format of Program Source Lines}
+Prior to the COBOL2002 standard, source statements in COBOL programs were structured around 80-column punched cards.  This means that each source line in a COBOL program consisted of five different "areas", defined by their column number(s).
 @p As of the COBOL2002 standard, a second mode now exists for COBOL source code statements --- in this mode of operation, COBOL statements may each be up to 255 characters long, with no specific requirements as to what should appear in which columns.
 @p Of course, in keeping with the long-standing COBOL tradition of maintaining backwards compatibility with older standards, programmers (and, of course, compliant COBOL compilers) are capable of working in either mode.  It is even possible to switch back and forth in the same program.  The  terms @define{Fixed Format Mode}
 @idx{Source Line Format, Fixed} and @define{Free Format Mode}
@@ -633,7 +651,8 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.18 Comments                                                 **
 @comment *********************************************************************
-@newsubsection{2.1.18,Comments}The following information describes how comments may be embedded into GnuCOBOL program source to provide documentation.
+@newsubsection{2.1.18,Comments}
+The following information describes how comments may be embedded into GnuCOBOL program source to provide documentation.
 @p @multitable @columnfractions .18 .72
 @headitem Comment Type @tab Source Mode --- Description
 @item Blank Lines @tab @b{FIXED} --- Blank lines may be inserted as desired. @p @b{FREE} --- Blank lines may be inserted as desired.
@@ -654,7 +673,8 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.19 Literals                                                 **
 @comment *********************************************************************
-@newsubsection{2.1.19,Literals}Literals are constant values that will not change during the execution of a program.  There are two fundamental types of literals --- numeric and alphanumeric.
+@newsubsection{2.1.19,Literals}
+Literals are constant values that will not change during the execution of a program.  There are two fundamental types of literals --- numeric and alphanumeric.
 @menu
 * 2.1.19.1: Numeric Literals.
 * 2.1.19.2: Alphanumeric Literals.
@@ -686,7 +706,8 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.19.2 Alphanumeric Literals                                  **
 @comment *********************************************************************
-@newunit{2.1.19.2,Alphanumeric Literals}An alphanumeric literal
+@newunit{2.1.19.2,Alphanumeric Literals}
+An alphanumeric literal
 @idx{Literals (Alphanumeric)} is a character string suitable for display on a computer screen, printing on a report, transmission through a communications connection or storage in alphanumeric or alphabetic data items.
 @p An alphanumeric literal is not valid for use in arithmetic expressions unless it is first converted to it's numeric computational equivalent; there are three numeric conversion intrinsic functions built into GnuCOBOL that can perform this conversion --- @syntaxref{NUMVAL}, @syntaxref{NUMVAL-C} and @syntaxref{NUMVAL-F}.
 @p Alphanumeric literals may take any of the following forms:
@@ -732,7 +753,8 @@ All files are initially described to a GnuCOBOL program using a @statementref{SE
 @comment *********************************************************************
 @comment ** 2.1.19.3 Figurative Constants                                   **
 @comment *********************************************************************
-@newunit{2.1.19.3,Figurative Constants}Figurative constants are reserved words that may be used as literals anywhere the figurative constants value could be interpreted as an arbitrarily long sequence of the characters in question.  When a specific length is required, such as would be the case with an argument to a subprogram, a figurative constant may not be used.  Thus, the following are valid uses of figurative constants:
+@newunit{2.1.19.3,Figurative Constants}
+Figurative constants are reserved words that may be used as literals anywhere the figurative constants value could be interpreted as an arbitrarily long sequence of the characters in question.  When a specific length is required, such as would be the case with an argument to a subprogram, a figurative constant may not be used.  Thus, the following are valid uses of figurative constants:
 @example
 
 05 FILLER                PIC 9(10) VALUE ZEROS.
@@ -764,7 +786,8 @@ CALL "SUBPGM" USING SPACES
 @comment *********************************************************************
 @comment ** 2.1.20 Punctuation                                              **
 @comment *********************************************************************
-@newsubsection{2.1.20,Punctuation}A comma (",")
+@newsubsection{2.1.20,Punctuation}
+A comma (",")
 @idx{, (Punctuation)} or a semicolon (";")
 @idx{; (Punctuation)} may be inserted into a GnuCOBOL program to improve readability at any spot where white space would be legal, except of course within alphanumeric literals (unless you actually @i{mean} for those characters to be part of the alphanumeric literals value).  These characters are always optional.
 @p The use of comma characters can cause confusion to a COBOL compiler if the @syntax{DECIMAL POINT IS COMMA} clause is used in the @syntaxref{SPECIAL-NAMES} paragraph, as might be the case in Europe.  The following statement, which calls a subroutine passing it two arguments (the numeric constants 1 and 2):
@@ -810,7 +833,8 @@ CALL "SUBPGM" USING SPACES
 @comment ** 2.2.1 Table References                                          **
 @comment *********************************************************************
 @newsection{2.2,The COBOL Language - Advanced Techniques}
-@newsubsection{2.2.1,Table References}COBOL uses parenthesis to specify the subscripts used to reference table entries (tables in COBOL are what other programming languages refer to as arrays).
+@newsubsection{2.2.1,Table References}
+COBOL uses parenthesis to specify the subscripts used to reference table entries (tables in COBOL are what other programming languages refer to as arrays).
 @p For example, observe the following data structure which defines a 4 column by 3 row grid of characters:
 @p @example
 01  GRID.
@@ -831,7 +855,8 @@ I J K L
 @comment ** 2.2.2 Qualification of Data Names                               **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.2,Qualification of Data Names}COBOL allows data names to be duplicated within a program, provided references to those data names may be made in such a manner as to make those references unique through a process known as qualification.
+@newsubsection{2.2.2,Qualification of Data Names}
+COBOL allows data names to be duplicated within a program, provided references to those data names may be made in such a manner as to make those references unique through a process known as qualification.
 @p To see qualification at work, observe the following segments of two data records defined in a COBOL program:
 @verbatim
 01  EMPLOYEE.                     01  CUSTOMER.
@@ -944,7 +969,8 @@ COMPUTE I=C-D+1
 @comment ** 2.2.5 Conditional Expressions                                   **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.5,Conditional Expressions}Conditional expressions are expressions which identify the circumstances under which a program may take an action or cease taking an action.  As such, conditional expressions produce a value of TRUE or FALSE.
+@newsubsection{2.2.5,Conditional Expressions}
+Conditional expressions are expressions which identify the circumstances under which a program may take an action or cease taking an action.  As such, conditional expressions produce a value of TRUE or FALSE.
 @p There are seven types of conditional expressions, as discussed in the following sections.
 @menu
 * 2.2.5.1: Condition Names.
@@ -958,7 +984,8 @@ COMPUTE I=C-D+1
 @comment *********************************************************************
 @comment ** 2.2.5.1 Condition Names                                         **
 @comment *********************************************************************
-@newsubsection{2.2.5.1,Condition Names}These are the simplest of all conditions.  Observe the following code:
+@newsubsection{2.2.5.1,Condition Names}
+These are the simplest of all conditions.  Observe the following code:
 @p @example
 05  SHIRT-SIZE               PIC 99V9.
     88 TINY                  VALUE 0 THRU 12.5
@@ -1026,7 +1053,8 @@ SPECIAL-NAMES.
 @comment ** 2.2.5.4 Switch-Status Conditions                                **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.5.4,Switch-Status Conditions}In the @syntax{SPECIAL-NAMES} paragraph, an external switch name can be associated with one or more condition names.  These condition names may then be used to test the ON/OFF status of the external switch.
+@newsubsection{2.2.5.4,Switch-Status Conditions}
+In the @syntax{SPECIAL-NAMES} paragraph, an external switch name can be associated with one or more condition names.  These condition names may then be used to test the ON/OFF status of the external switch.
 @p Here are the relevant sections of code in a program named "testprog", which is designed to simply announce if SWITCH-1 is on:
 @p @example
 @dots{}
@@ -1111,7 +1139,8 @@ IF ACCOUNT-STATUS = 1 OR 2 OR 7
 @comment ** 2.2.6 Use of Periods                                            **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.6,Use of Periods}All COBOL implementations distinguish between sentences and statements in the procedure division.  A @define{Statement} is a single executable COBOL instruction.  For example, these are all statements:
+@newsubsection{2.2.6,Use of Periods}
+All COBOL implementations distinguish between sentences and statements in the procedure division.  A @define{Statement} is a single executable COBOL instruction.  For example, these are all statements:
 @p @example
 MOVE SPACES TO Employee-Address
 ADD 1 TO Record-Counter
@@ -1148,7 +1177,8 @@ DISPLAY "Interest Amount = " Interest
 @comment ** 2.2.7 Use of VERB/END-VERB Constructs                           **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.7,Use of VERB/END-VERB Constructs}Prior to the 1985 COBOL standard, using a period character was the only way to signal the end of a statement's scope.  @p Unfortunately, this caused some problems.  Take a look at this code:
+@newsubsection{2.2.7,Use of VERB/END-VERB Constructs}
+Prior to the 1985 COBOL standard, using a period character was the only way to signal the end of a statement's scope.  @p Unfortunately, this caused some problems.  Take a look at this code:
 @p @example
 IF A = 1
     IF B = 1
@@ -1207,7 +1237,8 @@ END-IF
 @comment ** 2.2.8 Concurrent Access to Files                                **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.8,Concurrent Access to Files}The manipulation of data files is one of the COBOL language's great strengths.  There are features built into COBOL to deal with the possibility that multiple programs may be attempting to access the same file concurrently.  Multiple program concurrent access is dealt with in two ways --- file sharing and record locking.
+@newsubsection{2.2.8,Concurrent Access to Files}
+The manipulation of data files is one of the COBOL language's great strengths.  There are features built into COBOL to deal with the possibility that multiple programs may be attempting to access the same file concurrently.  Multiple program concurrent access is dealt with in two ways --- file sharing and record locking.
 @p Not all GnuCOBOL implementations support file sharing and record-locking options.  Whether they do or not depends upon the operating system they were built for and the build options that were used when the specific GnuCOBOL implementation was generated.
 @menu
 * 2.2.8.1: File Sharing.
@@ -1216,7 +1247,8 @@ END-IF
 @comment *********************************************************************
 @comment ** 2.2.8.1 File Sharing                                            **
 @comment *********************************************************************
-@newsubsection{2.2.8.1,File Sharing}GnuCOBOL controls concurrent-file access at the highest level through the concept of file sharing, enforced when a program attempts to open a file.  This is accomplished via a UNIX operating-system routine called "fcntl()".  That module is not currently supported by Windows and is not present in the MinGW Unix-emulation package.  GnuCOBOL builds created using a MinGW environment will be incapable of supporting file-sharing controls --- files will always be shared in such environments.  A GnuCOBOL build created using the Cygwin environment on Windows @i{would} have access to "fcntl()" and therefore @i{will} support file sharing.  Of course, actual Unix builds of GnuCOBOL, as well as OSX builds, should have no issues because "fcntl()" should be available.
+@newsubsection{2.2.8.1,File Sharing}
+GnuCOBOL controls concurrent-file access at the highest level through the concept of file sharing, enforced when a program attempts to open a file.  This is accomplished via a UNIX operating-system routine called "fcntl()".  That module is not currently supported by Windows and is not present in the MinGW Unix-emulation package.  GnuCOBOL builds created using a MinGW environment will be incapable of supporting file-sharing controls --- files will always be shared in such environments.  A GnuCOBOL build created using the Cygwin environment on Windows @i{would} have access to "fcntl()" and therefore @i{will} support file sharing.  Of course, actual Unix builds of GnuCOBOL, as well as OSX builds, should have no issues because "fcntl()" should be available.
 @p Any limitations imposed on a successful @syntaxref{OPEN} will remain in place until your program either issues a @syntaxref{CLOSE} against the file or the program terminates.
 @p File sharing is controlled through the use of a @syntax{SHARING} clause:
 @verbatim
@@ -1242,7 +1274,8 @@ END-IF
 @comment ** 2.2.8.2 Record Locking                                          **
 @comment *********************************************************************
 @page
-@newsubsection{2.2.8.2,Record Locking}Record-locking is supported by advanced file-management software built-in to the GnuCOBOL implementation you are using.  This software provides a single point-of-control for access to files --- usually @syntax{ORGANIZATION INDEXED} files.  One such runtime package capable of doing this is the Berkeley Database (BDB) package --- a package frequently used in GnuCOBOL builds to support indexed files.
+@newsubsection{2.2.8.2,Record Locking}
+Record-locking is supported by advanced file-management software built-in to the GnuCOBOL implementation you are using.  This software provides a single point-of-control for access to files --- usually @syntax{ORGANIZATION INDEXED} files.  One such runtime package capable of doing this is the Berkeley Database (BDB) package --- a package frequently used in GnuCOBOL builds to support indexed files.
 @p The various I/O statements your program can execute are capable of imposing limitations on access by other concurrently-executing programs to the file record they just accessed.  These limitations are syntactically imposed by placing a lock on the record using a @syntax{LOCK} clause.  Other records in the file remain available, assuming that file-sharing limitations imposed at the time the file was opened didn't prevent access to the entire file.
 @enumerate
 @item
@@ -1279,7 +1312,7 @@ If the @syntax{LOCK ON} clause @i{is} specified in the file's @syntax{SELECT}, l
 @end itemize
 
 @item
-If the @syntaxref{LOCK ON} clause is @i{not} specified, then the next I/O statement your program executes, except for @syntaxref{START}, will release the lock.  This is referred to as @define{single record locking}.
+If the @syntaxidx{LOCK ON} clause is @i{not} specified, then the next I/O statement your program executes, except for @syntaxref{START}, will release the lock.  This is referred to as @define{single record locking}.
 
 @item
 A @syntax{LOCK} clause, which may be coded on a @syntaxref{READ}, @syntaxref{REWRITE} or @statementref{WRITE} looks like this:

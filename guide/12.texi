@@ -1,7 +1,8 @@
 @comment *********************************************************************
 @comment ** 12. Programming Style Suggestions                               **
 @comment *********************************************************************
-@newchapter{12,Programming Style Suggestions}@p This chapter deals with a variety of stylistic issues that may be of interest to someone who is just starting out learning and using COBOL.  Much of this chapter makes recommendations and suggestions for how to write your own programs.  The sample programs in the "Sample Programs" document (@pxref{Top,Top,Top,gnucobsp,Sample Programs}) were coded using almost all of these recommendations.
+@newchapter{12,Programming Style Suggestions}
+This chapter deals with a variety of stylistic issues that may be of interest to someone who is just starting out learning and using COBOL.  Much of this chapter makes recommendations and suggestions for how to write your own programs.  The sample programs in the "Sample Programs" document (@pxref{Top,Top,Top,gnucobsp,Sample Programs}) were coded using almost all of these recommendations.
 @p There's no particular order of importance to the topics presented here.
 @menu
 * 12.1: Marking Changes in Programs.
@@ -25,7 +26,8 @@
 @comment *********************************************************************
 @comment ** 12.2 Data Item Coding and Naming Conventions                    **
 @comment *********************************************************************
-@newsection{12.2,Data Item Coding and Naming Conventions}@p When programs get very large, it becomes more and more challenging to keep track of the data items that will be used in the program.  Here, in no particular order of importance, are a variety of conventions that can simply that problem.
+@newsection{12.2,Data Item Coding and Naming Conventions}
+@p When programs get very large, it becomes more and more challenging to keep track of the data items that will be used in the program.  Here, in no particular order of importance, are a variety of conventions that can simply that problem.
 @p Remember that the points described here are intended to make things easier for you, the programmer.  No COBOL compiler cares one way or another whether any of these suggestions are followed.
 @enumerate
 @p @item Avoid the use of level 77 data items in new programs.  Once (1968 and before) there were valid reasons for creating level-77 data items, but since the 1974 ANSI standard of COBOL there really hasn't been any reason why an elementary level-01 data item couldn't have been used instead of a level-77 item.
@@ -95,7 +97,8 @@
 @comment *********************************************************************
 @comment ** 12.3 Table Subscripting versus Table Indexing                   **
 @comment *********************************************************************
-@newsection{12.3,Table Subscripting versus Table Indexing}@p The elements of a table may be referenced either using a subscript or an index.  Syntactically, this is coded using parenthesis, as per the following three examples, all of which store the letter "A" into the 17th occurrence of a data item named WSS-Output-Image-TXT:
+@newsection{12.3,Table Subscripting versus Table Indexing}
+@p The elements of a table may be referenced either using a subscript or an index.  Syntactically, this is coded using parenthesis, as per the following three examples, all of which store the letter "A" into the 17th occurrence of a data item named WSS-Output-Image-TXT:
 @enumerate
 @p @item @t{MOVE 'A' TO WSS-Output-Image-TXT (17)}
 @p @item @t{MOVE 17 TO WSS-OI-SUB} @* @t{MOVE 'A' TO WSS-Output-Image-TXT (WSS-OI-SUB)}
@@ -144,7 +147,8 @@ E3. SET WS-TABLE-IDX TO 17
 @comment *********************************************************************
 @comment ** 12.4 Copybook Naming Conventions and Usage                      **
 @comment *********************************************************************
-@newsection{12.4,Copybook Naming Conventions and Usage}@p Since the intent of a copybook is to introduce COBOL code into a particular spot in a program via the @statementref{COPY}, it is always a good idea to prefix copybook names with a character sequence that identifies where in a program it's contents are intended to be copyed.
+@newsection{12.4,Copybook Naming Conventions and Usage}
+@p Since the intent of a copybook is to introduce COBOL code into a particular spot in a program via the @statementref{COPY}, it is always a good idea to prefix copybook names with a character sequence that identifies where in a program it's contents are intended to be copyed.
 @p For example:
 @table @asis
 @p @item @syntax{IDxxxxxxxx}
@@ -159,7 +163,8 @@ Copybooks that contain executable instructions.
 @comment *********************************************************************
 @comment ** 12.5,PROCEDURE DIVISION Sections Versus Paragraphs              **
 @comment *********************************************************************
-@newsection{12.5,PROCEDURE DIVISION Sections Versus Paragraphs}@p The issue of whether to use section and/or paragraph names (collectively referred to as procedure names) within the procedure division is one of near religious significance with many COBOL programmers.
+@newsection{12.5,PROCEDURE DIVISION Sections Versus Paragraphs}
+@p The issue of whether to use section and/or paragraph names (collectively referred to as procedure names) within the procedure division is one of near religious significance with many COBOL programmers.
 @p COBOL programming standards used by many organizations that use the language generally call for procedure names to:
 @enumerate
 @p @item Contain a leading numeric component (for example: @syntax{2000-Update-Customer}), AND@dots{}
@@ -187,7 +192,8 @@ Copybooks that contain executable instructions.
 @comment *********************************************************************
 @comment ** 12.6 COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE                **
 @comment *********************************************************************
-@newsection{12.6,COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE}@p Over the years, there has been much debate over the efficiency and arithmetic accuracy of using the @statementref{COMPUTE} rather than the four basic  arithmetic operation statements.
+@newsection{12.6,COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE}
+@p Over the years, there has been much debate over the efficiency and arithmetic accuracy of using the @statementref{COMPUTE} rather than the four basic  arithmetic operation statements.
 @p Here are the facts --- draw your own conclusions as to which approach is more appropriate under which circumstances.
 @enumerate
 @p @item The @statement{COMPUTE} supports exponentiation (via the "**" operator) --- there is no equivalent basic arithmetic statement.  Although you could simulate integral exponentiation (raising a value to the third power, for example) using @statement{MULTIPLY}s, and you may use the @intrinsicref{SQRT} to find a square root, there's just no (easy) way to find the cube-root of a value without using the @statement{COMPUTE}.

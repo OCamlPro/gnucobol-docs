@@ -75,19 +75,41 @@
 @newsubsection{5.1.2,OBJECT-COMPUTER}
 @diagram{OBJECT-COMPUTER,ED-OBJECT-COMPUTER,ED-OBJECT-COMPUTER,ED-OBJECT-COMPUTER}@p This paragraph describes the computer upon which the program will execute.
 @enumerate
-@p @item The @term{computer-name}, if specified, must immediately follow the @syntax{OBJECT-COMPUTER} paragraph name.  The remaining clauses may be coded in any sequence.
-@p @item The reserved words @syntax{CHARACTER}, @syntax{IS}, @syntax{PROGRAM} and @syntax{SEQUENCE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The value specified for @term{computer-name}, if any, is irrelevant provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @term{computer-name} may include spaces.  This need not match the @term{computer-name} used with the @syntax{SOURCE-COMPUTER} paragraph, if any.
-@p @item The @syntax{OBJECT-COMPUTER} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{OBJECT-COMPUTER} settings of their parent program.
-@p @item The @syntaxidx{COLLATING SEQUENCE} clause allows you to specify a customized character collating sequence to be used when alphanumeric values are compared to one another.  Data will still be stored in the character set native to the computer, but the logical sequence in which characters are ordered for comparison purposes can be altered from that defined by the computer's native character set.  The @term{alphabet-name-1} you specify needs to be defined in the @syntaxref{SPECIAL-NAMES} paragraph.
-@p @item If no @syntax{COLLATING SEQUENCE} clause is specified, the collating sequence implied by the character set native to the computer (usually ASCII) will be used.
-@p @item The optional @syntaxidx{CLASSIFICATION} clause may be used to specify a locale for the environment in which the program will be executing, for the purpose of influencing the upper-case and lower-case mappings of characters for the @syntaxref{UPPER-CASE} and @syntaxref{LOWER-CASE} intrinsic functions and the classification of characters for the @syntax{ALPHABETIC}, @syntax{ALPHABETIC-LOWER} and @syntax{ALPHABETIC-UPPER} class tests.  The definitions of these classes will be taken from the cultural convention specification (@syntax{LC_CTYPE}) from the specified locale.
+
+@item
+The @term{computer-name}, if specified, must immediately follow the @syntax{OBJECT-COMPUTER} paragraph name.  The remaining clauses may be coded in any sequence.
+
+@item
+The reserved words @syntax{CHARACTER}, @syntax{IS}, @syntax{PROGRAM} and @syntax{SEQUENCE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+
+@item
+The value specified for @term{computer-name}, if any, is irrelevant provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @term{computer-name} may include spaces.  This need not match the @term{computer-name} used with the @syntax{SOURCE-COMPUTER} paragraph, if any.
+
+@item
+The @syntax{OBJECT-COMPUTER} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{OBJECT-COMPUTER} settings of their parent program.
+
+@item
+The @syntaxidx{COLLATING SEQUENCE} clause allows you to specify a customized character collating sequence to be used when alphanumeric values are compared to one another.  Data will still be stored in the character set native to the computer, but the logical sequence in which characters are ordered for comparison purposes can be altered from that defined by the computer's native character set.  The @term{alphabet-name-1} you specify needs to be defined in the @syntaxref{SPECIAL-NAMES} paragraph.
+
+@item
+If no @syntax{COLLATING SEQUENCE} clause is specified, the collating sequence implied by the character set native to the computer (usually ASCII) will be used.
+
+@item
+The optional @syntaxidx{CLASSIFICATION} clause may be used to specify a locale for the environment in which the program will be executing, for the purpose of influencing the upper-case and lower-case mappings of characters for the @syntaxref{UPPER-CASE} and @syntaxref{LOWER-CASE} intrinsic functions and the classification of characters for the @syntax{ALPHABETIC}, @syntax{ALPHABETIC-LOWER} and @syntax{ALPHABETIC-UPPER} class tests.  The definitions of these classes will be taken from the cultural convention specification (@syntax{LC_CTYPE}) from the specified locale.
 @p The meanings of the four locale specifications are as follows:
 @enumerate A
-@p @item @term{locale-name-1} references a @syntaxrefalt{LOCALE,SPECIAL-NAMES} definition.
-@p @item The keyword @syntax{LOCALE} refers to the current locale (in effect at the time the program is executed)
-@p @item The keyword @syntax{USER-DEFAULT} references the default locale specified for the user currently executing this program.
-@p @item The keyword @syntax{SYSTEM-DEFAULT} denotes the default locale specified for the computer upon which the program is executing.
+
+@item
+@term{locale-name-1} references a @syntaxrefalt{LOCALE,SPECIAL-NAMES} definition.
+
+@item
+The keyword @syntax{LOCALE} refers to the current locale (in effect at the time the program is executed)
+
+@item
+The keyword @syntax{USER-DEFAULT} references the default locale specified for the user currently executing this program.
+
+@item
+The keyword @syntax{SYSTEM-DEFAULT} denotes the default locale specified for the computer upon which the program is executing.
 @end enumerate
 @item Absence of a @syntax{CLASSIFICATION} clause will cause character classification to occur according to the rules for the computer's native character set (ASCII, EBCDIC, @dots{}).
 @end enumerate
@@ -102,18 +124,42 @@
 @center are discussed in detail in the next four sections.
 @p The @syntax{SPECIAL-NAMES} paragraph provides a means for specifying various program and operating environment configuration options.
 @enumerate
-@p @item The various clauses that may be specified within the @syntax{SPECIAL-NAMES} paragraph may be coded in any order.
-@p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
-@p @item The @syntax{SPECIAL-NAMES} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{SPECIAL-NAMES} settings of their parent program.
-@p @item Only the final clause specified within this paragraph should be terminated with a period.
-@p @item The @syntaxidx{CALL-CONVENTION} clause allows a decimal integer, representing a series of ON/OFF switch settings, to be associated with a mnemonic name which may then be coded on a @statementref{CALL}.  The switch settings defined by this mnemonic will then control how the linkage to a subroutine invoked by the @syntax{CALL} statement that references @term{mnemonic-name-1} will be handled.
-@p @item The @syntaxidx{CONSOLE IS CRT} clause, if specified, will cause a @statement{DISPLAY} lacking an explicit @syntax{UPON} clause to be treated as a @statementref{DISPLAY screen-data-item}, and any @statement{ACCEPT} lacking a @syntax{FROM} clause to be treated as a @statementref{ACCEPT screen-data-item}.
-@p @item If the @syntaxidx{CRT STATUS} clause is not specified, an implicit @syntaxidx{COB-CRT-STATUS} identifier (with a @syntax{PICTURE 9(4)}) will be allocated for the purpose of receiving screen @syntax{ACCEPT} statuses.  If @syntax{CRT STATUS} is specified, then @term{identifier-1} must be defined in the program as a @syntax{PICTURE 9(4)} field.
-@p @item The @syntaxidx{CURRENCY SIGN} clause may be used to redefine the character to be used as a currency sign in a @syntaxref{PICTURE} clause.  The default currency sign is a dollar-sign ($).  You may specify any character @i{except} @syntax{0}-@syntax{9}, @syntax{A}-@syntax{Z}, @syntax{a}-@syntax{z}, @syntax{+}, @syntax{-}, @syntax{,}, @syntax{.}, @syntax{*}, @syntax{/}, @syntax{;}, @syntax{(}, @syntax{)}, @syntax{=}, @syntax{\\}, quote (") or space.
-@p @item The @syntaxidx{CURSOR IS} clause allows you to specify a 4- or 6-character data item into which the cursor screen location at the time a screen @syntax{ACCEPT} is satisfied.  The value will be returned as @i{rrcc} or @i{rrrccc}, depending upon the length of the specified @term{identifier-2}, where @i{rr} and @i{rrr} represent the row number (starting at zero) and @i{cc} and @i{ccc} represent the column number (also starting at zero).  There is no default data item allocated for this data if the @syntax{CURSOR IS} clause is not specified, and it is the programmer's responsibility to define @term{identifier-2} if the clause is specified.
-@p @item The @syntaxidx{DECIMAL POINT IS COMMA} clause reverses the definition of the "," and "." characters when they are used as @syntax{PICTURE} editing symbols and within numeric literals.  This can have unwanted side-effects - see @ref{Punctuation}.
-@p @item The @syntaxidx{LOCALE} clause may be used to associate external OS-defined locale names (@term{literal-2}) with an internal name (@term{locale-name-1}) that may then be referenced within the program.  Locale names are defined by the Operating System and/or C compiler GnuCOBOL will be utilizing on your computer.
-@p @item The following is the list of possible locale codes, for example, that would be available on a Windows computer running a GnuCOBOL version that was built utilizing the MinGW Unix-emulator and the GNU C compiler (gcc):
+
+@item
+The various clauses that may be specified within the @syntax{SPECIAL-NAMES} paragraph may be coded in any order.
+
+@item
+The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+
+@item
+The @syntax{SPECIAL-NAMES} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{SPECIAL-NAMES} settings of their parent program.
+
+@item
+Only the final clause specified within this paragraph should be terminated with a period.
+
+@item
+The @syntaxidx{CALL-CONVENTION} clause allows a decimal integer, representing a series of ON/OFF switch settings, to be associated with a mnemonic name which may then be coded on a @statementref{CALL}.  The switch settings defined by this mnemonic will then control how the linkage to a subroutine invoked by the @syntax{CALL} statement that references @term{mnemonic-name-1} will be handled.
+
+@item
+The @syntaxidx{CONSOLE IS CRT} clause, if specified, will cause a @statement{DISPLAY} lacking an explicit @syntax{UPON} clause to be treated as a @statementref{DISPLAY screen-data-item}, and any @statement{ACCEPT} lacking a @syntax{FROM} clause to be treated as a @statementref{ACCEPT screen-data-item}.
+
+@item
+If the @syntaxidx{CRT STATUS} clause is not specified, an implicit @syntaxidx{COB-CRT-STATUS} identifier (with a @syntax{PICTURE 9(4)}) will be allocated for the purpose of receiving screen @syntax{ACCEPT} statuses.  If @syntax{CRT STATUS} is specified, then @term{identifier-1} must be defined in the program as a @syntax{PICTURE 9(4)} field.
+
+@item
+The @syntaxidx{CURRENCY SIGN} clause may be used to redefine the character to be used as a currency sign in a @syntaxref{PICTURE} clause.  The default currency sign is a dollar-sign ($).  You may specify any character @i{except} @syntax{0}-@syntax{9}, @syntax{A}-@syntax{Z}, @syntax{a}-@syntax{z}, @syntax{+}, @syntax{-}, @syntax{,}, @syntax{.}, @syntax{*}, @syntax{/}, @syntax{;}, @syntax{(}, @syntax{)}, @syntax{=}, @syntax{\\}, quote (") or space.
+
+@item
+The @syntaxidx{CURSOR IS} clause allows you to specify a 4- or 6-character data item into which the cursor screen location at the time a screen @syntax{ACCEPT} is satisfied.  The value will be returned as @i{rrcc} or @i{rrrccc}, depending upon the length of the specified @term{identifier-2}, where @i{rr} and @i{rrr} represent the row number (starting at zero) and @i{cc} and @i{ccc} represent the column number (also starting at zero).  There is no default data item allocated for this data if the @syntax{CURSOR IS} clause is not specified, and it is the programmer's responsibility to define @term{identifier-2} if the clause is specified.
+
+@item
+The @syntaxidx{DECIMAL POINT IS COMMA} clause reverses the definition of the "," and "." characters when they are used as @syntax{PICTURE} editing symbols and within numeric literals.  This can have unwanted side-effects - see @ref{Punctuation}.
+
+@item
+The @syntaxidx{LOCALE} clause may be used to associate external OS-defined locale names (@term{literal-2}) with an internal name (@term{locale-name-1}) that may then be referenced within the program.  Locale names are defined by the Operating System and/or C compiler GnuCOBOL will be utilizing on your computer.
+
+@item
+The following is the list of possible locale codes, for example, that would be available on a Windows computer running a GnuCOBOL version that was built utilizing the MinGW Unix-emulator and the GNU C compiler (gcc):
 @anchoridx{LOCALE Names}
 @table @strong
 @item A
@@ -249,13 +295,27 @@ CLASS Hexadecimal IS '0' THRU '9'
 @newunit{5.1.3.3,Switch-Definition-Clause}
 @diagram{SPECIAL-NAMES Switch-Definition-Clause,ED-SPECIAL-NAMES-SD,ED-SPECIAL-NAMES-SD,None}@p The switch-definition clause associates a condition-name with a run-time execution switch so that the status of that switch may be tested from within a program.
 @enumerate
-@p @item The reserved words @syntax{IS} and @syntax{STATUS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The valid @term{switch-name-1} names are @syntaxidx{SWITCH-n} (n=0-36).
-@p @item If the program is compiled with the @switchidx{-fsyntax-extension}, the switch names @syntaxidx{SWn} (n=0-15) are also valid; they correspond to @syntax{SWITCH-0} through @syntax{SWITCH-15}, respectively as well as @syntax{SWITCH-16} through @syntax{SWITCH-36}, @syntax{SWITCH 0} through @syntax{SWITCH 26} and @syntax{SWITCH A} through @syntax{SWITCH Z}.
-@p @item At execution time, each switch will be associated with a @envvarruntimeref{COB_SWITCH_n}, where "n" will have the value "0" through "15".  Any of these sixteen environment variables that have the value "ON" (regardless of upper- or lower-case value) will be considered to be set "on".  Any of these sixteen environment variables having no value at all or a value other than "ON" will be considered "OFF".
-@p @item Each specified switch must have at least one of a @syntax{IS @term{mnemonic-name-1}}, @syntax{ON STATUS} or an @syntax{OFF STATUS} option defined for it, otherwise there will be no way to reference the switch from within a GnuCOBOL program.
-@p @item The @syntax{IS @term{mnemonic-name-1}} syntax provides a means for setting the switch to either an ON or OFF value via the @statementref{SET}.
-@p @item The @syntaxidx{ON STATUS} and @syntaxidx{OFF STATUS} syntax provides a way of associating a condition-name with either the on or off status of the switch, so that status may be tested at execution time via the @statementref{IF}.
+
+@item
+The reserved words @syntax{IS} and @syntax{STATUS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+
+@item
+The valid @term{switch-name-1} names are @syntaxidx{SWITCH-n} (n=0-36).
+
+@item
+If the program is compiled with the @switchidx{-fsyntax-extension}, the switch names @syntaxidx{SWn} (n=0-15) are also valid; they correspond to @syntax{SWITCH-0} through @syntax{SWITCH-15}, respectively as well as @syntax{SWITCH-16} through @syntax{SWITCH-36}, @syntax{SWITCH 0} through @syntax{SWITCH 26} and @syntax{SWITCH A} through @syntax{SWITCH Z}.
+
+@item
+At execution time, each switch will be associated with a @envvarruntime{COB_SWITCH_n}, where "n" will have the value "0" through "15".  Any of these sixteen environment variables that have the value "ON" (regardless of upper- or lower-case value) will be considered to be set "on".  Any of these sixteen environment variables having no value at all or a value other than "ON" will be considered "OFF".
+
+@item
+Each specified switch must have at least one of a @syntax{IS @term{mnemonic-name-1}}, @syntax{ON STATUS} or an @syntax{OFF STATUS} option defined for it, otherwise there will be no way to reference the switch from within a GnuCOBOL program.
+
+@item
+The @syntax{IS @term{mnemonic-name-1}} syntax provides a means for setting the switch to either an ON or OFF value via the @statementref{SET}.
+
+@item
+The @syntaxidx{ON STATUS} and @syntaxidx{OFF STATUS} syntax provides a way of associating a condition-name with either the on or off status of the switch, so that status may be tested at execution time via the @statementref{IF}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.3.4 Symbolic-Characters-Clause                              **
@@ -264,11 +324,21 @@ CLASS Hexadecimal IS '0' THRU '9'
 @newunit{5.1.3.4,Symbolic-Characters-Clause}
 @diagram{SPECIAL-NAMES-Symbolic-Characters-Clause,ED-SPECIAL-NAMES-SC,ED-SPECIAL-NAMES-SC,None}@p This clause may be used to define your own figurative constants.
 @enumerate
-@p @item The reserved words @syntax{ARE}, @syntax{CHARACTERS} and @syntax{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item There must be exactly as many @term{integer-1} values specified as there are @term{symbolic-character-1} names.
-@p @item Each symbolic character name will be associated with the corresponding @term{integer-1}th character in the alphabet named in the @syntax{IN} clause.  The integer values are selecting characters from the alphabet by their ordinal position and not by their numeric value; thus, an integer of 15 will select the 15th character in the specified alphabet, regardless of the actual numeric value of the bit pattern that constitutes that character.
-@p @item If no @term{alphabet-name-1} is specified, the systems native character set will be assumed.
-@p @item The following two code examples define the same set of figurative constant names for five ASCII control characters (assuming that ASCII is the system's native character set).  The two examples are identical in their effects, even though the manner in which the figurative constants are defined is different.
+
+@item
+The reserved words @syntax{ARE}, @syntax{CHARACTERS} and @syntax{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+
+@item
+There must be exactly as many @term{integer-1} values specified as there are @term{symbolic-character-1} names.
+
+@item
+Each symbolic character name will be associated with the corresponding @term{integer-1}th character in the alphabet named in the @syntax{IN} clause.  The integer values are selecting characters from the alphabet by their ordinal position and not by their numeric value; thus, an integer of 15 will select the 15th character in the specified alphabet, regardless of the actual numeric value of the bit pattern that constitutes that character.
+
+@item
+If no @term{alphabet-name-1} is specified, the systems native character set will be assumed.
+
+@item
+The following two code examples define the same set of figurative constant names for five ASCII control characters (assuming that ASCII is the system's native character set).  The two examples are identical in their effects, even though the manner in which the figurative constants are defined is different.
 @smallformat
 
 @group
@@ -333,30 +403,66 @@ REPOSITORY.
 @diagram{SELECT Statement,ED-SELECT,ED-SELECT,ED-SELECT}
 @p The @statement{SELECT} creates a definition of a file and links that COBOL definition to the external operating system environment.
 @enumerate
-@p @item The reserved words @syntax{AREAS}, @syntax{IS}, @syntax{MODE}, @syntax{OTHER}, @syntax{SEQUENCE}, @syntax{TO}, @syntax{USING} and @syntax{WITH} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item After @term{file-name-1}, the various clauses may be coded in any sequence.
-@p @item A period must follow the last coded clause.
-@p @item The @syntaxidx{OPTIONAL} clause, to be used only for files that will be used to provide input data to the program, indicates the file may or may not actually be available at run-time.  Attempts to @syntax{OPEN} an @syntax{OPTIONAL} file when the file does not exist will receive a special non-fatal file status value (see status 05 in the list of file status values below) indicating the file is not available; a subsequent attempt to @syntax{READ} that file will return an @syntax{AT END} (end-of-file) condition.  Optionally, files may be designated as @syntax{NOT OPTIONAL}, if desired.  This is useful when specifying the compiler's @switchidx{-foptional-file}, which automatically makes all files @syntax{OPTIONAL} except for those explicitly declared as @syntax{NOT OPTIONAL}.
-@p @item The @term{file-name-1} value that you specify will be the name by which you will reference the file within your program.  This name should be formed according to the rules for user-defined names (@pxref{User-Defined Words}).
-@p @item The optional @syntax{ASSIGN} clause specifies how --- at runtime, when @term{file-name-1} is opened --- either a logical device (STDIN, STDOUT) or a file anywhere in one of the currently-mounted file systems will be associated with @term{file-name-1}, as follows:
+@item
+The reserved words @syntax{AREAS}, @syntax{IS}, @syntax{MODE}, @syntax{OTHER}, @syntax{SEQUENCE}, @syntax{TO}, @syntax{USING} and @syntax{WITH} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+
+@item
+After @term{file-name-1}, the various clauses may be coded in any sequence.
+
+@item
+A period must follow the last coded clause.
+
+@item
+The @syntaxidx{OPTIONAL} clause, to be used only for files that will be used to provide input data to the program, indicates the file may or may not actually be available at run-time.  Attempts to @syntax{OPEN} an @syntax{OPTIONAL} file when the file does not exist will receive a special non-fatal file status value (see status 05 in the list of file status values below) indicating the file is not available; a subsequent attempt to @syntax{READ} that file will return an @syntax{AT END} (end-of-file) condition.  Optionally, files may be designated as @syntax{NOT OPTIONAL}, if desired.  This is useful when specifying the compiler's @switchidx{-foptional-file}, which automatically makes all files @syntax{OPTIONAL} except for those explicitly declared as @syntax{NOT OPTIONAL}.
+
+@item
+The @term{file-name-1} value that you specify will be the name by which you will reference the file within your program.  This name should be formed according to the rules for user-defined names (@pxref{User-Defined Words}).
+
+@item
+The optional @syntax{ASSIGN} clause specifies how --- at runtime, when @term{file-name-1} is opened --- either a logical device (STDIN, STDOUT) or a file anywhere in one of the currently-mounted file systems will be associated with @term{file-name-1}, as follows:
 @enumerate A
-@p @item There are three components to the @syntax{ASSIGN} clause --- a @clause{Type} specification (@syntax{EXTERNAL}, @syntax{DYNAMIC} or neither), a @clause{Device} (the list of device choices) and a @clause{Locator} (shown as a choice between @term{identifier-1}, @term{word-1} and @term{literal-1}).
-@p @item @syntax{ASSIGN TO DISC '@term{file-name-1}'} will be assumed if there is no @syntax{ASSIGN} clause on a @syntax{SELECT}.
-@p @item If an @syntax{ASSIGN} clause is coded without a @clause{Device}, the device @syntax{DISC} will be assumed.
-@p @item If a @clause{Locator} clause is coded, the COBOL file @term{file-name-1} will be attached to a data file within any file system that is mounted and available to the executing program at the time @term{file-name-1} is opened.  How that file is identified varies, depending upon the specified @clause{Locator}, as follows:
+@item
+There are three components to the @syntax{ASSIGN} clause --- a @clause{Type} specification (@syntax{EXTERNAL}, @syntax{DYNAMIC} or neither), a @clause{Device} (the list of device choices) and a @clause{Locator} (shown as a choice between @term{identifier-1}, @term{word-1} and @term{literal-1}).
+
+@item
+@syntax{ASSIGN TO DISC '@term{file-name-1}'} will be assumed if there is no @syntax{ASSIGN} clause on a @syntax{SELECT}.
+
+@item
+If an @syntax{ASSIGN} clause is coded without a @clause{Device}, the device @syntax{DISC} will be assumed.
+
+@item
+If a @clause{Locator} clause is coded, the COBOL file @term{file-name-1} will be attached to a data file within any file system that is mounted and available to the executing program at the time @term{file-name-1} is opened.  How that file is identified varies, depending upon the specified @clause{Locator}, as follows:
 @enumerate a
-@p @item If @term{literal-1} is coded, the value of the literal will serve as the File Location String that will identify the data file.
-@p @item If @term{identifier-1} is coded, the value of the identifier will serve as the File Location String that will identify the data file.
-@p @item If @term{word-1} (a syntactically valid word not duplicating that of a reserved or user-defined word) is coded, and a @clause{Type} of @syntax{EXTERNAL} is specified, @term{word-1} itself will serve as the File Location String that will identify the data file.  If, however, a @clause{Type} of @syntax{EXTERNAL} was @i{not} specified, the compiler will create a @syntax{PIC X(1024)} data item named @term{word-1} within the program; the contents of that data item at the time the program opens @term{file-name-1} will then serve as the File Location String that will identify the data file.
-@p @item File Location Strings will be discussed shortly.
+@item
+If @term{literal-1} is coded, the value of the literal will serve as the File Location String that will identify the data file.
+
+@item
+If @term{identifier-1} is coded, the value of the identifier will serve as the File Location String that will identify the data file.
+
+@item
+If @term{word-1} (a syntactically valid word not duplicating that of a reserved or user-defined word) is coded, and a @clause{Type} of @syntax{EXTERNAL} is specified, @term{word-1} itself will serve as the File Location String that will identify the data file.  If, however, a @clause{Type} of @syntax{EXTERNAL} was @i{not} specified, the compiler will create a @syntax{PIC X(1024)} data item named @term{word-1} within the program; the contents of that data item at the time the program opens @term{file-name-1} will then serve as the File Location String that will identify the data file.
+
+@item
+File Location Strings will be discussed shortly.
 @end enumerate
-@item If no @clause{Locator} is coded, @term{file-name-1} will be attached to a logical device or a file based upon the specified (or implied) @clause{Device}, as follows:
+
+@item
+If no @clause{Locator} is coded, @term{file-name-1} will be attached to a logical device or a file based upon the specified (or implied) @clause{Device}, as follows:
 @enumerate a
-@p @item @syntax{DISC} or @syntax{DISK} will assume an attachment to a file named @term{file-name-1} in whatever directory is current at the time the file is opened.
-@p @item @syntax{DISPLAY} will assume an attachment to the @syntax{STDOUT} logical device; these files should only be used for output.
-@p @item @syntax{KEYBOARD} will assume an attachment to the @syntax{STDIN} logical device; these files should only be used for input.
-@p @item @syntax{PRINTER} will assume an attachment to the @syntax{LPT1} logical device/port; these files should only be used for output.
-@p @item @syntax{RANDOM} or @syntax{TAPE} will behave exactly as @syntax{DISC} does.  These two additional @clause{Device}s are provided to facilitate the compilation of COBOL source from other COBOL implementations.
+@item
+@syntax{DISC} or @syntax{DISK} will assume an attachment to a file named @term{file-name-1} in whatever directory is current at the time the file is opened.
+
+@item
+@syntax{DISPLAY} will assume an attachment to the @syntax{STDOUT} logical device; these files should only be used for output.
+
+@item
+@syntax{KEYBOARD} will assume an attachment to the @syntax{STDIN} logical device; these files should only be used for input.
+
+@item
+@syntax{PRINTER} will assume an attachment to the @syntax{LPT1} logical device/port; these files should only be used for output.
+
+@item
+@syntax{RANDOM} or @syntax{TAPE} will behave exactly as @syntax{DISC} does.  These two additional @clause{Device}s are provided to facilitate the compilation of COBOL source from other COBOL implementations.
 @end enumerate
 @item The @syntax{LINE ADVANCING} device @i{requires} that a @clause{Locator} be specified; these files should only be used for output.  A COBOL Line Advancing file will allow carriage-control characters such as line-feeds and form-feeds to be written to the attached operating system file, via the @syntax{ADVANCING} clause of the @statementref{WRITE}.
 @p @item File Location Strings are used (at runtime) to identify the path and filename to the data file that must be attached to @term{file-name-1} when that file is opened.
@@ -414,10 +520,18 @@ bbbb
 @item 71 @tab Bad character
 @item 91 @tab File not available
 @end multitable
-@item The @syntaxidx{SHARING} clause defines the conditions under which the program will be willing (or not) to allow other programs executing at the same time to access the file.  @xref{File Sharing}, for the details.
-@p @item The @syntaxidx{LOCK} clause defines how concurrent access to the file will be managed on a record-by-record basis.  @xref{Record Locking}, for the details.
-@p @item For syntax details  for the ORGANISATION clause, see next group of paragraphs.
-@p @item A @syntax{SELECT} statement without an @syntax{ORGANIZATION} explicitly coded will be handled as if the following ORGANIZATION clause had been specified:
+
+@item
+The @syntaxidx{SHARING} clause defines the conditions under which the program will be willing (or not) to allow other programs executing at the same time to access the file.  @xref{File Sharing}, for the details.
+
+@item
+The @syntaxidx{LOCK} clause defines how concurrent access to the file will be managed on a record-by-record basis.  @xref{Record Locking}, for the details.
+
+@item
+For syntax details  for the ORGANISATION clause, see next group of paragraphs.
+
+@item
+A @syntax{SELECT} statement without an @syntax{ORGANIZATION} explicitly coded will be handled as if the following ORGANIZATION clause had been specified:
 @p @example
 ORGANIZATION IS SEQUENTIAL
     ACCESS MODE IS SEQUENTIAL
