@@ -2,28 +2,6 @@
 @comment ** 10. Interfacing With The OS                                      **
 @comment *********************************************************************
 @newchapter{10,Interfacing With The OS}
-@menu
-* 10.1: Compiling Programs.
-@detailmenu
-*   10.1.1: cobc - The GnuCOBOL Compiler.
-*   10.1.1,1: cobc option -Xref an example.
-*   10.1.1,2: Cross Reference listing using cobxref.
-*   10.1.2: Compilation Time Environment Variables.
-*   10.1.3: Predefined Compilation Variables.
-*   10.1.4: Locating Copybooks.
-*   10.1.5: Compiler Configuration Files.
-@end detailmenu
-* 10.2: Running Programs.
-@detailmenu
-*   10.2.1: Direct Execution.
-*   10.2.2: Executing Dynamically-Loadable Libraries.
-*     10.2.2.1: cobcrun - Command-line Execution.
-*     10.2.2.2: Dynamically Loaded Subprograms.
-*   10.2.3: Run Time Environment Variables.
-*   10.2.4: Program Arguments.
-@end detailmenu
-* 10.3: Binary Truncation.
-@end menu
 @comment *********************************************************************
 @comment ** 10.1 Compiling Programs                                          **
 @comment *********************************************************************
@@ -40,15 +18,6 @@
 @p @item Dynamically-loadable executable form
 @p These are dynamically-loadable object code files ready to be invoked from other programs at execution time.  On Windows systems, these would be ".dll" files, while on Unix systems they are typically ".so" files (OSX uses ".dylib").
 @end table
-@menu
-* 10.1.1: cobc - The GnuCOBOL Compiler.
-* 10.1.1,1: cobc option -Xref an example.
-* 10.1.1,2: Cross Reference listing using cobxref.
-* 10.1.2: Compilation Time Environment Variables.
-* 10.1.3: Predefined Compilation Variables.
-* 10.1.4: Locating Copybooks.
-* 10.1.5: Compiler Configuration Files.
-@end menu
 @comment *********************************************************************
 @comment ** 10.1.1 cobc - The GnuCOBOL Compiler                             **
 @comment *********************************************************************
@@ -974,16 +943,6 @@ reserved:       TIMEOUT=TIME-OUT
 @comment *********************************************************************
 @newsection{10.2,Running Programs}
 @p Once GnuCOBOL programs have been compiled into either directly-executable programs (created via the @switch{-x}) or dynamically-loadable libraries (created via the @switch{-m}), those programs may be executed from any shell environment.  The exact manner in which the two are executed will differ, as described in the upcoming sections.
-@menu
-* 10.2.1: Direct Execution.
-* 10.2.2: Executing Dynamically-Loadable Libraries.
-@detailmenu
-*   10.2.2.1: cobcrun - Command-line Execution.
-*   10.2.2.2: Dynamically Loaded Subprograms.
-@end detailmenu
-* 10.2.3: Run Time Environment Variables.
-* 10.2.4: Program Arguments.
-@end menu
 @comment *********************************************************************
 @comment ** 10.2.1 Direct Execution                                          **
 @comment *********************************************************************
@@ -1003,10 +962,6 @@ reserved:       TIMEOUT=TIME-OUT
 @comment *********************************************************************
 @newsubsection{10.2.2,Executing Dynamically-Loadable Libraries}
 @p As discussed previously, dynamically-loadable libraries are created via the compiler's @switch{-m}.  Once so created, the program(s) in these libraries are executed from the command line (via the GnuCOBOL @syntax{cobcrun} utility), or as dynamically-loadable subprograms.
-@menu
-* 10.2.2.1: cobcrun - Command-line Execution.
-* 10.2.2.2: Dynamically Loaded Subprograms.
-@end menu
 @comment *********************************************************************
 @comment ** 10.2.2.1 cobcrun - Command-line Execution                        **
 @comment *********************************************************************
@@ -1063,48 +1018,48 @@ cobcrun printaccount.exe acct=6625378
 @newsubsection{10.2.3,Run Time Environment Variables}
 @anchoridx{Environment Variables: Run-Time}@p The following is a list of the various environment variables that can play a role in the execution of GnuCOBOL programs.
 @table @asis
-@p @item @syntaxidx{COB_DISPLAY_WARNINGS}
-@p If set to a value of "Y", any run-time warnings (such as noting the implicit closing of open files when a @statementref{GOBACK} or @statementref{STOP} with the @syntax{RUN} option is executed) will be displayed.  Any other value for this environment variable (including not setting the variable at all) will suppress such messages.
-@p @item @syntaxidx{COB_LIBRARY_PATH}
-@p At runtime, GnuCOBOL will attempt to locate and load any application dynamically-loadable libraries using from the directory in which the program executable was found or, if it wasn't found there, using the @syntax{PATH} environment variable.  If these library files could be somewhere else, specify the directory path using this variable.
-@p @item @syntaxidx{COB_LOAD_CASE}
-@p If set to either @syntax{UPPER} or @syntax{LOWER}, this environment variable will internally convert referenced entry-point names to either upper- or lower-case before initiating searches for dynamically-loadable modules.  The @syntax{UPPER} and @syntax{LOWER} values of the environment variable are actually case-insensitive.
-@p @item @syntaxidx{COB_PHYSICAL_CANCEL}
-@p If set to "Y", "y" or "1", a @statementref{CANCEL} will physically unload a subprogram dynamically-loadable module.
-@p If set to anything else, a @statementref{CANCEL} logically unloads a module so that subsequent use will re-initialize the module as if it had actually been reloaded, but the overhead of actually reloading the module will be avoided.
-@p @item @syntaxidx{COB_PRE_LOAD}
-@p If set to any non-null value, this variable will cause all dynamically-loadable libraries to be loaded when the program begins execution (rather than searching for and loading the module upon first use).
-@p @item @syntaxidx{COB_SET_DEBUG}
-@p If a @syntaxrefalt{USE FOR DEBUGGING,DECLARATIVES} section exists, the code within it will be disabled unless this environment variable is set to a value of "Y", "y" or "1".
-@p @item @syntaxidx{COB_SET_TRACE}
-@p If the @switchidx{-ftrace} (trace procedures) or @switchidx{-ftraceall} (trace procedures and statements) was used when the program was compiled, setting this environment variable to a value of "Y" will activate the trace at the point the program begins execution.  Setting this environment variable to any other value (or never setting it to ANY value) will disable tracing.
-@p Tracing, if configured by one of the two switches described above, can also be controlled via the the @statementref{READY TRACE} and @statementref{RESET TRACE}.
-@p If COB_SET_TRACE is set to Y, then tracing will always occur regardless of the presence of READY TRACE or RESET TRACE so in effect they will have no action on program execution.
-@p @item @syntaxidx{COB_SCREEN_ESC}
-@p If set to any non-blank value, this variable allows a @statementref{ACCEPT screen-data-item} to detect the "Esc" key.
-@p @item @syntaxidx{COB_SCREEN_EXCEPTIONS}
-@p Setting this variable to any non-blank value will allow the @statementref{ACCEPT screen-data-item} to detect the pressing of the "Esc", "PgUp" and "PgDn" keys.
-@p @item @syntaxidx{COB_SORT_MEMORY}
-@p The value of this variable (an integer) will be used to define how much memory will be allocated for use in sorting.  If the value is 1048576 or greater, that value will be used "as is" as the amount of memory (in bytes) to allocate.  If the value is less than 1048576, the value will specify how many MB of memory will be allocated.  The default sort memory amount is 128 MB.
-@p @item @syntaxidx{COB_SWITCH_n}
-@p (n=0 to 15); These environment variables correspond to @syntax{SWITCH-0} through @syntax{SWITCH-15}, defined in the @syntaxref{SPECIAL-NAMES} paragraph.  Setting them to "ON" will activate them; any other value turns them off.
-@p @item @syntaxidx{COB_SYNC}
-@p If set to a value of upper- or lower-case "p", this variable will force a file commit every time a file is written to (ensuring that data is immediately written to the file rather than retained in memory until a future commit occurs).  This will slow-down update access to files, but will provide for better integrity in the event of a program failure.
-@p @item @syntaxidx{COB_TRACE_FILE}
-@p If set to any non-null value, this environment variable specifies the file to which all @switch{-ftrace} and @switch{-ftraceall} output will be written.
-@p If this is NOT set to a value, all @switch{-ftrace} and @switch{-ftraceall} output will be written to STDERR, where it may be piped via a "2> filename" on the command that executes the program.
-@p @item @syntaxidx{DB_HOME}
-@p If your GnuCOBOL build uses the Berkeley Database (BDB) package, use this environment variable to specify the folder in which the lock management files to be associated with all non-SORT files opened by the program will be stored.  @syntaxref{ORGANIZATION INDEXED} files will also have their data file allocated in the folder pointed to by this environment variable, if it exists..  Having this variable defined will activate record locking features on the @statementref{READ}, @statementref{REWRITE} and @statementref{WRITE}.  Even with DB_HOME, locking will not work with @syntaxref{ORGANIZATION SEQUENTIAL}, @syntaxref{ORGANIZATION LINE SEQUENTIAL} or ORGANIZATION RELATIVE files with GnuCOBOL builds created for Windows/MinGW.  @syntax{ORGANIZATION INDEXED} locks will work with Windows/MinGW + BDB and all locks will work for all file organizations with UNIX GnuCOBOL builds.
-@p @item @syntaxidx{PATH}
-@p The GnuCOBOL "bin" directory should be defined in the PATH.
-@p @item @syntaxidx{TMPDIR}
+@item @syntaxidx{COB_DISPLAY_WARNINGS}
+If set to a value of "Y", any run-time warnings (such as noting the implicit closing of open files when a @statementref{GOBACK} or @statementref{STOP} with the @syntax{RUN} option is executed) will be displayed.  Any other value for this environment variable (including not setting the variable at all) will suppress such messages.
+@item @syntaxidx{COB_LIBRARY_PATH}
+At runtime, GnuCOBOL will attempt to locate and load any application dynamically-loadable libraries using from the directory in which the program executable was found or, if it wasn't found there, using the @syntax{PATH} environment variable.  If these library files could be somewhere else, specify the directory path using this variable.
+@item @syntaxidx{COB_LOAD_CASE}
+If set to either @syntax{UPPER} or @syntax{LOWER}, this environment variable will internally convert referenced entry-point names to either upper- or lower-case before initiating searches for dynamically-loadable modules.  The @syntax{UPPER} and @syntax{LOWER} values of the environment variable are actually case-insensitive.
+@item @syntaxidx{COB_PHYSICAL_CANCEL}
+If set to "Y", "y" or "1", a @statementref{CANCEL} will physically unload a subprogram dynamically-loadable module.
+If set to anything else, a @statementref{CANCEL} logically unloads a module so that subsequent use will re-initialize the module as if it had actually been reloaded, but the overhead of actually reloading the module will be avoided.
+@item @syntaxidx{COB_PRE_LOAD}
+If set to any non-null value, this variable will cause all dynamically-loadable libraries to be loaded when the program begins execution (rather than searching for and loading the module upon first use).
+@item @syntaxidx{COB_SET_DEBUG}
+If a @syntaxrefalt{USE FOR DEBUGGING,DECLARATIVES} section exists, the code within it will be disabled unless this environment variable is set to a value of "Y", "y" or "1".
+@item @syntaxidx{COB_SET_TRACE}
+If the @switchidx{-ftrace} (trace procedures) or @switchidx{-ftraceall} (trace procedures and statements) was used when the program was compiled, setting this environment variable to a value of "Y" will activate the trace at the point the program begins execution.  Setting this environment variable to any other value (or never setting it to ANY value) will disable tracing.
+Tracing, if configured by one of the two switches described above, can also be controlled via the the @statementref{READY TRACE} and @statementref{RESET TRACE}.
+If COB_SET_TRACE is set to Y, then tracing will always occur regardless of the presence of READY TRACE or RESET TRACE so in effect they will have no action on program execution.
+@item @syntaxidx{COB_SCREEN_ESC}
+If set to any non-blank value, this variable allows a @statementref{ACCEPT screen-data-item} to detect the "Esc" key.
+@item @syntaxidx{COB_SCREEN_EXCEPTIONS}
+Setting this variable to any non-blank value will allow the @statementref{ACCEPT screen-data-item} to detect the pressing of the "Esc", "PgUp" and "PgDn" keys.
+@item @syntaxidx{COB_SORT_MEMORY}
+The value of this variable (an integer) will be used to define how much memory will be allocated for use in sorting.  If the value is 1048576 or greater, that value will be used "as is" as the amount of memory (in bytes) to allocate.  If the value is less than 1048576, the value will specify how many MB of memory will be allocated.  The default sort memory amount is 128 MB.
+@item @syntaxidx{COB_SWITCH_n}
+(n=0 to 15); These environment variables correspond to @syntax{SWITCH-0} through @syntax{SWITCH-15}, defined in the @syntaxref{SPECIAL-NAMES} paragraph.  Setting them to "ON" will activate them; any other value turns them off.
+@item @syntaxidx{COB_SYNC}
+If set to a value of upper- or lower-case "p", this variable will force a file commit every time a file is written to (ensuring that data is immediately written to the file rather than retained in memory until a future commit occurs).  This will slow-down update access to files, but will provide for better integrity in the event of a program failure.
+@item @syntaxidx{COB_TRACE_FILE}
+If set to any non-null value, this environment variable specifies the file to which all @switch{-ftrace} and @switch{-ftraceall} output will be written.
+If this is NOT set to a value, all @switch{-ftrace} and @switch{-ftraceall} output will be written to STDERR, where it may be piped via a "2> filename" on the command that executes the program.
+@item @syntaxidx{DB_HOME}
+If your GnuCOBOL build uses the Berkeley Database (BDB) package, use this environment variable to specify the folder in which the lock management files to be associated with all non-SORT files opened by the program will be stored.  @syntaxref{ORGANIZATION INDEXED} files will also have their data file allocated in the folder pointed to by this environment variable, if it exists..  Having this variable defined will activate record locking features on the @statementref{READ}, @statementref{REWRITE} and @statementref{WRITE}.  Even with DB_HOME, locking will not work with @syntaxref{ORGANIZATION SEQUENTIAL}, @syntaxref{ORGANIZATION LINE SEQUENTIAL} or ORGANIZATION RELATIVE files with GnuCOBOL builds created for Windows/MinGW.  @syntax{ORGANIZATION INDEXED} locks will work with Windows/MinGW + BDB and all locks will work for all file organizations with UNIX GnuCOBOL builds.
+@item @syntaxidx{PATH}
+The GnuCOBOL "bin" directory should be defined in the PATH.
+@item @syntaxidx{TMPDIR}
 @itemx @syntaxidx{TMP}
 @itemx @syntaxidx{TEMP}
-@p One of these environment variables must be set to a directory/folder appropriate to create temporary files in.  They will be checked in the order shown.  This will be used by the @statementref{SORT} and @statementref{MERGE} to create temporary work files.  You may also use this folder for any temporary files your application may require.
+One of these environment variables must be set to a directory/folder appropriate to create temporary files in.  They will be checked in the order shown.  This will be used by the @statementref{SORT} and @statementref{MERGE} to create temporary work files.  You may also use this folder for any temporary files your application may require.
 @end table
-@p Also used during execution of programs is runtime.cfg also found in /usr/local/share/gnucobol/config for *nix and this file can also be changed to match your environment if needed.
-@p When viewing, note the Default settings.
-@section  General instructions
+Also used during execution of programs is runtime.cfg also found in /usr/local/share/gnucobol/config for *nix and this file can also be changed to match your environment if needed.
+When viewing, note the Default settings.
+@newunit{10.2.3.1,General instructions}
 @verbatim
 
  The initial runtime.cfg file is found in the  $COB_CONFIG_DIR/config
@@ -1158,7 +1113,7 @@ cobcrun printaccount.exe acct=6625378
        of the comments from the actual real configuration file that is processed
 @end verbatim
 
-@section General Environment
+@newunit{10.2.3.2,General Environment}
 @verbatim
 
  Environment name:  COB_DISABLE_WARNINGS
@@ -1265,7 +1220,7 @@ For v3.2
           Example:  COB_CURRENT_DATE "2016/03/16 16:40:52"
                     current_date YYYYMMDDHHMMSS+01:00
 @end verbatim
-@section Call Environment
+@newunit{10.2.3.3,Call Environment}
 @verbatim
 
  Environment name:  COB_LIBRARY_PATH
@@ -1306,7 +1261,7 @@ For v3.2
           Example:  PHYSICAL_CANCEL  TRUE
 
 @end verbatim
-@section File I/O
+@newunit{10.2.3.4,File I/O}
 @verbatim
 
  Environment name:  COB_VARSEQ_FORMAT
@@ -1538,7 +1493,7 @@ For v3.2
           Example:  SORT_CHUNK 1M
 
 @end verbatim
-@section Screen I/O
+@newunit{10.2.3.5,Screen I/O}
 @verbatim
 
 
@@ -1677,7 +1632,7 @@ For v3.2
           Example:  COB_EXIT_MSG ''
 
 @end verbatim
-@section Report I/O
+@newunit{10.2.3.6,Report I/O}
 @verbatim
 
  Environment name:  COB_COL_JUST_LRC
@@ -1690,7 +1645,7 @@ For v3.2
           Example:  col_just_lrc True
 
 @end verbatim
-@section File I/O Environment Variables and/or dictionary file
+@newunit{10.2.3.7,File I/O Environment Variables and/or dictionary file}
 @verbatim
 
 Before a file is opened a check is done for environment variables that
