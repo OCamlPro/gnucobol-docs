@@ -1,10 +1,3 @@
-HTML:
-	mkdir HTML
-PDFs:
-	mkdir PDFs
-INFO:
-	mkdir INFO
-
 .PHONY: force-update \
 	pdf	pdf-a4 pdf-letter \
 	html
@@ -26,6 +19,8 @@ SOURCES_SP = gnucobsp.texi \
 SOURCES_QR = gnucobqr.texi \
 	$(SOURCES_COMMON)
 
+all: pdf-letter html
+
 force-update:
 	touch gnucobpg.texi gnucobqr.texi gnucobsp.texi
 
@@ -36,35 +31,32 @@ pdf-a4: PDFs/gnucobqr-a4.pdf PDFs/gnucobsp-a4.pdf PDFs/gnucobpg-a4.pdf
 
 pdf-letter:	PDFs/gnucobpg-letter.pdf PDFs/gnucobqr-letter.pdf PDFs/gnucobsp-letter.pdf
 
+##  PDFs/gnucobpg-a4.pdf: gnucobpg-a4.texi $(SOURCES)
+##  	@mkdir -p $(dir $@)
+##  	cd $(dir $@) && \
+##  	texi2pdf -q -c ../gnucobpg-a4.texi
+##  
+##  PDFs/gnucobqr-a4.pdf: gnucobqr-a4.texi $(SOURCES_QR)
+##  	@mkdir -p $(dir $@)
+##  	cd $(dir $@) && \
+##  	texi2pdf -q -c ../gnucobqr-a4.texi
+##  
+##  PDFs/gnucobsp-a4.pdf: gnucobsp-a4.texi $(SOURCES_SP)
+##  	@mkdir -p $(dir $@)
+##  	cd $(dir $@) && \
+
 PDFs/gnucobpg-a4.pdf: gnucobpg-a4.texi $(SOURCES)
-	@mkdir -p $(dir $@)
-	cd $(dir $@)&& \
-	texi2pdf -q -c ../gnucobpg-a4.texi
-
 PDFs/gnucobqr-a4.pdf: gnucobqr-a4.texi $(SOURCES_QR)
-	@mkdir -p $(dir $@)
-	cd $(dir $@)&& \
-	texi2pdf -q -c ../gnucobqr-a4.texi
-
 PDFs/gnucobsp-a4.pdf: gnucobsp-a4.texi $(SOURCES_SP)
-	@mkdir -p $(dir $@)
-	cd $(dir $@)&& \
-	texi2pdf -q -c ../gnucobsp-a4.texi
-
 PDFs/gnucobpg-letter.pdf: gnucobpg-letter.texi $(SOURCES)
-	@mkdir -p $(dir $@)
-	cd $(dir $@)&& \
-	texi2pdf -q -c ../gnucobpg-letter.texi
-
 PDFs/gnucobqr-letter.pdf: gnucobqr-letter.texi $(SOURCES_QR)
-	@mkdir -p $(dir $@)
-	cd $(dir $@)&& \
-	texi2pdf -q -c ../gnucobqr-letter.texi
-
 PDFs/gnucobsp-letter.pdf: gnucobsp-letter.texi $(SOURCES_SP)
+
+PDFOPTIONS = -q
+
+PDFs/%.pdf : %.texi
 	@mkdir -p $(dir $@)
-	cd $(dir $@)&& \
-	texi2pdf -q -c ../gnucobsp-letter.texi
+	texi2pdf $(PDFOPTIONS) -o $@ -c $<
 
 CSS = css/gnucobpg.css
 
@@ -84,12 +76,12 @@ HTML/gnucobpg.html: $(SOURCES)
 
 HTML/gnucobsp.html: $(SOURCES_SP)
 	@mkdir -p $(dir $@)
-	makeinfo -v -o HTML $(WARNING)
+	makeinfo -v -o HTML $(WARNING) \
 		--html --no-split --css-ref=$(CSS) gnucobsp.texi
 
 HTML/gnucobqr.html: $(SOURCES_QR)
 	@mkdir -p $(dir $@)
-	makeinfo -v -o HTML $(WARNING)
+	makeinfo -v -o HTML $(WARNING) \
 		--html --no-split --css-ref=$(CSS) gnucobqr.texi
 
 publish: HTML/gnucobpg.html $(CSS)
