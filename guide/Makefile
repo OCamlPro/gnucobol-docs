@@ -67,7 +67,7 @@ html: HTML/gnucobqr.html HTML/gnucobsp.html HTML/gnucobpg HTML/gnucobpg.html
 HTML/gnucobpg: $(SOURCES)
 	@mkdir -p $(dir $@)
 	makeinfo -v -o HTML/gnucobpg $(WARNING) \
-		--html --css-ref=$(CSS) gnucobpg.texi
+		--html            --css-ref=$(CSS) gnucobpg.texi
 
 HTML/gnucobpg.html: $(SOURCES)
 	@mkdir -p $(dir $@)
