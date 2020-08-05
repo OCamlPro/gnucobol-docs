@@ -89,6 +89,10 @@ publish: HTML/gnucobpg.html $(CSS)
 	scp HTML/gnucobpg.html $(WWW)
 	scp css/gnucobpg.css   $(WWW)/css/
 
+publish-css: HTML/gnucobpg.html $(CSS)
+	test "$(WWW)"
+	scp css/gnucobpg.css   $(WWW)/css/
+
 tags: TAGS
 TAGS:
 	etags *.texi
