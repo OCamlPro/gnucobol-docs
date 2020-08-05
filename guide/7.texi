@@ -28,7 +28,8 @@ The PROCEDURE DIVISION of any GnuCOBOL program marks the point where all executa
 @comment *********************************************************************
 @page
 @newsection{7.1,PROCEDURE DIVISION USING}
-@diagram{PROCEDURE DIVISION Subprogram-Argument,PD-USING,PD-USING,None}@p The @syntax{USING} clause defines the arguments that will be passed to a GnuCOBOL program which is serving as a subprogram.
+@diagram{PROCEDURE DIVISION Subprogram-Argument,PD-USING,PD-USING,None}
+The @syntax{USING} clause defines the arguments that will be passed to a GnuCOBOL program which is serving as a subprogram.
 @enumerate
 @comment Syntactical Specifications:
 @item
@@ -53,7 +54,6 @@ The identifiers specified on the @syntax{USING} clause must be defined in the li
 @item
 A GnuCOBOL subprogram expects that all arguments to it will be one of two things:
 @itemize @bullet
-
 @item
 The memory address of the actual data item (allocated in the calling program) that is being passed to the subprogram.
 
@@ -82,7 +82,8 @@ The @syntaxidx{OPTIONAL} keyword, legal only on @syntax{BY REFERENCE} arguments,
 @comment *********************************************************************
 @page
 @newsection{7.2,PROCEDURE DIVISION CHAINING}
-@diagram{PROCEDURE DIVISION Main-Program-Argument,PD-CHAINING,PD-CHAINING,None}@p The @syntax{CHAINING} term provides one mechanism a programmer may use to retrieve command-line arguments passed to a program at execution time.
+@diagram{PROCEDURE DIVISION Main-Program-Argument,PD-CHAINING,PD-CHAINING,None}
+The @syntax{CHAINING} term provides one mechanism a programmer may use to retrieve command-line arguments passed to a program at execution time.
 @enumerate
 @comment Syntactical Specifications:
 @comment Semantic Specifications:
@@ -124,7 +125,8 @@ This behaviour when the argument is defined as @syntax{PIC 9} may be unacceptabl
 @comment *********************************************************************
 @page
 @newsection{7.3,PROCEDURE DIVISION RETURNING}
-@diagram{PROCEDURE DIVISION RETURNING,PD-RETURNING,PD-RETURNING,None}@p The RETURNING clause on the PROCEDURE DIVISION header documents that the subprogram in which the clause appears will be returning a numeric value back to the program that called it.
+@diagram{PROCEDURE DIVISION RETURNING,PD-RETURNING,PD-RETURNING,None}
+The RETURNING clause on the PROCEDURE DIVISION header documents that the subprogram in which the clause appears will be returning a numeric value back to the program that called it.
 @comment Semantic Specifications:
 @enumerate
 @item
@@ -142,7 +144,6 @@ Main programs that wish to "pass back" a return code value to the operating syst
 @item
 This is not the only mechanism that a subprogram may use to pass a value back to it's caller.  Other possibilities are:
 @enumerate A
-
 @item
 The subprogram may modify any argument that is specified as "BY REFERENCE" on it's PROCEDURE DIVISION header.  Whether the calling program can actually "see" any modifications depends upon how the calling program passed the argument to the subprogram.  @xref{CALL}, for more information.
 
@@ -158,8 +159,9 @@ A data item defined with the @syntaxref{EXTERNAL} attribute in a subprogram and 
 @comment *********************************************************************
 @page
 @newsection{7.4,PROCEDURE DIVISION Sections and Paragraphs}
+The procedure division is the only one of the COBOL divisions that allows you to create your own sections and paragraphs.  These are collectively referred to as @define{Procedures}, and the names you create for those sections and paragraphs are called @define{Procedure Names}.
 
-The procedure division is the only one of the COBOL divisions that allows you to create your own sections and paragraphs.  These are collectively referred to as @define{Procedures}, and the names you create for those sections and paragraphs are called @define{Procedure Names}.@p Procedure names are optional in the procedure division and --- when used --- are named entirely according to the needs and whims of the programmer.
+Procedure names are optional in the procedure division and --- when used --- are named entirely according to the needs and whims of the programmer.
 
 Procedure names may be up to thirty one (31) characters long and may consist of letters, numbers, dashes and underscores.  A procedure name may neither begin nor end with a dash (-) or underscore (_) character.  This means that "Main", "0100-Read-Transaction" and "17" are all perfectly valid procedure names.
 
@@ -174,7 +176,6 @@ When the @statementref{ENTRY} is being used.
 @item
 When any procedure division statement that references procedures is used.  These statements are:
 @itemize @bullet
-
 @item
 @syntax{ALTER @term{procedure-name}}
 
@@ -196,7 +197,8 @@ When any procedure division statement that references procedures is used.  These
 @comment *********************************************************************
 @page
 @newsection{7.5,DECLARATIVES}
-@diagram{DECLARATIVES,PD-DECLARATIVES,PD-DECLARATIVES,PD-DECLARATIVES}@p The @syntax{DECLARATIVES} area of the procedure division allows the programmer to define a series of "trap" procedures (referred to as declarative procedures) capable of intercepting certain events that may occur at program execution time.  The syntax diagram above shows the format of a single such procedure.
+@diagram{DECLARATIVES,PD-DECLARATIVES,PD-DECLARATIVES,PD-DECLARATIVES}
+The @syntax{DECLARATIVES} area of the procedure division allows the programmer to define a series of "trap" procedures (referred to as declarative procedures) capable of intercepting certain events that may occur at program execution time.  The syntax diagram above shows the format of a single such procedure.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -213,14 +215,12 @@ The declaratives area may contain any number of declarative procedures, but no t
 @item
 The following points apply to the @syntaxidx{USE BEFORE REPORTING} clause:
 @enumerate A
-
 @item
 @term{identifier-2} must be a report group.
 
 @item
 At run-time, the declaratives procedure will be executed prior to the processing of the specified report group's presentation; within the procedure you may take either of the following actions:
 @itemize @bullet
-
 @item
 You may adjust the value(s) of any items referenced in @syntaxref{SUM} or @syntaxref{SOURCE} clauses in the report group.
 
@@ -234,7 +234,6 @@ The following points apply to the @syntaxidx{USE FOR DEBUGGING} clause:
 @item
 This clause allows you to define a declarative procedure that will be invoked whenever@dots{}
 @itemize @bullet
-
 @item
 @dots{}@term{identifier-1} is referenced on any statement.
 
@@ -271,7 +270,6 @@ The structure of DEBUG-ITEM will be as follows:
 @end example
 @* where@dots{}
 @table @asis
-
 @item @syntax{DEBUG-LINE}
 @dots{} is the program line number of the statement that triggered the declaratives procedure.
 
@@ -317,13 +315,12 @@ Declarative procedures may not reference any other procedures defined outside th
 @comment ** 7.6.1 AT END + NOT AT END                                      **
 @comment *********************************************************************
 @newsubsection{7.6.1,AT END + NOT AT END}
-@diagram{AT END,PD-AT-END,PD-AT-END,None}@p @syntax{AT END} clauses may be specified on @syntaxref{READ}, @syntaxref{RETURN}, @syntaxref{SEARCH} and @syntaxref{SEARCH ALL} statements.
+@diagram{AT END,PD-AT-END,PD-AT-END,None}
+@syntax{AT END} clauses may be specified on @syntaxref{READ}, @syntaxref{RETURN}, @syntaxref{SEARCH} and @syntaxref{SEARCH ALL} statements.
 @enumerate
-
 @item
 The following points pertain to the use of these clauses on @syntaxref{READ} and @syntaxref{RETURN} statements:
 @enumerate A
-
 @item
 The @syntax{AT END} clause will --- if present --- cause @term{imperative-statement-1} (@pxref{Imperative Statement}) to be executed if the statement fails due to a file status of 10 (end-of-file).  @xref{File Status Codes}, for a list of possible File Status codes.
 
@@ -338,7 +335,6 @@ A @syntax{NOT AT END} clause will cause @term{imperative-statement-2} to be exec
 @item
 The following points pertain to the use of these clauses on @syntaxref{SEARCH} and @syntaxref{SEARCH ALL} statements:
 @enumerate A
-
 @item
 An @syntax{AT END} clause detects and handles the case where either form of table search has failed to locate an entry that satisfies the search conditions being used.
 
@@ -361,14 +357,12 @@ SUBTRACT CORRESPONDING group-item-1 FROM group-item-2
 
 In order for @term{data-item-1}, defined subordinate to group item @term{group-item-1} to be a "corresponding" match to @term{data-item-2} which is subordinate to @term{group-item-2}, each of the following must be true:
 @enumerate
-
 @item
 Both @term{data-item-1} and @term{data-item-2} must have the same name, and that name may not explicitly or implicitly be @syntax{FILLER}.
 
 @item
 Both @term{data-item-1} and @term{data-item-2}@dots{}
 @enumerate A
-
 @item
 @dots{}must exist at the same relative structural "depth" of definition within @term{group-item-1} and @term{group-item-2}, respectively
 
@@ -378,7 +372,6 @@ Both @term{data-item-1} and @term{data-item-2}@dots{}
 @item
 When used with a @syntax{MOVE} verb@dots{}
 @enumerate A
-
 @item
 @dots{}one of @term{data-item-1} or @term{data-item-2} (but not both) is allowed to be a group item
 
@@ -585,39 +578,30 @@ Rounding is to the nearest value whose magnitude is smaller.
 GnuCOBOL, like other COBOL dialects, includes a number of data items that are automatically available to a programmer without the need to actually define them in the data division.  COBOL refers to such items as registers or special registers.  The special registers available to a GnuCOBOL program are as follows:
 @table @asis
 @item @syntax{COB-CRT-STATUS}
-
 PIC 9(4) --- This is the default data item allocated for use by the @statementrefalt{ACCEPT @term{screen-data-item},ACCEPT screen-data-item}, if no @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} clause was specified..
 
 @item @syntax{DEBUG-ITEM}
-
 Group Item --- A group item in which debugging information generated by a @syntax{USE FOR DEBUGGING} section in the declaratives area of the procedure division will place information documenting why the @syntax{USE FOR DEBUGGING} procedure was invoked.  Consult the @syntaxref{DECLARATIVES} documentation for information on the structure of this register.
 
 @item @syntax{LINAGE-COUNTER}
-
 BINARY-LONG SIGNED --- An occurrence of this register exists for each selected file having a @syntaxrefalt{LINAGE,File/Sort-Description} clause.  If there are multiple files whose file descriptions have @syntax{LINAGE} clauses, any explicit references to this register will require qualification (using @syntax{OF file-name}).  The value of this register will be the current logical line number within the page body.  The value of this register cannot be modified.
 
 @item @syntax{LINE-COUNTER}
-
 BINARY-LONG SIGNED --- An occurrence of this register exists for each report defined in the program (via an @syntaxrefalt{RD,REPORT SECTION}).  If there are multiple reports, any explicit references to this register not made in the report section will require qualification (@syntax{OF report-name}).  The value of this register will be the current logical line number on the current page.  The value of this register cannot be modified.
 
 @item @syntax{NUMBER-OF-CALL-PARAMETERS}
-
 BINARY-LONG SIGNED --- This register contains the number of arguments passed to a subroutine --- the same value that would be returned by the @subpgmref{C$NARG}.  Its value will be zero when referenced in a main program.  This register, when referenced from within a user-defined function, returns a value of one (1) if the function has any number of arguments and a zero if it has no arguments.
 
 @item @syntax{PAGE-COUNTER}
-
 BINARY-LONG SIGNED --- An occurrence of this register exists for each report having an @syntaxrefalt{RD,REPORT SECTION}.  If there are multiple such reports, any explicit references to this register not made in the report section will require qualification ( @syntax{OF report-name}).  The value of this register will be the current report page number.  The value of this register cannot be modified.
 
 @item @syntax{RETURN-CODE}
-
 BINARY-LONG SIGNED --- This register provides a numeric data item into which a subroutine may @syntaxref{MOVE} a value (which will then be available to the calling program) prior to transferring control back to the program that called it, or into which a main program may @syntax{MOVE} a value before returning control to the operating system.  Many built-in subroutines will return a value using this register.  These values are --- by convention --- used to signify success (usually with a value of 0) or failure (usually with a non-zero value) of the process the program was attempting to perform.  This register may also be modified by a subprogram as a result of that subprogram's use of the @syntaxrefalt{RETURNING,PROCEDURE DIVISION RETURNING} clause.
 
 @item @syntax{SORT-RETURN}
-
 BINARY-LONG SIGNED --- This register is used to report the success/fail status of a @syntaxref{RELEASE} or @syntaxref{RETURN} statement.  A value of 0 is reported on success.  A value of 16 denotes failure.  An @syntaxrefalt{AT END,AT END + NOT AT END} condition on a @syntax{RETURN} is not considered a failure.
 
 @item @syntax{WHEN-COMPILED}
-
 PIC X(16) --- This register contains the date and time the program was compiled in the format "mm/dd/yyhh.mm.ss".  Note that only a two-digit year is provided.
 @comment *   1.3.21: LENGTH OF.
 @comment *********************************************************************
@@ -626,7 +610,6 @@ PIC X(16) --- This register contains the date and time the program was compiled 
 @comment @newsubsection{1.3.21,LENGTH OF}
 @page
 @diagram{LENGTH OF,PD-LENGTH-OF,PD-LENGTH-OF,None}
-
 Alphanumeric literals and identifiers may optionally be prefixed with the @syntax{LENGTH OF} clause.  The compile-time value generated by this clause will be the number of bytes in the alphanumeric literal or the defined size (in bytes) of the identifier.
 @enumerate
 @item
@@ -835,7 +818,6 @@ Using @syntax{COMMAND-LINE} or @syntax{ARGUMENT-VALUE} in a *nix based platform 
 @item
 By accepting from @syntaxidx{ARGUMENT-NUMBER}, you will be asking the GnuCOBOL run-time system to parse the arguments from the command-line and return the number of arguments found.  Parsing will be conducted according to the following rules:
 @enumerate A
-
 @item
 Arguments will be separated by treating spaces and/or tab characters as the delimiters between arguments.  The number of such delimiters separating two non-blank argument values is irrelevant.
 
@@ -901,7 +883,6 @@ If @term{identifier-1} is defined in the @syntaxref{SCREEN SECTION}, any @syntax
 @item
 The various @syntax{AT} clauses provide a means of positioning the cursor to a specific spot on the screen before the screen is read.  One or the other (but not both) may be used, as follows:
 @enumerate A
-
 @item
 The @syntax{LINE} and @syntax{COLUMN} clauses provide one mechanism for specifying the line and column position to which the cursor will be positioned before allowing the user to enter data.  In the absence of one or the other, a value of 1 will be assumed for the one that is missing.  The author's personal preference, however, is to explicitly code both.
 
@@ -915,7 +896,6 @@ The @term{literal-3} or @term{identifier-4} value, if specified, must be a four-
 @item
 The following @term{Attribute-Specification} clauses are allowed on the @syntax{ACCEPT} statement --- these are the same as those allowed for @syntax{SCREEN SECTION} data items.  A particular @term{Attribute-Specification} may be used only once in any @syntax{ACCEPT}:
 @itemize @bullet
-
 @item
 @syntaxref{AUTO}, @syntaxref{AUTO-SKIP}, @syntaxref{AUTOTERMINATE}, @syntax{TAB}
 
@@ -977,7 +957,6 @@ The @syntaxidx{UPDATE} option will enable the supplied data field to be updated 
 @item
 This format of the @syntax{ACCEPT} statement will be terminated by any of the following events:
 @enumerate A
-
 @item
 When the 'Enter' key is pressed.
 
@@ -1000,7 +979,6 @@ The pressing of the Up-arrow, Down-Arrow or PrtSc (Print Screen) keys.  These ke
 @item
 The following apply when @term{identifier-1} is defined in the @syntax{SCREEN SECTION}:
 @enumerate A
-
 @item
 Alphanumeric data entered into @term{identifier-1} or any screen data item subordinate to it @i{must} be consistent with the @syntaxref{PICTURE} clause of that item.  This will be enforced at runtime by the @syntax{ACCEPT} statement.
 
@@ -1014,7 +992,6 @@ If @term{identifier-1} or any screen data item subordinate to it are defined as 
 @item
 The following apply when @term{identifier-1} is @i{not} defined in the @syntax{SCREEN SECTION}:
 @enumerate A
-
 @item
 Alphanumeric data entered into @term{identifier-1} @i{should} be consistent with the @syntaxref{PICTURE} clause of that item, although that will not be enforced by the @syntax{ACCEPT} statement.  You may use @syntaxref{Class Conditions} after the data is accepted to enforce the data type.
 
@@ -1157,7 +1134,8 @@ The optional @syntax{EXCEPTION-STATUS} clause may be used to detect exceptions f
 @comment *********************************************************************
 @page
 @newunit{7.8.1.5,ACCEPT FROM DATE/TIME}
-@diagram{ACCEPT FROM DATE/TIME,PD-ACCEPT-5,PD-ACCEPT-5,None}@p This format of the @statement{ACCEPT} is used to retrieve the current system date, time or current day of the week and store it into a data item.
+@diagram{ACCEPT FROM DATE/TIME,PD-ACCEPT-5,PD-ACCEPT-5,None}
+This format of the @statement{ACCEPT} is used to retrieve the current system date, time or current day of the week and store it into a data item.
 @enumerate
 @comment Syntactical Specifications:
 @comment Semantic Specifications:
@@ -1178,7 +1156,8 @@ The data retrieved from the system and the format in which it is structured will
 @comment *********************************************************************
 @page
 @newunit{7.8.1.6,ACCEPT FROM Screen-Info}
-@diagram{ACCEPT FROM Screen-Info,PD-ACCEPT-6,PD-ACCEPT-6,None}@p This format of the @statement{ACCEPT} is used to retrieve information about the console window or about the user's interactions with it.
+@diagram{ACCEPT FROM Screen-Info,PD-ACCEPT-6,PD-ACCEPT-6,None}
+This format of the @statement{ACCEPT} is used to retrieve information about the console window or about the user's interactions with it.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1192,7 +1171,6 @@ The reserved words @syntax{COLS} and @syntax{COLUMNS} are interchangeable.
 @item
 The following points pertain to the use of the @syntaxidx{LINES} and @syntaxidx{COLUMNS} options:
 @enumerate A
-
 @item
 The @syntaxidx{LINES} and @syntaxidx{COLUMNS} options will retrieve the respective components of the size of the console display.
 
@@ -1217,13 +1195,13 @@ The @syntaxidx{ESCAPE KEY} option may be used after the @statementref{ACCEPT FRO
 @comment *********************************************************************
 @page
 @newunit{7.8.1.7,ACCEPT FROM Runtime-Info}
-@diagram{ACCEPT FROM Runtime-Info,PD-ACCEPT-7,PD-ACCEPT-7,None}@p This format of the @statement{ACCEPT} is used to retrieve run-time information such as the most-recent error exception code and the current user's user name.
+@diagram{ACCEPT FROM Runtime-Info,PD-ACCEPT-7,PD-ACCEPT-7,None}
+This format of the @statement{ACCEPT} is used to retrieve run-time information such as the most-recent error exception code and the current user's user name.
 @enumerate
 @comment Syntactical Specifications:
 @item
 The following points pertain to the use of the @syntaxidx{EXCEPTION STATUS} option:
 @enumerate A
-
 @item
 @term{identifier-1} must be defined as a @syntax{PIC X(4)} item.
 
@@ -1237,7 +1215,6 @@ An alternative to the use of @syntax{ACCEPT FROM Runtime-Info} is to use the @in
 @item
 The following points pertain to the use of the @syntaxidx{USER NAME} option:
 @enumerate A
-
 @item
 The returned result is the userid that was used to login to the system with, and not any actual first and/or last name of the user in question (unless, of course, that is the information used as a logon id). It is not the PID or UID numbers but the name associated with the UID under *nix based systems.
 
@@ -1256,7 +1233,8 @@ If excess space is allocated, the returned value will be padded with spaces (to 
 @comment *********************************************************************
 @page
 @newunit{7.8.1.8,ACCEPT OMITTED}
-@diagram{ACCEPT OMITTED,PD-ACCEPT-8,PD-ACCEPT-8,None}@p This format of the @statement{ACCEPT} will wait for a keyboard event that terminates input; function keys, or Enter/Return, among others. CRT STATUS (COB-CRT-STATUS @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} if not explicitly defined) is set with the keycode, listed in copy/screenio.cpy. It also handles a few other keycode terminations not normally used to complete an extended accept.
+@diagram{ACCEPT OMITTED,PD-ACCEPT-8,PD-ACCEPT-8,None}
+This format of the @statement{ACCEPT} will wait for a keyboard event that terminates input; function keys, or Enter/Return, among others. CRT STATUS (COB-CRT-STATUS @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} if not explicitly defined) is set with the keycode, listed in copy/screenio.cpy. It also handles a few other keycode terminations not normally used to complete an extended accept.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1278,7 +1256,8 @@ You can used extended attributes, useful for setting timeouts or positioning.
 @comment *********************************************************************
 @page
 @newunit{7.8.1.9,ACCEPT FROM EXCEPTION-STATUS}
-@diagram{ACCEPT FROM EXCEPTION-STATUS,PD-ACCEPT-9,PD-ACCEPT-9,None}@p This format of the @statement{ACCEPT} will receive the status for any exceptions resulting from a previous valid verb.
+@diagram{ACCEPT FROM EXCEPTION-STATUS,PD-ACCEPT-9,PD-ACCEPT-9,None}
+This format of the @statement{ACCEPT} will receive the status for any exceptions resulting from a previous valid verb.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1311,7 +1290,8 @@ The following is an example of usage:
 @comment ** 7.8.2.1 ADD TO                                                 **
 @comment *********************************************************************
 @newunit{7.8.2.1,ADD TO}
-@diagram{ADD TO,PD-ADD-1,PD-ADD-1,None}@p This format of the @statement{ADD} generates an intermediate arithmetic sum of the values of all @term{identifier-1} and @term{literal-1}) items. The value of each @term{identifier-2} will be replaced, in turn, by the sum of that @term{identifier-2}s value and the intermediate sum.
+@diagram{ADD TO,PD-ADD-1,PD-ADD-1,None}
+This format of the @statement{ADD} generates an intermediate arithmetic sum of the values of all @term{identifier-1} and @term{literal-1}) items. The value of each @term{identifier-2} will be replaced, in turn, by the sum of that @term{identifier-2}s value and the intermediate sum.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1339,7 +1319,8 @@ The optional @syntax{ON SIZE ERROR} and @syntax{NOT ON SIZE ERROR} clauses may b
 @comment *********************************************************************
 @page
 @newunit{7.8.2.2,ADD GIVING}
-@diagram{ADD GIVING,PD-ADD-2,PD-ADD-2,None}@p This format of the @syntax{ADD} statement generates the arithmetic sum of the values of all @term{identifier-1}, @term{literal-1}) and @term{identifier-2} (if any) items and then saves that sum to each @term{identifier-3}.
+@diagram{ADD GIVING,PD-ADD-2,PD-ADD-2,None}
+This format of the @syntax{ADD} statement generates the arithmetic sum of the values of all @term{identifier-1}, @term{literal-1}) and @term{identifier-2} (if any) items and then saves that sum to each @term{identifier-3}.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1370,7 +1351,8 @@ The optional @syntax{ON SIZE ERROR} and @syntax{NOT ON SIZE ERROR} clauses may b
 @comment *********************************************************************
 @page
 @newunit{7.8.2.3,ADD CORRESPONDING}
-@diagram{ADD CORRESPONDING,PD-ADD-3,PD-ADD-3,None}@p This format of the @statement{ADD} generates code equivalent to individual @syntaxref{ADD TO} statements for corresponding matches of data items found subordinate to the two identifiers.
+@diagram{ADD CORRESPONDING,PD-ADD-3,PD-ADD-3,None}
+This format of the @statement{ADD} generates code equivalent to individual @syntaxref{ADD TO} statements for corresponding matches of data items found subordinate to the two identifiers.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1394,7 +1376,8 @@ The optional @syntax{ON SIZE ERROR} and @syntax{NOT ON SIZE ERROR} clauses may b
 @comment *********************************************************************
 @page
 @newsubsection{7.8.3,ALLOCATE}
-@diagram{ALLOCATE,PD-ALLOCATE,PD-ALLOCATE,None}@p The @syntax{ALLOCATE} statement is used to dynamically allocate memory at run-time.
+@diagram{ALLOCATE,PD-ALLOCATE,PD-ALLOCATE,None}
+The @syntax{ALLOCATE} statement is used to dynamically allocate memory at run-time.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1450,7 +1433,8 @@ Referencing a @syntax{BASED} data item either before its storage has been alloca
 @comment *********************************************************************
 @page
 @newsubsection{7.8.4,ALTER}
-@diagram{ALTER,PD-ALTER,PD-ALTER,None}@p The @statement{ALTER} was used in the early years of the COBOL language to edit the object code of a program @strong{at execution time}, changing a @syntaxrefalt{GO TO,Simple GO TO} statement to branch to a spot in the program different than where the @syntax{GO TO} statement was originally compiled for.
+@diagram{ALTER,PD-ALTER,PD-ALTER,None}
+The @statement{ALTER} was used in the early years of the COBOL language to edit the object code of a program @strong{at execution time}, changing a @syntaxrefalt{GO TO,Simple GO TO} statement to branch to a spot in the program different than where the @syntax{GO TO} statement was originally compiled for.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1476,7 +1460,8 @@ Because of the catastrophic effect this statement has on program readability and
 @page
 @newsubsection{7.8.5,CALL}
 @diagram{CALL,PD-CALL,PD-CALL,None}
-@diagram{CALL Argument,PD-CALL-Arg,PD-CALL-Arg,None}@p The @statement{CALL} is used to transfer control to a subroutine.  @xref{Sub-Programming}, for the specifics of using subprograms with GnuCOBOL programs.
+@diagram{CALL Argument,PD-CALL-Arg,PD-CALL-Arg,None}
+The @statement{CALL} is used to transfer control to a subroutine.  @xref{Sub-Programming}, for the specifics of using subprograms with GnuCOBOL programs.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1496,7 +1481,6 @@ The expectation is that the subroutine will eventually return control back to th
 @item
 The @term{mnemonic-name-1} / @syntaxidx{STATIC} / @syntaxidx{STDCALL} option, if used, affects the linkage conventions that will be used to the subroutine being called, as follows:
 @enumerate A
-
 @item
 The @syntax{STATIC} option will cause the linkage to the subroutine to be performed in such a way as to require the subroutine to be statically-linked with the calling program.  Note that this enables static-linking to be used on a subroutine-by-subroutine selective basis.
 
@@ -1546,7 +1530,6 @@ This [re]-initialization behaviour will @i{always} apply to any subprogram's loc
 @item
 The @syntaxidx{USING} clause defines a list of arguments that may be passed from the calling program to the subprogram.  The manner in which any given argument is passed to the subroutine depends upon the @syntax{BY} clause (if any) coded (or implied) for that argument, as follows:
 @enumerate A
-
 @item
 @syntaxidx{BY REFERENCE} passes the @i{address} of the argument to the subprogram.  If the subprogram changes the contents of that argument, the change will be "visible" to the calling program.
 
@@ -1580,7 +1563,8 @@ An extension of CALL allows a call to a Program-Pointer-1 which is preset using 
 @comment *********************************************************************
 @page
 @newsubsection{7.8.6,CANCEL}
-@diagram{CANCEL,PD-CANCEL,PD-CANCEL,None}@p The @statement{CANCEL} unloads the dynamically-loadable subprogram module containing the entry-point specified as @term{literal-1} or @term{identifier-1} from memory.
+@diagram{CANCEL,PD-CANCEL,PD-CANCEL,None}
+The @statement{CANCEL} unloads the dynamically-loadable subprogram module containing the entry-point specified as @term{literal-1} or @term{identifier-1} from memory.
 @enumerate
 @item
 If a dynamically-loadable module unloaded by the @statement{CANCEL} is subsequently re-executed, all data division storage for that module will once again be in it's initial state.
@@ -1593,7 +1577,8 @@ Whether the @statement{CANCEL} actually physically unloads a dynamically-loaded 
 @comment *********************************************************************
 @page
 @newsubsection{7.8.7,CLOSE}
-@diagram{CLOSE,PD-CLOSE,PD-CLOSE,PD-CLOSE}@p The @statement{CLOSE} terminates the program's access to the specified file(s).
+@diagram{CLOSE,PD-CLOSE,PD-CLOSE,PD-CLOSE}
+The @statement{CLOSE} terminates the program's access to the specified file(s).
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1618,14 +1603,16 @@ When a @syntaxref{ORGANIZATION LINE SEQUENTIAL} or @syntaxref{LINE ADVANCING} fi
 @comment *********************************************************************
 @page
 @newsubsection{7.8.8,COMMIT}
-@diagram{COMMIT,PD-COMMIT,PD-COMMIT,None}@p The @statement{COMMIT} performs an @syntax{UNLOCK} against every currently-open file, but does not close any of the files.
+@diagram{COMMIT,PD-COMMIT,PD-COMMIT,None}
+The @statement{COMMIT} performs an @syntax{UNLOCK} against every currently-open file, but does not close any of the files.
 See the @statementref{UNLOCK} for additional details.
 @comment *********************************************************************
 @comment ** 7.8.9 COMPUTE                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{7.8.9,COMPUTE}
-@diagram{COMPUTE,PD-COMPUTE,PD-COMPUTE,None}@p The @statement{COMPUTE} provides a means of easily performing complex arithmetic operations with a single statement, instead of using cumbersome and possibly confusing sequences of @syntax{ADD}, @syntax{SUBTRACT}, @syntax{MULTIPLY} and @syntax{DIVIDE} statements.  @syntax{COMPUTE} also allows the use of exponentiation --- an arithmetic operation for which no other statement exists in COBOL.
+@diagram{COMPUTE,PD-COMPUTE,PD-COMPUTE,None}
+The @statement{COMPUTE} provides a means of easily performing complex arithmetic operations with a single statement, instead of using cumbersome and possibly confusing sequences of @syntax{ADD}, @syntax{SUBTRACT}, @syntax{MULTIPLY} and @syntax{DIVIDE} statements.  @syntax{COMPUTE} also allows the use of exponentiation --- an arithmetic operation for which no other statement exists in COBOL.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1652,7 +1639,8 @@ The optional @syntax{ON SIZE ERROR} and @syntax{NOT ON SIZE ERROR} clauses may b
 @comment *********************************************************************
 @page
 @newsubsection{7.8.10,CONTINUE}
-@diagram{CONTINUE,PD-CONTINUE,PD-CONTINUE,None}@p The @statement{CONTINUE} is a no-operation statement that may be coded anywhere an imperative statement (@pxref{Imperative Statement}) may be coded.
+@diagram{CONTINUE,PD-CONTINUE,PD-CONTINUE,None}
+The @statement{CONTINUE} is a no-operation statement that may be coded anywhere an imperative statement (@pxref{Imperative Statement}) may be coded.
 @enumerate
 @item
 The @syntax{CONTINUE} statement has no effect on the execution of the program.
@@ -1668,7 +1656,8 @@ The optional extension of (AFTER) when used with the CONTINUE statement pauses e
 @comment *********************************************************************
 @page
 @newsubsection{7.8.11,DELETE}
-@diagram{DELETE,PD-DELETE,PD-DELETE,None}@p The @statement{DELETE} logically deletes a record from a COBOL file.
+@diagram{DELETE,PD-DELETE,PD-DELETE,None}
+The @statement{DELETE} logically deletes a record from a COBOL file.
 @enumerate
 @comment Syntactical Specifications:
 @item
@@ -1711,7 +1700,8 @@ No @syntax{INVALID KEY} or @syntax{NOT INVALID KEY} clause may be specified for 
 @comment ** 7.8.12.1 DISPLAY UPON device                                   **
 @comment *********************************************************************
 @newunit{7.8.12.1,DISPLAY UPON device}
-@diagram{DISPLAY UPON device,PD-DISPLAY-1,PD-DISPLAY-1,None}@p This format of the @statement{DISPLAY} displays the specified identifier contents and/or literal values on the system output device specified via the @syntax{UPON} clause.
+@diagram{DISPLAY UPON device,PD-DISPLAY-1,PD-DISPLAY-1,None}
+This format of the @statement{DISPLAY} displays the specified identifier contents and/or literal values on the system output device specified via the @syntax{UPON} clause.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1737,7 +1727,8 @@ The optional @syntax{ON EXCEPTION} and @syntax{NOT ON EXCEPTION} clauses may be 
 @comment *********************************************************************
 @page
 @newunit{7.8.12.2,DISPLAY UPON COMMAND-LINE}
-@diagram{DISPLAY UPON COMMAND-LINE,PD-DISPLAY-2,PD-DISPLAY-2,None}@p This form of the @statement{DISPLAY} may be used to specify the command-line argument number to be retrieved by a subsequent @statementrefalt{ACCEPT FROM ARGUMENT-VALUE,ACCEPT FROM COMMAND-LINE} or to specify a new value for the command-line arguments themselves.
+@diagram{DISPLAY UPON COMMAND-LINE,PD-DISPLAY-2,PD-DISPLAY-2,None}
+This form of the @statement{DISPLAY} may be used to specify the command-line argument number to be retrieved by a subsequent @statementrefalt{ACCEPT FROM ARGUMENT-VALUE,ACCEPT FROM COMMAND-LINE} or to specify a new value for the command-line arguments themselves.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1759,7 +1750,8 @@ The optional @syntax{ON EXCEPTION} and @syntax{NOT ON EXCEPTION} clauses may be 
 @comment *********************************************************************
 @page
 @newunit{7.8.12.3,DISPLAY UPON ENVIRONMENT-NAME}
-@diagram{DISPLAY UPON ENVIRONMENT-NAME,PD-DISPLAY-3-Info,PD-DISPLAY-3-TeX,None}@p This form of the @statement{DISPLAY} can be used to create or modify environment variables.
+@diagram{DISPLAY UPON ENVIRONMENT-NAME,PD-DISPLAY-3-Info,PD-DISPLAY-3-TeX,None}
+This form of the @statement{DISPLAY} can be used to create or modify environment variables.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1789,7 +1781,8 @@ The optional @syntax{ON EXCEPTION} and @syntax{NOT ON EXCEPTION} clauses may be 
 @comment *********************************************************************
 @page
 @newunit{7.8.12.4,DISPLAY screen-data-item}
-@diagram{DISPLAY screen-data-item,PD-DISPLAY-4,PD-DISPLAY-4,PD-DISPLAY-4}@p This format of the @statement{DISPLAY} presents data onto a formatted screen.
+@diagram{DISPLAY screen-data-item,PD-DISPLAY-4,PD-DISPLAY-4,PD-DISPLAY-4}
+This format of the @statement{DISPLAY} presents data onto a formatted screen.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1809,7 +1802,6 @@ If @term{identifier-1} is defined in the @syntaxref{SCREEN SECTION}, any @syntax
 @item
 The following points apply if @term{identifier-1} is not defined in the screen section:
 @enumerate A
-
 @item
 The purpose of the @syntax{AT} clause is to define where on the screen @term{identifier-1} should be displayed.  @xref{ACCEPT screen-data-item}, for additional information.
 
@@ -1819,7 +1811,6 @@ The purpose of the @syntax{WITH} clause is to define the visual attributes that 
 @item
 The following @term{Attribute-Specification} clauses are allowed on the @syntax{DISPLAY} statement --- these are the same as those allowed for @syntax{SCREEN SECTION} data items.  A particular @term{Attribute-Specification} may be used only once in any @syntax{DISPLAY}:
 @itemize @bullet
-
 @item
 @syntaxref{BACKGROUND-COLOR}
 
@@ -1880,7 +1871,8 @@ When DISPLAY is used without line or column controls only one variable or litera
 @comment ** 7.8.13.1 DIVIDE INTO                                           **
 @comment *********************************************************************
 @newunit{7.8.13.1,DIVIDE INTO}
-@diagram{DIVIDE INTO,PD-DIVIDE-1,PD-DIVIDE-1,None}@p This format of the @statement{DIVIDE} will divide a numeric value (specified as a literal or numeric data item) into one or more numeric data items, replacing the value in each of those data items with the result(s).
+@diagram{DIVIDE INTO,PD-DIVIDE-1,PD-DIVIDE-1,None}
+This format of the @statement{DIVIDE} will divide a numeric value (specified as a literal or numeric data item) into one or more numeric data items, replacing the value in each of those data items with the result(s).
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1908,7 +1900,8 @@ The optional @syntax{ON SIZE ERROR} and @syntax{NOT ON SIZE ERROR} clauses may b
 @comment *********************************************************************
 @page
 @newunit{7.8.13.2,DIVIDE INTO GIVING}
-@diagram{DIVIDE INTO GIVING,PD-DIVIDE-2,PD-DIVIDE-2,None}@p This format of the @statement{DIVIDE} will divide one numeric value (specified as a literal or numeric data item) into another numeric value (also specified as a literal or numeric data item) and will then replace the contents of one or more receiving data items with the results of that division.
+@diagram{DIVIDE INTO GIVING,PD-DIVIDE-2,PD-DIVIDE-2,None}
+This format of the @statement{DIVIDE} will divide one numeric value (specified as a literal or numeric data item) into another numeric value (also specified as a literal or numeric data item) and will then replace the contents of one or more receiving data items with the results of that division.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1939,7 +1932,8 @@ The optional @syntax{ON SIZE ERROR} and @syntax{NOT ON SIZE ERROR} clauses may b
 @comment *********************************************************************
 @page
 @newunit{7.8.13.3,DIVIDE BY GIVING}
-@diagram{DIVIDE BY GIVING,PD-DIVIDE-3,PD-DIVIDE-3,None}@p This format of the @statement{DIVIDE} will divide one numeric value (specified as a literal or numeric data item) into another numeric value (also specified as a literal or numeric data item) and will then replace the contents of one or more receiving data items with the results of that division.
+@diagram{DIVIDE BY GIVING,PD-DIVIDE-3,PD-DIVIDE-3,None}
+This format of the @statement{DIVIDE} will divide one numeric value (specified as a literal or numeric data item) into another numeric value (also specified as a literal or numeric data item) and will then replace the contents of one or more receiving data items with the results of that division.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1971,7 +1965,8 @@ The optional @syntax{ON SIZE ERROR} and @syntax{NOT ON SIZE ERROR} clauses may b
 @page
 @newsubsection{7.8.14,ENTRY}
 @diagram{ENTRY,PD-ENTRY,PD-ENTRY,None}
-@diagram{ENTRY-Argument,PD-ENTRY-Arg,PD-ENTRY-Arg,None}@p The @statement{ENTRY} is used to define an alternate entry-point into a subroutine, along with the arguments that subroutine will be expecting.
+@diagram{ENTRY-Argument,PD-ENTRY-Arg,PD-ENTRY-Arg,None}
+The @statement{ENTRY} is used to define an alternate entry-point into a subroutine, along with the arguments that subroutine will be expecting.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -2001,7 +1996,8 @@ The meaning of @syntaxidx{REFERENCE}, @syntaxidx{CONTENT} and @syntaxidx{VALUE} 
 @newsubsection{7.8.15,EVALUATE}
 @diagram{EVALUATE,PD-EVALUATE,PD-EVALUATE,None}
 @diagram{EVALUATE Selection Subject,PD-EVALUATE-SS,PD-EVALUATE-SS,None}
-@diagram{EVALUATE Selection Object,PD-EVALUATE-SO,PD-EVALUATE-SO,None}@p The @statement{EVALUATE} provides a means of defining processing that should take place under any number of mutually-exclusive conditions.
+@diagram{EVALUATE Selection Object,PD-EVALUATE-SO,PD-EVALUATE-SO,None}
+The @statement{EVALUATE} provides a means of defining processing that should take place under any number of mutually-exclusive conditions.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -2023,7 +2019,6 @@ When using @syntaxidx{THRU}, the values on both sides of the @syntax{THRU} must 
 @item
 A @term{partial-expression} is one of the following:
 @enumerate A
-
 @item
 A Class Condition without a leading @term{identifier-1} (@pxref{Class Conditions}).
 
@@ -2038,7 +2033,6 @@ A Relation Condition with nothing to the left of the relational operator (@pxref
 @item
 At execution time, each @term{Selection-Subject} on the @statement{EVALUATE} will have its value matched against that of the corresponding @term{Selection-Object} on a @syntax{WHEN} clause, in turn, until:
 @enumerate A
-
 @item
 A @syntax{WHEN} clause has @i{each} of its @term{Selection-Object}(s) successfully matched by the corresponding @term{Selection-Subject}; this will be referred to as the '@i{Selected WHEN clause}'.
 
@@ -2049,7 +2043,6 @@ The complete list of @syntax{WHEN} clauses (except for the @syntax{WHEN OTHER} c
 @item
 If a '@i{Selected WHEN Clause}' was identified:
 @enumerate A
-
 @item
 The @term{imperative-statement-1} (@pxref{Imperative Statement}) immediately following the '@i{Selected WHEN Clause}' will be executed.  If the '@i{Selected WHEN Clause}' is lacking an @term{imperative-statement-1}, the first @term{imperative-statement-1} found after any following @syntax{WHEN} clause will be executed.
 
@@ -2060,7 +2053,6 @@ Once the @term{imperative-statement-1} has been executed, or no @term{imperative
 @item
 If no '@i{Selected WHEN Clause}' was identified:
 @enumerate A
-
 @item
 The @syntax{WHEN OTHER} clause's @term{imperative-statement-other} will be executed, if such a clause was coded.
 
@@ -2071,7 +2063,6 @@ Control will then proceed to the statement following the @syntax{END-EVALUATE} o
 @item
 In order for a @term{Selection-Subject} to match the corresponding @term{Selection-Object} on a @syntax{WHEN} clause, at least one of the following must be true:
 @enumerate A
-
 @item
 The @term{Selection-Object} is @syntaxidx{ANY}
 
@@ -2158,7 +2149,8 @@ Bye!
 @comment *********************************************************************
 @page
 @newsubsection{7.8.16,EXIT}
-@diagram{EXIT,PD-EXIT,PD-EXIT,None}@p The @statement{EXIT} is a multi-purpose statement; it may provide a common end point for a series of procedures, exit an in-line PERFORM, paragraph or section or it may mark the logical end of a subprogram, returning control back to the calling program.
+@diagram{EXIT,PD-EXIT,PD-EXIT,None}
+The @statement{EXIT} is a multi-purpose statement; it may provide a common end point for a series of procedures, exit an in-line PERFORM, paragraph or section or it may mark the logical end of a subprogram, returning control back to the calling program.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -2175,7 +2167,6 @@ Neither @syntax{EXIT PROGRAM} nor @syntax{EXIT FUNCTION} may be used within a @s
 @item
 The following points describe the @statement{EXIT} with none of the optional clauses:
 @enumerate A
-
 @item
 When this form of an @statement{EXIT} is used, it must be the only statement in the procedure (paragraph or section) in which it occurs.  This is NOT enforced in GnuCOBOL.
 
@@ -2211,7 +2202,6 @@ In this case, the @statement{EXIT} takes no other run-time action.
 @item
 The following points apply to the @syntax{EXIT PARAGRAPH} and @syntax{EXIT SECTION} statements:
 @enumerate A
-
 @item
 If an @statement{EXIT PARAGRAPH} or @statement{EXIT SECTION} resides in a paragraph @i{within} the scope of a procedural @syntaxrefalt{PERFORM,Procedural PERFORM}, control will be returned back to the @syntax{PERFORM} for evaluation of any @syntax{TIMES}, @syntax{VARYING} and/or @syntax{UNTIL} clauses.
 
@@ -2244,7 +2234,6 @@ The following shows how the previous example could have been coded without a @sy
 @item
 The following points apply to the @syntax{EXIT PERFORM} and @syntax{EXIT PERFORM CYCLE} statements:
 @enumerate A
-
 @item
 The @syntax{EXIT PERFORM} and @syntax{EXIT PERFORM CYCLE} statements are intended to be used in conjunction with an in-line @statementrefalt{PERFORM,Inline PERFORM}.
 
@@ -2273,7 +2262,6 @@ END PERFORM
 @item
 The following points apply to the @syntax{EXIT PROGRAM} and @syntax{EXIT FUNCTION} statements:
 @enumerate A
-
 @item
 The @syntax{EXIT PROGRAM} and @syntax{EXIT FUNCTION} statements terminate the execution of a subroutine (i.e.  a program that has been CALLed by another) or user-defined function, respectively, returning control back to the calling program.
 
@@ -2292,7 +2280,8 @@ The COBOL2002 standard has made a common extension to the COBOL language --- the
 @comment *********************************************************************
 @page
 @newsubsection{7.8.17,FREE}
-@diagram{FREE,PD-FREE,PD-FREE,None}@p The @statement{FREE} releases memory previously allocated to the program by the @statementref{ALLOCATE}.
+@diagram{FREE,PD-FREE,PD-FREE,None}
+The @statement{FREE} releases memory previously allocated to the program by the @statementref{ALLOCATE}.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -2314,7 +2303,8 @@ If @term{identifier-1} is a @syntax{BASED} data item and that data item is curre
 @comment *********************************************************************
 @page
 @newsubsection{7.8.18,GENERATE}
-@diagram{GENERATE,PD-GENERATE,PD-GENERATE,None}@p The @statement{GENERATE} presents data to a report.
+@diagram{GENERATE,PD-GENERATE,PD-GENERATE,None}
+The @statement{GENERATE} presents data to a report.
 @enumerate
 @comment Syntactical Specifications:
 @comment Semantic Specifications:
@@ -2322,7 +2312,6 @@ If @term{identifier-1} is a @syntax{BASED} data item and that data item is curre
 @item
 The following points apply when @term{identifier-1} is specified:
 @enumerate A
-
 @item
 @term{identifier-1} must be the name of a @syntaxrefalt{DETAIL,RWCS Lexicon} report group.
 
@@ -2342,7 +2331,6 @@ If at least one @syntax{GENERATE} statement of this form is executed against a r
 @item
 The following points apply when @term{report-name-1} is specified:
 @enumerate A
-
 @item
 @term{report-name-1} must be the name of a report having an @syntax{RD} defined for it in the report section.
 
@@ -2373,7 +2361,8 @@ When, during the processing of  a subsequent @syntax{GENERATE}, it is determined
 @comment *********************************************************************
 @page
 @newsubsection{7.8.19,GOBACK}
-@diagram{GOBACK,PD-GOBACK,PD-GOBACK,None}@p The @statement{GOBACK} is used to logically terminate an executing program.
+@diagram{GOBACK,PD-GOBACK,PD-GOBACK,None}
+The @statement{GOBACK} is used to logically terminate an executing program.
 @enumerate
 @comment Syntactical Specifications:
 @comment Semantic Specifications:
@@ -2400,7 +2389,8 @@ The optional @syntax{RETURNING} clause provides the opportunity to return a nume
 @comment ** 7.8.20.1 Simple GO TO                                          **
 @comment *********************************************************************
 @newunit{7.8.20.1,Simple GO TO}
-@diagram{Simple GO TO,PD-GO-TO-1,PD-GO-TO-1,None}@p This form of the @statement{GO TO} unconditionally transfers control in a program to the first executable statement within the specified @term{procedure-name-1}.
+@diagram{Simple GO TO,PD-GO-TO-1,PD-GO-TO-1,None}
+This form of the @statement{GO TO} unconditionally transfers control in a program to the first executable statement within the specified @term{procedure-name-1}.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -2414,7 +2404,6 @@ If this format of the @statement{GO TO} appears in a consecutive sequence of imp
 @item
 If a @syntax{GO TO} is executed within the scope of@dots{}
 @enumerate A
-
 @item
 ...an in-line @syntaxref{PERFORM}, the @syntax{PERFORM} is terminated as control of execution transfers to @term{procedure-name-1}.
 
@@ -2430,7 +2419,8 @@ If a @syntax{GO TO} is executed within the scope of@dots{}
 @comment *********************************************************************
 @page
 @newunit{7.8.20.2,GO TO DEPENDING ON}
-@diagram{GO TO DEPENDING ON,PD-GO-TO-2,PD-GO-TO-2,None}@p This form of the @statement{GO TO} will transfer control to any one of a number of specified procedure names depending on the numeric value of the identifier specified on the statement.
+@diagram{GO TO DEPENDING ON,PD-GO-TO-2,PD-GO-TO-2,None}
+This form of the @statement{GO TO} will transfer control to any one of a number of specified procedure names depending on the numeric value of the identifier specified on the statement.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -2446,7 +2436,6 @@ If the value of @term{identifier-1} has the value 1, control will be transferred
 
 If control of execution is transferred to a procedure named on the statement, and the @syntax{GO TO} is executed within the scope of@dots{}
 @enumerate A
-
 @item
 ...an in-line @syntaxref{PERFORM}, the @syntax{PERFORM} is terminated as control of execution transfers to the procedure named on the statement.
 
@@ -2490,7 +2479,8 @@ Current programming philosophy would prefer the use of the @statement{EVALUATE} 
 @comment *********************************************************************
 @page
 @newsubsection{7.8.21,IF}
-@diagram{IF,PD-IF,PD-IF,None}@p The @statement{IF} is used to conditionally execute an imperative statement (@pxref{Imperative Statement}) or to select one of two different imperative statements to execute based upon the TRUE/FALSE value of a conditional expression.
+@diagram{IF,PD-IF,PD-IF,None}
+The @statement{IF} is used to conditionally execute an imperative statement (@pxref{Imperative Statement}) or to select one of two different imperative statements to execute based upon the TRUE/FALSE value of a conditional expression.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -2519,7 +2509,8 @@ Programs coded for 1985 (and beyond) standards don't need it, instead using the 
 @comment *********************************************************************
 @page
 @newsubsection{7.8.22,INITIALIZE}
-@diagram{INITIALIZE,PD-INITIALIZE,PD-INITIALIZE,None}@p The @statement{INITIALIZE} initializes each @term{identifier-1} with certain specific values, depending upon the options specified.
+@diagram{INITIALIZE,PD-INITIALIZE,PD-INITIALIZE,None}
+The @statement{INITIALIZE} initializes each @term{identifier-1} with certain specific values, depending upon the options specified.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -2561,7 +2552,6 @@ The data item contains nothing but @syntax{N}, @syntax{B}, @syntax{/} and @synta
 @item
 From the sequence of @term{identifier-1} data items specified on the @statement{INITIALIZE}, a list of initialized fields referred to as the @i{field list} in the remainder of this section, will include:
 @enumerate A
-
 @item
 Every @term{identifier-1} that is an elementary item, including any that may have the @syntaxref{REDEFINES} clause in their descriptions.
 
@@ -2692,7 +2682,8 @@ INITIALIZE Item-1 REPLACING NUMERIC BY 1
 @comment *********************************************************************
 @page
 @newsubsection{7.8.23,INITIATE}
-@diagram{INITIATE,PD-INITIATE,PD-INITIATE,None}@p The @statement{INITIATE} starts Report-Writer Control System (RWCS) processing for a report.
+@diagram{INITIATE,PD-INITIATE,PD-INITIATE,None}
+The @statement{INITIATE} starts Report-Writer Control System (RWCS) processing for a report.
 @enumerate
 @comment Syntactical Specifications:
 @comment Semantic Specifications:
@@ -2705,7 +2696,6 @@ The file in whose @syntaxrefalt{FD,File/Sort-Description} a @syntax{REPORT @term
 @item
 The @statement{INITIATE} will initialize all of the following for each report named on the statement:
 @itemize @bullet
-
 @item
 All sum counters, if any, will be set to 0
 
@@ -2724,7 +2714,8 @@ No report content will actually presented to the report file as a result of a su
 @comment *********************************************************************
 @page
 @newsubsection{7.8.24,INSPECT}
-@diagram{INSPECT,PD-INSPECT,PD-INSPECT,None}@p The @statement{INSPECT} is used to perform various counting and/or data-alteration operations against strings.
+@diagram{INSPECT,PD-INSPECT,PD-INSPECT,None}
+The @statement{INSPECT} is used to perform various counting and/or data-alteration operations against strings.
 @enumerate
 @comment Syntactical Specifications:
 @item
@@ -2755,7 +2746,6 @@ Whichever is specified --- @term{literal-1}, @term{identifier-1} or @term{functi
 @item
 The three optional clauses control the operation of this statement as follows:
 @enumerate A
-
 @item
 The @syntax{CONVERTING} clause replaces one or more individual characters found in the inspect subject with a different character in much the same manner as is possible with the @statementref{TRANSFORM}.
 
@@ -2809,7 +2799,6 @@ With the above example, if the inspect subject were @syntax{--ABCDEF----BCDEF--}
 @item
 Each set of counting instructions contains the following information:
 @enumerate a
-
 @item
 A target range, specified by the presence of an @syntax{AFTER INITIAL} and/or @syntax{BEFORE INITIAL} clause; the rules for specifying target ranges were covered previously.
 
@@ -2832,7 +2821,6 @@ The @syntax{CHARACTERS} option will match any one single character, regardless o
 @item
 The following points apply to the use of the @syntax{REPLACING} clause:
 @enumerate A
-
 @item
 While there will typically be only be a single set of replacement instructions on an @syntax{INSPECT}:
 
@@ -2854,7 +2842,6 @@ With the above example, if the inspect subject were @syntax{--ABCDEF----BCDEF--}
 @item
 Each set of replacement instructions contains the following information:
 @enumerate a
-
 @item
 A target range, specified by the presence of an @syntax{AFTER INITIAL} and/or @syntax{BEFORE INITIAL} clause; the rules for specifying target ranges were covered previously.
 
@@ -2879,7 +2866,6 @@ A Replacement Sub string --- this is the sequence of characters that should repl
 @item
 When both @syntax{REPLACING} and @syntax{TALLYING} are specified:
 @enumerate A
-
 @item
 The @syntax{INSPECT} statement will make a single pass through the sequence of characters comprising the inspect subject.  As the pointer to the current inspect target character reaches a point where it falls within the explicit or implicit target ranges specified on the operational instructions of the two clauses, the actions specified by those instructions will become eligible to be taken.  As the character pointer reaches a point where it falls past the end of target ranges, the instructions belonging to those target ranges will become disabled.
 
@@ -2893,7 +2879,6 @@ When both a @syntax{TALLYING} and a @syntax{REPLACING} instruction have been sel
 @item
 The following points apply to the use of the @syntax{CONVERTING} clause:
 @enumerate A
-
 @item
 A @syntax{CONVERTING} clause performs a series of single-character substitutions against a data item in much the same manner as is possible with the @statementref{TRANSFORM}.
 
@@ -2951,7 +2936,6 @@ A common programming technique when using the @statement{MERGE} is to define the
 @item
 The following rules apply to the files named on the @syntax{USING} clause:
 @enumerate A
-
 @item
 None of them may be open at the time the @syntax{MERGE} is executed.
 
@@ -3266,7 +3250,6 @@ The statements within the perform scope will be executed.  If a @syntax{GO TO} e
 @item
 When the statements within the perform scope terminate the loop iteration, by@dots{}
 @itemize @bullet
-
 @item
 @dots{}allowing the flow of execution to attempt to fall past the last statement in the perform scope, or@dots{}
 
@@ -3441,7 +3424,6 @@ The minimal statement @syntax{READ @term{file-name-1}} is perfectly legal accord
 @item
 The optional @syntaxidx{KEY} clause tells the compiler how a record is to be located in the file.  If the clause is absent, and@dots{}
 @enumerate A
-
 @item
 @dots{}if the file is an @syntax{ORGANIZATION RELATIVE} file, the contents of the field declared as the file's @syntax{RELATIVE KEY} will be used to identify a record, otherwise@dots{}
 
@@ -3589,7 +3571,6 @@ Rewriting a record does not cause the contents of the file to be physically upda
 @item
 If the file has @syntaxref{ORGANIZATION SEQUENTIAL}:
 @enumerate A
-
 @item
 The record to be rewritten will be the one retrieved by the most-recently executed @syntaxref{READ} of the file.
 
@@ -3600,7 +3581,6 @@ If the @syntax{FD} of the file contains the @syntax{RECORD CONTAINS} or @syntax{
 @item
 If the file has @syntaxref{ORGANIZATION RELATIVE} or @syntaxref{ORGANIZATION INDEXED}:
 @enumerate A
-
 @item
 If the file has @syntax{ACCESS MODE SEQUENTIAL}, the record to be rewritten will be the one retrieved by the most-recently executed @syntax{READ} of the file.  If the file has @syntax{ACCESS MODE RANDOM} or @syntax{ACCESS MODE DYNAMIC}, no @syntax{READ} is required before a record may be rewritten --- the @syntax{RELATIVE KEY} or @syntax{RECORD KEY} definition for the file, respectively, will specify the record to be updated.
 
@@ -3657,7 +3637,6 @@ Each of the @term{conditional-expression-n}s on the @syntax{WHEN} clause(s) shou
 @item
 The searching process is as follows:
 @enumerate A
-
 @item
 Each @term{conditional-expression-n} will be evaluated, in turn, until either one evaluates to a value of TRUE or all have evaluated to FALSE.
 
@@ -3667,7 +3646,6 @@ The @term{imperative-statement-n} (@pxref{Imperative Statement}) specified on th
 @item
 If all @term{conditional-expression-n}s evaluated to FALSE:
 @itemize @bullet
-
 @item
 The search index will be incremented by 1
 
@@ -3696,11 +3674,9 @@ The reserved word @syntax{AT} is optional and may be included, or not, at the di
 @item
 To be eligible for searching via @syntax{SEARCH ALL}:
 @enumerate A
-
 @item
 The @syntax{OCCURS} clause of @term{table-name-1} must contain the following elements:
 @itemize @bullet
-
 @item
 An @syntaxidx{INDEXED BY} entry to define an implicit search index data item with a @syntaxref{USAGE} of @syntax{INDEX}.
 
@@ -3727,14 +3703,12 @@ The function of the single, mandatory, @syntaxidx{WHEN} clause is to compare the
 @item
 The internal processing of the SEARCH ALL statement begins by setting internal "first" and "last" pointers to the 1st and last entry locations of the table.  Processing then proceeds as follows:
 @enumerate A
-
 @item
 The entry half-way between "first" and "last" is identified.  We'll call this the "current" entry, and will set its table entry location into @term{index-name-1}.
 
 @item
 The @term{conditional-expression-1} is evaluated.  This comparison of the key(s) against the target literal/identifier values will have one of three possible outcomes:
 @itemize @bullet
-
 @item
 If the key(s) and value(s) match, @term{imperative-statement-2} (@pxref{Imperative Statement}) is executed, after which control falls through into the next statement following the @syntax{SEARCH ALL}.
 
@@ -4130,7 +4104,6 @@ If no @syntax{FIRST}, @syntax{LAST} or @syntax{KEY} clause is specified, @syntax
 @item
 After successful execution of a @statement{START}, the internal logical record pointer into the @term{file-name-1} data will be positioned to the record which satisfied the actual or implied @syntax{FIRST}, @syntax{LAST} or @syntax{KEY} clause specification, as follows:
 @enumerate A
-
 @item
 If @syntax{FIRST} was specified, the logical record pointer will point to the first record in the file.
 
@@ -4237,7 +4210,6 @@ Using @syntax{DELIMITED BY @term{literal-2}} or @syntax{DELIMITED BY @term{ident
 @item
 @syntax{STRING} processing will cease when one of the following occurs:
 @enumerate A
-
 @item
 The initial value of the current character pointer is less than 1 or greater than the number of characters in @term{identifier-3}, or@dots{}
 
@@ -4372,7 +4344,6 @@ This statement must be executed each time presentation of the report group is to
 @item
 When a report group's presentation is suppressed, none of the following operations for the report will take place:
 @enumerate A
-
 @item
 Actual presentation of the report group in question.
 
@@ -4519,7 +4490,6 @@ None of @term{identifier-4}, @term{identifier-5}, @term{identifier-6}, @term{ide
 @item
 @syntax{UNSTRING} processing will cease when one of the following occurs:
 @enumerate A
-
 @item
 The initial value of the current character pointer is less than 1 or greater than the number of character positions in @term{identifier-1}, or@dots{}
 
@@ -4644,7 +4614,6 @@ The optional @syntax{INVALID KEY} and @syntax{NOT INVALID KEY} clauses may be us
 @item
 When @syntax{WRITE} is used against an @syntaxref{ORGANIZATION LINE SEQUENTIAL} file, with or without the @syntaxref{LINE ADVANCING} option, an end-of-record delimiter character sequence will be written to the file to signify where one record ends and the next record begins.  This delimiter sequence will be either of the following:
 @itemize @bullet
-
 @item
 A line-terminator sequence consisting of an ASCII carriage-return/line-feed character sequence (X'0D0A') if you are running a MinGW or native Windows build of GnuCOBOL
 
@@ -4673,7 +4642,6 @@ The @syntax{ADVANCING n LINES} clause will introduce the specified number of lin
 @item
 If the @syntaxrefalt{LINAGE,File/Sort-Description} clause is @i{absent} from the file's @syntax{FD}:
 @enumerate a
-
 @item
 The @syntaxidx{ADVANCING PAGE} clause will introduce an ASCII formfeed character into the file either before the written record (@syntax{AFTER PAGE}) or after the written record (@syntax{BEFORE PAGE}).
 
@@ -4684,7 +4652,6 @@ Management of areas on the printed page such as top-of page headers, bottom-of-p
 @item
 If the LINAGE clause is @i{present} in the file's @syntax{FD}:
 @enumerate a
-
 @item
 The @syntax{ADVANCING PAGE} clause will introduce the appropriate number of line-terminator character sequences into the file either before the written record (@syntax{AFTER ADVANCING}) or after the written record (@syntax{BEFORE ADVANCING}) so as to force the printer to automatically advance to a new sheet of paper when the file prints.  No formfeed characters will be generated when @syntax{LINAGE} is specified --- instead, it is assumed that the printer to which the report will be printed will be loaded with special forms that conform to the specifications defined by the @syntax{LINAGE} clause.
 

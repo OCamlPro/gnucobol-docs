@@ -3,470 +3,1276 @@
 @comment ****************************************************************************
 @newappendix{F1,Summary of Compiler Changes after GnuCOBOL Compiler v2.2}
 There may well be some changes made that are not documented here.
-@p Taken from Grammar Changelog June 2019.
+
+Taken from Grammar Changelog June 2019.
 @enumerate
-@p @item General
+
+@item
+General
 @itemize @bullet
 
-@p @item C API (configuration): added cob_set_runtime_option and cob_get_runtime_option for specifying the file handle which printer output or trace output should go to.
-@p @item cobc command-line options: added -fcallfh (and COBOL-IT alias -use-extfh).
-@p @item cobc command-line options: added -fdump to dump data of all modules on abend of program.
-@p @item cobc command-line options: disabled -fif-cutoff pending removal.
-@p @item cobc command-line options: added -fno-remove-unreachable to disable removal of unreachable code.
-@p @item cobc command-line options: -debug no longer implies -ftrace (bug #449).
-@p @item cobc command-line options: added -O0 for disabling optimisations (feature request #255).
-@p @item cobc command-line options: replaced -tsymbols by -f(no)-tsysmbols.
-@p @item cobc command-line options: added -fno-theader, -fno-tmessages and -fno-tsource to suppress parts of listings.
-@p @item cobc command-line options: added -Wno-dialect to suppress dialect-specific warnings.
-@p @item cobc command-line options: added -Wother to enable miscellaneous warnings.
-@p @item cobcrun command-line options: renamed -runtime-conf to -runtime-config.
-@p @item COBOL-85 NIST testsuite: tests can now be downloaded from Sourceforge when the NIST website is unavailable (bug #563).
-@p @item COBOL-85 NIST testsuite: tests can now be performed individually by running make in the test module directory.
-@p @item Copyfiles: fixed segfault when GnuCOBOL tried and failed to open a copyfile (bug #458).
-@p @item Copyfiles: GnuCOBOL now checks for recursive copyfiles (bug #467).
-@p @item Debugging: Added debug logging for compiler developers (--enable-debug-log).
-@p @item Dependencies: GnuCOBOL now (optionally) depends on libxml2 and cJSON (for XML and JSON I-O).
-@p @item DJGGP support: added minimal support for DJGGP.
-@p @item Error messages: runtime error messages now use translated versions (depending on a user's language).
-@p @item Error messages: added checks for version control conflict markers in source code.
-@p @item Expressions: fixed bug #431, where decimal constants were not initialised in INITIAL programs.
-@p @item EXTFH: added support for the external file handler (EXTFH) interface, letting users provide a custom file handler.
-@p @item IBM i support: fixed segfault involving filepaths
-@p @item Listings: fixed the substitution of tokens in quotes in copyfiles (bug #494).
-@p @item Listings: fixed some cases of cross-reference listings containing wrong line numbers.
-@p @item Listings: now require the size of a listing page to be at least 20 lines.
-@p @item Listings: fixed segfault in listing programs with large REPLACE arguments (bug #515).
-@p @item Modules: enabled running of modules generated with older versions of GnuCOBOL (feature request #239).
-@p @item National literals: added Fujitsu NC national character literals (feature request #352).
-@p @item Nested programs: fixed bug #435, where identifiers in the containing program where not propagated to the contained program, causing a segfault.
-@p @item OrangeC support: added minimal support for OrangeC.
-@p @item Recursion: fixed bug #222, where the return value was lost when returning from a recursive call.
-@p @item Reserved words: allow users to make default reserved words aliases for other words.
-@p @item Screen section testsuite: added a manual testsuite for screen section functionality (patch #26).
-@p @item Signals: added error message for SIGFPE (bug #434).
-@p @item Solaris support: fixed errors and warnings when compiling in Solaris 10.
-@p @item Tracing: added new options for controlling tracing (feature request #242).
-@p @item User-defined words: increased default maximum user-defined length to 63 characters (per COBOL~202X draft standard).
+
+@item
+C API (configuration): added cob_set_runtime_option and cob_get_runtime_option for specifying the file handle which printer output or trace output should go to.
+
+@item
+cobc command-line options: added -fcallfh (and COBOL-IT alias -use-extfh).
+
+@item
+cobc command-line options: added -fdump to dump data of all modules on abend of program.
+
+@item
+cobc command-line options: disabled -fif-cutoff pending removal.
+
+@item
+cobc command-line options: added -fno-remove-unreachable to disable removal of unreachable code.
+
+@item
+cobc command-line options: -debug no longer implies -ftrace (bug #449).
+
+@item
+cobc command-line options: added -O0 for disabling optimisations (feature request #255).
+
+@item
+cobc command-line options: replaced -tsymbols by -f(no)-tsysmbols.
+
+@item
+cobc command-line options: added -fno-theader, -fno-tmessages and -fno-tsource to suppress parts of listings.
+
+@item
+cobc command-line options: added -Wno-dialect to suppress dialect-specific warnings.
+
+@item
+cobc command-line options: added -Wother to enable miscellaneous warnings.
+
+@item
+cobcrun command-line options: renamed -runtime-conf to -runtime-config.
+
+@item
+COBOL-85 NIST testsuite: tests can now be downloaded from Sourceforge when the NIST website is unavailable (bug #563).
+
+@item
+COBOL-85 NIST testsuite: tests can now be performed individually by running make in the test module directory.
+
+@item
+Copyfiles: fixed segfault when GnuCOBOL tried and failed to open a copyfile (bug #458).
+
+@item
+Copyfiles: GnuCOBOL now checks for recursive copyfiles (bug #467).
+
+@item
+Debugging: Added debug logging for compiler developers (--enable-debug-log).
+
+@item
+Dependencies: GnuCOBOL now (optionally) depends on libxml2 and cJSON (for XML and JSON I-O).
+
+@item
+DJGGP support: added minimal support for DJGGP.
+
+@item
+Error messages: runtime error messages now use translated versions (depending on a user's language).
+
+@item
+Error messages: added checks for version control conflict markers in source code.
+
+@item
+Expressions: fixed bug #431, where decimal constants were not initialised in INITIAL programs.
+
+@item
+EXTFH: added support for the external file handler (EXTFH) interface, letting users provide a custom file handler.
+
+@item
+IBM i support: fixed segfault involving filepaths
+
+@item
+Listings: fixed the substitution of tokens in quotes in copyfiles (bug #494).
+
+@item
+Listings: fixed some cases of cross-reference listings containing wrong line numbers.
+
+@item
+Listings: now require the size of a listing page to be at least 20 lines.
+
+@item
+Listings: fixed segfault in listing programs with large REPLACE arguments (bug #515).
+
+@item
+Modules: enabled running of modules generated with older versions of GnuCOBOL (feature request #239).
+
+@item
+National literals: added Fujitsu NC national character literals (feature request #352).
+
+@item
+Nested programs: fixed bug #435, where identifiers in the containing program where not propagated to the contained program, causing a segfault.
+
+@item
+OrangeC support: added minimal support for OrangeC.
+
+@item
+Recursion: fixed bug #222, where the return value was lost when returning from a recursive call.
+
+@item
+Reserved words: allow users to make default reserved words aliases for other words.
+
+@item
+Screen section testsuite: added a manual testsuite for screen section functionality (patch #26).
+
+@item
+Signals: added error message for SIGFPE (bug #434).
+
+@item
+Solaris support: fixed errors and warnings when compiling in Solaris 10.
+
+@item
+Tracing: added new options for controlling tracing (feature request #242).
+
+@item
+User-defined words: increased default maximum user-defined length to 63 characters (per COBOL~202X draft standard).
 
 @end itemize
 
-@p @item Configuration options
+
+@item
+Configuration options
 @itemize @bullet
-@p @item IBM dialect: reserved words updated to Enterprise COBOL V6.2.
-@p @item incorrect-conf-sec-order option: changed to ``ok'' from ``error'' in mf and default dialects.
-@p @item New compiler configuration options: binary-comp-1, call-convention-mnemonic, call-convention-linkage, continue-after, display-special-fig-consts, free-redefines-position (feature request #211), line-col-zero-default, national-character-literals move-figurative-space-to-numeric, move-non-numeric-lit-to-numeric-is-zero, missing-statement, perform-without-varying-by, record-delimiter, record-delim-with-fixed-recs, records-mismatch-record-clause, screen-section-rules, sequential-delimiters, symbolic-constant, xml-generate-extra-phrases, zero-length-literals.
-@p @item New runtime configuration options: col_just_lrc (for enabling\disabling the LEFT slash RIGHT slash CENTER phrases of the report COLUMN clause), printer and display_print_pipe (for specifying what command should be executed before DISPLAY UPON PRINTER; similar to Micro Focus' COBPRINTER option); display_print_file (name of file which DISPLAY UPON PRINTER will append its output to), display_punch_file (name of file to created upon first DISPLAY UPON SYSPUNCH), trace_format, dump_file and dump_width.
-@p @item Registers: disabling a register also removes the reserved word with the same name, if it exists (feature request #278).
-@p @item Registers: added COL and LIN. added LINKAGE phrase.
+
+@item
+IBM dialect: reserved words updated to Enterprise COBOL V6.2.
+
+@item
+incorrect-conf-sec-order option: changed to ``ok'' from ``error'' in mf and default dialects.
+
+@item
+New compiler configuration options: binary-comp-1, call-convention-mnemonic, call-convention-linkage, continue-after, display-special-fig-consts, free-redefines-position (feature request #211), line-col-zero-default, national-character-literals move-figurative-space-to-numeric, move-non-numeric-lit-to-numeric-is-zero, missing-statement, perform-without-varying-by, record-delimiter, record-delim-with-fixed-recs, records-mismatch-record-clause, screen-section-rules, sequential-delimiters, symbolic-constant, xml-generate-extra-phrases, zero-length-literals.
+
+@item
+New runtime configuration options: col_just_lrc (for enabling\disabling the LEFT slash RIGHT slash CENTER phrases of the report COLUMN clause), printer and display_print_pipe (for specifying what command should be executed before DISPLAY UPON PRINTER; similar to Micro Focus' COBPRINTER option); display_print_file (name of file which DISPLAY UPON PRINTER will append its output to), display_punch_file (name of file to created upon first DISPLAY UPON SYSPUNCH), trace_format, dump_file and dump_width.
+
+@item
+Registers: disabling a register also removes the reserved word with the same name, if it exists (feature request #278).
+
+@item
+Registers: added COL and LIN. added LINKAGE phrase.
 @end itemize
 
-@p @item Compiler directives
+
+@item
+Compiler directives
 @itemize @bullet
-@p @item COPY statement: added support for copybook and library names containing periods as text-names. For example,  ``COPY copybook.cpy.'' is now accepted. See feature request #344.
-@p @item Fujitsu OPTIONS directive: added recognition of.
-@p @item New directives: ADDRSV, ADDSYN, MAKESYN, OVERRIDE and REMOVE (feature request #210); CALLFH and COMP1.
+
+@item
+COPY statement: added support for copybook and library names containing periods as text-names. For example,  ``COPY copybook.cpy.'' is now accepted. See feature request #344.
+
+@item
+Fujitsu OPTIONS directive: added recognition of.
+
+@item
+New directives: ADDRSV, ADDSYN, MAKESYN, OVERRIDE and REMOVE (feature request #210); CALLFH and COMP1.
 @end itemize
 
-@p @item Identification division
+
+@item
+Identification division
 @itemize @bullet
-@p @item OPTIONS paragraph: added support for ARITHMETIC clause.
+
+@item
+OPTIONS paragraph: added support for ARITHMETIC clause.
 @end itemize
 
 
-@p @item Environment division
+
+@item
+Environment division
 @itemize @bullet
-@p @item ALTERNATE RECORD KEY clause: implemented split keys (SOURCE IS; feature request #23) and sparse keys (SUPPRESS WHEN; feature request #281).
-@p @item ALPHABET clause: added recognition of more pre-defined alphabets.
-@p @item ASSIGN clause: re-enabled use of linkage section or BASED items (bug #421).
-@p @item ASSIGN clause: added SYSPCH and SYSPUNCH device-names for writing to a punch file (this is not related to CARD-PUNCH).
-@p @item ASSIGN clause: added device-names S01 through to S05.
-@p @item CALL-CONVENTION phrase: added C and PASCAL (see feature request #311).
-@p @item CLASS phrase: added recognition of ALPHANUMERIC NATIONAL and alphabet phrases.
-@p @item CLASS phrase: fixed bug #566, where class-names were not inherited by nested subprograms.
-@p @item CURRENCY phrase: changed to emit error when CURRENCY SIGN other than `$' is entered.
-@p @item CURRENCY phrase: improved error messages for invalid currency signs.
-@p @item EXTERN clause: improved error messages (bug #446).
-@p @item FILE STATUS clause: added detection of VSAM secondary status identifier (feature request #51).
-@p @item I-O-CONTROL paragraph: added detection of APPLY COMMIT clause (from the COBOL~202X draft standard).
-@p @item OBJECT-COMPUTER paragraph: added recognition of NATIONAL collating sequences.
-@p @item OCCURS clause: correctly implemented nested OCCURS DEPENDING tables (ODOSLIDE).
-@p @item PASSWORD clause: added detection of.
-@p @item RECORD clause: fixed behaviour in the IBM dialect when the maximum record length does not match the length in the RECORD clause.
-@p @item RECORD DELIMITER phrase:  added support for BINARY-SEQUENTIAL and LINE-SEQUENTIAL phrases.
-@p @item RECORD DELIMITER phrase: improved syntax checks (see bug #442).
-@p @item RECORD KEY clause: implemented sparse keys (SOURCE IS; feature request #23).
+
+@item
+ALTERNATE RECORD KEY clause: implemented split keys (SOURCE IS; feature request #23) and sparse keys (SUPPRESS WHEN; feature request #281).
+
+@item
+ALPHABET clause: added recognition of more pre-defined alphabets.
+
+@item
+ASSIGN clause: re-enabled use of linkage section or BASED items (bug #421).
+
+@item
+ASSIGN clause: added SYSPCH and SYSPUNCH device-names for writing to a punch file (this is not related to CARD-PUNCH).
+
+@item
+ASSIGN clause: added device-names S01 through to S05.
+
+@item
+CALL-CONVENTION phrase: added C and PASCAL (see feature request #311).
+
+@item
+CLASS phrase: added recognition of ALPHANUMERIC NATIONAL and alphabet phrases.
+
+@item
+CLASS phrase: fixed bug #566, where class-names were not inherited by nested subprograms.
+
+@item
+CURRENCY phrase: changed to emit error when CURRENCY SIGN other than `$' is entered.
+
+@item
+CURRENCY phrase: improved error messages for invalid currency signs.
+
+@item
+EXTERN clause: improved error messages (bug #446).
+
+@item
+FILE STATUS clause: added detection of VSAM secondary status identifier (feature request #51).
+
+@item
+I-O-CONTROL paragraph: added detection of APPLY COMMIT clause (from the COBOL~202X draft standard).
+
+@item
+OBJECT-COMPUTER paragraph: added recognition of NATIONAL collating sequences.
+
+@item
+OCCURS clause: correctly implemented nested OCCURS DEPENDING tables (ODOSLIDE).
+
+@item
+PASSWORD clause: added detection of.
+
+@item
+RECORD clause: fixed behaviour in the IBM dialect when the maximum record length does not match the length in the RECORD clause.
+
+@item
+RECORD DELIMITER phrase:  added support for BINARY-SEQUENTIAL and LINE-SEQUENTIAL phrases.
+
+@item
+RECORD DELIMITER phrase: improved syntax checks (see bug #442).
+
+@item
+RECORD KEY clause: implemented sparse keys (SOURCE IS; feature request #23).
 @end itemize
 
-@p @item Data division
+
+@item
+Data division
 @itemize @bullet
-@p @item 88-level items: improved error messages when used in the wrong places.
-@p @item ANY LENGTH clause: fixed bug #487, where literals moved to ANY LENGTH items were incorrectly truncated.
-@p @item ANY LENGTH clause: fixed bug #511, where comparisons treated ANY LENGTH items as having just one character.
-@p @item ANY LENGTH clause: fixed segfault when referencing linkage-section ANY LENGTH items in the first compiled program.
-@p @item COLUMN clause: ``COL +1'' and similar clauses are no longer allowed; there must now be a space between the sign and the number.
-@p @item COLUMN clause (screen): added POS as synonym for COLUMN.
-@p @item LINE clause: ``LINE +1'' and similar clauses are no longer allowed; there must now be a space between the sign and the number.
-@p @item LINE clause (report): allow LINES instead of LINE.
-@p @item PICTURE clause: added recognition of PIC 1(n).
-@p @item PICTURE clause: improved error messages.
-@p @item PICTURE clause: added recognition of LOCALE phrase.
-@p @item RECORD VARYING clause: fixed bug #441, where an FD could be declared as RECORD VARYING, but have records of only one size.
-@p @item Screen section: made some COBOL words context-sensitive to screen section.
-@p @item Screen description: the rules on which clauses must be specified when now depend on the dialect (see bug #382).
-@p @item SYNCHRONIZED clause: deactivated RIGHT phrase, pending correct implementation (previously SYNCHRONIZED RIGHT was the same as SYNCHRONIZED LEFT).
-@p @item USAGE clause: added option to make COMP-1 mean a 16-bit signed integer (feature request #272).
-@p @item USAGE clause: added recognition of BIT and COMP-0.
-@p @item USAGE clause: added COMP-N.
-@p @item VOLATILE clause: added recognition of.
+
+@item
+88-level items: improved error messages when used in the wrong places.
+
+@item
+ANY LENGTH clause: fixed bug #487, where literals moved to ANY LENGTH items were incorrectly truncated.
+
+@item
+ANY LENGTH clause: fixed bug #511, where comparisons treated ANY LENGTH items as having just one character.
+
+@item
+ANY LENGTH clause: fixed segfault when referencing linkage-section ANY LENGTH items in the first compiled program.
+
+@item
+COLUMN clause: ``COL +1'' and similar clauses are no longer allowed; there must now be a space between the sign and the number.
+
+@item
+COLUMN clause (screen): added POS as synonym for COLUMN.
+
+@item
+LINE clause: ``LINE +1'' and similar clauses are no longer allowed; there must now be a space between the sign and the number.
+
+@item
+LINE clause (report): allow LINES instead of LINE.
+
+@item
+PICTURE clause: added recognition of PIC 1(n).
+
+@item
+PICTURE clause: improved error messages.
+
+@item
+PICTURE clause: added recognition of LOCALE phrase.
+
+@item
+RECORD VARYING clause: fixed bug #441, where an FD could be declared as RECORD VARYING, but have records of only one size.
+
+@item
+Screen section: made some COBOL words context-sensitive to screen section.
+
+@item
+Screen description: the rules on which clauses must be specified when now depend on the dialect (see bug #382).
+
+@item
+SYNCHRONIZED clause: deactivated RIGHT phrase, pending correct implementation (previously SYNCHRONIZED RIGHT was the same as SYNCHRONIZED LEFT).
+
+@item
+USAGE clause: added option to make COMP-1 mean a 16-bit signed integer (feature request #272).
+
+@item
+USAGE clause: added recognition of BIT and COMP-0.
+
+@item
+USAGE clause: added COMP-N.
+
+@item
+VOLATILE clause: added recognition of.
 @end itemize
 
-@p @item Procedure division
+
+@item
+Procedure division
 @itemize @bullet
-@p @item ACCEPT statement (environment): added recognition of INPUT~STATUS and TERMINAL-INFO and SYSTEM-INFO phrases.
-@p @item ACCEPT statement (screen): fixed ACCEPT WITH UPDATE and not working (bug #423).
-@p @item ACCEPT statement (screen): fixed bug #426, where backspacing at the start of a field moved the cursor to the second-to-last character of the preceding field.
-@p @item ACCEPT statement (screen): added detection of CONTROL KEY clause.
-@p @item ACCEPT statement (screen): allow numeric-edited fields to contain spaces (see bug #491).
-@p @item ACCEPT statement (screen): fixed error when filling in a one character field with insert mode on (bug #498).
-@p @item ACCEPT statement (screen): pressing the home key, or end key, now toggles between going to the start of, or end of, the field and the cursor's original position.
-@p @item ACCEPT statement (screen): added WITH NO BELL clause.
-@p @item ACCEPT statement (screen): added support for Microsoft COBOL position specifiers.
-@p @item ACCEPT statement (temporal): fixed bug #469, where ACCEPT FROM DAY was off by $-1$.
-@p @item ALLOCATE statement: added recognition of LOC clause.
-@p @item CALL statement: fixed ON EXCEPTION not working properly with -fstatic (bug #462).
-@p @item CALL statement: added LINKAGE phrase (feature request #311).
-@p @item CANCEL statement: fixed segfault in recursive programs (bug #98).
-@p @item Conditions: strengthened syntax checks for abbreviated conditions.
-@p @item Conditions: improved error messages (bug #567).
-@p @item CONTINUE (after): added support for (from COBOL~202X draft standard). See feature request #354.
-@p @item DISPLAY statement (printer): allow for redirecting DISPLAY UPON PRINTER(-1) to files based on the runtime configuration.
-@p @item DISPLAY statement (screen): fixed DISPLAY LOW-VALUE not setting position of cursor for next DISPLAY statement (bug #423).
-@p @item DISPLAY statement (screen): added configuration option to disable Micro Focus' special behaviour with some figurative constants (see bug #423).
-@p @item DISPLAY statement (screen): fixed bug #428, where DISPLAY ALL ``x'' WITH SIZE only displayed ``x'' once.
-@p @item DISPLAY statement (screen): added support for Microsoft COBOL's position specifiers and ERASE phrase.
-@p @item ENTRY statement: added LINKAGE phrase (feature request #311).
-@p @item Error messages: runtime error messages now include ``error: '' after the file before the actual error message.
-@p @item EVALUATE statement: added partial support for WHEN clauses not containing any statements, which transfer control to the next WHEN clause containing a statement, if any (so the behaviour is like C's switch statement).
-@p @item Exceptions: the exception status is now only reset by SET LAST EXCEPTION TO OFF.
-@p @item Exceptions: fixed EC-SIZE-OVERFLOW being raised when EC-SIZE-ZERO-DIVIDE is active (bug #223).
-@p @item File I-O: fixed bug #457, where file status 30 was set instead of the correct permanent error status (34, 35 or 37).
-@p @item File I-O: added support for VBISAM 2.1.1.
-@p @item File I-O: error messages from libcob now include the file I-O statement that caused them, when known.
-@p @item Floating-point arithmetic: fixed incorrect SIZE ERROR exceptions (see bug #470).
-@p @item Floating-point arithmetic: fixed bug #478, where calculations with the SIZE ERROR phrase have different results to calculations without it.
-@p @item Floating-point arithmetic: now activate the SIZE ERROR handler when a floating-point variable is set to a non-finite value (see bug #122).
-@p @item INQUIRE statement: added recognition of.
-@p @item JSON GENERATE statement: added patch #45).
-@p @item JSON PARSE statement: added recognition of.
-@p @item LENGTH OF phrase: fixed error message when used on group fields (bug #175).
-@p @item LENGTH OF phrase: allow non-numeric literals.
-@p @item MODIFY statement: added recognition of.
-@p @item MOVE statement: added options to interpret moving non-numeric values to numeric items as moving zero to numeric items.
-@p @item MOVE statement: improved detection of overlapping MOVEs when using reference modification.
-@p @item MOVE statement: fixed remaining cases of bug #220, involving numeric-edited items.
-@p @item MOVE statement: fixed incorrect truncation of COMP-4 items.
-@p @item PERFORM statement: added check for non-zero item in BY phrase (feature request #268).
-@p @item PERFORM statement: allow the BY phrase to be omitted, which is the same as specifying BY 1 (feature request #158).
-@p @item PERFORM statement (inline): added partial support for inline PERFORM statements not containing any statements.
-@p @item Procedure division header: added recognition of MEMORY SIZE phrase.
-@p @item Procedure division header: added LINKAGE phrase (feature request #311).
-@p @item RAISE statement: added recognition of.
-@p @item Reference modification: improved out-of-bounds error message (bug #445).
-@p @item SORT statement: added sorting of tables without keys patch #42).
-@p @item SORT statement: added recognition of more COLLATING SEQUENCE phrases.
-@p @item OPEN statement: fail with file status 39 when the first record of an indexed file is larger than specified in the FD.
-@p @item OPEN statement: fixed segfault when attempting to open a file in a non-existent folder (bug #520).
-@p @item OPEN statement: added ACUCOBOL locking clauses.
-@p @item READ statement (indexed): fail with file status 43 when the read record is larger than specified in the FD.
-@p @item Reference modification: added warnings for invalid reference modifications involving variables.
-@p @item Report writer: implemented, including features from COBOL 2002 and the IBM Report Writer.
-@p @item REWRITE statement (indexed): now sets file status to 02 when duplicate key is detected.
-@p @item SET statement: fixed bug #225, where an invalid SET statement caused an error saying ``invalid MOVE statement''.
-@p @item STOP statement: fixed the NORMAL phrase causing a compilation error (bug #433).
-@p @item USE statement (exception): improved recognition of.
-@p @item VALIDATE statement: added recognition of.
-@p @item WRITE statement: fixed compilation error when writing to a GLOBAL file in a subprogram (bug #87).
-@p @item WRITE statement (indexed): now sets file status to 02 when duplicate key is detected.
-@p @item XML GENERATE statement: added patch #41).
-@p @item XML PARSE statement: added recognition of.
+
+@item
+ACCEPT statement (environment): added recognition of INPUT~STATUS and TERMINAL-INFO and SYSTEM-INFO phrases.
+
+@item
+ACCEPT statement (screen): fixed ACCEPT WITH UPDATE and not working (bug #423).
+
+@item
+ACCEPT statement (screen): fixed bug #426, where backspacing at the start of a field moved the cursor to the second-to-last character of the preceding field.
+
+@item
+ACCEPT statement (screen): added detection of CONTROL KEY clause.
+
+@item
+ACCEPT statement (screen): allow numeric-edited fields to contain spaces (see bug #491).
+
+@item
+ACCEPT statement (screen): fixed error when filling in a one character field with insert mode on (bug #498).
+
+@item
+ACCEPT statement (screen): pressing the home key, or end key, now toggles between going to the start of, or end of, the field and the cursor's original position.
+
+@item
+ACCEPT statement (screen): added WITH NO BELL clause.
+
+@item
+ACCEPT statement (screen): added support for Microsoft COBOL position specifiers.
+
+@item
+ACCEPT statement (temporal): fixed bug #469, where ACCEPT FROM DAY was off by $-1$.
+
+@item
+ALLOCATE statement: added recognition of LOC clause.
+
+@item
+CALL statement: fixed ON EXCEPTION not working properly with -fstatic (bug #462).
+
+@item
+CALL statement: added LINKAGE phrase (feature request #311).
+
+@item
+CANCEL statement: fixed segfault in recursive programs (bug #98).
+
+@item
+Conditions: strengthened syntax checks for abbreviated conditions.
+
+@item
+Conditions: improved error messages (bug #567).
+
+@item
+CONTINUE (after): added support for (from COBOL~202X draft standard). See feature request #354.
+
+@item
+DISPLAY statement (printer): allow for redirecting DISPLAY UPON PRINTER(-1) to files based on the runtime configuration.
+
+@item
+DISPLAY statement (screen): fixed DISPLAY LOW-VALUE not setting position of cursor for next DISPLAY statement (bug #423).
+
+@item
+DISPLAY statement (screen): added configuration option to disable Micro Focus' special behaviour with some figurative constants (see bug #423).
+
+@item
+DISPLAY statement (screen): fixed bug #428, where DISPLAY ALL ``x'' WITH SIZE only displayed ``x'' once.
+
+@item
+DISPLAY statement (screen): added support for Microsoft COBOL's position specifiers and ERASE phrase.
+
+@item
+ENTRY statement: added LINKAGE phrase (feature request #311).
+
+@item
+Error messages: runtime error messages now include ``error: '' after the file before the actual error message.
+
+@item
+EVALUATE statement: added partial support for WHEN clauses not containing any statements, which transfer control to the next WHEN clause containing a statement, if any (so the behaviour is like C's switch statement).
+
+@item
+Exceptions: the exception status is now only reset by SET LAST EXCEPTION TO OFF.
+
+@item
+Exceptions: fixed EC-SIZE-OVERFLOW being raised when EC-SIZE-ZERO-DIVIDE is active (bug #223).
+
+@item
+File I-O: fixed bug #457, where file status 30 was set instead of the correct permanent error status (34, 35 or 37).
+
+@item
+File I-O: added support for VBISAM 2.1.1.
+
+@item
+File I-O: error messages from libcob now include the file I-O statement that caused them, when known.
+
+@item
+Floating-point arithmetic: fixed incorrect SIZE ERROR exceptions (see bug #470).
+
+@item
+Floating-point arithmetic: fixed bug #478, where calculations with the SIZE ERROR phrase have different results to calculations without it.
+
+@item
+Floating-point arithmetic: now activate the SIZE ERROR handler when a floating-point variable is set to a non-finite value (see bug #122).
+
+@item
+INQUIRE statement: added recognition of.
+
+@item
+JSON GENERATE statement: added patch #45).
+
+@item
+JSON PARSE statement: added recognition of.
+
+@item
+LENGTH OF phrase: fixed error message when used on group fields (bug #175).
+
+@item
+LENGTH OF phrase: allow non-numeric literals.
+
+@item
+MODIFY statement: added recognition of.
+
+@item
+MOVE statement: added options to interpret moving non-numeric values to numeric items as moving zero to numeric items.
+
+@item
+MOVE statement: improved detection of overlapping MOVEs when using reference modification.
+
+@item
+MOVE statement: fixed remaining cases of bug #220, involving numeric-edited items.
+
+@item
+MOVE statement: fixed incorrect truncation of COMP-4 items.
+
+@item
+PERFORM statement: added check for non-zero item in BY phrase (feature request #268).
+
+@item
+PERFORM statement: allow the BY phrase to be omitted, which is the same as specifying BY 1 (feature request #158).
+
+@item
+PERFORM statement (inline): added partial support for inline PERFORM statements not containing any statements.
+
+@item
+Procedure division header: added recognition of MEMORY SIZE phrase.
+
+@item
+Procedure division header: added LINKAGE phrase (feature request #311).
+
+@item
+RAISE statement: added recognition of.
+
+@item
+Reference modification: improved out-of-bounds error message (bug #445).
+
+@item
+SORT statement: added sorting of tables without keys patch #42).
+
+@item
+SORT statement: added recognition of more COLLATING SEQUENCE phrases.
+
+@item
+OPEN statement: fail with file status 39 when the first record of an indexed file is larger than specified in the FD.
+
+@item
+OPEN statement: fixed segfault when attempting to open a file in a non-existent folder (bug #520).
+
+@item
+OPEN statement: added ACUCOBOL locking clauses.
+
+@item
+READ statement (indexed): fail with file status 43 when the read record is larger than specified in the FD.
+
+@item
+Reference modification: added warnings for invalid reference modifications involving variables.
+
+@item
+Report writer: implemented, including features from COBOL 2002 and the IBM Report Writer.
+
+@item
+REWRITE statement (indexed): now sets file status to 02 when duplicate key is detected.
+
+@item
+SET statement: fixed bug #225, where an invalid SET statement caused an error saying ``invalid MOVE statement''.
+
+@item
+STOP statement: fixed the NORMAL phrase causing a compilation error (bug #433).
+
+@item
+USE statement (exception): improved recognition of.
+
+@item
+VALIDATE statement: added recognition of.
+
+@item
+WRITE statement: fixed compilation error when writing to a GLOBAL file in a subprogram (bug #87).
+
+@item
+WRITE statement (indexed): now sets file status to 02 when duplicate key is detected.
+
+@item
+XML GENERATE statement: added patch #41).
+
+@item
+XML PARSE statement: added recognition of.
 @end itemize
 
-@p @item Intrinsic functions
+
+@item
+Intrinsic functions
 @itemize @bullet
-@p @item CONTENT-OF function: added.
-@p @item CONTENT-LENGTH function: added.
-@p @item LENGTH, BYTE-LENGTH and LENGTH-AN functions: now forbid numeric arguments.
-@p @item MOD function: fixed EC-SIZE-ZERO-DIVIDE being raised instead of EC-ARGUMENT-FUNCTION when zero was provided as an argument.
-@p @item REM function: fixed EC-SIZE-ZERO-DIVIDE being raised instead of EC-ARGUMENT-FUNCTION when zero was provided as an argument.
-@p @item X"91" function: corrected number of arguments from 2 to 3 (bug #527).
-@p @item WHEN-COMPILED function: fixed timezone, which was missing its sign and contained nonsense when negative (bug #436).
+
+@item
+CONTENT-OF function: added.
+
+@item
+CONTENT-LENGTH function: added.
+
+@item
+LENGTH, BYTE-LENGTH and LENGTH-AN functions: now forbid numeric arguments.
+
+@item
+MOD function: fixed EC-SIZE-ZERO-DIVIDE being raised instead of EC-ARGUMENT-FUNCTION when zero was provided as an argument.
+
+@item
+REM function: fixed EC-SIZE-ZERO-DIVIDE being raised instead of EC-ARGUMENT-FUNCTION when zero was provided as an argument.
+
+@item
+X"91" function: corrected number of arguments from 2 to 3 (bug #527).
+
+@item
+WHEN-COMPILED function: fixed timezone, which was missing its sign and contained nonsense when negative (bug #436).
 @end itemize
 
-@p @item Built-in subprograms
+
+@item
+Built-in subprograms
 @itemize @bullet
-@p @item $GETPID: fixed wrong process ID being returned after forking (bug #451).
-@p @item $SLEEP: if the requested time is too large, sleep for the maximum possible time instead of not at all.
-@p @item CBL_READ_KBD_CHAR: this now works (bug #500).
-@p @item SYSTEM: added workaround of buggy system() implementation on Windows, which removes leading and trailing quotes.
+
+@item
+$GETPID: fixed wrong process ID being returned after forking (bug #451).
+
+@item
+$SLEEP: if the requested time is too large, sleep for the maximum possible time instead of not at all.
+
+@item
+CBL_READ_KBD_CHAR: this now works (bug #500).
+
+@item
+SYSTEM: added workaround of buggy system() implementation on Windows, which removes leading and trailing quotes.
 @end itemize
 @end enumerate
 
 @newappendix{F2,Summary of Compiler Changes since 2009 and version v1-1}
 To GnuCOBOL Compiler v2.2.
-@p Taken from Grammar Changelog Sept 2017.
+
+Taken from Grammar Changelog Sept 2017.
 @enumerate
-@p @item General
+
+@item
+General
 @itemize @bullet
-@p @item 64-bit numbers: fixed bugs in handling of 64-bit numbers (e.g. bug #229).
-@p @item ACUCOBOL windows: added detection of ACUCOBOL's window/message box GUI syntax.
-@p @item C API (data): added several functions for getting and setting cob_field items.
-@p @item C API (files): added cob_file_external_addr, cob_file_malloc and cob_file_free.
-@p @item C API (screen): added several functions from Micro Focus C to COBOL API: cob_display_text, cob_sys_get_char, cob_get_char, cob_get_text, cob_display_formatted_text, cob_sys_get_csr_pos, cob_sys_set_csr_pos, cobmove, cobaddstrc, cobprintf and cobgetch (feature requests #148 and #187).
-@p @item C API (signals): added cob_raise to send signal to signal handlers.
-@p @item C compiler support: fixed errors in compilers without designated initializers.
-@p @item cobc command-line options: added -O3 to enable more optimisations.
-@p @item cobc command-line options: added -Wfatal-error to make the compiler abort on the first error.
-@p @item cobc command-line options: added -Wpossible-overlap to warn items that may overlap (-Woverlap only warns if items definitely overlap).
-@p @item cobc command-line options: added -fmax-errors to set number of errors at which the compiler aborts.
-@p @item cobc command-line options: added -fwinmain to output WinMain instead of main (feature request #194).
-@p @item cobc command-line options: added -t and -T for complete listing support (-t for 80-characters wide listings and -T for 132-characters wide) which includes crossreferences.
-@p @item cobc command-line options: added -vvv (like -vv but passes verbose option to the linker as well) and -### (like -v but commands are not executed).
-@p @item cobc command-line options: allow -, i.e. stdin, as a source file.
-@p @item COBOL-85 NIST testsuite: tests now refer to $COBC, $COBCRUN and $COBCRUN_DIRECT environment variables instead of directly calling cobc and cobcrun, allowing the testsuite to run in conjunction with tools like valgrind.
-@p @item COBOL-85 NIST testsuite: tests for obsolete feature flagging are now executed, if possible.
-@p @item Comments: added ACUCOBOL comments: $ as synonym for * in indicator area and j as synonym for floating comment indicator *>.
-@p @item Communication facility: added detection of communication facility syntax.
-@p @item configure: added useful error message when help2man, bison and flex are missing when they are needed.
-@p @item curses: fixed compilation errors when configured without curses (bug #90).
-@p @item Error messages: error messages are now lowercase, in line with the GNU Coding Standards (bug #198).
-@p @item Error messages: segfaults in the compiler now cause an error message to be displayed.
-@p @item Error messages: replaced instances of ``ODO'' by the clearer ``OCCURS DEPENDING ON''.
-@p @item Expressions: resolve constant expressions and optimise constant decimals at compile time.
-@p @item Expressions: added support for IBM OS/VS COBOL's arithmetic.
-@p @item Expressions: improved error messages for malformed expressions.
-@p @item Indicators: invalid indicators no longer cause compilation to immediately terminate (feature request #126).
-@p @item Information: output compiler version used to build GnuCOBOL and any mathematical libraries used (feature request #169).
-@p @item Information: output what a reserved word is an alias for in the -list-reserved output (feature request #214).
-@p @item Manpage: added manpage generation and installation.
-@p @item Nested programs: Nested programs no longer need to have END PROGRAM.
-@p @item National literals: added basic support for national literals.
-@p @item Numeric literals: added ACUCOBOL numeric literals: B#.. . for binary, O#.. . for octal, and X#.. . and H#.. . for hexadecimal.
-@p @item Literals: fixed heap corruptions caused by uncommon literals (bug #195).
-@p @item Literals: allow concatenation of literal and Boolean literals.
-@p @item Memory management: all memory belonging to the parsers and lexers is freed upon a compiler abend.
-@p @item Memory management: fixed memory leaks due to recursive CALLs.
-@p @item Microsoft Visual C++: output when compiling with cl.exe is now filtered and temporary files are deleted.
-@p @item MinGW: fixed use of wrong directory separator.
-@p @item Signals: removed error message on SIGPIPE.
-@p @item Signals: added error message for SIGBUS.
-@p @item Translations: updated, with new support for German and Italian.
-@p @item User-defined functions: function definitions must now end with END FUNCTION.
-@p @item User-defined functions: function definitions may no longer be nested in programs (bug #255).
-@p @item Windows support: allow linking with asm files.
-@p @item Windows support: added support for DISAM in the batch file which creates distributables.
-@p @item Windows support: fixed environment-setting batch files not working with Microsoft Visual Studio 2017.
-@p @item Windows support: fixed 64-bit environment-setting batch files not checking the correct directories for binaries and libraries.
+
+@item
+64-bit numbers: fixed bugs in handling of 64-bit numbers (e.g. bug #229).
+
+@item
+ACUCOBOL windows: added detection of ACUCOBOL's window/message box GUI syntax.
+
+@item
+C API (data): added several functions for getting and setting cob_field items.
+
+@item
+C API (files): added cob_file_external_addr, cob_file_malloc and cob_file_free.
+
+@item
+C API (screen): added several functions from Micro Focus C to COBOL API: cob_display_text, cob_sys_get_char, cob_get_char, cob_get_text, cob_display_formatted_text, cob_sys_get_csr_pos, cob_sys_set_csr_pos, cobmove, cobaddstrc, cobprintf and cobgetch (feature requests #148 and #187).
+
+@item
+C API (signals): added cob_raise to send signal to signal handlers.
+
+@item
+C compiler support: fixed errors in compilers without designated initializers.
+
+@item
+cobc command-line options: added -O3 to enable more optimisations.
+
+@item
+cobc command-line options: added -Wfatal-error to make the compiler abort on the first error.
+
+@item
+cobc command-line options: added -Wpossible-overlap to warn items that may overlap (-Woverlap only warns if items definitely overlap).
+
+@item
+cobc command-line options: added -fmax-errors to set number of errors at which the compiler aborts.
+
+@item
+cobc command-line options: added -fwinmain to output WinMain instead of main (feature request #194).
+
+@item
+cobc command-line options: added -t and -T for complete listing support (-t for 80-characters wide listings and -T for 132-characters wide) which includes crossreferences.
+
+@item
+cobc command-line options: added -vvv (like -vv but passes verbose option to the linker as well) and -### (like -v but commands are not executed).
+
+@item
+cobc command-line options: allow -, i.e. stdin, as a source file.
+
+@item
+COBOL-85 NIST testsuite: tests now refer to $COBC, $COBCRUN and $COBCRUN_DIRECT environment variables instead of directly calling cobc and cobcrun, allowing the testsuite to run in conjunction with tools like valgrind.
+
+@item
+COBOL-85 NIST testsuite: tests for obsolete feature flagging are now executed, if possible.
+
+@item
+Comments: added ACUCOBOL comments: $ as synonym for * in indicator area and j as synonym for floating comment indicator *>.
+
+@item
+Communication facility: added detection of communication facility syntax.
+
+@item
+configure: added useful error message when help2man, bison and flex are missing when they are needed.
+
+@item
+curses: fixed compilation errors when configured without curses (bug #90).
+
+@item
+Error messages: error messages are now lowercase, in line with the GNU Coding Standards (bug #198).
+
+@item
+Error messages: segfaults in the compiler now cause an error message to be displayed.
+
+@item
+Error messages: replaced instances of ``ODO'' by the clearer ``OCCURS DEPENDING ON''.
+
+@item
+Expressions: resolve constant expressions and optimise constant decimals at compile time.
+
+@item
+Expressions: added support for IBM OS/VS COBOL's arithmetic.
+
+@item
+Expressions: improved error messages for malformed expressions.
+
+@item
+Indicators: invalid indicators no longer cause compilation to immediately terminate (feature request #126).
+
+@item
+Information: output compiler version used to build GnuCOBOL and any mathematical libraries used (feature request #169).
+
+@item
+Information: output what a reserved word is an alias for in the -list-reserved output (feature request #214).
+
+@item
+Manpage: added manpage generation and installation.
+
+@item
+Nested programs: Nested programs no longer need to have END PROGRAM.
+
+@item
+National literals: added basic support for national literals.
+
+@item
+Numeric literals: added ACUCOBOL numeric literals: B#.. . for binary, O#.. . for octal, and X#.. . and H#.. . for hexadecimal.
+
+@item
+Literals: fixed heap corruptions caused by uncommon literals (bug #195).
+
+@item
+Literals: allow concatenation of literal and Boolean literals.
+
+@item
+Memory management: all memory belonging to the parsers and lexers is freed upon a compiler abend.
+
+@item
+Memory management: fixed memory leaks due to recursive CALLs.
+
+@item
+Microsoft Visual C++: output when compiling with cl.exe is now filtered and temporary files are deleted.
+
+@item
+MinGW: fixed use of wrong directory separator.
+
+@item
+Signals: removed error message on SIGPIPE.
+
+@item
+Signals: added error message for SIGBUS.
+
+@item
+Translations: updated, with new support for German and Italian.
+
+@item
+User-defined functions: function definitions must now end with END FUNCTION.
+
+@item
+User-defined functions: function definitions may no longer be nested in programs (bug #255).
+
+@item
+Windows support: allow linking with asm files.
+
+@item
+Windows support: added support for DISAM in the batch file which creates distributables.
+
+@item
+Windows support: fixed environment-setting batch files not working with Microsoft Visual Studio 2017.
+
+@item
+Windows support: fixed 64-bit environment-setting batch files not checking the correct directories for binaries and libraries.
 
 @end itemize
-@p @item Configuration options
+
+@item
+Configuration options
 @itemize @bullet
-@p @item Deleted compiler configuration options: eject-statement, COBOL85-reserved.
-@p @item New compiler configurations: all dialects have been split into standard and strict dialects, with strict dialects maintaining source compatibility with the dialect's compiler(s).
-@p @item New compiler configurations: acu for ACUCOBOL, COBOL2014 for COBOL 2014, rm for RM-COBOL, xopen for X/Open.
-@p @item New compiler configuration options: accept-display-extensions, accept-update, accept-auto, acu-literals, arithmetic-osvs, call-overflow, console-is-crt, constant-01, constant-78, constant-folding, define-constant-directive, hexadecimal-boolean, hexadecimal-national-literals, incorrect-conf-sec-order, intrinsic-function, listingstatements, literal-length, move-figurative-constant-to-numeric, move-figurativequote-to-numeric, move-ibm, national-literals, no-echo-means-secure, not-exceptionbefore-exception, numeric-boolean, numeric-literal-length, numeric-value-for-editeditem, pic-length, program-name-redefinition, program-prototypes, reference-out-ofdeclaratives (feature request #179), register, renames-uncommon-levels, reserved, reserved-words, stop-identifier, system-name, title-statement, use-for-debugging, word-length (feature request #43).
-@p @item Registers: compiler configurations can now specify all the registers to generate.
-@p @item Registers: added registers not yet implemented by GnuCOBOL as reserved words.
-@p @item Renamed compiler configuration options: debugging-line to debugging-mode, relaxed-syntax-check to relax-syntax-checks
-@p @item Reserved words: compiler configurations can now specify all the reserved words and context-sensitive words permitted.
-@p @item Reserved words: compiler configurations can now specify whether a reserved word is an alias for another reserved word.
-@p @item Runtime configuration: added ability to configure some libcob features at runtime.
-@p @item Support options: options which specify if a feature is supported can now take a ``+'' before their argument to indicate it takes effect only if the current level of support is less strict than ``ok''.
+
+@item
+Deleted compiler configuration options: eject-statement, COBOL85-reserved.
+
+@item
+New compiler configurations: all dialects have been split into standard and strict dialects, with strict dialects maintaining source compatibility with the dialect's compiler(s).
+
+@item
+New compiler configurations: acu for ACUCOBOL, COBOL2014 for COBOL 2014, rm for RM-COBOL, xopen for X/Open.
+
+@item
+New compiler configuration options: accept-display-extensions, accept-update, accept-auto, acu-literals, arithmetic-osvs, call-overflow, console-is-crt, constant-01, constant-78, constant-folding, define-constant-directive, hexadecimal-boolean, hexadecimal-national-literals, incorrect-conf-sec-order, intrinsic-function, listingstatements, literal-length, move-figurative-constant-to-numeric, move-figurativequote-to-numeric, move-ibm, national-literals, no-echo-means-secure, not-exceptionbefore-exception, numeric-boolean, numeric-literal-length, numeric-value-for-editeditem, pic-length, program-name-redefinition, program-prototypes, reference-out-ofdeclaratives (feature request #179), register, renames-uncommon-levels, reserved, reserved-words, stop-identifier, system-name, title-statement, use-for-debugging, word-length (feature request #43).
+
+@item
+Registers: compiler configurations can now specify all the registers to generate.
+
+@item
+Registers: added registers not yet implemented by GnuCOBOL as reserved words.
+
+@item
+Renamed compiler configuration options: debugging-line to debugging-mode, relaxed-syntax-check to relax-syntax-checks
+
+@item
+Reserved words: compiler configurations can now specify all the reserved words and context-sensitive words permitted.
+
+@item
+Reserved words: compiler configurations can now specify whether a reserved word is an alias for another reserved word.
+
+@item
+Runtime configuration: added ability to configure some libcob features at runtime.
+
+@item
+Support options: options which specify if a feature is supported can now take a ``+'' before their argument to indicate it takes effect only if the current level of support is less strict than ``ok''.
 
 @end itemize
-@p @item Compiler directives
+
+@item
+Compiler directives
 @itemize @bullet
-@p @item $ indicator character: added $ as an indicator for compiler directive lines.
-@p @item >>IF directive: fixed bug #263, where nested >>IF directives were not handled correctly.
-@p @item New constants: GCCOMP, GnuCOBOL.
-@p @item New directives: >>CALL-CONVENTION, >>LISTING, >>PAGE.
-@p @item New directives (detection only): *CBL, *CONTROL, TITLE.
-@p @item New >>SET phrase: SOURCEFORMAT.
+
+@item
+$ indicator character: added $ as an indicator for compiler directive lines.
+
+@item
+>>IF directive: fixed bug #263, where nested >>IF directives were not handled correctly.
+
+@item
+New constants: GCCOMP, GnuCOBOL.
+
+@item
+New directives: >>CALL-CONVENTION, >>LISTING, >>PAGE.
+
+@item
+New directives (detection only): *CBL, *CONTROL, TITLE.
+
+@item
+New >>SET phrase: SOURCEFORMAT.
 
 @end itemize
-@p @item Identification division
+
+@item
+Identification division
 @itemize @bullet
-@p @item Comment paragraphs: fixed invalid parsing of quote characters inside comment paragraphs (bug #297).
-@p @item FUNCTION-ID: added checks for redefinition of function-names.
-@p @item INITIAL phrase: fixed premature deallocation of INITIAL programs (bug #52).
-@p @item OPTIONS paragraph: added with implementation of DEFAULT ROUNDED MODE and ENTRY-CONVENTION phrases and recognition of INTERMEDIATE ROUNDING phrase.
-@p @item PROGRAM-ID: added checks for redefinition of program-names.
-@p @item PROGRAM-ID phrases: permit INITIAL or RECURSIVE before COMMON (bug #244).
-@p @item Program/function-names: warn if program/function-names contain spaces.
+
+@item
+Comment paragraphs: fixed invalid parsing of quote characters inside comment paragraphs (bug #297).
+
+@item
+FUNCTION-ID: added checks for redefinition of function-names.
+
+@item
+INITIAL phrase: fixed premature deallocation of INITIAL programs (bug #52).
+
+@item
+OPTIONS paragraph: added with implementation of DEFAULT ROUNDED MODE and ENTRY-CONVENTION phrases and recognition of INTERMEDIATE ROUNDING phrase.
+
+@item
+PROGRAM-ID: added checks for redefinition of program-names.
+
+@item
+PROGRAM-ID phrases: permit INITIAL or RECURSIVE before COMMON (bug #244).
+
+@item
+Program/function-names: warn if program/function-names contain spaces.
 
 @end itemize
-@p @item Environment division
+
+@item
+Environment division
 @itemize @bullet
-@p @item ASSIGN clause: missing ASSIGN clauses are now detected at compile-time.
-@p @item ASSIGN clause: added PRINTER and PRINTER-1 device-names for writing to a printer.
-@p @item ASSIGN clause: added CARD-PUNCH, CARD-READER, CASSETTE, INPUT, INPUTOUTPUT, MAGNETIC-TAPE and OUTPUT device-names for line sequential devices.
-@p @item ASSIGN clause: temporarily prohibit BASED and linkage items in ASSIGN USING due to bug #421.
-@p @item CALL-CONVENTION phrase: statically calling functions with CALL-CONVENTION 74 no longer causes linker errors (bug #316).
-@p @item CURRENCY phrase: fixed bug #182, where a preceding SWITCH phrase caused an incorrect duplicate CURRENCY clause error.
-@p @item File-control entry: fixed bug #71, where referring to a global constant caused an internal error.
-@p @item File-control entry: fixed bug #331, where using an identifier in a file record qualified with the file's name caused an error.
-@p @item FUNCTION phrase: added checks for redefinition of function-(prototype-)names.
-@p @item FUNCTION phrase: compiler will no longer stop when it encounters a syntax error.
-@p @item LOCK MODE clause: fixed combination of LOCK MODE IS AUTOMATIC/MANUAL with LOCK ON MULTIPLE.
-@p @item PROGRAM phrase: added support for program-prototype-names.
-@p @item SIGN clause: improved syntax checks.
-@p @item SWITCH phrase: added check for duplicate on/off clauses (bug #136).
-@p @item SWITCH phrase: added new switch names: SWITCH-16 through to SWITCH-36 (feature request #65), ``SWITCH 1'' to ``SWITCH 26'' (and their aliases ``SWITCH A'' to ``SWITCH Z''), UPSI-0 to UPSI-8 (equivalent to ``SWITCH 0'' to ``SWITCH 8'') and USW-0 to USW-31 (equivalent to ``SWITCH 0'' to ``SWITCH 31'').
+
+@item
+ASSIGN clause: missing ASSIGN clauses are now detected at compile-time.
+
+@item
+ASSIGN clause: added PRINTER and PRINTER-1 device-names for writing to a printer.
+
+@item
+ASSIGN clause: added CARD-PUNCH, CARD-READER, CASSETTE, INPUT, INPUTOUTPUT, MAGNETIC-TAPE and OUTPUT device-names for line sequential devices.
+
+@item
+ASSIGN clause: temporarily prohibit BASED and linkage items in ASSIGN USING due to bug #421.
+
+@item
+CALL-CONVENTION phrase: statically calling functions with CALL-CONVENTION 74 no longer causes linker errors (bug #316).
+
+@item
+CURRENCY phrase: fixed bug #182, where a preceding SWITCH phrase caused an incorrect duplicate CURRENCY clause error.
+
+@item
+File-control entry: fixed bug #71, where referring to a global constant caused an internal error.
+
+@item
+File-control entry: fixed bug #331, where using an identifier in a file record qualified with the file's name caused an error.
+
+@item
+FUNCTION phrase: added checks for redefinition of function-(prototype-)names.
+
+@item
+FUNCTION phrase: compiler will no longer stop when it encounters a syntax error.
+
+@item
+LOCK MODE clause: fixed combination of LOCK MODE IS AUTOMATIC/MANUAL with LOCK ON MULTIPLE.
+
+@item
+PROGRAM phrase: added support for program-prototype-names.
+
+@item
+SIGN clause: improved syntax checks.
+
+@item
+SWITCH phrase: added check for duplicate on/off clauses (bug #136).
+
+@item
+SWITCH phrase: added new switch names: SWITCH-16 through to SWITCH-36 (feature request #65), ``SWITCH 1'' to ``SWITCH 26'' (and their aliases ``SWITCH A'' to ``SWITCH Z''), UPSI-0 to UPSI-8 (equivalent to ``SWITCH 0'' to ``SWITCH 8'') and USW-0 to USW-31 (equivalent to ``SWITCH 0'' to ``SWITCH 31'').
 
 @end itemize
-@p @item Data division
+
+@item
+Data division
 @itemize @bullet
-@p @item 78-level items: strengthened syntax checks.
-@p @item 88-level items: strengthened syntax checks.
-@p @item ANY NUMERIC clause: ANY NUMERIC items must now have PIC 9.
-@p @item ANY LENGTH clause: ANY LENGTH items may no longer be BY VALUE parameters (see bug #219).
-@p @item ANY LENGTH clause: ANY LENGTH items must now have PIC X or PIC N.
-@p @item BLANK clause: fixed bug #143, where BLANK LINE/SCREEN did not colour line/screen.
-@p @item BLANK WHEN ZERO clause: added checks that BLANK WHEN ZERO is not specified with PICTURE clauses containing S.
-@p @item Constant items: expressions in VALUE clauses now permitted.
-@p @item Data description: added a maximum record length.
-@p @item Data description: increased maximum size of non-indexed file record to 64 MiB (maximum size of an indexed file record is 65535 bytes).
-@p @item ERASE clause: fixed bug #186, where ERASE EOL and ERASE EOS could be specified simultaneously.
-@p @item FULL clause: added warning for useless FULL clauses on numeric items (feature request #209).
-@p @item HIGHLIGHT and LOWLIGHT clauses: added checks that HIGHLIGHT and LOWLIGHT are not specified simultaneously.
-@p @item Local-storage section: fixed bug #78, where local-storage items where initialised after file section items.
-@p @item LOWLIGHT clause: implemented.
-@p @item OCCURS clause: fixed internal compiler when used with SYNC (bug #155).
-@p @item OCCURS clause: allow KEY phrase and INDEXED phrase in any order.
-@p @item OCCURS clause: fixed bug #167, where overly large numeric literals where accepted in the OCCURS clause.
-@p @item OCCURS clause (depending): require the minimum length to be less than the maximum length (feature request #99).
-@p @item OCCURS clause (depending): disabled nested OCCURS DEPENDING tables due to bugs.
-@p @item OCCURS clause (screen-section): require relative LINE/COLUMN clauses in OCCURS entries (bug #83).
-@p @item OCCURS clause (unbounded): added by Frank Swarbrick (patch #50).
-@p @item PICTURE clause: restricted number of permitted PICTURE strings (bug #232).
-@p @item PICTURE clause: improved checks of constant-names referenced in PICTURE strings.
-@p @item RENAMES items: strengthened syntax checks.
-@p @item RESERVE clause: allow the optional word AREAS.
-@p @item Screen description: permit figurative constants in screen items (bug #108).
-@p @item TALLY special register: added.
-@p @item USAGE clause: added ACUCOBOL's HANDLE phrases (see feature request #77).
-@p @item VALUE clause: VALUE clauses in REDEFINES entries now cause warnings, not errors, for compatibility.
-@p @item Variable records: added checks that the minimum size of a variable record is large enough to contain the record key.
+
+@item
+78-level items: strengthened syntax checks.
+
+@item
+88-level items: strengthened syntax checks.
+
+@item
+ANY NUMERIC clause: ANY NUMERIC items must now have PIC 9.
+
+@item
+ANY LENGTH clause: ANY LENGTH items may no longer be BY VALUE parameters (see bug #219).
+
+@item
+ANY LENGTH clause: ANY LENGTH items must now have PIC X or PIC N.
+
+@item
+BLANK clause: fixed bug #143, where BLANK LINE/SCREEN did not colour line/screen.
+
+@item
+BLANK WHEN ZERO clause: added checks that BLANK WHEN ZERO is not specified with PICTURE clauses containing S.
+
+@item
+Constant items: expressions in VALUE clauses now permitted.
+
+@item
+Data description: added a maximum record length.
+
+@item
+Data description: increased maximum size of non-indexed file record to 64 MiB (maximum size of an indexed file record is 65535 bytes).
+
+@item
+ERASE clause: fixed bug #186, where ERASE EOL and ERASE EOS could be specified simultaneously.
+
+@item
+FULL clause: added warning for useless FULL clauses on numeric items (feature request #209).
+
+@item
+HIGHLIGHT and LOWLIGHT clauses: added checks that HIGHLIGHT and LOWLIGHT are not specified simultaneously.
+
+@item
+Local-storage section: fixed bug #78, where local-storage items where initialised after file section items.
+
+@item
+LOWLIGHT clause: implemented.
+
+@item
+OCCURS clause: fixed internal compiler when used with SYNC (bug #155).
+
+@item
+OCCURS clause: allow KEY phrase and INDEXED phrase in any order.
+
+@item
+OCCURS clause: fixed bug #167, where overly large numeric literals where accepted in the OCCURS clause.
+
+@item
+OCCURS clause (depending): require the minimum length to be less than the maximum length (feature request #99).
+
+@item
+OCCURS clause (depending): disabled nested OCCURS DEPENDING tables due to bugs.
+
+@item
+OCCURS clause (screen-section): require relative LINE/COLUMN clauses in OCCURS entries (bug #83).
+
+@item
+OCCURS clause (unbounded): added by Frank Swarbrick (patch #50).
+
+@item
+PICTURE clause: restricted number of permitted PICTURE strings (bug #232).
+
+@item
+PICTURE clause: improved checks of constant-names referenced in PICTURE strings.
+
+@item
+RENAMES items: strengthened syntax checks.
+
+@item
+RESERVE clause: allow the optional word AREAS.
+
+@item
+Screen description: permit figurative constants in screen items (bug #108).
+
+@item
+TALLY special register: added.
+
+@item
+USAGE clause: added ACUCOBOL's HANDLE phrases (see feature request #77).
+
+@item
+VALUE clause: VALUE clauses in REDEFINES entries now cause warnings, not errors, for compatibility.
+
+@item
+Variable records: added checks that the minimum size of a variable record is large enough to contain the record key.
 
 @end itemize
-@p @item Procedure division
+
+@item
+Procedure division
 @itemize @bullet
-@p @item ACCEPT statement: added ESCAPE as synonym for EXCEPTION.
-@p @item ACCEPT statement: permit clauses in any order.
-@p @item ACCEPT statement: allow WITH before every screen attribute clause.
-@p @item ACCEPT statement: entering control-C now terminates the program.
-@p @item ACCEPT statement (screen): fixed failed ACCEPTs caused by a buffer overflow.
-@p @item ACCEPT statement (screen): enhanced support for special keys (insert, tab, delete, alt-delete, etc.).
-@p @item ACCEPT statement (screen): fixed bug #161 where screens terminated after entering a few characters in a field.
-@p @item ACCEPT statement (screen): added DEFAULT as synonym for UPDATE.
-@p @item ACCEPT statement (screen): ERASE and BLANK clauses in screens are now ignored (bug #192).
-@p @item ACCEPT statement (screen): fixed bug #160 where ACCEPT statement LINE/COLUMN clauses did not work.
-@p @item ACCEPT statement (screen): fixed segfault on ACCEPT OMITTED (bug #300).
-@p @item ACCEPT statement (screen): added checks that screen attributes are not specified multiple times or after conflicting attributes.
-@p @item ACCEPT statement (screen): fixed some phrases not being recognised without being preceded by WITH (bug #402).
-@p @item ACCEPT statement (screen): fixed the backspace and delete keys not working and the insert key not toggling between insertion and overwriting.
-@p @item ACCEPT statement (screen): cursor now changes with insertion/overwrite mode (if supported by the terminal).
-@p @item ACCEPT statement (screen): a beep is emitted on attempts to insert data into a full field.
-@p @item ADD statement (corresponding): restricted to numeric items (bug #235).
-@p @item ADD statement (table): added detection of ADD TABLE.
-@p @item Addition of COMP-3 numbers: fixed bug where COMP-3 addition failed.
-@p @item Addition of floating-point numbers: fixed incorrect addition of floating-point numbers.
-@p @item CALL statement: implemented feature request #101, allowing more arguments to be provided.
-@p @item CALL statement: fixed behaviour when calling cancelled modules.
-@p @item CALL statement: added RETURNING NOTHING.
-@p @item CALL statement: the generation of C function declarations for static CALLs can now be disabled.
-@p @item CALL statement: added checks for static CALLs referring to C macros.
-@p @item CALL statement: warn if a literal containing the program-name contains spaces.
-@p @item CALL statement: added detection of NESTED phrase.
-@p @item CANCEL statement: fixed crash caused by cancelling a cancelled module.
-@p @item Conditions: restricted use of IS (bug #321).
-@p @item Conditions: added warnings for always true/false conditions (including the reason why it is always true/false).
-@p @item DESTROY statement: added detection of DESTROY.
-@p @item DISPLAY statement: permit clauses in any order.
-@p @item DISPLAY statement: allow WITH before every screen attribute clause.
-@p @item DISPLAY statement (screen): fixed bug where EC-SCREEN exceptions did not trigger ON EXCEPTION handler (bug #243).
-@p @item DISPLAY statement (screen): fixed bugs in DISPLAY SPACES/ALL X``02''/ALL X``07''.
-@p @item DISPLAY statement (screen): added checks that screen attributes are not specified multiple times or after conflicting attributes.
-@p @item DISPLAY statement (screen): DISPLAY OMITTED marked as unfinished; currently equivalent to DISPLAY LOW-VALUE.
-@p @item DISPLAY statement (screen): fixed some phrases not being recognised without being preceded by WITH (bug #402).
-@p @item END DECLARATIVES phrase: fixed bug #88, where an erroneous unreachable code warning was emitted for code without a main procedure.
-@p @item ENTRY statement: suppress incorrect unreachable code warnings.
-@p @item Exception handlers: permit NOT ON EXCEPTION/END-OF-PAGE/etc. before ON EXCEPTION/END-OF-PAGE/etc.
-@p @item EXIT statement: added extension RETURNING/GIVING clause for PROGRAM phrase.
-@p @item File I-O: added detection of and handling for error when no disc space is available for output files.
-@p @item File I-O: added RETRY and ADVANCING ON LOCK as pending features.
-@p @item File I-O: fixed detection of DISAM file handler.
-@p @item FREE statement: NULL addresses no longer cause an exception.
-@p @item GOBACK statement: added extension RETURNING/GIVING clause.
-@p @item INITIALIZE statement: fixed bug #84, where literals could be passed to INITIALIZE.
-@p @item INITIALIZE statement: fixed bug #287, where reference-modified group items were not treated like elementary items.
-@p @item INSPECT statement: fixed bug #47, where clauses were permitted in invalid orders.
-@p @item LENGTH OF phrase: fixed bug #89, where the length of REDEFINES item where calculated incorrectly.
-@p @item LENGTH OF phrase: fixed bug #110, where LENGTH OF was not allowed in the UNTIL phrase of a PERFORM statement or in a VALUE clause.
-@p @item MOVE statement: added more checks for overlapping MOVE statements.
-@p @item MOVE statement: fixed truncation of COMP numbers not conforming to the binary truncate setting (bug #69).
-@p @item MOVE statement: fixed bug #344, where trying to MOVE to a procedure-name caused a segfault.
-@p @item MOVE statement: added support for IBM's character-by-character MOVE.
-@p @item PERFORM statement: fixed bug #368, where the compiler segfaulted when there was a PERFORM statement with an empty body and DEBUGGING MODE was specified.
-@p @item Procedure division header: fixed bug #55, where a user-defined function without parameters failed to compile.
-@p @item Procedure division header: disabled the BY VALUE phrase, pending a working implementation.
-@p @item Procedure division header: fixed bug #349, where BY VALUE pointer parameters lead to code that could not be compiled by older versions of Microsoft Visual C++.
-@p @item Procedure division header: RETURNING items must now be declared in the linkage section.
-@p @item Procedure division header: added RETURNING OMITTED.
-@p @item Procedure division header: added entry-convention specifiers.
-@p @item Procedure division header: now mandatory in function definitions (see bug #271).
-@p @item Procedure division header: CHAINING programs may no longer be called by other programs (bug #354), per the ACUCOBOL implementation.
-@p @item Reference modification: fixed bug #146, where the length of reference-modified item in an OCCURS DEPENDING table was too long because it was assumed the OCCURS DEPENDING table was at its maximum size.
-@p @item READ statement: a failed second READ of a missing OPTIONAL file now results in a file status of 46, not 23.
-@p @item REWRITE statement: added REWRITE FILE (feature request #170).
-@p @item Screen I-O: added detection of situations which raise EC-SCREEN-LINE-NUMBER, EC-SCREEN-STARTING-COLUMN and EC-SCREEN-ITEM-TRUNCATED.
-@p @item Screen I-O: added support for the LINE 0 and COL 0 extensions.
-@p @item Screen I-O: added some ACUCOBOL synonyms (NO ECHO, OFF, REVERSED, REVERSE, etc.).
-@p @item Screen I-O: added detection of ACUCOBOL's non-standard clauses like TAB, NOECHO, STANDARD, BACKGROUND-HIGH, BACKGROUND-LOW, BACKGROUND-STANDARD and SIZE.
-@p @item SEARCH statement (ALL): fixed bug #314, where SEARCH ALL with an empty OCCURS DEPENDING table did not exit as soon as possible.
-@p @item Segment numbers: added syntax checks.
-@p @item SET statement (address): disallowed changing address of non-01/77-level item (bug #366).
-@p @item SET statement (attribute): made HIGHLIGHT ON imply LOWLIGHT OFF and vice versa.
-@p @item SET statement (exception): added.
-@p @item SET statement (thread): added detection of ACUCOBOL extension.
-@p @item STOP statement (identifier): added (see bug #320).
-@p @item STOP statement (literal): fixed segfault.
-@p @item STOP statement (thread): added detection of ACUCOBOL extension.
-@p @item STRING statement: strengthened syntax checks (bug #259).
-@p @item SUBTRACT statement (corresponding): restricted to numeric items (bug #235).
-@p @item SUBTRACT statement (table): added detection of SUBTRACT TABLE.
-@p @item Tracing: fixed bug #216, where a segfault occurred with a program made from modules some of which had been compiled with tracing and physical CANCEL enabled and some of which had not.
-@p @item UNSTRING statement: fixed bug #54, where the POINTER value was calculated incorrectly when the delimiter was longer than one character.
-@p @item UNSTRING statement: allow a literal to be the subject of an UNSTRING.
-@p @item WRITE statement: added WRITE FILE (feature request #170).
+
+@item
+ACCEPT statement: added ESCAPE as synonym for EXCEPTION.
+
+@item
+ACCEPT statement: permit clauses in any order.
+
+@item
+ACCEPT statement: allow WITH before every screen attribute clause.
+
+@item
+ACCEPT statement: entering control-C now terminates the program.
+
+@item
+ACCEPT statement (screen): fixed failed ACCEPTs caused by a buffer overflow.
+
+@item
+ACCEPT statement (screen): enhanced support for special keys (insert, tab, delete, alt-delete, etc.).
+
+@item
+ACCEPT statement (screen): fixed bug #161 where screens terminated after entering a few characters in a field.
+
+@item
+ACCEPT statement (screen): added DEFAULT as synonym for UPDATE.
+
+@item
+ACCEPT statement (screen): ERASE and BLANK clauses in screens are now ignored (bug #192).
+
+@item
+ACCEPT statement (screen): fixed bug #160 where ACCEPT statement LINE/COLUMN clauses did not work.
+
+@item
+ACCEPT statement (screen): fixed segfault on ACCEPT OMITTED (bug #300).
+
+@item
+ACCEPT statement (screen): added checks that screen attributes are not specified multiple times or after conflicting attributes.
+
+@item
+ACCEPT statement (screen): fixed some phrases not being recognised without being preceded by WITH (bug #402).
+
+@item
+ACCEPT statement (screen): fixed the backspace and delete keys not working and the insert key not toggling between insertion and overwriting.
+
+@item
+ACCEPT statement (screen): cursor now changes with insertion/overwrite mode (if supported by the terminal).
+
+@item
+ACCEPT statement (screen): a beep is emitted on attempts to insert data into a full field.
+
+@item
+ADD statement (corresponding): restricted to numeric items (bug #235).
+
+@item
+ADD statement (table): added detection of ADD TABLE.
+
+@item
+Addition of COMP-3 numbers: fixed bug where COMP-3 addition failed.
+
+@item
+Addition of floating-point numbers: fixed incorrect addition of floating-point numbers.
+
+@item
+CALL statement: implemented feature request #101, allowing more arguments to be provided.
+
+@item
+CALL statement: fixed behaviour when calling cancelled modules.
+
+@item
+CALL statement: added RETURNING NOTHING.
+
+@item
+CALL statement: the generation of C function declarations for static CALLs can now be disabled.
+
+@item
+CALL statement: added checks for static CALLs referring to C macros.
+
+@item
+CALL statement: warn if a literal containing the program-name contains spaces.
+
+@item
+CALL statement: added detection of NESTED phrase.
+
+@item
+CANCEL statement: fixed crash caused by cancelling a cancelled module.
+
+@item
+Conditions: restricted use of IS (bug #321).
+
+@item
+Conditions: added warnings for always true/false conditions (including the reason why it is always true/false).
+
+@item
+DESTROY statement: added detection of DESTROY.
+
+@item
+DISPLAY statement: permit clauses in any order.
+
+@item
+DISPLAY statement: allow WITH before every screen attribute clause.
+
+@item
+DISPLAY statement (screen): fixed bug where EC-SCREEN exceptions did not trigger ON EXCEPTION handler (bug #243).
+
+@item
+DISPLAY statement (screen): fixed bugs in DISPLAY SPACES/ALL X``02''/ALL X``07''.
+
+@item
+DISPLAY statement (screen): added checks that screen attributes are not specified multiple times or after conflicting attributes.
+
+@item
+DISPLAY statement (screen): DISPLAY OMITTED marked as unfinished; currently equivalent to DISPLAY LOW-VALUE.
+
+@item
+DISPLAY statement (screen): fixed some phrases not being recognised without being preceded by WITH (bug #402).
+
+@item
+END DECLARATIVES phrase: fixed bug #88, where an erroneous unreachable code warning was emitted for code without a main procedure.
+
+@item
+ENTRY statement: suppress incorrect unreachable code warnings.
+
+@item
+Exception handlers: permit NOT ON EXCEPTION/END-OF-PAGE/etc. before ON EXCEPTION/END-OF-PAGE/etc.
+
+@item
+EXIT statement: added extension RETURNING/GIVING clause for PROGRAM phrase.
+
+@item
+File I-O: added detection of and handling for error when no disc space is available for output files.
+
+@item
+File I-O: added RETRY and ADVANCING ON LOCK as pending features.
+
+@item
+File I-O: fixed detection of DISAM file handler.
+
+@item
+FREE statement: NULL addresses no longer cause an exception.
+
+@item
+GOBACK statement: added extension RETURNING/GIVING clause.
+
+@item
+INITIALIZE statement: fixed bug #84, where literals could be passed to INITIALIZE.
+
+@item
+INITIALIZE statement: fixed bug #287, where reference-modified group items were not treated like elementary items.
+
+@item
+INSPECT statement: fixed bug #47, where clauses were permitted in invalid orders.
+
+@item
+LENGTH OF phrase: fixed bug #89, where the length of REDEFINES item where calculated incorrectly.
+
+@item
+LENGTH OF phrase: fixed bug #110, where LENGTH OF was not allowed in the UNTIL phrase of a PERFORM statement or in a VALUE clause.
+
+@item
+MOVE statement: added more checks for overlapping MOVE statements.
+
+@item
+MOVE statement: fixed truncation of COMP numbers not conforming to the binary truncate setting (bug #69).
+
+@item
+MOVE statement: fixed bug #344, where trying to MOVE to a procedure-name caused a segfault.
+
+@item
+MOVE statement: added support for IBM's character-by-character MOVE.
+
+@item
+PERFORM statement: fixed bug #368, where the compiler segfaulted when there was a PERFORM statement with an empty body and DEBUGGING MODE was specified.
+
+@item
+Procedure division header: fixed bug #55, where a user-defined function without parameters failed to compile.
+
+@item
+Procedure division header: disabled the BY VALUE phrase, pending a working implementation.
+
+@item
+Procedure division header: fixed bug #349, where BY VALUE pointer parameters lead to code that could not be compiled by older versions of Microsoft Visual C++.
+
+@item
+Procedure division header: RETURNING items must now be declared in the linkage section.
+
+@item
+Procedure division header: added RETURNING OMITTED.
+
+@item
+Procedure division header: added entry-convention specifiers.
+
+@item
+Procedure division header: now mandatory in function definitions (see bug #271).
+
+@item
+Procedure division header: CHAINING programs may no longer be called by other programs (bug #354), per the ACUCOBOL implementation.
+
+@item
+Reference modification: fixed bug #146, where the length of reference-modified item in an OCCURS DEPENDING table was too long because it was assumed the OCCURS DEPENDING table was at its maximum size.
+
+@item
+READ statement: a failed second READ of a missing OPTIONAL file now results in a file status of 46, not 23.
+
+@item
+REWRITE statement: added REWRITE FILE (feature request #170).
+
+@item
+Screen I-O: added detection of situations which raise EC-SCREEN-LINE-NUMBER, EC-SCREEN-STARTING-COLUMN and EC-SCREEN-ITEM-TRUNCATED.
+
+@item
+Screen I-O: added support for the LINE 0 and COL 0 extensions.
+
+@item
+Screen I-O: added some ACUCOBOL synonyms (NO ECHO, OFF, REVERSED, REVERSE, etc.).
+
+@item
+Screen I-O: added detection of ACUCOBOL's non-standard clauses like TAB, NOECHO, STANDARD, BACKGROUND-HIGH, BACKGROUND-LOW, BACKGROUND-STANDARD and SIZE.
+
+@item
+SEARCH statement (ALL): fixed bug #314, where SEARCH ALL with an empty OCCURS DEPENDING table did not exit as soon as possible.
+
+@item
+Segment numbers: added syntax checks.
+
+@item
+SET statement (address): disallowed changing address of non-01/77-level item (bug #366).
+
+@item
+SET statement (attribute): made HIGHLIGHT ON imply LOWLIGHT OFF and vice versa.
+
+@item
+SET statement (exception): added.
+
+@item
+SET statement (thread): added detection of ACUCOBOL extension.
+
+@item
+STOP statement (identifier): added (see bug #320).
+
+@item
+STOP statement (literal): fixed segfault.
+
+@item
+STOP statement (thread): added detection of ACUCOBOL extension.
+
+@item
+STRING statement: strengthened syntax checks (bug #259).
+
+@item
+SUBTRACT statement (corresponding): restricted to numeric items (bug #235).
+
+@item
+SUBTRACT statement (table): added detection of SUBTRACT TABLE.
+
+@item
+Tracing: fixed bug #216, where a segfault occurred with a program made from modules some of which had been compiled with tracing and physical CANCEL enabled and some of which had not.
+
+@item
+UNSTRING statement: fixed bug #54, where the POINTER value was calculated incorrectly when the delimiter was longer than one character.
+
+@item
+UNSTRING statement: allow a literal to be the subject of an UNSTRING.
+
+@item
+WRITE statement: added WRITE FILE (feature request #170).
 
 @end itemize
-@p @item Intrinsic functions
+
+@item
+Intrinsic functions
 @itemize @bullet
-@p @item New functions (ACUCOBOL): ABSOLUTE-VALUE (synonym for ABS).
-@p @item New functions (COBOL 2014): FORMATTED-CURRENT-DATE, FORMATTED-DATE, FORMATTED-DATETIME, FORMATTED-TIME, INTEGER-OF-FORMATTED-DATE, TESTFORMATTED-DATETIME.
-@p @item ISO-8601-date-handling functions: added extension SYSTEM-OFFSET as replacement for last optional argument.
-@p @item ISO-8601-date-handling functions: added EC-IMP-UTC-UNKNOWN if a time format ending in Z is provided but the timezone cannot be found.
-@p @item LENGTH function: added detection of PHYSICAL phrase.
-@p @item RANDOM function: fixed non-random number generation.
+
+@item
+New functions (ACUCOBOL): ABSOLUTE-VALUE (synonym for ABS).
+
+@item
+New functions (COBOL 2014): FORMATTED-CURRENT-DATE, FORMATTED-DATE, FORMATTED-DATETIME, FORMATTED-TIME, INTEGER-OF-FORMATTED-DATE, TESTFORMATTED-DATETIME.
+
+@item
+ISO-8601-date-handling functions: added extension SYSTEM-OFFSET as replacement for last optional argument.
+
+@item
+ISO-8601-date-handling functions: added EC-IMP-UTC-UNKNOWN if a time format ending in Z is provided but the timezone cannot be found.
+
+@item
+LENGTH function: added detection of PHYSICAL phrase.
+
+@item
+RANDOM function: fixed non-random number generation.
 
 @end itemize
-@p @item Built-in subprograms
+
+@item
+Built-in subprograms
 @itemize @bullet
-@p @item CBL_GC_FORK: added.
-@p @item CBL_GC_PRINTABLE: renamed from C$PRINTABLE.
-@p @item CBL_GC_WAITPID: added.
-@p @item CBL_SET_CSR_POS: added (feature requests #148 and #187).
-@p @item CBL_READ_KBD_CHAR: added (feature requests #148 and #187).
+
+@item
+CBL_GC_FORK: added.
+
+@item
+CBL_GC_PRINTABLE: renamed from C$PRINTABLE.
+
+@item
+CBL_GC_WAITPID: added.
+
+@item
+CBL_SET_CSR_POS: added (feature requests #148 and #187).
+
+@item
+CBL_READ_KBD_CHAR: added (feature requests #148 and #187).
 @end itemize
 @end enumerate
 @iftex

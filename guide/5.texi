@@ -2,47 +2,75 @@
 @comment ** 5. ENVIRONMENT DIVISION                                         **
 @comment *********************************************************************
 @newchapter{5,ENVIRONMENT DIVISION}
-@diagram{ENVIRONMENT DIVISION,ED-Overview,ED-Overview,None}@p This division defines the external computer environment in which the program will be operating.  This includes defining any files that the program may be .
+@diagram{ENVIRONMENT DIVISION,ED-Overview,ED-Overview,None}
+This division defines the external computer environment in which the program will be operating.  This includes defining any files that the program may be .
 @itemize @bullet
-@p @item If both optional sections of this division are coded, they must be coded in the sequence shown.
-@p @item The paragraphs within the sections may be coded in any order.
-@p @item These sections consist of a series of specific, pre-defined, paragraphs (@syntax{SOURCE-COMPUTER} and @syntax{OBJECT-COMPUTER}, for example),  each of which serves a specific purpose.  If no code is required for the purpose one of the paragraphs serves, the entire paragraph may be omitted.
-@p @item If any of the paragraphs within one of the sections are coded, the section header itself must be coded.
-@p @item If none of the paragraphs within one of the sections are coded, the section header itself may be omitted.
-@p @item If none of the sections within the environment division are coded, the @syntax{ENVIRONMENT DIVISION.} header itself may be omitted.
+@item
+If both optional sections of this division are coded, they must be coded in the sequence shown.
+
+@item
+The paragraphs within the sections may be coded in any order.
+
+@item
+These sections consist of a series of specific, pre-defined, paragraphs (@syntax{SOURCE-COMPUTER} and @syntax{OBJECT-COMPUTER}, for example),  each of which serves a specific purpose.  If no code is required for the purpose one of the paragraphs serves, the entire paragraph may be omitted.
+
+@item
+If any of the paragraphs within one of the sections are coded, the section header itself must be coded.
+
+@item
+If none of the paragraphs within one of the sections are coded, the section header itself may be omitted.
+
+@item
+If none of the sections within the environment division are coded, the @syntax{ENVIRONMENT DIVISION.} header itself may be omitted.
 @end itemize
 @comment *********************************************************************
 @comment ** 5.1 CONFIGURATION SECTION                                       **
 @comment *********************************************************************
 @page
 @newsection{5.1,CONFIGURATION SECTION}
-@diagram{CONFIGURATION SECTION,ED-CONFIG-SECTION,ED-CONFIG-SECTION,None}@p This section defines the computer system upon which the program is being compiled and executed and also specifies any special environmental configuration or compatibility characteristics.
+@diagram{CONFIGURATION SECTION,ED-CONFIG-SECTION,ED-CONFIG-SECTION,None}
+This section defines the computer system upon which the program is being compiled and executed and also specifies any special environmental configuration or compatibility characteristics.
 @enumerate
-@p @item The four paragraphs in this section may be specified in any order but if not in this order, a warning will be issued.
-@p @item The configuration section is not allowed in a nested subprogram --- nested programs will inherit the configuration section settings of their parent program.
-@p @item If none of the features provided by the configuration section are required by a program, the entire @syntax{CONFIGURATION SECTION.} header may be omitted from the program.
+@item
+The four paragraphs in this section may be specified in any order but if not in this order, a warning will be issued.
+
+@item
+The configuration section is not allowed in a nested subprogram --- nested programs will inherit the configuration section settings of their parent program.
+
+@item
+If none of the features provided by the configuration section are required by a program, the entire @syntax{CONFIGURATION SECTION.} header may be omitted from the program.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.1 SOURCE-COMPUTER                                           **
 @comment *********************************************************************
 @page
 @newsubsection{5.1.1,SOURCE-COMPUTER}
-@diagram{SOURCE-COMPUTER,ED-SOURCE-COMPUTER,ED-SOURCE-COMPUTER,None}@p This paragraph defines the computer upon which the program is being compiled and provides one way in which debugging code embedded within the program may be activated.
+@diagram{SOURCE-COMPUTER,ED-SOURCE-COMPUTER,ED-SOURCE-COMPUTER,None}
+This paragraph defines the computer upon which the program is being compiled and provides one way in which debugging code embedded within the program may be activated.
 @enumerate
-@p @item The reserved word @syntax{WITH} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
-@p @item This paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{SOURCE-COMPUTER} settings of their parent program.
-@p @item The value specified for @term{computer-name} is irrelevant, provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @term{computer-name} value may include spaces.  This need not match the @term{computer-name} used with the @syntax{OBJECT-COMPUTER} paragraph, if any.
-@p @item The @syntaxidx{DEBUGGING MODE} clause, if present, will inform the compiler that debugging lines (those with a "D" in column 7 if Fixed Source Mode is in effect, or those prefixed with a @syntax{>>D} if Free Source Mode is in effect) --- normally treated as comments --- are to be compiled.
-@p @item Even without the @syntax{DEBUGGING MODE} clause, it is still possible to compile debugging lines.  Debugging lines may also be compiled by specifying the @switchidx{-fdebugging-line} to the GnuCOBOL compiler.
+@item
+The reserved word @syntax{WITH} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+
+@item
+This paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{SOURCE-COMPUTER} settings of their parent program.
+
+@item
+The value specified for @term{computer-name} is irrelevant, provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @term{computer-name} value may include spaces.  This need not match the @term{computer-name} used with the @syntax{OBJECT-COMPUTER} paragraph, if any.
+
+@item
+The @syntaxidx{DEBUGGING MODE} clause, if present, will inform the compiler that debugging lines (those with a "D" in column 7 if Fixed Source Mode is in effect, or those prefixed with a @syntax{>>D} if Free Source Mode is in effect) --- normally treated as comments --- are to be compiled.
+
+@item
+Even without the @syntax{DEBUGGING MODE} clause, it is still possible to compile debugging lines.  Debugging lines may also be compiled by specifying the @switchidx{-fdebugging-line} to the GnuCOBOL compiler.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.2 OBJECT-COMPUTER                                           **
 @comment *********************************************************************
 @page
 @newsubsection{5.1.2,OBJECT-COMPUTER}
-@diagram{OBJECT-COMPUTER,ED-OBJECT-COMPUTER,ED-OBJECT-COMPUTER,ED-OBJECT-COMPUTER}@p This paragraph describes the computer upon which the program will execute.
+@diagram{OBJECT-COMPUTER,ED-OBJECT-COMPUTER,ED-OBJECT-COMPUTER,ED-OBJECT-COMPUTER}
+This paragraph describes the computer upon which the program will execute.
 @enumerate
-
 @item
 The @term{computer-name}, if specified, must immediately follow the @syntax{OBJECT-COMPUTER} paragraph name.  The remaining clauses may be coded in any sequence.
 
@@ -63,9 +91,9 @@ If no @syntax{COLLATING SEQUENCE} clause is specified, the collating sequence im
 
 @item
 The optional @syntaxidx{CLASSIFICATION} clause may be used to specify a locale for the environment in which the program will be executing, for the purpose of influencing the upper-case and lower-case mappings of characters for the @syntaxref{UPPER-CASE} and @syntaxref{LOWER-CASE} intrinsic functions and the classification of characters for the @syntax{ALPHABETIC}, @syntax{ALPHABETIC-LOWER} and @syntax{ALPHABETIC-UPPER} class tests.  The definitions of these classes will be taken from the cultural convention specification (@syntax{LC_CTYPE}) from the specified locale.
-@p The meanings of the four locale specifications are as follows:
-@enumerate A
 
+The meanings of the four locale specifications are as follows:
+@enumerate A
 @item
 @term{locale-name-1} references a @syntaxrefalt{LOCALE,SPECIAL-NAMES} definition.
 
@@ -89,7 +117,8 @@ The keyword @syntax{SYSTEM-DEFAULT} denotes the default locale specified for the
 @center @clause{Alphabet-Name-Clause}, @clause{Class-Definition-Clause},
 @center @clause{Switch-Definition-Clause} and @clause{Symbolic-Characters-Clause}
 @center are discussed in detail in the next four sections.
-@p The @syntax{SPECIAL-NAMES} paragraph provides a means for specifying various program and operating environment configuration options.
+
+The @syntax{SPECIAL-NAMES} paragraph provides a means for specifying various program and operating environment configuration options.
 @enumerate
 @item
 The various clauses that may be specified within the @syntax{SPECIAL-NAMES} paragraph may be coded in any order.
@@ -245,18 +274,35 @@ The @syntax{CSP} positioning option stands for "No Spacing".  Testing on a MinGW
 @page
 @newunit{5.1.3.1,Alphabet-Name-Clause}
 @diagram{SPECIAL-NAMES Alphabet-Clause,ED-SPECIAL-NAMES-AN-Info,ED-SPECIAL-NAMES-AN-TeX,None}
-@diagram{SPECIAL-NAMES ALPHABET Literal-Clause,ED-SPECIAL-NAMES-L-Info,ED-SPECIAL-NAMES-L-TeX,None}@p The @syntaxidx{ALPHABET} clause provides a means for relating a name to a specified character code set or collating sequence, including those you define yourself using the @term{literal-1} option.
+@diagram{SPECIAL-NAMES ALPHABET Literal-Clause,ED-SPECIAL-NAMES-L-Info,ED-SPECIAL-NAMES-L-TeX,None}
+The @syntaxidx{ALPHABET} clause provides a means for relating a name to a specified character code set or collating sequence, including those you define yourself using the @term{literal-1} option.
 @enumerate
-@p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
-@p @item The reserved words @syntax{THRU} and @syntax{THROUGH} are interchangeable.
-@p @item GnuCOBOL considers @syntaxidx{ASCII}, @syntaxidx{STANDARD-1} and @syntaxidx{STANDARD-2} to be interchangeable.
-@p @item @syntaxidx{NATIVE} specifies the system default character set.
-@p @item The following points apply to using the @term{literal-n} specifications to compose a custom character set:
+@item
+The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+
+@item
+The reserved words @syntax{THRU} and @syntax{THROUGH} are interchangeable.
+
+@item
+GnuCOBOL considers @syntaxidx{ASCII}, @syntaxidx{STANDARD-1} and @syntaxidx{STANDARD-2} to be interchangeable.
+
+@item
+@syntaxidx{NATIVE} specifies the system default character set.
+
+@item
+The following points apply to using the @term{literal-n} specifications to compose a custom character set:
 @enumerate A
-@p @item The @term{literal-n} values are either integers or alphanumeric quoted characters.  These represent a single character in the @syntax{NATIVE} character set, either by it's actual text value (alphanumeric quoted character) or by ordinal position in the @syntax{NATIVE} character set (integer),
-@p @item The sequence in which characters are defined in this clause specifies the relative order those characters should have when comparisons are made using this alphabet.
-@p @item Character positions in this list do not affect the actual binary storage values used for the characters --- binary values will still be those of the @syntax{NATIVE} character set.
-@p @item You may specify any of the figurative constants @syntax{SPACE}, @syntax{SPACES}, @syntax{ZERO}, @syntax{ZEROS}, @syntax{ZEROES}, @syntax{QUOTE}, @syntax{QUOTES}, @syntax{HIGH-VALUE}, @syntax{HIGH-VALUES}, @syntax{LOW-VALUE} or @syntax{LOW-VALUES} for any of the @term{literal-1}, @term{literal-2} or @term{literal-3} specifications.
+@item
+The @term{literal-n} values are either integers or alphanumeric quoted characters.  These represent a single character in the @syntax{NATIVE} character set, either by it's actual text value (alphanumeric quoted character) or by ordinal position in the @syntax{NATIVE} character set (integer),
+
+@item
+The sequence in which characters are defined in this clause specifies the relative order those characters should have when comparisons are made using this alphabet.
+
+@item
+Character positions in this list do not affect the actual binary storage values used for the characters --- binary values will still be those of the @syntax{NATIVE} character set.
+
+@item
+You may specify any of the figurative constants @syntax{SPACE}, @syntax{SPACES}, @syntax{ZERO}, @syntax{ZEROS}, @syntax{ZEROES}, @syntax{QUOTE}, @syntax{QUOTES}, @syntax{HIGH-VALUE}, @syntax{HIGH-VALUES}, @syntax{LOW-VALUE} or @syntax{LOW-VALUES} for any of the @term{literal-1}, @term{literal-2} or @term{literal-3} specifications.
 @end enumerate
 @item Once you have defined an alphabet name, that alphabet name may be used on specifications in @syntax{CODE-SET}, @syntax{COLLATING SEQUENCE}, or @syntax{SYMBOLIC CHARACTERS} clauses elsewhere in the program.
 @end enumerate
@@ -267,11 +313,20 @@ The @syntax{CSP} positioning option stands for "No Spacing".  Testing on a MinGW
 @newunit{5.1.3.2,Class-Definition-Clause}
 @diagram{SPECIAL-NAMES Class-Definition-Clause,ED-SPECIAL-NAMES-CD,ED-SPECIAL-NAMES-CD,None}
 @enumerate
-@p @item The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
-@p @item The reserved words @syntax{THRU} and @syntax{THROUGH} are interchangeable.
-@p @item  Both @term{literal-1} and @term{literal-2} must be alphanumeric literals of length 1.
-@p @item  The literal(s) specified on this clause define the possible characters that may be found in a data item's value in order to be considered part of the class.
-@p @item For example, the following defines a class called "Hexadecimal", the definition of which specifies the only characters that may be present in an alphanumeric data item if that data item is to be part of the "Hexadecimal" class:
+@item
+The reserved word @syntax{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+
+@item
+The reserved words @syntax{THRU} and @syntax{THROUGH} are interchangeable.
+
+@item
+ Both @term{literal-1} and @term{literal-2} must be alphanumeric literals of length 1.
+
+@item
+ The literal(s) specified on this clause define the possible characters that may be found in a data item's value in order to be considered part of the class.
+
+@item
+For example, the following defines a class called "Hexadecimal", the definition of which specifies the only characters that may be present in an alphanumeric data item if that data item is to be part of the "Hexadecimal" class:
 @example
 
 CLASS Hexadecimal IS '0' THRU '9'
@@ -285,9 +340,9 @@ CLASS Hexadecimal IS '0' THRU '9'
 @comment *********************************************************************
 @page
 @newunit{5.1.3.3,Switch-Definition-Clause}
-@diagram{SPECIAL-NAMES Switch-Definition-Clause,ED-SPECIAL-NAMES-SD,ED-SPECIAL-NAMES-SD,None}@p The switch-definition clause associates a condition-name with a run-time execution switch so that the status of that switch may be tested from within a program.
+@diagram{SPECIAL-NAMES Switch-Definition-Clause,ED-SPECIAL-NAMES-SD,ED-SPECIAL-NAMES-SD,None}
+The switch-definition clause associates a condition-name with a run-time execution switch so that the status of that switch may be tested from within a program.
 @enumerate
-
 @item
 The reserved words @syntax{IS} and @syntax{STATUS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 
@@ -314,9 +369,9 @@ The @syntaxidx{ON STATUS} and @syntaxidx{OFF STATUS} syntax provides a way of as
 @comment *********************************************************************
 @page
 @newunit{5.1.3.4,Symbolic-Characters-Clause}
-@diagram{SPECIAL-NAMES-Symbolic-Characters-Clause,ED-SPECIAL-NAMES-SC,ED-SPECIAL-NAMES-SC,None}@p This clause may be used to define your own figurative constants.
+@diagram{SPECIAL-NAMES-Symbolic-Characters-Clause,ED-SPECIAL-NAMES-SC,ED-SPECIAL-NAMES-SC,None}
+This clause may be used to define your own figurative constants.
 @enumerate
-
 @item
 The reserved words @syntax{ARE}, @syntax{CHARACTERS} and @syntax{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 
@@ -347,13 +402,23 @@ The following two code examples define the same set of figurative constant names
 @comment *********************************************************************
 @page
 @newsubsection{5.1.4,REPOSITORY}
-@diagram{REPOSITORY,ED-REPOSITORY,ED-REPOSITORY,None}@p The REPOSITORY paragraph provides a way to control access to the various built-in intrinsic functions and any user defined functions that your program will be using.
+@diagram{REPOSITORY,ED-REPOSITORY,ED-REPOSITORY,None}
+The REPOSITORY paragraph provides a way to control access to the various built-in intrinsic functions and any user defined functions that your program will be using.
 @enumerate
-@p @item The @syntax{REPOSITORY} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{REPOSITORY} settings of their parent program.
-@p @item The @syntaxidx{INTRINSIC} clause allows you to flag one or more (or @syntaxidx{ALL}) built-in intrinsic functions as being usable without the need to code the keyword @syntaxidx{FUNCTION} in front of the function names.
-@p @item As an alternative to using the @syntaxidx{ALL INTRINSIC} clause, you may instead compile your GnuCOBOL programs using the @switchidx{-fintrinsics=ALL}.
-@p @item The @term{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @syntax{AS} clause to provide an alias name for a built-in intrinsic function.
-@p @item The following example enables all intrinsic functions to be specified without the use of the @syntax{FUNCTION} keyword, (2) names two user-defined functions named "MY-FUNCTION-1" and "MY-FUNCTION-2" that will be used by the program and (3) specifies the alias names "SIGMA" for the intrinsic function "STANDARD-DEVIATION" and "MF2" for "MY-FUNCTION-2".
+@item
+The @syntax{REPOSITORY} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @syntax{REPOSITORY} settings of their parent program.
+
+@item
+The @syntaxidx{INTRINSIC} clause allows you to flag one or more (or @syntaxidx{ALL}) built-in intrinsic functions as being usable without the need to code the keyword @syntaxidx{FUNCTION} in front of the function names.
+
+@item
+As an alternative to using the @syntaxidx{ALL INTRINSIC} clause, you may instead compile your GnuCOBOL programs using the @switchidx{-fintrinsics=ALL}.
+
+@item
+The @term{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @syntax{AS} clause to provide an alias name for a built-in intrinsic function.
+
+@item
+The following example enables all intrinsic functions to be specified without the use of the @syntax{FUNCTION} keyword, (2) names two user-defined functions named "MY-FUNCTION-1" and "MY-FUNCTION-2" that will be used by the program and (3) specifies the alias names "SIGMA" for the intrinsic function "STANDARD-DEVIATION" and "MF2" for "MY-FUNCTION-2".
 @example
 
 REPOSITORY.
@@ -369,12 +434,20 @@ REPOSITORY.
 @comment *********************************************************************
 @page
 @newsection{5.2,INPUT-OUTPUT SECTION}
-@diagram{INPUT-OUTPUT SECTION,ED-IO-SECTION,ED-IO-SECTION,None}@p The @syntax{INPUT-OUTPUT} section provides for the definition of any files the program will be accessing as well as control of the I/O buffering process against those files through the @syntax{FILE-CONTROL} and @syntax{I-O-CONTROL} paragraphs, respectively.
+@diagram{INPUT-OUTPUT SECTION,ED-IO-SECTION,ED-IO-SECTION,None}
+The @syntax{INPUT-OUTPUT} section provides for the definition of any files the program will be accessing as well as control of the I/O buffering process against those files through the @syntax{FILE-CONTROL} and @syntax{I-O-CONTROL} paragraphs, respectively.
 @enumerate
-@p @item As the diagram shows, there are three types of statements that may occur in the two paragraphs of this section.  If none of the statements are coded in a particular paragraph, the paragraph itself may be omitted, otherwise it is required.
-@p @item If neither paragraph is coded, the @syntax{INPUT-OUTPUT SECTION.} header itself may be omitted, otherwise it is normally required.
-@p @item If the compiler "config" file you are using has "relaxed-syntax-check" set to "yes", the @syntax{FILE-CONTROL} and @syntax{I-O-CONTROL} paragraphs may be specified without the @syntax{INPUT-OUTPUT SECTION.} header having been coded.
-@p @item If both statement types are coded in the @syntax{I-O-CONTROL} paragraph, the order in which those statements are coded is irrelevant.
+@item
+As the diagram shows, there are three types of statements that may occur in the two paragraphs of this section.  If none of the statements are coded in a particular paragraph, the paragraph itself may be omitted, otherwise it is required.
+
+@item
+If neither paragraph is coded, the @syntax{INPUT-OUTPUT SECTION.} header itself may be omitted, otherwise it is normally required.
+
+@item
+If the compiler "config" file you are using has "relaxed-syntax-check" set to "yes", the @syntax{FILE-CONTROL} and @syntax{I-O-CONTROL} paragraphs may be specified without the @syntax{INPUT-OUTPUT SECTION.} header having been coded.
+
+@item
+If both statement types are coded in the @syntax{I-O-CONTROL} paragraph, the order in which those statements are coded is irrelevant.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.2.1 SELECT Statement                                          **
@@ -382,7 +455,7 @@ REPOSITORY.
 @page
 @newsubsection{5.2.1,SELECT}
 @diagram{SELECT Statement,ED-SELECT,ED-SELECT,ED-SELECT}
-@p The @statement{SELECT} creates a definition of a file and links that COBOL definition to the external operating system environment.
+The @statement{SELECT} creates a definition of a file and links that COBOL definition to the external operating system environment.
 @enumerate
 @item
 The reserved words @syntax{AREAS}, @syntax{IS}, @syntax{MODE}, @syntax{OTHER}, @syntax{SEQUENCE}, @syntax{TO}, @syntax{USING} and @syntax{WITH} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -446,27 +519,35 @@ If no @clause{Locator} is coded, @term{file-name-1} will be attached to a logica
 @syntax{RANDOM} or @syntax{TAPE} will behave exactly as @syntax{DISC} does.  These two additional @clause{Device}s are provided to facilitate the compilation of COBOL source from other COBOL implementations.
 @end enumerate
 @item The @syntax{LINE ADVANCING} device @i{requires} that a @clause{Locator} be specified; these files should only be used for output.  A COBOL Line Advancing file will allow carriage-control characters such as line-feeds and form-feeds to be written to the attached operating system file, via the @syntax{ADVANCING} clause of the @statementref{WRITE}.
-@p @item File Location Strings are used (at runtime) to identify the path and filename to the data file that must be attached to @term{file-name-1} when that file is opened.
-@p @item If the compiler "config" file you used to compile the program with had a "filename-mapping" value of "yes", the GnuCOBOL runtime system will first attempt to identify a currently-defined environment variable whose value will serve as the data file's path and filename, as follows:
+@item File Location Strings are used (at runtime) to identify the path and filename to the data file that must be attached to @term{file-name-1} when that file is opened.
+@item If the compiler "config" file you used to compile the program with had a "filename-mapping" value of "yes", the GnuCOBOL runtime system will first attempt to identify a currently-defined environment variable whose value will serve as the data file's path and filename, as follows:
 @enumerate a
-@p @item If the compiler "config" file (@pxref{Compiler Configuration Files}) you used to compile the program specified "mf" as the "assign-clause" value, then the File Locator String will be interpreted according to Microfocus COBOL rules --- namely, everything before the last "-" in the File Locator String will be ignored; the characters after the last "-" will be treated as the base of an environment variable name.  If there is no "-" character in the File Locator String then the entire File Locator String will serve as the base of an environment variable name.  This is the default behaviour for every config file except "ibm".
-@p @item If, on the other hand, the compiler "config" file you used to compile the program specified "mf" as the "assign-clause" value, then the File Locator String will be interpreted according to according to IBM COBOL rules --- namely, the File Locator String is expected to be of the form "S-xxx" or "AS-xxx", in which case the "xxx" will be treated as the base of an environment variable name.  If there is no "-" character in the File Locator String then the entire File Locator String will serve as the base of an environment variable name.
-@p @item Once an environment variable name base (let's refer to it as "bbbb") has been determined, the runtime system will look for the first one of the following environment variables that exists, in this sequence:
-@p @format
+@item
+If the compiler "config" file (@pxref{Compiler Configuration Files}) you used to compile the program specified "mf" as the "assign-clause" value, then the File Locator String will be interpreted according to Microfocus COBOL rules --- namely, everything before the last "-" in the File Locator String will be ignored; the characters after the last "-" will be treated as the base of an environment variable name.  If there is no "-" character in the File Locator String then the entire File Locator String will serve as the base of an environment variable name.  This is the default behaviour for every config file except "ibm".
+
+@item
+If, on the other hand, the compiler "config" file you used to compile the program specified "mf" as the "assign-clause" value, then the File Locator String will be interpreted according to according to IBM COBOL rules --- namely, the File Locator String is expected to be of the form "S-xxx" or "AS-xxx", in which case the "xxx" will be treated as the base of an environment variable name.  If there is no "-" character in the File Locator String then the entire File Locator String will serve as the base of an environment variable name.
+
+@item
+Once an environment variable name base (let's refer to it as "bbbb") has been determined, the runtime system will look for the first one of the following environment variables that exists, in this sequence:
+
+@format
 DD_bbbb
 dd_bbbb
 bbbb
 @end format
 @* Windows systems are case-insensitive with regard to environment variables, so there is no difference between the first two when using a GnuCOBOL implementation built for either Windows/MinGW or native Windows.
-@p If an environment variable was found, it's value will serve as the path and filename to the data file.
+
+If an environment variable was found, it's value will serve as the path and filename to the data file.
 @end enumerate
 @item If no environment variable was found, or the "config" file used to compile the program had a "filename-mapping" value of "no", then the File Locator String value will serve as the path and filename to the data file.
-@p @item Paths and file names may be specified on an absolute (@syntax{C:\\Data\\datafile.dat}, @syntax{/Data/datafile.dat}, @dots{}) or relative-to-the-current-directory (@syntax{Data\\datafile.dat}, @syntax{Data/datafile.dat}, @dots{}) basis.
-@p There may not even be a path (@syntax{datafile.dat}), in which case the file must be in the current directory.
+@item Paths and file names may be specified on an absolute (@syntax{C:\\Data\\datafile.dat}, @syntax{/Data/datafile.dat}, @dots{}) or relative-to-the-current-directory (@syntax{Data\\datafile.dat}, @syntax{Data/datafile.dat}, @dots{}) basis.
+There may not even be a path (@syntax{datafile.dat}), in which case the file must be in the current directory.
 @end enumerate
 @item The @syntaxidx{FILE STATUS} or @syntaxidx{SORT STATUS} clause (they are both equivalent and only one or the other, if any, should be specified) is used to specify the name of a two-digit numeric data item into which an I/O status code will be saved after every I/O verb that is executed against the file.  This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. Note that the following list is not definative - more can be added and any tests should include one for non zeros as a catch all.
-@p @anchoridx{File Status Codes}Possible status codes that can be returned to a @syntax{FILE STATUS} data item are as follows:
-@p @multitable @columnfractions .06 .94
+@anchoridx{File Status Codes}Possible status codes that can be returned to a @syntax{FILE STATUS} data item are as follows:
+
+@multitable @columnfractions .06 .94
 @headitem Code @tab Explanation
 @item 00 @tab Success
 @item 02 @tab Success (Duplicate Record Key Written)
@@ -513,7 +594,8 @@ For syntax details  for the ORGANISATION clause, see next group of paragraphs.
 
 @item
 A @syntax{SELECT} statement without an @syntax{ORGANIZATION} explicitly coded will be handled as if the following ORGANIZATION clause had been specified:
-@p @example
+
+@example
 ORGANIZATION IS SEQUENTIAL
     ACCESS MODE IS SEQUENTIAL
 @end example
@@ -523,27 +605,62 @@ ORGANIZATION IS SEQUENTIAL
 @comment *********************************************************************
 @page
 @newunit{5.2.1.1,ORGANIZATION SEQUENTIAL}
-@diagram{ORGANIZATION SEQUENTIAL Clause,ED-SELECT-ORG-SEQ,ED-SELECT-ORG-SEQ,None}@p Files declared as @syntax{ORGANIZATION SEQUENTIAL} will consist of records with no explicit end-of-record delimiter character sequences; records in such files are "delineated" by a calculated byte-offset (based on the maximum record length) into the file.
+@diagram{ORGANIZATION SEQUENTIAL Clause,ED-SELECT-ORG-SEQ,ED-SELECT-ORG-SEQ,None}
+Files declared as @syntax{ORGANIZATION SEQUENTIAL} will consist of records with no explicit end-of-record delimiter character sequences; records in such files are "delineated" by a calculated byte-offset (based on the maximum record length) into the file.
 @enumerate
-@p @item The reserved words @syntax{BINARY}, @syntax{IS}, @syntax{MODE} and @syntax{RECORD} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The reserved words @syntax{ORGANIZATION} and @syntax{ORGANISATION} are interchangeable.
-@p @item The phrase @syntax{ORGANIZATION IS} (and it's internationalized alternative, @syntax{ORGANISATION IS}) is optional to provide compatibility with those (few) COBOL implementations that consider @syntax{ORGANIZATION} to be optional.  Most COBOL implementations do require the word @syntax{ORGANIZATION}, so it should be used in new programs.
-@p @item These files cannot be prepared with any standard text-editing or word processing software as all such programs will embed delimiter characters at the end of records (use @syntax{ORGANIZATION IS LINE SEQUENTIAL} instead).
-@p @item These files may contain either @syntax{USAGE DISPLAY} or @syntax{USAGE COMPUTATIONAL} (of any variety) data since no binary data sequence can be accidentally interpreted as an end-of-record delimiter.
-@p @item While records in a @syntax{ORGANIZATION SEQUENTIAL} file may be defined as having variable-length records, the file will be structured in such a manner as to reserve space for each record equal to the size of the largest possible record, based on the file's description in the @syntax{FILE SECTION}.
-@p @item The @syntaxidx{ACCESS MODE SEQUENTIAL} clause is optional because, if absent, it will be assumed anyway for this type of file.  The internal structure of these files is such that they can only be processed in a sequential manner; in order to read the 100th record in such a file, for example, you first must read records 1 through 99.
-@p @item Sequential files are processed using the following statements:
+@item
+The reserved words @syntax{BINARY}, @syntax{IS}, @syntax{MODE} and @syntax{RECORD} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+
+@item
+The reserved words @syntax{ORGANIZATION} and @syntax{ORGANISATION} are interchangeable.
+
+@item
+The phrase @syntax{ORGANIZATION IS} (and it's internationalized alternative, @syntax{ORGANISATION IS}) is optional to provide compatibility with those (few) COBOL implementations that consider @syntax{ORGANIZATION} to be optional.  Most COBOL implementations do require the word @syntax{ORGANIZATION}, so it should be used in new programs.
+
+@item
+These files cannot be prepared with any standard text-editing or word processing software as all such programs will embed delimiter characters at the end of records (use @syntax{ORGANIZATION IS LINE SEQUENTIAL} instead).
+
+@item
+These files may contain either @syntax{USAGE DISPLAY} or @syntax{USAGE COMPUTATIONAL} (of any variety) data since no binary data sequence can be accidentally interpreted as an end-of-record delimiter.
+
+@item
+While records in a @syntax{ORGANIZATION SEQUENTIAL} file may be defined as having variable-length records, the file will be structured in such a manner as to reserve space for each record equal to the size of the largest possible record, based on the file's description in the @syntax{FILE SECTION}.
+
+@item
+The @syntaxidx{ACCESS MODE SEQUENTIAL} clause is optional because, if absent, it will be assumed anyway for this type of file.  The internal structure of these files is such that they can only be processed in a sequential manner; in order to read the 100th record in such a file, for example, you first must read records 1 through 99.
+
+@item
+Sequential files are processed using the following statements:
 @itemize @bullet
-@p @item @syntaxref{CLOSE}
-@p @item @syntaxref{COMMIT}
-@p @item @syntaxref{DELETE}
-@p @item @syntaxref{MERGE}
-@p @item @syntaxref{OPEN}
-@p @item @syntaxref{READ}
-@p @item @syntaxref{REWRITE}
-@p @item @syntaxref{SORT}
-@p @item @syntaxref{UNLOCK}
-@p @item @syntaxref{WRITE}
+@item
+@syntaxref{CLOSE}
+
+@item
+@syntaxref{COMMIT}
+
+@item
+@syntaxref{DELETE}
+
+@item
+@syntaxref{MERGE}
+
+@item
+@syntaxref{OPEN}
+
+@item
+@syntaxref{READ}
+
+@item
+@syntaxref{REWRITE}
+
+@item
+@syntaxref{SORT}
+
+@item
+@syntaxref{UNLOCK}
+
+@item
+@syntaxref{WRITE}
 @end itemize
 @end enumerate
 @comment *********************************************************************
@@ -551,30 +668,71 @@ ORGANIZATION IS SEQUENTIAL
 @comment *********************************************************************
 @page
 @newunit{5.2.1.2,ORGANIZATION LINE SEQUENTIAL}
-@diagram{ORGANIZATION LINE SEQUENTIAL Clause,ED-SELECT-ORG-L-SEQ,ED-SELECT-ORG-L-SEQ,ED-SELECT-ORG-L-SEQ}@p Files declared as @syntax{ORGANIZATION LINE SEQUENTIAL} will consist of records terminated by an end-of-record delimiter character or character sequence.
+@diagram{ORGANIZATION LINE SEQUENTIAL Clause,ED-SELECT-ORG-L-SEQ,ED-SELECT-ORG-L-SEQ,ED-SELECT-ORG-L-SEQ}
+Files declared as @syntax{ORGANIZATION LINE SEQUENTIAL} will consist of records terminated by an end-of-record delimiter character or character sequence.
 @enumerate
-@p @item The reserved words @syntax{CHARACTER}, @syntax{IS} and @syntax{MODE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The reserved words @syntax{ORGANIZATION} and @syntax{ORGANISATION} are interchangeable.
-@p @item The phrase @syntax{ORGANIZATION IS} (and it's internationalized alternative, @syntax{ORGANISATION IS}) is optional to provide compatibility with those (few) COBOL implementations that consider that word to be optional.  Most COBOL implementations do require the word @syntax{ORGANIZATION}, so it should be used in new programs.
-@p @item This is the only @syntax{ORGANIZATION} valid for files that are assigned to the @syntax{PRINTER} device.
-@p @item These files may be created with any standard text-editing or word processing software capable of writing text files.  Such files should not contain any @syntax{USAGE COMPUTATIONAL} or @syntax{BINARY} (of any variety) data since such fields could accidentally contain byte sequences that could be interpreted as an end-of-record delimiter.
-@p @item Both fixed- and variable-length record formats are supported.
-@p @item The end-of-record delimiter sequence will be X'0A' (an ASCII line-feed character) or a X'0D0A' (an ASCII carriage-return + line-feed sequence).  The former is used on Unix implementations of GnuCOBOL (including Windows/MinGW, Windows/Cygwin and OSX implementations) while the latter would be used with native Windows implementations.
-@p @item When reading a @syntax{LINE SEQUENTIAL} file, records in excess of the size implied by the file's description in the @syntax{FILE SECTION} will be truncated while records shorter than that size will be padded to the right with @syntax{SPACES}.
-@p @item The @syntaxidx{ACCESS MODE SEQUENTIAL} clause is optional because, if absent, it will be assumed anyway for this type of file.  The internal structure of these files is such that the data can only be processed in a sequential manner; in order to read the 100th record in such a file, for example, you first must read records 1 through 99.
-@p @item Files assigned to @syntax{PRINTER} or @syntax{CONSOLE} should be specified as @syntax{ORGANIZATION LINE SEQUENTIAL}.
-@p @item Line Sequential files are processed using the following statements:
+@item
+The reserved words @syntax{CHARACTER}, @syntax{IS} and @syntax{MODE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+
+@item
+The reserved words @syntax{ORGANIZATION} and @syntax{ORGANISATION} are interchangeable.
+
+@item
+The phrase @syntax{ORGANIZATION IS} (and it's internationalized alternative, @syntax{ORGANISATION IS}) is optional to provide compatibility with those (few) COBOL implementations that consider that word to be optional.  Most COBOL implementations do require the word @syntax{ORGANIZATION}, so it should be used in new programs.
+
+@item
+This is the only @syntax{ORGANIZATION} valid for files that are assigned to the @syntax{PRINTER} device.
+
+@item
+These files may be created with any standard text-editing or word processing software capable of writing text files.  Such files should not contain any @syntax{USAGE COMPUTATIONAL} or @syntax{BINARY} (of any variety) data since such fields could accidentally contain byte sequences that could be interpreted as an end-of-record delimiter.
+
+@item
+Both fixed- and variable-length record formats are supported.
+
+@item
+The end-of-record delimiter sequence will be X'0A' (an ASCII line-feed character) or a X'0D0A' (an ASCII carriage-return + line-feed sequence).  The former is used on Unix implementations of GnuCOBOL (including Windows/MinGW, Windows/Cygwin and OSX implementations) while the latter would be used with native Windows implementations.
+
+@item
+When reading a @syntax{LINE SEQUENTIAL} file, records in excess of the size implied by the file's description in the @syntax{FILE SECTION} will be truncated while records shorter than that size will be padded to the right with @syntax{SPACES}.
+
+@item
+The @syntaxidx{ACCESS MODE SEQUENTIAL} clause is optional because, if absent, it will be assumed anyway for this type of file.  The internal structure of these files is such that the data can only be processed in a sequential manner; in order to read the 100th record in such a file, for example, you first must read records 1 through 99.
+
+@item
+Files assigned to @syntax{PRINTER} or @syntax{CONSOLE} should be specified as @syntax{ORGANIZATION LINE SEQUENTIAL}.
+
+@item
+Line Sequential files are processed using the following statements:
 @itemize @bullet
-@p @item @syntaxref{CLOSE}
-@p @item @syntaxref{COMMIT}
-@p @item @syntaxref{DELETE}
-@p @item @syntaxref{MERGE}
-@p @item @syntaxref{OPEN}
-@p @item @syntaxref{READ}
-@p @item @syntaxref{REWRITE}
-@p @item @syntaxref{SORT}
-@p @item @syntaxref{UNLOCK}
-@p @item @syntaxref{WRITE}
+@item
+@syntaxref{CLOSE}
+
+@item
+@syntaxref{COMMIT}
+
+@item
+@syntaxref{DELETE}
+
+@item
+@syntaxref{MERGE}
+
+@item
+@syntaxref{OPEN}
+
+@item
+@syntaxref{READ}
+
+@item
+@syntaxref{REWRITE}
+
+@item
+@syntaxref{SORT}
+
+@item
+@syntaxref{UNLOCK}
+
+@item
+@syntaxref{WRITE}
 @end itemize
 @end enumerate
 @comment *********************************************************************
@@ -582,31 +740,74 @@ ORGANIZATION IS SEQUENTIAL
 @comment *********************************************************************
 @page
 @newunit{5.2.1.3,ORGANIZATION RELATIVE}
-@diagram{ORGANIZATION RELATIVE Clause,ED-SELECT-ORG-REL,ED-SELECT-ORG-REL,None}@p These files are files with an internal organization such that records may be processed in a sequential manner based upon their physical location in the file or in a random manner by allowing records to be read, written or updated by specifying the relative record number in the file.
+@diagram{ORGANIZATION RELATIVE Clause,ED-SELECT-ORG-REL,ED-SELECT-ORG-REL,None}
+These files are files with an internal organization such that records may be processed in a sequential manner based upon their physical location in the file or in a random manner by allowing records to be read, written or updated by specifying the relative record number in the file.
 @enumerate
-@p @item The reserved words @syntax{IS}, @syntax{KEY} and @syntax{MODE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The reserved words @syntax{ORGANIZATION} and @syntax{ORGANISATION} are interchangeable.
-@p @item The phrase @syntax{ORGANIZATION IS} (and it's internationalized alternative, @syntax{ORGANISATION IS}) is optional to provide compatibility with those (few) COBOL implementations that consider that word to be optional.  Most COBOL implementations do require the word @syntax{ORGANIZATION}, so it should be used in new programs.
-@p @item @syntax{ORGANIZATION RELATIVE} files cannot be assigned to the @syntax{CONSOLE}, @syntax{DISPLAY}, @syntax{LINE ADVANCING} or @syntax{PRINTER} devices.
-@p @item The @syntaxidx{RELATIVE KEY} clause is optional only if @syntax{ACCESS MODE SEQUENTIAL} is specified.
-@p @item While an @syntax{ORGANIZATION RELATIVE} file may be defined as having variable-length records, the file will be structured in such a manner as to reserve space for each record equal to the size of the largest possible record as defined by the file's description in the @syntax{FILE SECTION}.
-@p @item @syntax{ACCESS MODE SEQUENTIAL}, the default @syntax{ACCESS MODE} if none is specified, indicates that the records of the file will be processed in a sequential manner, according to their physical sequence in the file.
-@p @item @syntaxidx{ACCESS MODE RANDOM} means that records will be processed in random sequence by specifying their record number in the file every time the file is read or written.
-@p @item @syntaxidx{ACCESS MODE DYNAMIC} indicates the program may switch back and forth between @syntax{SEQUENTIAL} and @syntax{RANDOM} mode during execution.  The file starts out initially in @syntax{SEQUENTIAL} mode when first opened but the program may use the @statementref{START} to switch between sequential and random access.
-@p @item The @syntaxidx{RELATIVE KEY} data item is a numeric data item that cannot be defined as a field within records of this file.  Its purpose is to return the current relative record number of a relative file that is being processed in @syntax{SEQUENTIAL} access mode and to serve as a key that specifies the relative record number to be read or written when processing a relative file in @syntax{RANDOM} access mode.
-@p @item Relative files are processed using the following statements:
+@item
+The reserved words @syntax{IS}, @syntax{KEY} and @syntax{MODE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+
+@item
+The reserved words @syntax{ORGANIZATION} and @syntax{ORGANISATION} are interchangeable.
+
+@item
+The phrase @syntax{ORGANIZATION IS} (and it's internationalized alternative, @syntax{ORGANISATION IS}) is optional to provide compatibility with those (few) COBOL implementations that consider that word to be optional.  Most COBOL implementations do require the word @syntax{ORGANIZATION}, so it should be used in new programs.
+
+@item
+@syntax{ORGANIZATION RELATIVE} files cannot be assigned to the @syntax{CONSOLE}, @syntax{DISPLAY}, @syntax{LINE ADVANCING} or @syntax{PRINTER} devices.
+
+@item
+The @syntaxidx{RELATIVE KEY} clause is optional only if @syntax{ACCESS MODE SEQUENTIAL} is specified.
+
+@item
+While an @syntax{ORGANIZATION RELATIVE} file may be defined as having variable-length records, the file will be structured in such a manner as to reserve space for each record equal to the size of the largest possible record as defined by the file's description in the @syntax{FILE SECTION}.
+
+@item
+@syntax{ACCESS MODE SEQUENTIAL}, the default @syntax{ACCESS MODE} if none is specified, indicates that the records of the file will be processed in a sequential manner, according to their physical sequence in the file.
+
+@item
+@syntaxidx{ACCESS MODE RANDOM} means that records will be processed in random sequence by specifying their record number in the file every time the file is read or written.
+
+@item
+@syntaxidx{ACCESS MODE DYNAMIC} indicates the program may switch back and forth between @syntax{SEQUENTIAL} and @syntax{RANDOM} mode during execution.  The file starts out initially in @syntax{SEQUENTIAL} mode when first opened but the program may use the @statementref{START} to switch between sequential and random access.
+
+@item
+The @syntaxidx{RELATIVE KEY} data item is a numeric data item that cannot be defined as a field within records of this file.  Its purpose is to return the current relative record number of a relative file that is being processed in @syntax{SEQUENTIAL} access mode and to serve as a key that specifies the relative record number to be read or written when processing a relative file in @syntax{RANDOM} access mode.
+
+@item
+Relative files are processed using the following statements:
 @itemize @bullet
-@p @item @syntaxref{CLOSE}
-@p @item @syntaxref{COMMIT}
-@p @item @syntaxref{DELETE}
-@p @item @syntaxref{MERGE}, @syntax{ACCESS MODE RANDOM} not allowed
-@p @item @syntaxref{OPEN}
-@p @item @syntaxref{READ}
-@p @item @syntaxref{REWRITE}
-@p @item @syntaxref{SORT}, @syntax{ACCESS MODE RANDOM} not allowed
-@p @item @syntaxref{START}
-@p @item @syntaxref{UNLOCK}
-@p @item @syntaxref{WRITE}
+@item
+@syntaxref{CLOSE}
+
+@item
+@syntaxref{COMMIT}
+
+@item
+@syntaxref{DELETE}
+
+@item
+@syntaxref{MERGE}, @syntax{ACCESS MODE RANDOM} not allowed
+
+@item
+@syntaxref{OPEN}
+
+@item
+@syntaxref{READ}
+
+@item
+@syntaxref{REWRITE}
+
+@item
+@syntaxref{SORT}, @syntax{ACCESS MODE RANDOM} not allowed
+
+@item
+@syntaxref{START}
+
+@item
+@syntaxref{UNLOCK}
+
+@item
+@syntaxref{WRITE}
 @end itemize
 @end enumerate
 @comment *********************************************************************
@@ -614,32 +815,77 @@ ORGANIZATION IS SEQUENTIAL
 @comment *********************************************************************
 @page
 @newunit{5.2.1.4,ORGANIZATION INDEXED}
-@diagram{ORGANIZATION INDEXED Clause,ED-SELECT-ORG-IDX,ED-SELECT-ORG-IDX,None}@p Indexed files, like relative files, may have their records processed in either a sequential or random manner.  Unlike relative files, however, the actual location of a record in an indexed file is calculated automatically based upon the value(s) of one or more alphanumeric fields within records of the file.  For example, an indexed file containing product data might use the product identification code as a record key.  This means you may read, write or update the "A6G4328"th record or the "Z8X7723"th record directly, based upon the product id value of those records!
+@diagram{ORGANIZATION INDEXED Clause,ED-SELECT-ORG-IDX,ED-SELECT-ORG-IDX,None}
+Indexed files, like relative files, may have their records processed in either a sequential or random manner.  Unlike relative files, however, the actual location of a record in an indexed file is calculated automatically based upon the value(s) of one or more alphanumeric fields within records of the file.  For example, an indexed file containing product data might use the product identification code as a record key.  This means you may read, write or update the "A6G4328"th record or the "Z8X7723"th record directly, based upon the product id value of those records!
 @enumerate
-@p @item The reserved words @syntax{IS}, @syntax{KEY} and @syntax{MODE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item The reserved words @syntax{ORGANIZATION} and @syntax{ORGANISATION} are interchangeable.
-@p @item The phrase @syntax{ORGANIZATION IS} (and it's internationalized alternative, @syntax{ORGANISATION IS}) is optional to provide compatibility with those (few) COBOL implementations that consider that word to be optional.  Most COBOL implementations do require the word @syntax{ORGANIZATION}, so it should be used in new programs.
-@p @item @syntax{ORGANIZATION INDEXED} files cannot be assigned to @syntax{CONSOLE}, @syntax{DISPLAY}, @syntax{KEYBOARD}, @syntax{LINE ADVANCING} or @syntax{PRINTER}.
-@p @item @syntaxidx{ACCESS MODE SEQUENTIAL}, the default @syntax{ACCESS MODE} if none is specified,  indicates that the records of the file will be processed in a sequential manner with respect to the values of the @syntax{RECORD KEY} or the @syntax{ALTERNATE RECORD KEY} most-recently referenced on a @statementref{START}.
-@p @item @syntaxidx{ACCESS MODE RANDOM} means that records will be processed in random sequence by accessing the record with specific record key or alternate record key values.
-@p @item @syntaxidx{ACCESS MODE DYNAMIC} allows the file will be processed either in @syntax{RANDOM} or @syntax{SEQUENTIAL} mode; the program may switch between the two modes as needed.  The @syntax{START} statement is used to make the switch between modes.
-@p @item  The @syntaxidx{RECORD KEY} clause defines the field within the record used to provide the primary access to records within the file.  No two records in the file will be allowed to have the same @syntax{PRIMARY KEY} field value. The @syntaxidx{SOURCE IS} clause is for use with @syntaxidx{Split Keys}.
-@p @item  The @syntaxidx{ALTERNATE RECORD KEY} clause, if used, defines an additional field within the record that provides an alternate means of directly accessing records or an additional field by which the file's contents may be processed sequentially.  You have the choice of allowing records to have duplicate alternate key values, if necessary.
-@p @item There may be multiple @syntax{ALTERNATE RECORD KEY} clauses, each defining an additional alternate key for the file.
-@p @item Usage of the @syntaxidx{SUPPRESS WHEN} clause is used when @syntaxidx{Sparse Keys} are required which may take the form for a literal or spaces or zeroes.
-@p @item Indexed files are processed using the following statements:
+@item
+The reserved words @syntax{IS}, @syntax{KEY} and @syntax{MODE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+
+@item
+The reserved words @syntax{ORGANIZATION} and @syntax{ORGANISATION} are interchangeable.
+
+@item
+The phrase @syntax{ORGANIZATION IS} (and it's internationalized alternative, @syntax{ORGANISATION IS}) is optional to provide compatibility with those (few) COBOL implementations that consider that word to be optional.  Most COBOL implementations do require the word @syntax{ORGANIZATION}, so it should be used in new programs.
+
+@item
+@syntax{ORGANIZATION INDEXED} files cannot be assigned to @syntax{CONSOLE}, @syntax{DISPLAY}, @syntax{KEYBOARD}, @syntax{LINE ADVANCING} or @syntax{PRINTER}.
+
+@item
+@syntaxidx{ACCESS MODE SEQUENTIAL}, the default @syntax{ACCESS MODE} if none is specified,  indicates that the records of the file will be processed in a sequential manner with respect to the values of the @syntax{RECORD KEY} or the @syntax{ALTERNATE RECORD KEY} most-recently referenced on a @statementref{START}.
+
+@item
+@syntaxidx{ACCESS MODE RANDOM} means that records will be processed in random sequence by accessing the record with specific record key or alternate record key values.
+
+@item
+@syntaxidx{ACCESS MODE DYNAMIC} allows the file will be processed either in @syntax{RANDOM} or @syntax{SEQUENTIAL} mode; the program may switch between the two modes as needed.  The @syntax{START} statement is used to make the switch between modes.
+
+@item
+ The @syntaxidx{RECORD KEY} clause defines the field within the record used to provide the primary access to records within the file.  No two records in the file will be allowed to have the same @syntax{PRIMARY KEY} field value. The @syntaxidx{SOURCE IS} clause is for use with @syntaxidx{Split Keys}.
+
+@item
+ The @syntaxidx{ALTERNATE RECORD KEY} clause, if used, defines an additional field within the record that provides an alternate means of directly accessing records or an additional field by which the file's contents may be processed sequentially.  You have the choice of allowing records to have duplicate alternate key values, if necessary.
+
+@item
+There may be multiple @syntax{ALTERNATE RECORD KEY} clauses, each defining an additional alternate key for the file.
+
+@item
+Usage of the @syntaxidx{SUPPRESS WHEN} clause is used when @syntaxidx{Sparse Keys} are required which may take the form for a literal or spaces or zeroes.
+
+@item
+Indexed files are processed using the following statements:
 @itemize @bullet
-@p @item @syntaxref{CLOSE}
-@p @item @syntaxref{COMMIT}
-@p @item @syntaxref{DELETE}
-@p @item @syntaxref{MERGE}, @syntax{ACCESS MODE RANDOM} not allowed
-@p @item @syntaxref{OPEN}
-@p @item @syntaxref{READ}
-@p @item @syntaxref{REWRITE}
-@p @item @syntaxref{SORT}, @syntax{ACCESS MODE RANDOM} not allowed
-@p @item @syntaxref{START}
-@p @item @syntaxref{UNLOCK}
-@p @item @syntaxref{WRITE}
+@item
+@syntaxref{CLOSE}
+
+@item
+@syntaxref{COMMIT}
+
+@item
+@syntaxref{DELETE}
+
+@item
+@syntaxref{MERGE}, @syntax{ACCESS MODE RANDOM} not allowed
+
+@item
+@syntaxref{OPEN}
+
+@item
+@syntaxref{READ}
+
+@item
+@syntaxref{REWRITE}
+
+@item
+@syntaxref{SORT}, @syntax{ACCESS MODE RANDOM} not allowed
+
+@item
+@syntaxref{START}
+
+@item
+@syntaxref{UNLOCK}
+
+@item
+@syntaxref{WRITE}
 @end itemize
 @end enumerate
 @comment *********************************************************************
@@ -647,12 +893,20 @@ ORGANIZATION IS SEQUENTIAL
 @comment *********************************************************************
 @page
 @newsubsection{5.2.2,SAME RECORD AREA}
-@diagram{I-O-CONTROL SAME AREA,ED-IO-CONTROL-SAME,ED-IO-CONTROL-SAME,ED-IO-CONTROL-SAME}@p The @syntax{SAME RECORD AREA} clause allows you to specify that multiple files should share the same input and output memory buffers.
+@diagram{I-O-CONTROL SAME AREA,ED-IO-CONTROL-SAME,ED-IO-CONTROL-SAME,ED-IO-CONTROL-SAME}
+The @syntax{SAME RECORD AREA} clause allows you to specify that multiple files should share the same input and output memory buffers.
 @enumerate
-@p @item The reserved words @syntax{AREA} and @syntax{FOR} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
-@p @item This statement must be terminated with a period.
-@p @item While coding only a single file name (the repeated @term{file-name-1} item) is syntactically valid, this statement will have no effect upon the program unless at least two files are specified.
-@p @item The effect of this statement will be to cause the specified files to share the same I/O buffer in memory.  These buffers can sometimes get quite large, and by having multiple files share the same buffer memory you may significantly cut down the amount of memory the program is using (thus making "room" for more procedural code or data).  If you do use this feature, take care to ensure that no more than one of the specified files are ever OPEN simultaneously.
+@item
+The reserved words @syntax{AREA} and @syntax{FOR} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+
+@item
+This statement must be terminated with a period.
+
+@item
+While coding only a single file name (the repeated @term{file-name-1} item) is syntactically valid, this statement will have no effect upon the program unless at least two files are specified.
+
+@item
+The effect of this statement will be to cause the specified files to share the same I/O buffer in memory.  These buffers can sometimes get quite large, and by having multiple files share the same buffer memory you may significantly cut down the amount of memory the program is using (thus making "room" for more procedural code or data).  If you do use this feature, take care to ensure that no more than one of the specified files are ever OPEN simultaneously.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.2.3 MULTIPLE FILE Statement                                   **

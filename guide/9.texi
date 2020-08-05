@@ -21,66 +21,103 @@
 @comment ** 9.1 RWCS Lexicon                                                **
 @comment *********************************************************************
 @newsection{9.1,RWCS Lexicon}
-@p There are a number of terms that describe various aspects of the operation of the Report Writer Control System (RWCS).  Understanding the meanings of these terms is vital to developing an understanding of the subject.
+
+There are a number of terms that describe various aspects of the operation of the Report Writer Control System (RWCS).  Understanding the meanings of these terms is vital to developing an understanding of the subject.
 @table @i
-@p @item Control Break
-@p An event that is triggered when a control field on an RWCS-generated report changes value.  It is these events that trigger the generation of control heading and control footing groups.
-@p @item Control Field
-@p A field of data being presented within a detail group; as the various detail groups that comprise the report are presented, they are presumed to appear in sorted sequence of the control fields contained within them.  As an example, a department-by-department sales report for a chain of stores would probably be sorted by store number and -- within like store numbers -- be further sorted by department number.  The store number will undoubtedly serve as a control field for the report, allowing control heading groups to be presented before each sequence of detail groups for the same store and control footing groups to be presented after each such sequence.
-@p @item Control Footing
-@p A report group that appears immediately after one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as a summary of the detail group(s) that precede it, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be followed by a control footing that provides a summation of the department-by-department sales for that store.
-@p @item Control Heading
-@p A report group that appears immediately before one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as an introduction to the detail group(s) that follow, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be preceded by a control heading that states the full name and location of the store.
-@p @item Detail Group
-@p A report group that contains the detailed data being presented for the report.
-@p @item Page Footing
-@p A report group that appears at the bottom of every page of an RWCS-generated report.  Information typically found within such a report group might be:
+
+@item Control Break
+
+An event that is triggered when a control field on an RWCS-generated report changes value.  It is these events that trigger the generation of control heading and control footing groups.
+
+@item Control Field
+
+A field of data being presented within a detail group; as the various detail groups that comprise the report are presented, they are presumed to appear in sorted sequence of the control fields contained within them.  As an example, a department-by-department sales report for a chain of stores would probably be sorted by store number and -- within like store numbers -- be further sorted by department number.  The store number will undoubtedly serve as a control field for the report, allowing control heading groups to be presented before each sequence of detail groups for the same store and control footing groups to be presented after each such sequence.
+
+@item Control Footing
+
+A report group that appears immediately after one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as a summary of the detail group(s) that precede it, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be followed by a control footing that provides a summation of the department-by-department sales for that store.
+
+@item Control Heading
+
+A report group that appears immediately before one or more detail groups of an RWCS-generated report.  Such are produced automatically as a result of a control break.  This type of group typically serves as an introduction to the detail group(s) that follow, as might be the case on a sales report for a chain of stores, where the detail groups documenting sales for each department (one department per detail group) from the same store might be preceded by a control heading that states the full name and location of the store.
+
+@item Detail Group
+
+A report group that contains the detailed data being presented for the report.
+
+@item Page Footing
+
+A report group that appears at the bottom of every page of an RWCS-generated report.  Information typically found within such a report group might be:
 @itemize @bullet
-@p @item The date the report was generated
-@p @item The current page number of the report
+
+@item The date the report was generated
+
+@item The current page number of the report
 @end itemize
 @item Page Heading
-@p A report group that appears at the top of every page of an RWCS-generated report. Information typically found within such a report group might be:
+
+A report group that appears at the top of every page of an RWCS-generated report. Information typically found within such a report group might be:
 @itemize @bullet
-@p @item A title for the report
-@p @item The date the report was generated
-@p @item The current page number of the report
-@p @item Column headings describing the fields within the detail group(s)
+
+@item A title for the report
+
+@item The date the report was generated
+
+@item The current page number of the report
+
+@item Column headings describing the fields within the detail group(s)
 @end itemize
 @item Report Footing
-@p A report group that occurs only once in an RWCS-generated report --- as the very last presented report group of the report.  These typically serve as a visual indication that the report is finished.
-@p @item Report Group
-@p One or more consecutive lines on a report that serve a common informational purpose or function.  For example, lines of text that are displayed at the top or bottom of every printed page of a report.
-@p @item Report Heading
-@p A report group that occurs only once in an RWCS-generated report --- as the very first presented report group of the report.  These typically serve as an introduction to the report.
+
+A report group that occurs only once in an RWCS-generated report --- as the very last presented report group of the report.  These typically serve as a visual indication that the report is finished.
+
+@item Report Group
+
+One or more consecutive lines on a report that serve a common informational purpose or function.  For example, lines of text that are displayed at the top or bottom of every printed page of a report.
+
+@item Report Heading
+
+A report group that occurs only once in an RWCS-generated report --- as the very first presented report group of the report.  These typically serve as an introduction to the report.
 @end table
 @comment *********************************************************************
 @comment ** 9.2 The Anatomy of a Report                                     **
 @comment *********************************************************************
 @newsection{9.2,The Anatomy of a Report}
-@p Every report has the same basic structure, as shown here, even though not all reports will have all of the groups shown.  In fact, it is a very unusual report indeed that actually has every one of these groups:
+
+Every report has the same basic structure, as shown here, even though not all reports will have all of the groups shown.  In fact, it is a very unusual report indeed that actually has every one of these groups:
 @itemize @bullet
-@p @item REPORT HEADING
-@p @item PAGE HEADING [1]
-@p @item CONTROL HEADING(S) [2]
-@p @item DETAIL GROUP(S) [2]
-@p @item CONTROL FOOTING(S) [2]
-@p @item FINAL CONTROL FOOTING
-@p @item PAGE FOOTING [1]
-@p @item REPORT FOOTING
+
+@item REPORT HEADING
+
+@item PAGE HEADING [1]
+
+@item CONTROL HEADING(S) [2]
+
+@item DETAIL GROUP(S) [2]
+
+@item CONTROL FOOTING(S) [2]
+
+@item FINAL CONTROL FOOTING
+
+@item PAGE FOOTING [1]
+
+@item REPORT FOOTING
 @end itemize
 @multitable @columnfractions 0.05 0.95
 @item [1] @tab Presented throughout the report, as needed
 @item [2] @tab Repeated, as needed
 @end multitable
 @* These groups will be presented (printed) across however many formatted pages are necessary to hold them.  No single report group will be allowed to cross page boundaries.
-@p The management of paging, enforcement of the "groups cannot span pages" rule and almost every aspect of report generation are handled entirely by the Report Writer Control System.
+
+The management of paging, enforcement of the "groups cannot span pages" rule and almost every aspect of report generation are handled entirely by the Report Writer Control System.
 @comment *********************************************************************
 @comment ** 9.3 The Anatomy of a Report Page                                **
 @comment *********************************************************************
 @newsection{9.3,The Anatomy of a Report Page}
-@p Each page of a report is divided into as many as five (5) areas, as shown in the following diagram.
-@p @format
+
+Each page of a report is divided into as many as five (5) areas, as shown in the following diagram.
+
+@format
 @t{  _______________________________ }
 @t{ |                               |}
 @t{ | Top-of-page Unusable Area     |}---# Lines: @t{LINES AT TOP} (LINAGE)
@@ -101,57 +138,92 @@
 @t{ |_______________________________|}
 @end format
 @* When describing a report via the @syntaxrefalt{RD,REPORT SECTION} clause, the total number of usable lines are specified as the @syntax{PAGE LIMIT} value; this value is the sum of the number of lines contained in the Heading, Body and Footing Areas.
-@p The unusable areas of a page (if any) will appear above and below that usable area.  You don't specify the unusable area in the @syntax{RD}, but rather using a @syntaxrefalt{LINAGE,File/Sort-Description} clause in the @syntax{FD} of the file the report is "attached" to.
-@p The various report groups will be presentable in the various areas of a page, as follows:
+
+The unusable areas of a page (if any) will appear above and below that usable area.  You don't specify the unusable area in the @syntax{RD}, but rather using a @syntaxrefalt{LINAGE,File/Sort-Description} clause in the @syntax{FD} of the file the report is "attached" to.
+
+The various report groups will be presentable in the various areas of a page, as follows:
 @table @asis
-@p @item @syntax{REPORT HEADING}
-@p Heading Area --- An exception to this is the situation where the report heading report group contains the @syntaxrefalt{NEXT GROUP NEXT PAGE,NEXT GROUP} option; in those cases, the report heading will be presented on a page by itself (anywhere on that page) at the beginning of the report.
-@p @item @syntax{PAGE HEADING}
-@p Heading Area
-@p @item @syntax{CONTROL HEADING}
-@p Body Area, but no line of a control heading is allowed past the line number specified by @syntax{LAST CONTROL HEADING}
-@p @item @syntax{DETAIL}
-@p Body Area, but no line of a detail report group is allowed past the line number specified by @syntax{LAST DETAIL}
-@p @item @syntax{CONTROL FOOTING}
-@p Body Area, but no line of a control footing report group is allowed past the line number specified by @syntax{FOOTING}
-@p @item @syntax{PAGE FOOTING}
-@p Footing Area
-@p @item @syntax{REPORT FOOTING}
-@p Footing Area --- An exception to this is the situation where the report footing report group contains the @syntax{NEXT PAGE} option in its @syntaxref{LINE} clause; in those cases, the report footing will be presented on a page by itself at the end of the report.
+
+@item @syntax{REPORT HEADING}
+
+Heading Area --- An exception to this is the situation where the report heading report group contains the @syntaxrefalt{NEXT GROUP NEXT PAGE,NEXT GROUP} option; in those cases, the report heading will be presented on a page by itself (anywhere on that page) at the beginning of the report.
+
+@item @syntax{PAGE HEADING}
+
+Heading Area
+
+@item @syntax{CONTROL HEADING}
+
+Body Area, but no line of a control heading is allowed past the line number specified by @syntax{LAST CONTROL HEADING}
+
+@item @syntax{DETAIL}
+
+Body Area, but no line of a detail report group is allowed past the line number specified by @syntax{LAST DETAIL}
+
+@item @syntax{CONTROL FOOTING}
+
+Body Area, but no line of a control footing report group is allowed past the line number specified by @syntax{FOOTING}
+
+@item @syntax{PAGE FOOTING}
+
+Footing Area
+
+@item @syntax{REPORT FOOTING}
+
+Footing Area --- An exception to this is the situation where the report footing report group contains the @syntax{NEXT PAGE} option in its @syntaxref{LINE} clause; in those cases, the report footing will be presented on a page by itself at the end of the report.
 @end table
 @comment *********************************************************************
 @comment ** 9.4 How RWCS Builds Report Pages                                **
 @comment *********************************************************************
 @newsection{9.4,How RWCS Builds Report Pages}
-@p A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @syntax{ADVANCING PAGE} option.  Whether the data for a report line created via @syntax{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @syntax{WRITE @term{record-name} BEFORE ADVANCING PAGE} or @syntax{WRITE @term{record-name} AFTER ADVANCING PAGE}, respectively.
-@p The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @syntax{RD} for the report (specifically the @syntax{PAGE LIMITS} and related options) and it's internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
-@p Because this is the way the GnuCOBOL RWCS works, in order to design an RWCS-generated report you'll need to know answers to the following questions:
+
+A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @syntax{ADVANCING PAGE} option.  Whether the data for a report line created via @syntax{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @syntax{WRITE @term{record-name} BEFORE ADVANCING PAGE} or @syntax{WRITE @term{record-name} AFTER ADVANCING PAGE}, respectively.
+
+The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @syntax{RD} for the report (specifically the @syntax{PAGE LIMITS} and related options) and it's internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
+
+Because this is the way the GnuCOBOL RWCS works, in order to design an RWCS-generated report you'll need to know answers to the following questions:
 @enumerate
-@p @item What printer(s) will the report be printed on?
-@p @item What paper orientation will you use, --- Landscape (long edge of the paper at the top and bottom of page), or Portrait (long edge of the paper at the left and right of page)?
-@p @item What tool will be used to print the report (direct printing to the device, notepad.exe, MS-Word, @dots{})?
-@p @item What font and font size will be used for the report when it is printed?  RWCS-generated reports will assume that a fixed-width font such as "Courier", "Lucida Console", "Consolas" and the like will be used to print, as variable-pitch fonts would make the proper alignment of columns of data on reports virtually impossible.
-@p @item When unprintable area exists at all four margins of the paper?  These are generally caused by the printer itself or by its software driver.
-@p @item What is the maximum number of lines per page that may be printed on a single sheet of paper?
-@p @item What is the maximum number of characters that may be printed on one line?
+
+@item What printer(s) will the report be printed on?
+
+@item What paper orientation will you use, --- Landscape (long edge of the paper at the top and bottom of page), or Portrait (long edge of the paper at the left and right of page)?
+
+@item What tool will be used to print the report (direct printing to the device, notepad.exe, MS-Word, @dots{})?
+
+@item What font and font size will be used for the report when it is printed?  RWCS-generated reports will assume that a fixed-width font such as "Courier", "Lucida Console", "Consolas" and the like will be used to print, as variable-pitch fonts would make the proper alignment of columns of data on reports virtually impossible.
+
+@item When unprintable area exists at all four margins of the paper?  These are generally caused by the printer itself or by its software driver.
+
+@item What is the maximum number of lines per page that may be printed on a single sheet of paper?
+
+@item What is the maximum number of characters that may be printed on one line?
 @end enumerate
 @* Once you know the answer to questions 1-4, you may easily determine the answers to the remaining questions as follows:
 @enumerate
-@p @item Prepare a text file containing 100 or so records, each consisting of a numeric scale (@syntax{123456789012345678901234}@dots{}).
-@p @item Print the file in a manner consistent with your answers to questions 1-4.
-@p @item Add any necessary additional digits to each record in your test file (if lines weren't full) or remove characters from the end of each record if lines wrapped.  If you made changes, reprint the file.
-@p @item Now that you know @i{exactly} how long each record may be, add additional records and reprint.  Continue until printing overflows to a second page.
-@p @item The first page you print is now a perfect template to use when designing reports --- it shows, given the answers to questions 1-4, every available printable character position on a page!  The number of lines printed on that page becomes your @syntax{PAGE LIMIT} value for the @syntax{RD}.
+
+@item Prepare a text file containing 100 or so records, each consisting of a numeric scale (@syntax{123456789012345678901234}@dots{}).
+
+@item Print the file in a manner consistent with your answers to questions 1-4.
+
+@item Add any necessary additional digits to each record in your test file (if lines weren't full) or remove characters from the end of each record if lines wrapped.  If you made changes, reprint the file.
+
+@item Now that you know @i{exactly} how long each record may be, add additional records and reprint.  Continue until printing overflows to a second page.
+
+@item The first page you print is now a perfect template to use when designing reports --- it shows, given the answers to questions 1-4, every available printable character position on a page!  The number of lines printed on that page becomes your @syntax{PAGE LIMIT} value for the @syntax{RD}.
 @end enumerate
 @* The remaining @syntax{PAGE LIMIT} values can be established as required by your report(s).
-@p Using @term{identifier} rather than @term{integer} specifications in the @syntax{RD} will give your program the ability --- at run time --- to accommodate multiple printers, fonts, font sizes and paper orientation.  Just follow the above steps for each combination you wish your program to support.
+
+Using @term{identifier} rather than @term{integer} specifications in the @syntax{RD} will give your program the ability --- at run time --- to accommodate multiple printers, fonts, font sizes and paper orientation.  Just follow the above steps for each combination you wish your program to support.
 @comment *********************************************************************
 @comment ** 9.5 Control Hierarchy                                           **
 @comment *********************************************************************
 @newsection{9.5,Control Hierarchy}
-@p Every report that employs control breaks has a natural hierarchy of those control breaks based upon the manner in which the data the report is being generated from is sorted.  This concept is best understood using an example which assumes a COBOL program to process sales data collected from every computerized cash register across a chain of stores having multiple departments is being developed.
-@p The application that collects data from the various cash registers at each store will generate data records that look like this to a COBOL program:
-@p @example
+
+Every report that employs control breaks has a natural hierarchy of those control breaks based upon the manner in which the data the report is being generated from is sorted.  This concept is best understood using an example which assumes a COBOL program to process sales data collected from every computerized cash register across a chain of stores having multiple departments is being developed.
+
+The application that collects data from the various cash registers at each store will generate data records that look like this to a COBOL program:
+
+@example
 01  Sales-For-Register.
     05 Sales-Date            PIC 9(8).
     05 Time-Collected        PIC 9(6).
@@ -161,14 +233,19 @@
     05 Total-Sales           PIC 9(6)V99.
 @end example
 @* Your task is to develop a report that shows the sales total from each cash register and summarizes those sales by department within each store, by store and also generates a total sales figure for the day across all stores.
-@p To accomplish this, you will use a @statementref{SORT} to sort the file of cash register sales data into:
+
+To accomplish this, you will use a @statementref{SORT} to sort the file of cash register sales data into:
 @enumerate
-@p @item Ascending sequence of store number
-@p @item Within each store, data will be sorted into ascending sequence of department number
-@p @item If there are multiple cash registers in a particular department of a specific store, the data needs to be further sorted so that the cash registers are ordered in sequence of their register number.
+
+@item Ascending sequence of store number
+
+@item Within each store, data will be sorted into ascending sequence of department number
+
+@item If there are multiple cash registers in a particular department of a specific store, the data needs to be further sorted so that the cash registers are ordered in sequence of their register number.
 @end enumerate
 @* So, assuming a sort file has been defined and it's record layout (essentially a mirror of the raw data file) is defined as follows:
-@p @example
+
+@example
 01  Sorted-Sales-For-Register.
     05 Sorted-Sales-Date            PIC 9(8).
     05 Sorted-Time-Collected        PIC 9(6).
@@ -178,7 +255,8 @@
     05 Sorted-Total-Sales           PIC 9(6)V99.
 @end example
 @* Then the @statement{SORT} to accomplish the desired sequencing would be:
-@p @example
+
+@example
 SORT SORT-FILE
     ASCENDING KEY Sorted-Store-Number
                   Sorted-Department-Number
@@ -187,7 +265,8 @@ SORT SORT-FILE
     OUTPUT PROCEDURE 100-Generate-Report
 @end example
 @* As a result of the sort, our program might expect to see data somewhat like this (date, time and sales totals are shown as "@dots{}"):
-@p @example
+
+@example
    +-------------------- Register Number
    |      +------------- Store Number
    |      |  +---------- Department Number
@@ -206,19 +285,28 @@ SORT SORT-FILE
 ...0002345002004...
 @end example
 @* Because of the sort, the most-frequently changing value of the three sort keys will be that of Sorted-Register-Number.  This essentially defines the "detail" level of the report.
-@p The next most-frequently changing value is that of Sorted-Department-Number, and the least-frequently changing value is that of Sorted-Store-Number.  remember that the program should be generating totals each time one of these two values change, plus a grand total of sales at the end of the report.  These three points are the @define{Control Break} points of the report.
-@p When the report is defined, it's @syntax{RD} would contain a @syntax{CONTROLS ARE} clause that lists the control breaks in least- to most-frequent sequence of changing.  This would be coded as:
-@p @syntax{CONTROLS ARE FINAL, Sorted-Store-Number, Sorted-Department-Number}
-@p A FINAL control break only occurs once, at the very end of the report.  The @syntax{CONTROL FOOTING} for this break will be the one that produces the grand total of sales for all stores.
-@p The next break listed on the @syntax{CONTROLS} clause will be the one that occurs next most-frequently (Sorted-Store-Number).  This control break will be the one that produces the summation for each entire store, and will have its own @syntax{CONTROL FOOTING}.
-@p The next (and last, in this case) break listed on the CONTROLS clause will be the one that occurs even more frequently (Sorted-Department-Number).  The @syntax{CONTROL FOOTING} for this control field will be the one that summarizes sales for each department within a store.
-@p This sequence of control breaks from least- to most-frequent (in other words, in the order they occur on the CONTROLS ARE clause) is the '@i{control hierarchy}' of the report; control breaks that occur more frequently than others are said to be at a lower level in the control hierarchy.
-@p Defining a control hierarchy (via @syntax{CONTROLS ARE}) that does not match the actual sequence in which data will be processed is a great way to guarantee a "broken" report.  I'll show you an example in a later section.
+
+The next most-frequently changing value is that of Sorted-Department-Number, and the least-frequently changing value is that of Sorted-Store-Number.  remember that the program should be generating totals each time one of these two values change, plus a grand total of sales at the end of the report.  These three points are the @define{Control Break} points of the report.
+
+When the report is defined, it's @syntax{RD} would contain a @syntax{CONTROLS ARE} clause that lists the control breaks in least- to most-frequent sequence of changing.  This would be coded as:
+
+@syntax{CONTROLS ARE FINAL, Sorted-Store-Number, Sorted-Department-Number}
+
+A FINAL control break only occurs once, at the very end of the report.  The @syntax{CONTROL FOOTING} for this break will be the one that produces the grand total of sales for all stores.
+
+The next break listed on the @syntax{CONTROLS} clause will be the one that occurs next most-frequently (Sorted-Store-Number).  This control break will be the one that produces the summation for each entire store, and will have its own @syntax{CONTROL FOOTING}.
+
+The next (and last, in this case) break listed on the CONTROLS clause will be the one that occurs even more frequently (Sorted-Department-Number).  The @syntax{CONTROL FOOTING} for this control field will be the one that summarizes sales for each department within a store.
+
+This sequence of control breaks from least- to most-frequent (in other words, in the order they occur on the CONTROLS ARE clause) is the '@i{control hierarchy}' of the report; control breaks that occur more frequently than others are said to be at a lower level in the control hierarchy.
+
+Defining a control hierarchy (via @syntax{CONTROLS ARE}) that does not match the actual sequence in which data will be processed is a great way to guarantee a "broken" report.  I'll show you an example in a later section.
 @comment *********************************************************************
 @comment ** 9.6 An Example                                                  **
 @comment *********************************************************************
 @newsection{9.6,An Example}
-@p This section contains an example of the RWCS at work.  The complete program, presented here, is a stripped-down version of a program I have used to generate a report for a class I teach on PC hardware.  This report will provide benchmark statistics on a variety of popular AMD and Intel CPUs.  The data for the report was obtained from the website @url{www.cpubenchmark.net} in December of 2013.  By the time you are reading this, that data will most likely have become rather out-of-date, but it illustrates RWCS well enough.
+
+This section contains an example of the RWCS at work.  The complete program, presented here, is a stripped-down version of a program I have used to generate a report for a class I teach on PC hardware.  This report will provide benchmark statistics on a variety of popular AMD and Intel CPUs.  The data for the report was obtained from the website @url{www.cpubenchmark.net} in December of 2013.  By the time you are reading this, that data will most likely have become rather out-of-date, but it illustrates RWCS well enough.
 @menu
 * 9.6.1: Data.
 * 9.6.2: Program.
@@ -228,21 +316,33 @@ SORT SORT-FILE
 @comment ** 9.6.1 Data                                                      **
 @comment *********************************************************************
 @newsubsection{9.6.1,Data}
-@p Here is the data that the program will be reading.  Each record reflects the aggregated benchmark scoring for one particular CPU, as scores for benchmarks against that CPU have been reported to the @url{cpubenchmark.net} website by their PassMark benchmark software.  The data consists of four fields.  Fields are separated from one another by a single comma.  The descriptions of the fields are as follows:
+
+Here is the data that the program will be reading.  Each record reflects the aggregated benchmark scoring for one particular CPU, as scores for benchmarks against that CPU have been reported to the @url{cpubenchmark.net} website by their PassMark benchmark software.  The data consists of four fields.  Fields are separated from one another by a single comma.  The descriptions of the fields are as follows:
 @table @b
-@p @item Benchmark Score
-@p A five-digit number showing the aggregated benchmark scores for the CPU; the higher this number, the better the CPU performed in benchmark testing.
-@p @item Vendor
-@p The name of the vendor who makes the CPU.  In this data, that will either be "AMD" (American Micro Devices) or "INTEL".
-@p @item Family
-@p The 7-character family of CPU products the CPU falls into.  This will have values such as "A4", "A10", "Core i5", "Core i7", etc.
-@p @item Model
-@p The specific model of CPU within the family.
+
+@item Benchmark Score
+
+A five-digit number showing the aggregated benchmark scores for the CPU; the higher this number, the better the CPU performed in benchmark testing.
+
+@item Vendor
+
+The name of the vendor who makes the CPU.  In this data, that will either be "AMD" (American Micro Devices) or "INTEL".
+
+@item Family
+
+The 7-character family of CPU products the CPU falls into.  This will have values such as "A4", "A10", "Core i5", "Core i7", etc.
+
+@item Model
+
+The specific model of CPU within the family.
 @end table
 @* The first record of data shown below shows that the aggregated score of all benchmarks reported for the AMD A10-4600M CPU is 3145, as compared to the second record which shows that the aggregated score reported of all benchmarks reported for the Intel Core-i7-4960X CPU is 14291.
-@p The following is the complete set of input data used for this example.  This is by no means the complete set of data available at @url{cpubenchmark.net} --- it is just a representative sample used for this example.  For my class, I give my students a report showing the results for almost a thousand CPUs.
-@p For the sake of brevity, this document lists the data in three columns.
-@p @smallformat
+
+The following is the complete set of input data used for this example.  This is by no means the complete set of data available at @url{cpubenchmark.net} --- it is just a representative sample used for this example.  For my class, I give my students a report showing the results for almost a thousand CPUs.
+
+For the sake of brevity, this document lists the data in three columns.
+
+@smallformat
 @verbatim
 03145,AMD,A10,4600M            05421,AMD,FX,6100              03917,Intel,Core i5,4300U
 14291,Intel,Core i7,4960X      05813,AMD,FX,6120              01743,Intel,Core i5,4300Y
@@ -322,8 +422,10 @@ SORT SORT-FILE
 @comment ** 9.6.2 Program                                                   **
 @comment *********************************************************************
 @newsubsection{9.6.2,Program}
-@p Here is the program that will be producing the report.  Pay attention to how the data is sorted and how the control hierarchy (@syntax{CONTROLS ARE}) relates to the @syntax{SORT}.
-@p @example
+
+Here is the program that will be producing the report.  Pay attention to how the data is sorted and how the control hierarchy (@syntax{CONTROLS ARE}) relates to the @syntax{SORT}.
+
+@example
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DEMORWCS.
 ENVIRONMENT DIVISION.
@@ -536,8 +638,10 @@ END DECLARATIVES.
 @comment ** 9.6.3 Generated Report Pages                                    **
 @comment *********************************************************************
 @newsubsection{9.6.3,Generated Report Pages}
-@p Finally, here's the report the program generates!
-@p @example
+
+Finally, here's the report the program generates!
+
+@example
 2013/12/24   CPU Benchmark Scores   Page:  1
 ********************************************
 **   All CPU Data From cpubenchmark.net   **
@@ -845,21 +949,26 @@ ____________________________________________
 @comment ** 9.7 Control Hierarchy (Revisited)                               **
 @comment *********************************************************************
 @newsection{9.7,Control Hierarchy (Revisited)}
-@p The sample program just discussed presents a great opportunity to show what can happen if you don't define the control hierarchy of a report properly.
-@p I changed the @syntax{CONTROLS ARE} clause on the sample program from this:
-@p @example
+
+The sample program just discussed presents a great opportunity to show what can happen if you don't define the control hierarchy of a report properly.
+
+I changed the @syntax{CONTROLS ARE} clause on the sample program from this:
+
+@example
 CONTROLS ARE FINAL
              F-SR-Vendor-TXT
              F-SR-Family-TXT
 @end example
 @* To this:
-@p @example
+
+@example
 CONTROLS ARE FINAL
              F-SR-Family-TXT
              F-SR-Vendor-TXT
 @end example
 @* And then ran the report again.  Here are the first two pages of that new report.  See what happened to the control breaks?
-@p @example
+
+@example
 2013/12/24   CPU Benchmark Scores   Page:  1
 ********************************************
 **   All CPU Data From cpubenchmark.net   **
@@ -942,9 +1051,12 @@ ____________________________________________
 @comment ** 9.8 Turning PHYSICAL Page Formatting Into LOGICAL Formatting    **
 @comment *********************************************************************
 @newsection{9.8,Turning PHYSICAL Page Formatting Into LOGICAL Formatting}
-@p You can trick RWCS into using the PAGE LIMIT values as logical specifications rather than physical ones quite easily --- simply include an ASCII form-feed (X'0C') character into your page heading design!  Here's how the sample program shown earlier could be easily modified:
-@p Simply Change This@dots{}
-@p @example
+
+You can trick RWCS into using the PAGE LIMIT values as logical specifications rather than physical ones quite easily --- simply include an ASCII form-feed (X'0C') character into your page heading design!  Here's how the sample program shown earlier could be easily modified:
+
+Simply Change This@dots{}
+
+@example
 01  TYPE IS PAGE HEADING.
     05 LINE NUMBER 1.
        10 COL 1  SOURCE WS-Date PIC 9999/99/99.
@@ -962,7 +1074,8 @@ ____________________________________________
        10 COL 1  SOURCE WS-Starz PIC X(44).
 @end example
 @* To This@dots{}
-@p @example
+
+@example
 01  TYPE IS PAGE HEADING.
 @b{    05 LINE NUMBER 1.                          *> NEW}
 @b{       10 COL 1  VALUE X'0C'.                  *> NEW}
@@ -982,7 +1095,8 @@ ____________________________________________
        10 COL 1  SOURCE WS-Starz PIC X(44).
 @end example
 @* RWCS will still be counting lines to decide when to close off one page and start a new one, but when a new page is started it's page heading will @i{physically} form-feed the printer when the report is printed.  As long as any printer you plan on using supports at least as many physical print lines as what is defined as the @syntax{PAGE LIMIT} value in whatever paper orientation and font you plan on (or are limited to) printing in, you have now divorced your program from the physical realities of the printer!
-@p Of course, whatever software you are using to deliver the printed document to the printer with, must allow the ASCII form-feed character to pass through to the printer.
+
+Of course, whatever software you are using to deliver the printed document to the printer with, must allow the ASCII form-feed character to pass through to the printer.
 @iftex
 @sp 3
 @center ------------------------------------------------------------

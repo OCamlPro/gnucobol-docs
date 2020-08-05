@@ -2,7 +2,9 @@
 @comment ** 6. DATA DIVISION                                                **
 @comment *********************************************************************
 @newchapter{6,DATA DIVISION}
-@diagram{DATA DIVISION,DD-Overview-Info,DD-Overview-TeX,None}@p All data used by any COBOL program must be defined in one of the six sections of the data division, depending upon the purpose of the data.
+@diagram{DATA DIVISION,DD-Overview-Info,DD-Overview-TeX,None}
+
+All data used by any COBOL program must be defined in one of the six sections of the data division, depending upon the purpose of the data.
 @enumerate
 @item
 If no data will be described in one of the data division sections, that section header may be omitted.
@@ -111,7 +113,9 @@ When group items are being defined, subordinate items may be assigned a @syntax{
 @comment *********************************************************************
 @page
 @newsection{6.2,FILE SECTION}
-@diagram{FILE SECTION,DD-FILE-SECTION,DD-FILE-SECTION,None}@p Every file that has been referenced by a @statementref{SELECT} must also be described in the file section of the data division.
+@diagram{FILE SECTION,DD-FILE-SECTION,DD-FILE-SECTION,None}
+
+Every file that has been referenced by a @statementref{SELECT} must also be described in the file section of the data division.
 
 Files destined for use as sort/merge work files must be described with a Sort/Merge File Description (@syntax{SD}) while every other file is described with a File Description (@syntax{FD}).  Each of these descriptions will almost always be followed with at least one record description.
 @menu
@@ -221,7 +225,9 @@ If you specify a specific filename in the sort/merge work file's @syntax{SELECT}
 @comment *********************************************************************
 @page
 @newsubsection{6.2.2,FILE-SECTION-Data-Item}
-@diagram{FILE-SECTION-Data-Item,DD-FS-Data-Item,DD-FS-Data-Item,DD-SYNC-LEFT-RIGHT}@p Every sort file description (@syntax{SD} or @syntax{FD}) must be followed by at least one 01-level data item, except for file descriptions containing the @syntax{REPORT IS} clause.  These 01-level data items, in turn, may be broken down into subordinate group and elementary items.  An 01-level data item defined here in the file section is also known as a @define{Record}, even if it is an elementary item, provided that elementary item lacks the @syntaxidx{CONSTANT} attribute.
+@diagram{FILE-SECTION-Data-Item,DD-FS-Data-Item,DD-FS-Data-Item,DD-SYNC-LEFT-RIGHT}
+
+Every sort file description (@syntax{SD} or @syntax{FD}) must be followed by at least one 01-level data item, except for file descriptions containing the @syntax{REPORT IS} clause.  These 01-level data items, in turn, may be broken down into subordinate group and elementary items.  An 01-level data item defined here in the file section is also known as a @define{Record}, even if it is an elementary item, provided that elementary item lacks the @syntaxidx{CONSTANT} attribute.
 @enumerate
 @item
 The reserved words @syntax{BY}, @syntax{IS}, @syntax{KEY}, @syntax{ON} and @syntax{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -273,7 +279,9 @@ File section data buffers (and therefore all 01-level record layouts defined in 
 @comment *********************************************************************
 @page
 @newsection{6.3,WORKING-STORAGE SECTION}
-@diagram{WORKING-STORAGE-SECTION-Data-Item,DD-WSS-Data-Item,DD-WSS-Data-Item,DD-SYNC-LEFT-RIGHT}@p The working-storage section is used to describe data items that are not part of files, screens or reports and whose data values persist throughout the execution of the program.
+@diagram{WORKING-STORAGE-SECTION-Data-Item,DD-WSS-Data-Item,DD-WSS-Data-Item,DD-SYNC-LEFT-RIGHT}
+
+The working-storage section is used to describe data items that are not part of files, screens or reports and whose data values persist throughout the execution of the program.
 @enumerate
 @item
 The reserved words @syntax{BY}, @syntax{CHARACTER}, @syntax{IS}, @syntax{KEY}, @syntax{ON}, @syntax{RIGHT} (JUSTIFIED), @syntax{TIMES} and @syntax{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -322,7 +330,9 @@ Data items defined within the working-storage section are automatically initiali
 @comment *********************************************************************
 @page
 @newsection{6.4,LOCAL-STORAGE SECTION}
-@diagram{LOCAL-STORAGE-SECTION-Data-Item,DD-LSS-Data-Item,DD-LSS-Data-Item,DD-SYNC-LEFT-RIGHT}@p The local-storage section is similar to working-storage, but describes data within a subprogram that will be dynamically allocated and initialized (automatically) each time the subprogram is executed.  @xref{Data Initialization}, for the rules of data initialization.
+@diagram{LOCAL-STORAGE-SECTION-Data-Item,DD-LSS-Data-Item,DD-LSS-Data-Item,DD-SYNC-LEFT-RIGHT}
+
+The local-storage section is similar to working-storage, but describes data within a subprogram that will be dynamically allocated and initialized (automatically) each time the subprogram is executed.  @xref{Data Initialization}, for the rules of data initialization.
 @enumerate
 @item
 The reserved words @syntax{BY}, @syntax{CHARACTER} @syntax{IS}, @syntax{KEY}, @syntax{ON}, @syntax{RIGHT} (JUSTIFIED), @syntax{TIMES} and @syntax{WHEN}  are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -368,7 +378,9 @@ Local-storage cannot be used in nested subprograms.
 @comment *********************************************************************
 @page
 @newsection{6.5,LINKAGE SECTION}
-@diagram{LINKAGE-SECTION-Data-Item,DD-LS-Data-Item,DD-LS-Data-Item,DD-SYNC-LEFT-RIGHT}@p The linkage section describes data within a subprogram that serves as either input arguments to or output results from the subprogram.
+@diagram{LINKAGE-SECTION-Data-Item,DD-LS-Data-Item,DD-LS-Data-Item,DD-SYNC-LEFT-RIGHT}
+
+The linkage section describes data within a subprogram that serves as either input arguments to or output results from the subprogram.
 @enumerate
 @item
 The reserved words @syntax{BY}, @syntax{CHARACTER}, @syntax{IS}, @syntax{KEY}, @syntax{ON} and @syntax{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -424,7 +436,9 @@ Each 01-level data item described within a subprogram's linkage section should c
 @page
 @newsection{6.6,REPORT SECTION}
 @diagram{REPORT SECTION,DD-REPORT-SECTION,DD-REPORT-SECTION,None}
-@diagram{Report-Description (RD),DD-RS-RD,DD-RS-RD,None}@p This section describes the layout of printed reports as well as many of the functional aspects of the generation of reports that will be produced via the Report Writer Control System. It is important to maintain the order of these clauses and ensure that all fields defined or referenced with this section are actually defined in the WORKING-STORAGE SECTION and not elsewhere.
+@diagram{Report-Description (RD),DD-RS-RD,DD-RS-RD,None}
+
+This section describes the layout of printed reports as well as many of the functional aspects of the generation of reports that will be produced via the Report Writer Control System. It is important to maintain the order of these clauses and ensure that all fields defined or referenced with this section are actually defined in the WORKING-STORAGE SECTION and not elsewhere.
 @enumerate
 @item
 The reserved words @syntax{ARE} and @syntax{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -580,7 +594,9 @@ References to @syntax{PAGE-COUNTER} in the procedure division must be qualified 
 @comment *********************************************************************
 @page
 @newsubsection{6.6.1,Report Group Definitions}
-@diagram{Report-Group-Definition,DD-RS-Report-Group,DD-RS-Report-Group,None}@p The syntax shown here documents how a report group is defined to a report.  This syntax is valid only in the report section, and only then after an @syntax{RD}.
+@diagram{Report-Group-Definition,DD-RS-Report-Group,DD-RS-Report-Group,None}
+
+The syntax shown here documents how a report group is defined to a report.  This syntax is valid only in the report section, and only then after an @syntax{RD}.
 @enumerate
 @item
 The reserved words @syntax{IS}, @syntax{NUMBER} and @syntax{ON} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -617,7 +633,9 @@ Report group declarations must be followed by at least one @clause{REPORT-SECTIO
 @comment *********************************************************************
 @page
 @newsubsection{6.6.2,REPORT SECTION Data Items}
-@diagram{REPORT-SECTION-Data-Item,DD-RS-Data-Item-Info,DD-RS-Data-Item-TeX,None}@p Data item descriptions describing the report lines and fields that make up the substance of a report group immediately follow the definition of that group.
+@diagram{REPORT-SECTION-Data-Item,DD-RS-Data-Item-Info,DD-RS-Data-Item-TeX,None}
+
+Data item descriptions describing the report lines and fields that make up the substance of a report group immediately follow the definition of that group.
 @enumerate
 @item
 The reserved words @syntax{IS}, @syntax{NUMBER}, @syntax{OF}, @syntax{ON}, @syntax{RIGHT}, @syntax{TIMES} and @syntax{WHEN} (BLANK) are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -645,7 +663,9 @@ Group items (those without @syntaxidx{PICTURE} clauses) are frequently used to d
 @comment *********************************************************************
 @page
 @newsection{6.7,SCREEN SECTION}
-@diagram{SCREEN-SECTION-Data-Item,DD-SS-Data-Item,DD-SS-Data-Item,None}@p The screen section describes the screens to be displayed during terminal/console I-O.
+@diagram{SCREEN-SECTION-Data-Item,DD-SS-Data-Item,DD-SS-Data-Item,None}
+
+The screen section describes the screens to be displayed during terminal/console I-O.
 @enumerate
 @item
 The reserved words @syntax{CHARACTER} (@syntax{SEPARATE} clause), @syntax{IS}, @syntax{NUMBER}, @syntax{RIGHT}, @syntax{TIMES} and @syntax{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
