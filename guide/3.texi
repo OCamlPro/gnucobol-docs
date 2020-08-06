@@ -88,7 +88,7 @@ All @code{COPY} statements are located and the contents of the corresponding cop
 @item
 The optional @syntaxidx{REPLACING} clause allows for one or more of either of the following kinds of text replacements to be made:
 @table @asis
-@item @clause{Phrase-Clause}
+@item @var{Phrase-Clause}
 Replacement of one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
 @itemize
 @item This option cannot be used to replace part of a word, identifier or literal.
@@ -98,7 +98,7 @@ Replacement of one or more complete reserved words, user-defined identifiers or 
 @item The replacement string, which follows the @code{BY}, may be specified using any of the four options.
 @item If the replacement string is a multiple-item phrase or is to be deleted altogether, you must use the @code{==@term{pseudo-text-2}==} option.  If @code{@term{pseudo-text-2}} is null (in other words, the replacement text is specified as @code{====}), all encountered occurrences of the search string will be deleted.
 @end itemize
-@item @clause{String-Clause}
+@item @var{String-Clause}
 Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @code{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @code{LEADING ==0100-== BY ====}.
 @end table
 @end enumerate
@@ -124,7 +124,7 @@ The following points apply to Format 1 of the @code{REPLACE} statement:
 @item
 Format 1 of the @code{REPLACE} statement can be used to make changes to program source code in much the same way as the @syntaxidx{REPLACING} option of the @code{COPY} statement can, via these options:
 @table @asis
-@item @clause{Phrase-Clause}
+@item @var{Phrase-Clause}
 Replace one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
 @itemize @bullet
 @item This option cannot be used to replace part of a word, identifier or literal.
@@ -132,7 +132,7 @@ Replace one or more complete reserved words, user-defined identifiers or literal
 @item Search strings on @code{REPLACE} are always specified using the @code{==@term{pseudo-text-1}==} option.  For example, to replace all occurrences of @code{UPON PRINTER}, you would specify @code{==UPON PRINTER==}.
 @item The replacement string, which follows the @code{BY}, is specified using the @code{==@term{pseudo-text-2}==} option.  If @code{@term{pseudo-text-2}} is null (in other words, the replacement text is specified as @code{====}), all encountered occurrences of the search string will be deleted.
 @end itemize
-@item @clause{String-Clause}
+@item @var{String-Clause}
 Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @code{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @code{LEADING ==0100-== BY ====}.
 @end table
 @item Once a Format 1 @code{REPLACE} statement is encountered in the currently-compiling source file, Replace Mode becomes active, and the change(s) specified by that statement will be automatically made on all subsequent source statements the compiler reads from the file.
@@ -212,25 +212,25 @@ There may be any number of @syntaxidx{>>ELIF} clauses following an @code{>>IF}, 
 There may no more than one @syntaxidx{>>ELSE} clause following an @code{>>IF}.  When @code{>>ELSE} is used, it must follow the @code{>>IF} and all @code{>>ELIF} clauses.
 
 @item
-Only one of the @clause{Program-Source-Lines-n} block of statements that lie within the scope of the @code{>>IF}-@code{>>END-IF} may be processed by the compiler.  Which one (if any) that gets processed will be decided as follows:
+Only one of the @var{Program-Source-Lines-n} block of statements that lie within the scope of the @code{>>IF}-@code{>>END-IF} may be processed by the compiler.  Which one (if any) that gets processed will be decided as follows:
 @enumerate A
 @item
-Each @clause{CDF-Conditional-Expression-n} will be evaluated, in turn, in the sequence in which they are coded in the >>IF statement and any @code{>>ELIF} clauses that may be present until one evaluates to TRUE.  Once one of them evaluates to TRUE, the @clause{Program-Source-Lines-n} block of code that corresponds to the TRUE @clause{CDF-Conditional-Expression-n} will be one that is processed.  All others within the @code{>>IF}-@code{>>END-IF} scope will be ignored.
+Each @var{CDF-Conditional-Expression-n} will be evaluated, in turn, in the sequence in which they are coded in the >>IF statement and any @code{>>ELIF} clauses that may be present until one evaluates to TRUE.  Once one of them evaluates to TRUE, the @var{Program-Source-Lines-n} block of code that corresponds to the TRUE @var{CDF-Conditional-Expression-n} will be one that is processed.  All others within the @code{>>IF}-@code{>>END-IF} scope will be ignored.
 
 @item
-If no @clause{CDF-Conditional-Expression} evaluates to TRUE, and there is an @code{>>ELSE} clause, the @clause{Program-Source-Lines-3} block of statements following the @code{>>ELSE} clause will be processed by the compiler and all others within the @code{>>IF}-@code{>>END-IF} scope will be ignored.
+If no @var{CDF-Conditional-Expression} evaluates to TRUE, and there is an @code{>>ELSE} clause, the @var{Program-Source-Lines-3} block of statements following the @code{>>ELSE} clause will be processed by the compiler and all others within the @code{>>IF}-@code{>>END-IF} scope will be ignored.
 
 @item
-If no @clause{CDF-Conditional-Expression-n} evaluates to TRUE and there is no @code{>>ELSE} clause, then none of the @clause{Program-Source-Lines-n} block of statements within the @code{>>IF}-@code{>>END-IF} scope will be processed by the compiler.
+If no @var{CDF-Conditional-Expression-n} evaluates to TRUE and there is no @code{>>ELSE} clause, then none of the @var{Program-Source-Lines-n} block of statements within the @code{>>IF}-@code{>>END-IF} scope will be processed by the compiler.
 
 @item
 If the @term{Program-Source-Lines-n}> statement block selected for processing is empty, no error results --- there will just be no code generated from the @code{>>IF}-@code{>>END-IF} structure.
 @end enumerate
 @item
-A @clause{Program-Source-Lines-n} block may contain any valid COBOL or CDF code.
+A @var{Program-Source-Lines-n} block may contain any valid COBOL or CDF code.
 
 @item
-The following points pertain to any @clause{CDF-Conditional-Expression-n}:
+The following points pertain to any @var{CDF-Conditional-Expression-n}:
 @enumerate A
 @item
 The @syntaxidx{DEFINED} option tests for whether @term{cdf-variable-1} has been defined, but not yet assigned a value (@code{>>DEFINE @dots{} OFF}); use the @code{NOT} option to test for the variable not being defined.

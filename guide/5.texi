@@ -114,8 +114,8 @@ The keyword @code{SYSTEM-DEFAULT} denotes the default locale specified for the c
 @page
 @newsubsection{5.1.3,SPECIAL-NAMES}
 @diagram{SPECIAL-NAMES,ED-SPECIAL-NAMES-Info,ED-SPECIAL-NAMES-TeX,ED-SPECIAL-NAMES}
-@center @clause{Alphabet-Name-Clause}, @clause{Class-Definition-Clause},
-@center @clause{Switch-Definition-Clause} and @clause{Symbolic-Characters-Clause}
+@center @var{Alphabet-Name-Clause}, @var{Class-Definition-Clause},
+@center @var{Switch-Definition-Clause} and @var{Symbolic-Characters-Clause}
 @center are discussed in detail in the next four sections.
 
 The @code{SPECIAL-NAMES} paragraph provides a means for specifying various program and operating environment configuration options.
@@ -476,16 +476,16 @@ The @term{file-name-1} value that you specify will be the name by which you will
 The optional @code{ASSIGN} clause specifies how --- at runtime, when @term{file-name-1} is opened --- either a logical device (STDIN, STDOUT) or a file anywhere in one of the currently-mounted file systems will be associated with @term{file-name-1}, as follows:
 @enumerate A
 @item
-There are three components to the @code{ASSIGN} clause --- a @clause{Type} specification (@code{EXTERNAL}, @code{DYNAMIC} or neither), a @clause{Device} (the list of device choices) and a @clause{Locator} (shown as a choice between @term{identifier-1}, @term{word-1} and @term{literal-1}).
+There are three components to the @code{ASSIGN} clause --- a @var{Type} specification (@code{EXTERNAL}, @code{DYNAMIC} or neither), a @var{Device} (the list of device choices) and a @var{Locator} (shown as a choice between @term{identifier-1}, @term{word-1} and @term{literal-1}).
 
 @item
 @code{ASSIGN TO DISC '@term{file-name-1}'} will be assumed if there is no @code{ASSIGN} clause on a @code{SELECT}.
 
 @item
-If an @code{ASSIGN} clause is coded without a @clause{Device}, the device @code{DISC} will be assumed.
+If an @code{ASSIGN} clause is coded without a @var{Device}, the device @code{DISC} will be assumed.
 
 @item
-If a @clause{Locator} clause is coded, the COBOL file @term{file-name-1} will be attached to a data file within any file system that is mounted and available to the executing program at the time @term{file-name-1} is opened.  How that file is identified varies, depending upon the specified @clause{Locator}, as follows:
+If a @var{Locator} clause is coded, the COBOL file @term{file-name-1} will be attached to a data file within any file system that is mounted and available to the executing program at the time @term{file-name-1} is opened.  How that file is identified varies, depending upon the specified @var{Locator}, as follows:
 @enumerate a
 @item
 If @term{literal-1} is coded, the value of the literal will serve as the File Location String that will identify the data file.
@@ -494,14 +494,14 @@ If @term{literal-1} is coded, the value of the literal will serve as the File Lo
 If @term{identifier-1} is coded, the value of the identifier will serve as the File Location String that will identify the data file.
 
 @item
-If @term{word-1} (a syntactically valid word not duplicating that of a reserved or user-defined word) is coded, and a @clause{Type} of @code{EXTERNAL} is specified, @term{word-1} itself will serve as the File Location String that will identify the data file.  If, however, a @clause{Type} of @code{EXTERNAL} was @i{not} specified, the compiler will create a @code{PIC X(1024)} data item named @term{word-1} within the program; the contents of that data item at the time the program opens @term{file-name-1} will then serve as the File Location String that will identify the data file.
+If @term{word-1} (a syntactically valid word not duplicating that of a reserved or user-defined word) is coded, and a @var{Type} of @code{EXTERNAL} is specified, @term{word-1} itself will serve as the File Location String that will identify the data file.  If, however, a @var{Type} of @code{EXTERNAL} was @i{not} specified, the compiler will create a @code{PIC X(1024)} data item named @term{word-1} within the program; the contents of that data item at the time the program opens @term{file-name-1} will then serve as the File Location String that will identify the data file.
 
 @item
 File Location Strings will be discussed shortly.
 @end enumerate
 
 @item
-If no @clause{Locator} is coded, @term{file-name-1} will be attached to a logical device or a file based upon the specified (or implied) @clause{Device}, as follows:
+If no @var{Locator} is coded, @term{file-name-1} will be attached to a logical device or a file based upon the specified (or implied) @var{Device}, as follows:
 @enumerate a
 @item
 @code{DISC} or @code{DISK} will assume an attachment to a file named @term{file-name-1} in whatever directory is current at the time the file is opened.
@@ -516,9 +516,9 @@ If no @clause{Locator} is coded, @term{file-name-1} will be attached to a logica
 @code{PRINTER} will assume an attachment to the @code{LPT1} logical device/port; these files should only be used for output.
 
 @item
-@code{RANDOM} or @code{TAPE} will behave exactly as @code{DISC} does.  These two additional @clause{Device}s are provided to facilitate the compilation of COBOL source from other COBOL implementations.
+@code{RANDOM} or @code{TAPE} will behave exactly as @code{DISC} does.  These two additional @var{Device}s are provided to facilitate the compilation of COBOL source from other COBOL implementations.
 @end enumerate
-@item The @code{LINE ADVANCING} device @i{requires} that a @clause{Locator} be specified; these files should only be used for output.  A COBOL Line Advancing file will allow carriage-control characters such as line-feeds and form-feeds to be written to the attached operating system file, via the @code{ADVANCING} clause of the @statementref{WRITE}.
+@item The @code{LINE ADVANCING} device @i{requires} that a @var{Locator} be specified; these files should only be used for output.  A COBOL Line Advancing file will allow carriage-control characters such as line-feeds and form-feeds to be written to the attached operating system file, via the @code{ADVANCING} clause of the @statementref{WRITE}.
 @item File Location Strings are used (at runtime) to identify the path and filename to the data file that must be attached to @term{file-name-1} when that file is opened.
 @item If the compiler "config" file you used to compile the program with had a "filename-mapping" value of "yes", the GnuCOBOL runtime system will first attempt to identify a currently-defined environment variable whose value will serve as the data file's path and filename, as follows:
 @enumerate a
