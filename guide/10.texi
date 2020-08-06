@@ -405,46 +405,46 @@ Compiler dialect configuration options:
 
 @end verbatim
 @anchor{Compilation Unit}
-@* Each file specified on the @syntax{cobc} command constitutes a @define{Compilation Unit}.  A compilation unit may be a single GnuCOBOL program --- with or without nested subprograms(@pxref{Independent vs Contained vs Nested Subprograms}) --- or multiple GnuCOBOL programs, separated by @syntax{END PROGRAM} or @syntax{END FUNCTION} marker lines, as appropriate.  @xref{Independent vs Contained vs Nested Subprograms}, for some examples of these marker lines.
+@* Each file specified on the @code{cobc} command constitutes a @define{Compilation Unit}.  A compilation unit may be a single GnuCOBOL program --- with or without nested subprograms(@pxref{Independent vs Contained vs Nested Subprograms}) --- or multiple GnuCOBOL programs, separated by @code{END PROGRAM} or @code{END FUNCTION} marker lines, as appropriate.  @xref{Independent vs Contained vs Nested Subprograms}, for some examples of these marker lines.
 
-A compilation unit may also be a C-language source program, recognized as such by having a file extension of @syntax{.c} or an assembly-language program, recognized by its file extension of ".s".  In such a case, @i{COBOL} compilation of that file will be bypassed by the @syntax{cobc} command; instead, the file will be passed directly to the C compiler or assembler (executed automatically by @syntax{cobc}).
+A compilation unit may also be a C-language source program, recognized as such by having a file extension of @code{.c} or an assembly-language program, recognized by its file extension of ".s".  In such a case, @i{COBOL} compilation of that file will be bypassed by the @code{cobc} command; instead, the file will be passed directly to the C compiler or assembler (executed automatically by @code{cobc}).
 
-A compilation unit may @i{also} be an object-code module (output @i{from} the C compiler), recognized as such by having a file extension of @syntax{.o}.  In these situations, all compilation will be bypassed, and the object code will be "bound" into the generated executable by the loader (an "ld" command executed internally by the @syntax{cobc} command).
+A compilation unit may @i{also} be an object-code module (output @i{from} the C compiler), recognized as such by having a file extension of @code{.o}.  In these situations, all compilation will be bypassed, and the object code will be "bound" into the generated executable by the loader (an "ld" command executed internally by the @code{cobc} command).
 
-Pre-compiled object-code subprograms may be automatically located by the GnuCOBOL compiler and the loader by using the @envvarcompile{LD_LIBRARY_PATH}.  If they are locatable through that environment variable, they need not be named on the @syntax{cobc} command.
+Pre-compiled object-code subprograms may be automatically located by the GnuCOBOL compiler and the loader by using the @envvarcompile{LD_LIBRARY_PATH}.  If they are locatable through that environment variable, they need not be named on the @code{cobc} command.
 @anchor{Compilation Group}
 
-The collection of compilation units supplied on a @i{single} @syntax{cobc} execution constitute a @define{Compilation Group}.  All executable code produced from a single compilation group will be collected together into a single executable file, whose filename will be the same as that of the first compilation unit specified on the @syntax{cobc} command.
+The collection of compilation units supplied on a @i{single} @code{cobc} execution constitute a @define{Compilation Group}.  All executable code produced from a single compilation group will be collected together into a single executable file, whose filename will be the same as that of the first compilation unit specified on the @code{cobc} command.
 
 The simplest mode of compilation is to generate a single executable file from one or more GnuCOBOL source files:
 
-@center @syntax{cobc -x mainprog.cbl sub1.cbl sub2.cbl}
+@center @code{cobc -x mainprog.cbl sub1.cbl sub2.cbl}
 
 The main program must be the first program found in the first compilation unit ("mainprog.cbl").  The remainder of that compilation unit as well as the rest of the files in the compilation group ("sub1.cbl" and "sub2.cbl") must be independent and/or contained subprograms (@pxref{Independent vs Contained vs Nested Subprograms}).
 
-This command assumes that all source files are in the directory from which the @syntax{cobc} command was executed.  You are, of course, free to include full pathnames with any filename, if necessary.
+This command assumes that all source files are in the directory from which the @code{cobc} command was executed.  You are, of course, free to include full pathnames with any filename, if necessary.
 
-With the @switchidx{-x} on the compiler command, a single directly-executable executable file (UNIX, Windows/Cygwin, OSX) or "exe" file (Windows, Windows/MinGW) will be generated.  This executable file has the compiled code for all COBOL programs contained within the compilation group specified on the @syntax{cobc} command included in the file.
+With the @switchidx{-x} on the compiler command, a single directly-executable executable file (UNIX, Windows/Cygwin, OSX) or "exe" file (Windows, Windows/MinGW) will be generated.  This executable file has the compiled code for all COBOL programs contained within the compilation group specified on the @code{cobc} command included in the file.
 
 Any subroutines or user-defined functions that weren't included in any of the source files comprising the compilation group will be treated as dynamically loadable subprograms (@pxref{Dynamic vs Static Subprograms}).
 
-Optionally, the @switchidx{-o} may be used in addition to @syntax{-x} to specify the name of the generated executable file.  If @switch{-o} is not specified, the filename of the 1st compilation unit will be used as the name of the executable file.  The appropriate extension for the generated file (".exe", on a Windows computer, for example) will be added to the filename that is explicitly specified or implicitly assumed for the output file.
+Optionally, the @switchidx{-o} may be used in addition to @code{-x} to specify the name of the generated executable file.  If @switch{-o} is not specified, the filename of the 1st compilation unit will be used as the name of the executable file.  The appropriate extension for the generated file (".exe", on a Windows computer, for example) will be added to the filename that is explicitly specified or implicitly assumed for the output file.
 
 Compilations may be performed to generate dynamically-loadable modules (or dynamically-loadable libraries, as they are frequently called).  These compilations are performed by using the @switchidx{-m} instead of @switch{-x}:
 
-@center @syntax{cobc -m mainprog.cbl sub1.cbl sub2.cbl}
+@center @code{cobc -m mainprog.cbl sub1.cbl sub2.cbl}
 
-When the @syntax{-m} switch is used, an operating-system specific dynamically-loadable module is generated @i{for each individual compilation unit}, using the filename of each compilation unit as the it's module filename and either an extension of ".so" (UNIX, Windows/Cygwin), "dylib" (OSX) or ".dll" (Windows, Windows/MinGW).
+When the @code{-m} switch is used, an operating-system specific dynamically-loadable module is generated @i{for each individual compilation unit}, using the filename of each compilation unit as the it's module filename and either an extension of ".so" (UNIX, Windows/Cygwin), "dylib" (OSX) or ".dll" (Windows, Windows/MinGW).
 
 You may compile GnuCOBOL subprograms into assembler source code which can then be assembled and linked with a main program when that main program is compiled.  To create such an assembler source file, compile the subprogram(s) as follows:
 
-@center @syntax{cobc -S sprog1.cbl}
+@center @code{cobc -S sprog1.cbl}
 
 The above generates an assembler source file named "sprog1.s".  If you have multiple subprograms to compile this way, just string their file names out on the command --- each will be translated to it's own assembler source file.
 
 Later, when you wish to compile a calling program and combine any needed assembly language subroutines in (as static subroutines --- @pxref{Dynamic vs Static Subprograms}), use a command such as this:
 
-@center @syntax{cobc -x mainprog.cbl sprog1.s}
+@center @code{cobc -x mainprog.cbl sprog1.s}
 @comment *********************************************************************
 @comment ** 10.1.1.1 -X GnuCOBOL Compiler option                            **
 @comment *********************************************************************
@@ -648,7 +648,7 @@ Set to the name of the C compiler you wish GnuCOBOL to use.
 USE THIS FEATURE AT YOUR OWN RISK -- YOU SHOULD ALWAYS USE THE C COMPILER YOUR GnuCOBOL BUILD WAS GENERATED FOR
 
 @item @syntaxidx{COB_CFLAGS} *
-Set to any switches that you'd like to pass on to the C compiler from the @syntax{cobc} compiler (in addition to any that @syntax{cobc} will specify).
+Set to any switches that you'd like to pass on to the C compiler from the @code{cobc} compiler (in addition to any that @code{cobc} will specify).
 
 @item @syntaxidx{COB_CONFIG_DIR} *
 Set to the path to the folder where GnuCOBOL "config" files are kept.
@@ -660,7 +660,7 @@ If copybooks your program needs are NOT stored in the same directory as your pro
 Set to any additional linker switches (ld) that can specify where standard libraries that must be linked with the program can be found.  The default is "" (null).
 
 @item @syntaxidx{COB_LDFLAGS}
-Set to any linker/loader (ld) switches that you'd like to pass on to the C compiler from the @syntax{cobc} compiler (in addition to any that cobc will specify).
+Set to any linker/loader (ld) switches that you'd like to pass on to the C compiler from the @code{cobc} compiler (in addition to any that cobc will specify).
 
 @item @syntaxidx{COB_LIBS} *
 Set to any linker switches (ld) that specify where standard libraries that must be linked with the program can be found.
@@ -675,14 +675,14 @@ If you are planning on using static-linked subroutine libraries, set this variab
 @itemx @syntaxidx{TMP}
 Set to a directory/folder appropriate to create temporary files in.  The intermediate working files created by the compiler will be created here (and deleted once they're no longer needed).
 
-The variable @syntax{TMPDIR} is checked for a valid path first; if that isn't set, then @syntax{TMP} is checked.
+The variable @code{TMPDIR} is checked for a valid path first; if that isn't set, then @code{TMP} is checked.
 
-On a Windows system, the @syntax{TMP} environment variable is normally set for you when you logon.  If you wish to use a different temporary folder, you may set @syntax{TMPDIR} yourself and have no fear of disrupting other Windows software that relies on TMP.
+On a Windows system, the @code{TMP} environment variable is normally set for you when you logon.  If you wish to use a different temporary folder, you may set @code{TMPDIR} yourself and have no fear of disrupting other Windows software that relies on TMP.
 @end table
 @multitable @columnfractions 0.01 0.99
 
 @item * @tab These environment variables have default values established for them when the version of GnuCOBOL you are using was built.  To see these default values, as well as other build-specific information, execute the command:
-@center @syntax{cobc -i}
+@center @code{cobc -i}
 @end multitable
 @comment *********************************************************************
 @comment ** 10.1.3 Predefined Compilation Variables                          **
@@ -754,7 +754,7 @@ If, however, the GnuCOBOL compiler was built for a Unix, OSX or Linux environmen
 The @i{single} folder specified on the COB_COPY_DIR environment variable.
 @end enumerate
 
-As each of the above folders is searched for a copybook --- @syntax{COPY XXXXXXXX.}, for example --- the GnuCOBOL compiler will attempt to locate the copybook file by any of the following names, in the sequence shown:
+As each of the above folders is searched for a copybook --- @code{COPY XXXXXXXX.}, for example --- the GnuCOBOL compiler will attempt to locate the copybook file by any of the following names, in the sequence shown:
 @enumerate
 @item
 XXXXXXXX.CPY
@@ -777,11 +777,11 @@ XXXXXXXX.cob
 @item
 XXXXXXXX
 @end enumerate
-@* The @statement{COPY} is case-sensitive on UNIX systems; @syntax{COPY copybookname} and @syntax{COPY COPYBOOKNAME} will both fail to locate the @syntax{CopyBookName} copybook on a UNIX system.
+@* The @statement{COPY} is case-sensitive on UNIX systems; @code{COPY copybookname} and @code{COPY COPYBOOKNAME} will both fail to locate the @code{CopyBookName} copybook on a UNIX system.
 
 Windows implementations of GnuCOBOL may, or may not, be similarly case sensitive with regard to copybook names, depending upon the Windows version and GnuCOBOL build options --- it is safest to simply treat the COPY command as case-sensitive in all environments.
 
-It is possible, however, to automatically cause all @statement{COPY}s to 'fold' the names of all copybooks to upper-case by specifying the @switchidx{-ffold-copy} with the "upper" option (i.e. @syntax{--fold-copy=upper}) to the GnuCOBOL compiler.  Similarly, names could be folded to lower-case by using the "lower" option (i.e. @syntax{--fold-copy=lower}.  If copybook libraries are maintained entirely using upper- or lower-case file names and extensions, either of these options will allow copybooks to be found regardless of how the programmer entered their names on @statement{COPY}s.
+It is possible, however, to automatically cause all @statement{COPY}s to 'fold' the names of all copybooks to upper-case by specifying the @switchidx{-ffold-copy} with the "upper" option (i.e. @code{--fold-copy=upper}) to the GnuCOBOL compiler.  Similarly, names could be folded to lower-case by using the "lower" option (i.e. @code{--fold-copy=lower}.  If copybook libraries are maintained entirely using upper- or lower-case file names and extensions, either of these options will allow copybooks to be found regardless of how the programmer entered their names on @statement{COPY}s.
 
 Case-folding may also be turned on and off within the program source code using the CDF @statementref{>>SET}.
 @comment *********************************************************************
@@ -1027,20 +1027,20 @@ Interactions between the program and the user will take place using the standard
 
 Direct program execution syntax is as follows:
 
-@center @syntax{[@i{path}]@i{program} [@i{arguments}]}
+@center @code{[@i{path}]@i{program} [@i{arguments}]}
 
 For example:
 
-@center @syntax{/usr/local/printaccount ACCT=6625378}
+@center @code{/usr/local/printaccount ACCT=6625378}
 
 @center or
 
-@center @syntax{C:\\Users\\Me\\Documents\\Programs\\printaccount.exe ACCT=6625378}
+@center @code{C:\\Users\\Me\\Documents\\Programs\\printaccount.exe ACCT=6625378}
 @comment *********************************************************************
 @comment ** 10.2.2 Executing Dynamically-Loadable Libraries                  **
 @comment *********************************************************************
 @newsubsection{10.2.2,Executing Dynamically-Loadable Libraries}
-As discussed previously, dynamically-loadable libraries are created via the compiler's @switch{-m}.  Once so created, the program(s) in these libraries are executed from the command line (via the GnuCOBOL @syntax{cobcrun} utility), or as dynamically-loadable subprograms.
+As discussed previously, dynamically-loadable libraries are created via the compiler's @switch{-m}.  Once so created, the program(s) in these libraries are executed from the command line (via the GnuCOBOL @code{cobcrun} utility), or as dynamically-loadable subprograms.
 @comment *********************************************************************
 @comment ** 10.2.2.1 cobcrun - Command-line Execution                        **
 @comment *********************************************************************
@@ -1051,7 +1051,7 @@ Some may prefer to compile their GnuCOBOL main programs into these dynamically-l
 
 Main programs compiled in this manner should be executed as follows:
 
-@center @syntax{[@i{path}]cobcrun @i{program} [@i{arguments}]}
+@center @code{[@i{path}]cobcrun @i{program} [@i{arguments}]}
 
 Do not specify the ".so" or ".dll" extension on the program name.  The @i{program} value must exactly match the primary entry-point name of the main program (including upper- and lower-case letters), unless you are planning on using "Call Folding" (@pxref{Dynamically Loaded Subprograms}).
 
@@ -1075,7 +1075,7 @@ Options:
                                  and any basename to the module preload list
                                  (COB_LIBRARY_PATH and/or COB_PRELOAD)
 @end verbatim
-@* Here are two examples of using @syntax{cobcrun}.  First, on a Unix, OSX or Windows/Cygwin system:
+@* Here are two examples of using @code{cobcrun}.  First, on a Unix, OSX or Windows/Cygwin system:
 
 @example
 cd /usr/local
@@ -1087,7 +1087,7 @@ cobcrun printaccount acct=6625378
 cd C:\Users\Me\Documents\Programs
 cobcrun printaccount.exe acct=6625378
 @end example
-@* Note how the @syntax{cobcrun} command does not allow a path to be specified with the program name --- the directory in which the programs dynamically loadable module exists must either be the current directory or must be defined in the current PATH.
+@* Note how the @code{cobcrun} command does not allow a path to be specified with the program name --- the directory in which the programs dynamically loadable module exists must either be the current directory or must be defined in the current PATH.
 @comment *********************************************************************
 @comment ** 10.2.2.2 Dynamically Loaded Subprograms                          **
 @comment *********************************************************************
@@ -1096,11 +1096,11 @@ Dynamically-loaded subprograms are executed (from a COBOL syntax point of view) 
 
 When a dynamically-loadable module needs to be loaded (because it is not already in memory from a previous subprogram execution), the dynamically-loadable library will be sought in the same directory from which the main program was loaded.  If it cannot be found there, each directory named in the @envvarruntimeref{PATH} will be searched.  If it was not located in any of those directories, the library specified by the @envvarruntime{COB_LIBRARY_PATH} will be searched.  Finally, if it @i{still} cannot be located, execution will be terminated with an error message ("libcob: Cannot find module 'xxxxxxxx'").
 
-The process of locating dynamically-loadable modules is case-sensitive on UNIX systems; @syntax{CALL "dynsub"} and @syntax{CALL "DYNSUB"} will both fail to locate the @syntax{DynSub.so} library on a UNIX system.
+The process of locating dynamically-loadable modules is case-sensitive on UNIX systems; @code{CALL "dynsub"} and @code{CALL "DYNSUB"} will both fail to locate the @code{DynSub.so} library on a UNIX system.
 
 Windows implementations of GnuCOBOL may, or may not, be similarly case sensitive with regard to library names, depending upon the Windows version and GnuCOBOL build options --- it is safest to simply treat library names as case-sensitive in all environments.
 
-It is possible, however, to automatically cause all library names to 'fold' to upper-case by specifying the @switchidx{-ffold-call} with the "upper" option (i.e. @syntax{--fold-call=upper}) to the GnuCOBOL compiler.  Similarly, library names could be folded to lower-case by using the "lower" option (i.e. @syntax{--fold-call=lower}.  If libraries are maintained entirely using upper- or lower-case file names, either of these options will allow libraries to be found regardless of how the programmer entered their names on @statement{CALL}s.
+It is possible, however, to automatically cause all library names to 'fold' to upper-case by specifying the @switchidx{-ffold-call} with the "upper" option (i.e. @code{--fold-call=upper}) to the GnuCOBOL compiler.  Similarly, library names could be folded to lower-case by using the "lower" option (i.e. @code{--fold-call=lower}.  If libraries are maintained entirely using upper- or lower-case file names, either of these options will allow libraries to be found regardless of how the programmer entered their names on @statement{CALL}s.
 
 @xref{Sub-Programming}, for a complete discussion of sub-programming.
 @comment *********************************************************************
@@ -1112,11 +1112,11 @@ It is possible, however, to automatically cause all library names to 'fold' to u
 The following is a list of the various environment variables that can play a role in the execution of GnuCOBOL programs.
 @table @asis
 @item @syntaxidx{COB_DISPLAY_WARNINGS}
-If set to a value of "Y", any run-time warnings (such as noting the implicit closing of open files when a @statementref{GOBACK} or @statementref{STOP} with the @syntax{RUN} option is executed) will be displayed.  Any other value for this environment variable (including not setting the variable at all) will suppress such messages.
+If set to a value of "Y", any run-time warnings (such as noting the implicit closing of open files when a @statementref{GOBACK} or @statementref{STOP} with the @code{RUN} option is executed) will be displayed.  Any other value for this environment variable (including not setting the variable at all) will suppress such messages.
 @item @syntaxidx{COB_LIBRARY_PATH}
-At runtime, GnuCOBOL will attempt to locate and load any application dynamically-loadable libraries using from the directory in which the program executable was found or, if it wasn't found there, using the @syntax{PATH} environment variable.  If these library files could be somewhere else, specify the directory path using this variable.
+At runtime, GnuCOBOL will attempt to locate and load any application dynamically-loadable libraries using from the directory in which the program executable was found or, if it wasn't found there, using the @code{PATH} environment variable.  If these library files could be somewhere else, specify the directory path using this variable.
 @item @syntaxidx{COB_LOAD_CASE}
-If set to either @syntax{UPPER} or @syntax{LOWER}, this environment variable will internally convert referenced entry-point names to either upper- or lower-case before initiating searches for dynamically-loadable modules.  The @syntax{UPPER} and @syntax{LOWER} values of the environment variable are actually case-insensitive.
+If set to either @code{UPPER} or @code{LOWER}, this environment variable will internally convert referenced entry-point names to either upper- or lower-case before initiating searches for dynamically-loadable modules.  The @code{UPPER} and @code{LOWER} values of the environment variable are actually case-insensitive.
 @item @syntaxidx{COB_PHYSICAL_CANCEL}
 If set to "Y", "y" or "1", a @statementref{CANCEL} will physically unload a subprogram dynamically-loadable module.
 If set to anything else, a @statementref{CANCEL} logically unloads a module so that subsequent use will re-initialize the module as if it had actually been reloaded, but the overhead of actually reloading the module will be avoided.
@@ -1135,14 +1135,14 @@ Setting this variable to any non-blank value will allow the @statementref{ACCEPT
 @item @syntaxidx{COB_SORT_MEMORY}
 The value of this variable (an integer) will be used to define how much memory will be allocated for use in sorting.  If the value is 1048576 or greater, that value will be used "as is" as the amount of memory (in bytes) to allocate.  If the value is less than 1048576, the value will specify how many MB of memory will be allocated.  The default sort memory amount is 128 MB.
 @item @syntaxidx{COB_SWITCH_n}
-(n=0 to 15); These environment variables correspond to @syntax{SWITCH-0} through @syntax{SWITCH-15}, defined in the @syntaxref{SPECIAL-NAMES} paragraph.  Setting them to "ON" will activate them; any other value turns them off.
+(n=0 to 15); These environment variables correspond to @code{SWITCH-0} through @code{SWITCH-15}, defined in the @syntaxref{SPECIAL-NAMES} paragraph.  Setting them to "ON" will activate them; any other value turns them off.
 @item @syntaxidx{COB_SYNC}
 If set to a value of upper- or lower-case "p", this variable will force a file commit every time a file is written to (ensuring that data is immediately written to the file rather than retained in memory until a future commit occurs).  This will slow-down update access to files, but will provide for better integrity in the event of a program failure.
 @item @syntaxidx{COB_TRACE_FILE}
 If set to any non-null value, this environment variable specifies the file to which all @switch{-ftrace} and @switch{-ftraceall} output will be written.
 If this is NOT set to a value, all @switch{-ftrace} and @switch{-ftraceall} output will be written to STDERR, where it may be piped via a "2> filename" on the command that executes the program.
 @item @syntaxidx{DB_HOME}
-If your GnuCOBOL build uses the Berkeley Database (BDB) package, use this environment variable to specify the folder in which the lock management files to be associated with all non-SORT files opened by the program will be stored.  @syntaxref{ORGANIZATION INDEXED} files will also have their data file allocated in the folder pointed to by this environment variable, if it exists..  Having this variable defined will activate record locking features on the @statementref{READ}, @statementref{REWRITE} and @statementref{WRITE}.  Even with DB_HOME, locking will not work with @syntaxref{ORGANIZATION SEQUENTIAL}, @syntaxref{ORGANIZATION LINE SEQUENTIAL} or ORGANIZATION RELATIVE files with GnuCOBOL builds created for Windows/MinGW.  @syntax{ORGANIZATION INDEXED} locks will work with Windows/MinGW + BDB and all locks will work for all file organizations with UNIX GnuCOBOL builds.
+If your GnuCOBOL build uses the Berkeley Database (BDB) package, use this environment variable to specify the folder in which the lock management files to be associated with all non-SORT files opened by the program will be stored.  @syntaxref{ORGANIZATION INDEXED} files will also have their data file allocated in the folder pointed to by this environment variable, if it exists..  Having this variable defined will activate record locking features on the @statementref{READ}, @statementref{REWRITE} and @statementref{WRITE}.  Even with DB_HOME, locking will not work with @syntaxref{ORGANIZATION SEQUENTIAL}, @syntaxref{ORGANIZATION LINE SEQUENTIAL} or ORGANIZATION RELATIVE files with GnuCOBOL builds created for Windows/MinGW.  @code{ORGANIZATION INDEXED} locks will work with Windows/MinGW + BDB and all locks will work for all file organizations with UNIX GnuCOBOL builds.
 @item @syntaxidx{PATH}
 The GnuCOBOL "bin" directory should be defined in the PATH.
 @item @syntaxidx{TMPDIR}
@@ -1801,7 +1801,7 @@ dupn=Y           index allows dups
 @comment ** 10.2.4 Program Arguments                                         **
 @comment *********************************************************************
 @newsubsection{10.2.4,Program Arguments}
-Regardless of the manner in which a main program is executed (i.e. directly or via @syntax{cobcrun}), any arguments specified to the program may be retrieved via any of the following:
+Regardless of the manner in which a main program is executed (i.e. directly or via @code{cobcrun}), any arguments specified to the program may be retrieved via any of the following:
 @itemize @bullet
 @item
 @syntaxref{ACCEPT FROM COMMAND-LINE}
@@ -1813,11 +1813,11 @@ Regardless of the manner in which a main program is executed (i.e. directly or v
 @comment *********************************************************************
 @newsection{10.3,Binary Truncation}
 By default, the GnuCOBOL compiler will truncate binary data items to the precision indicated by their @syntaxref{PICTURE} clause, if they have one. This applies to COMP, BINARY and COMP-4 items Only.
-@* The fact is, however, that binary truncation has a significant effect on the performance of GnuCOBOL programs.  When binary truncation is in effect, arithmetic operations performed against all types of numeric data items (even @syntax{USAGE DISPLAY}) are slowed down.
+@* The fact is, however, that binary truncation has a significant effect on the performance of GnuCOBOL programs.  When binary truncation is in effect, arithmetic operations performed against all types of numeric data items (even @code{USAGE DISPLAY}) are slowed down.
 
 Before continuing, it's worth making the point that we're NOT talking about astronomical performance degradations here.  Today's computers are FAST, and a user sitting at the keyboard, running a GnuCOBOL program is unlikely to notice.  BUT @dots{} if you have a GnuCOBOL program that has to process large amounts of data, performing some significant "number crunching" against that data as it goes, the impact of truncation could become noticeable.
 
-The following program compares the performance of performing arithmetic operations (in a totally non-scientific, non-rigorous way) against data items with a @syntaxref{USAGE} of @syntax{DISPLAY}, @syntax{COMP} and @syntax{BINARY-LONG}.  It was actually my intent when I first wrote the program to merely demonstrate the relative performance differences between different types of numeric data storage, and it certainly met that objective.
+The following program compares the performance of performing arithmetic operations (in a totally non-scientific, non-rigorous way) against data items with a @syntaxref{USAGE} of @code{DISPLAY}, @code{COMP} and @code{BINARY-LONG}.  It was actually my intent when I first wrote the program to merely demonstrate the relative performance differences between different types of numeric data storage, and it certainly met that objective.
 
 @example
 IDENTIFICATION DIVISION.
@@ -1899,7 +1899,7 @@ USAGE DISPLAY:   1.69 SECONDS
 USAGE COMP:      0.65 SECONDS
 USAGE BINARY:    0.02 SECONDS
 @end example
-@* The results I saw here were consistent with those that would have been obtained from most of the COBOL implementations I have ever worked with --- @syntax{USAGE COMP} has a significant performance advantage over @syntax{USAGE DISPLAY} and @syntax{USAGE BINARY-LONG} (and presumably the other @syntax{BINARY-@i{xxx}} usages as well) perform identically, within the measurement tolerances of the test.
+@* The results I saw here were consistent with those that would have been obtained from most of the COBOL implementations I have ever worked with --- @code{USAGE COMP} has a significant performance advantage over @code{USAGE DISPLAY} and @code{USAGE BINARY-LONG} (and presumably the other @code{BINARY-@i{xxx}} usages as well) perform identically, within the measurement tolerances of the test.
 
 Imagine my surprise, however, when I discovered that the use of @switch{-fnotrunc} also made a difference:
 
@@ -1919,7 +1919,7 @@ USAGE DISPLAY:   1.73 SECONDS
 USAGE COMP:      0.06 SECONDS
 USAGE BINARY:    0.02 SECONDS
 @end example
-@* As you can see, there was a huge drop in @syntax{USAGE COMP} timings by turning off truncation.  As a result, I see absolutely no reason whatsoever why the @switch{-fnotrunc} option shouldn't be used on all GnuCOBOL compilations.
+@* As you can see, there was a huge drop in @code{USAGE COMP} timings by turning off truncation.  As a result, I see absolutely no reason whatsoever why the @switch{-fnotrunc} option shouldn't be used on all GnuCOBOL compilations.
 
 If you want to squeeze every last bit of performance out of your GnuCOBOL programs, don't forget to investigate the @switchidx{-O}, @switchidx{-O2} and the @switchidx{-Os}, all of which influence the optimization of compiled code.  Actually run programs using various optimization switches (or not) and compare execution times against those of unoptimized compiled versions of your programs.  Don't just compare the generated C code because sometimes the differences can't be "seen" at the C source-code level.
 

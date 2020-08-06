@@ -62,9 +62,9 @@ CSS = css/gnucobpg.css
 
 WARNING = --no-warn
 
-html: HTML/gnucobqr.html HTML/gnucobsp.html HTML/gnucobpg HTML/gnucobpg.html
+html: HTML/gnucobqr.html HTML/gnucobsp.html HTML/gnucobpg/index.html HTML/gnucobpg.html
 
-HTML/gnucobpg: $(SOURCES)
+HTML/gnucobpg/index.html: $(SOURCES)
 	@mkdir -p $(dir $@)
 	makeinfo -v -o HTML/gnucobpg $(WARNING) \
 		--html            --css-ref=$(CSS) gnucobpg.texi

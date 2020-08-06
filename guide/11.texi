@@ -60,7 +60,7 @@ These are subprograms that are coded as the only COBOL program in their @topic{C
 
 @item @define{Contained Subprograms}
 
-These are subprograms which occur in the same Compilation Unit as a main program and/or other subprograms.  Each contained subprogram is separated from the next via an @syntax{END PROGRAM} marker line.  As an example@dots{}
+These are subprograms which occur in the same Compilation Unit as a main program and/or other subprograms.  Each contained subprogram is separated from the next via an @code{END PROGRAM} marker line.  As an example@dots{}
 
 @example
 IDENTIFICATION DIVISION.
@@ -72,11 +72,11 @@ PROGRAM-ID. SUB2.
 @dots{}
 END PROGRAM SUB2.
 @end example
-@* Program source code may be concatenated as shown here, provided an @syntax{END PROGRAM} marker naming the @syntax{PROGRAM-ID} of the just-completed program is used to separate one program from another.
+@* Program source code may be concatenated as shown here, provided an @code{END PROGRAM} marker naming the @code{PROGRAM-ID} of the just-completed program is used to separate one program from another.
 
-There's no reason that user-defined functions cannot be included too --- they'll just have @syntax{FUNCTION-ID}s and will be ended by @syntax{END FUNCTION} markers.
+There's no reason that user-defined functions cannot be included too --- they'll just have @code{FUNCTION-ID}s and will be ended by @code{END FUNCTION} markers.
 
-The last program in any GnuCOBOL source file need not have an @syntax{END} marker.
+The last program in any GnuCOBOL source file need not have an @code{END} marker.
 
 When multiple programs occur in a source file, it is assumed that the programs are related to one another in that they will be CALLed or executed as functions from the others.
 
@@ -102,24 +102,24 @@ PROGRAM-ID. PROG4.
 END PROGRAM PROG4.
 END PROGRAM PROG1.
 @end example
-@* Here we see that PROG2 is nested inside of PROG1 because there is no @syntax{END PROGRAM} marker separating them.  This means that data items or files defined within PROG1 can be used within PROG2 simply by attaching the @syntaxref{GLOBAL} attribute to them back in PROG1 when they are defined.
+@* Here we see that PROG2 is nested inside of PROG1 because there is no @code{END PROGRAM} marker separating them.  This means that data items or files defined within PROG1 can be used within PROG2 simply by attaching the @syntaxref{GLOBAL} attribute to them back in PROG1 when they are defined.
 
-Similarly, since there is no @syntax{END PROGRAM} marker separating PROG3 from PROG2, it is possible for PROG3 to access @syntax{GLOBAL} files and data items defined within PROG2.  Since PROG2 is nested within PROG1, any @syntax{GLOBAL} resources defined within PROG1 will be available to PROG3 as well.
+Similarly, since there is no @code{END PROGRAM} marker separating PROG3 from PROG2, it is possible for PROG3 to access @code{GLOBAL} files and data items defined within PROG2.  Since PROG2 is nested within PROG1, any @code{GLOBAL} resources defined within PROG1 will be available to PROG3 as well.
 
-The two @syntax{END PROGRAM} markers for PROG3 and PROG2 (note their sequence) mean that PROG4 is nested within PROG1 only.  It will not have access to any @syntax{GLOBAL} resources defined within either PROG2 or PROG3.
+The two @code{END PROGRAM} markers for PROG3 and PROG2 (note their sequence) mean that PROG4 is nested within PROG1 only.  It will not have access to any @code{GLOBAL} resources defined within either PROG2 or PROG3.
 
-The @syntax{END PROGRAM PROG1.} marker, since it is the last line in the source file, is entirely optional.
+The @code{END PROGRAM PROG1.} marker, since it is the last line in the source file, is entirely optional.
 @end table
 @comment *********************************************************************
 @comment ** 11.3 Alternate Entry Points                                      **
 @comment *********************************************************************
 @newsection{11.3,Alternate Entry Points}
 
-Any subroutine may have multiple entry-points defined within it.  This means the subroutine could be called either via a @syntax{CALL '@term{program-id}'} or a @syntax{CALL '@term{entry-point}'} statement.  There may be any number of alternate entry-points defined within a subroutine.
+Any subroutine may have multiple entry-points defined within it.  This means the subroutine could be called either via a @code{CALL '@term{program-id}'} or a @code{CALL '@term{entry-point}'} statement.  There may be any number of alternate entry-points defined within a subroutine.
 
-Alternate entry-points provide multiple ways in which the same subroutine may be called; presumably, each entry-point will provide some different functionality to the calling program.  For example, if you wished to write a subroutine that manipulates "student" records in a database, you might have the primary entry-point name retrieve a student record from the database, while the alternate entry points @syntax{Add-Student}, @syntax{Update-Student} and @syntax{Delete-Student} could provide the alternate functions implied by their entry-point names.
+Alternate entry-points provide multiple ways in which the same subroutine may be called; presumably, each entry-point will provide some different functionality to the calling program.  For example, if you wished to write a subroutine that manipulates "student" records in a database, you might have the primary entry-point name retrieve a student record from the database, while the alternate entry points @code{Add-Student}, @code{Update-Student} and @code{Delete-Student} could provide the alternate functions implied by their entry-point names.
 
-The alternative to using multiple entry points in your subroutine, by the way, would be to include an additional argument to the primary (and only) entry point of the subroutine; this new argument might be named @syntax{STUDENT-FUNCTION} and might have values of "FETCH", "ADD", "UPDATE" or "DELETE".
+The alternative to using multiple entry points in your subroutine, by the way, would be to include an additional argument to the primary (and only) entry point of the subroutine; this new argument might be named @code{STUDENT-FUNCTION} and might have values of "FETCH", "ADD", "UPDATE" or "DELETE".
 
 The primary entry-point for any subroutine is always the first executable statement following any @syntaxref{DECLARATIVES} in the procedure division.  The name of that entry-point (the name that will be called) is the subroutine's @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION}.
 
@@ -139,23 +139,23 @@ A @define{Dynamic Subprogram} is one whose executable object code exists as an e
 
 GnuCOBOL subprograms may be created as either static or dynamic subprograms, as desired by the programmer.
 
-To demonstrate, assume that a GnuCOBOL Main Program (whose code resides in the file "M.cbl") will be calling three subprograms, named "A", "B" and "C" (these are the @syntax{PROGRAM-ID}s of the three subprograms, and their source code may be found in the files "A.cbl", "B.cbl" and "C.cbl", respectively.
+To demonstrate, assume that a GnuCOBOL Main Program (whose code resides in the file "M.cbl") will be calling three subprograms, named "A", "B" and "C" (these are the @code{PROGRAM-ID}s of the three subprograms, and their source code may be found in the files "A.cbl", "B.cbl" and "C.cbl", respectively.
 
 Here is how these four programs would be compiled if the three subprograms are to be static:
 
-@center @syntax{cobc -x M.cbl A.cbl B.cbl C.cbl}
+@center @code{cobc -x M.cbl A.cbl B.cbl C.cbl}
 
 This command informs the compiler (cobc) that four programs are to be compiled (the first named on the command must always be the main program), and a single executable file is to be created (due to the @switchidx{-x}).
 
 Here is how the main program and the three subprograms could be compiled if the three subprograms are to be dynamic:
 
-@center @syntax{cobc -x M.cbl}
+@center @code{cobc -x M.cbl}
 
-@center @syntax{cobc -m A.cbl B.cbl C.cbl}
+@center @code{cobc -m A.cbl B.cbl C.cbl}
 
 These commands will create an executable file for the main program (@switch{-x}) and three separate dynamically-loadable libraries (@switchidx{-m}), one for each of the three subprograms.  Had we wished, we could have created a single dynamically-loadable library containing all three subprograms by adding the @switchidx{-b} to their compilation:
 
-@center @syntax{cobc -m -b A.cbl B.cbl C.cbl}
+@center @code{cobc -m -b A.cbl B.cbl C.cbl}
 
 Dynamically-loadable @i{libraries} are also known by the term dynamically-loadable @i{modules} --- the two terms are synonymous.
 
@@ -163,10 +163,10 @@ Here are the rules about GnuCOBOL dynamically-loadable modules:
 @enumerate
 
 @item
-There may be multiple GnuCOBOL subprograms contained within a single dynamically-loadable library if the @syntax{-b} switch is used in addition to @syntax{-m}.  If not, each subprogram will be compiled to a separate dynamically-loadable library.
+There may be multiple GnuCOBOL subprograms contained within a single dynamically-loadable library if the @code{-b} switch is used in addition to @code{-m}.  If not, each subprogram will be compiled to a separate dynamically-loadable library.
 
 @item
-Dynamically-loadable modules will be named "xxxxxxxx.dll" on a Windows system, "xxxxxxxx.so" on a Unix system or "xxxxxxxx.dylib" on an OSX system, where "xxxxxxxx" exactly matches, including the usage of upper- and lower-case letters, the primary entry-point name (@syntax{PROGRAM-ID} or @syntax{FUNCTION-ID}) or an alternate entry point name defined via the @statementref{ENTRY} of any one of the GnuCOBOL programs included in that module.
+Dynamically-loadable modules will be named "xxxxxxxx.dll" on a Windows system, "xxxxxxxx.so" on a Unix system or "xxxxxxxx.dylib" on an OSX system, where "xxxxxxxx" exactly matches, including the usage of upper- and lower-case letters, the primary entry-point name (@code{PROGRAM-ID} or @code{FUNCTION-ID}) or an alternate entry point name defined via the @statementref{ENTRY} of any one of the GnuCOBOL programs included in that module.
 
 @item
 The first time any of the GnuCOBOL subprograms in a dynamically-loadable module are invoked, the entry-point referenced must be the one for which the ".dll", ".so" or ".dylib" file is named.
@@ -199,11 +199,11 @@ When a subprogram is invoked, the flow of execution will differ slightly dependi
 @comment *********************************************************************
 @newsubsection{11.5.1,Subroutine Execution Flow}
 
-When a subroutine is @syntax{CALL}ed:
+When a subroutine is @code{CALL}ed:
 @enumerate
 
 @item
-The calling program issues a statement of the form @syntax{CALL '@term{entry-point}' USING ...} to transfer control to the subroutine.
+The calling program issues a statement of the form @code{CALL '@term{entry-point}' USING ...} to transfer control to the subroutine.
 
 @item
 The executable for the called program will be located and loaded into memory:
@@ -220,31 +220,31 @@ Once the module has been located (if location was needed), it will be loaded int
 @item Execution of the calling program is suspended and control will transfer to the called program, as follows:
 @enumerate A
 @item
-If the @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION} clause of the subprogram included the @syntaxidx{INITIAL} clause, the program will be reinitialized back to its compile-time state.  This will happen regardless of the @syntax{INITIAL} clause the first time the subprogram is executed.
+If the @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION} clause of the subprogram included the @syntaxidx{INITIAL} clause, the program will be reinitialized back to its compile-time state.  This will happen regardless of the @code{INITIAL} clause the first time the subprogram is executed.
 
 @item
 Local-storage, if any, will be allocated and initialized.
 
 @item
-Execution will begin at the first executable statement following the subprograms entry-point.  The entry point will be either the first executable statement following any @syntaxref{DECLARATIVES} that might be present (if the subprogram was invoked using its primary entry-point name) or the first executable statement following the @statementref{ENTRY} naming the entry-point specified on the @syntax{CALL} if the subprogram was invoked using an alternate entry point.
+Execution will begin at the first executable statement following the subprograms entry-point.  The entry point will be either the first executable statement following any @syntaxref{DECLARATIVES} that might be present (if the subprogram was invoked using its primary entry-point name) or the first executable statement following the @statementref{ENTRY} naming the entry-point specified on the @code{CALL} if the subprogram was invoked using an alternate entry point.
 @end enumerate
 @item The flow of execution will then progress through the coding of the subprogram as it would with any other program.
 
-@item If the subprogram issues a @statementref{STOP} with the @syntax{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
+@item If the subprogram issues a @statementref{STOP} with the @code{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
 
 @item If the subprogram wishes to return control back to the calling program, it will do so using either the @statementref{GOBACK} or the @statementrefalt{EXIT PROGRAM,EXIT}.  At this time:
 @enumerate A
 @item
-If the subprograms procedure division header or @statement{ENTRY} included a @syntaxidx{RETURNING}, the value of the data item found on that clause is moved to the @registerref{RETURN-CODE}; this behaviour can be altered utilizing the @syntaxrefalt{CALL-CONVENTION,SPECIAL-NAMES} feature to leave @syntax{RETURN-CODE} unchanged.
+If the subprograms procedure division header or @statement{ENTRY} included a @syntaxidx{RETURNING}, the value of the data item found on that clause is moved to the @registerref{RETURN-CODE}; this behaviour can be altered utilizing the @syntaxrefalt{CALL-CONVENTION,SPECIAL-NAMES} feature to leave @code{RETURN-CODE} unchanged.
 
 @item
 Local-storage, if any, is de-allocated.
 
 @item
-If the calling program included a @syntax{RETURNING} clause on the @syntax{CALL} statement that invoked the subprogram, the value of the @syntax{RETURNING} data item in the subroutine is moved to that data item.  If there was no @syntax{RETURNING} specified in the subroutine, the value of the @register{RETURN-CODE} is moved to that data item.
+If the calling program included a @code{RETURNING} clause on the @code{CALL} statement that invoked the subprogram, the value of the @code{RETURNING} data item in the subroutine is moved to that data item.  If there was no @code{RETURNING} specified in the subroutine, the value of the @register{RETURN-CODE} is moved to that data item.
 
 @item
-Execution will resume back in the calling program with the first executable statement following the @syntax{CALL} that invoked the subprogram.
+Execution will resume back in the calling program with the first executable statement following the @code{CALL} that invoked the subprogram.
 @end enumerate
 @end enumerate
 @comment *********************************************************************
@@ -277,7 +277,7 @@ Execution will begin with the first executable statement in the procedure divisi
 @end enumerate
 @item The flow of execution will then progress through the coding of the function as it would with any other program.
 
-@item If the function issues a @statementref{STOP} with the @syntax{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
+@item If the function issues a @statementref{STOP} with the @code{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
 
 @item If the function wishes to return control back to the calling program, it will do so using either the @statementref{GOBACK} or the @statementrefalt{EXIT FUNCTION,EXIT}.  At this time:
 @enumerate A
@@ -331,9 +331,9 @@ Arguments must be described in both the calling and called programs, and while t
 
 @item @syntaxref{USAGE}
 @end itemize
-@* A subroutine may be passed a maximum of 251 arguments; if you build the GnuCOBOL software yourself from the distributed source, you CAN change this value by altering the defined value of @syntax{COB_MAX_FIELD_PARAMS} in the "call.h" header file but also see 7.8.5.11 for more information.  There is no built-in GnuCOBOL limit to how many arguments a user-defined function may be passed.
+@* A subroutine may be passed a maximum of 251 arguments; if you build the GnuCOBOL software yourself from the distributed source, you CAN change this value by altering the defined value of @code{COB_MAX_FIELD_PARAMS} in the "call.h" header file but also see 7.8.5.11 for more information.  There is no built-in GnuCOBOL limit to how many arguments a user-defined function may be passed.
 
-Whether or not changes made to an argument within a subroutine will be "visible" to the calling program depends on how the argument was passed.  There are three ways in which arguments may be passed from a calling program to a subroutine, as defined by the use of optional @syntax{BY} clauses in the @syntaxref{CALL} statement's list of arguments.
+Whether or not changes made to an argument within a subroutine will be "visible" to the calling program depends on how the argument was passed.  There are three ways in which arguments may be passed from a calling program to a subroutine, as defined by the use of optional @code{BY} clauses in the @syntaxref{CALL} statement's list of arguments.
 
 As an example, the following statement passes three arguments to a subroutine --- each argument is passed differently.
 
@@ -346,21 +346,21 @@ END-CALL
 @* The three ways arguments are passed are as follows.
 @table @asis
 
-@item @syntax{BY REFERENCE}
+@item @code{BY REFERENCE}
 
-When a subroutine argument is passed @syntaxidx{BY REFERENCE}, the subroutine is passed the @i{address} of the @i{actual data item} being passed as an argument.  The item may anything defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will "see" the results of that change when the subroutine returns control.  This is the default manner in which GnuCOBOL passes arguments to a subroutine, should no @syntax{BY} clauses be included on the @syntax{CALL}.
+When a subroutine argument is passed @syntaxidx{BY REFERENCE}, the subroutine is passed the @i{address} of the @i{actual data item} being passed as an argument.  The item may anything defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will "see" the results of that change when the subroutine returns control.  This is the default manner in which GnuCOBOL passes arguments to a subroutine, should no @code{BY} clauses be included on the @code{CALL}.
 
-@item @syntax{BY CONTENT}
+@item @code{BY CONTENT}
 
-When a subroutine is passed an argument @syntaxidx{BY CONTENT}, the subroutine is passed the @i{address} of a @i{copy} of the actual data being passed as an argument.  The item may anything defined within the data division of the program.  The copy is made each time the @syntax{CALL} statement is executed, immediately before the @syntax{CALL} actually takes place.  If the subroutine modifies the contents of this argument, it will be the @i{copy} that is modified, not the original data item; the calling program will therefore not "see" the results of that change when the subroutine returns control.
+When a subroutine is passed an argument @syntaxidx{BY CONTENT}, the subroutine is passed the @i{address} of a @i{copy} of the actual data being passed as an argument.  The item may anything defined within the data division of the program.  The copy is made each time the @code{CALL} statement is executed, immediately before the @code{CALL} actually takes place.  If the subroutine modifies the contents of this argument, it will be the @i{copy} that is modified, not the original data item; the calling program will therefore not "see" the results of that change when the subroutine returns control.
 
-@item @syntax{BY VALUE}
+@item @code{BY VALUE}
 
 Passing a subroutine argument @syntaxidx{BY VALUE} passes the @i{actual value} of the data being passed as an argument.  The item may be any elementary binary numeric item defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will not "see" the results of that change when the subroutine returns control.
 @end table
-@* The first two ways in which arguments may be passed (@syntax{BY REFERENCE} and @syntax{BY CONTENT}) are intended for use when a GnuCOBOL program is being called, while the first and third (@syntax{BY REFERENCE} and @syntax{BY VALUE}) are intended for use when a C program is being called.  You @i{can} use @syntax{BY VALUE} arguments when calling GnuCOBOL subroutines, but remember that those arguments are limited to being a numeric binary data item.
+@* The first two ways in which arguments may be passed (@code{BY REFERENCE} and @code{BY CONTENT}) are intended for use when a GnuCOBOL program is being called, while the first and third (@code{BY REFERENCE} and @code{BY VALUE}) are intended for use when a C program is being called.  You @i{can} use @code{BY VALUE} arguments when calling GnuCOBOL subroutines, but remember that those arguments are limited to being a numeric binary data item.
 
-Arguments to user-defined functions are always passed @syntax{BY REFERENCE}.
+Arguments to user-defined functions are always passed @code{BY REFERENCE}.
 @comment *********************************************************************
 @comment ** 11.6.1.2 Called Program Considerations                           **
 @comment *********************************************************************
@@ -370,13 +370,13 @@ When coding a GnuCOBOL subprogram (a subroutine or user-defined function), all a
 
 These arguments must be explicitly included on the @syntaxref{PROCEDURE DIVISION USING} clause that lists the arguments in the sequence in which they will be passed to the subprogram.
 
-These arguments described in the @syntax{PROCEDURE DIVISION USING} clause may each be defined as either @syntax{BY REFERENCE}, if the calling program is passing them either @syntaxidx{BY REFERENCE} or @syntaxidx{BY CONTENT}, or as @syntaxidx{BY VALUE} if they are being passed @syntax{BY VALUE}.
+These arguments described in the @code{PROCEDURE DIVISION USING} clause may each be defined as either @code{BY REFERENCE}, if the calling program is passing them either @syntaxidx{BY REFERENCE} or @syntaxidx{BY CONTENT}, or as @syntaxidx{BY VALUE} if they are being passed @code{BY VALUE}.
 
-By default, all arguments are assumed to be @syntax{BY REFERENCE} unless explicitly stated otherwise on the procedure division header.
+By default, all arguments are assumed to be @code{BY REFERENCE} unless explicitly stated otherwise on the procedure division header.
 
-Arguments to a user-defined function are always to be specified as @syntax{BY REFERENCE} (either explicitly or by not using any @syntax{BY}).
+Arguments to a user-defined function are always to be specified as @code{BY REFERENCE} (either explicitly or by not using any @code{BY}).
 
-If the subprogram returns a value, the data item in which the value is returned must also be defined in the subprogram's linkage section, with a @syntaxref{USAGE} of @syntax{BINARY-LONG SIGNED}, or it's equivalent.
+If the subprogram returns a value, the data item in which the value is returned must also be defined in the subprogram's linkage section, with a @syntaxref{USAGE} of @code{BINARY-LONG SIGNED}, or it's equivalent.
 @comment *********************************************************************
 @comment ** 11.6.2 GLOBAL Data Items                                         **
 @comment *********************************************************************
@@ -461,9 +461,9 @@ DemoEXTERNAL: **********
 @comment *********************************************************************
 @newsection{11.7,Recursive Subprograms}
 
-A subroutine may @syntax{CALL} itself, either directly or indirectly from another subroutine or user-defined function that it @syntax{CALL}s.  Any subroutine that indulges in this sort of behaviour (called recursion) is called a @define{Recursive Subprogram}.
+A subroutine may @code{CALL} itself, either directly or indirectly from another subroutine or user-defined function that it @code{CALL}s.  Any subroutine that indulges in this sort of behaviour (called recursion) is called a @define{Recursive Subprogram}.
 
-Any GnuCOBOL subroutine can be recursively invoked only if it is defined to the GnuCOBOL compiler as @i{being} a recursive subroutine.  This is accomplished by adding the @syntax{RECURSIVE} attribute to it's @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION}.
+Any GnuCOBOL subroutine can be recursively invoked only if it is defined to the GnuCOBOL compiler as @i{being} a recursive subroutine.  This is accomplished by adding the @code{RECURSIVE} attribute to it's @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION}.
 
 All User-defined functions are automatically capable of being executed recursively.
 
@@ -613,11 +613,11 @@ Like most other implementations of the COBOL language, GnuCOBOL utilizes a run-t
 
 Both languages store strings as a fixed-length continuous sequence of characters.
 
-COBOL stores these character sequences up to a specific quantity limit imposed by the @syntaxref{PICTURE} clause of the data item.  For example: @syntax{01  LastName   PIC X(15).}.
+COBOL stores these character sequences up to a specific quantity limit imposed by the @syntaxref{PICTURE} clause of the data item.  For example: @code{01  LastName   PIC X(15).}.
 
-There is never an issue of exactly what the length of a string contained in a @syntaxrefalt{USAGE DISPLAY,USAGE} data item is --- there are always exactly how ever many characters as were allowed for by the @syntax{PICTURE} clause.  In the example above, "LastName" will always contain exactly fifteen characters; of course, there may be anywhere from 0 to 15 trailing SPACES as part of the current LastName value.
+There is never an issue of exactly what the length of a string contained in a @syntaxrefalt{USAGE DISPLAY,USAGE} data item is --- there are always exactly how ever many characters as were allowed for by the @code{PICTURE} clause.  In the example above, "LastName" will always contain exactly fifteen characters; of course, there may be anywhere from 0 to 15 trailing SPACES as part of the current LastName value.
 
-C actually has no "string" data type; it stores strings as an array of @syntax{char} data type items where each element of the array is a single character.  Being an array, there is an upper limit to how many characters may be stored in a given "string".  For example:
+C actually has no "string" data type; it stores strings as an array of @code{char} data type items where each element of the array is a single character.  Being an array, there is an upper limit to how many characters may be stored in a given "string".  For example:
 
 @center @t{char lastName[15]; /* 15 chars: lastName[0] through lastName[14] */}
 
@@ -709,7 +709,7 @@ PROCEDURE DIVISION.                   printf("Arg1=%s\n",arg1);
     .
 @end verbatim
 @end smallformat
-@* The idea is to pass two string and one full-word unsigned arguments to the subprogram, have the subprogram print them out, change all three and pass a return code of 2 back to the caller.  The caller will then re-display the three arguments (showing changes only to the two @syntax{BY REFERENCE} arguments), display the return code and halt.
+@* The idea is to pass two string and one full-word unsigned arguments to the subprogram, have the subprogram print them out, change all three and pass a return code of 2 back to the caller.  The caller will then re-display the three arguments (showing changes only to the two @code{BY REFERENCE} arguments), display the return code and halt.
 
 While simple, these two programs illustrate the techniques required quite nicely.
 
@@ -736,7 +736,7 @@ $
 @end example
 @* Remember that the null characters are actually in the GnuCOBOL "Arg1" and "Arg2" data items.  They don't appear in the output, but they ARE there.
 
-Did you notice the output showing the contents of "Arg1" after the subroutine was called?  Those contents were unchanged!  The subroutine @i{definitely} changed that argument, but since the COBOL program passed that argument @syntax{BY CONTENT}, the change was made to a @i{copy} of the argument, not to the "Arg1" data item itself.
+Did you notice the output showing the contents of "Arg1" after the subroutine was called?  Those contents were unchanged!  The subroutine @i{definitely} changed that argument, but since the COBOL program passed that argument @code{BY CONTENT}, the change was made to a @i{copy} of the argument, not to the "Arg1" data item itself.
 @comment *********************************************************************
 @comment ** 11.8.5 C Main Programs Calling GnuCOBOL Subprograms             **
 @comment *********************************************************************
@@ -796,9 +796,9 @@ Returned value=2
 C:\Users\Gary\Documents\Programs>
 @end example
 
-Note that even though we told GnuCOBOL that the 1st argument was to be @syntax{BY VALUE}, it was treated as if it were @syntax{BY REFERENCE} anyway.  String (char array) arguments passed from C callers to GnuCOBOL subprograms will be modifiable by the subprogram.  It's best to pass a copy of such data if you want to ensure that the subprogram doesn't change it.
+Note that even though we told GnuCOBOL that the 1st argument was to be @code{BY VALUE}, it was treated as if it were @code{BY REFERENCE} anyway.  String (char array) arguments passed from C callers to GnuCOBOL subprograms will be modifiable by the subprogram.  It's best to pass a copy of such data if you want to ensure that the subprogram doesn't change it.
 
-The third argument is different, however.  Since it's not an array you have the choice of passing it either @syntax{BY REFERENCE} or @syntax{BY VALUE}.
+The third argument is different, however.  Since it's not an array you have the choice of passing it either @code{BY REFERENCE} or @code{BY VALUE}.
 @iftex
 @sp 3
 @center ------------------------------------------------------------

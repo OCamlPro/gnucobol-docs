@@ -12,9 +12,9 @@ GnuCOBOL supports a wide variety of "intrinsic functions" that may be used anywh
 @example
 MOVE FUNCTION LENGTH(Employee-Last-Name) TO Employee-LN-Len
 @end example
-@* Note how the word @syntax{FUNCTION} is part of the syntax when you use an intrinsic function.  You can use intrinsic functions without having to include the reserved word @syntax{FUNCTION} via settings in the @syntaxref{REPOSITORY} paragraph.  You may accomplish the same thing by specifying the @switchidx{-fintrinsics} to the GnuCOBOL compiler when you compile your programs.
+@* Note how the word @code{FUNCTION} is part of the syntax when you use an intrinsic function.  You can use intrinsic functions without having to include the reserved word @code{FUNCTION} via settings in the @syntaxref{REPOSITORY} paragraph.  You may accomplish the same thing by specifying the @switchidx{-fintrinsics} to the GnuCOBOL compiler when you compile your programs.
 
-User-written functions (@pxref{Subprogram Types}) never require the @syntax{FUNCTION} keyword when they are executed, because each user-written function a program uses @i{must} be included in that program's @syntax{REPOSITORY} paragraph, which therefore makes the @syntax{FUNCTION} keyword optional.
+User-written functions (@pxref{Subprogram Types}) never require the @code{FUNCTION} keyword when they are executed, because each user-written function a program uses @i{must} be included in that program's @code{REPOSITORY} paragraph, which therefore makes the @code{FUNCTION} keyword optional.
 
 The following intrinsic functions, known to other "dialects" of COBOL, are defined to GnuCOBOL as reserved words but are not otherwise implemented currently.  Any attempts to use these functions will result in a compile-time error message. However they are described at the end of this chapter.
 
@@ -150,11 +150,11 @@ This function determines and returns the absolute value of the @term{number} (a 
 @page
 @newsubsection{8.1.2,ACOS}
 @diagram{ACOS Function,FN-ACOS,FN-ACOS,None}
-The @syntax{ACOS} function determines and returns the trigonometric arc-cosine, or inverse cosine, of the @term{cosine} value (a numeric literal or data item) supplied as an argument.
+The @code{ACOS} function determines and returns the trigonometric arc-cosine, or inverse cosine, of the @term{cosine} value (a numeric literal or data item) supplied as an argument.
 
 The result will be an angle, expressed in radians.  You may convert this to an angle measured in degrees, as follows:
 
-@center @syntax{COMPUTE @term{degrees} = ( @term{radians} * 180 ) / FUNCTION PI}
+@center @code{COMPUTE @term{degrees} = ( @term{radians} * 180 ) / FUNCTION PI}
 @comment *********************************************************************
 @comment ** 8.1.3 ANNUITY                                                   **
 @comment *********************************************************************
@@ -175,11 +175,11 @@ A note for the financially challenged: an annuity is basically a reverse loan; a
 @page
 @newsubsection{8.1.4,ASIN}
 @diagram{ASIN Function,FN-ASIN,FN-ASIN,None}
-The @syntax{ASIN} function determines and returns the trigonometric arc-sine, or inverse sine, of the @term{sine} value (a numeric literal or data item) supplied as an argument.
+The @code{ASIN} function determines and returns the trigonometric arc-sine, or inverse sine, of the @term{sine} value (a numeric literal or data item) supplied as an argument.
 
 The result will be an angle, expressed in radians.  You may convert this to an angle measured in degrees, as follows:
 
-@center @syntax{COMPUTE @term{degrees} = ( @term{radians} * 180 ) / FUNCTION PI}
+@center @code{COMPUTE @term{degrees} = ( @term{radians} * 180 ) / FUNCTION PI}
 @comment *********************************************************************
 @comment ** 8.1.5 ATAN                                                      **
 @comment *********************************************************************
@@ -190,16 +190,16 @@ Use this function to determine and return the trigonometric arc-tangent, or inve
 
 The result will be an angle, expressed in radians.  You may convert this to an angle measured in degrees, as follows:
 
-@center @syntax{COMPUTE @term{degrees} = ( @term{radians} * 180 ) / FUNCTION PI}
+@center @code{COMPUTE @term{degrees} = ( @term{radians} * 180 ) / FUNCTION PI}
 @comment *********************************************************************
 @comment ** 8.1.6 BYTE-LENGTH                                               **
 @comment *********************************************************************
 @page
 @newsubsection{8.1.6,BYTE-LENGTH}
 @diagram{BYTE-LENGTH Function,FN-BYTE-LENGTH,FN-BYTE-LENGTH,None}
-@syntax{BYTE-LENGTH} returns the length --- in bytes --- of the specified @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal).  This intrinsic function is identical to the @syntaxref{LENGTH-AN} function.  Note that the value returned by this function is not necessarily the number of @i{characters} comprising @term{string}, but rather the number of actual @i{bytes} required to store it.
+@code{BYTE-LENGTH} returns the length --- in bytes --- of the specified @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal).  This intrinsic function is identical to the @syntaxref{LENGTH-AN} function.  Note that the value returned by this function is not necessarily the number of @i{characters} comprising @term{string}, but rather the number of actual @i{bytes} required to store it.
 
-For example, if @term{string} is encoded using a double-byte character set such as UNICODE (where each character is represented by 16 bits of storage, not the 8-bits inherent to character sets like ASCII or EBCDIC), then calling this function with a @term{string} argument whose @syntaxref{PICTURE} is @syntax{X(4)} would return a value of 8 rather than the value 4.
+For example, if @term{string} is encoded using a double-byte character set such as UNICODE (where each character is represented by 16 bits of storage, not the 8-bits inherent to character sets like ASCII or EBCDIC), then calling this function with a @term{string} argument whose @syntaxref{PICTURE} is @code{X(4)} would return a value of 8 rather than the value 4.
 
 Contrast this with the @syntaxref{LENGTH} function.
 @comment *********************************************************************
@@ -222,7 +222,7 @@ The following code is an alternative approach when you just wish to convert a nu
 @dots{}
     MOVE numeric-character-value TO Numeric-Value
 @end example
-@* The @syntax{Char-Value} item now has the corresponding ASCII character value.
+@* The @code{Char-Value} item now has the corresponding ASCII character value.
 @comment *********************************************************************
 @comment ** 8.1.8 COMBINED-DATETIME                                         **
 @comment *********************************************************************
@@ -238,29 +238,29 @@ If a @term{days} value less than 1 or greater than 3067671 is specified, or if a
 @page
 @newsubsection{8.1.9,CONCATENATE}
 @diagram{CONCATENATE Function,FN-CONCATENATE,FN-CONCATENATE,None}
-This function concatenates the @term{string-1}, @term{string-2}, @dots{} (group items, @syntax{USAGE DISPLAY} elementary items and/or alphanumeric literals) together into a single string result.
+This function concatenates the @term{string-1}, @term{string-2}, @dots{} (group items, @code{USAGE DISPLAY} elementary items and/or alphanumeric literals) together into a single string result.
 
-If a numeric literal or @syntax{PIC 9} identifier is specified as an argument, decimal points, if any, will be removed and negative signs in @syntax{PIC S9} fields or numeric literals will be inserted as defined by the @syntaxref{SIGN IS} clause (or absence thereof) of the field.  Numeric literals are processed as if @syntax{SIGN IS TRAILING SEPARATE} were in effect.
+If a numeric literal or @code{PIC 9} identifier is specified as an argument, decimal points, if any, will be removed and negative signs in @code{PIC S9} fields or numeric literals will be inserted as defined by the @syntaxref{SIGN IS} clause (or absence thereof) of the field.  Numeric literals are processed as if @code{SIGN IS TRAILING SEPARATE} were in effect.
 @comment *********************************************************************
 @comment ** 8.1.10 COS                                                      **
 @comment *********************************************************************
 @page
 @newsubsection{8.1.10,COS}
 @diagram{COS Function,FN-COS,FN-COS,None}
-The @syntax{COS} function determines and returns the trigonometric cosine of the @term{angle} (a numeric literal or data item) supplied as an argument.
+The @code{COS} function determines and returns the trigonometric cosine of the @term{angle} (a numeric literal or data item) supplied as an argument.
 
 The @term{angle} is assumed to be a value expressed in radians.  If you need to determine the cosine of an angle measured in degrees, you first need to convert that angle to radians as follows:
 
-@center @syntax{COMPUTE @term{radians} = ( @term{degrees} * FUNCTION PI) / 180}
+@center @code{COMPUTE @term{radians} = ( @term{degrees} * FUNCTION PI) / 180}
 @comment *********************************************************************
 @comment ** 8.1.11 CURRENCY-SYMBOL                                          **
 @comment *********************************************************************
 @page
 @newsubsection{8.1.11,CURRENCY-SYMBOL}
 @diagram{CURRENCY-SYMBOL Function,FN-CURRENCY-SYMBOL,FN-CURRENCY-SYMBOL,None}
-The @syntax{CURRENCY-SYMBOL} function returns the currency symbol character currently in effect for the locale under which your program is running.  On UNIX systems, your locale is established via the @envvarruntimeref{LANG} environment variable.  On Windows, the Control Panel's "Regional and Language Options" define the locale.
+The @code{CURRENCY-SYMBOL} function returns the currency symbol character currently in effect for the locale under which your program is running.  On UNIX systems, your locale is established via the @envvarruntimeref{LANG} environment variable.  On Windows, the Control Panel's "Regional and Language Options" define the locale.
 
-Changing the currency symbol via the @syntaxref{SPECIAL-NAMES} paragraph's @syntax{CURRENCY SYMBOL} setting will @i{not} affect the value returned by this function.
+Changing the currency symbol via the @syntaxref{SPECIAL-NAMES} paragraph's @code{CURRENCY SYMBOL} setting will @i{not} affect the value returned by this function.
 @comment *********************************************************************
 @comment ** 8.1.12 CURRENT-DATE                                             **
 @comment *********************************************************************
@@ -289,7 +289,7 @@ Returns the current date and time as the following 21-character structure:
 @page
 @newsubsection{8.1.13,DATE-OF-INTEGER}
 @diagram{DATE-OF-INTEGER Function,FN-DATE-OF-INTEGER,FN-DATE-OF-INTEGER,None}
-This function returns a numeric calendar date in yyyymmdd (i.e. Gregorian) format.  The date is determined by adding the number of days specified as @term{integer} (a numeric integer data item or literal) to the date December 31, 1600.  For example, @syntax{DATE-OF-INTEGER(1)} returns 16010101 while @syntax{DATE-OF-INTEGER(150000)} returns 20110908.
+This function returns a numeric calendar date in yyyymmdd (i.e. Gregorian) format.  The date is determined by adding the number of days specified as @term{integer} (a numeric integer data item or literal) to the date December 31, 1600.  For example, @code{DATE-OF-INTEGER(1)} returns 16010101 while @code{DATE-OF-INTEGER(150000)} returns 20110908.
 
 A value less than 1 or greater than 3067671 (9999/12/31) will return a result of 0.
 @comment *********************************************************************
@@ -309,7 +309,7 @@ The optional @term{yy-execution-time} argument (a numeric integer data item or l
 @page
 @newsubsection{8.1.15,DAY-OF-INTEGER}
 @diagram{DAY-OF-INTEGER Function,FN-DAY-OF-INTEGER,FN-DAY-OF-INTEGER,None}
-This function returns a calendar date in yyyyddd (i.e. Julian) format.  The date is determined by adding the number of days specified as integer (a numeric integer data item or literal) to December 31, 1600.  For example, @syntax{DAY-OF-INTEGER(1)} returns 1601001 while @syntax{DAY-OF-INTEGER(250000)} returns 2011251.
+This function returns a calendar date in yyyyddd (i.e. Julian) format.  The date is determined by adding the number of days specified as integer (a numeric integer data item or literal) to December 31, 1600.  For example, @code{DAY-OF-INTEGER(1)} returns 1601001 while @code{DAY-OF-INTEGER(250000)} returns 2011251.
 
 A value less than 1 or greater than 3067671 (9999/12/31) will return a result of 0.
 @comment *********************************************************************
@@ -457,7 +457,7 @@ This function computes and returns the factorial value of @term{number} (a numer
 @page
 @newsubsection{8.1.25,FORMATTED-CURRENT-DATE}
 @diagram{FORMATTED-CURRENT-DATE Function,FN-FORMATTED-CURRENT-DATE,FN-FORMATTED-CURRENT-DATE,None}
-@syntax{FORMATTED-CURRENT-DATE} Returns the current date and time provided by the system at run-time, formatted according to date-and-time-format according to the argument type.
+@code{FORMATTED-CURRENT-DATE} Returns the current date and time provided by the system at run-time, formatted according to date-and-time-format according to the argument type.
 
 The function argument must be a national or alphanumeric literal and the content, a combined date and time format.
 
@@ -468,7 +468,7 @@ The returned value is formatted to the same form as argument-1.
 @page
 @newsubsection{8.1.26,FORMATTED-DATE}
 @diagram{FORMATTED-DATE Function,FN-FORMATTED-DATE,FN-FORMATTED-DATE,None}
-@syntax{FORMATTED-DATE} uses a format to convert a date in integer date form to a date in the requested format. The returned value will be in date format.
+@code{FORMATTED-DATE} uses a format to convert a date in integer date form to a date in the requested format. The returned value will be in date format.
 
 Argument-1 shall be a national or alphanumeric literal.
 
@@ -479,7 +479,7 @@ Argument-2 shall be a value in integer date form.
 @page
 @newsubsection{8.1.27,FORMATTED-DATETIME}
 @diagram{FORMATTED-DATETIME Function,FN-FORMATTED-DATETIME,FN-FORMATTED-DATETIME,None}
-@syntax{FORMATTED-DATETIME} uses a combined time and date form to convert and combine a date in integer form and a numeric time expressed as seconds past midnight in UTC.
+@code{FORMATTED-DATETIME} uses a combined time and date form to convert and combine a date in integer form and a numeric time expressed as seconds past midnight in UTC.
 
 Argument-1 shall be a national or alphanumeric literal.
 
@@ -504,7 +504,7 @@ If the format in argument-1 indicates that the time is to be returned as an offs
 @page
 @newsubsection{8.1.28,FORMATTED-TIME}
 @diagram{FORMATTED-TIME Function,FN-FORMATTED-TIME,FN-FORMATTED-TIME,None}
-@syntax{FORMATTED-TIME} converts a value representing seconds past midnight formatted time of day with optional offset.
+@code{FORMATTED-TIME} converts a value representing seconds past midnight formatted time of day with optional offset.
 
 Argument-1 shall be a national or alphanumeric literal.
 
@@ -529,7 +529,7 @@ If the format in argument-1 indicates that the time is to be returned as an offs
 @page
 @newsubsection{8.1.29,FRACTION-PART}
 @diagram{FRACTION-PART Function,FN-FRACTION-PART,FN-FRACTION-PART,None}
-This function returns that portion of @term{number} (a numeric data item or a numeric literal) that occurs to the right of the decimal point.  @syntax{FRACTION-PART(3.1415)}, for example, returns a value of 0.1415.  This function is equivalent to the expression:
+This function returns that portion of @term{number} (a numeric data item or a numeric literal) that occurs to the right of the decimal point.  @code{FRACTION-PART(3.1415)}, for example, returns a value of 0.1415.  This function is equivalent to the expression:
 
 @center @t{@term{number} -- FUNCTION INTEGER-PART(@term{number})}
 @comment *********************************************************************
@@ -545,7 +545,7 @@ This function returns the highest (i.e. largest or farthest away from 0 in a pos
 @page
 @newsubsection{8.1.31,INTEGER}
 @diagram{INTEGER Function,FN-INTEGER,FN-INTEGER,None}
-The @syntax{INTEGER} function returns the greatest integer value that is less than or equal to @term{number} (a numeric literal or data item).
+The @code{INTEGER} function returns the greatest integer value that is less than or equal to @term{number} (a numeric literal or data item).
 @comment *********************************************************************
 @comment ** 8.1.32 INTEGER-OF-DATE                                          **
 @comment *********************************************************************
@@ -570,7 +570,7 @@ Once in that form, mathematical operations may be performed against the internal
 @page
 @newsubsection{8.1.34,INTEGER-OF-FORMATTED-DATE}
 @diagram{INTEGER-OF-FORMATTED-DATE Function,FN-INTEGER-OF-FORMATTED-DATE,FN-INTEGER-OF-FORMATTED-DATE,None}
-@syntax{INTEGER-OF-FORMATTED-DATE} converts a date that is in specified format to integer date form.
+@code{INTEGER-OF-FORMATTED-DATE} converts a date that is in specified format to integer date form.
 
 Argument-1 shall be a national or alphanumeric literal. The content must be either a date format or a combined date and time format.
 
@@ -592,9 +592,9 @@ Returns the integer portion of the value of @term{number} (a numeric literal or 
 @page
 @newsubsection{8.1.36,LENGTH}
 @diagram{LENGTH Function,FN-LENGTH,FN-LENGTH,None}
-Returns the length --- in characters --- of @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal).
+Returns the length --- in characters --- of @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal).
 
-The value returned by this function is not the number of @i{bytes} of storage occupied by string, but rather the number of actual @i{characters} making up the string.  For example, if @term{string} is encoded using a double-byte character set such as UNICODE (where each character is represented by 16 bits of storage, not the 8-bits inherent to character sets like ASCII or EBCDIC), then calling this function with a @term{string} argument whose @syntax{PICTURE is X(4)} would return a value of 4 rather than the value 8 (the actual number of bytes of storage occupied by that item).
+The value returned by this function is not the number of @i{bytes} of storage occupied by string, but rather the number of actual @i{characters} making up the string.  For example, if @term{string} is encoded using a double-byte character set such as UNICODE (where each character is represented by 16 bits of storage, not the 8-bits inherent to character sets like ASCII or EBCDIC), then calling this function with a @term{string} argument whose @code{PICTURE is X(4)} would return a value of 4 rather than the value 8 (the actual number of bytes of storage occupied by that item).
 
 Contrast this function with the @syntaxref{BYTE-LENGTH} and @syntaxref{LENGTH-AN} functions.
 @comment *********************************************************************
@@ -603,11 +603,11 @@ Contrast this function with the @syntaxref{BYTE-LENGTH} and @syntaxref{LENGTH-AN
 @page
 @newsubsection{8.1.37,LENGTH-AN}
 @diagram{LENGTH-AN Function,FN-LENGTH-AN,FN-LENGTH-AN,None}
-This function returns the length --- in bytes of storage --- of @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal).
+This function returns the length --- in bytes of storage --- of @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal).
 
 This intrinsic function is identical to the @syntaxref{BYTE-LENGTH} function.
 
-Note that the value returned by this function is not the number of @i{characters} making up the @term{string}, but rather the number of actual @i{bytes} of storage required to store @term{string}.  For example, if @term{string} is encoded using a double-byte character set such as UNICODE (where each character is represented by 16 bits of storage, not the 8-bits inherent to character sets like ASCII or EBCDIC), then calling this function with a @term{string} argument whose @syntax{PICTURE is X(4)} would return a value of 8 rather than the value 4.
+Note that the value returned by this function is not the number of @i{characters} making up the @term{string}, but rather the number of actual @i{bytes} of storage required to store @term{string}.  For example, if @term{string} is encoded using a double-byte character set such as UNICODE (where each character is represented by 16 bits of storage, not the 8-bits inherent to character sets like ASCII or EBCDIC), then calling this function with a @term{string} argument whose @code{PICTURE is X(4)} would return a value of 8 rather than the value 4.
 
 Contrast this with the @syntaxref{LENGTH} function.
 @comment *********************************************************************
@@ -616,7 +616,7 @@ Contrast this with the @syntaxref{LENGTH} function.
 @page
 @newsubsection{8.1.38,LOCALE-COMPARE}
 @diagram{LOCALE-COMPARE Function,FN-LOCALE-COMPARE,FN-LOCALE-COMPARE,None}
-The @syntax{LOCALE-COMPARE} function returns a character indicating the result of comparing @term{argument-1} and @term{argument-2} using a culturally-preferred ordering defined by a @term{locale}.
+The @code{LOCALE-COMPARE} function returns a character indicating the result of comparing @term{argument-1} and @term{argument-2} using a culturally-preferred ordering defined by a @term{locale}.
 
 Either or both of the 1st two arguments may be an alphanumeric literal, a group item or an elementary item appropriate to storing alphabetic or alphanumeric data.  If the lengths of the two arguments are unequal, the shorter will be assumed to be padded to the right with spaces.
 
@@ -642,7 +642,7 @@ The two arguments will be compared, character by character, against each other u
 @diagram{LOCALE-DATE Function,FN-LOCALE-DATE,FN-LOCALE-DATE,None}
 Converts the eight-digit Gregorian @term{date} (a numeric integer data item or literal) from yyyymmdd format to the format appropriate to the current locale.  On a Windows system, this will be the "short date" format as set using Control Panel.
 
-You may include an optional second argument to specify the @term{locale} name (group item or @syntax{PIC X} identifier) you'd like to use for date formatting.  If used, this second argument @i{must} be an identifier.  Locale names are specified using UNIX-standard names.
+You may include an optional second argument to specify the @term{locale} name (group item or @code{PIC X} identifier) you'd like to use for date formatting.  If used, this second argument @i{must} be an identifier.  Locale names are specified using UNIX-standard names.
 @comment *********************************************************************
 @comment ** 8.1.40 LOCALE-TIME                                              **
 @comment *********************************************************************
@@ -651,7 +651,7 @@ You may include an optional second argument to specify the @term{locale} name (g
 @diagram{LOCALE-TIME Function,FN-LOCALE-TIME,FN-LOCALE-TIME,None}
 Converts the four- (hhmm) or six-digit (hhmmss) @term{time} (a numeric integer data item or literal) to a format appropriate to the current locale.  On a Windows system, this will be the "time" format as set using Control Panel.
 
-You may include an optional @term{locale} name (a group item or @syntax{PIC X} identifier) you'd like to use for time formatting.  If used, this second argument @i{must} be an identifier.  Locale names are specified using UNIX-standard names.
+You may include an optional @term{locale} name (a group item or @code{PIC X} identifier) you'd like to use for time formatting.  If used, this second argument @i{must} be an identifier.  Locale names are specified using UNIX-standard names.
 @comment *********************************************************************
 @comment ** 8.1.41 LOCALE-TIME-FROM-SECONDS                                 **
 @comment *********************************************************************
@@ -660,7 +660,7 @@ You may include an optional @term{locale} name (a group item or @syntax{PIC X} i
 @diagram{LOCALE-TIME-FROM-SECONDS Function,FN-LOC-TM-FROM-SECS,FN-LOC-TM-FROM-SECS,None}
 Converts the number of @term{seconds} since midnight (a numeric integer data item or literal) to a format appropriate to the current locale.  On a Windows system, this will be the "time" format as set using Control Panel.
 
-You may include an optional @term{locale} name (a group item or @syntax{PIC X} identifier) you'd like to use for time formatting.  If used, this second argument @i{must} be an identifier.  Locale names are specified using UNIX-standard names.
+You may include an optional @term{locale} name (a group item or @code{PIC X} identifier) you'd like to use for time formatting.  If used, this second argument @i{must} be an identifier.  Locale names are specified using UNIX-standard names.
 
 @xref{LOCALE Names}, for a list of typically-available locale names.
 @comment *********************************************************************
@@ -683,7 +683,7 @@ Computes and returns the base 10 logarithm of @term{number} (a numeric literal o
 @page
 @newsubsection{8.1.44,LOWER-CASE}
 @diagram{LOWER-CASE Function,FN-LOWER-CASE,FN-LOWER-CASE,None}
-This function returns the value of @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal), converted entirely to lower case.
+This function returns the value of @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal), converted entirely to lower case.
 
 What constitutes a "letter" (or upper/lower case too, for that manner) may be influenced through the use of a @syntaxrefalt{CHARACTER CLASSIFICATION,OBJECT-COMPUTER}.
 @comment *********************************************************************
@@ -720,7 +720,7 @@ This function returns the statistical median value of the specified list of numb
 @page
 @newsubsection{8.1.49,MIDRANGE}
 @diagram{MIDRANGE Function,FN-MIDRANGE,FN-MIDRANGE,None}
-The @syntax{MIDRANGE} (middle range) function returns a numeric value that is the arithmetic mean (average) of the values of the minimum and maximum numbers from the supplied list.  Each @term{number-n} may be a numeric data items or a numeric literal.
+The @code{MIDRANGE} (middle range) function returns a numeric value that is the arithmetic mean (average) of the values of the minimum and maximum numbers from the supplied list.  Each @term{number-n} may be a numeric data items or a numeric literal.
 @comment *********************************************************************
 @comment ** 8.1.50 MIN                                                      **
 @comment *********************************************************************
@@ -774,7 +774,7 @@ Since this function has no arguments, no parenthesis should be specified.
 @page
 @newsubsection{8.1.55,MODULE-ID}
 @diagram{MODULE-ID Function,FN-MODULE-ID,FN-MODULE-ID,None}
-This function returns the primary entry-point name (i.e. the @syntax{PROGRAM-ID} or @syntax{FUNCTION-ID} of the program.  @xref{IDENTIFICATION DIVISION}, for information on those clauses.
+This function returns the primary entry-point name (i.e. the @code{PROGRAM-ID} or @code{FUNCTION-ID} of the program.  @xref{IDENTIFICATION DIVISION}, for information on those clauses.
 
 The discussion of the @syntaxref{MODULE-TIME} function includes a sample program that uses this function.
 
@@ -849,7 +849,7 @@ MODULE-TIME = [124314]
 @page
 @newsubsection{8.1.59,MONETARY-DECIMAL-POINT}
 @diagram{MONETARY-DECIMAL-POINT Function,FN-MON-DECIMAL-POINT,FN-MON-DECIMAL-POINT,None}
-@syntax{MONETARY-DECIMAL-POINT} returns the character used to separate the integer portion from the fractional part of a monetary currency value according to the rules currently in effect for the locale under which your program is running.
+@code{MONETARY-DECIMAL-POINT} returns the character used to separate the integer portion from the fractional part of a monetary currency value according to the rules currently in effect for the locale under which your program is running.
 
 On UNIX (including OSX, Windows/Cygwin and Windows/MinGW) systems, your locale is established via the @envvarruntimeref{LANG} environment variable.  On Windows, the Control Panel's Regional and Language Options define the locale.
 
@@ -901,7 +901,7 @@ Since this function has no arguments, no parenthesis should be specified.
 @page
 @newsubsection{8.1.63,NUMVAL}
 @diagram{NUMVAL Function,FN-NUMVAL,FN-NUMVAL,None}
-The @syntax{NUMVAL} function converts a @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal) to its corresponding numeric value.
+The @code{NUMVAL} function converts a @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) to its corresponding numeric value.
 
 The @term{string} must have any of the following formats, where '#' represents a sequence of one or more decimal digits:
 
@@ -928,11 +928,11 @@ If it contains a CR, DB, or the minus sign, the returned value is negative.
 @page
 @newsubsection{8.1.64,NUMVAL-C}
 @diagram{NUMVAL-C Function,FN-NUMVAL-C,FN-NUMVAL-C,None}
-This function converts a @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal) representing a currency value to its corresponding numeric value.
+This function converts a @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) representing a currency value to its corresponding numeric value.
 
 The currency string if any, and any grouping separators preceding the decimal separator are ignored. Optionally, the currency string, sign convention, grouping separator and the decimal separator permitted in the character string may be specified by locale category LC-MONETARY, or the currency string may be specified by @term{symbol}.
 
-The optional @term{symbol} character represents the currency symbol (a non-space single-character group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal) that may be used as the currency character in @term{string}. Any spaces including leading or trailing are ignored. If no @term{symbol} is specified, the value that would be returned by the @intrinsicref{CURRENCY-SYMBOL} will be used.
+The optional @term{symbol} character represents the currency symbol (a non-space single-character group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) that may be used as the currency character in @term{string}. Any spaces including leading or trailing are ignored. If no @term{symbol} is specified, the value that would be returned by the @intrinsicref{CURRENCY-SYMBOL} will be used.
 
 If this references the LOCALE :
 
@@ -1005,7 +1005,7 @@ When the LOCALE keyword is specified, the returned value is negative if string c
 @page
 @newsubsection{8.1.65,NUMVAL-F}
 @diagram{NUMVAL-F Function,FN-NUMVAL-F,FN-NUMVAL-F,None}
-This function converts a @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal) representing a floating-point value to its corresponding numeric value.
+This function converts a @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) representing a floating-point value to its corresponding numeric value.
 
 @center # @ @ -# @ @ +# @ @ #E# @ @ -#E# @ @ +#E#
 
@@ -1015,7 +1015,7 @@ This function converts a @term{string} (a group item, @syntax{USAGE DISPLAY} ele
 
 @center #.#E+# @ @ -#.#E+# @ @ +#.#E+# @ @ #.#E-# @ @ -#.#E-# @ @ +#.#E-#
 
-There must be at least one digit character both before and after the @syntax{E} in the string.
+There must be at least one digit character both before and after the @code{E} in the string.
 
 Leading and/or trailing spaces are allowed, as are spaces before and/or after any sign characters.
 @comment *********************************************************************
@@ -1024,9 +1024,9 @@ Leading and/or trailing spaces are allowed, as are spaces before and/or after an
 @page
 @newsubsection{8.1.66,ORD}
 @diagram{ORD Function,FN-ORD,FN-ORD,None}
-This function returns the ordinal position in the program character set (usually ASCII) corresponding to the 1st character of the @term{char} argument (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal).
+This function returns the ordinal position in the program character set (usually ASCII) corresponding to the 1st character of the @term{char} argument (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal).
 
-For example, assuming the program is using the standard ASCII collating sequence, @syntax{ORD('!')} returns 34 because "!" is the 34th ASCII character.  If you are using this function to convert an ASCII character to its numeric value, you must subtract one from the result.
+For example, assuming the program is using the standard ASCII collating sequence, @code{ORD('!')} returns 34 because "!" is the 34th ASCII character.  If you are using this function to convert an ASCII character to its numeric value, you must subtract one from the result.
 
 The following code is an alternative approach when you just wish to convert an ASCII character to its numeric equivalent:
 
@@ -1037,7 +1037,7 @@ The following code is an alternative approach when you just wish to convert an A
     MOVE "character" TO Char-Value
 @end example
 
-@syntax{Numeric-Value} now has the numeric value of @syntax{character}.
+@code{Numeric-Value} now has the numeric value of @code{character}.
 @comment *********************************************************************
 @comment ** 8.1.67 ORD-MAX                                                  **
 @comment *********************************************************************
@@ -1046,7 +1046,7 @@ The following code is an alternative approach when you just wish to convert an A
 @diagram{ORD-MAX Function,FN-ORD-MAX,FN-ORD-MAX,None}
 This function returns the ordinal position in the argument list corresponding to the @term{char-n} whose 1st character has the highest position in the program collating sequence (usually ASCII).
 
-For example, assuming the program is using the standard ASCII collating sequence, @syntax{ORD-MAX('Z', 'z', '!')} returns 2 because the 2nd character in the argument list (the ASCII character 'z') occurs after 'Z' and '!' in the program collating sequence.  Each @term{char-n} argument may be a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal.
+For example, assuming the program is using the standard ASCII collating sequence, @code{ORD-MAX('Z', 'z', '!')} returns 2 because the 2nd character in the argument list (the ASCII character 'z') occurs after 'Z' and '!' in the program collating sequence.  Each @term{char-n} argument may be a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal.
 @comment *********************************************************************
 @comment ** 8.1.68 ORD-MIN                                                  **
 @comment *********************************************************************
@@ -1055,7 +1055,7 @@ For example, assuming the program is using the standard ASCII collating sequence
 @diagram{ORD-MIN Function,FN-ORD-MIN,FN-ORD-MIN,None}
 This function returns the ordinal position in the argument list corresponding to the @term{char-n} whose 1st character has the lowest position in the program collating sequence (usually ASCII).
 
-For example, assuming the program is using the standard ASCII collating sequence, @syntax{ORD-MIN('Z', 'z', '!')} returns 3 because the 3rd character in the argument list (the ASCII character '!') occurs before 'Z' and 'z' in the program collating sequence.  Each @term{char-n} argument may be a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal.
+For example, assuming the program is using the standard ASCII collating sequence, @code{ORD-MIN('Z', 'z', '!')} returns 3 because the 3rd character in the argument list (the ASCII character '!') occurs before 'Z' and 'z' in the program collating sequence.  Each @term{char-n} argument may be a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal.
 @comment *********************************************************************
 @comment ** 8.1.69 PI                                                       **
 @comment *********************************************************************
@@ -1071,7 +1071,7 @@ Since this function has no arguments, no parenthesis should be specified.
 @page
 @newsubsection{8.1.70,PRESENT-VALUE}
 @diagram{PRESENT-VALUE Function,FN-PRESENT-VALUE,FN-PRESENT-VALUE,None}
-The @syntax{PRESENT-VALUE} function returns a value that approximates the present value of a series of future period-end amounts specified by the various @term{value-n} arguments at a discount rate specified by the @term{rate} argument.
+The @code{PRESENT-VALUE} function returns a value that approximates the present value of a series of future period-end amounts specified by the various @term{value-n} arguments at a discount rate specified by the @term{rate} argument.
 
 All arguments are numeric data items and/or numeric literals.
 @iftex
@@ -1121,22 +1121,22 @@ Take, for example, the following sample program:
     0.26499999
     0.19169
 @end verbatim
-@* It is worth mentioning that if the @i{first} execution of @syntax{RANDOM} in your program lacks a @term{seed} argument, the result will be exactly as if that execution were coded with a @term{seed} argument value of 1.
+@* It is worth mentioning that if the @i{first} execution of @code{RANDOM} in your program lacks a @term{seed} argument, the result will be exactly as if that execution were coded with a @term{seed} argument value of 1.
 
-Once your program has been thoroughly tested, you'll want different sequences to be generated each time the program runs.  One possible way to accomplish this is to use a @term{seed} that is likely to be different every time the program is executed, as is likely to be the case if the first @syntax{MOVE} statement in the previous example were replaced by this:
+Once your program has been thoroughly tested, you'll want different sequences to be generated each time the program runs.  One possible way to accomplish this is to use a @term{seed} that is likely to be different every time the program is executed, as is likely to be the case if the first @code{MOVE} statement in the previous example were replaced by this:
 
 @verbatim
     MOVE RANDOM(FUNCTION CURRENT-DATE(1:16))
       TO Pseudo-Random-Number
 @end verbatim
-@* The first 16 characters returned by the @syntaxref{CURRENT-DATE} function will be a number in the format "YYYYMMDDhhmmssnn", where "YYYYMMDD" is the current calendar date and "hhmmssnn" is the current time of day to the one one-hundredth of a second.  Since two different executions of the program will never get identical @syntax{CURRENT-DATE} values (unless they are executed in extremely close time frames to one another), using those first sixteen characters as the @syntax{RANDOM} seed will guarantee that receiving a duplicate sequence of pseudo-random numbers in two different executions of the program will be HIGHLY unlikely.
+@* The first 16 characters returned by the @syntaxref{CURRENT-DATE} function will be a number in the format "YYYYMMDDhhmmssnn", where "YYYYMMDD" is the current calendar date and "hhmmssnn" is the current time of day to the one one-hundredth of a second.  Since two different executions of the program will never get identical @code{CURRENT-DATE} values (unless they are executed in extremely close time frames to one another), using those first sixteen characters as the @code{RANDOM} seed will guarantee that receiving a duplicate sequence of pseudo-random numbers in two different executions of the program will be HIGHLY unlikely.
 @comment *********************************************************************
 @comment ** 8.1.72 RANGE                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{8.1.72,RANGE}
 @diagram{RANGE Function,FN-RANGE,FN-RANGE,None}
-The @syntax{RANGE} function returns a value that is equal to the value of the maximum @term{number-n} in the argument list minus the value of the minimum @term{number-n} argument.
+The @code{RANGE} function returns a value that is equal to the value of the maximum @term{number-n} in the argument list minus the value of the minimum @term{number-n} argument.
 
 All @term{number-n} arguments are numeric data items and/or numeric literals.
 @comment *********************************************************************
@@ -1161,9 +1161,9 @@ This function returns the byte-by-byte reversed value of the specified @term{str
 @diagram{SECONDS-FROM-FORMATTED-TIME Function,FN-SECS-FROM-FMTD-TM,FN-SECS-FROM-FMTD-TM,None}
 This function decodes the string @term{time} --- whose value represents a formatted time --- and returns the total number of seconds that string represents.
 
-The @term{time} string must contain hours, minutes and seconds.  The time argument may be specified as a group item, @syntax{USAGE DISPLAY} elementary item or an alphanumeric literal.
+The @term{time} string must contain hours, minutes and seconds.  The time argument may be specified as a group item, @code{USAGE DISPLAY} elementary item or an alphanumeric literal.
 
-The @term{format} argument is a string (a group item, @syntax{USAGE DISPLAY} elementary item or an alphanumeric literal) documenting the format of @term{time} using "hh", "mm" and "ss" to denote where the respective time information can be found.  Any other characters found in @term{format} represent character positions that will be ignored.  For example, a format of @syntax{hhmmss} indicates that @term{time} will be treated as a six-digit string value where the first two characters are the number of hours, the next two represent minutes and the last two represent seconds.  A @term{format} of @syntax{hh:mm:ss}, however, describes @term{time} as an eight-character string where characters 3 and 6 will be ignored.
+The @term{format} argument is a string (a group item, @code{USAGE DISPLAY} elementary item or an alphanumeric literal) documenting the format of @term{time} using "hh", "mm" and "ss" to denote where the respective time information can be found.  Any other characters found in @term{format} represent character positions that will be ignored.  For example, a format of @code{hhmmss} indicates that @term{time} will be treated as a six-digit string value where the first two characters are the number of hours, the next two represent minutes and the last two represent seconds.  A @term{format} of @code{hh:mm:ss}, however, describes @term{time} as an eight-character string where characters 3 and 6 will be ignored.
 @comment *********************************************************************
 @comment ** 8.1.76 SECONDS-PAST-MIDNIGHT                                    **
 @comment *********************************************************************
@@ -1179,7 +1179,7 @@ Since this function has no arguments, no parenthesis should be specified.
 @page
 @newsubsection{8.1.77,SIGN}
 @diagram{SIGN Function,FN-SIGN,FN-SIGN,None}
-The @syntax{SIGN} function returns a -1 if the value of @term{number} (a numeric literal or numeric data item) is negative, a zero if the value of @term{number} is exactly zero and a 1 if the value of @term{number} if greater than 0.
+The @code{SIGN} function returns a -1 if the value of @term{number} (a numeric literal or numeric data item) is negative, a zero if the value of @term{number} is exactly zero and a 1 if the value of @term{number} if greater than 0.
 @comment *********************************************************************
 @comment ** 8.1.78 SIN                                                      **
 @comment *********************************************************************
@@ -1190,14 +1190,14 @@ This function determines and returns the trigonometric sine of the specified @te
 
 The @term{angle} is assumed to be a value expressed in radians.  If you need to determine the sine of an angle measured in degrees, you first need to convert that angle to radians as follows:
 
-@center @syntax{COMPUTE @term{radians} = ( @term{degrees} * FUNCTION PI) / 180}
+@center @code{COMPUTE @term{radians} = ( @term{degrees} * FUNCTION PI) / 180}
 @comment *********************************************************************
 @comment ** 8.1.79 SQRT                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{8.1.79,SQRT}
 @diagram{SQRT Function,FN-SQRT,FN-SQRT,None}
-The @syntax{SQRT} function returns a numeric value that approximates the square root of @term{number} (a numeric data item or numeric literal with a non-negative value).
+The @code{SQRT} function returns a numeric value that approximates the square root of @term{number} (a numeric data item or numeric literal with a non-negative value).
 
 The following two statements produce identical results:
 
@@ -1220,7 +1220,7 @@ This function returns the statistical standard deviation of the list of @term{nu
 @page
 @newsubsection{8.1.81,STORED-CHAR-LENGTH}
 @diagram{STORED-CHAR-LENGTH Function,FN-STORED-CHAR-LENGTH,FN-STORED-CHAR-LENGTH,None}
-Returns the length --- in bytes --- of the specified @syntax{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal), minus the total number of trailing spaces, if any.
+Returns the length --- in bytes --- of the specified @code{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal), minus the total number of trailing spaces, if any.
 @comment *********************************************************************
 @comment ** 8.1.82 SUBSTITUTE                                               **
 @comment *********************************************************************
@@ -1242,16 +1242,16 @@ A null @term{to-n} string will be treated as a single space.
 @page
 @newsubsection{8.1.83,SUBSTITUTE-CASE}
 @diagram{SUBSTITUTE-CASE Function,FN-SUBSTITUTE-CASE,FN-SUBSTITUTE-CASE,None}
-The @syntax{SUBSTITUTE-CASE} function operates the same as the @syntaxref{SUBSTITUTE} function, except that @term{from-n} string matching is performed without regard to case.
+The @code{SUBSTITUTE-CASE} function operates the same as the @syntaxref{SUBSTITUTE} function, except that @term{from-n} string matching is performed without regard to case.
 
-All arguments are group items, @syntax{USAGE DISPLAY} elementary items or alphanumeric literals.
+All arguments are group items, @code{USAGE DISPLAY} elementary items or alphanumeric literals.
 @comment *********************************************************************
 @comment ** 8.1.84 SUM                                                      **
 @comment *********************************************************************
 @page
 @newsubsection{8.1.84,SUM}
 @diagram{SUM Function,FN-SUM,FN-SUM,None}
-The @syntax{SUM} function returns a value that is the sum of the @term{number-n} arguments (these may be numeric data items or numeric literals).
+The @code{SUM} function returns a value that is the sum of the @term{number-n} arguments (these may be numeric data items or numeric literals).
 @comment *********************************************************************
 @comment ** 8.1.85 TAN                                                      **
 @comment *********************************************************************
@@ -1262,7 +1262,7 @@ This function determines and returns the trigonometric tangent of the specified 
 
 The @term{angle} is assumed to be a value expressed in radians.  If you need to determine the tangent of an angle measured in degrees, you first need to convert that angle to radians as follows:
 
-@center @syntax{COMPUTE @term{radians} = ( @term{degrees} * FUNCTION PI) / 180}
+@center @code{COMPUTE @term{radians} = ( @term{degrees} * FUNCTION PI) / 180}
 @comment *********************************************************************
 @comment ** 8.1.86 TEST-DATE-YYYYMMDD                                       **
 @comment *********************************************************************
@@ -1291,7 +1291,7 @@ If the date is valid, a 0 value is returned.  If it isn't, a value of 1 or 2 is 
 @page
 @newsubsection{8.1.88,TEST-FORMATTED-DATETIME}
 @diagram{TEST-FORMATTED-DATETIME Function,FN-TEST-FORMATTED-DATETIME,FN-TEST-FORMATTED-DATETIME,None}
-@syntax{TEST-FORMATTED-DATETIME} tests whether a date literal representing a date, a time or a combined date and time is valid according to the specified format.
+@code{TEST-FORMATTED-DATETIME} tests whether a date literal representing a date, a time or a combined date and time is valid according to the specified format.
 
 Argument-1 shall be a national or alphanumeric literal. The content must be either a date format or a combined date and time format.
 
@@ -1306,7 +1306,7 @@ If no format or range problems occur during evaluation of argument-2 according t
 @page
 @newsubsection{8.1.89,TEST-NUMVAL}
 @diagram{TEST-NUMVAL Function,FN-TEST-NUMVAL,FN-TEST-NUMVAL,None}
-The @syntax{TEST-NUMVAL} function evaluates the specified @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal) for being appropriate for use as the @term{string} argument to a @syntaxref{NUMVAL} function, returning to a integer a zero value if it is appropriate otherwise if one or more characters are in error, the position of the first character in error or the length of the field plus one for other cases such as all spaces.
+The @code{TEST-NUMVAL} function evaluates the specified @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) for being appropriate for use as the @term{string} argument to a @syntaxref{NUMVAL} function, returning to a integer a zero value if it is appropriate otherwise if one or more characters are in error, the position of the first character in error or the length of the field plus one for other cases such as all spaces.
 
 Note that these errors include but are not limited to: argument (string) is zero length, contains only spaces or contains valid characters but is incomplete, such as the string "+.".
 @comment *********************************************************************
@@ -1315,18 +1315,18 @@ Note that these errors include but are not limited to: argument (string) is zero
 @page
 @newsubsection{8.1.90,TEST-NUMVAL-C}
 @diagram{TEST-NUMVAL-C Function,FN-TEST-NUMVAL-C,FN-TEST-NUMVAL-C,None}
-This function evaluates the specified @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal) for being appropriate for use as the @term{string} argument to a @syntaxref{NUMVAL-C} function, returning to a integer a zero value if it is appropriate otherwise if one or more characters are in error, the position of the first character in error or the length of the field plus one for other cases such as all spaces.
+This function evaluates the specified @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) for being appropriate for use as the @term{string} argument to a @syntaxref{NUMVAL-C} function, returning to a integer a zero value if it is appropriate otherwise if one or more characters are in error, the position of the first character in error or the length of the field plus one for other cases such as all spaces.
 
 Note that these errors include but are not limited to: argument (string) is zero length, contains only spaces or contains valid characters but is incomplete, such as the string "+.".
 
-The optional @term{symbol} argument serves the same function --- and has the same default and possible values --- as the corresponding argument of the @syntax{NUMVAL-C} function.
+The optional @term{symbol} argument serves the same function --- and has the same default and possible values --- as the corresponding argument of the @code{NUMVAL-C} function.
 @comment *********************************************************************
 @comment ** 8.1.91 TEST-NUMVAL-F                                            **
 @comment *********************************************************************
 @page
 @newsubsection{8.1.91,TEST-NUMVAL-F}
 @diagram{TEST-NUMVAL-F Function,FN-TEST-NUMVAL-F,FN-TEST-NUMVAL-F,None}
-This function evaluates the specified @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal) for being appropriate for use as the @term{string} argument to a @syntaxref{NUMVAL-F} function, returning to a integer a zero value if it is appropriate otherwise if one or more characters are in error, the position of the first character in error or the length of the field plus one for other cases such as all spaces.
+This function evaluates the specified @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) for being appropriate for use as the @term{string} argument to a @syntaxref{NUMVAL-F} function, returning to a integer a zero value if it is appropriate otherwise if one or more characters are in error, the position of the first character in error or the length of the field plus one for other cases such as all spaces.
 
 Note that these errors include but are not limited to: argument (string) is zero length, contains only spaces or contains valid characters but is incomplete, such as the string "+.".
 @comment *********************************************************************
@@ -1335,7 +1335,7 @@ Note that these errors include but are not limited to: argument (string) is zero
 @page
 @newsubsection{8.1.92,TRIM}
 @diagram{TRIM Function,FN-TRIM,FN-TRIM,None}
-This function removes @syntaxidx{LEADING} or @syntaxidx{TRAILING} spaces from the specified @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal).
+This function removes @syntaxidx{LEADING} or @syntaxidx{TRAILING} spaces from the specified @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal).
 
 The second argument is specified as a keyword, not a quoted string or identifier.  If no second argument is specified, @i{both} leading and trailing spaces will be removed.  The case (upper, lower or mixed) of this argument is irrelevant.
 @comment *********************************************************************
@@ -1344,7 +1344,7 @@ The second argument is specified as a keyword, not a quoted string or identifier
 @page
 @newsubsection{8.1.93,UPPER-CASE}
 @diagram{UPPER-CASE Function,FN-UPPER-CASE,FN-UPPER-CASE,None}
-This function returns the value of @term{string} (a group item, @syntax{USAGE DISPLAY} elementary item or alphanumeric literal), converted entirely to upper case.
+This function returns the value of @term{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal), converted entirely to upper case.
 
 What constitutes a "letter" (or upper/lower case too, for that manner) may be influenced through the use of a @syntaxrefalt{CHARACTER CLASSIFICATION,OBJECT-COMPUTER}.
 @comment *********************************************************************
@@ -1360,20 +1360,20 @@ This function returns the statistical variance of the specified list of @term{nu
 @page
 @newsubsection{8.1.95,WHEN-COMPILED}
 @diagram{WHEN-COMPILED Function,FN-WHEN-COMPILED,FN-WHEN-COMPILED,None}
-The @syntax{WHEN-COMPILED} intrinsic function, not to be confused with the @syntaxrefalt{WHEN-COMPILED,Special Registers} special register, returns the date and time the program was compiled, in ASCII.
+The @code{WHEN-COMPILED} intrinsic function, not to be confused with the @syntaxrefalt{WHEN-COMPILED,Special Registers} special register, returns the date and time the program was compiled, in ASCII.
 
 Since this function has no arguments, no parenthesis should be specified.
 
-Unlike the @syntax{WHEN-COMPILED} special register, which has an ASCII value of the compilation date/time in the format "mm/dd/yyhh.mm.ss", the @syntax{WHEN-COMPILED} intrinsic function returns the compilation date/time as an ASCII string in the format "yyyymmddhhmmssnnooooo", where "yyyymmdd" is the date, "hhmmss" is the time, "nn" is the hundredths of a second component of the compilation time, if available (or "00" if it isn't) and "ooooo" is the time zone offset from GMT.
+Unlike the @code{WHEN-COMPILED} special register, which has an ASCII value of the compilation date/time in the format "mm/dd/yyhh.mm.ss", the @code{WHEN-COMPILED} intrinsic function returns the compilation date/time as an ASCII string in the format "yyyymmddhhmmssnnooooo", where "yyyymmdd" is the date, "hhmmss" is the time, "nn" is the hundredths of a second component of the compilation time, if available (or "00" if it isn't) and "ooooo" is the time zone offset from GMT.
 
-If the @switch{-fintrinsics=WHEN-COMPILED} or @switch{-fintrinsics=ALL} is specified to the compiler or the @syntaxref{REPOSITORY} paragraph specifies either @syntax{FUNCTION WHEN-COMPILED INTRINSIC} or @syntax{FUNCTION ALL INTRINSIC}, then references to @syntax{WHEN-COMPILED} (without a leading @syntax{FUNCTION} keyword will always reference this intrinsic function and there will be no way to access the @syntax{WHEN-COMPILED} special register.
+If the @switch{-fintrinsics=WHEN-COMPILED} or @switch{-fintrinsics=ALL} is specified to the compiler or the @syntaxref{REPOSITORY} paragraph specifies either @code{FUNCTION WHEN-COMPILED INTRINSIC} or @code{FUNCTION ALL INTRINSIC}, then references to @code{WHEN-COMPILED} (without a leading @code{FUNCTION} keyword will always reference this intrinsic function and there will be no way to access the @code{WHEN-COMPILED} special register.
 @comment *********************************************************************
 @comment ** 8.1.96 YEAR-TO-YYYY                                             **
 @comment *********************************************************************
 @page
 @newsubsection{8.1.96,YEAR-TO-YYYY}
 @diagram{YEAR-TO-YYYY Function,FN-YEAR-TO-YYYY,FN-YEAR-TO-YYYY,None}
-@syntax{YEAR-TO-YYYY} converts @term{yy} --- a two-digit year --- to a four-digit format (yyyy).
+@code{YEAR-TO-YYYY} converts @term{yy} --- a two-digit year --- to a four-digit format (yyyy).
 
 The optional @term{yy-cutoff} argument is the year cutoff used to delineate centuries; if @term{yy} meets or exceeds this cutoff value, the result will be 19yy; if @term{yy} is less than the cutoff, the result will be 20yy.  The default cutoff value if no second argument is given will be 50.
 
@@ -1386,7 +1386,7 @@ All arguments must be numeric data items or numeric literals.
 @page
 @newsubsection{8.1.97,BOOLEAN-OF-INTEGER}
 @diagram{BOOLEAN-OF-INTEGER Function,FN-BOOLEAN-OF-INTEGER,FN-BOOLEAN-OF-INTEGER,NOT-YET-IMPLEMENTED}
-@syntax{BOOLEAN-OF-INTEGER} returns a boolean item of usage bit representing the binary value of argument-1. Argument-2 specifies the length of the boolean data item that is returned.
+@code{BOOLEAN-OF-INTEGER} returns a boolean item of usage bit representing the binary value of argument-1. Argument-2 specifies the length of the boolean data item that is returned.
 
 Argument-1 must be a positive integer.
 
@@ -1399,7 +1399,7 @@ Returned value is a boolean item of usage bit that has the same bit configuratio
 @page
 @newsubsection{8.1.98,CHAR-NATIONAL}
 @diagram{CHAR-NATIONAL Function,FN-CHAR-NATIONAL,FN-CHAR-NATIONAL,NOT-YET-IMPLEMENTED}
-@syntax{CHAR-NATIONAL} returns a one character value that is a character in the national program collating sequence having the ordinal position equal to the value of the argument.
+@code{CHAR-NATIONAL} returns a one character value that is a character in the national program collating sequence having the ordinal position equal to the value of the argument.
 
 Argument-1 must be a integer and greater than zero and less than or equal to the number of positions in the national program collating sequence.
 @comment *********************************************************************
@@ -1408,7 +1408,7 @@ Argument-1 must be a integer and greater than zero and less than or equal to the
 @page
 @newsubsection{8.1.99,DISPLAY-OF}
 @diagram{DISPLAY-OF Function,FN-DISPLAY-OF,FN-DISPLAY-OF,NOT-YET-IMPLEMENTED}
-@syntax{DISPLAY-OF} returns a character string containing the alphabetic coded character set representation of the national characters in the argument.
+@code{DISPLAY-OF} returns a character string containing the alphabetic coded character set representation of the national characters in the argument.
 
 Argument-1 must be of class national.
 
@@ -1427,7 +1427,7 @@ The length of the returned value is the number of character positions of usage d
 @page
 @newsubsection{8.1.100,EXCEPTION-FILE-N}
 @diagram{EXCEPTION-FILE-N Function,FN-EXCEPTION-FILE-N,FN-EXCEPTION-FILE-N,NOT-YET-IMPLEMENTED}
-@syntax{EXCEPTION-FILE-N} returns a national character string that is the I/O status value and file-name of the file connector, if any, associated with the last exception status.
+@code{EXCEPTION-FILE-N} returns a national character string that is the I/O status value and file-name of the file connector, if any, associated with the last exception status.
 
 The value returned has a length that is based on its contents and the concents are as follows:
 
@@ -1448,7 +1448,7 @@ The documentation of the @subpgmref{CBL_ERROR_PROC} built-in subroutine illustra
 @page
 @newsubsection{8.1.101,EXCEPTION-LOCATION-N}
 @diagram{EXCEPTION-LOCATION-N Function,FN-EXCEPTION-LOCATION-N,FN-EXCEPTION-LOCATION-N,NOT-YET-IMPLEMENTED}
-@syntax{EXCEPTION-LOCATION-N} returns an national character string containing exception information from the most-recently failing statement.  The information is returned to a 1023 character string in one of the following formats, depending on the nature of the failure:
+@code{EXCEPTION-LOCATION-N} returns an national character string containing exception information from the most-recently failing statement.  The information is returned to a 1023 character string in one of the following formats, depending on the nature of the failure:
 @itemize @bullet
 
 @item
@@ -1474,7 +1474,7 @@ The documentation of the @subpgmref{CBL_ERROR_PROC} built-in subroutine illustra
 @page
 @newsubsection{8.1.102,INTEGER-OF-BOOLEAN}
 @diagram{INTEGER-OF-BOOLEAN Function,FN-INTEGER-OF-BOOLEAN,FN-INTEGER-OF-BOOLEAN,NOT-YET-IMPLEMENTED}
-@syntax{INTEGER-OF-BOOLEAN} returns the numeric value of the boolean string in argument-1 which is class boolean.
+@code{INTEGER-OF-BOOLEAN} returns the numeric value of the boolean string in argument-1 which is class boolean.
 
 Returned value as argument-1 is assigned to a temporary boolean data item of usage bit described with the same number
 of boolean positions.
@@ -1489,7 +1489,7 @@ COBOL representation.
 @page
 @newsubsection{8.1.103,NATIONAL-OF}
 @diagram{NATIONAL-OF Function,FN-NATIONAL-OF,FN-NATIONAL-OF,NOT-YET-IMPLEMENTED}
-@syntax{NATIONAL-OF} returns a character string containing the national character representation of the characters in the argument which must be of class boolean.
+@code{NATIONAL-OF} returns a character string containing the national character representation of the characters in the argument which must be of class boolean.
 
 A character string is returned with each alphanumeric character in argument-1 converted to its corresponding national coded character set representation.
 
@@ -1504,7 +1504,7 @@ The length of the returned value is the number of character positions of usage n
 @page
 @newsubsection{8.1.104,STANDARD-COMPARE}
 @diagram{STANDARD-COMPARE Function,FN-STANDARD-COMPARE,FN-STANDARD-COMPARE,NOT-YET-IMPLEMENTED}
-@syntax{STANDARD-COMPARE}  returns a character indicating the result of comparing argument-1 as a alphanumeric and argument-2 using a cultural ordering table.
+@code{STANDARD-COMPARE}  returns a character indicating the result of comparing argument-1 as a alphanumeric and argument-2 using a cultural ordering table.
 
 1) Argument-1 shall be of class alphabetic, alphanumeric, or national.
 
@@ -1619,7 +1619,7 @@ Most of the call-by-number routines have evolved into even more powerful call-by
 
 Some of the original call-by-number routines never evolved call-by-name equivalents; GnuCOBOL supports some of these routines.
 
-The following sections describe the various built-in subroutines.  ALL SUBROUTINE ARGUMENTS ARE MANDATORY EXCEPT WHERE EXPLICITLY NOTED TO THE CONTRARY.  Any subroutine returning a value to the @registerref{RETURN-CODE} could utilize the @syntax{RETURNING} clause on the @statement{CALL} to return the result back to the full-word binary data item of your choice.
+The following sections describe the various built-in subroutines.  ALL SUBROUTINE ARGUMENTS ARE MANDATORY EXCEPT WHERE EXPLICITLY NOTED TO THE CONTRARY.  Any subroutine returning a value to the @registerref{RETURN-CODE} could utilize the @code{RETURNING} clause on the @statement{CALL} to return the result back to the full-word binary data item of your choice.
 @menu
 * 8.2.1:  C$CALLEDBY.
 * 8.2.2:  C$CHDIR.
@@ -1684,16 +1684,16 @@ The following sections describe the various built-in subroutines.  ALL SUBROUTIN
 @comment *********************************************************************
 @newsubsection{8.2.1,C$CALLEDBY}
 @diagram{C$CALLEDBY Built-In Subroutine,SS-C$CALLEDBY,SS-C$CALLEDBY,None}
-This routine returns the name of the program that called the currently-executing program.  The program name will be returned, left-justified and space filled, in the specified @term{prog-name-area} argument, which should be a @syntax{PIC X} elementary item or a group item.  If @term{prog-name-area} is too small to receive the entire program name, the program name value will be truncated (on the right) to fit.
+This routine returns the name of the program that called the currently-executing program.  The program name will be returned, left-justified and space filled, in the specified @term{prog-name-area} argument, which should be a @code{PIC X} elementary item or a group item.  If @term{prog-name-area} is too small to receive the entire program name, the program name value will be truncated (on the right) to fit.
 
 The @registerref{RETURN-CODE} will be set to one of the following values:
 @multitable @columnfractions 0.05 0.95
 @item
 @item -1 @tab An error occurred.  The @term{prog-name-area} contents will be unchanged.
 @item
-@item 0 @tab The program calling @syntax{C$CALLEDBY} was not called by any other program (in other words, it is a main program).  The @term{prog-name-area} contents will be set entirely to spaces.
+@item 0 @tab The program calling @code{C$CALLEDBY} was not called by any other program (in other words, it is a main program).  The @term{prog-name-area} contents will be set entirely to spaces.
 @item
-@item 1 @tab The program calling @syntax{C$CALLEDBY} was indeed called by another program, and that program's name has been saved in @term{prog-name-area}.
+@item 1 @tab The program calling @code{C$CALLEDBY} was indeed called by another program, and that program's name has been saved in @term{prog-name-area}.
 @end multitable
 @comment *********************************************************************
 @comment ** 8.2.2 C$CHDIR                                                   **
@@ -1705,14 +1705,14 @@ This routine makes @term{directory-path} (an alphanumeric literal or identifier)
 
 The return code of the operation is returned both in the @term{result} argument (any non-edited numeric identifier) as well as in the @registerref{RETURN-CODE}.   The return code of the operation will be either 0=Success or 128=failure.
 
-The directory change remains in effect until the program terminates (in which the original current directory at the time the program was started will be automatically restored) or until another @syntax{C$CHDIR} or a @subpgmref{CBL_CHANGE_DIR} is executed.
+The directory change remains in effect until the program terminates (in which the original current directory at the time the program was started will be automatically restored) or until another @code{C$CHDIR} or a @subpgmref{CBL_CHANGE_DIR} is executed.
 @comment *********************************************************************
 @comment ** 8.2.3 C$COPY                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{8.2.3,C$COPY}
 @diagram{C$COPY Built-In Subroutine,SS-C$COPY,SS-C$COPY,None}
-Use this subroutine to copy file @term{src-file-path} to @term{dest-file-path} as if it were done via the @syntax{CP} (Unix/OSX) or @syntax{COPY} (Windows) command.
+Use this subroutine to copy file @term{src-file-path} to @term{dest-file-path} as if it were done via the @code{CP} (Unix/OSX) or @code{COPY} (Windows) command.
 
 Both file path arguments may be alphanumeric literals or identifiers.
 
@@ -1725,7 +1725,7 @@ If the attempt to copy the file fails (for example, it or the destination direct
 @page
 @newsubsection{8.2.4,C$DELETE}
 @diagram{C$DELETE Built-In Subroutine,SS-C$DELETE,SS-C$DELETE,None}
-This routine deletes the file specified by the @term{file-path} argument (an alphanumeric literal or identifier) just as if that were done using the @syntax{RM} (Unix/OSX) or @syntax{ERASE} (Windows) command.
+This routine deletes the file specified by the @term{file-path} argument (an alphanumeric literal or identifier) just as if that were done using the @code{RM} (Unix/OSX) or @code{ERASE} (Windows) command.
 
 The second argument is required, but is unused.
 
@@ -1785,7 +1785,7 @@ If it begins with anything else, or is absent, it will be treated as if it is pr
 @diagram{C$MAKEDIR Built-In Subroutine,SS-C$MAKEDIR,SS-C$MAKEDIR,None}
 With this routine you may create a new directory --- the name of which is supplied as the @term{dir-path} argument (an alphanumeric literal or identifier).
 
-Only the lowest-level directory (last) in the specified path can be created --- all others must already exist.  This subroutine will NOT behave as a @syntax{mkdir -p} (Unix) or @syntax{mkdir /p} (Windows).
+Only the lowest-level directory (last) in the specified path can be created --- all others must already exist.  This subroutine will NOT behave as a @code{mkdir -p} (Unix) or @code{mkdir /p} (Windows).
 
 The @registerref{RETURN-CODE} will be set to the return code of the operation; the value will be either 0=Success or 128=failure.
 @comment *********************************************************************
@@ -1814,7 +1814,7 @@ If the specified argument does not exist, or an invalid argument number is speci
 @page
 @newsubsection{8.2.11,C$PRINTABLE}
 @diagram{C$PRINTABLE Built-In Subroutine,SS-C$PRINTABLE,SS-C$PRINTABLE,None}
-The @syntax{C$PRINTABLE} subroutine converts the contents of the data-item specified as the first argument to printable characters.  Those characters that are deemed printable (as defined by the character set used by @term{data-item}) will remain unchanged, while those that are NOT printable will be converted to the character specified as the second argument.
+The @code{C$PRINTABLE} subroutine converts the contents of the data-item specified as the first argument to printable characters.  Those characters that are deemed printable (as defined by the character set used by @term{data-item}) will remain unchanged, while those that are NOT printable will be converted to the character specified as the second argument.
 
 If no @term{char} argument is provided, a period (".") will be used.
 
@@ -1825,7 +1825,7 @@ NOTE that CBL_GC_PRINTABLE replaces this although it is currently still supporte
 @page
 @newsubsection{8.2.12,C$SLEEP}
 @diagram{C$SLEEP Built-In Subroutine,SS-C$SLEEP,SS-C$SLEEP,None}
-@syntax{C$SLEEP} puts the program to sleep for the specified number of seconds.  The @term{seconds-to-sleep} argument may be a numeric literal or data item.
+@code{C$SLEEP} puts the program to sleep for the specified number of seconds.  The @term{seconds-to-sleep} argument may be a numeric literal or data item.
 
 Sleep times less than 1 will be interpreted as 0, which immediately returns control to the calling program without any sleep delay.
 @comment *********************************************************************
@@ -1878,7 +1878,7 @@ This routine makes @term{directory-path} (an alphanumeric literal or identifier)
 
 The return code of the operation, which will be either 0=Success or 128=failure, is returned in the @registerref{RETURN-CODE}. 
 
-The directory change remains in effect until the program terminates (in which the original current directory at the time the program was started will be automatically restored) or until another @syntax{CBL_CHANGE_DIR} or a @subpgmref{C$CHDIR} is executed.
+The directory change remains in effect until the program terminates (in which the original current directory at the time the program was started will be automatically restored) or until another @code{CBL_CHANGE_DIR} or a @subpgmref{C$CHDIR} is executed.
 @comment *********************************************************************
 @comment ** 8.2.17 CBL_CHECK_FILE_EXIST                                     **
 @comment *********************************************************************
@@ -1907,9 +1907,9 @@ The information is returned to the @term{file-info} argument, which is defined a
 @page
 @newsubsection{8.2.18,CBL_CLOSE_FILE}
 @diagram{CBL_CLOSE_FILE Built-In Subroutine,SS-CBL_CLOSE_FILE,SS-CBL_CLOSE_FILE,None}
-The @syntax{CBL_CLOSE_FILE} subroutine closes a byte stream file previously opened by either the @subpgmref{CBL_OPEN_FILE} or @subpgmref{CBL_CREATE_FILE} subroutines.
+The @code{CBL_CLOSE_FILE} subroutine closes a byte stream file previously opened by either the @subpgmref{CBL_OPEN_FILE} or @subpgmref{CBL_CREATE_FILE} subroutines.
 
-If the file defined by the @term{file-handle} argument (a @syntax{PIC X(4) USAGE COMP-X} data item) was opened for output, an implicit @subpgmref{CBL_FLUSH_FILE} will be performed before the file is closed.
+If the file defined by the @term{file-handle} argument (a @code{PIC X(4) USAGE COMP-X} data item) was opened for output, an implicit @subpgmref{CBL_FLUSH_FILE} will be performed before the file is closed.
 
 If the subroutine is successful, a value of 0 will be returned in the @registerref{RETURN-CODE}.  Failure will cause a @register{RETURN-CODE} value of -1 to be passed back.
 @comment *********************************************************************
@@ -1918,7 +1918,7 @@ If the subroutine is successful, a value of 0 will be returned in the @registerr
 @page
 @newsubsection{8.2.19,CBL_COPY_FILE}
 @diagram{CBL_COPY_FILE Built-In Subroutine,SS-CBL_COPY_FILE,SS-CBL_COPY_FILE,None}
-Use this subroutine to copy file @term{src-file-path} to @term{dest-file-path} as if it were done via the @syntax{CP} (Unix/OSX) or @syntax{COPY} (Windows) command.
+Use this subroutine to copy file @term{src-file-path} to @term{dest-file-path} as if it were done via the @code{CP} (Unix/OSX) or @code{COPY} (Windows) command.
 
 Both arguments may be alphanumeric literals or identifiers.
 
@@ -1931,7 +1931,7 @@ If the attempt to copy the file fails (for example, it or the destination direct
 @diagram{CBL_CREATE_DIR Built-In Subroutine,SS-CBL_CREATE_DIR,SS-CBL_CREATE_DIR,None}
 With this routine you may create a new directory --- the name of which is supplied as the @term{dir-path} argument (an alphanumeric literal or identifier).
 
-Only the lowest-level directory (last) in the specified path can be created --- all others must already exist.  This subroutine will NOT behave as a @syntax{mkdir -p} (Unix) or @syntax{mkdir /p} (Windows).
+Only the lowest-level directory (last) in the specified path can be created --- all others must already exist.  This subroutine will NOT behave as a @code{mkdir -p} (Unix) or @code{mkdir /p} (Windows).
 
 The @registerref{RETURN-CODE} will be set to the return code of the operation; the value will be either 0=Success or 128=failure.
 @comment *********************************************************************
@@ -1940,11 +1940,11 @@ The @registerref{RETURN-CODE} will be set to the return code of the operation; t
 @page
 @newsubsection{8.2.21,CBL_CREATE_FILE}
 @diagram{CBL_CREATE_FILE Built-In Subroutine,SS-CBL_CREATE_FILE,SS-CBL_CREATE_FILE,None}
-The @syntax{CBL_CREATE_FILE} subroutine creates the new file specified using the file-path argument and opens it for output as a byte-stream file usable by @subpgmref{CBL_WRITE_FILE}.
+The @code{CBL_CREATE_FILE} subroutine creates the new file specified using the file-path argument and opens it for output as a byte-stream file usable by @subpgmref{CBL_WRITE_FILE}.
 
-Arguments 2, 3 and 4 should be coded as the constant values shown.  @syntax{CBL_CREATE_FILE} is actually a special-case of the @subpgmref{CBL_OPEN_FILE} routine --- see that routine for a description of the meanings of arguments 2, 3 and 4.
+Arguments 2, 3 and 4 should be coded as the constant values shown.  @code{CBL_CREATE_FILE} is actually a special-case of the @subpgmref{CBL_OPEN_FILE} routine --- see that routine for a description of the meanings of arguments 2, 3 and 4.
 
-A @term{file-handle} (@syntax{PIC X(4) USAGE COMP-X)} will be returned, for use on any subsequent @subpgmref{CBL_WRITE_FILE} or @subpgmref{CBL_CLOSE_FILE} calls.
+A @term{file-handle} (@code{PIC X(4) USAGE COMP-X)} will be returned, for use on any subsequent @subpgmref{CBL_WRITE_FILE} or @subpgmref{CBL_CLOSE_FILE} calls.
 
 The success or failure of the subroutine will be reported back in the @registerref{RETURN-CODE}, with a value of -1 indicating an invalid argument and a value of 0 indicating success.
 @comment *********************************************************************
@@ -1966,7 +1966,7 @@ The @registerref{RETURN-CODE} will be set to the return code of the operation; t
 @page
 @newsubsection{8.2.23,CBL_DELETE_FILE}
 @diagram{CBL_DELETE_FILE Built-In Subroutine,SS-CBL_DELETE_FILE,SS-CBL_DELETE_FILE,None}
-This routine deletes the file specified by the @term{file-path} argument (an alphanumeric literal or identifier) just as if that were done using the @syntax{RM} (Unix/OSX) or @syntax{ERASE} (Windows) command.
+This routine deletes the file specified by the @term{file-path} argument (an alphanumeric literal or identifier) just as if that were done using the @code{RM} (Unix/OSX) or @code{ERASE} (Windows) command.
 
 If the attempt to delete the file fails (for example, it doesn't exist), the @registerref{RETURN-CODE} will be set to 128; on successful completion it will be set to 0.
 @comment *********************************************************************
@@ -1992,17 +1992,17 @@ A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @diagram{CBL_ERROR_PROC Built-In Subroutine,SS-CBL_ERROR_PROC,SS-CBL_ERROR_PROC,None}
 This routine registers a general error-handling routine.
 
-The @term{function} argument must be a numeric literal or a 32-bit binary data item (@syntax{USAGE BINARY-LONG}, for example) with a value of 0 or 1.  A value of 0 means that you will be registering ("installing") an error procedure while a value of 1 indicates you're de-registering ("uninstalling") a previously-installed error procedure.
+The @term{function} argument must be a numeric literal or a 32-bit binary data item (@code{USAGE BINARY-LONG}, for example) with a value of 0 or 1.  A value of 0 means that you will be registering ("installing") an error procedure while a value of 1 indicates you're de-registering ("uninstalling") a previously-installed error procedure.
 
-The @term{program-pointer} must be a data item with a @syntaxref{USAGE} of @syntax{PROGRAM-POINTER} containing the address of your error procedure.  This item should be given a value using the @statementref{SET Program-Pointer}.  If the error procedure is written in GnuCOBOL, it must be a subroutine, not a user-defined function.
+The @term{program-pointer} must be a data item with a @syntaxref{USAGE} of @code{PROGRAM-POINTER} containing the address of your error procedure.  This item should be given a value using the @statementref{SET Program-Pointer}.  If the error procedure is written in GnuCOBOL, it must be a subroutine, not a user-defined function.
 
 A success (0) or failure (non-0) result will be passed back in the @registerref{RETURN-CODE}.
 
 A custom error procedure will trigger when a runtime error condition is encountered.  An error procedure may be registered by a main program or a subprogram, but regardless of from where it was registered, it applies to the overall program compilation group  and will trigger when a runtime error occurs anywhere in the executable program.  If the error procedure was defined by a subprogram, that program must be loaded at the time the error procedure is executed.
 
-An error procedure may be used to take whatever actions might be warranted to display additional information or to gracefully close down work in progress, but it cannot @i{prevent} the termination of program execution; should the error procedure not issue its own @syntax{STOP RUN}, control will return back to the standard error routine when the error procedure exits.
+An error procedure may be used to take whatever actions might be warranted to display additional information or to gracefully close down work in progress, but it cannot @i{prevent} the termination of program execution; should the error procedure not issue its own @code{STOP RUN}, control will return back to the standard error routine when the error procedure exits.
 
-The code within the handler will be executed and --- once the handler issues a @syntax{return}, if it was written in C, or an @statementrefalt{EXIT PROGRAM,EXIT} or @statement{GOBACK}, if it was written in GnuCOBOL, the system-standard error handling routine will be executed.
+The code within the handler will be executed and --- once the handler issues a @code{return}, if it was written in C, or an @statementrefalt{EXIT PROGRAM,EXIT} or @statement{GOBACK}, if it was written in GnuCOBOL, the system-standard error handling routine will be executed.
 
 Only one user-defined error procedure may be in effect at any time.
 
@@ -2062,9 +2062,9 @@ E:\Programs\Demos>
 @diagram{CBL_EXIT_PROC Built-In Subroutine,SS-CBL_EXIT_PROC,SS-CBL_EXIT_PROC,None}
 This routine registers a general exit-handling routine.
 
-The @term{function} argument must be a numeric literal or a 32-bit binary data item (@syntax{USAGE BINARY-LONG}, for example) with a value of 0 or 1.  A value of 0 means that you will be registering ("installing") an exit procedure while a value of 1 indicates you're deregistering ("uninstalling") a previously-installed exit procedure.
+The @term{function} argument must be a numeric literal or a 32-bit binary data item (@code{USAGE BINARY-LONG}, for example) with a value of 0 or 1.  A value of 0 means that you will be registering ("installing") an exit procedure while a value of 1 indicates you're deregistering ("uninstalling") a previously-installed exit procedure.
 
-The @term{program-pointer} must be a data item with a @syntaxref{USAGE} of @syntax{PROGRAM-POINTER} containing the address of your exit procedure.
+The @term{program-pointer} must be a data item with a @syntaxref{USAGE} of @code{PROGRAM-POINTER} containing the address of your exit procedure.
 
 A success (0) or failure (non-0) result will be passed back in the @registerref{RETURN-CODE}.
 
@@ -2417,7 +2417,7 @@ Note that the legacy name of this routine starts with CBL_OC is deprecated, as i
 @page
 @newsubsection{8.2.32,CBL_GC_PRINTABLE}
 @diagram{CBL_GC_PRINTABLE Built-In Subroutine,SS-CBL_GC_PRINTABLE,SS-CBL_GC_PRINTABLE,None}
-The @syntax{CBL_GC_PRINTABLE} subroutine converts the contents of the data-item specified as the first argument to printable characters.
+The @code{CBL_GC_PRINTABLE} subroutine converts the contents of the data-item specified as the first argument to printable characters.
 
 Those characters that are deemed printable (as defined by the character set used by @term{data-item}) will remain unchanged, while those that are NOT printable will be converted to the character specified as the second argument.
 
@@ -2468,8 +2468,8 @@ This retrieves the fully-qualified pathname of the current directory, saving up 
 
 The first argument is unused, but must be specified.  It must be specified @syntaxrefalt{BY VALUE,CALL}.
 
-The @term{length} argument must be specified @syntax{BY VALUE}.
-The @term{buffer} argument must be specified @syntax{BY REFERENCE}.
+The @term{length} argument must be specified @code{BY VALUE}.
+The @term{buffer} argument must be specified @code{BY REFERENCE}.
 
 The value specified for the @term{length} argument (a numeric literal or data item) should not exceed the actual length of the @term{buffer} argument.
 
@@ -2576,7 +2576,7 @@ The @term{access-mode} argument is a numeric literal or data item with a PIC X U
 @end display
 @* The third and fourth arguments would specify a locking mode and device specification, respectively, but they're not implemented in GnuCOBOL (currently, at least) --- just specify each as 0.
 
-The final argument (@term{handle}) is a @syntax{PIC X(4) USAGE COMP-X} item that will receive the handle to the file.  That handle is used on all other byte-stream functions to reference this specific file.
+The final argument (@term{handle}) is a @code{PIC X(4) USAGE COMP-X} item that will receive the handle to the file.  That handle is used on all other byte-stream functions to reference this specific file.
 
 A @registerref{RETURN-CODE} value of -1 indicates an invalid argument, while a value of 0 indicates success.  A value of 35 means the file does not exist.
 @comment *********************************************************************
@@ -2602,12 +2602,12 @@ A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @diagram{CBL_READ_FILE Built-In Subroutine,SS-CBL_READ_FILE,SS-CBL_READ_FILE,None}
 This routine reads @term{nbytes} of data starting at byte number @term{offset} from the byte-stream file defined by @term{handle} into the specified @term{buffer}.
 
-The @term{handle} argument (@syntax{PIC X(4) USAGE COMP-X}) must have been populated by a prior call to @subpgmref{CBL_OPEN_FILE}.
+The @term{handle} argument (@code{PIC X(4) USAGE COMP-X}) must have been populated by a prior call to @subpgmref{CBL_OPEN_FILE}.
 
-The @term{offset} argument (@syntax{PIC X(8) USAGE COMP-X}) defines the location in the file of the first byte to be read.  The first byte of a file is byte offset 0.
+The @term{offset} argument (@code{PIC X(8) USAGE COMP-X}) defines the location in the file of the first byte to be read.  The first byte of a file is byte offset 0.
 
-The @term{nbytes} argument (@syntax{PIC X(4) USAGE COMP-X}) specifies how many bytes (maximum) will be read.
-If the @term{flag} argument is specified as 128, the size of the file (in bytes) will be returned into the file offset argument (argument 2) upon completion.  Not all operating system/GnuCOBOL environments may be able to retrieve file sizes  in such cases, a value of zero will be returned.  The only other valid value for flags is 0.  This argument may be specified either as a numeric literal or as a @syntax{PIC X USAGE COMP-X} data item.
+The @term{nbytes} argument (@code{PIC X(4) USAGE COMP-X}) specifies how many bytes (maximum) will be read.
+If the @term{flag} argument is specified as 128, the size of the file (in bytes) will be returned into the file offset argument (argument 2) upon completion.  Not all operating system/GnuCOBOL environments may be able to retrieve file sizes  in such cases, a value of zero will be returned.  The only other valid value for flags is 0.  This argument may be specified either as a numeric literal or as a @code{PIC X USAGE COMP-X} data item.
 
 Upon completion, the @registerref{RETURN-CODE} will be set to 0 if the read was successful or to 10 if an "end-of-file" condition occurred.  If a value of -1 is returned, a problem was identified with the subroutine arguments.
 @comment *********************************************************************
@@ -2674,12 +2674,12 @@ If @term{convert-length} is negative or zero, no conversion will be performed.
 @diagram{CBL_WRITE_FILE Built-In Subroutine,SS-CBL_WRITE_FILE,SS-CBL_WRITE_FILE,None}
 This routine writes @term{nbytes} of data from the specified @term{buffer} to the byte-stream file defined by @term{handle} starting at byte number @term{offset} within the file.
 
-The @term{handle} argument (@syntax{PIC X(4) USAGE COMP-X}) must have been populated by a prior call to CBL_OPEN_FILE.
-The offset argument (@syntax{PIC X(4) USAGE COMP-X}) defines the location in the file of the first byte to be written to.  The first byte of a file is byte offset 0.
+The @term{handle} argument (@code{PIC X(4) USAGE COMP-X}) must have been populated by a prior call to CBL_OPEN_FILE.
+The offset argument (@code{PIC X(4) USAGE COMP-X}) defines the location in the file of the first byte to be written to.  The first byte of a file is byte offset 0.
 
-The @term{nbytes} argument (@syntax{PIC X(4) USAGE COMP-X}) specifies how many bytes (maximum) will be written.
+The @term{nbytes} argument (@code{PIC X(4) USAGE COMP-X}) specifies how many bytes (maximum) will be written.
 
-Currently, the only allowable value for the flags argument is 0.  This argument may be specified either as a numeric literal or as a @syntax{PIC X(1) USAGE COMP-X} data item.
+Currently, the only allowable value for the flags argument is 0.  This argument may be specified either as a numeric literal or as a @code{PIC X(1) USAGE COMP-X} data item.
 
 Upon completion, the @registerref{RETURN-CODE} will be set to 0 if the write was successful or to 30 if an I/O error condition occurred.  If a value of -1 is returned, a problem was identified with the subroutine arguments.
 @comment *********************************************************************
@@ -2704,7 +2704,7 @@ A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @diagram{SYSTEM Built-In Subroutine,SS-SYSTEM,SS-SYSTEM,None}
 This subroutine submits the specified @term{command} (an alphanumeric literal or data item) to a command shell for execution as if it were typed into a console/terminal window.
 
-A shell will be opened subordinate to the GnuCOBOL program issuing the call to @syntax{SYSTEM}.
+A shell will be opened subordinate to the GnuCOBOL program issuing the call to @code{SYSTEM}.
 
 Output from the command (if any) will appear in the command window in which the GnuCOBOL program was executed.
 
@@ -2733,9 +2733,9 @@ Turning runtime switches (SWITCH-1, @dots{} , SWITCH-8) off.
 @item
 Retrieving the number of arguments passed to a subroutine.
 @end itemize
-@* The @term{return-code} argument must be a one-byte binary numeric data item (@syntax{USAGE BINARY-CHAR} is recommended).  It will receive a value of 0 if the operation was successful, 1 otherwise.
+@* The @term{return-code} argument must be a one-byte binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).  It will receive a value of 0 if the operation was successful, 1 otherwise.
 
-The @term{function-code} argument must be either a numeric literal or a one-byte binary numeric data item (@syntax{USAGE BINARY-CHAR} is recommended).
+The @term{function-code} argument must be either a numeric literal or a one-byte binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).
 
 The third argument --- @term{variable-arg} --- is defined differently depending upon the @term{function-code} value, as follows:
 @table @asis
@@ -2743,21 +2743,21 @@ The third argument --- @term{variable-arg} --- is defined differently depending 
 @item 11
 Sets and/or clears all eight of the COBOL switches (SWITCH-1 through SWITCH-8).  @xref{SPECIAL-NAMES}, for an explanation of those switches.
 
-The @term{variable-arg} argument should be an @syntax{OCCURS 8 TIMES} table of @syntax{USAGE BINARY-CHAR}.
+The @term{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR}.
 
-Each occurrence that is set to a value of zero prior to the @syntax{CALL X"91"} will cause the corresponding switch to be cleared.  Each occurrence set to 1 prior to the @syntax{CALL X"91"} will cause the corresponding switch to be set.
+Each occurrence that is set to a value of zero prior to the @code{CALL X"91"} will cause the corresponding switch to be cleared.  Each occurrence set to 1 prior to the @code{CALL X"91"} will cause the corresponding switch to be set.
 
 Values other than 0 or 1 will be ignored.
 
 @item 12
 Reads all eight of the COBOL switches (SWITCH-1 through SWITCH-8)
 
-The @term{variable-arg} argument should be an @syntax{OCCURS 8 TIMES} table of @syntax{USAGE BINARY-CHAR}.
+The @term{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR}.
 
 Each of the 1st eight occurrences of the array will be set to either 0 or 1 --- 1 if the corresponding switch is set, 0 otherwise.
 
 @item 16
-Retrieves the number of arguments passed to the program executing the CALL X"91", saving that number into the @term{variable-arg} argument.  That should be a binary numeric data item (@syntax{USAGE BINARY-CHAR} is recommended).
+Retrieves the number of arguments passed to the program executing the CALL X"91", saving that number into the @term{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).
 @end table
 @comment *********************************************************************
 @comment ** 8.2.54 X"E4"                                                    **

@@ -137,49 +137,49 @@ Each page of a report is divided into as many as five (5) areas, as shown in the
 @t{ | Bottom-of-page Unusable Area  |}---# Lines: @t{LINES AT BOTTOM} (LINAGE)
 @t{ |_______________________________|}
 @end format
-@* When describing a report via the @syntaxrefalt{RD,REPORT SECTION} clause, the total number of usable lines are specified as the @syntax{PAGE LIMIT} value; this value is the sum of the number of lines contained in the Heading, Body and Footing Areas.
+@* When describing a report via the @syntaxrefalt{RD,REPORT SECTION} clause, the total number of usable lines are specified as the @code{PAGE LIMIT} value; this value is the sum of the number of lines contained in the Heading, Body and Footing Areas.
 
-The unusable areas of a page (if any) will appear above and below that usable area.  You don't specify the unusable area in the @syntax{RD}, but rather using a @syntaxrefalt{LINAGE,File/Sort-Description} clause in the @syntax{FD} of the file the report is "attached" to.
+The unusable areas of a page (if any) will appear above and below that usable area.  You don't specify the unusable area in the @code{RD}, but rather using a @syntaxrefalt{LINAGE,File/Sort-Description} clause in the @code{FD} of the file the report is "attached" to.
 
 The various report groups will be presentable in the various areas of a page, as follows:
 @table @asis
 
-@item @syntax{REPORT HEADING}
+@item @code{REPORT HEADING}
 
 Heading Area --- An exception to this is the situation where the report heading report group contains the @syntaxrefalt{NEXT GROUP NEXT PAGE,NEXT GROUP} option; in those cases, the report heading will be presented on a page by itself (anywhere on that page) at the beginning of the report.
 
-@item @syntax{PAGE HEADING}
+@item @code{PAGE HEADING}
 
 Heading Area
 
-@item @syntax{CONTROL HEADING}
+@item @code{CONTROL HEADING}
 
-Body Area, but no line of a control heading is allowed past the line number specified by @syntax{LAST CONTROL HEADING}
+Body Area, but no line of a control heading is allowed past the line number specified by @code{LAST CONTROL HEADING}
 
-@item @syntax{DETAIL}
+@item @code{DETAIL}
 
-Body Area, but no line of a detail report group is allowed past the line number specified by @syntax{LAST DETAIL}
+Body Area, but no line of a detail report group is allowed past the line number specified by @code{LAST DETAIL}
 
-@item @syntax{CONTROL FOOTING}
+@item @code{CONTROL FOOTING}
 
-Body Area, but no line of a control footing report group is allowed past the line number specified by @syntax{FOOTING}
+Body Area, but no line of a control footing report group is allowed past the line number specified by @code{FOOTING}
 
-@item @syntax{PAGE FOOTING}
+@item @code{PAGE FOOTING}
 
 Footing Area
 
-@item @syntax{REPORT FOOTING}
+@item @code{REPORT FOOTING}
 
-Footing Area --- An exception to this is the situation where the report footing report group contains the @syntax{NEXT PAGE} option in its @syntaxref{LINE} clause; in those cases, the report footing will be presented on a page by itself at the end of the report.
+Footing Area --- An exception to this is the situation where the report footing report group contains the @code{NEXT PAGE} option in its @syntaxref{LINE} clause; in those cases, the report footing will be presented on a page by itself at the end of the report.
 @end table
 @comment *********************************************************************
 @comment ** 9.4 How RWCS Builds Report Pages                                **
 @comment *********************************************************************
 @newsection{9.4,How RWCS Builds Report Pages}
 
-A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @syntax{ADVANCING PAGE} option.  Whether the data for a report line created via @syntax{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @syntax{WRITE @term{record-name} BEFORE ADVANCING PAGE} or @syntax{WRITE @term{record-name} AFTER ADVANCING PAGE}, respectively.
+A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @code{ADVANCING PAGE} option.  Whether the data for a report line created via @code{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @code{WRITE @term{record-name} BEFORE ADVANCING PAGE} or @code{WRITE @term{record-name} AFTER ADVANCING PAGE}, respectively.
 
-The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @syntax{RD} for the report (specifically the @syntax{PAGE LIMITS} and related options) and it's internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
+The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @code{RD} for the report (specifically the @code{PAGE LIMITS} and related options) and it's internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
 
 Because this is the way the GnuCOBOL RWCS works, in order to design an RWCS-generated report you'll need to know answers to the following questions:
 @enumerate
@@ -201,7 +201,7 @@ Because this is the way the GnuCOBOL RWCS works, in order to design an RWCS-gene
 @* Once you know the answer to questions 1-4, you may easily determine the answers to the remaining questions as follows:
 @enumerate
 
-@item Prepare a text file containing 100 or so records, each consisting of a numeric scale (@syntax{123456789012345678901234}@dots{}).
+@item Prepare a text file containing 100 or so records, each consisting of a numeric scale (@code{123456789012345678901234}@dots{}).
 
 @item Print the file in a manner consistent with your answers to questions 1-4.
 
@@ -209,11 +209,11 @@ Because this is the way the GnuCOBOL RWCS works, in order to design an RWCS-gene
 
 @item Now that you know @i{exactly} how long each record may be, add additional records and reprint.  Continue until printing overflows to a second page.
 
-@item The first page you print is now a perfect template to use when designing reports --- it shows, given the answers to questions 1-4, every available printable character position on a page!  The number of lines printed on that page becomes your @syntax{PAGE LIMIT} value for the @syntax{RD}.
+@item The first page you print is now a perfect template to use when designing reports --- it shows, given the answers to questions 1-4, every available printable character position on a page!  The number of lines printed on that page becomes your @code{PAGE LIMIT} value for the @code{RD}.
 @end enumerate
-@* The remaining @syntax{PAGE LIMIT} values can be established as required by your report(s).
+@* The remaining @code{PAGE LIMIT} values can be established as required by your report(s).
 
-Using @term{identifier} rather than @term{integer} specifications in the @syntax{RD} will give your program the ability --- at run time --- to accommodate multiple printers, fonts, font sizes and paper orientation.  Just follow the above steps for each combination you wish your program to support.
+Using @term{identifier} rather than @term{integer} specifications in the @code{RD} will give your program the ability --- at run time --- to accommodate multiple printers, fonts, font sizes and paper orientation.  Just follow the above steps for each combination you wish your program to support.
 @comment *********************************************************************
 @comment ** 9.5 Control Hierarchy                                           **
 @comment *********************************************************************
@@ -288,19 +288,19 @@ SORT SORT-FILE
 
 The next most-frequently changing value is that of Sorted-Department-Number, and the least-frequently changing value is that of Sorted-Store-Number.  remember that the program should be generating totals each time one of these two values change, plus a grand total of sales at the end of the report.  These three points are the @define{Control Break} points of the report.
 
-When the report is defined, it's @syntax{RD} would contain a @syntax{CONTROLS ARE} clause that lists the control breaks in least- to most-frequent sequence of changing.  This would be coded as:
+When the report is defined, it's @code{RD} would contain a @code{CONTROLS ARE} clause that lists the control breaks in least- to most-frequent sequence of changing.  This would be coded as:
 
-@syntax{CONTROLS ARE FINAL, Sorted-Store-Number, Sorted-Department-Number}
+@code{CONTROLS ARE FINAL, Sorted-Store-Number, Sorted-Department-Number}
 
-A FINAL control break only occurs once, at the very end of the report.  The @syntax{CONTROL FOOTING} for this break will be the one that produces the grand total of sales for all stores.
+A FINAL control break only occurs once, at the very end of the report.  The @code{CONTROL FOOTING} for this break will be the one that produces the grand total of sales for all stores.
 
-The next break listed on the @syntax{CONTROLS} clause will be the one that occurs next most-frequently (Sorted-Store-Number).  This control break will be the one that produces the summation for each entire store, and will have its own @syntax{CONTROL FOOTING}.
+The next break listed on the @code{CONTROLS} clause will be the one that occurs next most-frequently (Sorted-Store-Number).  This control break will be the one that produces the summation for each entire store, and will have its own @code{CONTROL FOOTING}.
 
-The next (and last, in this case) break listed on the CONTROLS clause will be the one that occurs even more frequently (Sorted-Department-Number).  The @syntax{CONTROL FOOTING} for this control field will be the one that summarizes sales for each department within a store.
+The next (and last, in this case) break listed on the CONTROLS clause will be the one that occurs even more frequently (Sorted-Department-Number).  The @code{CONTROL FOOTING} for this control field will be the one that summarizes sales for each department within a store.
 
 This sequence of control breaks from least- to most-frequent (in other words, in the order they occur on the CONTROLS ARE clause) is the '@i{control hierarchy}' of the report; control breaks that occur more frequently than others are said to be at a lower level in the control hierarchy.
 
-Defining a control hierarchy (via @syntax{CONTROLS ARE}) that does not match the actual sequence in which data will be processed is a great way to guarantee a "broken" report.  I'll show you an example in a later section.
+Defining a control hierarchy (via @code{CONTROLS ARE}) that does not match the actual sequence in which data will be processed is a great way to guarantee a "broken" report.  I'll show you an example in a later section.
 @comment *********************************************************************
 @comment ** 9.6 An Example                                                  **
 @comment *********************************************************************
@@ -423,7 +423,7 @@ For the sake of brevity, this document lists the data in three columns.
 @comment *********************************************************************
 @newsubsection{9.6.2,Program}
 
-Here is the program that will be producing the report.  Pay attention to how the data is sorted and how the control hierarchy (@syntax{CONTROLS ARE}) relates to the @syntax{SORT}.
+Here is the program that will be producing the report.  Pay attention to how the data is sorted and how the control hierarchy (@code{CONTROLS ARE}) relates to the @code{SORT}.
 
 @example
 IDENTIFICATION DIVISION.
@@ -952,7 +952,7 @@ ____________________________________________
 
 The sample program just discussed presents a great opportunity to show what can happen if you don't define the control hierarchy of a report properly.
 
-I changed the @syntax{CONTROLS ARE} clause on the sample program from this:
+I changed the @code{CONTROLS ARE} clause on the sample program from this:
 
 @example
 CONTROLS ARE FINAL
@@ -1094,7 +1094,7 @@ Simply Change This@dots{}
     05 LINE NUMBER PLUS 1.
        10 COL 1  SOURCE WS-Starz PIC X(44).
 @end example
-@* RWCS will still be counting lines to decide when to close off one page and start a new one, but when a new page is started it's page heading will @i{physically} form-feed the printer when the report is printed.  As long as any printer you plan on using supports at least as many physical print lines as what is defined as the @syntax{PAGE LIMIT} value in whatever paper orientation and font you plan on (or are limited to) printing in, you have now divorced your program from the physical realities of the printer!
+@* RWCS will still be counting lines to decide when to close off one page and start a new one, but when a new page is started it's page heading will @i{physically} form-feed the printer when the report is printed.  As long as any printer you plan on using supports at least as many physical print lines as what is defined as the @code{PAGE LIMIT} value in whatever paper orientation and font you plan on (or are limited to) printing in, you have now divorced your program from the physical realities of the printer!
 
 Of course, whatever software you are using to deliver the printed document to the printer with, must allow the ASCII form-feed character to pass through to the printer.
 @iftex

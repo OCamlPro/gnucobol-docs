@@ -158,7 +158,7 @@ The elements of a table may be referenced either using a subscript or an index. 
 @end enumerate
 @* The 1st and 2nd examples are referred to as @define{Subscripting} while the 3rd is known as @define{Indexing}.  The distinction is fairly simple.
 
-Indexing is the process of referencing an element of a table utilizing a data item with an explicitly or implicitly defined @syntaxref{USAGE} of @syntax{INDEX} to select the desired occurrence, while @dots{}
+Indexing is the process of referencing an element of a table utilizing a data item with an explicitly or implicitly defined @syntaxref{USAGE} of @code{INDEX} to select the desired occurrence, while @dots{}
 
 Subscripting is the process of referencing an element of a table utilizing either a numeric constant or an unedited numeric data item to select the desired occurrence.
 
@@ -178,7 +178,7 @@ If references to table elements are going to be performed many, many  times (ten
 @end enumerate
 @* It's impossible to perform any arithmetic operation against an index data item directly (other than a simple incrementation or decremental operation via the @statementref{SET UP/DOWN}).  Situations where any non-trivial computations are required to calculate the effective occurrence number for a table reference will require you to use a conventional unedited numeric data item as the receiving field for the calculation.  That calculated value would then need to be saved into the index data item via a @statement{SET Index}.
 
-If you only need to use the computed occurrence number once, you might as well just use the computed occurrence number data item as a subscript.  If, however, you will need to use a computed "subscript" many more times than once, the run-time overhead of converting that occurrence value to an index (via @syntax{SET Index}) will be worth the coding effort.
+If you only need to use the computed occurrence number once, you might as well just use the computed occurrence number data item as a subscript.  If, however, you will need to use a computed "subscript" many more times than once, the run-time overhead of converting that occurrence value to an index (via @code{SET Index}) will be worth the coding effort.
 
 Whew!
 
@@ -207,7 +207,7 @@ E3. SET WS-TABLE-IDX TO 17
     MOVE 'A' TO WS-TABLE-ENTRY (WS-TABLE-SUB)
     .
 @end example
-@* Compile this program as follows (the assumption is made that you are executing the @syntax{cobc} command from the directory in which the above program source code (subvsindex.cbl) exists.
+@* Compile this program as follows (the assumption is made that you are executing the @code{cobc} command from the directory in which the above program source code (subvsindex.cbl) exists.
 
 @center @t{cobc -C -save-temps subvsindex.cbl}
 
@@ -220,16 +220,16 @@ Since the intent of a copybook is to introduce COBOL code into a particular spot
 
 For example:
 @table @asis
-@item @syntax{IDxxxxxxxx}
+@item @code{IDxxxxxxxx}
 Copybooks containing code intended for the identification division.  These will be rare as you almost never encounter copied code in the identification division.
 
-@item @syntax{EDxxxxxxxx}
+@item @code{EDxxxxxxxx}
 Copybooks containing code intended for use in the environment division.  These copybooks are generally used for predefined @syntaxref{SPECIAL-NAMES} or @syntaxrefalt{FILE-CONTROL,INPUT-OUTPUT SECTION} syntax,
 
-@item @syntax{DDxxxxxxxx}
+@item @code{DDxxxxxxxx}
 Copybooks that contain data definitions.
 
-@item @syntax{PDxxxxxxxx}
+@item @code{PDxxxxxxxx}
 Copybooks that contain executable instructions.
 @end table
 @comment *********************************************************************
@@ -241,7 +241,7 @@ The issue of whether to use section and/or paragraph names (collectively referre
 COBOL programming standards used by many organizations that use the language generally call for procedure names to:
 @enumerate
 @item
-Contain a leading numeric component (for example: @syntax{2000-Update-Customer}), AND@dots{}
+Contain a leading numeric component (for example: @code{2000-Update-Customer}), AND@dots{}
 
 @item
 Be defined in the procedure division in non-decreasing sequence of that numeric component.
@@ -260,10 +260,10 @@ You are using a procedural @statementrefalt{PERFORM,Procedural PERFORM}
 You are using a @statementref{GO TO}
 
 @item
-You are using a @statementref{MERGE} with an @syntax{OUTPUT PROCEDURE}
+You are using a @statementref{MERGE} with an @code{OUTPUT PROCEDURE}
 
 @item
-You are using a @statementref{SORT} with either (or both) an @syntax{INPUT PROCEDURE} or @syntax{OUTPUT PROCEDURE}
+You are using a @statementref{SORT} with either (or both) an @code{INPUT PROCEDURE} or @code{OUTPUT PROCEDURE}
 
 @item
 You are using @syntaxref{DECLARATIVES}
@@ -273,19 +273,19 @@ You are using @syntaxref{DECLARATIVES}
 I like to use procedure division paragraphs and sections as follows:
 @enumerate
 @item
-The very first procedure defined in the procedure division of my programs, assuming no @syntaxref{DECLARATIVES} are defined, will be a section named "000-Main".  The declaration of this procedure will immediately follow the procedure division header (or @syntax{END DECLARATIVES} if @syntax{DECLARATIVES} are used).
+The very first procedure defined in the procedure division of my programs, assuming no @syntaxref{DECLARATIVES} are defined, will be a section named "000-Main".  The declaration of this procedure will immediately follow the procedure division header (or @code{END DECLARATIVES} if @code{DECLARATIVES} are used).
 
 @item
-Any procedures referenced by @syntax{MERGE}, @syntax{PERFORM}, or @syntax{SORT} statements will be defined as sections.
+Any procedures referenced by @code{MERGE}, @code{PERFORM}, or @code{SORT} statements will be defined as sections.
 
 @item
-Any procedures referenced by @syntax{GO TO} statements will be defined as paragraphs, and those paragraphs will be defined in the same section as the @syntax{GO TO} statements that reference them.  In other words, @statement{GO TO}s may not be used to transfer control to a point in a different section.  This is @i{NOT} a GnuCOBOL rule --- this is my own personal programming practice intended to improve the readability and maintainability of my programs.
+Any procedures referenced by @code{GO TO} statements will be defined as paragraphs, and those paragraphs will be defined in the same section as the @code{GO TO} statements that reference them.  In other words, @statement{GO TO}s may not be used to transfer control to a point in a different section.  This is @i{NOT} a GnuCOBOL rule --- this is my own personal programming practice intended to improve the readability and maintainability of my programs.
 
 @item
 I always include a numeric prefix to all procedure names I define, for the reasons stated earlier.
 
 @item
-I do not use @syntax{THRU} on any @syntax{MERGE}, @syntax{PERFORM} or @statement{SORT} unless the programming standards of the shop in which I am working require it.  My reasoning for this is that it is too easy to accidentally introduce a new procedure into the scope of a @syntax{THRU}.
+I do not use @code{THRU} on any @code{MERGE}, @code{PERFORM} or @statement{SORT} unless the programming standards of the shop in which I am working require it.  My reasoning for this is that it is too easy to accidentally introduce a new procedure into the scope of a @code{THRU}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 12.6 COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE                **
