@@ -77,7 +77,7 @@ There is no difference between the use of the word @code{IN} and the word @code{
 A period is absolutely mandatory at the end of every @code{COPY} statement, even if the statement occurs within the scope of another one where a period might appear disruptive, such as within the scope of an @syntaxref{IF} statement.  This mandatory period at the end of the statement will not, however, affect the statement scope in which the @code{COPY} occurs.
 
 @item
-Both @term{pseudo-text-2} and @term{partial-word-2} may be null.
+Both @var{pseudo-text-2} and @var{partial-word-2} may be null.
 
 @item
 All @code{COPY} statements are located and the contents of the corresponding copybooks inserted into the program source code before the actual compilation process begins.  If a copybook contains a @code{COPY} statement, the copybook insertion process will be repeated to resolve the embedded @code{COPY}.  This will continue until no unresolved @code{COPY} statements remain.  At that point, actual program compilation will begin.
@@ -91,12 +91,23 @@ The optional @syntaxidx{REPLACING} clause allows for one or more of either of th
 @item @var{Phrase-Clause}
 Replacement of one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
 @itemize
-@item This option cannot be used to replace part of a word, identifier or literal.
-@item Whatever precedes the @code{BY} will be referred to here as the search string.
-@item Single-item search strings can be specified by coding the @code{@term{identifier-1}}, @code{@term{literal-1}} or @code{@term{word-1}} being replaced.
-@item Multiple-item search strings can be specified using the @code{==@term{pseudo-text-1}==} option.  For example, to replace all occurrences of @code{UPON PRINTER}, you would specify @code{==UPON PRINTER==}.
-@item The replacement string, which follows the @code{BY}, may be specified using any of the four options.
-@item If the replacement string is a multiple-item phrase or is to be deleted altogether, you must use the @code{==@term{pseudo-text-2}==} option.  If @code{@term{pseudo-text-2}} is null (in other words, the replacement text is specified as @code{====}), all encountered occurrences of the search string will be deleted.
+@item
+This option cannot be used to replace part of a word, identifier or literal.
+
+@item
+Whatever precedes the @code{BY} will be referred to here as the search string.
+
+@item
+Single-item search strings can be specified by coding the @code{@var{identifier-1}}, @code{@var{literal-1}} or @code{@var{word-1}} being replaced.
+
+@item
+Multiple-item search strings can be specified using the @code{==@var{pseudo-text-1}==} option.  For example, to replace all occurrences of @code{UPON PRINTER}, you would specify @code{==UPON PRINTER==}.
+
+@item
+The replacement string, which follows the @code{BY}, may be specified using any of the four options.
+
+@item
+If the replacement string is a multiple-item phrase or is to be deleted altogether, you must use the @code{==@var{pseudo-text-2}==} option.  If @code{@var{pseudo-text-2}} is null (in other words, the replacement text is specified as @code{====}), all encountered occurrences of the search string will be deleted.
 @end itemize
 @item @var{String-Clause}
 Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @code{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @code{LEADING ==0100-== BY ====}.
@@ -127,10 +138,17 @@ Format 1 of the @code{REPLACE} statement can be used to make changes to program 
 @item @var{Phrase-Clause}
 Replace one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
 @itemize @bullet
-@item This option cannot be used to replace part of a word, identifier or literal.
-@item Whatever precedes the @code{BY} will be referred to here as the search string.
-@item Search strings on @code{REPLACE} are always specified using the @code{==@term{pseudo-text-1}==} option.  For example, to replace all occurrences of @code{UPON PRINTER}, you would specify @code{==UPON PRINTER==}.
-@item The replacement string, which follows the @code{BY}, is specified using the @code{==@term{pseudo-text-2}==} option.  If @code{@term{pseudo-text-2}} is null (in other words, the replacement text is specified as @code{====}), all encountered occurrences of the search string will be deleted.
+@item
+This option cannot be used to replace part of a word, identifier or literal.
+
+@item
+Whatever precedes the @code{BY} will be referred to here as the search string.
+
+@item
+Search strings on @code{REPLACE} are always specified using the @code{==@var{pseudo-text-1}==} option.  For example, to replace all occurrences of @code{UPON PRINTER}, you would specify @code{==UPON PRINTER==}.
+
+@item
+The replacement string, which follows the @code{BY}, is specified using the @code{==@var{pseudo-text-2}==} option.  If @code{@var{pseudo-text-2}} is null (in other words, the replacement text is specified as @code{====}), all encountered occurrences of the search string will be deleted.
 @end itemize
 @item @var{String-Clause}
 Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @code{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @code{LEADING ==0100-== BY ====}.
@@ -181,13 +199,13 @@ The @directive{>>DEFINE} is one way to create CDF variables that may be processe
 CDF variable names follow the rules for standard GnuCOBOL user-defined names, and may not duplicate any CDF reserved word.  CDF variable names may duplicate COBOL reserved words, provided the @syntaxidx{CONSTANT} option is not specified, but such names are not recommended.
 
 @item
-The @code{CONSTANT} option is valid only in conjunction with @term{literal-1}.  When @code{CONSTANT} is specified, the CDF variable that is created may be used within your regular COBOL code as if it were a literal value.  Without this option, the CDF variable may only be referenced on other CDF statements.  The @syntaxidx{OFF} option is used to create a variable without assigning it any value.
+The @code{CONSTANT} option is valid only in conjunction with @var{literal-1}.  When @code{CONSTANT} is specified, the CDF variable that is created may be used within your regular COBOL code as if it were a literal value.  Without this option, the CDF variable may only be referenced on other CDF statements.  The @syntaxidx{OFF} option is used to create a variable without assigning it any value.
 
 @item
 The @syntaxidx{PARAMETER} option is used to create a variable whose value is that of the environment variable of the same name.  Note that this value assignment occurs at compilation time, not program execution time.
 
 @item
-In the absence of the @syntaxidx{OVERRIDE} option, @term{cdf-variable-1} must not yet have been defined.  When the @code{OVERRIDE} option is specified, @term{cdf-variable-1} will be created with the specified value, if it had not yet been defined.  If it had already been defined, it will be redefined with the new value.
+In the absence of the @syntaxidx{OVERRIDE} option, @var{cdf-variable-1} must not yet have been defined.  When the @code{OVERRIDE} option is specified, @var{cdf-variable-1} will be created with the specified value, if it had not yet been defined.  If it had already been defined, it will be redefined with the new value.
 @end enumerate
 @comment *********************************************************************
 @comment ** 3.5 >>IF Directive                                              **
@@ -224,7 +242,7 @@ If no @var{CDF-Conditional-Expression} evaluates to TRUE, and there is an @code{
 If no @var{CDF-Conditional-Expression-n} evaluates to TRUE and there is no @code{>>ELSE} clause, then none of the @var{Program-Source-Lines-n} block of statements within the @code{>>IF}-@code{>>END-IF} scope will be processed by the compiler.
 
 @item
-If the @term{Program-Source-Lines-n}> statement block selected for processing is empty, no error results --- there will just be no code generated from the @code{>>IF}-@code{>>END-IF} structure.
+If the @var{Program-Source-Lines-n}> statement block selected for processing is empty, no error results --- there will just be no code generated from the @code{>>IF}-@code{>>END-IF} structure.
 @end enumerate
 @item
 A @var{Program-Source-Lines-n} block may contain any valid COBOL or CDF code.
@@ -233,10 +251,10 @@ A @var{Program-Source-Lines-n} block may contain any valid COBOL or CDF code.
 The following points pertain to any @var{CDF-Conditional-Expression-n}:
 @enumerate A
 @item
-The @syntaxidx{DEFINED} option tests for whether @term{cdf-variable-1} has been defined, but not yet assigned a value (@code{>>DEFINE @dots{} OFF}); use the @code{NOT} option to test for the variable not being defined.
+The @syntaxidx{DEFINED} option tests for whether @var{cdf-variable-1} has been defined, but not yet assigned a value (@code{>>DEFINE @dots{} OFF}); use the @code{NOT} option to test for the variable not being defined.
 
 @item
-The @syntaxidx{SET} option tests for whether @term{cdf-variable-1} has been given a value, either via a @code{>>SET} statement or via a @code{>>DEFINE} without the @code{OFF} option.
+The @syntaxidx{SET} option tests for whether @var{cdf-variable-1} has been given a value, either via a @code{>>SET} statement or via a @code{>>DEFINE} without the @code{OFF} option.
 
 @item
 Two CDF variables, two literals or a single CDF variable and a single literal may be compared against each other using a relational operator.  Unlike the standard GnuCOBOL @statementref{IF}, multiple comparisons cannot be "AND"ed or "OR"ed together; you may nest a second @code{>>IF} inside the first, however, to simulate an "AND" and an "OR" may be simulated via the @code{>>ELIF} option.
@@ -266,19 +284,19 @@ The @syntaxidx{FOLDCOPYNAME} option provides the equivalent of specifying the co
 The @syntaxidx{NOFOLDCOPYNAME} option turns off the effect of either the @code{>>SET FOLDCOPYNAME} statement or the compiler @switch{-ffold-copy=xxx}.
 
 @item
-If the @syntaxidx{CONSTANT} option is used, @term{literal-1} must also be used.  This option provides another means of defining constants that may be used anywhere in the program that a literal could be specified.
+If the @syntaxidx{CONSTANT} option is used, @var{literal-1} must also be used.  This option provides another means of defining constants that may be used anywhere in the program that a literal could be specified.
 
 @item
 The remaining options of the @directive{>>SET} provide equivalent functionality to the @code{>>DEFINE} and @code{>>SOURCE} directives, as follows:
 @enumerate A
 @item
-@code{>>SET @term{cdf-variable-1}} @equiv{} @code{>>DEFINE @term{cdf-variable-1} AS OFF}
+@code{>>SET @var{cdf-variable-1}} @equiv{} @code{>>DEFINE @var{cdf-variable-1} AS OFF}
 
 @item
-@code{>>SET @term{cdf-variable-1} AS @term{literal-1}} @equiv{} @code{>>DEFINE @term{cdf-variable-1} AS @term{literal-1}}
+@code{>>SET @var{cdf-variable-1} AS @var{literal-1}} @equiv{} @code{>>DEFINE @var{cdf-variable-1} AS @var{literal-1}}
 
 @item
-@code{>>SET CONSTANT @term{cdf-variable-1} @term{literal-1}} @equiv{} @code{>>DEFINE CONSTANT @term{cdf-variable-1} @term{literal-1}}
+@code{>>SET CONSTANT @var{cdf-variable-1} @var{literal-1}} @equiv{} @code{>>DEFINE CONSTANT @var{cdf-variable-1} @var{literal-1}}
 
 @item
 @code{>>SET SOURCEFORMAT AS FIXED} @equiv{} @code{>>SOURCE FORMAT IS FIXED}

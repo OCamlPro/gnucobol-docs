@@ -55,7 +55,7 @@ The reserved word @code{WITH} is optional and may be included, or not, at the di
 This paragraph is not allowed in a nested subprogram --- nested programs will inherit the @code{SOURCE-COMPUTER} settings of their parent program.
 
 @item
-The value specified for @term{computer-name} is irrelevant, provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @term{computer-name} value may include spaces.  This need not match the @term{computer-name} used with the @code{OBJECT-COMPUTER} paragraph, if any.
+The value specified for @var{computer-name} is irrelevant, provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @var{computer-name} value may include spaces.  This need not match the @var{computer-name} used with the @code{OBJECT-COMPUTER} paragraph, if any.
 
 @item
 The @syntaxidx{DEBUGGING MODE} clause, if present, will inform the compiler that debugging lines (those with a "D" in column 7 if Fixed Source Mode is in effect, or those prefixed with a @code{>>D} if Free Source Mode is in effect) --- normally treated as comments --- are to be compiled.
@@ -72,19 +72,19 @@ Even without the @code{DEBUGGING MODE} clause, it is still possible to compile d
 This paragraph describes the computer upon which the program will execute.
 @enumerate
 @item
-The @term{computer-name}, if specified, must immediately follow the @code{OBJECT-COMPUTER} paragraph name.  The remaining clauses may be coded in any sequence.
+The @var{computer-name}, if specified, must immediately follow the @code{OBJECT-COMPUTER} paragraph name.  The remaining clauses may be coded in any sequence.
 
 @item
 The reserved words @code{CHARACTER}, @code{IS}, @code{PROGRAM} and @code{SEQUENCE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 
 @item
-The value specified for @term{computer-name}, if any, is irrelevant provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @term{computer-name} may include spaces.  This need not match the @term{computer-name} used with the @code{SOURCE-COMPUTER} paragraph, if any.
+The value specified for @var{computer-name}, if any, is irrelevant provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @var{computer-name} may include spaces.  This need not match the @var{computer-name} used with the @code{SOURCE-COMPUTER} paragraph, if any.
 
 @item
 The @code{OBJECT-COMPUTER} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @code{OBJECT-COMPUTER} settings of their parent program.
 
 @item
-The @syntaxidx{COLLATING SEQUENCE} clause allows you to specify a customized character collating sequence to be used when alphanumeric values are compared to one another.  Data will still be stored in the character set native to the computer, but the logical sequence in which characters are ordered for comparison purposes can be altered from that defined by the computer's native character set.  The @term{alphabet-name-1} you specify needs to be defined in the @syntaxref{SPECIAL-NAMES} paragraph.
+The @syntaxidx{COLLATING SEQUENCE} clause allows you to specify a customized character collating sequence to be used when alphanumeric values are compared to one another.  Data will still be stored in the character set native to the computer, but the logical sequence in which characters are ordered for comparison purposes can be altered from that defined by the computer's native character set.  The @var{alphabet-name-1} you specify needs to be defined in the @syntaxref{SPECIAL-NAMES} paragraph.
 
 @item
 If no @code{COLLATING SEQUENCE} clause is specified, the collating sequence implied by the character set native to the computer (usually ASCII) will be used.
@@ -95,7 +95,7 @@ The optional @syntaxidx{CLASSIFICATION} clause may be used to specify a locale f
 The meanings of the four locale specifications are as follows:
 @enumerate A
 @item
-@term{locale-name-1} references a @syntaxrefalt{LOCALE,SPECIAL-NAMES} definition.
+@var{locale-name-1} references a @syntaxrefalt{LOCALE,SPECIAL-NAMES} definition.
 
 @item
 The keyword @code{LOCALE} refers to the current locale (in effect at the time the program is executed)
@@ -133,25 +133,25 @@ The @code{SPECIAL-NAMES} paragraph is not allowed in a nested subprogram --- nes
 Only the final clause specified within this paragraph should be terminated with a period.
 
 @item
-The @syntaxidx{CALL-CONVENTION} clause allows a decimal integer, representing a series of ON/OFF switch settings, to be associated with a mnemonic name which may then be coded on a @statementref{CALL}.  The switch settings defined by this mnemonic will then control how the linkage to a subroutine invoked by the @code{CALL} statement that references @term{mnemonic-name-1} will be handled.
+The @syntaxidx{CALL-CONVENTION} clause allows a decimal integer, representing a series of ON/OFF switch settings, to be associated with a mnemonic name which may then be coded on a @statementref{CALL}.  The switch settings defined by this mnemonic will then control how the linkage to a subroutine invoked by the @code{CALL} statement that references @var{mnemonic-name-1} will be handled.
 
 @item
 The @syntaxidx{CONSOLE IS CRT} clause, if specified, will cause a @statement{DISPLAY} lacking an explicit @code{UPON} clause to be treated as a @statementref{DISPLAY screen-data-item}, and any @statement{ACCEPT} lacking a @code{FROM} clause to be treated as a @statementref{ACCEPT screen-data-item}.
 
 @item
-If the @syntaxidx{CRT STATUS} clause is not specified, an implicit @syntaxidx{COB-CRT-STATUS} identifier (with a @code{PICTURE 9(4)}) will be allocated for the purpose of receiving screen @code{ACCEPT} statuses.  If @code{CRT STATUS} is specified, then @term{identifier-1} must be defined in the program as a @code{PICTURE 9(4)} field.
+If the @syntaxidx{CRT STATUS} clause is not specified, an implicit @syntaxidx{COB-CRT-STATUS} identifier (with a @code{PICTURE 9(4)}) will be allocated for the purpose of receiving screen @code{ACCEPT} statuses.  If @code{CRT STATUS} is specified, then @var{identifier-1} must be defined in the program as a @code{PICTURE 9(4)} field.
 
 @item
 The @syntaxidx{CURRENCY SIGN} clause may be used to redefine the character to be used as a currency sign in a @syntaxref{PICTURE} clause.  The default currency sign is a dollar-sign ($).  You may specify any character @i{except} @code{0}-@code{9}, @code{A}-@code{Z}, @code{a}-@code{z}, @code{+}, @code{-}, @code{,}, @code{.}, @code{*}, @code{/}, @code{;}, @code{(}, @code{)}, @code{=}, @code{\\}, quote (") or space.
 
 @item
-The @syntaxidx{CURSOR IS} clause allows you to specify a 4- or 6-character data item into which the cursor screen location at the time a screen @code{ACCEPT} is satisfied.  The value will be returned as @i{rrcc} or @i{rrrccc}, depending upon the length of the specified @term{identifier-2}, where @i{rr} and @i{rrr} represent the row number (starting at zero) and @i{cc} and @i{ccc} represent the column number (also starting at zero).  There is no default data item allocated for this data if the @code{CURSOR IS} clause is not specified, and it is the programmer's responsibility to define @term{identifier-2} if the clause is specified.
+The @syntaxidx{CURSOR IS} clause allows you to specify a 4- or 6-character data item into which the cursor screen location at the time a screen @code{ACCEPT} is satisfied.  The value will be returned as @i{rrcc} or @i{rrrccc}, depending upon the length of the specified @var{identifier-2}, where @i{rr} and @i{rrr} represent the row number (starting at zero) and @i{cc} and @i{ccc} represent the column number (also starting at zero).  There is no default data item allocated for this data if the @code{CURSOR IS} clause is not specified, and it is the programmer's responsibility to define @var{identifier-2} if the clause is specified.
 
 @item
 The @syntaxidx{DECIMAL POINT IS COMMA} clause reverses the definition of the "," and "." characters when they are used as @code{PICTURE} editing symbols and within numeric literals.  This can have unwanted side-effects - see @ref{Punctuation}.
 
 @item
-The @syntaxidx{LOCALE} clause may be used to associate external OS-defined locale names (@term{literal-2}) with an internal name (@term{locale-name-1}) that may then be referenced within the program.  Locale names are defined by the Operating System and/or C compiler GnuCOBOL will be utilizing on your computer.
+The @syntaxidx{LOCALE} clause may be used to associate external OS-defined locale names (@var{literal-2}) with an internal name (@var{locale-name-1}) that may then be referenced within the program.  Locale names are defined by the Operating System and/or C compiler GnuCOBOL will be utilizing on your computer.
 
 @item
 The following is the list of possible locale codes, for example, that would be available on a Windows computer running a GnuCOBOL version that was built utilizing the MinGW Unix-emulator and the GNU C compiler (gcc):
@@ -240,7 +240,7 @@ zh_CN, zh_HK, zh_MO, zh_SG, zh_TW, zu_ZA
 The @syntaxidx{NUMERIC SIGN TRAILING SEPARATE} specification causes all signed numeric @code{USAGE DISPLAY} data items to be created as if the @code{SIGN IS TRAILING SEPARATE CHARACTER} clause was included in their definitions.
 
 @item
-The @code{@term{device-name-1} IS @term{mnemonic-name-2}} clause allows you to specify an alternate name (@term{device-name-1}) for one of the built-in GnuCOBOL device name @term{mnemonic-name-2}.  The list of device names built-into GnuCOBOL, and the physical device associated with that name, are as follows:
+The @code{@var{device-name-1} IS @var{mnemonic-name-2}} clause allows you to specify an alternate name (@var{device-name-1}) for one of the built-in GnuCOBOL device name @var{mnemonic-name-2}.  The list of device names built-into GnuCOBOL, and the physical device associated with that name, are as follows:
 @table @b
 @item @syntaxidx{CONSOLE}
 This is the (screen-mode) display of the PC or Unix system.
@@ -262,7 +262,7 @@ These devices (they are all synonymous) represent standard system output (pipe 1
 These devices (they are synonymous) represent standard system error output (pipe 2).  On a PC or UNIX system, this is typically the display.  Output sent to one of these devices by a GnuCOBOL program can be sent to a file by adding the sequence "2> filename" to the end of the programs execution command.
 @end table
 @item
-The @code{@term{feature-name-1} IS @term{mnemonic-name-3}} clause allow for mnemonic names to be assigned to up to the 13 printer channel (i.e. vertical page positioning) position feature names @code{Cnn} (nn=01-12) and @code{CSP}.  Once a channel position has been assigned a mnemonic name, statements of the form @code{WRITE @term{record-name} AFTER ADVANCING @term{mnemonic-name-3}} may be coded to write the specified print record at the channel position assigned to @term{mnemonic-name-3}.
+The @code{@var{feature-name-1} IS @var{mnemonic-name-3}} clause allow for mnemonic names to be assigned to up to the 13 printer channel (i.e. vertical page positioning) position feature names @code{Cnn} (nn=01-12) and @code{CSP}.  Once a channel position has been assigned a mnemonic name, statements of the form @code{WRITE @var{record-name} AFTER ADVANCING @var{mnemonic-name-3}} may be coded to write the specified print record at the channel position assigned to @var{mnemonic-name-3}.
 
 Printers supporting channel positioning are generally mainframe-type line printers.  When writing to printers that do not support channel positioning, a formfeed will be issued to the printer.
 
@@ -275,7 +275,7 @@ The @code{CSP} positioning option stands for "No Spacing".  Testing on a MinGW b
 @newunit{5.1.3.1,Alphabet-Name-Clause}
 @diagram{SPECIAL-NAMES Alphabet-Clause,ED-SPECIAL-NAMES-AN-Info,ED-SPECIAL-NAMES-AN-TeX,None}
 @diagram{SPECIAL-NAMES ALPHABET Literal-Clause,ED-SPECIAL-NAMES-L-Info,ED-SPECIAL-NAMES-L-TeX,None}
-The @syntaxidx{ALPHABET} clause provides a means for relating a name to a specified character code set or collating sequence, including those you define yourself using the @term{literal-1} option.
+The @syntaxidx{ALPHABET} clause provides a means for relating a name to a specified character code set or collating sequence, including those you define yourself using the @var{literal-1} option.
 @enumerate
 @item
 The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
@@ -290,10 +290,10 @@ GnuCOBOL considers @syntaxidx{ASCII}, @syntaxidx{STANDARD-1} and @syntaxidx{STAN
 @syntaxidx{NATIVE} specifies the system default character set.
 
 @item
-The following points apply to using the @term{literal-n} specifications to compose a custom character set:
+The following points apply to using the @var{literal-n} specifications to compose a custom character set:
 @enumerate A
 @item
-The @term{literal-n} values are either integers or alphanumeric quoted characters.  These represent a single character in the @code{NATIVE} character set, either by it's actual text value (alphanumeric quoted character) or by ordinal position in the @code{NATIVE} character set (integer),
+The @var{literal-n} values are either integers or alphanumeric quoted characters.  These represent a single character in the @code{NATIVE} character set, either by it's actual text value (alphanumeric quoted character) or by ordinal position in the @code{NATIVE} character set (integer),
 
 @item
 The sequence in which characters are defined in this clause specifies the relative order those characters should have when comparisons are made using this alphabet.
@@ -302,7 +302,7 @@ The sequence in which characters are defined in this clause specifies the relati
 Character positions in this list do not affect the actual binary storage values used for the characters --- binary values will still be those of the @code{NATIVE} character set.
 
 @item
-You may specify any of the figurative constants @code{SPACE}, @code{SPACES}, @code{ZERO}, @code{ZEROS}, @code{ZEROES}, @code{QUOTE}, @code{QUOTES}, @code{HIGH-VALUE}, @code{HIGH-VALUES}, @code{LOW-VALUE} or @code{LOW-VALUES} for any of the @term{literal-1}, @term{literal-2} or @term{literal-3} specifications.
+You may specify any of the figurative constants @code{SPACE}, @code{SPACES}, @code{ZERO}, @code{ZEROS}, @code{ZEROES}, @code{QUOTE}, @code{QUOTES}, @code{HIGH-VALUE}, @code{HIGH-VALUES}, @code{LOW-VALUE} or @code{LOW-VALUES} for any of the @var{literal-1}, @var{literal-2} or @var{literal-3} specifications.
 @end enumerate
 @item Once you have defined an alphabet name, that alphabet name may be used on specifications in @code{CODE-SET}, @code{COLLATING SEQUENCE}, or @code{SYMBOLIC CHARACTERS} clauses elsewhere in the program.
 @end enumerate
@@ -320,7 +320,7 @@ The reserved word @code{IS} is optional and may be included, or not, at the disc
 The reserved words @code{THRU} and @code{THROUGH} are interchangeable.
 
 @item
- Both @term{literal-1} and @term{literal-2} must be alphanumeric literals of length 1.
+ Both @var{literal-1} and @var{literal-2} must be alphanumeric literals of length 1.
 
 @item
  The literal(s) specified on this clause define the possible characters that may be found in a data item's value in order to be considered part of the class.
@@ -347,7 +347,7 @@ The switch-definition clause associates a condition-name with a run-time executi
 The reserved words @code{IS} and @code{STATUS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 
 @item
-The valid @term{switch-name-1} names are @syntaxidx{SWITCH-n} (n=0-36).
+The valid @var{switch-name-1} names are @syntaxidx{SWITCH-n} (n=0-36).
 
 @item
 If the program is compiled with the @switchidx{-fsyntax-extension}, the switch names @syntaxidx{SWn} (n=0-15) are also valid; they correspond to @code{SWITCH-0} through @code{SWITCH-15}, respectively as well as @code{SWITCH-16} through @code{SWITCH-36}, @code{SWITCH 0} through @code{SWITCH 26} and @code{SWITCH A} through @code{SWITCH Z}.
@@ -356,10 +356,10 @@ If the program is compiled with the @switchidx{-fsyntax-extension}, the switch n
 At execution time, each switch will be associated with a @envvarruntime{COB_SWITCH_n}, where "n" will have the value "0" through "15".  Any of these sixteen environment variables that have the value "ON" (regardless of upper- or lower-case value) will be considered to be set "on".  Any of these sixteen environment variables having no value at all or a value other than "ON" will be considered "OFF".
 
 @item
-Each specified switch must have at least one of a @code{IS @term{mnemonic-name-1}}, @code{ON STATUS} or an @code{OFF STATUS} option defined for it, otherwise there will be no way to reference the switch from within a GnuCOBOL program.
+Each specified switch must have at least one of a @code{IS @var{mnemonic-name-1}}, @code{ON STATUS} or an @code{OFF STATUS} option defined for it, otherwise there will be no way to reference the switch from within a GnuCOBOL program.
 
 @item
-The @code{IS @term{mnemonic-name-1}} syntax provides a means for setting the switch to either an ON or OFF value via the @statementref{SET}.
+The @code{IS @var{mnemonic-name-1}} syntax provides a means for setting the switch to either an ON or OFF value via the @statementref{SET}.
 
 @item
 The @syntaxidx{ON STATUS} and @syntaxidx{OFF STATUS} syntax provides a way of associating a condition-name with either the on or off status of the switch, so that status may be tested at execution time via the @statementref{IF}.
@@ -376,13 +376,13 @@ This clause may be used to define your own figurative constants.
 The reserved words @code{ARE}, @code{CHARACTERS} and @code{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 
 @item
-There must be exactly as many @term{integer-1} values specified as there are @term{symbolic-character-1} names.
+There must be exactly as many @var{integer-1} values specified as there are @var{symbolic-character-1} names.
 
 @item
-Each symbolic character name will be associated with the corresponding @term{integer-1}th character in the alphabet named in the @code{IN} clause.  The integer values are selecting characters from the alphabet by their ordinal position and not by their numeric value; thus, an integer of 15 will select the 15th character in the specified alphabet, regardless of the actual numeric value of the bit pattern that constitutes that character.
+Each symbolic character name will be associated with the corresponding @var{integer-1}th character in the alphabet named in the @code{IN} clause.  The integer values are selecting characters from the alphabet by their ordinal position and not by their numeric value; thus, an integer of 15 will select the 15th character in the specified alphabet, regardless of the actual numeric value of the bit pattern that constitutes that character.
 
 @item
-If no @term{alphabet-name-1} is specified, the systems native character set will be assumed.
+If no @var{alphabet-name-1} is specified, the systems native character set will be assumed.
 
 @item
 The following two code examples define the same set of figurative constant names for five ASCII control characters (assuming that ASCII is the system's native character set).  The two examples are identical in their effects, even though the manner in which the figurative constants are defined is different.
@@ -415,7 +415,7 @@ The @syntaxidx{INTRINSIC} clause allows you to flag one or more (or @syntaxidx{A
 As an alternative to using the @syntaxidx{ALL INTRINSIC} clause, you may instead compile your GnuCOBOL programs using the @switchidx{-fintrinsics=ALL}.
 
 @item
-The @term{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @code{AS} clause to provide an alias name for a built-in intrinsic function.
+The @var{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @code{AS} clause to provide an alias name for a built-in intrinsic function.
 
 @item
 The following example enables all intrinsic functions to be specified without the use of the @code{FUNCTION} keyword, (2) names two user-defined functions named "MY-FUNCTION-1" and "MY-FUNCTION-2" that will be used by the program and (3) specifies the alias names "SIGMA" for the intrinsic function "STANDARD-DEVIATION" and "MF2" for "MY-FUNCTION-2".
@@ -461,7 +461,7 @@ The @statement{SELECT} creates a definition of a file and links that COBOL defin
 The reserved words @code{AREAS}, @code{IS}, @code{MODE}, @code{OTHER}, @code{SEQUENCE}, @code{TO}, @code{USING} and @code{WITH} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 
 @item
-After @term{file-name-1}, the various clauses may be coded in any sequence.
+After @var{file-name-1}, the various clauses may be coded in any sequence.
 
 @item
 A period must follow the last coded clause.
@@ -470,41 +470,41 @@ A period must follow the last coded clause.
 The @syntaxidx{OPTIONAL} clause, to be used only for files that will be used to provide input data to the program, indicates the file may or may not actually be available at run-time.  Attempts to @code{OPEN} an @code{OPTIONAL} file when the file does not exist will receive a special non-fatal file status value (see status 05 in the list of file status values below) indicating the file is not available; a subsequent attempt to @code{READ} that file will return an @code{AT END} (end-of-file) condition.  Optionally, files may be designated as @code{NOT OPTIONAL}, if desired.  This is useful when specifying the compiler's @switchidx{-foptional-file}, which automatically makes all files @code{OPTIONAL} except for those explicitly declared as @code{NOT OPTIONAL}.
 
 @item
-The @term{file-name-1} value that you specify will be the name by which you will reference the file within your program.  This name should be formed according to the rules for user-defined names (@pxref{User-Defined Words}).
+The @var{file-name-1} value that you specify will be the name by which you will reference the file within your program.  This name should be formed according to the rules for user-defined names (@pxref{User-Defined Words}).
 
 @item
-The optional @code{ASSIGN} clause specifies how --- at runtime, when @term{file-name-1} is opened --- either a logical device (STDIN, STDOUT) or a file anywhere in one of the currently-mounted file systems will be associated with @term{file-name-1}, as follows:
+The optional @code{ASSIGN} clause specifies how --- at runtime, when @var{file-name-1} is opened --- either a logical device (STDIN, STDOUT) or a file anywhere in one of the currently-mounted file systems will be associated with @var{file-name-1}, as follows:
 @enumerate A
 @item
-There are three components to the @code{ASSIGN} clause --- a @var{Type} specification (@code{EXTERNAL}, @code{DYNAMIC} or neither), a @var{Device} (the list of device choices) and a @var{Locator} (shown as a choice between @term{identifier-1}, @term{word-1} and @term{literal-1}).
+There are three components to the @code{ASSIGN} clause --- a @var{Type} specification (@code{EXTERNAL}, @code{DYNAMIC} or neither), a @var{Device} (the list of device choices) and a @var{Locator} (shown as a choice between @var{identifier-1}, @var{word-1} and @var{literal-1}).
 
 @item
-@code{ASSIGN TO DISC '@term{file-name-1}'} will be assumed if there is no @code{ASSIGN} clause on a @code{SELECT}.
+@code{ASSIGN TO DISC '@var{file-name-1}'} will be assumed if there is no @code{ASSIGN} clause on a @code{SELECT}.
 
 @item
 If an @code{ASSIGN} clause is coded without a @var{Device}, the device @code{DISC} will be assumed.
 
 @item
-If a @var{Locator} clause is coded, the COBOL file @term{file-name-1} will be attached to a data file within any file system that is mounted and available to the executing program at the time @term{file-name-1} is opened.  How that file is identified varies, depending upon the specified @var{Locator}, as follows:
+If a @var{Locator} clause is coded, the COBOL file @var{file-name-1} will be attached to a data file within any file system that is mounted and available to the executing program at the time @var{file-name-1} is opened.  How that file is identified varies, depending upon the specified @var{Locator}, as follows:
 @enumerate a
 @item
-If @term{literal-1} is coded, the value of the literal will serve as the File Location String that will identify the data file.
+If @var{literal-1} is coded, the value of the literal will serve as the File Location String that will identify the data file.
 
 @item
-If @term{identifier-1} is coded, the value of the identifier will serve as the File Location String that will identify the data file.
+If @var{identifier-1} is coded, the value of the identifier will serve as the File Location String that will identify the data file.
 
 @item
-If @term{word-1} (a syntactically valid word not duplicating that of a reserved or user-defined word) is coded, and a @var{Type} of @code{EXTERNAL} is specified, @term{word-1} itself will serve as the File Location String that will identify the data file.  If, however, a @var{Type} of @code{EXTERNAL} was @i{not} specified, the compiler will create a @code{PIC X(1024)} data item named @term{word-1} within the program; the contents of that data item at the time the program opens @term{file-name-1} will then serve as the File Location String that will identify the data file.
+If @var{word-1} (a syntactically valid word not duplicating that of a reserved or user-defined word) is coded, and a @var{Type} of @code{EXTERNAL} is specified, @var{word-1} itself will serve as the File Location String that will identify the data file.  If, however, a @var{Type} of @code{EXTERNAL} was @i{not} specified, the compiler will create a @code{PIC X(1024)} data item named @var{word-1} within the program; the contents of that data item at the time the program opens @var{file-name-1} will then serve as the File Location String that will identify the data file.
 
 @item
 File Location Strings will be discussed shortly.
 @end enumerate
 
 @item
-If no @var{Locator} is coded, @term{file-name-1} will be attached to a logical device or a file based upon the specified (or implied) @var{Device}, as follows:
+If no @var{Locator} is coded, @var{file-name-1} will be attached to a logical device or a file based upon the specified (or implied) @var{Device}, as follows:
 @enumerate a
 @item
-@code{DISC} or @code{DISK} will assume an attachment to a file named @term{file-name-1} in whatever directory is current at the time the file is opened.
+@code{DISC} or @code{DISK} will assume an attachment to a file named @var{file-name-1} in whatever directory is current at the time the file is opened.
 
 @item
 @code{DISPLAY} will assume an attachment to the @code{STDOUT} logical device; these files should only be used for output.
@@ -518,9 +518,15 @@ If no @var{Locator} is coded, @term{file-name-1} will be attached to a logical d
 @item
 @code{RANDOM} or @code{TAPE} will behave exactly as @code{DISC} does.  These two additional @var{Device}s are provided to facilitate the compilation of COBOL source from other COBOL implementations.
 @end enumerate
-@item The @code{LINE ADVANCING} device @i{requires} that a @var{Locator} be specified; these files should only be used for output.  A COBOL Line Advancing file will allow carriage-control characters such as line-feeds and form-feeds to be written to the attached operating system file, via the @code{ADVANCING} clause of the @statementref{WRITE}.
-@item File Location Strings are used (at runtime) to identify the path and filename to the data file that must be attached to @term{file-name-1} when that file is opened.
-@item If the compiler "config" file you used to compile the program with had a "filename-mapping" value of "yes", the GnuCOBOL runtime system will first attempt to identify a currently-defined environment variable whose value will serve as the data file's path and filename, as follows:
+
+@item
+The @code{LINE ADVANCING} device @i{requires} that a @var{Locator} be specified; these files should only be used for output.  A COBOL Line Advancing file will allow carriage-control characters such as line-feeds and form-feeds to be written to the attached operating system file, via the @code{ADVANCING} clause of the @statementref{WRITE}.
+
+@item
+File Location Strings are used (at runtime) to identify the path and filename to the data file that must be attached to @var{file-name-1} when that file is opened.
+
+@item
+If the compiler "config" file you used to compile the program with had a "filename-mapping" value of "yes", the GnuCOBOL runtime system will first attempt to identify a currently-defined environment variable whose value will serve as the data file's path and filename, as follows:
 @enumerate a
 @item
 If the compiler "config" file (@pxref{Compiler Configuration Files}) you used to compile the program specified "mf" as the "assign-clause" value, then the File Locator String will be interpreted according to Microfocus COBOL rules --- namely, everything before the last "-" in the File Locator String will be ignored; the characters after the last "-" will be treated as the base of an environment variable name.  If there is no "-" character in the File Locator String then the entire File Locator String will serve as the base of an environment variable name.  This is the default behaviour for every config file except "ibm".
@@ -903,7 +909,7 @@ The reserved words @code{AREA} and @code{FOR} are optional and may be included, 
 This statement must be terminated with a period.
 
 @item
-While coding only a single file name (the repeated @term{file-name-1} item) is syntactically valid, this statement will have no effect upon the program unless at least two files are specified.
+While coding only a single file name (the repeated @var{file-name-1} item) is syntactically valid, this statement will have no effect upon the program unless at least two files are specified.
 
 @item
 The effect of this statement will be to cause the specified files to share the same I/O buffer in memory.  These buffers can sometimes get quite large, and by having multiple files share the same buffer memory you may significantly cut down the amount of memory the program is using (thus making "room" for more procedural code or data).  If you do use this feature, take care to ensure that no more than one of the specified files are ever OPEN simultaneously.

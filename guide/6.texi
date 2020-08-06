@@ -145,7 +145,7 @@ Only files intended for use as work files for either the @syntaxref{SORT} or @sy
 The sequence in which files are defined via @code{FD} or @code{SD}, as compared to the sequence in which their @code{SELECT} statements were coded, is irrelevant.
 
 @item
- The name specified as @term{file-name-1} must exactly match the name specified on the file's @code{SELECT} statement.
+ The name specified as @var{file-name-1} must exactly match the name specified on the file's @code{SELECT} statement.
 
 @item
 The @syntaxidx{CODE-SET} clause allows a custom alphabet, defined in the @syntaxref{SPECIAL-NAMES} paragraph, to be associated with a file. This clause is valid only when used with sequential or line sequential files.
@@ -175,7 +175,7 @@ The sum of the previous three specifications should be the total number of possi
 Specifying a @code{LINAGE} clause in an @code{FD} will cause the @register{LINAGE-COUNTER} to be created for the file.  This automatically-created data item will always contain the current relative line number on the page being prepared which will serve as the starting point for a @statement{WRITE}.
 
 @item
- The @syntaxidx{RECORD CONTAINS} and @syntaxidx{RECORD IS VARYING} clauses are ignored (with a warning message issued) when used with line sequential files.  With other file organizations, these mutually-exclusive clauses define the length of data records within the file.  The data item specified as @term{identifier-6} must be defined within one of the record descriptions of @term{file-name-1}.
+ The @syntaxidx{RECORD CONTAINS} and @syntaxidx{RECORD IS VARYING} clauses are ignored (with a warning message issued) when used with line sequential files.  With other file organizations, these mutually-exclusive clauses define the length of data records within the file.  The data item specified as @var{identifier-6} must be defined within one of the record descriptions of @var{file-name-1}.
 
 @item
 The @syntaxidx{REPORT IS} clause announces to the compiler that the file will be dedicated to the Report Writer Control System (RWCS); the clause names one or more reports, each to be described in the report section.  The following special rules apply when the @code{REPORT} clause is used:
@@ -263,7 +263,7 @@ The various 01-level record descriptions for a file description implicitly share
 The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 66, 77, 78 and 88 all have special uses --- @xref{Special Data Items}, for details.
 
 @item
-Not specifying an @term{identifier-1} or @code{FILLER} immediately after the level number has the same effect as if @code{FILLER} were specified.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.
+Not specifying an @var{identifier-1} or @code{FILLER} immediately after the level number has the same effect as if @code{FILLER} were specified.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.
 
 @item
 @code{EXTERNAL} cannot be combined with @code{GLOBAL} or @code{REDEFINES}.
@@ -317,7 +317,7 @@ The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 thr
 Level numbers 66, 77, 78 and 88 all have special uses --- @xref{Special Data Items}, for details.
 
 @item
-Not specifying an @term{identifier-1} or @code{FILLER} immediately after the level number has the same effect as if @code{FILLER} were specified.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.
+Not specifying an @var{identifier-1} or @code{FILLER} immediately after the level number has the same effect as if @code{FILLER} were specified.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.
 
 @item
 Data items defined within the working-storage section are automatically initialized once --- as the program in which the data is defined is loaded into memory.  Subprograms may be loaded into memory more than once (see the @statementref{CANCEL}), in which case initialization will happen each time they are loaded.  @xref{Data Initialization}, for a discussion of the initialization rules.
@@ -365,7 +365,7 @@ The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 thr
 Level numbers 66, 77, 78 and 88 all have special uses --- @xref{Special Data Items}, for details.
 
 @item
-Not specifying an @term{identifier-1} or @code{FILLER} immediately after the level number has the same effect as if @code{FILLER} were specified.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.
+Not specifying an @var{identifier-1} or @code{FILLER} immediately after the level number has the same effect as if @code{FILLER} were specified.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.
 
 @item
 Local-storage cannot be used in nested subprograms.
@@ -424,11 +424,14 @@ All 01-level data items described within a subprogram's linkage section should a
 @item
 Each 01-level data item described within a subprogram's linkage section should correspond to an argument passed on a @statementref{CALL} or an argument on a function call to the subprogram.
 @end enumerate
-@item Not specifying an @term{identifier-1} or @code{FILLER} immediately after the level number has the same effect as if @code{FILLER} were specified.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.  In the linkage section, 01-level data items cannot be named @code{FILLER}.
+@item
+Not specifying an @var{identifier-1} or @code{FILLER} immediately after the level number has the same effect as if @code{FILLER} were specified.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.  In the linkage section, 01-level data items cannot be named @code{FILLER}.
 
-@item No storage is allocated for data defined in the linkage section; the data descriptions there are merely defining storage areas that will be passed to the subprogram by a calling program.  Therefore, any discussion of the default initialization of such data is irrelevant.  It @i{is} possible, however, to manually allocate linkage section data items that aren't subprogram arguments via the @statementref{ALLOCATE} statement.  In such cases, initialization will take place as per the documentation of that statement.
+@item
+No storage is allocated for data defined in the linkage section; the data descriptions there are merely defining storage areas that will be passed to the subprogram by a calling program.  Therefore, any discussion of the default initialization of such data is irrelevant.  It @i{is} possible, however, to manually allocate linkage section data items that aren't subprogram arguments via the @statementref{ALLOCATE} statement.  In such cases, initialization will take place as per the documentation of that statement.
 
-@item @xref{Data Description Clauses}, for information on the usage of the various data description clauses.
+@item
+@xref{Data Description Clauses}, for information on the usage of the various data description clauses.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.6 REPORT SECTION                                              **
@@ -468,16 +471,16 @@ The following rules pertain to the @syntaxidx{PAGE LIMITS} clause:
 If no @code{PAGE LIMITS} clause is specified, the entire report will be generated as if it consists of a single arbitrarily long page.
 
 @item
-All literals (@term{literal-2} through @term{literal-8}) must be numeric with non-zero positive integer values.
+All literals (@var{literal-2} through @var{literal-8}) must be numeric with non-zero positive integer values.
 
 @item
-All identifiers (@term{identifier-2} through @term{identifier-8}) must be numeric, unedited with non-zero positive integer values.
+All identifiers (@var{identifier-2} through @var{identifier-8}) must be numeric, unedited with non-zero positive integer values.
 
 @item
-Any value specified for @term{literal-2}|@term{identifier-2} will define the total number of available lines on any report page, not counting any unused margins at the top and/or bottom of the page (defined by the @code{LINES AT TOP} and @code{LINES AT BOTTOM} values specified on the @code{LINAGE} clause of the @code{FD} this @code{RD} is linked to --- @pxref{File/Sort-Description}).
+Any value specified for @var{literal-2}|@var{identifier-2} will define the total number of available lines on any report page, not counting any unused margins at the top and/or bottom of the page (defined by the @code{LINES AT TOP} and @code{LINES AT BOTTOM} values specified on the @code{LINAGE} clause of the @code{FD} this @code{RD} is linked to --- @pxref{File/Sort-Description}).
 
 @item
-Any value specified for @term{literal-3}|@term{identifier-3} will be ignored.
+Any value specified for @var{literal-3}|@var{identifier-3} will be ignored.
 
 @item
 The @syntaxidx{HEADING} clause defines the first line number at which a report heading or page heading may be presented.
@@ -541,23 +544,23 @@ Include the reserved word @syntaxidx{FINAL} if you want to include a special con
 If you specify @code{FINAL}, it must be the first control break named in the @code{RD}.
 
 @item
-Any @term{identifier-9} specifications included on the @code{CONTROL} clause are referencing data names defined in any data division section except for the report section.
+Any @var{identifier-9} specifications included on the @code{CONTROL} clause are referencing data names defined in any data division section except for the report section.
 
 @item
-There must be a @code{CONTROL HEADING} and/or @code{CONTROL FOOTING} report group defined in the report section for each @term{identifier-9}.
+There must be a @code{CONTROL HEADING} and/or @code{CONTROL FOOTING} report group defined in the report section for each @var{identifier-9}.
 
 @item
 At execution time:
 @itemize @bullet
 
 @item
-Each time a @statementref{GENERATE} is executed against a detail report group defined for this @code{RD}, the RWCS will check the contents of each @term{identifier-2} data item; whenever an @term{identifier-9}'s value has changed since the previous GENERATE, a control break condition will be in effect for that @term{identifier-2}.
+Each time a @statementref{GENERATE} is executed against a detail report group defined for this @code{RD}, the RWCS will check the contents of each @var{identifier-2} data item; whenever an @var{identifier-9}'s value has changed since the previous GENERATE, a control break condition will be in effect for that @var{identifier-2}.
 
 @item
-Once the list of control breaks has been determined, the @code{CONTROL FOOTING} for each @term{identifier-2} having a control break (if any such report group is defined) will be presented.
+Once the list of control breaks has been determined, the @code{CONTROL FOOTING} for each @var{identifier-2} having a control break (if any such report group is defined) will be presented.
 
 @item
-Next, the @code{CONTROL HEADING} for each @term{identifier-2} having a control break (if any such report group is defined) will be presented.
+Next, the @code{CONTROL HEADING} for each @var{identifier-2} having a control break (if any such report group is defined) will be presented.
 
 @item
 The @code{CONTROL FOOTING} and @code{CONTROL HEADING} report groups will be presented in the sequence in which they are listed on the @code{CONTROL} clause.
@@ -614,10 +617,10 @@ The @syntaxref{TYPE} clause specifies the type of report group being defined.
 The level number used for a report group definition must be 01.
 
 @item
-The optional @term{identifier-1} specification assigns a name to this report group so that the group may be referenced either by a GENERATE statement or on a @code{USE BEFORE REPORTING}.
+The optional @var{identifier-1} specification assigns a name to this report group so that the group may be referenced either by a GENERATE statement or on a @code{USE BEFORE REPORTING}.
 
 @item
-No two report groups in the same report (@code{RD}) may named with the same @term{identifier-1}.  There may, however, be multiple @term{identifier-1} definitions in different reports.  In such instances, references to @term{identifier-1} must be qualified by the report name.
+No two report groups in the same report (@code{RD}) may named with the same @var{identifier-1}.  There may, however, be multiple @var{identifier-1} definitions in different reports.  In such instances, references to @var{identifier-1} must be qualified by the report name.
 
 @item
 There may only be one report heading, report footing, final control heading, final control footing, page heading and page footing defined per report.
@@ -756,22 +759,22 @@ This particular type of constant declaration provides the ability to determine t
  Constants defined in this way become undefined once an @code{END PROGRAM} or @code{END FUNCTION} is encountered in the input source.
 
 @item
- Data descriptions of this form do not actually allocate any storage --- they merely define a name (@term{constant-name-1}) that may be used anywhere a numeric literal (@syntaxidx{BYTE-LENGTH} or @syntaxidx{LENGTH} options) or a literal of the same type as @term{literal-1} may be used.
+ Data descriptions of this form do not actually allocate any storage --- they merely define a name (@var{constant-name-1}) that may be used anywhere a numeric literal (@syntaxidx{BYTE-LENGTH} or @syntaxidx{LENGTH} options) or a literal of the same type as @var{literal-1} may be used.
 
 @item
- The @term{constant-name-1} name may not be referenced on a CDF directive.
+ The @var{constant-name-1} name may not be referenced on a CDF directive.
 
 @item
- Care must be taken that @term{constant-name-1} does not duplicate any other data item name that has been defined in the program as references to that data item name will refer to the constant and not the data item.  The GnuCOBOL compiler will not issue a warning about this condition.
+ Care must be taken that @var{constant-name-1} does not duplicate any other data item name that has been defined in the program as references to that data item name will refer to the constant and not the data item.  The GnuCOBOL compiler will not issue a warning about this condition.
 
 @item
- The value specified for @term{usage-name} may be any @code{USAGE} that does not use a @syntaxref{PICTURE} clause.  These would be any of @code{BINARY-C-LONG}, @code{BINARY-CHAR}, @code{BINARY-DOUBLE}, @code{BINARY-LONG}, @code{BINARY-SHORT}, @code{COMP-1} (or @code{COMPUTATIONAL-1}), @code{COMP-2} (or @code{COMPUTATIONAL-2}), @code{FLOAT-DECIMAL-16}, @code{FLOAT-DECIMAL-34}, @code{FLOAT-LONG}, @code{FLOAT-SHORT}, @code{POINTER}, or @code{PROGRAM-POINTER}.
+ The value specified for @var{usage-name} may be any @code{USAGE} that does not use a @syntaxref{PICTURE} clause.  These would be any of @code{BINARY-C-LONG}, @code{BINARY-CHAR}, @code{BINARY-DOUBLE}, @code{BINARY-LONG}, @code{BINARY-SHORT}, @code{COMP-1} (or @code{COMPUTATIONAL-1}), @code{COMP-2} (or @code{COMPUTATIONAL-2}), @code{FLOAT-DECIMAL-16}, @code{FLOAT-DECIMAL-34}, @code{FLOAT-LONG}, @code{FLOAT-SHORT}, @code{POINTER}, or @code{PROGRAM-POINTER}.
 
 @item
- The @code{BYTE-LENGTH} clause will produce a numeric value for @term{constant-name-1} identical to that which would be returned by the @intrinsic{BYTE-LENGTH} executed against @term{identifier-1} or a data item declared with a @code{USAGE} of @term{usage-name}.
+ The @code{BYTE-LENGTH} clause will produce a numeric value for @var{constant-name-1} identical to that which would be returned by the @intrinsic{BYTE-LENGTH} executed against @var{identifier-1} or a data item declared with a @code{USAGE} of @var{usage-name}.
 
 @item
- The @code{LENGTH} clause will produce a numeric value for @term{constant-name-1} identical to that which would be returned by the @intrinsic{LENGTH} executed against @term{identifier-1} or a data item declared with a @code{USAGE} of @term{usage-name}.
+ The @code{LENGTH} clause will produce a numeric value for @var{constant-name-1} identical to that which would be returned by the @intrinsic{LENGTH} executed against @var{identifier-1} or a data item declared with a @code{USAGE} of @var{usage-name}.
 @end enumerate
 @* Here is the listing of a GnuCOBOL program that uses 01-level constants to display the length (in bytes) of the various picture-less usage types.
 @verbatim
@@ -896,13 +899,13 @@ The reserved word @code{IS} is optional and may be included, or not, at the disc
 Constants defined in this way become undefined once an @code{END PROGRAM} or @code{END FUNCTION} is encountered in the input source.
 
 @item
- Data descriptions of this form do not actually allocate any storage --- they merely define a name (@term{constant-name-1}) that may be used anywhere a literal of the same type as @term{literal-1} may be used.
+ Data descriptions of this form do not actually allocate any storage --- they merely define a name (@var{constant-name-1}) that may be used anywhere a literal of the same type as @var{literal-1} may be used.
 
 @item
- The @term{constant-name-1} name may not be referenced on a CDF directive.
+ The @var{constant-name-1} name may not be referenced on a CDF directive.
 
 @item
- Care must be taken that @term{constant-name-1} does not duplicate any other data item name that has been defined in the program as references to that data item name will refer to the constant and not the data item.  The GnuCOBOL compiler will not issue a warning about this condition.
+ Care must be taken that @var{constant-name-1} does not duplicate any other data item name that has been defined in the program as references to that data item name will refer to the constant and not the data item.  The GnuCOBOL compiler will not issue a warning about this condition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.8.5 88-Level Data Items                                       **
@@ -923,7 +926,7 @@ The reserved words @code{ARE}, @code{IS}, @code{SET} and @code{TO} are optional 
 The reserved words @code{THRU} and @code{THROUGH} are interchangeable.
 
 @item
-Condition names are always defined subordinate to another (non 88-level) data item.  That data item must be an elementary item.  Whenever the parent data item assumes one of the values specified on the 88-level item's @syntaxref{VALUE} clause, @term{condition-name-1} will take on the value of TRUE.
+Condition names are always defined subordinate to another (non 88-level) data item.  That data item must be an elementary item.  Whenever the parent data item assumes one of the values specified on the 88-level item's @syntaxref{VALUE} clause, @var{condition-name-1} will take on the value of TRUE.
 
 @item
 Condition names do not occupy any storage.
@@ -932,13 +935,13 @@ Condition names do not occupy any storage.
 The optional @code{THROUGH} clause allows a range of possible TRUE values to be specified.
 
 @item
-Whenever the parent data item assumes any value @i{except} one of the values specified on @term{condition-name-1}'s @code{VALUE} clause, @term{condition-name-1} will take on the value of FALSE.
+Whenever the parent data item assumes any value @i{except} one of the values specified on @var{condition-name-1}'s @code{VALUE} clause, @var{condition-name-1} will take on the value of FALSE.
 
 @item
-Executing the statement @code{SET @term{condition-name-1} TO TRUE} will cause @term{condition-name-1}'s parent data item to take on the first value specified on @term{condition-name-1}'s @code{VALUE} clause.
+Executing the statement @code{SET @var{condition-name-1} TO TRUE} will cause @var{condition-name-1}'s parent data item to take on the first value specified on @var{condition-name-1}'s @code{VALUE} clause.
 
 @item
-Executing the statement @code{SET @term{condition-name-1} TO FALSE} will cause @term{condition-name-1}'s parent data item to take on the value specified on @term{condition-name-1}'s @code{FALSE} clause.  If @term{condition-name-1} does not have a @code{FALSE} clause, the @syntaxref{SET} statement will generate an error message at compilation time.
+Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @var{condition-name-1}'s parent data item to take on the value specified on @var{condition-name-1}'s @code{FALSE} clause.  If @var{condition-name-1} does not have a @code{FALSE} clause, the @syntaxref{SET} statement will generate an error message at compilation time.
 
 @item
 @xref{Condition Names}, for more information.
@@ -1208,27 +1211,27 @@ The reserved word @code{COLUMN} may be abbreviated as @code{COL}.
 The line location of a report section or screen section field will be determined by the @syntaxref{LINE} clause.
 
 @item
-The value of @term{integer-1} must be 1 or greater.
+The value of @var{integer-1} must be 1 or greater.
 
 @item
-If @term{identifier-1} is used to specify either an absolute or relative column position, @term{identifier-1} must be defined as a numeric item of any @syntaxref{USAGE} other than @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2}, without editing symbols.  The value of @term{identifier-1} at the time the screen data item is presented must be 1 or greater.  Note that a @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2} identifier will be accepted by the compiler, but will produce unpredictable results at run-time.
+If @var{identifier-1} is used to specify either an absolute or relative column position, @var{identifier-1} must be defined as a numeric item of any @syntaxref{USAGE} other than @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2}, without editing symbols.  The value of @var{identifier-1} at the time the screen data item is presented must be 1 or greater.  Note that a @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2} identifier will be accepted by the compiler, but will produce unpredictable results at run-time.
 
 @item
 The column coordinate of a field may be stated on an absolute basis (i.e. @code{COLUMN 5}) or on a relative basis based upon the end of the previously-presented field (i.e. @code{COLUMN PLUS 1}).
 
 @item
-The symbol @code{+} may be used in lieu of the word @code{PLUS}, if desired; if symbol @code{+} is used, however, there must be at least one space separating it from @term{integer-1}.  Failure to include this space will cause the symbol @code{+} sign to be simply treated as part of @term{integer-1} and will treat the @code{COLUMN} clause as an absolute column specification rather than a relative one.
+The symbol @code{+} may be used in lieu of the word @code{PLUS}, if desired; if symbol @code{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the symbol @code{+} sign to be simply treated as part of @var{integer-1} and will treat the @code{COLUMN} clause as an absolute column specification rather than a relative one.
 
 @item
 Using relative column positioning (@code{COLUMN PLUS}) has slightly different behaviour depending upon the section in which the clause is used, as follows:
 @enumerate A
 @item
-When used on a report section data item, @code{COLUMN PLUS} will position the start of the new field's value such that there are @term{integer-1} blank columns between the end of the previous field and the beginning of this field.
+When used on a report section data item, @code{COLUMN PLUS} will position the start of the new field's value such that there are @var{integer-1} blank columns between the end of the previous field and the beginning of this field.
 
 If a report data item's description includes the @syntaxref{SOURCE}, @syntaxref{SUM} or @syntaxref{VALUE} clause but has no @code{COLUMN} clause, @code{COLUMN PLUS 1} will be assumed.
 
 @item
-When used on a screen section data item, @code{COLUMN PLUS} will position the new field so that it begins exactly @term{integer-1} or @term{identifier-1} characters past the @i{last} character of the previous field.  Thus, @code{COLUMN PLUS 1} will  leave no blank positions between the end of the previous field and the start of this one.
+When used on a screen section data item, @code{COLUMN PLUS} will position the new field so that it begins exactly @var{integer-1} or @var{identifier-1} characters past the @i{last} character of the previous field.  Thus, @code{COLUMN PLUS 1} will  leave no blank positions between the end of the previous field and the start of this one.
 
 If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} or @syntaxref{VALUE} clause but has no @code{COLUMN} clause, the new screen field will begin at the column coordinate of the last character of the previous field.
 @end enumerate
@@ -1608,13 +1611,13 @@ The following points document the use of format 1 of the @code{LINE} clause:
 The column location of a report item will be determined by the @syntaxref{COLUMN} clause.
 
 @item
-The value of @term{integer-1} must be 1 or greater.
+The value of @var{integer-1} must be 1 or greater.
 
 @item
 The report line number upon which the data item containing this clause along with any subordinate data items will be presented may be stated on an absolute basis (i.e. @code{LINE 5}) or on a relative basis based upon the previously-displayed line (i.e. @code{LINE PLUS 1}).
 
 @item
-The symbol @code{+} may be used in lieu of the word @code{PLUS}, if desired; if @code{+} is used, however, there must be at least one space separating it from @term{integer-1}.  Failure to include this space will cause the @code{+} to be simply treated as part of @term{integer-1} and will treat the LINE clause as an absolute line specification rather than a relative one.
+The symbol @code{+} may be used in lieu of the word @code{PLUS}, if desired; if @code{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the @code{+} to be simply treated as part of @var{integer-1} and will treat the LINE clause as an absolute line specification rather than a relative one.
 
 @item
 The optional @syntaxidx{NEXT PAGE} clause specifies that --- regardless of whether or not the report group containing this clause @i{could} fit on the report page being currently generated, the report group will be @i{forced} to appear on a new page.
@@ -1625,16 +1628,16 @@ The optional @syntaxidx{NEXT PAGE} clause specifies that --- regardless of wheth
 The column location of a screen section field is determined by the @syntaxref{COLUMN} clause.
 
 @item
-The value of @term{integer-1} must be 1 or greater.
+The value of @var{integer-1} must be 1 or greater.
 
 @item
-If @term{identifier-1} is used to specify either an absolute or relative column position, @term{identifier-1} must be defined as a numeric item of any @syntaxref{USAGE} other than @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2}, without editing symbols.  The value of @term{identifier-1} at the time the screen data item is presented must be 1 or greater.  Note that a @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2} identifier will be accepted by the compiler, but will produce unpredictable results at run-time.
+If @var{identifier-1} is used to specify either an absolute or relative column position, @var{identifier-1} must be defined as a numeric item of any @syntaxref{USAGE} other than @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2}, without editing symbols.  The value of @var{identifier-1} at the time the screen data item is presented must be 1 or greater.  Note that a @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2} identifier will be accepted by the compiler, but will produce unpredictable results at run-time.
 
 @item
 The screen line number upon which the data item containing this clause along with any subordinate data items will be displayed may be stated on an absolute basis (i.e. @code{LINE 5}) or on a relative basis based upon the previously-displayed line (i.e. @code{LINE PLUS 1}).
 
 @item
-The symbol @code{+} may be used in lieu of the word @code{PLUS}, if desired; if @code{+} is used, however, there must be at least one space separating it from @term{integer-1}.  Failure to include this space will cause the @code{+} to be simply treated as part of @term{integer-1} and will treat the @code{LINE} clause as an absolute line specification rather than a relative one.
+The symbol @code{+} may be used in lieu of the word @code{PLUS}, if desired; if @code{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the @code{+} to be simply treated as part of @var{integer-1} and will treat the @code{LINE} clause as an absolute line specification rather than a relative one.
 
 @item
 If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} or @syntaxref{VALUE} clause but has no LINE clause, the "current screen line" will be assumed.
@@ -1722,7 +1725,7 @@ The @code{OCCURS} clause is used to create a data structure called a table, wher
 The reserved words @code{BY} (INDEXED), @code{IS}, @code{KEY}, @code{ON} and @code{TIMES} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 
 @item
-The value of @term{integer-2} specifies how many entries will be allocated in the table.
+The value of @var{integer-2} specifies how many entries will be allocated in the table.
 
 @item
 The following is an example of how a table might be defined:
@@ -1769,7 +1772,8 @@ A(3) - Character #1 of GRP(3)
 B(3) - Character #2 of GRP(3)
 C(3) - Character #3 of GRP(3)
 @end example
-@item The optional @syntaxidx{DEPENDING ON} clause can be added to an @code{OCCURS} to create a variable-length table.  In such cases, the value of @term{integer-1} specifies what the minimum number of entries in the table will be while @term{integer-2} specifies the maximum.  Such tables will be allocated out to the maximum size specified as @term{integer-2}.  At execution time the value of @term{identifier-1} will determine how many of the table elements are accessible.
+@item
+The optional @syntaxidx{DEPENDING ON} clause can be added to an @code{OCCURS} to create a variable-length table.  In such cases, the value of @var{integer-1} specifies what the minimum number of entries in the table will be while @var{integer-2} specifies the maximum.  Such tables will be allocated out to the maximum size specified as @var{integer-2}.  At execution time the value of @var{identifier-1} will determine how many of the table elements are accessible.
 
 @item
 See the documentation of the @syntaxref{SEARCH}, @syntaxref{SEARCH ALL} and @syntaxref{SORT} statements for explanations of the @syntaxidx{KEY} and @syntaxidx{INDEXED BY} clauses.
@@ -1784,7 +1788,7 @@ The following points apply to an @code{OCCURS} used in the report section:
 The optional @syntaxidx{STEP} clause defines an incrementation value that will be added to any absolute @syntaxref{LINE} or @syntaxref{COLUMN} number specifications that may be part of or subordinate to this data item's definition.
 
 @item
-The optional @syntaxidx{VARYING} clause defines an identifier that may be used as a subscript for the multiple occurrences of this or any subordinate data item should the @syntaxref{SOURCE} or @syntaxref{SUM} clause(s) on this or subordinate data items reference entries within the table.  The @term{identifier-2} data item is dynamically created as needed and cannot be referenced outside the scope of the report data item definition.
+The optional @syntaxidx{VARYING} clause defines an identifier that may be used as a subscript for the multiple occurrences of this or any subordinate data item should the @syntaxref{SOURCE} or @syntaxref{SUM} clause(s) on this or subordinate data items reference entries within the table.  The @var{identifier-2} data item is dynamically created as needed and cannot be referenced outside the scope of the report data item definition.
 
 @item
 The following two examples illustrate two different ways a report could include four quarters worth of sales figures in it's detail lines --- one doing things 'the hard way' and one using the advanced @code{OCCURS} capabilities of @code{STEP} and @code{VARYING}.  Both assume the definition of the following table exists in working-storage:
@@ -1849,13 +1853,13 @@ The reserved word @code{PICTURE} may be abbreviated as @code{PIC}.  Most program
 A picture clause may only be specified on an elementary item.
 
 @item
-A @term{picture-string} is a sequence of the special symbols @code{$}, @code{*}, @code{+}, @code{,}, @code{-}, @code{.}, @code{/}, @code{0} (zero), @code{9}, @code{A}, @code{B}, @code{CR}, @code{DB}, @code{S}, @code{V}, @code{X} and @code{Z}.
+A @var{picture-string} is a sequence of the special symbols @code{$}, @code{*}, @code{+}, @code{,}, @code{-}, @code{.}, @code{/}, @code{0} (zero), @code{9}, @code{A}, @code{B}, @code{CR}, @code{DB}, @code{S}, @code{V}, @code{X} and @code{Z}.
 
 @item
 In general, each picture symbol represents either a single character in storage or a single decimal digit.  There are a few exceptions, and they will be discussed as needed.
 
 @item
-When a @term{picture-string} contains a repeated sequence of symbols --- @code{PIC 9999/99/99} --- for example, the repetition can be specified using a parenthetic repeat count, as in @code{PIC 9(4)/9(2)/9(2)}.  Using repeat counts is optional and their use (or not) is entirely at the discretion of the programmer.  Many programmers use repetition for small sequences (@code{PIC XXX}) and repeat counts for larger ones (@code{PIC 9(9)}.
+When a @var{picture-string} contains a repeated sequence of symbols --- @code{PIC 9999/99/99} --- for example, the repetition can be specified using a parenthetic repeat count, as in @code{PIC 9(4)/9(2)/9(2)}.  Using repeat counts is optional and their use (or not) is entirely at the discretion of the programmer.  Many programmers use repetition for small sequences (@code{PIC XXX}) and repeat counts for larger ones (@code{PIC 9(9)}.
 
 @item
 This first set of picture symbols defines the basic data type of a data item.  Each symbol represents a single character's worth of storage.
@@ -1874,7 +1878,7 @@ Defines storage reserved for a single numeric digit character (@code{0}-@code{9}
 @end table
 @* Typically, only one kind of each of those symbols is used in the same picture clause, but that isn't a requirement.  Data items that, of the three symbols above, use nothing but @code{A} picture symbols are known as @define{Alphabetic Data Items} while those that use @code{9} picture symbols without any @code{A} or @code{X} symbols (or those that have a @code{USAGE} without a @code{PICTURE}) are known as @define{Numeric Data Items}.  All other data items are referred to as @define{Alphanumeric Data Items}.
 
-If you need to allocate space for a data item whose format is two letters followed by five digits followed by three letters, you could use the @term{picture-string} @code{AA99999AAA}, @code{A(2)9(5)A(3)} @code{XXXXXXXXXX} or @code{X(10)}.  There is absolutely no functional difference whatsoever between the four --- none of them provide any functionality the others do not.  The first two probably make for better @i{documentation} of the expected field contents, but they don't provide any run-time enforcement capabilities.
+If you need to allocate space for a data item whose format is two letters followed by five digits followed by three letters, you could use the @var{picture-string} @code{AA99999AAA}, @code{A(2)9(5)A(3)} @code{XXXXXXXXXX} or @code{X(10)}.  There is absolutely no functional difference whatsoever between the four --- none of them provide any functionality the others do not.  The first two probably make for better @i{documentation} of the expected field contents, but they don't provide any run-time enforcement capabilities.
 
 As far as enforcement goes, however, both alphabetic and numeric picture strings do provide for both compile-time and run-time enforcement capabilities.  In the case of compilation enforcement, the compiler can issue warning messages if you attempt to specify a non-numeric value for a numeric data item or if you attempt to @syntaxref{MOVE} a non-numeric data item to one that is numeric.  Similar capabilities exist for alphabetic data items.  At run-time, you may use a special class test (@pxref{Class Conditions}) to determine if the contents of a data item are entirely numeric or entirely alphabetic.
 
@@ -2013,7 +2017,7 @@ Here's an example:
 @* If desired, you may reverse the roles of the @code{.} and @code{,} editing symbols by specifying @code{DECIMAL POINT IS COMMA} in the @syntaxref{SPECIAL-NAMES} paragraph.
 
 @item
-The following are insertion symbols.  They are used to insert an extra character (two in the case of "CR" and "DB") to signify the sign (positive or negative) of the numeric value that is moved into the field whose picture string contains one of these symbols, or the fact that the data item represents a currency (money) amount.  Only one of the @code{+}, @code{-}, @code{CR} or @code{DB} symbols may be used in a picture clause. In this context, when any of these symbols are used in a @term{picture-string}, they must be at the end.  The @code{+}, @code{-} and/or currency symbols may also be used as floating editing symbols at the @i{beginning} of the @term{picture-string} --- a subject that will be covered in the next numbered paragraph.
+The following are insertion symbols.  They are used to insert an extra character (two in the case of "CR" and "DB") to signify the sign (positive or negative) of the numeric value that is moved into the field whose picture string contains one of these symbols, or the fact that the data item represents a currency (money) amount.  Only one of the @code{+}, @code{-}, @code{CR} or @code{DB} symbols may be used in a picture clause. In this context, when any of these symbols are used in a @var{picture-string}, they must be at the end.  The @code{+}, @code{-} and/or currency symbols may also be used as floating editing symbols at the @i{beginning} of the @var{picture-string} --- a subject that will be covered in the next numbered paragraph.
 @table @asis
 @item @code{+}
 If the value of the numeric value moved into the field is positive (0 or greater), a "+" character will be inserted.  If the value is negative (less than 0), a "-" character is inserted.
@@ -2036,11 +2040,12 @@ This symbol is coded as the two characters "D" and "B".  If the value of the num
 The @code{DB} symbol is not allowed in conjunction with @code{N}.
 
 @item @code{$}
-Regardless of the value moved into the field, this symbol will insert the currency symbol into the data item's value in the position where it occurs in the @term{picture-string} (@pxref{SPECIAL-NAMES}).
+Regardless of the value moved into the field, this symbol will insert the currency symbol into the data item's value in the position where it occurs in the @var{picture-string} (@pxref{SPECIAL-NAMES}).
 
 The @code{$} symbol is not allowed in conjunction with @code{N}.
 @end table
-@item These editing symbols are known as floating replacement symbols.  These symbols may occur in sequences @i{before} any @code{9} editing symbols in the @term{picture-string} of a numeric data item.  Using these symbols transforms that numeric data item into a numerid @i{edited} data item, which can no longer be used in calculations or subscripts.
+@item
+These editing symbols are known as floating replacement symbols.  These symbols may occur in sequences @i{before} any @code{9} editing symbols in the @var{picture-string} of a numeric data item.  Using these symbols transforms that numeric data item into a numerid @i{edited} data item, which can no longer be used in calculations or subscripts.
 
 @item
 Each of the following symbols behave like a @code{9}, until such point as all digits in the numeric value are exhausted and leading zeros are about to be inserted.  In effect, these editing symbols define what should happen to those leading zero.
@@ -2060,14 +2065,14 @@ The @code{*} symbol is not allowed in conjunction with @code{N}.
 Any check-suppression symbol coded to the right of a @code{.} will be treated exactly like a @code{9}.
 
 @item @code{+}
-Of those @code{+} symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by a "+" if the value in the data item is zero or greater or a "-" otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @code{+} and @code{-} in the same @term{picture-string}.
+Of those @code{+} symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by a "+" if the value in the data item is zero or greater or a "-" otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @code{+} and @code{-} in the same @var{picture-string}.
 
 The @code{+} symbol is not allowed in conjunction with @code{N}.
 
 Any @code{+} symbol coded to the right of a @code{.} will be treated exactly like a @code{9}.
 
 @item @code{-}
-Of those @code{-} symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by a space if the value in the data item is zero or greater or a "-" otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @code{+} and @code{-} in the same @term{picture-string}.
+Of those @code{-} symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by a space if the value in the data item is zero or greater or a "-" otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @code{+} and @code{-} in the same @var{picture-string}.
 
 The @code{-} symbol is not allowed in conjunction with @code{N}.
 
@@ -2079,13 +2084,13 @@ All @code{Z} symbols that correspond to character positions in which leading zer
 Any zero-suppression symbol coded to the right of a @code{.} will be treated exactly like a @code{9}.
 @end table
 
-@code{Z} and @code{*} should not be coded in the same @term{picture-string}
+@code{Z} and @code{*} should not be coded in the same @var{picture-string}
 
-@code{+} and @code{-} should not be coded in the same @term{picture-string}
+@code{+} and @code{-} should not be coded in the same @var{picture-string}
 
-When multiple floating symbols are coded, even if there is only one of them used they will all be considered floating and will all be able to assume each other's properties.  For example, if a data item has a @code{PIC +$ZZZZ9.99} @term{picture-string}, and a value of 1 is moved to that field at run-time, the resulting value will be (the @i{b} symbol represents a space) @code{@i{bbbb}+$1.00}.  This is not consistent with many other COBOL implementations, where the result would have been @code{+$@i{bbbb}1.00}.
+When multiple floating symbols are coded, even if there is only one of them used they will all be considered floating and will all be able to assume each other's properties.  For example, if a data item has a @code{PIC +$ZZZZ9.99} @var{picture-string}, and a value of 1 is moved to that field at run-time, the resulting value will be (the @i{b} symbol represents a space) @code{@i{bbbb}+$1.00}.  This is not consistent with many other COBOL implementations, where the result would have been @code{+$@i{bbbb}1.00}.
 
-Most other COBOL implementations reject the use of multiple occurrences of multiple floating editing symbols.  For example, they would reject @term{picture-string}s such as @code{+++$$$9.99}, @code{$$$ZZZ9.99} and so on.  GnuCOBOL accepts these.  Programmers creating GnuCOBOL programs should avoid such @term{picture-string}s if there is any likelihood that those programs may be used with other COBOL implementations.
+Most other COBOL implementations reject the use of multiple occurrences of multiple floating editing symbols.  For example, they would reject @var{picture-string}s such as @code{+++$$$9.99}, @code{$$$ZZZ9.99} and so on.  GnuCOBOL accepts these.  Programmers creating GnuCOBOL programs should avoid such @var{picture-string}s if there is any likelihood that those programs may be used with other COBOL implementations.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.34 PRESENT WHEN                                             **
@@ -2172,7 +2177,7 @@ For all other data types, the field size is set to the size of the item (same as
 @center This syntax is valid in the following sections:
 @center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}
 
-The @code{REDEFINES} clause causes the data item in who's definition the @code{REDEFINES} clause is specified (hereafter referred to as the redefines object) to occupy the same physical storage space as @term{identifier-1} (hereafter referred to as the redefines subject).
+The @code{REDEFINES} clause causes the data item in who's definition the @code{REDEFINES} clause is specified (hereafter referred to as the redefines object) to occupy the same physical storage space as @var{identifier-1} (hereafter referred to as the redefines subject).
 @enumerate
 @item
 The following rules must all be followed in order to use REDEFINES:
@@ -2217,7 +2222,7 @@ The reserved words @code{THRU} and @code{THROUGH} are interchangeable.
 You must use the level number 66 for data description entries that contain the @code{RENAMES} clause.
 
 @item
-The @term{identifier-1} and @term{identifier-2} data items, along with all data items defined between those two data items in the program source, must all be contained within the same 01-level record description.
+The @var{identifier-1} and @var{identifier-2} data items, along with all data items defined between those two data items in the program source, must all be contained within the same 01-level record description.
 
 @item
 @xref{66-Level Data Items}, for additional information on the RENAMES clause.
@@ -2362,28 +2367,28 @@ The @code{SUM} clause may only appear in a @code{CONTROL FOOTING} report group.
 If the data item in which the @code{SUM} clause appears has been assigned it's own identifier name, and that name is not @code{FILLER}, then that data item is referred to as a sum counter.
 
 @item
-All @term{identifier-7} data items must be non-edited numeric in nature.
+All @var{identifier-7} data items must be non-edited numeric in nature.
 
 @item
-If any @term{identifier-7} data item is defined in the report section, it must be a sum counter.
+If any @var{identifier-7} data item is defined in the report section, it must be a sum counter.
 
 @item
-Any @term{identifier-7} data items that are sum counters must either be defined in the same report group as the data item in which this @code{SUM} clause appears or they must be defined in a report data item that exists at a lower level in this report's control hierarchy.  @xref{Control Hierarchy}, for additional information.
+Any @var{identifier-7} data items that are sum counters must either be defined in the same report group as the data item in which this @code{SUM} clause appears or they must be defined in a report data item that exists at a lower level in this report's control hierarchy.  @xref{Control Hierarchy}, for additional information.
 
 @item
-The @code{PICTURE} of the report data item in who's description this @code{SUM} clause appears in must be such that it would be legal to @syntaxref{MOVE} the specified @term{identifier-7} or @term{literal-2} value to a data item with that @code{PICTURE}.
+The @code{PICTURE} of the report data item in who's description this @code{SUM} clause appears in must be such that it would be legal to @syntaxref{MOVE} the specified @var{identifier-7} or @var{literal-2} value to a data item with that @code{PICTURE}.
 
 @item
 The following points apply to the @syntaxidx{UPON} option:
 @enumerate A
 @item
-The data item @term{identifier-9} must be the name of a detail group specified in the same report as the control footing group in which this @code{SUM} clause appears.
+The data item @var{identifier-9} must be the name of a detail group specified in the same report as the control footing group in which this @code{SUM} clause appears.
 
 @item
-The presence of an @code{UPON} clause limits the @code{SUM} clause to adding the specified numeric literal or identifier value into the sum counter only when a @code{GENERATE @term{identifier-9}} statement is executed.
+The presence of an @code{UPON} clause limits the @code{SUM} clause to adding the specified numeric literal or identifier value into the sum counter only when a @code{GENERATE @var{identifier-9}} statement is executed.
 
 @item
-If there is no @code{UPON} clause specified, the value of @term{identifier-7} or @term{literal-2} will be added into the sum counter whenever a @syntaxref{GENERATE} of any detail report group in the report is executed.
+If there is no @code{UPON} clause specified, the value of @var{identifier-7} or @var{literal-2} will be added into the sum counter whenever a @syntaxref{GENERATE} of any detail report group in the report is executed.
 
 @item
 If there is only a single detail group in the report's definition, the @code{UPON} clause is meaningless.
@@ -2391,7 +2396,7 @@ If there is only a single detail group in the report's definition, the @code{UPO
 @item The following points apply to the @syntaxidx{RESET} option:
 @enumerate A
 @item
-If the @code{RESET} option is coded, @code{FINAL} or @term{identifier-8} (whichever is coded on the @code{RESET}) must be one of the report's control breaks specified on the @code{CONTROLS} clause.
+If the @code{RESET} option is coded, @code{FINAL} or @var{identifier-8} (whichever is coded on the @code{RESET}) must be one of the report's control breaks specified on the @code{CONTROLS} clause.
 
 @item
 If there is no @code{RESET} option coded, the sum counter will be reset back to zero after each time the control footing containing the @code{SUM} clause is presented.  This is the typical behaviour that would be expected.
@@ -3002,10 +3007,10 @@ The only @code{USAGE} that is allowed in the report section is @code{USAGE DISPL
 This clause logically attaches a screen section data item to another data item defined elsewhere in the data division.
 @enumerate
 @item
-When the screen item whose definition this clause is part of is displayed, the value currently in @term{identifier-1} will be automatically moved into the screen item first.
+When the screen item whose definition this clause is part of is displayed, the value currently in @var{identifier-1} will be automatically moved into the screen item first.
 
 @item
-When the screen item whose definition this clause is part of (or its parent) is accepted, the current contents of the screen item will be saved back to @term{identifier-1} at the conclusion of the @code{ACCEPT}.
+When the screen item whose definition this clause is part of (or its parent) is accepted, the current contents of the screen item will be saved back to @var{identifier-1} at the conclusion of the @code{ACCEPT}.
 
 @item
 The @syntaxref{FROM}, @syntaxref{TO}, @code{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
@@ -3063,21 +3068,23 @@ PIC X(5) VALUE ALL "A"  *> AAAAA
 PIC 9(3) VALUE 1        *> 001
 PIC 9(3) VALUE ALL "1"  *> 111
 @end example
-@item When used in the definition of a screen data item:
+@item
+When used in the definition of a screen data item:
 @enumerate a
 @item
-A figurative constant may not be supplied as @term{literal-1}.
+A figurative constant may not be supplied as @var{literal-1}.
 
 @item
 Any @syntaxref{FROM}, @syntaxref{TO} or @syntaxref{USING} clause in the same data item's definition will be ignored.
 
 @item
-If there is no picture clause specified, the size of the screen data item will be the length of the @term{literal-1} value.
+If there is no picture clause specified, the size of the screen data item will be the length of the @var{literal-1} value.
 
 @item
 If there is no picture clause and the @code{ALL} option is specified, the @code{ALL} option will be ignored.
 @end enumerate
-@item Giving a table an initial, compile-time value is one of the trickier aspects of COBOL data definition.  There are basically three standard techniques and a fourth that people familiar with other COBOL implementations but new to GnuCOBOL may find interesting.  So, here are the three @i{standard} approaches:
+@item
+Giving a table an initial, compile-time value is one of the trickier aspects of COBOL data definition.  There are basically three standard techniques and a fourth that people familiar with other COBOL implementations but new to GnuCOBOL may find interesting.  So, here are the three @i{standard} approaches:
 @enumerate a
 @item
 Don't bother worrying about it at compile-time.  Use the @syntaxref{INITIALIZE} to initialize all data item occurrences in a table (at run-time) to their data-type-specific default values (numerics: 0, alphabetic and alphanumerics: spaces).
