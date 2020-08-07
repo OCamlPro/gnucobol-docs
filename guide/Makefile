@@ -62,7 +62,7 @@ CSS = css/gnucobpg.css
 
 WARNING = --no-warn
 
-EXTRA_HEAD=<script type="text/javascript" src="css/tree.js"></script>
+EXTRA_HEAD=<script type="text/javascript" src="js/tree.js"></script>
 
 HTML_OPT = --css-ref=$(CSS) --no-headers \
 	--set-customization-variable 'EXTRA_HEAD=$(EXTRA_HEAD)'
@@ -93,6 +93,7 @@ publish: HTML/gnucobpg.html $(CSS)
 	test "$(WWW)"
 	scp HTML/gnucobpg.html $(WWW)
 	scp css/gnucobpg.css   $(WWW)/css/
+	scp js/tree.js         $(WWW)/js/
 
 publish-css: HTML/gnucobpg.html $(CSS)
 	test "$(WWW)"
