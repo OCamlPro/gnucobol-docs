@@ -61,28 +61,29 @@ PDFs/%.pdf : %.texi
 CSS = css/gnucobpg.css
 
 WARNING = --no-warn
+HTML_OPT = --css-ref=$(CSS) --no-headers
 
 html: HTML/gnucobqr.html HTML/gnucobsp.html HTML/gnucobpg/index.html HTML/gnucobpg.html
 
 HTML/gnucobpg/index.html: $(SOURCES)
 	@mkdir -p $(dir $@)
 	makeinfo -v -o HTML/gnucobpg $(WARNING) \
-		--html            --css-ref=$(CSS) gnucobpg.texi
+		--html            $(HTML_OPT) gnucobpg.texi
 
 HTML/gnucobpg.html: $(SOURCES)
 	@mkdir -p $(dir $@)
 	makeinfo -v -o HTML $(WARNING) \
-		--html --no-split --css-ref=$(CSS) gnucobpg.texi
+		--html --no-split $(HTML_OPT) gnucobpg.texi
 
 HTML/gnucobsp.html: $(SOURCES_SP)
 	@mkdir -p $(dir $@)
 	makeinfo -v -o HTML $(WARNING) \
-		--html --no-split --css-ref=$(CSS) gnucobsp.texi
+		--html --no-split $(HTML_OPT) gnucobsp.texi
 
 HTML/gnucobqr.html: $(SOURCES_QR)
 	@mkdir -p $(dir $@)
 	makeinfo -v -o HTML $(WARNING) \
-		--html --no-split --css-ref=$(CSS) gnucobqr.texi
+		--html --no-split $(HTML_OPT) gnucobqr.texi
 
 publish: HTML/gnucobpg.html $(CSS)
 	test "$(WWW)"
