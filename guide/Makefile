@@ -61,7 +61,11 @@ PDFs/%.pdf : %.texi
 CSS = css/gnucobpg.css
 
 WARNING = --no-warn
-HTML_OPT = --css-ref=$(CSS) --no-headers
+
+EXTRA_HEAD=<script type="text/javascript" src="css/tree.js"></script>
+
+HTML_OPT = --css-ref=$(CSS) --no-headers \
+	--set-customization-variable 'EXTRA_HEAD=$(EXTRA_HEAD)'
 
 html: HTML/gnucobqr.html HTML/gnucobsp.html HTML/gnucobpg/index.html HTML/gnucobpg.html
 
@@ -92,7 +96,8 @@ publish: HTML/gnucobpg.html $(CSS)
 
 publish-css: HTML/gnucobpg.html $(CSS)
 	test "$(WWW)"
-	scp css/gnucobpg.css   $(WWW)/css/
+	scp css/gnucobpg.css    $(WWW)/css/
+	scp js/tree.js          $(WWW)/js/
 
 tags: TAGS
 TAGS:
