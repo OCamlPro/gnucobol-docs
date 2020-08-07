@@ -19,25 +19,25 @@ For each implementation of the GnuCOBOL compiler the supplied files NEWS should 
 @comment ** 2.1.1 Language Reserved Words                                   **
 @comment *********************************************************************
 @newsubsection{2.1.1,Language Reserved Words}
-Cobol programs consist of a sequence of words and symbols.  Words, which consist of sequences of letters (upper- and/or lower-case), digits, dashes ("-") and/or underscores ("_") may have a pre-defined, specific, meaning to the compiler or may be invented by the programmer for his/her purposes.
+Cobol programs consist of a sequence of words and symbols.  Words, which consist of sequences of letters (upper- and/or lower-case), digits, dashes (@samp{-}) and/or underscores (@samp{_}) may have a pre-defined, specific, meaning to the compiler or may be invented by the programmer for his/her purposes.
 
 The GnuCOBOL language specification defines over 1130 @define{Reserved Words} --- words to which the compiler assigns a special meaning. This list and number applies to the default list which covers many implementations and that it is possible to limit the list to either a specific implementation via -std=xyz[-strict] or to manually unreserve words if they are used in existing sources as user-defined words.
 
-Programmers may use a reserved word as @i{part} of a word they are creating themselves, but may not create their own word as an exact duplicate (without regard to case) of a COBOL reserved word. Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines and reserved words. The list of reserved words can be changed by adding or removing specific words for a given compile or as a default by use of the steering command -std and -conf. See the specific config files that are by default, held in /usr/local/share/gnucobol/config. Also using the option "FUNCTION ALL INTRINSIC", will add another 100+ reserved words. These can be modified to match the requirements of a business or project team but be warned that these are updated when a new version of the compiler is built so might be more prudent to create your own configuation based on an existing one but with a different name.
+Programmers may use a reserved word as @i{part} of a word they are creating themselves, but may not create their own word as an exact duplicate (without regard to case) of a COBOL reserved word. Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines and reserved words. The list of reserved words can be changed by adding or removing specific words for a given compile or as a default by use of the steering command -std and -conf. See the specific config files that are by default, held in @file{/usr/local/share/gnucobol/config}. Also using the option @samp{FUNCTION ALL INTRINSIC}, will add another 100+ reserved words. These can be modified to match the requirements of a business or project team but be warned that these are updated when a new version of the compiler is built so might be more prudent to create your own configuation based on an existing one but with a different name.
 
-In addition, you can add and/or remove reserved words by adding one of these options to cobc to add -freserved-words=<value> or freserved=<word> or to remove -fnot-reserved=<word>. As well as -freserved=<word>:<alias> to create an alias for a word as well as -fnot-register=<word> or -fregister=<word> to remove or add, a special register word.
+In addition, you can add and/or remove reserved words by adding one of these options to cobc to add @option{-freserved-words=@var{value}} or @option{-freserved=@var{word}} or, to remove, @option{-fnot-reserved=@var{word}}. As well as @option{-freserved=@var{word}:@var{alias}} to create an alias for a word as well as @option{-fnot-register=@var{word}} or @option{-fregister=@var{word}} to remove or add, a special register word.
 
-@xref{Appendix B - Reserved Word List}, for a complete list of GnuCOBOL reserved words for the current release.
+@xref{Appendix B - Reserved Word List}, for a complete list of GnuCOBOL reserved words .
 
-For any given version of GnuCOBOL you can also list the full current set of reserved words by running cobc with --list-reserved, --list-intrinsic, --list-system as well as --list-mnemonics. Again subject to variation depending on usage of the --std line command.
+For any given version of GnuCOBOL you can also list the full current set of reserved words by running cobc with @option{--list-reserved}, @option{--list-intrinsic}, @option{--list-system} as well as @option{--list-mnemonics}. Again subject to variation depending on usage of the @option{--std} line command.
 @comment *********************************************************************
 @comment ** 2.1.2 User-Defined Words                                        **
 @comment *********************************************************************
 @newsubsection{2.1.2,User-Defined Words}
 When you write GnuCOBOL programs, you'll need to create a variety of words to represent various aspects of the program, the program's data and the external environment in which the program will run.  This will include internal names by which data files will be referenced, data item names and names of executable logic procedures.
 
-User-defined words may be composed from the characters "A" through "Z" (upper- and/or lower-case), "0" through "9", dash ("-")
-@idx{- (Character in Words/Names)} and underscore ("_")
+User-defined words may be composed from the characters @samp{A} through @samp{Z} (upper- and/or lower-case), @samp{0} through @samp{9}, dash (@samp{-})
+@idx{- (Character in Words/Names)} and underscore (@samp{_})
 @idx{_ (Character in user-defined words)}.  User-defined words may neither start nor end with hyphen or underscore characters.
 
 Other programming languages provide the programmer with a similar capability of creating their own words (names) for parts of a program; COBOL is somewhat unusual when compared to other languages in that user-defined words may @i{start} with a digit.
@@ -51,16 +51,16 @@ All COBOL implementations allow the use of both upper and lower case letters in 
 
 The only time the case used does matter is within quoted character strings, where character values will be exactly as coded.
 
-By convention throughout this document, COBOL reserved words will be shown entirely in UPPER-CASE while those words that were created by a programmer will be represented by tokens in mixed or lower case.
+By convention throughout this document, COBOL reserved words will be shown entirely in @code{UPPER-CASE} while those words that were created by a programmer will be represented by tokens in mixed or lower case.
 
 This isn't a bad practice to use in actual programs, as it leads to programs where it is much easier to distinguish reserved words from user-defined ones!
 @comment *********************************************************************
 @comment ** 2.1.4 Readability of Programs                                   **
 @comment *********************************************************************
 @newsubsection{2.1.4,Readability of Programs}
-The most vociferous critics of COBOL frequently focus on the wordiness of the language, often citing the case of a so-called "Hello World" program as the "proof" that COBOL is so much more tedious to program in than more "modern" languages.  This tedium is cited as such a significant impact to programmer productivity that, in their opinions, COBOL can't go away quickly enough.
+Critics of COBOL frequently focus on the wordiness of the language, often citing the case of a so-called ``Hello World'' program as the ``proof'' that COBOL is so much more tedious to program in than more ``modern'' languages.  This tedium is cited as such a significant impact to programmer productivity that, in their opinions, COBOL can't go away quickly enough.
 
-Here are two different "Hello World" applications --- one written in Java and the second in GnuCOBOL.  First, the Java version:
+Here are two different ``Hello World'' applications, one written in Java and the second in GnuCOBOL.  First, the Java version:
 @verbatim
     Class HelloWorld {
         public static void main(String[] args) {
@@ -68,20 +68,24 @@ Here are two different "Hello World" applications --- one written in Java and th
         }
     }
 @end verbatim
-@*And here is the same program, written in GnuCOBOL:
+
+And here is the same program, written in GnuCOBOL:
+
 @verbatim
     IDENTIFICATION DIVISION.
     PROGRAM-ID. HelloWorld.
     PROCEDURE DIVISION.
         DISPLAY "Hello World!".
 @end verbatim
-@*Both of the above programs could have been written on a single line, if desired, and both languages allow a programmer to use (or not use) indentation as they see fit to improve program readability.  Sounds like a tie so far.
 
-Let's look at how much more "wordy" COBOL is than Java.  Count the characters in the two programs.  The Java program has 95 (not counting carriage returns and any indentation).  The COBOL program has 89 (again, not counting carriage returns and indentation)!  Technically, it could have been only 65 because the @code{IDENTIFICATION DIVISION.} header is actually optional.  Clearly, "Hello World" doesn't look any more concise in Java than it does in COBOL.
+Both of the above programs could have been written on a single line, if desired, and both languages allow a programmer to use (or not use) indentation as they see fit to improve program readability.  Sounds like a tie so far.
+
+Let's look at how much more ``wordy'' COBOL is than Java.  Count the characters in the two programs.  The Java program has 95 (not counting carriage returns and any indentation).  The COBOL program has 89 (again, not counting carriage returns and indentation)!  Technically, it could have been only 65 because the @code{IDENTIFICATION DIVISION.} header is actually optional.  Clearly, ``Hello World'' doesn't look any more concise in Java than it does in COBOL.
 
 Let's look at a different problem.  Surely a program that asks a user to input a positive integer, generates the sum of all positive integers from 1 to that number and then prints the result will be MUCH shorter and MUCH easier to understand when coded in Java than in COBOL, right?
 
 You can be the judge.  First, the Java version:
+
 @verbatim
     import java.util.Scanner;
     public class sumofintegers {
@@ -97,7 +101,9 @@ You can be the judge.  First, the Java version:
         }
     }
 @end verbatim
-@*And now for the COBOL version:
+
+And now for the COBOL version:
+
 @verbatim
     IDENTIFICATION DIVISION.
     PROGRAM-ID. SumOfIntegers.
@@ -114,36 +120,39 @@ You can be the judge.  First, the Java version:
     END-PERFORM
     DISPLAY "The sum is " sum.
 @end verbatim
-@*My familiarity with COBOL may be prejudicing my opinion, but it doesn't appear to me that the Java code is any simpler than the COBOL code.  In case you're interested in character counts, the Java code comes in at 278 (not counting indentation characters).  The COBOL code is 298 (274 without the @code{IDENTIFICATION DIVISION.} header).
 
-Despite what you've seen here, the more complex the programming logic being implemented, the more concise the Java code will appear to be, even compared to 2002-standard COBOL.  That conciseness comes with a price though --- program code readability.  Java (or C or C++ or C#) programs are generally intelligible only to trained programmers.  COBOL programs can, however,  be quite understandable by non-programmers.  This is actually a side-effect of the "wordiness" of the language, where COBOL statements use natural English words to describe their actions.  This inherent readability has come in handy many times throughout my career when I've had to learn obscure business (or legal) processes by reading the COBOL program code that supports them.
+My familiarity with COBOL may be prejudicing my opinion, but it doesn't appear to me that the Java code is any simpler than the COBOL code.  In case you're interested in character counts, the Java code comes in at 278 (not counting indentation characters).  The COBOL code is 298 (274 without the @code{IDENTIFICATION DIVISION.} header).
 
-The "modern" languages, like Java, also have their own "boilerplate" infrastructure overhead that must be coded in order to write the logic that is necessary in the program.  Take for example the @code{public static void main(String[] arg)} and @code{import java.util.Scanner;} statements.  The critics tend to forget about this when they criticize COBOL for it's structural "overhead".
+Despite what you've seen here, the more complex the programming logic being implemented, the more concise the Java code will appear to be, even compared to 2002-standard COBOL.  That conciseness comes with a price though --- program code readability.  Java (or C or C++ or C#) programs are generally intelligible only to trained programmers.  COBOL programs can, however,  be quite understandable by non-programmers.  This is actually a side-effect of the ``wordiness'' of the language, where COBOL statements use natural English words to describe their actions.  This inherent readability has come in handy many times throughout my career when I've had to learn obscure business (or legal) processes by reading the COBOL program code that supports them.
+
+The ``modern'' languages, like Java, also have their own ``boilerplate'' infrastructure overhead that must be coded in order to write the logic that is necessary in the program.  Take for example the @code{public static void main(String[] arg)} and @code{import java.util.Scanner;} statements.  The critics tend to forget about this when they criticize COBOL for its structural ``overhead''.
 
 When it first was developed, COBOL's easily-readable syntax made it profoundly different from anything that had been seen before.  For the first time, it was possible to specify logic in a manner that was --- at least to some extent --- comprehensible even to non-programmers.  Take for example, the following code written in FORTRAN --- a language developed only a year before COBOL:
 @verbatim
     EXT = PRICE * IQTY
     INVTOT = INVTOT + EXT
 @end verbatim
-@*With its original limitation on the length of variable names (one- to six-character names comprised of a letter followed by up to five letters and/or digits), it's implicit rule that variable were automatically created as real (floating-point) unless their name started with a letter in the range I-N, and its use of algebraic notation to express actions being taken, FORTRAN wasn't a particularly readable language, even for programmers.  Compare this with the equivalent COBOL code:
+
+With its original limitation on the length of variable names (one- to six-character names comprised of a letter followed by up to five letters and/or digits), its implicit rule that variables were automatically created as real (floating-point) unless their name started with a letter in the range I-N, and its use of algebraic notation to express actions being taken, FORTRAN wasn't a particularly readable language, even for programmers.  Compare this with the equivalent COBOL code:
 @verbatim
     MULTIPLY price BY quantity GIVING extended-amount
     ADD extended-amount TO invoice-total
 @end verbatim
-@*Clearly, even a non-programmer could at least conceptually understand what was going on!   Over time, languages like FORTRAN evolved more robust variable names, and COBOL introduced a more formula-based syntactical capability for arithmetic operations, but FORTRAN was never as readable as COBOL.
+
+Clearly, even a non-programmer could at least conceptually understand what was going on!   Over time, languages like FORTRAN evolved more robust variable names, and COBOL introduced a more formula-based syntactical capability for arithmetic operations, but FORTRAN was never as readable as COBOL.
 
 Because of its inherent readability, I would MUCH rather be handed an assignment to make significant changes to a COBOL program about which I know nothing than to be asked to do the same with a C, C++, C# or Java program.
 
-Those that argue that it is too boring / wasteful / time-consuming / insulting (pick one) to have to code a COBOL program "from scratch" are clearly ignorant of the following facts:
+Those that argue that it is too boring / wasteful / time-consuming / insulting (pick one) to have to code a COBOL program ``from scratch'' are clearly ignorant of the following facts:
 @itemize @bullet
 @item
-Many systems have program-development tools available to ease the task of coding programs; those tools that concentrate on COBOL are capable of providing templates for much of the "overhead" verbiage of any program@dots{}
+Many systems have program-development tools available to ease the task of coding programs; those tools that concentrate on COBOL are capable of providing templates for much of the ``overhead'' verbiage of any program@dots{}
 
 @item
-Good programmers have --- for decades --- maintained their own skeleton "template" programs for a variety of program types; simply load a template into a text editor and you've got a good start to the program@dots{}
+Good programmers have --- for decades --- maintained their own skeleton ``template'' programs for a variety of program types; simply load a template into a text editor and you've got a good start to the program@dots{}
 
 @item
-Legend has it that there's actually only been ONE program ever written in COBOL, and all programs ever "written" thereafter were simply derivatives of that one.  Although this is clearly intended as a (probably) bad joke, it is nevertheless close to the very simple truth that many programmers"reuse" existing COBOL programs when creating new ones.  There's certainly nothing preventing this from happening with programs written in other languages, but it does seem to happen more in COBOL shops.  It's ironic that "code re-usability" is one of the arguments used to justify the existence of the "modern" languages.
+Legend has it that there's actually only been ONE program ever written in COBOL, and all programs ever ``written'' thereafter were simply derivatives of that one.  Although this is clearly intended as a (probably) bad joke, it is nevertheless close to the very simple truth that many programmers``reuse'' existing COBOL programs when creating new ones.  There's certainly nothing preventing this from happening with programs written in other languages, but it does seem to happen more in COBOL shops.  It's ironic that ``code re-usability'' is one of the arguments used to justify the existence of the ``modern'' languages.
 @end itemize
 @comment *********************************************************************
 @comment ** 2.1.5 Divisions Organize Programs                               **
@@ -158,11 +167,10 @@ This hierarchical structure of program components standardizes the composition o
 @comment ** 2.1.6 Copybooks                                                 **
 @comment *********************************************************************
 @statementref{COPY}
-jkl
 @newsubsection{2.1.6,Copybooks}
 A @define{Copybook} is a segment of program code that may be utilized by multiple programs simply by having those programs use the @statement{COPY} to import that code.  This code may define files, data structures or procedural code.
 
-Today's current programming languages have a statement (usually, this statement is named "import", "include" or "#include") that performs this same function.  What makes the COBOL copybook feature different than the "include" facility in newer languages, however, is the fact that the @statement{COPY} can edit the imported source code as it is being copied.  This capability makes copybook libraries extremely valuable to making code reusable. Also see section 3. Compiler Directing Facility commands COPY and REPLACE.
+Today's current programming languages have a statement (usually, this statement is named ``import'', ``include'' or ``#include'') that performs this same function.  What makes the COBOL copybook feature different than the ``include'' facility in newer languages, however, is the fact that the @statement{COPY} can edit the imported source code as it is being copied.  This capability makes copybook libraries extremely valuable to making code reusable. Also see section 3. Compiler Directing Facility commands COPY and REPLACE.
 @comment *********************************************************************
 @comment ** 2.1.7 Structured Data                                           **
 @comment *********************************************************************
@@ -212,9 +220,13 @@ It would appear that it should be possible to locate and process any record in t
 
 When the file is read, the data is transferred into the program exactly as it exists in the file.  In the event that a short record is read as the very last record, that record will be padded (to the right) with spaces.
 
-Care must be taken that programs reading such a file describe records whose length is exactly the same as that used by the program that created the file.  For example, the following shows the contents of a @code{SEQUENTIAL} file created by a program that wrote five 6-character records to it.  The "A", "B", @dots{} values reflect the records that were written to the file:
+Care must be taken that programs reading such a file describe records whose length is exactly the same as that used by the program that created the file.  For example, the following shows the contents of a @code{SEQUENTIAL} file created by a program that wrote five 6-character records to it.  The @samp{A}, @samp{B}, @dots{} values reflect the records that were written to the file:
 
-@center @samp{AAAAAABBBBBBCCCCCCDDDDDDEEEEEE}
+@center @samp{AAAAAA}
+@center @samp{BBBBBB}
+@center @samp{CCCCCC}
+@center @samp{DDDDDD}
+@center @samp{EEEEEE}
 
 Now, assume that another program reads this file, but describes 10-character records rather than 6.  Here are the records @i{that} program will read:
 
@@ -222,9 +234,9 @@ Now, assume that another program reads this file, but describes 10-character rec
 @center @samp{BBCCCCCCDD}
 @center @samp{DDDDEEEEEE}
 
-There may be times where this is exactly what you were looking for.  More often than not, however, this is not desirable behaviour.  Suggestion: use a copybook to describe the record layouts of any file; this guarantees that multiple programs accessing that file will "see" the same record sizes and layouts by coding a @statementref{COPY} to import the record layout(s) rather than hand-coding them.
+There may be times where this is exactly what you were looking for.  More often than not, however, this is not desirable behaviour.  Suggestion: use a copybook to describe the record layouts of any file; this guarantees that multiple programs accessing that file will ``see'' the same record sizes and layouts by coding a @statementref{COPY} to import the record layout(s) rather than hand-coding them.
 
-These files @i{can} contain exact binary data fields.  This is possible because --- since there is no character sequence that constitutes an end-of-record delimiter --- the contents of record fields are irrelevant to the reading process.
+These files @i{can} contain exact binary data fields.  Because there is no character sequence that constitutes an end-of-record delimiter, the contents of record fields are irrelevant to the reading process.
 
 @item @code{ORGANIZATION RELATIVE}
 @idx{ORGANISATION RELATIVE}
@@ -241,7 +253,7 @@ When the file is read, the data is transferred into the program exactly as it ex
 
 Care must be taken that programs reading such a file describe records whose length is exactly the same as that used by the programs that created the file.  It won't end well if the GnuCOBOL runtime library interprets a four-byte ASCII character string as a record length when it transfers data from the file into the program!
 
-Suggestion: use a copybook to describe the record layouts of any file; this guarantees that multiple programs accessing that file will "see" the same record sizes and layouts by coding a @statementref{COPY} to import the record layout(s) rather than hand-coding them.
+Suggestion: use a copybook to describe the record layouts of any file; this guarantees that multiple programs accessing that file will ``see'' the same record sizes and layouts by coding a @statementref{COPY} to import the record layout(s) rather than hand-coding them.
 
 These files can contain exact binary data fields.  The contents of record fields are irrelevant to the reading process as there is no end-of-record delimiter.
 
@@ -265,16 +277,16 @@ These files can contain exact binary data fields.  The contents of record fields
 @end table
 All files are initially described to a GnuCOBOL program using a @statementref{SELECT}.  In addition to defining a name by which the file will be referenced within the program, the @statement{SELECT} will specify the name and path by which the file will be known to the operating system along with its organization, locking and sharing attributes.
 
-A file description in the @syntaxref{FILE SECTION} will define the structure of records within the file, including whether or not variable-length records are possible and --- if so --- what the minimum and maximum length might be.  In addition, the file description entry can specify file I/O block sizes.
+A file description in the @syntaxref{FILE SECTION} will define the structure of records within the file, including whether or not variable-length records are possible and, if so, what the minimum and maximum length might be.  In addition, the file description entry can specify file I/O block sizes.
 @comment *********************************************************************
 @comment ** 2.1.9. Table Handling                                           **
 @comment *********************************************************************
 @newsubsection{2.1.9,Table Handling}
-Other programming languages have arrays, COBOL has tables.  They're basically the same thing.  There are two special statements that exist in the COBOL language --- @code{SEARCH} and @code{SEARCH ALL} --- that make finding data in a table easy.
+Other programming languages have arrays; COBOL has tables.  They're basically the same thing.  There are two special statements that exist in the COBOL language --- @code{SEARCH} and @code{SEARCH ALL} --- that make finding data in a table easy.
 
-The first can search a table sequentially, stopping only when either a table entry matching one of any number of search conditions is found, or when all table entries have been checked against the search criteria and none matched any of those criteria.
+@code{SEARCH} searches a table sequentially, stopping only when either a table entry matching one of any number of search conditions is found, or when all table entries have been checked against the search criteria and none matched any of those criteria.
 
-The second can perform an extremely fast search against a table sorted by and searched against a key field contained in each table entry.  The algorithm used for such a search is a binary search (also known as a half-interval search).  This algorithm ensures that only a small number of entries in the table need to be checked in order to find a desired entry or to determine that the desired entry doesn't exist in the table.  The larger the table, the more effective this search becomes.  For example, a binary search of a table containing 32,768 entries will be able to locate a particular entry or determine the entry doesn't exist by looking at no more than fifteen (15) entries!  The algorithm is explained in detail in the documentation of the @statementref{SEARCH ALL}.
+@code{SEARCH ALL} performs an extremely fast search against a table sorted by a key field contained in each table entry.  The algorithm used for such a search is a binary search.  The algorithm ensures that only a small number of entries in the table need to be checked in order to find a desired entry or to determine that the desired entry doesn't exist in the table.  The larger the table, the more effective this search becomes.  For example, a binary search of a table containing 32,768 entries will locate a particular entry or determine the entry doesn't exist by looking at no more than fifteen (15) entries!  The algorithm is explained in detail in the documentation of the @statementref{SEARCH ALL}.
 
 Finally, COBOL has the ability to perform in-place sorts of the data that is found in a table.
 @comment *********************************************************************
@@ -289,12 +301,13 @@ A special form of the @statement{SORT} also exists just to sort the data that re
 @comment *********************************************************************
 @comment ** 2.1.11. String Manipulation Features                            **
 @comment *********************************************************************
-@newsubsection{2.1.11,String Manipulation Features}
+@newsubsection{2.1.11,String Manipulation}
 There have been programming languages designed specifically for the processing of text strings, and there have been programming languages designed for the sole purpose of performing high-powered numerical computations.  Most programming languages fall somewhere in the middle.
 
 COBOL is no exception, although it does include some very powerful string manipulation capabilities; GnuCOBOL actually has even more string-manipulation capabilities than many other COBOL implementations.  The following summarizes GnuCOBOL's string-processing capabilities:
 
-@b{Concatenate two or more strings:}
+@table @asis
+@item Concatenate two or more strings
 @itemize @bullet
 @item
 @intrinsicref{CONCATENATE}.
@@ -302,7 +315,8 @@ COBOL is no exception, although it does include some very powerful string manipu
 @item
 @statementref{STRING}.
 @end itemize
-@*@b{Conversion of a numeric time or date to a formatted character string:}
+
+@item Conversion of a numeric time or date to a formatted character string
 @itemize @bullet
 @item
 @intrinsicref{LOCALE-TIME}.
@@ -310,12 +324,14 @@ COBOL is no exception, although it does include some very powerful string manipu
 @item
 @intrinsicref{LOCALE-DATE}.
 @end itemize
-@*@b{Convert a binary value to its corresponding character in the program's character set:}
+
+@item Convert a binary value to its corresponding character in the program's character set
 @itemize @bullet
 @item
 @intrinsicref{CHAR}.  Add 1 to argument before invoking the function; the description of the @intrinsic{CHAR} presents a technique utilizing the @statement{MOVE} that will accomplish the same thing without the need of adding 1 to the numeric argument value first.
 @end itemize
-@*@b{Convert a character string to lower-case:}
+
+@item Convert a character string to lower-case
 @itemize @bullet
 @item
 @intrinsicref{LOWER-CASE}.
@@ -326,7 +342,8 @@ COBOL is no exception, although it does include some very powerful string manipu
 @item
 @subpgmref{CBL_TOLOWER}.
 @end itemize
-@*@b{Convert a character string to upper-case:}
+
+@item Convert a character string to upper-case
 @itemize @bullet
 @item
 @intrinsicref{UPPER-CASE}.
@@ -337,22 +354,26 @@ COBOL is no exception, although it does include some very powerful string manipu
 @item
 @subpgmref{CBL_TOUPPER}.
 @end itemize
-@*@b{Convert a character string to only printable characters:}
+
+@item Convert a character string to only printable characters
 @itemize @bullet
 @item
 @subpgmref{C$PRINTABLE}.
 @end itemize
-@*@b{Convert a character to its numeric value in the program's character set:}
+
+@item Convert a character to its numeric value in the program's character set
 @itemize @bullet
 @item
 @intrinsicref{ORD}.  Subtract 1 from the result; the description of the @intrinsic{ORD} presents a technique utilizing the @statement{MOVE} that will accomplish the same thing without the need of adding 1 to the numeric argument value first.
 @end itemize
-@*@b{Count occurrences of sub strings in a larger string:}
+
+@item Count occurrences of sub strings in a larger string
 @itemize @bullet
 @item
 @statementref{INSPECT} with the @code{TALLYING} clause.
 @end itemize
-@*@b{Decode a formatted numeric string back to a numeric value:}
+
+@item Decode a formatted numeric string back to a numeric value
 @itemize @bullet
 @item
 @intrinsicref{NUMVAL}.
@@ -360,7 +381,8 @@ COBOL is no exception, although it does include some very powerful string manipu
 @item
 @intrinsicref{NUMVAL-C}.
 @end itemize
-@*@b{Determine the length of a string or data-item capable of storing strings:}
+
+@item Determine the length of a string or data-item capable of storing strings
 @itemize @bullet
 @item
 @intrinsicref{LENGTH}.
@@ -368,22 +390,26 @@ COBOL is no exception, although it does include some very powerful string manipu
 @item
 @intrinsicref{BYTE-LENGTH}.
 @end itemize
-@*@b{Extract a sub string from a string based on its starting character position and length:}
+
+@item Extract a sub string from a string based on its starting character position and length
 @itemize @bullet
 @item
 Use of a reference modifier on the string field - @xref{Reference Modifiers}.
 @end itemize
-@*@b{Format a numeric item for output, including thousands-separators ("," in the USA), currency symbols ("$" in the USA), decimal points, credit/Debit Symbols, Leading Or Trailing Sign Characters:}
+
+@item Format a numeric item for output, including thousands-separators (@samp{,} in the USA), currency symbols (@samp{$} in the USA), decimal points, credit/Debit Symbols, Leading Or Trailing Sign Characters
 @itemize @bullet
 @item
 @statementref{MOVE} with picture-symbol editing applied to the receiving field:
 @end itemize
-@*@b{Justification (left, right or centred) of a string field:}
+
+@item Justification (left, right or centred) of a string field
 @itemize @bullet
 @item
 @subpgmref{C$JUSTIFY}.
 @end itemize
-@*@b{Monoalphabetic substitution of one or more characters in a string with different characters:}
+
+@item Monoalphabetic substitution of one or more characters in a string with different characters
 @itemize @bullet
 @item
 @statementref{INSPECT} with the @code{CONVERTING}.
@@ -397,22 +423,26 @@ Use of a reference modifier on the string field - @xref{Reference Modifiers}.
 @item
 @intrinsicref{SUBSTITUTE-CASE}.
 @end itemize
-@*@b{Parse a string, breaking it up into sub strings based upon one or more delimiting character sequences@footnote{These delimiters may be single characters, multiple-character strings or multiple consecutive occurrences of either}:}
+
+@item Parse a string, breaking it up into sub strings based upon one or more delimiting character sequences@footnote{These delimiters may be single characters, multiple-character strings or multiple consecutive occurrences of either}
 @itemize @bullet
 @item
 @statementref{UNSTRING}.
 @end itemize
-@*@b{Removal of leading or trailing spaces from a string:}
+
+@item Removal of leading or trailing spaces from a string
 @itemize @bullet
 @item
 @intrinsicref{TRIM}.
 @end itemize
-@*@b{Substitution of a single sub string with another of the same length, based upon the sub strings starting character position and length:}
+
+@item Substitution of a single sub string with another of the same length, based upon the sub strings starting character position and length
 @itemize @bullet
 @item
-@statementref{MOVE} with a reference modifier on the "receiving" field (@pxref{Reference Modifiers}).
+@statementref{MOVE} with a reference modifier on the ``receiving'' field (@pxref{Reference Modifiers}).
 @end itemize
-@*@b{Substitution of one or more sub strings in a string with replacement sub strings of the same length, regardless of where they occur:}
+
+@item Substitution of one or more sub strings in a string with replacement sub strings of the same length, regardless of where they occur
 @itemize @bullet
 @item
 @statementref{INSPECT} with a @code{REPLACING} clause.
@@ -423,7 +453,8 @@ Use of a reference modifier on the string field - @xref{Reference Modifiers}.
 @item
 @intrinsicref{SUBSTITUTE-CASE}.
 @end itemize
-@*@b{Substitution of one or more sub strings in a string with replacement sub strings of a potentially different length, regardless of where they occur:}
+
+@item Substitution of one or more sub strings in a string with replacement sub strings of a potentially different length, regardless of where they occur
 @itemize @bullet
 @item
 @intrinsicref{SUBSTITUTE}.
@@ -431,11 +462,12 @@ Use of a reference modifier on the string field - @xref{Reference Modifiers}.
 @item
 @intrinsicref{SUBSTITUTE-CASE}.
 @end itemize
+@end table
 @comment *********************************************************************
 @comment ** 2.1.12. Screen Formatting Features                              **
 @comment *********************************************************************
 @newsubsection{2.1.12,Screen Formatting Features}
-The COBOL2002 standard formalizes extensions to the COBOL language that allow for the definition and processing of text-based screens, as is a typical function on mainframe and midframe computers as well as on many point-of-sale (i.e. "cash register") systems.  GnuCOBOL implements virtually all the screen-handling features described by COBOL2002.
+The COBOL2002 standard formalizes extensions to the COBOL language that allow for the definition and processing of text-based screens, as is a typical function on mainframe and midframe computers as well as on many point-of-sale (i.e. ``cash register'') systems.  GnuCOBOL implements virtually all the screen-handling features described by COBOL2002.
 
 These features allow fields to be displayed at specific row/column positions, various colors and video attributes to be assigned to screen fields and the pressing of specific function keys (F1, F2, @dots{}) to be detectable.  All of this takes place through the auspices of the @syntaxref{SCREEN SECTION} and special formats of the @statementref{ACCEPT} and the @statementref{DISPLAY}.
 
@@ -497,7 +529,7 @@ GnuCOBOL supports the following visual attribute specifications in the @syntaxre
 
 @table @asis
 @item Color
-Eight (8) different colors may be specified for both the background (screen) and foreground (text) color of any row/column position on the screen.  Colors are specified by number, although a copybook supplied with all GnuCOBOL distributions ("screenio.cpy") defines COB-COLOR-xxxxxx names for the various colors so they may be specified as a more meaningful name rather than a number.  The eight colors, by number, with the constant names defined in screenio.cpy, are as follows:
+Eight (8) different colors may be specified for both the background (screen) and foreground (text) color of any row/column position on the screen.  Colors are specified by number, although a copybook supplied with all GnuCOBOL distributions (@file{screenio.cpy}) defines COB-COLOR-xxxxxx names for the various colors so they may be specified as a more meaningful name rather than a number.  The eight colors, by number, with the constant names defined in screenio.cpy, are as follows:
 @enumerate 0
 @item
 Black: COB-COLOR-BLACK
@@ -524,24 +556,24 @@ Yellow: COB-COLOR-YELLOW
 White: COB-COLOR-WHITE
 @end enumerate
 @item Text Brightness
-There are three possible brightness levels supported for text --- lowlight (dim), normal and highlight (bright).  Not all GnuCOBOL implementations will support all three (some treat lowlight the same as normal).  The deciding factor as to whether two or three levels are supported lies with the version of the "curses" package that is being used.  This is a utility screen-IO package that is included into the GnuCOBOL run-time library when the GnuCOBOL software is built.
+There are three possible brightness levels supported for text --- lowlight (dim), normal and highlight (bright).  Not all GnuCOBOL implementations will support all three (some treat lowlight the same as normal).  The deciding factor as to whether two or three levels are supported lies with the version of the @i{curses} package that is being used.  This is a utility screen-IO package that is included into the GnuCOBOL run-time library when the GnuCOBOL software is built.
 
 As a general rule of thumb, Windows implementations support two levels while Unix ones support all three.
 
 @item Blinking
-This too is a video feature that is dependent upon the "curses" package built into your version of GnuCOBOL.  If blinking is enabled in that package, text displayed in fields defined in the screen section as being blinking will endlessly cycle between the brightest possible setting (highlight) and an "invisible" setting where the text color matches that of the field background color.  A Windows build, which generally uses the "pcurses" package, will uses a brighter-than-normal background color to signify "blinking".
+This too is a video feature that is dependent upon the @i{curses} package built into your version of GnuCOBOL.  If blinking is enabled in that package, text displayed in fields defined in the screen section as being blinking will endlessly cycle between the brightest possible setting (highlight) and an ``invisible'' setting where the text color matches that of the field background color.  A Windows build, which generally uses the ``pcurses'' package, will uses a brighter-than-normal background color to signify ``blinking''.
 
 @item Reverse Video
 This video attribute simply swaps the foreground and background colors and display options.
 
 @item Field Outlining
-It is possible, if supported by the "curses" package being used, to draw borders on the top, left and/or bottom edges of a field.
+It is possible, if supported by the @i{curses} package being used, to draw borders on the top, left and/or bottom edges of a field.
 
 @item Secure Input
-If desired, screen fields used as input fields may defined as "secure" fields, where each input character (regardless of what was actually typed) will appear as an asterisk (*) character.  The actual character whose key was pressed will still be stored into the field in the program, however.  This is very useful for password or account number fields.
+If desired, screen fields used as input fields may defined as ``secure'' fields, where each input character (regardless of what was actually typed) will appear as an asterisk (*) character.  The actual character whose key was pressed will still be stored into the field in the program, however.  This is very useful for password or account number fields.
 
 @item Prompt Character
-Input fields may have any character used as a fill character.  These fill characters provide a visual indication of the size of the input field, and will automatically be transformed into spaces when the input field is processed by the program.  If no such character is defined for an input field, an underscore ("_") will be assumed.
+Input fields may have any character used as a fill character.  These fill characters provide a visual indication of the size of the input field, and will automatically be transformed into spaces when the input field is processed by the program.  If no such character is defined for an input field, an underscore (@samp{_}) will be assumed.
 @end table
 @ifinfo
 
@@ -549,7 +581,7 @@ Input fields may have any character used as a fill character.  These fill charac
 @end ifinfo
 @iftex
 
-@anchoridx{Color Palette}The following is a sample of the GnuCOBOL color Palette, showing all possible combinations of the various video attributes.  This example was prepared on a Macintosh running OSX Mavericks (10.9).  Blinking works --- the screen snapshot shows things in mid blink, when the text and background colors are momentarily the same.  Unfortunately, only two screen intensities are available (like Windows, the "lowlight" setting is the same as the default).
+@anchoridx{Color Palette}The following is a sample of the GnuCOBOL color Palette, showing all possible combinations of the various video attributes.  This example was prepared on a Macintosh running OSX Mavericks (10.9).  Blinking works --- the screen snapshot shows things in mid blink, when the text and background colors are momentarily the same.  Unfortunately, only two screen intensities are available (like Windows, the ``lowlight'' setting is the same as the default).
 
 The GnuCOBOL Color Palette and Video Options::
 @center @image{palette,5.5in}
@@ -583,7 +615,7 @@ The automatic numbering of printed pages.
 The formatting of those report lines that make up the main body of the report (detail).
 
 @item
-Full awareness of where the "pen" is about to "write" on the current page, automatically forcing an eject to a new page, along with the automatic generation of a page footer to close the old page and/or a page header to begin the new one.
+Full awareness of where the ``pen'' is about to ``write'' on the current page, automatically forcing an eject to a new page, along with the automatic generation of a page footer to close the old page and/or a page header to begin the new one.
 
 @item
 The production of a one-time notice at the end of the last page of a report (report footing).
@@ -624,7 +656,7 @@ The @syntaxref{REPORT SECTION} documentation explores the description of reports
 There are three ways in which data division data gets initialized.
 @enumerate
 @item
-When a program or subprogram is first executed, much of the data in it's data division will be initialized as follows:
+When a program or subprogram is first executed, much of the data in its data division will be initialized as follows:
 @itemize @bullet
 @item
 Alphanumeric and alphabetic (i.e. text) data items will be initialized to @code{SPACES}.
@@ -649,7 +681,7 @@ When the @statementref{ALLOCATE} statement is used to allocate a data item or to
 @comment ** 2.1.15. Syntax Diagram Conventions                              **
 @comment *********************************************************************
 @newsubsection{2.1.15,Syntax Diagram Conventions}
-Syntax of the GnuCOBOL language will be described in special "syntax diagrams" using the following syntactical-description techniques:
+Syntax of the GnuCOBOL language will be described in special @i{syntax diagrams} using the following syntactical-description techniques:
 
 @table @t
 @item MANDATORY-RESERVED-WORD
@@ -670,15 +702,15 @@ Generic terms representing user-defined substitutable items will be shown entire
 Items appearing in Mixed Case within a syntax diagram represent complex clauses of other syntax elements that may appear in that position.  Some COBOL syntax gets quite complicated, and using a convention such as this significantly reduces the complexity of a syntax diagram.  When such items are referenced in text, they will appear as @var{Complex-Syntax-Clause}.
 
 @item [ ]
-Square bracket meta characters on syntax diagrams document language syntax that is optional.  The [] characters themselves should not be coded.  If a syntax diagram contains "a [b] c", the "a" and "c" syntax elements are mandatory but the "b" element is optional.
+Square bracket meta characters on syntax diagrams document language syntax that is optional.  The [] characters themselves should not be coded.  If a syntax diagram contains @samp{a [b] c}, the @samp{a} and @samp{c} syntax elements are mandatory but the @samp{b} element is optional.
 
 @item |
-Vertical bar meta characters on syntax diagrams document simple choices.  The | character itself should not be coded.  If a syntax diagram contains "a|b|c", exactly one of the items "a", "b" or "c" must be selected.
+Vertical bar meta characters on syntax diagrams document simple choices.  The | character itself should not be coded.  If a syntax diagram contains @samp{a|b|c}, exactly one of the items @samp{a}, @samp{b} or @samp{c} must be selected.
 
 @item @{ xxxxxx @}
 @itemx @{ yyyyyy @}
 @itemx @{ zzzzzz @}
-A vertical list of items, bounded by multiple brace characters, is another way of signifying a choice between a series of items where exactly one item must be selected.  This form is used to show choices when one or more of the selections is more complex than just a single word, or when there are too many choices to present horizontally with "|" meta characters.
+A vertical list of items, bounded by multiple brace characters, is another way of signifying a choice between a series of items where exactly one item must be selected.  This form is used to show choices when one or more of the selections is more complex than just a single word, or when there are too many choices to present horizontally with @samp{|} meta characters.
 
 @item | xxxxxx |
 @itemx | yyyyyy |
@@ -686,19 +718,19 @@ A vertical list of items, bounded by multiple brace characters, is another way o
 A vertical list of items, bounded by multiple vertical bar characters, signifies a choice between a series of items where one @i{or more} of the choices could be selected.
 
 @item ...
-The ... meta character sequence signifies that the syntax element immediately preceding it may be repeated.  The ... sequence itself should not be coded.  If a syntax diagram contains @code{a b... c}, syntax element "a" must be followed by at least one "b" element (possibly more) and the entire sequence must be terminated by a "c" syntax element.
+The ... meta character sequence signifies that the syntax element immediately preceding it may be repeated.  The ... sequence itself should not be coded.  If a syntax diagram contains @code{a b... c}, syntax element @samp{a} must be followed by at least one @samp{b} element (possibly more) and the entire sequence must be terminated by a @samp{c} syntax element.
 
 @item @{ @}
-The braces (@{@}) meta characters may be used to group a sequence of syntax elements together so that they may be treated as a single entity.  The @{@} characters themselves should not be coded.  These are typically used in combination with the "|" or "..." meta characters.
+The braces (@samp{@{} and @samp{@}}) meta characters may be used to group a sequence of syntax elements together so that they may be treated as a single entity.  The @code{@{@}} characters themselves should not be coded.  These are typically used in combination with the @samp{|} or @samp{...} meta characters.
 
 @item $*^()-+=:"'<,>./
-Any of these characters appearing within a syntax diagram are to be interpreted literally, and are characters that must be coded --- where allowed --- in the statement whose format is being described.  Note that a "." character is a literal character that must be coded on a statement whereas a "..." symbol is the meta character sequence described above.
+Any of these characters appearing within a syntax diagram are to be interpreted literally, and are characters that must be coded --- where allowed --- in the statement whose format is being described.  Note that a @samp{.} character is a literal character that must be coded on a statement whereas a @samp{...} symbol is the meta character sequence described above.
 @end table
 @comment *********************************************************************
 @comment ** 2.1.16. Format of Program Source Lines                          **
 @comment *********************************************************************
 @newsubsection{2.1.16,Format of Program Source Lines}
-Prior to the COBOL2002 standard, source statements in COBOL programs were structured around 80-column punched cards.  This means that each source line in a COBOL program consisted of five different "areas", defined by their column number(s).
+Prior to the COBOL2002 standard, source statements in COBOL programs were structured around 80-column punched cards.  This means that each source line in a COBOL program consisted of five different ``areas'', defined by their column number(s).
 
 As of the COBOL2002 standard, a second mode now exists for COBOL source code statements --- in this mode of operation, COBOL statements may each be up to 255 characters long, with no specific requirements as to what should appear in which columns.
 
@@ -734,7 +766,7 @@ The following discussion presents the various components of every GnuCOBOL sourc
 @idx{Sequence Number Area (Columns 1-6)}
 @idx{Columns 1-6 (Sequence Number Area)} - Sequence Number Area
 
-Historically, back in the days when punched-cards were used to submit COBOL program source to a COBOL compiler, this part of a COBOL statement was reserved for a six-digit sequence number.  While the contents of this area are ignored by COBOL compilers, it existed so that a program actually punched on 80-character cards could --- if the card deck were dropped on the floor --- be run through a card sorter machine and restored to it's proper sequence.  Of course, this isn't necessary today; if truth be told, it hasn't been necessary for a long time.
+Historically, back in the days when punched-cards were used to submit COBOL program source to a COBOL compiler, this part of a COBOL statement was reserved for a six-digit sequence number.  While the contents of this area are ignored by COBOL compilers, it existed so that a program actually punched on 80-character cards could --- if the card deck were dropped on the floor --- be run through a card sorter machine and restored to its proper sequence.  Of course, this isn't necessary today; if truth be told, it hasn't been necessary for a long time.
 
 @xref{Marking Changes in Programs}, for discussion of a valuable use to which the sequence number area may be put today.
 
@@ -760,14 +792,14 @@ The line is a comment that will also force a page eject in the compilation listi
 The line is a continuation of the previous line.  These are needed only when an alphanumeric literal (quoted character string), reserved word or user-defined word are being split across lines.
 @end table
 @* @item 8-11
-@idx{Area "A" (Columns 8-11)}
-@idx{Columns 8-11 (Area "A")} - Area "A"
+@idx{Area @samp{A} (Columns 8-11)}
+@idx{Columns 8-11 (Area @samp{A})} - Area @samp{A}
 
-Language DIVISION, SECTION and paragraph section headers must begin in Area A, as must the level numbers 01, 77 in data description entries and the "FD" and "SD" file and SORT description headers.
+Language @code{DIVISION}, @code{SECTION} and paragraph section headers must begin in Area A, as must the level numbers 01, 77 in data description entries and the @code{FD} and @code{SD} file and @code{SORT} description headers.
 
 @item 12-72
-@idx{Area "B" (Columns 12-72)}
-@idx{Columns 12-72 (Area "B")} - Area "B"
+@idx{Area @samp{B} (Columns 12-72)}
+@idx{Columns 12-72 (Area @samp{B})} - Area @samp{B}
 
 All other COBOL programming language components are coded in these columns.
 
@@ -797,6 +829,7 @@ The following points pertain to the identification division
 @item
 The @code{IDENTIFICATION DIVISION.} header is always optional.
 @end itemize
+
 @item The following points pertain to the environment division:
 @itemize @bullet
 @item
@@ -814,17 +847,19 @@ The paragraphs within each section may only be coded in that section, but may be
 @item
 If none of the sections within the environment division are coded, the @code{ENVIRONMENT DIVISION.} header itself may be omitted.
 @end itemize
+
 @item The following points pertain to the data division:
 @itemize @bullet
 @item
 The data division consists of six optional sections --- when used, those sections must be coded in the order shown in the syntax diagram.
 
 @item
-Each of these sections consists of code which serves a specific purpose.  If no code is required for the purpose one of those sections serves, the entire section, including it's header, may be omitted.
+Each of these sections consists of code which serves a specific purpose.  If no code is required for the purpose one of those sections serves, the entire section, including its header, may be omitted.
 
 @item
 If none of the sections within the data division are coded (a highly unlikely, but theoretically possible circumstance), the @code{DATA DIVISION.} header itself may be omitted.
 @end itemize
+
 @item The following points pertain to the procedure division:
 @itemize @bullet
 @item
@@ -833,6 +868,7 @@ As with the other divisions, the procedure division may consist of sections and 
 @item
 Each Event-Handler-Routine will be a separate section devoted to trapping a particular run-time event.  If there are no such sections coded, the @code{DECLARATIVES.} and @code{END DECLARATIVES.} lines may be omitted.
 @end itemize
+
 @item A single file of COBOL source code may contain:
 @itemize @bullet
 @item
@@ -844,7 +880,8 @@ A single program.  In this case, the @code{END PROGRAM} or @statement{END FUNCTI
 @item
 Multiple programs, separated from one another by @code{END PROGRAM} or @code{END FUNCTION} statements.  The final program in such a source code file need not have an @code{END PROGRAM} or @statement{END FUNCTION}.
 @end itemize
-@item Subprogram "B" may be nested inside program "A" by including program B's source code at the end of program A's procedure division without an intervening @code{END PROGRAM A.} or @statement{END FUNCTION A.}.  For now, that's all that will be said about nesting.  @xref{Independent vs Contained vs Nested Subprograms}, for more information.
+
+@item Subprogram @samp{B} may be nested inside program @samp{A} by including program B's source code at the end of program A's procedure division without an intervening @code{END PROGRAM A.} or @statement{END FUNCTION A.}.  For now, that's all that will be said about nesting.  @xref{Independent vs Contained vs Nested Subprograms}, for more information.
 @item
 Regardless of how many programs comprise a single GnuCOBOL source file, only a single output executable program will be generated from that source file when the file is compiled.
 @end enumerate
@@ -859,24 +896,24 @@ The following information describes how comments may be embedded into GnuCOBOL p
 @item Blank Lines @tab @b{FIXED} --- Blank lines may be inserted as desired. 
 
 @b{FREE} --- Blank lines may be inserted as desired.
-@item Full-line comments @tab @b{FIXED} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding an asterisk ("*") in column seven (7).
+@item Full-line comments @tab @b{FIXED} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding an asterisk (@samp{*}) in column seven (7).
 @idx{* In Column 7 (Comment)} 
 
-@b{FREE} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding the sequence "*>", starting in any column, as the first non-blank characters on the line.
+@b{FREE} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding the sequence @samp{*>}, starting in any column, as the first non-blank characters on the line.
 @idx{*> (Comment)}
-@item Full-line comments with form-feed @tab @b{FIXED} --- An entire source line will be treated as a comment by coding a slash ("/") in column seven (7).  Many COBOL compilers will also issue a form-feed in the program listing so that the "/" line is at the top of a new page.  The GnuCOBOL compiler does not support this form-feed behaviour. 
+@item Full-line comments with form-feed @tab @b{FIXED} --- An entire source line will be treated as a comment by coding a slash (@samp{/}) in column seven (7).  Many COBOL compilers will also issue a form-feed in the program listing so that the @samp{/} line is at the top of a new page.  The GnuCOBOL compiler does not support this form-feed behaviour. 
 
-The GnuCOBOL Interactive Compiler, or GCic, @i{does} support this form-feed behaviour when it generates program source listings!  @xref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}, for the source and cross-reference listing (produced by GCic) of this program --- you can see the effect of "/" there.
+The GnuCOBOL Interactive Compiler, or GCic, @i{does} support this form-feed behaviour when it generates program source listings!  @xref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}, for the source and cross-reference listing (produced by GCic) of this program --- you can see the effect of @samp{/} there.
 @idx{/ In Column 7 (Comment)} 
 
-@b{FREE} --- There is no Free Source Mode equivalent to "/".
-@item Partial-line comments @tab @b{FIXED} --- Any text following the character sequence "*>" on a source line will be treated as a comment.  The "*" must appear in column seven (7) or beyond. 
+@b{FREE} --- There is no Free Source Mode equivalent to @samp{/}.
+@item Partial-line comments @tab @b{FIXED} --- Any text following the character sequence @samp{*>} on a source line will be treated as a comment.  The @samp{*} must appear in column seven (7) or beyond. 
 
-@b{FREE} --- Any text following the character sequence "*>" on a source line will be treated as a comment.  The "*" may appear in any column.
-@item Comments that may be treated as code, typically for debugging purposes @tab @b{FIXED} --- By coding a "D" in column 7
+@b{FREE} --- Any text following the character sequence @samp{*>} on a source line will be treated as a comment.  The @samp{*} may appear in any column.
+@item Comments that may be treated as code, typically for debugging purposes @tab @b{FIXED} --- By coding a @samp{D} in column 7
 @idx{D In Column 7 (Debugging Line)} (upper- or lower-case), an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler. 
 
-@b{FREE} --- By specifying the character sequence ">>D"
+@b{FREE} --- By specifying the character sequence @samp{>>D}
 @idx{>>D (Debugging Line)} (upper- or lower-case) as the first non-blank characters on a source line, an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler. 
 
 Debugging statements may be compiled either by specifying the @switch{-fdebugging-line} on the GnuCOBOL compiler or by adding the @code{WITH DEBUGGING MODE} clause to the @code{SOURCE-COMPUTER} paragraph.
@@ -899,40 +936,40 @@ Integers such as 1, 56, 2192 or -54.
 Non-integer fixed point values such as 1.317 or -2.95.
 
 @item
-Floating-point values using "Enn" notation such as 9.92E25, representing 9.92 x 10^25 (10 raised to the 25th power) or 5.7E-14, representing 5.7 x 10^-14 (10 raised to the -14th power).  Both the mantissa (the number before the E) and the exponent (the number after the E) may be explicitly specified as positive (with a +), negative (with a -) or unsigned (and therefore implicitly positive).  A floating-point literals value must be within the range -1.7 x 10^308  to +1.7 x 10^308 with no more than 15 decimal digits of precision.
+Floating-point values using @samp{E@var{nn}} notation such as @code{9.92E25}, representing @math{9.92 @ x@ 10@sup{25}} (10 raised to the 25th power) or @code{5.7E-14}, representing @math{5.7@ x@ 10@sup{-14}} (10 raised to the -14th power).  Both the mantissa (the number before the @samp{E}) and the exponent (the number after the @samp{E}) may be explicitly specified as positive (with a @samp{+}), negative (with a @samp{-}) or unsigned (and therefore implicitly positive).  A floating-point literals value must be within the range @math{-1.7@ x@ 10@sup{308}}  to @math{+1.7@ x@ 10@sup{308}} with no more than 15 decimal digits of precision.
 
 @item
 Hexadecimal numeric literals
 @idx{Hexadecimal Numeric Literal}
-@idx{Numeric Literal (Hexadecimal)} such as H"1F" (31 decimal), h'22' (34 decimal) or H'DEAD' (57005 decimal).  The H character may either be upper- or lower-case and either single quote (') or double-quote (") characters may be used in a hexadecimal literal, provided both aren't used in the same literal.  Hexadecimal numeric literals are limited to a maximum of sixteen hexadecimal digits (a 64-bit value).
+@idx{Numeric Literal (Hexadecimal)} such as @code{H"1F"} (31 decimal), @code{h'22'} (34 decimal) or @code{H'DEAD'} (57005 decimal).  The @samp{H} character may either be upper- or lower-case and either single quote (@samp{'}) or double-quote (@samp{"}) characters may be used in a hexadecimal literal, provided both aren't used in the same literal.  Hexadecimal numeric literals are limited to a maximum of sixteen hexadecimal digits (a 64-bit value).
 
 @item
 Null terminated literals
-@idx{Null Terminated Literals} using Z"character".
+@idx{Null Terminated Literals} using @code{Z"@var{character}"}.
 
 @item
-Raw C string using L"characters".
+Raw C string using @code{L"@var{characters}"}.
 
 @item
 Binary using B#0 or 1.
 
 @item
-Octal using O#0 - 7. (That is the letter O).
+Octal using O#0 - 7. (That is the letter @samp{O}).
 
 @item
-Hexadecimal number using H# or X# 0 - F.
+Hexadecimal number using @code{H#} or @code{X#} @samp{0} - @samp{F}.
 
 @item
-Boolean Literals (Standard) B" character ".
+Boolean Literals (Standard) @code{B"@var{ character }"}.
 
 @item
-Boolean Literals (Hexadecimal) BX" hex character ".
+Boolean Literals (Hexadecimal) @code{BX"@var{ hex character }"}.
 
 @item
-National Literals (Standard) N" character "  or NC" character ".
+National Literals (Standard) @code{N"@var{ character }"} or @code{NC"@var{ character }"}.
 
 @item
-National Literals (Hexadecimal)  NX" character ".
+National Literals (Hexadecimal)  @code{NX"@var{ character }"}.
 @end itemize
 @comment *********************************************************************
 @comment ** 2.1.19.2 Alphanumeric Literals                                  **
@@ -941,24 +978,25 @@ National Literals (Hexadecimal)  NX" character ".
 An alphanumeric literal
 @idx{Literals (Alphanumeric)} is a character string suitable for display on a computer screen, printing on a report, transmission through a communications connection or storage in alphanumeric or alphabetic data items.
 
-An alphanumeric literal is not valid for use in arithmetic expressions unless it is first converted to it's numeric computational equivalent; there are three numeric conversion intrinsic functions built into GnuCOBOL that can perform this conversion --- @syntaxref{NUMVAL}, @syntaxref{NUMVAL-C} and @syntaxref{NUMVAL-F}.
+An alphanumeric literal is not valid for use in arithmetic expressions unless it is first converted to its numeric computational equivalent; there are three numeric conversion intrinsic functions built into GnuCOBOL that can perform this conversion --- @syntaxref{NUMVAL}, @syntaxref{NUMVAL-C} and @syntaxref{NUMVAL-F}.
 
 Alphanumeric literals may take any of the following forms:
 @itemize @bullet
 @item
-A sequence of characters enclosed by a pair of single-quote (')
+A sequence of characters enclosed by a pair of single-quote (@samp{'})
 @idx{' (Apostrophe)} or double-quote (")
-@idx{" (Quote)} characters constitutes a string literal.  The double-quote character (") may be used as a data character within an apostrophe-delimited string literal, and an apostrophe may be used as a data character within a double-quote-delimited string literal.  If an apostrophe character must be included as a data character within an apostrophe-delimited string literal, express that character as two consecutive apostrophes ('@w{}').  If a double-quote character must be included as a data character within a double-quote-delimited string literal, express that character as two consecutive double-quotes ("").
+@idx{" (Quote)} characters constitutes a string literal.  The double-quote character (@samp{"}) may be used as a data character within an apostrophe-delimited string literal, and an apostrophe may be used as a data character within a double-quote-delimited string literal.  If an apostrophe character must be included as a data character within an apostrophe-delimited string literal, express that character as two consecutive apostrophes ('@w{}').  If a double-quote character must be included as a data character within a double-quote-delimited string literal, express that character as two consecutive double-quotes ("").
 
 @item
-A literal formed according to the same rules as for a string literal (above), but prefixed with the letter "Z" (upper- or lower-case) constitutes a zero-delimited string literal.  These literals differ from ordinary string literals in that they will be explicitly terminated with a byte of hexadecimal value 00.  These @define{Zero-Delimited Alphanumeric Literals}
+A literal formed according to the same rules as for a string literal (above), but prefixed with the letter @samp{Z} (upper- or lower-case) constitutes a zero-delimited string literal.  These literals differ from ordinary string literals in that they will be explicitly terminated with a byte of hexadecimal value 00.  These @define{Zero-Delimited Alphanumeric Literals}
 @idx{Alphanumeric Literal (Zero-Delimited)} are easily passable to C subprograms, as this is the convention C uses to store character strings.
 
 @item
 A @define{Hexadecimal Alphanumeric Literal}
-@idx{Alphanumeric Literal (Hexadecimal)} such as X"4A4B4C" (4A4B4C16 = the ASCII string 'JKL'), x'20' (an ASCII space) or X'30313233' (3031323316 = the ASCII string '0123').  The "X" character may either be upper- or lower-case and either single quote (') or double-quote (") characters may be used.  These hexadecimal alphanumeric literals should always consist of an even number of hexadecimal digits, because each character is represented by eight bits worth of data (2 hex digits).  Hexadecimal alphanumeric literals may be of almost unlimited length.
+@idx{Alphanumeric Literal (Hexadecimal)} such as @code{X"4A4B4C"} (4A4B4C16 = the ASCII string 'JKL'), @code{x'20'} (an ASCII space) or @code{X'30313233'} (3031323316 = the ASCII string `0123').  The @samp{X} character may either be upper- or lower-case and either single quote (@samp{'}) or double-quote (@samp{"}) characters may be used.  These hexadecimal alphanumeric literals should always consist of an even number of hexadecimal digits, because each character is represented by eight bits worth of data (2 hex digits).  Hexadecimal alphanumeric literals may be of almost unlimited length.
 @end itemize
-@* Alphanumeric literals too long to fit on a single line may be continued to the next line in one of two ways:
+
+Alphanumeric literals too long to fit on a single line may be continued to the next line in one of two ways:
 @enumerate
 @item
 If you are using Fixed Format Mode, the alphanumeric literal can be run right up to and including column 72.  The literal may then be continued on the next line anywhere after column 11 by coding another quote or apostrophe (whichever was used to begin the literal originally).  The continuation line must also have a hyphen (-)
@@ -975,7 +1013,8 @@ If you are using Fixed Format Mode, the alphanumeric literal can be run right up
 @t{      -                                                "ed.".}
 @end smallexample
 @enumerate 2
-@item Regardless of whether the compiler is operating in Fixed or Free Format Mode, GnuCOBOL allows alphanumeric literals to be broken up into separate fragments.  These fragments have their own beginning and ending quote/apostrophe characters and are "glued together" at compilation time using "&"
+@item
+Regardless of whether the compiler is operating in Fixed or Free Format Mode, GnuCOBOL allows alphanumeric literals to be broken up into separate fragments.  These fragments have their own beginning and ending quote/apostrophe characters and are ``glued together'' at compilation time using @samp{&}
 @idx{& (Literal Concatenation)}
 @idx{Literal Concatenation (&)} characters.  No continuation indicator is needed.  Here's an example:
 @end enumerate
@@ -1020,7 +1059,7 @@ This figurative constant has a value of one or more double-quote characters (").
 @item @code{LOW-VALUE}
 This figurative constant has a value of one or more of whatever character occupies the lowest position in the program's collating sequence as defined in the @syntaxref{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set).  @code{LOW-VALUES} is a synonym of @code{LOW-VALUE}.
 
-When the character set in use is ASCII with no collating sequence modifications, the @code{LOW-VALUES} figurative constant value is the ASCII "NUL" character.  Because character sets can be redefined, however, you should not rely on this fact --- use the @code{NULL} figurative constant instead.
+When the character set in use is ASCII with no collating sequence modifications, the @code{LOW-VALUES} figurative constant value is the ASCII @code{NUL} character.  Because character sets can be redefined, however, you should not rely on this fact. Use the @code{NULL} figurative constant instead.
 
 @item @code{HIGH-VALUE}
 This figurative constant has a value of one or more of whatever character occupies the highest position in the program's collating sequence as defined in the @code{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set).  @code{HIGH-VALUES} is a synonym of @code{HIGH-VALUE}.
@@ -1033,8 +1072,8 @@ A character comprised entirely of zero-bits (regardless of the programs collatin
 @comment ** 2.1.20 Punctuation                                              **
 @comment *********************************************************************
 @newsubsection{2.1.20,Punctuation}
-A comma (",")
-@idx{, (Punctuation)} or a semicolon (";")
+A comma (@samp{,})
+@idx{, (Punctuation)} or a semicolon (@samp{;})
 @idx{; (Punctuation)} may be inserted into a GnuCOBOL program to improve readability at any spot where white space would be legal, except of course within alphanumeric literals (unless you actually @i{mean} for those characters to be part of the alphanumeric literals value).  These characters are always optional.
 
 The use of comma characters can cause confusion to a COBOL compiler if the @code{DECIMAL POINT IS COMMA} clause is used in the @syntaxref{SPECIAL-NAMES} paragraph, as might be the case in Europe.  The following statement, which calls a subroutine passing it two arguments (the numeric constants 1 and 2):
@@ -1043,7 +1082,7 @@ The use of comma characters can cause confusion to a COBOL compiler if the @code
 
 Would --- with @code{DECIMAL POINT IS COMMA} in effect --- actually be interpreted as a subroutine call with 1 argument (the non-integer numeric literal whose value is 1 and 2 tenths).  For this reason, it is best to always follow a comma with a space.
 
-The period character (".")
+The period character (@samp{.})
 @idx{. (Punctuation)} is used to terminate statements in the identification, environment and data divisions and sentences in the procedure division.  Syntax diagrams describing code in the first three divisions will explicitly show where periods need to occur.
 
 The rules for where and when periods are needed in the procedure division are somewhat complicated.  @xref{Use of Periods}, for the details.
@@ -1054,7 +1093,7 @@ The rules for where and when periods are needed in the procedure division are so
 
 Through the @statement{CALL}, COBOL programs may invoke other COBOL programs serving as subprograms.  This is quite similar to cross-program linkage capabilities provided by other languages.  In GnuCOBOL's case, the @code{CALL} facility is powerful enough to be tailored to the point where a GnuCOBOL program can communicate with operating system, database management and run-time library APIs, even if they weren't written in COBOL themselves.  @xref{GnuCOBOL Main Programs CALLing C Subprograms}, for an example of how a GnuCOBOL program could invoke a C-language subprogram, passing information back and forth between the two.
 
-The fact that GnuCOBOL supports a full-featured two-way interface with C-language programs means that --- even if you cannot access a library API directly --- you could always do so via a small C "wrapper" program that is @code{CALL}ed by a GnuCOBOL program.
+The fact that GnuCOBOL supports a full-featured two-way interface with C-language programs means that --- even if you cannot access a library API directly --- you could always do so via a small C ``wrapper'' program that is @code{CALL}ed by a GnuCOBOL program.
 @comment *********************************************************************
 @comment ** 2.2 The COBOL Language - Advanced Techniques                    **
 @comment *********************************************************************
@@ -1081,7 +1120,7 @@ A B C D
 E F G H
 I J K L
 @end example
-@* Then @code{GRID-CHARACTER (2, 3)} references the "G" and @code{GRID-CHARACTER (3, 2)} references the "J".
+@* Then @code{GRID-CHARACTER (2, 3)} references the @samp{G} and @code{GRID-CHARACTER (3, 2)} references the @samp{J}.
 
 Subscripts may be specified as numeric (integer) literals, numeric (integer) data items, data items created with any of the picture-less integer @syntaxref{USAGE} specifications, @code{USAGE INDEX} data items or arithmetic expressions resulting in a non-zero integer value.
 
@@ -1104,15 +1143,16 @@ To see qualification at work, observe the following segments of two data records
           15 ZIP-CODE-5 PIC 9(5).           15 ZIP-CODE-5 PIC 9(5).
           15 FILLER     PIC X(4).           15 FILLER     PIC X(4).
 @end verbatim
-@* Now, let's deal with the problem of setting the CITY portion of an EMPLOYEEs MAILING-ADDRESS to "Philadelphia".  Clearly, @code{MOVE 'Philadelphia' TO CITY} cannot work because the compiler will be unable to determine which of the two CITY fields you are referring to.
 
-In an attempt to correct the problem, we could qualify the reference to CITY as @code{MOVE 'Philadelphia' TO CITY OF MAILING-ADDRESS}.
+Now, let's deal with the problem of setting the @code{CITY} portion of an @code{EMPLOYEE}s @code{MAILING-ADDRESS} to @samp{Philadelphia}.  Clearly, @code{MOVE 'Philadelphia' TO CITY} cannot work because the compiler will be unable to determine which of the two @code{CITY} fields you are referring to.
 
-Unfortunately that too is insufficient because it still insufficiently specifies which CITY is being referenced.  To truly identify which specific CITY you want, you'd have to code @code{MOVE 'Philadelphia' TO CITY OF MAILING-ADDRESS OF EMPLOYEE}.
+In an attempt to correct the problem, we could qualify the reference to @code{CITY} as @code{MOVE 'Philadelphia' TO CITY OF MAILING-ADDRESS}.
 
-Now there can be no confusion as to which CITY is being changed.  Fortunately, you don't need to be quite so specific; COBOL allows intermediate and unnecessary qualification levels to be omitted.  This allows @code{MOVE 'Philadelphia' TO CITY OF EMPLOYEE} to do the job nicely.
+Unfortunately that too is insufficient because it still insufficiently specifies which @code{CITY} is being referenced.  To truly identify which specific @code{CITY} you want, you'd have to code @code{MOVE 'Philadelphia' TO CITY OF MAILING-ADDRESS OF EMPLOYEE}.
 
-If you need to qualify a reference to a table, do so by coding something like @code{@var{identifier-1} OF @var{identifier-2} ( subscript(s) )}.
+Now there can be no confusion as to which @code{CITY} is being changed.  Fortunately, you don't need to be quite so specific; COBOL allows intermediate and unnecessary qualification levels to be omitted.  This allows @code{MOVE 'Philadelphia' TO CITY OF EMPLOYEE} to do the job nicely.
+
+If you need to qualify a reference to a table, do so by coding something like @code{@var{identifier-1} OF @var{identifier-2} ( @var{subscript(s)} )}.
 
 The reserved word @code{IN} may be used in lieu of @code{OF}.
 @comment *********************************************************************
@@ -1143,7 +1183,7 @@ References all character positions of CUSTOMER-LAST-NAME from the fourth onward.
 References the current month as a 2-digit number in character form.  @xref{CURRENT-DATE}, for more information.
 
 @item @code{Hex-Digits (Nibble + 1:1)}
-Assuming that "Nibble" is a numeric data item with a value in the range 0-15, and Hex-Digits is a @code{PIC X(16)} item with a value of "0123456789ABCDEF", this converts that numeric value to a hexadecimal digit.
+Assuming that @code{Nibble} is a numeric data item with a value in the range 0-15, and Hex-Digits is a @code{PIC X(16)} item with a value of @code{0123456789ABCDEF}, this converts that numeric value to a hexadecimal digit.
 
 @item @code{Table-Entry (6) (7:5)}
 References characters 7 through 11 (5 characters in total) in the 6th occurrence of Table-Entry.
@@ -1169,9 +1209,9 @@ In highest to lowest order of precedence, here is a discussion of each category 
 @cindex - (Unary Sign Reversal)
 @cindex + (Unary Sign Retention)
 
-The unary "minus" (-) operator returns the arithmetic negation of its single argument, effectively returning as its value the product of its argument and -1.
+The unary ``minus'' (-) operator returns the arithmetic negation of its single argument, effectively returning as its value the product of its argument and -1.
 
-The unary "plus" (+) operator returns the value of its single argument, effectively returning as its value the product of its argument and +1.
+The unary ``plus'' (+) operator returns the value of its single argument, effectively returning as its value the product of its argument and +1.
 @item Level 2 --- Exponentiation (@code{**} or @code{^})
 @cindex ** (Exponentiation)
 @cindex ^ (Exponentiation)
@@ -1235,7 +1275,7 @@ Here are some examples of how the precedence of operations affects the results o
 
 @item (4 * 2) ^ 3  - 10
 @tab 502
-@tab Parenthesis provide for a recursive application of the arithmetic expression rules, effectively allowing you to alter the precedence of operations.  4 times 2 is 8 (the use of parenthesis "trumps" the exponentiation operator, so the multiplication happens first); 8 ^ 3 is 512, minus 10 is 502.
+@tab Parenthesis provide for a recursive application of the arithmetic expression rules, effectively allowing you to alter the precedence of operations.  4 times 2 is 8 (the use of parenthesis ``trumps'' the exponentiation operator, so the multiplication happens first); 8 ^ 3 is 512, minus 10 is 502.
 
 @item 5 / 2.5 + 7 * 2 - 1.15
 @tab 15.35
@@ -1247,7 +1287,7 @@ Here are some examples of how the precedence of operations affects the results o
 @comment *********************************************************************
 @page
 @newsubsection{2.2.5,Conditional Expressions}
-Conditional expressions are expressions which identify the circumstances under which a program may take an action or cease taking an action.  As such, conditional expressions produce a value of TRUE or FALSE.
+Conditional expressions are expressions which identify the circumstances under which a program may take an action or cease taking an action.  As such, conditional expressions produce a value of @code{TRUE} or @code{FALSE}.
 
 There are seven types of conditional expressions, as discussed in the following sections.
 @comment *********************************************************************
@@ -1268,7 +1308,7 @@ These are the simplest of all conditions.  Observe the following code:
     88 XXXL                  VALUE 19, 19.5.
     88 VERY-LARGE            VALUE 20 THRU 99.9.
 @end example
-@* The condition names @code{TINY}, @code{XS}, @code{S}, @code{M}, @code{L}, @code{XL}, @code{XXL}, @code{XXXL} and @code{VERY-LARGE} will have TRUE or FALSE values based upon the values within their parent data item (SHIRT-SIZE).
+@* The condition names @code{TINY}, @code{XS}, @code{S}, @code{M}, @code{L}, @code{XL}, @code{XXL}, @code{XXXL} and @code{VERY-LARGE} will have @code{TRUE} or @code{FALSE} values based upon the values within their parent data item (SHIRT-SIZE).
 
 A program wanting to test whether or not the current @code{SHIRT-SIZE} value can be classified as @code{XL} could have that decision coded as a combined condition (the most complex type of conditional expression), as either:
 
@@ -1294,7 +1334,7 @@ IF XL
 Class conditions evaluate the type of data that is currently stored in a data item.
 @enumerate
 @item
-The @code{NUMERIC} class test considers only the characters "0", "1", @dots{} , "9" to be numeric; only a data item containing nothing but digits will pass a @code{NUMERIC} class test.  Spaces, decimal points, commas, currency signs, plus signs, minus signs and any other characters except the digit characters will all fail @code{NUMERIC} class tests.
+The @code{NUMERIC} class test considers only the characters @samp{0}, @samp{1}, @dots{} , @samp{9} to be numeric; only a data item containing nothing but digits will pass a @code{NUMERIC} class test.  Spaces, decimal points, commas, currency signs, plus signs, minus signs and any other characters except the digit characters will all fail @code{NUMERIC} class tests.
 
 @item
 The @code{ALPHABETIC} class test considers only upper-case letters, lower-case letters and spaces to be alphabetic in nature.
@@ -1303,10 +1343,10 @@ The @code{ALPHABETIC} class test considers only upper-case letters, lower-case l
 The @code{ALPHABETIC-LOWER} and @code{ALPHABETIC-UPPER} class conditions consider only spaces and the respective type of letters to be acceptable in order to pass such a class test.
 
 @item
-The @code{NOT} option reverses the TRUE/FALSE value of the condition.
+The @code{NOT} option reverses the @code{TRUE}/@code{FALSE} value of the condition.
 
 @item
-Note that what constitutes a "letter" (or upper/lower case too, for that manner) may be influenced through the use of @code{CHARACTER CLASSIFICATION} specifications in the @syntaxref{OBJECT-COMPUTER} paragraph.
+Note that what constitutes a ``letter'' (or upper/lower case too, for that manner) may be influenced through the use of @code{CHARACTER CLASSIFICATION} specifications in the @syntaxref{OBJECT-COMPUTER} paragraph.
 
 @item
 Only data items whose @syntaxref{USAGE} is either explicitly or implicitly defined as @code{DISPLAY} may be used in @code{NUMERIC} or any of the @code{ALPHABETIC} class conditions.
@@ -1317,13 +1357,14 @@ Some COBOL implementations disallow the use of group items or @code{PIC A} items
 @item
 The @code{OMITTED} class condition is used when it is necessary for a subprogram to determine whether or not a particular argument was passed to it.  In such class conditions, @var{identifier-1} must be a linkage section item defined on the @code{USING} clause of the subprograms @code{PROCEDURE DIVISION} header.  @xref{PROCEDURE DIVISION USING}, for additional information.
 @end enumerate
-@* The @var{class-name-1} option allows you to test for a user-defined class.  Here's an example.  First, assume the following @syntaxref{SPECIAL-NAMES} definition of the user-defined class "Hexadecimal":
+@* The @var{class-name-1} option allows you to test for a user-defined class.  Here's an example.  First, assume the following @syntaxref{SPECIAL-NAMES} definition of the user-defined class @samp{Hexadecimal}:
 
 @example
 SPECIAL-NAMES.
     CLASS Hexadecimal IS '0' THRU '9', 'A' THRU 'F', 'a' THRU 'f'.
 @end example
-@* Now observe the following code, which will execute the @code{150-Process-Hex-Value} procedure if @code{Entered-Value} contains nothing but valid hexadecimal digits:
+
+Now observe the following code, which will execute the @code{150-Process-Hex-Value} procedure if @code{Entered-Value} contains nothing but valid hexadecimal digits:
 
 @example
     IF Entered-Value IS Hexadecimal
@@ -1340,13 +1381,13 @@ SPECIAL-NAMES.
 Sign conditions evaluate the numeric state of a data item defined with a @syntaxref{PICTURE} and/or @syntaxref{USAGE} that supports numeric values.
 @enumerate
 @item
-A @code{POSITIVE} or @code{NEGATIVE} class condition will be TRUE only if the value of @var{identifier-1} is strictly greater than or less than zero, respectively.
+A @code{POSITIVE} or @code{NEGATIVE} class condition will be @code{TRUE} only if the value of @var{identifier-1} is strictly greater than or less than zero, respectively.
 
 @item
 A @code{ZERO} class condition can be passed only if the value of @var{identifier-1} is exactly zero.
 
 @item
-The @code{NOT} option reverses the TRUE/FALSE value of the condition.
+The @code{NOT} option reverses the @code{TRUE}/@code{FALSE} value of the condition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 2.2.5.4 Switch-Status Conditions                                **
@@ -1355,7 +1396,7 @@ The @code{NOT} option reverses the TRUE/FALSE value of the condition.
 @newsubsection{2.2.5.4,Switch-Status Conditions}
 In the @code{SPECIAL-NAMES} paragraph, an external switch name can be associated with one or more condition names.  These condition names may then be used to test the ON/OFF status of the external switch.
 
-Here are the relevant sections of code in a program named "testprog", which is designed to simply announce if SWITCH-1 is on:
+Here are the relevant sections of code in a program named @file{testprog}, which is designed to simply announce if @code{SWITCH-1} is on:
 
 @example
 @dots{}
@@ -1370,7 +1411,8 @@ PROCEDURE DIVISION.
     END-IF
 @dots{}
 @end example
-@* the following are two different command window sessions --- the left on a Unix/Cygwin/OSX system and the right on a windows system --- that will set the switch on and then execute the "testprog" program.  Notice how the message indicating that the program detected the switch was set is displayed in both examples:
+
+The following are two different command window sessions --- the left on a Unix/Cygwin/OSX system and the right on a windows system --- that will set the switch on and then execute the @file{testprog} program.  Notice how the message indicating that the program detected the switch was set is displayed in both examples:
 
 @example
 $ COB_SWITCH_1=ON           C:>SET COB_SWITCH_1=ON
@@ -1393,7 +1435,7 @@ These conditions evaluate how two different values "relate" to each other.
 When comparing one numeric value to another, the @syntaxref{USAGE} and number of significant digits in either value are irrelevant as the comparison is performed using the actual algebraic values.
 
 @item
-When comparing strings, the comparison is made based upon the program's collating sequence.  When the two string arguments are of unequal length, the shorter is assumed to be padded (on the right) with a sufficient number of spaces as to make the two strings of equal length.  String comparisons take place on a corresponding character-by-character basis, left to right, until the TRUE/FALSE value for the relation test can be established.  Characters are compared according to their relative position in the program's @code{COLLATING SEQUENCE} (as defined in @syntaxref{SPECIAL-NAMES}), @i{not} according to the bit-pattern values the characters have in storage.
+When comparing strings, the comparison is made based upon the program's collating sequence.  When the two string arguments are of unequal length, the shorter is assumed to be padded (on the right) with a sufficient number of spaces as to make the two strings of equal length.  String comparisons take place on a corresponding character-by-character basis, left to right, until the @code{TRUE}/@code{FALSE} value for the relation test can be established.  Characters are compared according to their relative position in the program's @code{COLLATING SEQUENCE} (as defined in @syntaxref{SPECIAL-NAMES}), @i{not} according to the bit-pattern values the characters have in storage.
 
 @item
 By default, the program's @code{COLLATING SEQUENCE} will, however, be based entirely on the bit-pattern values of the various characters.
@@ -1408,13 +1450,13 @@ There is no functional difference between using the wordy version (@code{IS EQUA
 @newsubsection{2.2.5.6,Combined Conditions}
 @diagram{Combined Condition,PD-Comb-Cond,PD-Comb-Cond,None}
 
-A combined condition is one that computes a TRUE/FALSE value from the TRUE/FALSE values of two other conditions (which could themselves be combined conditions).
+A combined condition is one that computes a @code{TRUE}/@code{FALSE} value from the @code{TRUE}/@code{FALSE} values of two other conditions (which could themselves be combined conditions).
 @enumerate
 @item
-If either condition has a value of TRUE, the result of @code{OR}ing the two together will result in a value of TRUE.  @code{OR}ing two FALSE conditions will result in a value of FALSE.
+If either condition has a value of @code{TRUE}, the result of @code{OR}ing the two together will result in a value of @code{TRUE}.  @code{OR}ing two @code{FALSE} conditions will result in a value of @code{FALSE}.
 
 @item
-In order for @code{AND} to yield a value of TRUE, both conditions must have a value of TRUE.  In all other circumstances, @code{AND} produces a FALSE value.
+In order for @code{AND} to yield a value of @code{TRUE}, both conditions must have a value of @code{TRUE}.  In all other circumstances, @code{AND} produces a @code{FALSE} value.
 
 @item
 When chaining multiple, similar conditions together with the same operator (OR/AND), and left or right arguments have common subjects, it is possible to abbreviate the program code.  For example:
@@ -1430,13 +1472,13 @@ IF ACCOUNT-STATUS = 1 OR 2 OR 7
 @item Just as multiplication takes precedence over addition in arithmetic expressions, so does @code{AND} take precedence over @code{OR} in combined conditions.  Use parenthesis to change this precedence, if necessary.  For example:
 @table @asis
 @item @code{FALSE AND FALSE OR TRUE AND TRUE}
-Evaluates to TRUE
+Evaluates to @code{TRUE}
 
 @item @code{(FALSE AND FALSE) OR (TRUE AND TRUE)}
-Evaluates to TRUE (since AND has precedence over OR) - this is identical to the previous example
+Evaluates to @code{TRUE} (since AND has precedence over OR) - this is identical to the previous example
 
 @item @code{(FALSE AND (FALSE OR TRUE)) AND TRUE}
-Evaluates to FALSE
+Evaluates to @code{FALSE}
 @end table
 @end enumerate
 @comment *********************************************************************
@@ -1449,19 +1491,19 @@ Evaluates to FALSE
 A condition may be negated by prefixing it with the @syntaxidx{NOT} operator.
 @enumerate
 @item
-The @code{NOT} operator has the highest precedence of all logical operators, just as a unary minus sign (which "negates" a numeric value) is the highest precedence arithmetic operator.
+The @code{NOT} operator has the highest precedence of all logical operators, just as a unary minus sign (which ``negates'' a numeric value) is the highest precedence arithmetic operator.
 
 @item
 Parenthesis must be used to explicitly signify the sequence in which conditions are evaluated and processed if the default precedence isn't desired.  For example:
 @table @asis
 @item @code{NOT TRUE AND FALSE AND NOT FALSE}
-Evaluates to FALSE AND FALSE AND TRUE which evaluates to FALSE
+Evaluates to @code{FALSE AND FALSE AND TRUE} which evaluates to @code{FALSE}
 
 @item @code{NOT (TRUE AND FALSE AND NOT FALSE)}
-Evaluates to NOT (FALSE) which evaluates to TRUE
+Evaluates to @code{NOT (FALSE)} which evaluates to @code{TRUE}
 
 @item @code{NOT TRUE AND (FALSE AND NOT FALSE)}
-Evaluates to FALSE AND (FALSE AND TRUE) which evaluates to FALSE
+Evaluates to @code{FALSE AND (FALSE AND TRUE)} which evaluates to @code{FALSE}
 @end table
 @end enumerate
 @comment *********************************************************************
@@ -1476,7 +1518,8 @@ MOVE SPACES TO Employee-Address
 ADD 1 TO Record-Counter
 DISPLAY "Record-Counter=" Record-Counter
 @end example
-@* Some COBOL statements have a "scope of applicability" associated with them where one or more other statements can be considered to be part of or related to the statement in question.  An example of such a situation might be the following, where the interest on a loan is being calculated and displayed --- 4% interest if the loan balance is under $10000 and 4.5% otherwise (WARNING -- the following code has an error!):
+
+Some COBOL statements have a @i{scope of applicability} associated with them where one or more other statements can be considered to be part of or related to the statement in question.  An example of such a situation might be the following, where the interest on a loan is being calculated and displayed --- 4% interest if the loan balance is under $10000 and 4.5% otherwise (WARNING: the following code has an error!):
 
 @example
 IF Loan-Balance < 10000
@@ -1485,9 +1528,10 @@ ELSE
     MULTIPLY Loan-Balance BY 0.045 GIVING Interest
 DISPLAY "Interest Amount = " Interest
 @end example
-@* In this example, the IF statement actually has a scope that can include two sets of associated statements -- one set to be executed when the @syntaxref{IF} condition is TRUE and another if it is FALSE.
 
-Unfortunately, there's a problem with the above.  A human being looking at that code would probably infer that the @syntaxref{DISPLAY} statement, because of its lack of indentation, is to be executed regardless of the TRUE/FALSE value of the @code{IF} condition.  Unfortunately, the GnuCOBOL compiler (or any other COBOL compiler for that matter) won't see it that way because it really couldn't care less what sort of indentation, if any, is used.  In fact, any COBOL compiler would be just as happy to see the code written like this:
+In this example, the @code{IF} statement actually has a scope that can include two sets of associated statements -- one set to be executed when the @syntaxref{IF} condition is @code{TRUE} and another if it is @code{FALSE}.
+
+Unfortunately, there's a problem with the above.  A human being looking at that code would probably infer that the @syntaxref{DISPLAY} statement, because of its lack of indentation, is to be executed regardless of the @code{TRUE}/@code{FALSE} value of the @code{IF} condition.  Unfortunately, the GnuCOBOL compiler (or any other COBOL compiler for that matter) won't see it that way because it really couldn't care less what sort of indentation, if any, is used.  In fact, any COBOL compiler would be just as happy to see the code written like this:
 
 @example
 IF Loan-Balance < 10000 MULTIPLY Loan-balance
@@ -1508,7 +1552,7 @@ ELSE
     MULTIPLY Loan-Balance BY 0.045 GIVING Interest.
 DISPLAY "Interest Amount = " Interest
 @end example
-@* See the period at the end of the second @syntaxref{MULTIPLY}?  That is what terminates the scope of the @code{IF}, thus making the @code{DISPLAY} statement's execution completely independent of the TRUE/FALSE status of the @code{IF}.
+@* See the period at the end of the second @syntaxref{MULTIPLY}?  That is what terminates the scope of the @code{IF}, thus making the @code{DISPLAY} statement's execution completely independent of the @code{TRUE}/@code{FALSE} status of the @code{IF}.
 @comment *********************************************************************
 @comment ** 2.2.7 Use of VERB/END-VERB Constructs                           **
 @comment *********************************************************************
@@ -1546,7 +1590,7 @@ ELSE
 @end example
 @* The @code{NEXT SENTENCE} clause informs the compiler that if the @code{B = 1} condition is false, control should fall into the first statement that follows the next period.
 
-With the 1985 standard for COBOL, a much more elegant solution was introduced.  Any COBOL @define{Verb} (the first reserved word of a statement) that needed such a thing was allowed to use an @code{END-verb} construct to end it's scope without disrupting the scope of any other statement it might have been in.  Any COBOL 85 compiler would have allowed the following solution to our problem:
+With the 1985 standard for COBOL, a much more elegant solution was introduced.  Any COBOL @define{Verb} (the first reserved word of a statement) that needed such a thing was allowed to use an @code{END-verb} construct to end its scope without disrupting the scope of any other statement it might have been in.  Any COBOL 85 compiler would have allowed the following solution to our problem:
 
 @example
 IF A = 1
@@ -1591,7 +1635,7 @@ Not all GnuCOBOL implementations support file sharing and record-locking options
 @comment ** 2.2.8.1 File Sharing                                            **
 @comment *********************************************************************
 @newsubsection{2.2.8.1,File Sharing}
-GnuCOBOL controls concurrent-file access at the highest level through the concept of file sharing, enforced when a program attempts to open a file.  This is accomplished via a UNIX operating-system routine called "fcntl()".  That module is not currently supported by Windows and is not present in the MinGW Unix-emulation package.  GnuCOBOL builds created using a MinGW environment will be incapable of supporting file-sharing controls --- files will always be shared in such environments.  A GnuCOBOL build created using the Cygwin environment on Windows @i{would} have access to "fcntl()" and therefore @i{will} support file sharing.  Of course, actual Unix builds of GnuCOBOL, as well as OSX builds, should have no issues because "fcntl()" should be available.
+GnuCOBOL controls concurrent-file access at the highest level through the concept of file sharing, enforced when a program attempts to open a file.  This is accomplished via a UNIX operating-system routine called @code{fcntl}.  That module is not currently supported by Windows and is not present in the MinGW Unix-emulation package.  GnuCOBOL builds created using a MinGW environment will be incapable of supporting file-sharing controls --- files will always be shared in such environments.  A GnuCOBOL build created using the Cygwin environment on Windows @i{would} have access to @code{fcntl} and therefore @i{will} support file sharing.  Of course, actual Unix builds of GnuCOBOL, as well as OSX builds, should have no issues because @code{fcntl} should be available.
 
 Any limitations imposed on a successful @syntaxref{OPEN} will remain in place until your program either issues a @syntaxref{CLOSE} against the file or the program terminates.
 
@@ -1612,7 +1656,7 @@ Here are the meanings of the three options:
 When your program opens a file with this sharing option in effect, no restrictions will be placed on other programs attempting to @code{OPEN} the file after your program did.  This is the default sharing mode.
 
 @item @code{NO OTHER}
-When your program opens a file with this sharing option in effect, your program announces that it is unwilling to allow any other program to have any access to the file as long as you are using that file; @code{OPEN} attempts made in other programs will fail with a file status of 37 ("PERMISSION DENIED") until such time as you @syntaxref{CLOSE} the file.
+When your program opens a file with this sharing option in effect, your program announces that it is unwilling to allow any other program to have any access to the file as long as you are using that file; @code{OPEN} attempts made in other programs will fail with a file status of 37 (@code{PERMISSION DENIED}) until such time as you @syntaxref{CLOSE} the file.
 
 @item @code{READ ONLY}
 Opening a file with this sharing option indicates you are willing to allow other programs to @code{OPEN} the file for input while you have it open.  If they attempt any other @code{OPEN}, theirs will fail with a file status of 37.  Of course, your program may fail if someone else got to the file first and opened it with a sharing option that imposed file-sharing limitations.
@@ -1692,7 +1736,7 @@ Access to the record by other programs will be denied.
 The record will not be locked.  This is the default locking option in effect for all statements.
 
 @item @code{WITH KEPT LOCK}
-When single record locking is in-effect, as a new record is accessed, locks held for previous records are released.  By using this option, not only is the newly-accessed record locked (as WITH LOCK would do), but prior record locks will be retained as well.  A subsequent @code{READ} without the @code{KEPT LOCK} option will release all "kept" locks, as will the @code{UNLOCK} statement.
+When single record locking is in-effect, as a new record is accessed, locks held for previous records are released.  By using this option, not only is the newly-accessed record locked (as WITH LOCK would do), but prior record locks will be retained as well.  A subsequent @code{READ} without the @code{KEPT LOCK} option will release all ``kept'' locks, as will the @code{UNLOCK} statement.
 
 @item @code{WITH WAIT}
 This option informs GnuCOBOL that the program is willing to wait for a lock held (by another program) on the record being read to be released.

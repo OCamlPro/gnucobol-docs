@@ -43,7 +43,7 @@ The @syntaxidx{USING} clause should only be used on the procedure division heade
 The calling program will pass zero or more data items, known as arguments, to this subprogram --- there must be exactly as many @var{identifier-1} data items specified on the USING clause as the maximum number of arguments the subprogram will ever be passed.
 
 @item
-If a subprogram does not expect any arguments, it should not have a @code{USING} clause specified on it's procedure division header.
+If a subprogram does not expect any arguments, it should not have a @code{USING} clause specified on its procedure division header.
 
 @item
 The order in which arguments are defined on the @code{USING} clause must correspond to the order in which those arguments will be passed to the subprogram by the calling program.
@@ -142,13 +142,13 @@ The @var{identifier-1} data item should be defined as a USAGE BINARY-LONG data i
 Main programs that wish to "pass back" a return code value to the operating system when they exit do not use RETURNING - they do so simply by MOVEing a value to the @code{RETURN-CODE} special register.
 
 @item
-This is not the only mechanism that a subprogram may use to pass a value back to it's caller.  Other possibilities are:
+This is not the only mechanism that a subprogram may use to pass a value back to its caller.  Other possibilities are:
 @enumerate A
 @item
-The subprogram may modify any argument that is specified as "BY REFERENCE" on it's PROCEDURE DIVISION header.  Whether the calling program can actually "see" any modifications depends upon how the calling program passed the argument to the subprogram.  @xref{CALL}, for more information.
+The subprogram may modify any argument that is specified as "BY REFERENCE" on its PROCEDURE DIVISION header.  Whether the calling program can actually "see" any modifications depends upon how the calling program passed the argument to the subprogram.  @xref{CALL}, for more information.
 
 @item
-A data item with the @syntaxref{GLOBAL} attribute specified in it's description in the calling program is automatically visible to and updatable by a subprogram nested with the calling program.  @xref{Independent vs Contained vs Nested Subprograms}, for more information on subprogram nesting.
+A data item with the @syntaxref{GLOBAL} attribute specified in its description in the calling program is automatically visible to and updatable by a subprogram nested with the calling program.  @xref{Independent vs Contained vs Nested Subprograms}, for more information on subprogram nesting.
 
 @item
 A data item defined with the @syntaxref{EXTERNAL} attribute in a subprogram and the calling program (same name in both programs) is automatically visible to and updatable by both programs, even if those programs are compiled separately from one  another.
@@ -1401,7 +1401,7 @@ If used, @var{identifier-2} should be a @syntaxrefalt{POINTER,USAGE} data item.
 The optional @syntaxidx{RETURNING} clause will return the address of the allocated memory block into the specified @code{USAGE POINTER} @var{identifier-2} data item.  When this option is used, knowledge of the originally-requested size of the allocated memory block will be retained by the program in case a @syntaxref{FREE} statement is ever issued against @var{identifier-2}.
 
 @item
-When the @var{identifier-1} option is used in conjunction with @syntaxidx{INITIALIZED} (or it's internationalized alternative @code{INITIALISED}), the allocated memory block will be initialized as if an @syntaxrefalt{INITIALIZE @var{identifier-1} WITH FILLER ALL TO VALUE THEN TO DEFAULT,INITIALIZE} were executed.
+When the @var{identifier-1} option is used in conjunction with @syntaxidx{INITIALIZED} (or its internationalized alternative @code{INITIALISED}), the allocated memory block will be initialized as if an @syntaxrefalt{INITIALIZE @var{identifier-1} WITH FILLER ALL TO VALUE THEN TO DEFAULT,INITIALIZE} were executed.
 
 @item
 When the @code{@var{expression-1} CHARACTERS} option is used, @code{INITIALIZED} will initialize the allocated memory block to binary zeros.  If @code{INITIALIZED} is not used, the initial contents of allocated memory will be left to whatever rules of memory allocation are in effect for the operating system the program is running under.
@@ -1567,7 +1567,7 @@ An extension of CALL allows a call to a Program-Pointer-1 which is preset using 
 The @statement{CANCEL} unloads the dynamically-loadable subprogram module containing the entry-point specified as @var{literal-1} or @var{identifier-1} from memory.
 @enumerate
 @item
-If a dynamically-loadable module unloaded by the @statement{CANCEL} is subsequently re-executed, all data division storage for that module will once again be in it's initial state.
+If a dynamically-loadable module unloaded by the @statement{CANCEL} is subsequently re-executed, all data division storage for that module will once again be in its initial state.
 
 @item
 Whether the @statement{CANCEL} actually physically unloads a dynamically-loaded module or simply marks it as logically-unloaded depends on the use and value of the @envvarruntimeref{COB_PHYSICAL_CANCEL}.
@@ -1674,7 +1674,7 @@ The @var{file-name-1} file cannot be a sort/merge work file (a file described us
 For files in the @code{SEQUENTIAL} access mode, the last input-output statement executed against @var{file-name-1} prior to the execution of the @code{DELETE} statement must have been a successfully executed sequential-format @statementrefalt{READ,Sequential READ}.  That @code{READ} will therefore identify the record to be deleted.
 
 @item
-If @var{file-name-1} is a @code{RELATIVE} file whose @syntaxrefalt{ACCESS MODE,ORGANIZATION RELATIVE} is either @code{RANDOM} or @code{DYNAMIC}, the record to be deleted is the one whose relative record number is currently the value of the field specified as the files @syntaxidx{RELATIVE KEY} in it's @statement{SELECT}.
+If @var{file-name-1} is a @code{RELATIVE} file whose @syntaxrefalt{ACCESS MODE,ORGANIZATION RELATIVE} is either @code{RANDOM} or @code{DYNAMIC}, the record to be deleted is the one whose relative record number is currently the value of the field specified as the files @syntaxidx{RELATIVE KEY} in its @statement{SELECT}.
 
 @item
 If @var{file-name-1} is an @code{INDEXED} file whose @syntaxrefalt{ACCESS MODE,ORGANIZATION INDEXED} is @code{RANDOM} or @code{DYNAMIC}, the record to be deleted is the one whose primary key is currently the value of the field specified as the @syntaxidx{RECORD KEY} in the file's @code{SELECT} statement.
@@ -2569,7 +2569,7 @@ Once a field list has been determined, each item in that field list will be init
 If no @syntaxidx{VALUE}, @syntaxidx{REPLACING} or @syntaxidx{DEFAULT} clauses are coded, each member of the field list will be initialized as if the figurative constant @code{ZERO} (if the field list item is numeric or numeric-edited) or @code{SPACES} (otherwise) were being moved to it.
 
 @item
-If a @code{VALUE} clause is specified on the @statement{INITIALIZE}, each qualifying member of the field list having a compile-time @syntaxref{VALUE} specified in it's definition will be initialized to that value.  Field list members with @code{VALUE} clauses will qualify for this treatment as follows:
+If a @code{VALUE} clause is specified on the @statement{INITIALIZE}, each qualifying member of the field list having a compile-time @syntaxref{VALUE} specified in its definition will be initialized to that value.  Field list members with @code{VALUE} clauses will qualify for this treatment as follows:
 @enumerate A
 @item
 If the @code{ALL} keyword was specified on the @code{VALUE} clause, all members of the field list with @code{VALUE} clauses will qualify.
@@ -2870,7 +2870,7 @@ When both @code{REPLACING} and @code{TALLYING} are specified:
 The @code{INSPECT} statement will make a single pass through the sequence of characters comprising the inspect subject.  As the pointer to the current inspect target character reaches a point where it falls within the explicit or implicit target ranges specified on the operational instructions of the two clauses, the actions specified by those instructions will become eligible to be taken.  As the character pointer reaches a point where it falls past the end of target ranges, the instructions belonging to those target ranges will become disabled.
 
 @item
-At any point in time, there may well be multiple@code{REPLACING} and/or @code{TALLYING} operational instructions  active.  Only one of the @code{TALLYING} and one of the @code{REPLACING} instructions (if any) can be executed for any one character pointer position.  In each case, it will be the first of the instructions in each category that produces a match with it's target string specification.
+At any point in time, there may well be multiple@code{REPLACING} and/or @code{TALLYING} operational instructions  active.  Only one of the @code{TALLYING} and one of the @code{REPLACING} instructions (if any) can be executed for any one character pointer position.  In each case, it will be the first of the instructions in each category that produces a match with its target string specification.
 
 @item
 When both a @code{TALLYING} and a @code{REPLACING} instruction have been selected for execution, the @code{TALLYING} instruction will be executed first.  This guarantees that @code{TALLYING} will compute occurrences based upon the @i{initial} value of the inspect subject before any replacements occur.
@@ -3105,7 +3105,7 @@ The @code{SHARING} and @code{WITH LOCK} clauses may not both be specified in the
 @comment Semantic Specifications:
 
 @item
-Any file defined in a GnuCOBOL program must be successfully opened before it or any of it's record descriptions may be referenced on:
+Any file defined in a GnuCOBOL program must be successfully opened before it or any of its record descriptions may be referenced on:
 
 A @statementref{CLOSE}
 
@@ -3853,7 +3853,7 @@ Use this statement to increment or decrement the value of an index or pointer by
 The @syntaxref{USAGE} of @var{identifier-1} must be @code{INDEX}, @code{POINTER} or @code{PROGRAM-POINTER}.
 
 @item
-The typical usage when @var{identifier-1} is a @code{USAGE INDEX} data item is to increment it's value @code{UP} or @code{DOWN} by 1, since an index is usually being used to sequentially walk through the elements of a table.
+The typical usage when @var{identifier-1} is a @code{USAGE INDEX} data item is to increment its value @code{UP} or @code{DOWN} by 1, since an index is usually being used to sequentially walk through the elements of a table.
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.39.6 SET Condition Name                                     **
@@ -4013,7 +4013,8 @@ SORT Sort-File
     ASCENDING  KEY Account-Number
     DESCENDING KEY Transaction-Amount
 @end example
-@* The effect of this statement will be to sort all transactions into ascending order of the date the transaction took place (oldest first, newest last).  Unless the business running this program is going out of business, there are most-likely many transactions for any given date.  Therefore, within each grouping of transactions all with the same date, transactions will be sub-sorted into ascending sequence of the account number the transactions apply to.  Since it's quite possible there might be multiple transactions for an account on any given date, a third level sub-sort will arrange all transactions for the same account on the same date into descending sequence of the actual amount of the transaction (largest first, smallest last).  If two or more transactions of $100.00 were recorded for account #12345 on the 31st of August 2009, those transactions will be retained in the order in which they were loaded into the sort work file.
+
+The effect of this statement will be to sort all transactions into ascending order of the date the transaction took place (oldest first, newest last).  Unless the business running this program is going out of business, there are most-likely many transactions for any given date.  Therefore, within each grouping of transactions all with the same date, transactions will be sub-sorted into ascending sequence of the account number the transactions apply to.  Since it's quite possible there might be multiple transactions for an account on any given date, a third level sub-sort will arrange all transactions for the same account on the same date into descending sequence of the actual amount of the transaction (largest first, smallest last).  If two or more transactions of $100.00 were recorded for account #12345 on the 31st of August 2009, those transactions will be retained in the order in which they were loaded into the sort work file.
 
 @item
  Should disk work files be necessary due to the amount of data being sorted, they will be automatically allocated to disk in a folder defined by the @envvarruntime{TMPDIR}, @envvarruntime{TMP} or @envvarruntimerefs{TEMP} (checked for existence in that sequence).  These disk files will be automatically purged upon @code{SORT} termination or program execution termination (normal or otherwise).

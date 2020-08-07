@@ -142,7 +142,7 @@ Footing Area --- An exception to this is the situation where the report footing 
 @newsection{9.4,How RWCS Builds Report Pages}
 A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @code{ADVANCING PAGE} option.  Whether the data for a report line created via @code{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @code{WRITE @var{record-name} BEFORE ADVANCING PAGE} or @code{WRITE @var{record-name} AFTER ADVANCING PAGE}, respectively.
 
-The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @code{RD} for the report (specifically the @code{PAGE LIMITS} and related options) and it's internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
+The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @code{RD} for the report (specifically the @code{PAGE LIMITS} and related options) and its internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
 
 Because this is the way the GnuCOBOL RWCS works, in order to design an RWCS-generated report you'll need to know answers to the following questions:
 @enumerate
@@ -212,7 +212,8 @@ To accomplish this, you will use a @statementref{SORT} to sort the file of cash 
 @item Within each store, data will be sorted into ascending sequence of department number
 @item If there are multiple cash registers in a particular department of a specific store, the data needs to be further sorted so that the cash registers are ordered in sequence of their register number.
 @end enumerate
-@* So, assuming a sort file has been defined and it's record layout (essentially a mirror of the raw data file) is defined as follows:
+
+So, assuming a sort file has been defined and its record layout (essentially a mirror of the raw data file) is defined as follows:
 
 @example
 01  Sorted-Sales-For-Register.
@@ -1052,7 +1053,7 @@ Simply Change This@dots{}
     05 LINE NUMBER PLUS 1.
        10 COL 1  SOURCE WS-Starz PIC X(44).
 @end example
-@* RWCS will still be counting lines to decide when to close off one page and start a new one, but when a new page is started it's page heading will @i{physically} form-feed the printer when the report is printed.  As long as any printer you plan on using supports at least as many physical print lines as what is defined as the @code{PAGE LIMIT} value in whatever paper orientation and font you plan on (or are limited to) printing in, you have now divorced your program from the physical realities of the printer!
+@* RWCS will still be counting lines to decide when to close off one page and start a new one, but when a new page is started its page heading will @i{physically} form-feed the printer when the report is printed.  As long as any printer you plan on using supports at least as many physical print lines as what is defined as the @code{PAGE LIMIT} value in whatever paper orientation and font you plan on (or are limited to) printing in, you have now divorced your program from the physical realities of the printer!
 
 Of course, whatever software you are using to deliver the printed document to the printer with, must allow the ASCII form-feed character to pass through to the printer.
 @iftex
