@@ -667,7 +667,8 @@ Numeric data items will be initialized to a value of @code{ZERO}.
 @item
 Data items with an explicit @syntaxref{VALUE} clause in their definition will be initialized to that specific value.
 @end itemize
-@* The various sections of the data division each have their own rules as to when the actions described above will occur --- consult the documentation on those sections for additional information.
+
+The various sections of the data division each have their own rules as to when the actions described above will occur --- consult the documentation on those sections for additional information.
 
 These default initialization rules can vary quite substantially from one COBOL implementation to another.  For example, it is quite common for data division storage to be initialized to all binary zeros except for those data items where @code{VALUE} clauses are present.  Take care when working with applications originally developed for another COBOL implementation to ensure that GnuCOBOL's default initialization rules won't prove disruptive.
 
@@ -754,7 +755,8 @@ You may use the @code{>>FORMAT IS FIXED} and @code{FORMAT IS FREE} clauses of th
 @item
 You may use the @directiveref{>>SOURCE} to switch to Free Format Mode (@code{>>SOURCE FORMAT IS FREE}) or Fixed Format Mode (@code{>>SOURCE FORMAT IS FIXED}.
 @end enumerate
-@* Using methods 2-4 above, you may switch back and forth between the two formats at will.
+
+Using methods 2-4 above, you may switch back and forth between the two formats at will.
 
 The last three options above are all equivalent; all three are supported by GnuCOBOL so that source code compatibility may be maintained with a wide variety of other COBOL implementations.  With all three, if the compiler is @i{currently} in Fixed Format Mode, the @code{>>} must begin in column 8 or beyond, provided no part of the directive extends past column 72.  If the compiler is currently in Free Format Mode, the @code{>>} may appear in any column, provided no part of the directive extends past column 255.
 
@@ -791,7 +793,8 @@ The line is a comment that will also force a page eject in the compilation listi
 @item -
 The line is a continuation of the previous line.  These are needed only when an alphanumeric literal (quoted character string), reserved word or user-defined word are being split across lines.
 @end table
-@* @item 8-11
+
+@item 8-11
 @idx{Area @samp{A} (Columns 8-11)}
 @idx{Columns 8-11 (Area @samp{A})} - Area @samp{A}
 
@@ -1026,7 +1029,8 @@ Regardless of whether the compiler is operating in Fixed or Free Format Mode, Gn
 @t{                                        " long literal that must " &}
 @t{                                                    "be continued.".}
 @end smallexample
-@* If your program is using Free Format Mode, there's less need to continue long alphanumeric literals because statements may be as long as 255 characters.
+
+If your program is using Free Format Mode, there's less need to continue long alphanumeric literals because statements may be as long as 255 characters.
 
 Numeric literals may be split across lines just as alphanumeric literals are, using either of the above techniques and both reserved and user-defined words can be split across lines too (using the first technique).  The continuation of numeric literals and user-defined/reserved words is provided merely to provide compatibility with older COBOL versions and programs, but should not be used with new programs --- it just makes for ugly-looking programs.
 @comment *********************************************************************
@@ -1040,12 +1044,14 @@ Figurative constants are reserved words that may be used as literals anywhere th
    ...
 MOVE SPACES TO Employee-Name
 @end example
-@* But this is not:
+
+But this is not:
 @example
 
 CALL "SUBPGM" USING SPACES
 @end example
-@* The following are the GnuCOBOL figurative constants and their respective equivalent values.
+
+The following are the GnuCOBOL figurative constants and their respective equivalent values.
 @table @asis
 @item @code{ZERO}
 This figurative constant has a value of numeric 0 (zero).  @code{ZEROS} and @code{ZEROES} are both synonyms of @code{ZERO}.
@@ -1067,7 +1073,8 @@ This figurative constant has a value of one or more of whatever character occupi
 @item @code{NULL}
 A character comprised entirely of zero-bits (regardless of the programs collating sequence).
 @end table
-@* Programmers may create their own figurative constants via the @syntaxrefalt{SYMBOLIC CHARACTERS,Symbolic-Characters-Clause} clause of the @syntaxref{SPECIAL-NAMES} paragraph.
+
+Programmers may create their own figurative constants via the @syntaxrefalt{SYMBOLIC CHARACTERS,Symbolic-Characters-Clause} clause of the @syntaxref{SPECIAL-NAMES} paragraph.
 @comment *********************************************************************
 @comment ** 2.1.20 Punctuation                                              **
 @comment *********************************************************************
@@ -1113,14 +1120,16 @@ For example, observe the following data structure which defines a 4 column by 3 
         10 GRID-COLUMN OCCURS 4 TIMES.
             15 GRID-CHARACTER       PIC X(1).
 @end example
-@* If the structure contains the following grid of characters:
+
+If the structure contains the following grid of characters:
 
 @example
 A B C D
 E F G H
 I J K L
 @end example
-@* Then @code{GRID-CHARACTER (2, 3)} references the @samp{G} and @code{GRID-CHARACTER (3, 2)} references the @samp{J}.
+
+Then @code{GRID-CHARACTER (2, 3)} references the @samp{G} and @code{GRID-CHARACTER (3, 2)} references the @samp{J}.
 
 Subscripts may be specified as numeric (integer) literals, numeric (integer) data items, data items created with any of the picture-less integer @syntaxref{USAGE} specifications, @code{USAGE INDEX} data items or arithmetic expressions resulting in a non-zero integer value.
 
@@ -1163,7 +1172,7 @@ The reserved word @code{IN} may be used in lieu of @code{OF}.
 @diagram{Reference Modifier (Format 1),PD-Ref-Mod-1,PD-Ref-Mod-1,None}
 @diagram{Reference Modifier (Format 2),PD-Ref-Mod-2,PD-Ref-Mod-2,None}
 
-The COBOL '85 standard introduced the concept of a reference modifier to facilitate references to only a portion of a data item; GnuCOBOL fully supports reference modification.
+The COBOL 1985 standard introduced the concept of a reference modifier to facilitate references to only a portion of a data item; GnuCOBOL fully supports reference modification.
 
 The @var{start} value indicates the starting character position being referenced (character position values start with 1, not 0 as is the case in some programming languages) and @var{length} specifies how many characters are wanted.
 
@@ -1174,10 +1183,10 @@ Both @var{start} and @var{length} may be specified as integer numeric literals, 
 Here are a few examples:
 @table @asis
 @item @code{CUSTOMER-LAST-NAME (1:3)}
-References the first three characters of CUSTOMER-LAST-NAME.
+References the first three characters of @code{CUSTOMER-LAST-NAME}.
 
 @item @code{CUSTOMER-LAST-NAME (4:)}
-References all character positions of CUSTOMER-LAST-NAME from the fourth onward.
+References all character positions of @code{CUSTOMER-LAST-NAME} from the fourth onward.
 
 @item @code{FUNCTION CURRENT-DATE (5:2)}
 References the current month as a 2-digit number in character form.  @xref{CURRENT-DATE}, for more information.
@@ -1188,7 +1197,8 @@ Assuming that @code{Nibble} is a numeric data item with a value in the range 0-1
 @item @code{Table-Entry (6) (7:5)}
 References characters 7 through 11 (5 characters in total) in the 6th occurrence of Table-Entry.
 @end table
-@* Reference modification may be used anywhere an identifier is legal, including serving as the receiving field of statements like @syntaxref{MOVE}, @syntaxref{STRING} and @syntaxref{ACCEPT}, to name a few.
+
+Reference modification may be used anywhere an identifier is legal, including serving as the receiving field of statements like @syntaxref{MOVE}, @syntaxref{STRING} and @syntaxref{ACCEPT}, to name a few.
 @comment *********************************************************************
 @comment ** 2.2.4 Arithmetic Expressions                                    **
 @comment *********************************************************************
@@ -1232,7 +1242,8 @@ The @code{+} operator calculates the sum of the left and right arguments while t
 
 A sequence of multiple 4th-level operations (@code{A - B + C}, for example) will evaluate in strict left-to-right sequence if no parenthesis are used to control the order of evaluation.
 @end table
-@* The syntactical rules of COBOL, allowing a dash (-) character in data item names, can lead to some ambiguity.
+
+The syntactical rules of COBOL, allowing a dash (-) character in data item names, can lead to some ambiguity.
 
 @example
 01  C        PIC 9 VALUE 5.
@@ -1242,7 +1253,8 @@ A sequence of multiple 4th-level operations (@code{A - B + C}, for example) will
 @dots{}
 COMPUTE I=C-D+1
 @end example
-@* The @syntaxref{COMPUTE} statement will evaluate the arithmetic expression @code{C-D+1} and then save that result in @code{I}.
+
+The @syntaxref{COMPUTE} statement will evaluate the arithmetic expression @code{C-D+1} and then save that result in @code{I}.
 
 What value will be stored in @code{I}?  The number 4, which is the result of subtracting the value of @code{D} (2) from the value of @code{C} (5) and then adding 1?  Or, will it be the number 8, which is the value of adding 1 to the value of data item @code{C-D} (7)?
 
@@ -1256,7 +1268,8 @@ Is there a data item named @code{C-D} defined?  If so, use its value for the cha
 @item
 If there is no @code{C-D} data item, then are there @code{C} and @code{D} data items?  If not, the @code{COMPUTE} statement is in error.  If there are, however, then code will be generated to subtract the value of @code{D} from @code{C} and add 1 to the result.
 @end enumerate
-@* Had there been at least one space to the left and/or the right of the @code{-}, there would have been no ambiguity --- the compiler would have been forced to use the individual @code{C} and @code{D} data items.
+
+Had there been at least one space to the left and/or the right of the @code{-}, there would have been no ambiguity --- the compiler would have been forced to use the individual @code{C} and @code{D} data items.
 
 To avoid any possible ambiguity, as well as to improve program readability, it's considered good COBOL programming practice to always code at least one space to both the left and right of every operator in arithmetic expressions as well as the @code{=} sign on a COMPUTE.
 
@@ -1281,7 +1294,8 @@ Here are some examples of how the precedence of operations affects the results o
 @tab 15.35
 @tab Integer and non-integer operands may be freely intermixed
 @end multitable
-@* Of course, arithmetic expression operands may be numeric data items (any USAGE except POINTER or PROGRAM POINTER) as well as numeric literals.
+
+Of course, arithmetic expression operands may be numeric data items (any USAGE except POINTER or PROGRAM POINTER) as well as numeric literals.
 @comment *********************************************************************
 @comment ** 2.2.5 Conditional Expressions                                   **
 @comment *********************************************************************
@@ -1308,7 +1322,8 @@ These are the simplest of all conditions.  Observe the following code:
     88 XXXL                  VALUE 19, 19.5.
     88 VERY-LARGE            VALUE 20 THRU 99.9.
 @end example
-@* The condition names @code{TINY}, @code{XS}, @code{S}, @code{M}, @code{L}, @code{XL}, @code{XXL}, @code{XXXL} and @code{VERY-LARGE} will have @code{TRUE} or @code{FALSE} values based upon the values within their parent data item (SHIRT-SIZE).
+
+The condition names @code{TINY}, @code{XS}, @code{S}, @code{M}, @code{L}, @code{XL}, @code{XXL}, @code{XXXL} and @code{VERY-LARGE} will have @code{TRUE} or @code{FALSE} values based upon the values within their parent data item (@code{SHIRT-SIZE}).
 
 A program wanting to test whether or not the current @code{SHIRT-SIZE} value can be classified as @code{XL} could have that decision coded as a combined condition (the most complex type of conditional expression), as either:
 
@@ -1319,7 +1334,8 @@ IF SHIRT-SIZE = 17 OR SHIRT-SIZE = 17.5
 
 IF SHIRT-SIZE = 17 OR 17.5
 @end example
-@* Or it could simply utilize the condition name XL as follows:
+
+Or it could simply utilize the condition name XL as follows:
 
 @example
 IF XL
@@ -1357,7 +1373,8 @@ Some COBOL implementations disallow the use of group items or @code{PIC A} items
 @item
 The @code{OMITTED} class condition is used when it is necessary for a subprogram to determine whether or not a particular argument was passed to it.  In such class conditions, @var{identifier-1} must be a linkage section item defined on the @code{USING} clause of the subprograms @code{PROCEDURE DIVISION} header.  @xref{PROCEDURE DIVISION USING}, for additional information.
 @end enumerate
-@* The @var{class-name-1} option allows you to test for a user-defined class.  Here's an example.  First, assume the following @syntaxref{SPECIAL-NAMES} definition of the user-defined class @samp{Hexadecimal}:
+
+The @var{class-name-1} option allows you to test for a user-defined class.  Here's an example.  First, assume the following @syntaxref{SPECIAL-NAMES} definition of the user-defined class @samp{Hexadecimal}:
 
 @example
 SPECIAL-NAMES.
@@ -1464,12 +1481,15 @@ When chaining multiple, similar conditions together with the same operator (OR/A
 @example
 IF ACCOUNT-STATUS = 1 OR ACCOUNT-STATUS = 2 OR ACCOUNT-STATUS = 7
 @end example
-@* Could be abbreviated as:
+
+Could be abbreviated as:
 
 @example
 IF ACCOUNT-STATUS = 1 OR 2 OR 7
 @end example
-@item Just as multiplication takes precedence over addition in arithmetic expressions, so does @code{AND} take precedence over @code{OR} in combined conditions.  Use parenthesis to change this precedence, if necessary.  For example:
+
+@item
+Just as multiplication takes precedence over addition in arithmetic expressions, so does @code{AND} take precedence over @code{OR} in combined conditions.  Use parenthesis to change this precedence, if necessary.  For example:
 @table @asis
 @item @code{FALSE AND FALSE OR TRUE AND TRUE}
 Evaluates to @code{TRUE}
@@ -1519,7 +1539,7 @@ ADD 1 TO Record-Counter
 DISPLAY "Record-Counter=" Record-Counter
 @end example
 
-Some COBOL statements have a @i{scope of applicability} associated with them where one or more other statements can be considered to be part of or related to the statement in question.  An example of such a situation might be the following, where the interest on a loan is being calculated and displayed --- 4% interest if the loan balance is under $10000 and 4.5% otherwise (WARNING: the following code has an error!):
+Some COBOL statements have a @i{scope of applicability} associated with them where one or more other statements can be considered to be part of or related to the statement in question.  An example of such a situation might be the following, where the interest on a loan is being calculated and displayed at 4% interest if the loan balance is under $10,000, and 4.5% otherwise. (WARNING: the following code has an error!):
 
 @example
 IF Loan-Balance < 10000
@@ -1529,9 +1549,9 @@ ELSE
 DISPLAY "Interest Amount = " Interest
 @end example
 
-In this example, the @code{IF} statement actually has a scope that can include two sets of associated statements -- one set to be executed when the @syntaxref{IF} condition is @code{TRUE} and another if it is @code{FALSE}.
+In this example, the @code{IF} statement actually has a scope that can include two sets of associated statements: one set to be executed when the @syntaxref{IF} condition is @code{TRUE}, and another if it is @code{FALSE}.
 
-Unfortunately, there's a problem with the above.  A human being looking at that code would probably infer that the @syntaxref{DISPLAY} statement, because of its lack of indentation, is to be executed regardless of the @code{TRUE}/@code{FALSE} value of the @code{IF} condition.  Unfortunately, the GnuCOBOL compiler (or any other COBOL compiler for that matter) won't see it that way because it really couldn't care less what sort of indentation, if any, is used.  In fact, any COBOL compiler would be just as happy to see the code written like this:
+Unfortunately, there's a problem with the above.  A human being looking at that code would probably infer that the @syntaxref{DISPLAY} statement, because of its lack of indentation, is to be executed regardless of the @code{TRUE}/@code{FALSE} value of the @code{IF} condition.  Unfortunately, the compiler (any COBOL compiler) won't see it that way because it really couldn't care less what sort of indentation, if any, is used.  In fact, any COBOL compiler would be just as happy to see the code written like this:
 
 @example
 IF Loan-Balance < 10000 MULTIPLY Loan-balance
@@ -1539,7 +1559,8 @@ BY 0.04 GIVING Interest ELSE MULTIPLY
 Loan-Balance BY 0.045 GIVING Interest DISPLAY
 "Interest Amount = " Interest
 @end example
-@* So how then do we inform the compiler that the @code{DISPLAY} statement is outside the scope of the @code{IF}?
+
+How then do we inform the compiler that the @code{DISPLAY} statement is outside the scope of the @code{IF}?
 
 That's where sentences come in.
 
@@ -1552,7 +1573,8 @@ ELSE
     MULTIPLY Loan-Balance BY 0.045 GIVING Interest.
 DISPLAY "Interest Amount = " Interest
 @end example
-@* See the period at the end of the second @syntaxref{MULTIPLY}?  That is what terminates the scope of the @code{IF}, thus making the @code{DISPLAY} statement's execution completely independent of the @code{TRUE}/@code{FALSE} status of the @code{IF}.
+
+See the period at the end of the second @syntaxref{MULTIPLY}?  That is what terminates the scope of the @code{IF}, thus making the @code{DISPLAY} statement's execution completely independent of the @code{TRUE}/@code{FALSE} status of the @code{IF}.
 @comment *********************************************************************
 @comment ** 2.2.7 Use of VERB/END-VERB Constructs                           **
 @comment *********************************************************************
@@ -1572,9 +1594,10 @@ ELSE *> This ELSE has a problem!
     ELSE
         DISPLAY "NEITHER A NOR B = 1".
 @end example
-@* The problem with this code is that indentation --- so critical to improving the human-readability of a program --- can provide an erroneous view of the logical flow.  An @code{ELSE} is always associated with the most-recently encountered @code{IF}; this means the emphasized @code{ELSE} will be associated with the @code{IF B = 1} statement, not the @code{IF A = 1} statement as the indentation would appear to imply.
 
-This sort of problem led to a band-aid solution --- the @code{NEXT SENTENCE} clause --- being added to the COBOL language.
+The problem with this code is that indentation --- so critical to improving the human-readability of a program --- can provide an erroneous view of the logical flow.  An @code{ELSE} is always associated with the most-recently encountered @code{IF}; this means the emphasized @code{ELSE} will be associated with the @code{IF B = 1} statement, not the @code{IF A = 1} statement as the indentation would appear to imply.
+
+This sort of problem led to a band-aid solution being added to the COBOL language: the @code{NEXT SENTENCE} clause:
 
 @example
 IF A = 1
@@ -1588,9 +1611,10 @@ ELSE
     ELSE
         DISPLAY "NEITHER A NOR B = 1".
 @end example
-@* The @code{NEXT SENTENCE} clause informs the compiler that if the @code{B = 1} condition is false, control should fall into the first statement that follows the next period.
 
-With the 1985 standard for COBOL, a much more elegant solution was introduced.  Any COBOL @define{Verb} (the first reserved word of a statement) that needed such a thing was allowed to use an @code{END-verb} construct to end its scope without disrupting the scope of any other statement it might have been in.  Any COBOL 85 compiler would have allowed the following solution to our problem:
+@code{NEXT SENTENCE} informs the compiler that if the @code{B = 1} condition is false, control should fall into the first statement that follows the next period.
+
+With the 1985 standard for COBOL, a much more elegant solution was introduced.  Any COBOL @define{Verb} (the first reserved word of a statement) that needed such a thing was allowed to use an @code{END-@var{verb}} construct to end its scope without disrupting the scope of any other statement it might have been in.  Any COBOL 85 compiler would have allowed the following solution to our problem:
 
 @example
 IF A = 1
@@ -1603,7 +1627,8 @@ ELSE
     ELSE
         DISPLAY "NEITHER A NOR B = 1".
 @end example
-@* This new facility made the period almost obsolete, as our program segment would probably be coded like this today:
+
+This new facility made the period almost obsolete, as our program segment would probably be coded like this today:
 
 @example
 IF A = 1
@@ -1618,11 +1643,12 @@ ELSE
     END-IF
 END-IF
 @end example
-@* COBOL (GnuCOBOL included) still requires that each procedure division paragraph contain at least one sentence if there is any executable code in that paragraph, but a popular coding style is now to simply code a single period right before the end of each paragraph.
 
-The standard for the COBOL language shows the various @code{END-verb} clauses are optional because using a period as a scope-terminator remains legal.
+COBOL (GnuCOBOL included) still requires that each procedure division paragraph contain at least one sentence if there is any executable code in that paragraph, but a popular coding style is now to simply code a single period right before the end of each paragraph.
 
-If you will be porting existing code over to GnuCOBOL, you'll find it an accommodating facility capable of conforming to whatever language and coding standards that code is likely to use.  If you are creating new GnuCOBOL programs, however, I would strongly counsel you to use the @code{END-verb} structures in those programs.
+The standard for the COBOL language shows the various @code{END-@var{verb}} clauses are optional because using a period as a scope-terminator remains legal.
+
+If you will be porting existing code over to GnuCOBOL, you'll find it an accommodating facility capable of conforming to whatever language and coding standards that code is likely to use.  If you are creating new GnuCOBOL programs, however, I would strongly counsel you to use the @code{END-@var{verb}} structures in those programs.
 @comment *********************************************************************
 @comment ** 2.2.8 Concurrent Access to Files                                **
 @comment *********************************************************************
@@ -1648,7 +1674,8 @@ File sharing is controlled through the use of a @code{SHARING} clause:
                  { READ ONLY }
                    ~~~~ ~~~~
 @end verbatim
-@* This clause may be used either in the file's @statementref{SELECT}, on the @statementref{OPEN} which initiates your program's use of the file, or both.  If a @code{SHARING} option is specified in @i{both} places, the specifications made on the @statement{OPEN} will take precedence over those from the @statement{SELECT}.
+
+This clause may be used either in the file's @statementref{SELECT}, on the @statementref{OPEN} which initiates your program's use of the file, or both.  If a @code{SHARING} option is specified in @i{both} places, the specifications made on the @statement{OPEN} will take precedence over those from the @statement{SELECT}.
 
 Here are the meanings of the three options:
 @table @asis
@@ -1661,7 +1688,8 @@ When your program opens a file with this sharing option in effect, your program 
 @item @code{READ ONLY}
 Opening a file with this sharing option indicates you are willing to allow other programs to @code{OPEN} the file for input while you have it open.  If they attempt any other @code{OPEN}, theirs will fail with a file status of 37.  Of course, your program may fail if someone else got to the file first and opened it with a sharing option that imposed file-sharing limitations.
 @end table
-@* If the @code{SELECT} of a file is coded with a @code{FILE STATUS} clause, @code{OPEN} failures --- including those induced by sharing failures --- will be detectable by the program and a graceful recovery (or at least a graceful termination) will be possible.  If no such clause was coded, however, a runtime message will be issued and the program will be terminated.
+
+If the @code{SELECT} of a file is coded with a @code{FILE STATUS} clause, @code{OPEN} failures --- including those induced by sharing failures --- will be detectable by the program and a graceful recovery (or at least a graceful termination) will be possible.  If no such clause was coded, however, a runtime message will be issued and the program will be terminated.
 @comment *********************************************************************
 @comment ** 2.2.8.2 Record Locking                                          **
 @comment *********************************************************************
@@ -1721,7 +1749,8 @@ A @code{LOCK} clause, which may be coded on a @syntaxref{READ}, @syntaxref{REWRI
     { WITH WAIT        }
            ~~~~
 @end verbatim
-@* The @code{WITH [ NO ] LOCK} option is the only one available to @code{REWRITE} or @statement{WRITE}s.
+
+The @code{WITH [ NO ] LOCK} option is the only one available to @code{REWRITE} or @statement{WRITE}s.
 
 The meanings of the various record locking options are as follows:
 @table @asis
@@ -1733,17 +1762,17 @@ These options (which are synonymous) inform GnuCOBOL that any locks held by othe
 Access to the record by other programs will be denied.
 
 @item @code{WITH NO LOCK}
-The record will not be locked.  This is the default locking option in effect for all statements.
+The record will not be locked.  This is the default for all statements.
 
 @item @code{WITH KEPT LOCK}
-When single record locking is in-effect, as a new record is accessed, locks held for previous records are released.  By using this option, not only is the newly-accessed record locked (as WITH LOCK would do), but prior record locks will be retained as well.  A subsequent @code{READ} without the @code{KEPT LOCK} option will release all ``kept'' locks, as will the @code{UNLOCK} statement.
+When single record locking is in effect, as a new record is accessed, locks held for previous records are released.  By using this option, not only is the newly accessed record locked (as @code{WITH LOCK} would do), but prior record locks will be retained as well.  A subsequent @code{READ} without the @code{KEPT LOCK} option will release all ``kept'' locks, as will the @code{UNLOCK} statement.
 
 @item @code{WITH WAIT}
 This option informs GnuCOBOL that the program is willing to wait for a lock held (by another program) on the record being read to be released.
 
 Without this option, an attempt to read a locked record will be immediately aborted and a file status of 51 will be returned.
 
-With this option, the program will wait for a pre-configured time for the lock to be released.  If the lock is released within the preconfigured wait time, the read will be successful.  If the pre-configured wait time expires before the lock is released, the read attempt will be aborted and a 51 file status will be issued.
+With this option, the program will wait for a preconfigured time for the lock to be released.  If the lock is released within the preconfigured wait time, the read will be successful.  If the preconfigured wait time expires before the lock is released, the read attempt will be aborted and a 51 file status will be issued.
 @end table
 @end enumerate
 @iftex
