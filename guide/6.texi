@@ -46,7 +46,11 @@ If more than one section is needed in the data division (a common situation), th
 @comment *********************************************************************
 @newsection{6.1,Data Definition Principles}
 GnuCOBOL data items, like those of other COBOL implementations, are described in a hierarchical manner.  This accommodates the fact that data items frequently need to be able to be broken up into subordinate items.  Take for example, the following logical layout of a portion of a data item named @code{Employee}:
-@ifinfo
+
+@iftex
+@center @image{hierarchy,6in,}
+@end iftex
+@ifnottex
 @verbatim
                            Employee
                                |                     Additional
@@ -62,21 +66,18 @@ Last-Name First-Name Middle-Initial From-Date        To-Date
                                    |    |    |     |    |    |
                                  Year Month Day  Year Month Day
 @end verbatim
-@end ifinfo
-@iftex
-@sp 1
-@center @image{hierarchy,6in,}
-@end iftex
-@* The @code{Employee} data item consists of two subordinate data items --- an @code{Employee-Name} and an @code{Employment-Dates} data item (presumably there would be a lot of others too, but we don't care about them right now).  As the diagram shows, each of those data items are, in turn, broken down into subordinate data items.  This hierarchy of data items can get rather @code{deep}, and GnuCOBOL, like other COBOL implementations, can handle up to 49 levels of such hierarchical structures.
+@end ifnottex
+
+The @code{Employee} data item consists of two subordinate data items --- an @code{Employee-Name} and an @code{Employment-Dates} data item (presumably there would be a lot of others too, but we don't care about them right now).  As the diagram shows, each of those data items are, in turn, broken down into subordinate data items.  This hierarchy of data items can get rather @code{deep}, and GnuCOBOL, like other COBOL implementations, can handle up to 49 levels of such hierarchical structures.
 
 As was presented earlier (@pxref{Structured Data}), a data item that is broken down into other data items is referred to as a group item, while one that isn't broken down is called an elementary item.
 
-COBOL uses the concept of a "level number" to indicate the level at which a data item occurs in a data structure such as the example shown above.  When these data items are defined, they are all defined together with a number in the range 1-49 specified in front of their names.  Over the years, a convention has come to exist among COBOL programmers that level numbers are always coded as two-digit numbers --- they don't @i{have} to be specified as two-digit numbers, but every example you see in this document will take that approach!
+COBOL uses the concept of a @i{level number} to indicate the level at which a data item occurs in a data structure such as the example shown above.  When these data items are defined, they are all defined together with a number in the range 1-49 specified in front of their names.  Over the years, a convention has come to exist among COBOL programmers that level numbers are always coded as two-digit numbers --- they don't @i{need} to be specified as two-digit numbers, but every example you see in this document will take that approach!
 
-The data item at the top, also referred to as a "record", always has a level number of 01.  After that, you may assign level numbers as you wish (01--02--03--04@dots{}, 01--05--10--15@dots{}, etc.), as long as you follow these simple rules:
+The data item at the top, also referred to as a @i{record}, always has a level number of 01.  After that, you may assign level numbers as you wish (01--02--03--04@dots{}, 01--05--10--15@dots{}, etc.), as long as you follow these simple rules:
 @enumerate
 @item
-Every data item at the same @code{level} of a hierarchy diagram such as the one you see here (if you were to make one, which you rarely --- if ever --- will, once you get used to this concept) must have the same level number.
+Every data item at the same @code{level} of a hierarchy diagram such as the one you see here (if you were to make one, which you rarely will, if ever, once you get used to this concept) must have the same level number.
 
 @item
 Every new level uses a level number that is strictly greater than the one used in the parent (next higher) level.
