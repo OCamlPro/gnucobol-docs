@@ -4,48 +4,37 @@ echo "GC manual build (PDF)"
 #
 # Force regen for toc's
 #
-touch gnucobpg*.texi gnucobqr*.texi gnucobsp*.texi
+make force-update
+echo
 #
-#mkdir -p PDFs
-cd PDFs
 echo   "Building Programmer's Guide"...
-texi2pdf -q -c ../gnucobpg-a4.texi
-texi2pdf -q -c ../gnucobpg-letter.texi
+make PDFs/gnucobpg-a4.pdf
+make PDFs/gnucobpg-letter.pdf
 echo   "Building Quick Reference"...
-texi2pdf -q -c ../gnucobqr-a4.texi
-texi2pdf -q -c ../gnucobqr-letter.texi
+make PDFs/gnucobqr-a4.pdf
+make PDFs/gnucobqr-letter.pdf
 echo   "Building Sample Programs"...
-texi2pdf -q -c ../gnucobsp-a4.texi
-texi2pdf -q -c ../gnucobsp-letter.texi
-cd ..
-#echo
+make PDFs/gnucobsp-a4.pdf
+make PDFs/gnucobsp-letter.pdf
+echo
 #
 #echo "GC manual build (GNU Info)"
-#mkdir -p info
-#cd info
-#makeinfo --no-split ../gnucobpg.texi
-#makeinfo --no-split ../gnucobqr.texi
-#makeinfo --no-split ../gnucobsp.texi
-#cd ..
+#make info/gnucobpg.info
+#make info/gnucobqr.info
+#make info/gnucobsp.info
 #echo
 #
 #echo "GC manual build (HTML splitted)"
-#mkdir -p HTML
-#cd HTML
-#makeinfo --html --output=pg ../gnucobpg.texi
-#makeinfo --html --output=qr ../gnucobqr.texi
-#makeinfo --html --output=sp ../gnucobsp.texi
-#cd ..
+#make HTML/gnucobpg.html
+#make HTML/gnucobqr.html
+#make HTML/gnucobsp.html
 #echo
 
 #echo "GC manual build (HTML monolitic)"
-#mkdir -p HTML
-#cd HTML
-#makeinfo --html --no-headers --no-split ../gnucobpg.texi
-#makeinfo --html --no-headers --no-split ../gnucobqr.texi
-#makeinfo --html --no-headers --no-split ../gnucobsp.texi
-#cd ..
-echo
+#make HTML/gnucobpg/index.html
+#make HTML/gnucobqr/index.html
+#make HTML/gnucobsp/index.html
+#echo
 
 echo "GC manual build complete"
 exit 0

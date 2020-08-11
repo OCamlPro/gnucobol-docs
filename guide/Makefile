@@ -1,8 +1,11 @@
 .PHONY: force-update \
-	pdf	pdf-a4 pdf-letter \
-	html
+	pdf pdf-a4 pdf-letter \
+	html \
+	clean pdf-clean html-clean info-clean maintainer-clean
 
 SOURCES_COMMON = Macros.texi fdl.texi
+
+# FIXME: include all sources, the macro-generated includes are currently missing
 
 SOURCES = gnucobpg.texi \
 	1.texi 2.texi 3.texi 4.texi 5.texi 6.texi \
@@ -19,6 +22,8 @@ SOURCES_SP = gnucobsp.texi \
 SOURCES_QR = gnucobqr.texi \
 	$(SOURCES_COMMON)
 
+CLEANFILES = *.aux  *.cp *.fn *.ky *.log *.pg *.toc *.tp *.vr *.vrs *.t2d *.t2p
+
 all: pdf-letter html
 
 force-update:
@@ -27,36 +32,33 @@ force-update:
 
 pdf: pdf-a4 pdf-letter
 
-pdf-a4: PDFs/gnucobqr-a4.pdf PDFs/gnucobsp-a4.pdf PDFs/gnucobpg-a4.pdf
+pdf-a4: PDFs/gnucobsp-a4.pdf PDFs/gnucobqr-a4.pdf PDFs/gnucobpg-a4.pdf
 
-pdf-letter:	PDFs/gnucobpg-letter.pdf PDFs/gnucobqr-letter.pdf PDFs/gnucobsp-letter.pdf
+pdf-letter: PDFs/gnucobsp-letter.pdf PDFs/gnucobqr-letter.pdf PDFs/gnucobpg-letter.pdf
 
-##  PDFs/gnucobpg-a4.pdf: gnucobpg-a4.texi $(SOURCES)
-##  	@mkdir -p $(dir $@)
-##  	cd $(dir $@) && \
-##  	texi2pdf -q -c ../gnucobpg-a4.texi
-##  
-##  PDFs/gnucobqr-a4.pdf: gnucobqr-a4.texi $(SOURCES_QR)
-##  	@mkdir -p $(dir $@)
-##  	cd $(dir $@) && \
-##  	texi2pdf -q -c ../gnucobqr-a4.texi
-##  
-##  PDFs/gnucobsp-a4.pdf: gnucobsp-a4.texi $(SOURCES_SP)
-##  	@mkdir -p $(dir $@)
-##  	cd $(dir $@) && \
-
-PDFs/gnucobpg-a4.pdf: gnucobpg-a4.texi $(SOURCES)
-PDFs/gnucobqr-a4.pdf: gnucobqr-a4.texi $(SOURCES_QR)
-PDFs/gnucobsp-a4.pdf: gnucobsp-a4.texi $(SOURCES_SP)
-PDFs/gnucobpg-letter.pdf: gnucobpg-letter.texi $(SOURCES)
-PDFs/gnucobqr-letter.pdf: gnucobqr-letter.texi $(SOURCES_QR)
-PDFs/gnucobsp-letter.pdf: gnucobsp-letter.texi $(SOURCES_SP)
+PDFs/gnucobpg-a4.pdf: $(SOURCES)
+PDFs/gnucobqr-a4.pdf: $(SOURCES_QR)
+PDFs/gnucobsp-a4.pdf: $(SOURCES_SP)
+PDFs/gnucobpg-letter.pdf: $(SOURCES)
+PDFs/gnucobqr-letter.pdf: $(SOURCES_QR)
+PDFs/gnucobsp-letter.pdf: $(SOURCES_SP)
+info/gnucobpg.info: $(SOURCES)
+info/gnucobqr.info: $(SOURCES_QR)
+info/gnucobsp.info: $(SOURCES_SP)
 
 PDFOPTIONS = -q
 
-PDFs/%.pdf : %.texi
+PDFs/%-letter.pdf : %.texi
 	@mkdir -p $(dir $@)
 	texi2pdf $(PDFOPTIONS) -o $@ -c $<
+
+PDFs/%-a4.pdf : %.texi
+	@mkdir -p $(dir $@)
+	texi2pdf $(PDFOPTIONS) --command=@afourpaper -o $@ -c $<
+
+info/%.info : %.texi
+	@mkdir -p $(dir $@)
+	makeinfo -v -o $@ $(WARNING) --no-split $(INFO_OPT) $<
 
 CSS = css/gnucobpg.css
 
@@ -66,28 +68,48 @@ EXTRA_HEAD=<script type="text/javascript" src="js/tree.js"></script>
 
 HTML_OPT = --css-ref=$(CSS) --no-headers \
 	--set-customization-variable 'EXTRA_HEAD=$(EXTRA_HEAD)'
+INFO_OPT = 
 
-html: HTML/gnucobqr.html HTML/gnucobsp.html HTML/gnucobpg/index.html HTML/gnucobpg.html
+html: HTML/gnucobsp.html HTML/gnucobqr.html HTML/gnucobpg.html \
+		HTML/gnucobpg/index.html 
 
+info: info/gnucobsp.info info/gnucobqr.info info/gnucobpg.info
+
+# FIXME index.html overlaps with INDEX.html created by the INDEX note
 HTML/gnucobpg/index.html: $(SOURCES)
 	@mkdir -p $(dir $@)
-	makeinfo -v -o HTML/gnucobpg $(WARNING) \
+	makeinfo -v -o $(dir $@) $(WARNING) \
 		--html            $(HTML_OPT) gnucobpg.texi
 
 HTML/gnucobpg.html: $(SOURCES)
 	@mkdir -p $(dir $@)
-	makeinfo -v -o HTML $(WARNING) \
+	makeinfo -v -o $@ $(WARNING) \
 		--html --no-split $(HTML_OPT) gnucobpg.texi
 
 HTML/gnucobsp.html: $(SOURCES_SP)
 	@mkdir -p $(dir $@)
-	makeinfo -v -o HTML $(WARNING) \
+	makeinfo -v -o $@ $(WARNING) \
 		--html --no-split $(HTML_OPT) gnucobsp.texi
 
 HTML/gnucobqr.html: $(SOURCES_QR)
 	@mkdir -p $(dir $@)
-	makeinfo -v -o HTML $(WARNING) \
+	makeinfo -v -o $@ $(WARNING) \
 		--html --no-split $(HTML_OPT) gnucobqr.texi
+
+maintainer-clean: clean pdf-clean html-clean info-clean
+
+clean:
+	@test -z "$(CLEANFILES)" || rm -rvf $(CLEANFILES)
+
+pdf-clean:
+	@rm -rvf  PDFs/gnucobqr-a4.pdf PDFs/gnucobsp-a4.pdf PDFs/gnucobpg-a4.pdf \
+		PDFs/gnucobpg-letter.pdf PDFs/gnucobqr-letter.pdf PDFs/gnucobsp-letter.pdf
+
+html-clean:
+	@rm -rvf HTML/gnucobqr.html HTML/gnucobsp.html HTML/gnucobpg.html HTML/gnucobpg
+
+info-clean:
+	@rm -rvf info/gnucobqr.info info/gnucobsp.info info/gnucobpg.info
 
 publish: HTML/gnucobpg.html $(CSS)
 	test "$(WWW)"
