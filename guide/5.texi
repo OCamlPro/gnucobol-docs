@@ -35,7 +35,7 @@ This section defines the computer system upon which the program is being compile
 The four paragraphs in this section may be specified in any order but if not in this order, a warning will be issued.
 
 @item
-The configuration section is not allowed in a nested subprogram --- nested programs will inherit the configuration section settings of their parent program.
+The configuration section is not allowed in a nested subprogram.  A nested program inherits the configuration section settings of its parent program.
 
 @item
 If none of the features provided by the configuration section are required by a program, the entire @code{CONFIGURATION SECTION.} header may be omitted from the program.
@@ -49,10 +49,10 @@ If none of the features provided by the configuration section are required by a 
 This paragraph defines the computer upon which the program is being compiled and provides one way in which debugging code embedded within the program may be activated.
 @enumerate
 @item
-The reserved word @code{WITH} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{WITH} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
-This paragraph is not allowed in a nested subprogram --- nested programs will inherit the @code{SOURCE-COMPUTER} settings of their parent program.
+This paragraph is not allowed in a nested subprogram.  A nested program inherits the @code{SOURCE-COMPUTER} settings of its parent program.
 
 @item
 The value specified for @var{computer-name} is irrelevant, provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @var{computer-name} value may include spaces.  This need not match the @var{computer-name} used with the @code{OBJECT-COMPUTER} paragraph, if any.
@@ -75,13 +75,13 @@ This paragraph describes the computer upon which the program will execute.
 The @var{computer-name}, if specified, must immediately follow the @code{OBJECT-COMPUTER} paragraph name.  The remaining clauses may be coded in any sequence.
 
 @item
-The reserved words @code{CHARACTER}, @code{IS}, @code{PROGRAM} and @code{SEQUENCE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{CHARACTER}, @code{IS}, @code{PROGRAM} and @code{SEQUENCE} are optional and may be omitted.  The presence or absence of these words has no effect on the program.
 
 @item
 The value specified for @var{computer-name}, if any, is irrelevant provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @var{computer-name} may include spaces.  This need not match the @var{computer-name} used with the @code{SOURCE-COMPUTER} paragraph, if any.
 
 @item
-The @code{OBJECT-COMPUTER} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @code{OBJECT-COMPUTER} settings of their parent program.
+The @code{OBJECT-COMPUTER} paragraph is not allowed in a nested subprogram. A nested program inherits the @code{OBJECT-COMPUTER} settings of its parent program.
 
 @item
 The @syntaxidx{COLLATING SEQUENCE} clause allows you to specify a customized character collating sequence to be used when alphanumeric values are compared to one another.  Data will still be stored in the character set native to the computer, but the logical sequence in which characters are ordered for comparison purposes can be altered from that defined by the computer's native character set.  The @var{alphabet-name-1} you specify needs to be defined in the @syntaxref{SPECIAL-NAMES} paragraph.
@@ -90,7 +90,7 @@ The @syntaxidx{COLLATING SEQUENCE} clause allows you to specify a customized cha
 If no @code{COLLATING SEQUENCE} clause is specified, the collating sequence implied by the character set native to the computer (usually ASCII) will be used.
 
 @item
-The optional @syntaxidx{CLASSIFICATION} clause may be used to specify a locale for the environment in which the program will be executing, for the purpose of influencing the upper-case and lower-case mappings of characters for the @syntaxref{UPPER-CASE} and @syntaxref{LOWER-CASE} intrinsic functions and the classification of characters for the @code{ALPHABETIC}, @code{ALPHABETIC-LOWER} and @code{ALPHABETIC-UPPER} class tests.  The definitions of these classes will be taken from the cultural convention specification (@code{LC_CTYPE}) from the specified locale.
+The optional @syntaxidx{CLASSIFICATION} clause may be used to specify a locale for the environment in which the program will execute, for the purpose of influencing the upper-case and lower-case mappings of characters for the @syntaxref{UPPER-CASE} and @syntaxref{LOWER-CASE} intrinsic functions and the classification of characters for the @code{ALPHABETIC}, @code{ALPHABETIC-LOWER} and @code{ALPHABETIC-UPPER} class tests.  The definitions of these classes is taken from the cultural convention specification (@code{LC_CTYPE}) from the specified locale.
 
 The meanings of the four locale specifications are as follows:
 @enumerate A
@@ -106,7 +106,9 @@ The keyword @code{USER-DEFAULT} references the default locale specified for the 
 @item
 The keyword @code{SYSTEM-DEFAULT} denotes the default locale specified for the computer upon which the program is executing.
 @end enumerate
-@item Absence of a @code{CLASSIFICATION} clause will cause character classification to occur according to the rules for the computer's native character set (ASCII, EBCDIC, @dots{}).
+
+@item
+Absence of a @code{CLASSIFICATION} clause will cause character classification to occur according to the rules for the computer's native character set (ASCII, EBCDIC, etc.).
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.3 SPECIAL-NAMES                                             **
@@ -124,10 +126,10 @@ The @code{SPECIAL-NAMES} paragraph provides a means for specifying various progr
 The various clauses that may be specified within the @code{SPECIAL-NAMES} paragraph may be coded in any order.
 
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
-The @code{SPECIAL-NAMES} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @code{SPECIAL-NAMES} settings of their parent program.
+The @code{SPECIAL-NAMES} paragraph is not allowed in a nested subprogram. A nested program inherits the @code{SPECIAL-NAMES} settings of its parent program.
 
 @item
 Only the final clause specified within this paragraph should be terminated with a period.
@@ -275,10 +277,10 @@ The @code{CSP} positioning option stands for "No Spacing".  Testing on a MinGW b
 @newunit{5.1.3.1,Alphabet-Name-Clause}
 @diagram{SPECIAL-NAMES Alphabet-Clause,ED-SPECIAL-NAMES-AN-Info,ED-SPECIAL-NAMES-AN-TeX,None}
 @diagram{SPECIAL-NAMES ALPHABET Literal-Clause,ED-SPECIAL-NAMES-L-Info,ED-SPECIAL-NAMES-L-TeX,None}
-The @syntaxidx{ALPHABET} clause provides a means for relating a name to a specified character code set or collating sequence, including those you define yourself using the @var{literal-1} option.
+The @syntaxidx{ALPHABET} clause relates @var{alphabet-name-1} to a specified character code set or collating sequence, including one you define yourself using the @var{literal-1} option.
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 The reserved words @code{THRU} and @code{THROUGH} are interchangeable.
@@ -299,7 +301,7 @@ The @var{literal-n} values are either integers or alphanumeric quoted characters
 The sequence in which characters are defined in this clause specifies the relative order those characters should have when comparisons are made using this alphabet.
 
 @item
-Character positions in this list do not affect the actual binary storage values used for the characters --- binary values will still be those of the @code{NATIVE} character set.
+Character positions in this list do not affect the actual binary storage values used for the characters.  Binary values will still be those of the @code{NATIVE} character set.
 
 @item
 You may specify any of the figurative constants @code{SPACE}, @code{SPACES}, @code{ZERO}, @code{ZEROS}, @code{ZEROES}, @code{QUOTE}, @code{QUOTES}, @code{HIGH-VALUE}, @code{HIGH-VALUES}, @code{LOW-VALUE} or @code{LOW-VALUES} for any of the @var{literal-1}, @var{literal-2} or @var{literal-3} specifications.
@@ -314,7 +316,7 @@ You may specify any of the figurative constants @code{SPACE}, @code{SPACES}, @co
 @diagram{SPECIAL-NAMES Class-Definition-Clause,ED-SPECIAL-NAMES-CD,ED-SPECIAL-NAMES-CD,None}
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 The reserved words @code{THRU} and @code{THROUGH} are interchangeable.
@@ -327,13 +329,15 @@ The reserved words @code{THRU} and @code{THROUGH} are interchangeable.
 
 @item
 For example, the following defines a class called "Hexadecimal", the definition of which specifies the only characters that may be present in an alphanumeric data item if that data item is to be part of the "Hexadecimal" class:
-@example
 
+@example
 CLASS Hexadecimal IS '0' THRU '9'
                      'A' THRU 'F'
                      'a' THRU 'f'
 @end example
-@item Once class "Hexadecimal" has been defined, program code could then use a statement such as @code{IF input-item IS Hexadecimal} to determine if the value of characters in a data item are valid according to that class.
+
+@item
+Once class @code{Hexadecimal} has been defined, program code could then use a statement such as @code{IF input-item IS Hexadecimal} to determine if the value of characters in a data item are valid according to that class.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.3.3 Switch-Definition-Clause                                **
@@ -344,22 +348,22 @@ CLASS Hexadecimal IS '0' THRU '9'
 The switch-definition clause associates a condition-name with a run-time execution switch so that the status of that switch may be tested from within a program.
 @enumerate
 @item
-The reserved words @code{IS} and @code{STATUS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{IS} and @code{STATUS} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
-The valid @var{switch-name-1} names are @syntaxidx{SWITCH-n} (n=0-36).
+The valid @var{switch-name-1} names are @syntaxidx{SWITCH-n} (@code{@var{n}} = 0-36).
 
 @item
-If the program is compiled with the @switchidx{-fsyntax-extension}, the switch names @syntaxidx{SWn} (n=0-15) are also valid; they correspond to @code{SWITCH-0} through @code{SWITCH-15}, respectively as well as @code{SWITCH-16} through @code{SWITCH-36}, @code{SWITCH 0} through @code{SWITCH 26} and @code{SWITCH A} through @code{SWITCH Z}.
+If the program is compiled with the @switchidx{-fsyntax-extension}, the switch names @syntaxidx{SWn} (@code{@var{n}} = 0-15) are also valid; they correspond to @code{SWITCH-0} through @code{SWITCH-15}, respectively as well as @code{SWITCH-16} through @code{SWITCH-36}, @code{SWITCH 0} through @code{SWITCH 26} and @code{SWITCH A} through @code{SWITCH Z}.
 
 @item
-At execution time, each switch will be associated with a @envvarruntime{COB_SWITCH_n}, where "n" will have the value "0" through "15".  Any of these sixteen environment variables that have the value "ON" (regardless of upper- or lower-case value) will be considered to be set "on".  Any of these sixteen environment variables having no value at all or a value other than "ON" will be considered "OFF".
+At execution time, each switch will be associated with a @envvarruntime{COB_SWITCH_n}, where @code{@var{n}} will have the value @samp{0} through @samp{15}.  Any of these sixteen environment variables that have the value @code{ON} (regardless of upper- or lower-case value) will be considered to be set ``on''.  Any of these sixteen environment variables having no value at all or a value other than @code{ON} will be considered @code{OFF}.
 
 @item
 Each specified switch must have at least one of a @code{IS @var{mnemonic-name-1}}, @code{ON STATUS} or an @code{OFF STATUS} option defined for it, otherwise there will be no way to reference the switch from within a GnuCOBOL program.
 
 @item
-The @code{IS @var{mnemonic-name-1}} syntax provides a means for setting the switch to either an ON or OFF value via the @statementref{SET}.
+The @code{IS @var{mnemonic-name-1}} syntax provides a means for setting the switch to either an @code{ON} or @code{OFF} value via the @statementref{SET}.
 
 @item
 The @syntaxidx{ON STATUS} and @syntaxidx{OFF STATUS} syntax provides a way of associating a condition-name with either the on or off status of the switch, so that status may be tested at execution time via the @statementref{IF}.
@@ -373,19 +377,22 @@ The @syntaxidx{ON STATUS} and @syntaxidx{OFF STATUS} syntax provides a way of as
 This clause may be used to define your own figurative constants.
 @enumerate
 @item
-The reserved words @code{ARE}, @code{CHARACTERS} and @code{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{ARE}, @code{CHARACTERS} and @code{IS} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
-There must be exactly as many @var{integer-1} values specified as there are @var{symbolic-character-1} names.
+@raggedright
+There must be exactly as many @var{integer-1} values specified as there are
+@* @var{symbolic-character-1} names.
+@end raggedright
 
 @item
-Each symbolic character name will be associated with the corresponding @var{integer-1}th character in the alphabet named in the @code{IN} clause.  The integer values are selecting characters from the alphabet by their ordinal position and not by their numeric value; thus, an integer of 15 will select the 15th character in the specified alphabet, regardless of the actual numeric value of the bit pattern that constitutes that character.
+Each symbolic character name will be associated with the corresponding @var{integer-1}@sup{th} character in the alphabet named in the @code{IN} clause.  The integer values are selecting characters from the alphabet by their ordinal position and not by their numeric value; thus, an integer of 15 will select the 15@sup{th} character in the specified alphabet, regardless of the actual numeric value of the bit pattern that constitutes that character.
 
 @item
 If no @var{alphabet-name-1} is specified, the systems native character set will be assumed.
 
 @item
-The following two code examples define the same set of figurative constant names for five ASCII control characters (assuming that ASCII is the system's native character set).  The two examples are identical in their effects, even though the manner in which the figurative constants are defined is different.
+The following two code examples define the same set of figurative constant names for five ASCII control characters (assuming that ASCII is the system's native character set).  The two examples are identical in their effects, even though the way the figurative constants are defined is different.
 @smallformat
 
 @group
@@ -406,7 +413,7 @@ The following two code examples define the same set of figurative constant names
 The REPOSITORY paragraph provides a way to control access to the various built-in intrinsic functions and any user defined functions that your program will be using.
 @enumerate
 @item
-The @code{REPOSITORY} paragraph is not allowed in a nested subprogram --- nested programs will inherit the @code{REPOSITORY} settings of their parent program.
+The @code{REPOSITORY} paragraph is not allowed in a nested subprogram. A nested program inherits the @code{REPOSITORY} settings of its parent program.
 
 @item
 The @syntaxidx{INTRINSIC} clause allows you to flag one or more (or @syntaxidx{ALL}) built-in intrinsic functions as being usable without the need to code the keyword @syntaxidx{FUNCTION} in front of the function names.
@@ -418,9 +425,9 @@ As an alternative to using the @syntaxidx{ALL INTRINSIC} clause, you may instead
 The @var{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @code{AS} clause to provide an alias name for a built-in intrinsic function.
 
 @item
-The following example enables all intrinsic functions to be specified without the use of the @code{FUNCTION} keyword, (2) names two user-defined functions named "MY-FUNCTION-1" and "MY-FUNCTION-2" that will be used by the program and (3) specifies the alias names "SIGMA" for the intrinsic function "STANDARD-DEVIATION" and "MF2" for "MY-FUNCTION-2".
-@example
+The following example enables all intrinsic functions to be specified without the use of the @code{FUNCTION} keyword, (2) names two user-defined functions named @code{MY-FUNCTION-1} and @code{MY-FUNCTION-2} that will be used by the program and (3) specifies the alias names @code{SIGMA} for the intrinsic function @code{STANDARD-DEVIATION} and @code{MF2} for @code{MY-FUNCTION-2}.
 
+@example
 REPOSITORY.
     FUNCTION ALL INTRINSIC.
     FUNCTION MY-FUNCTION-1.
@@ -428,7 +435,8 @@ REPOSITORY.
     FUNCTION STANDARD-DEVIATION AS "SIGMA".
 @end example
 @end enumerate
-@* @strong{A special note about user-defined functions} --- because you must name a user-defined function that your program will be using in the @code{REPOSITORY} paragraph, you may always reference that function from your program's procedure division without needing to use the @code{FUNCTION} keyword.
+
+@strong{A special note about user-defined functions} --- because you must name a user-defined function that your program will be using in the @code{REPOSITORY} paragraph, you may always reference that function from your program's procedure division without needing to use the @code{FUNCTION} keyword.
 @comment *********************************************************************
 @comment ** 5.2 INPUT-OUTPUT SECTION                                        **
 @comment *********************************************************************
@@ -444,7 +452,8 @@ As the diagram shows, there are three types of statements that may occur in the 
 If neither paragraph is coded, the @code{INPUT-OUTPUT SECTION.} header itself may be omitted, otherwise it is normally required.
 
 @item
-If the compiler "config" file you are using has "relaxed-syntax-check" set to "yes", the @code{FILE-CONTROL} and @code{I-O-CONTROL} paragraphs may be specified without the @code{INPUT-OUTPUT SECTION.} header having been coded.
+If the compiler @i{configuration file} (@pxref{Compiler Configuration Files})
+you are using has @code{relaxed-syntax-check} set to @samp{yes}, the @code{FILE-CONTROL} and @code{I-O-CONTROL} paragraphs may be specified without the @code{INPUT-OUTPUT SECTION} header having been coded.
 
 @item
 If both statement types are coded in the @code{I-O-CONTROL} paragraph, the order in which those statements are coded is irrelevant.
@@ -458,7 +467,7 @@ If both statement types are coded in the @code{I-O-CONTROL} paragraph, the order
 The @statement{SELECT} creates a definition of a file and links that COBOL definition to the external operating system environment.
 @enumerate
 @item
-The reserved words @code{AREAS}, @code{IS}, @code{MODE}, @code{OTHER}, @code{SEQUENCE}, @code{TO}, @code{USING} and @code{WITH} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{AREAS}, @code{IS}, @code{MODE}, @code{OTHER}, @code{SEQUENCE}, @code{TO}, @code{USING} and @code{WITH} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 After @var{file-name-1}, the various clauses may be coded in any sequence.
@@ -473,13 +482,23 @@ The @syntaxidx{OPTIONAL} clause, to be used only for files that will be used to 
 The @var{file-name-1} value that you specify will be the name by which you will reference the file within your program.  This name should be formed according to the rules for user-defined names (@pxref{User-Defined Words}).
 
 @item
-The optional @code{ASSIGN} clause specifies how --- at runtime, when @var{file-name-1} is opened --- either a logical device (STDIN, STDOUT) or a file anywhere in one of the currently-mounted file systems will be associated with @var{file-name-1}, as follows:
+The optional @code{ASSIGN} clause specifies how --- at runtime, when @var{file-name-1} is opened --- either a logical device (@code{STDIN}, @code{STDOUT}) or a file anywhere in one of the currently-mounted file systems will be associated with @var{file-name-1}, as follows:
 @enumerate A
 @item
-There are three components to the @code{ASSIGN} clause --- a @var{Type} specification (@code{EXTERNAL}, @code{DYNAMIC} or neither), a @var{Device} (the list of device choices) and a @var{Locator} (shown as a choice between @var{identifier-1}, @var{word-1} and @var{literal-1}).
+There are three components to the @code{ASSIGN} clause:
+@table @code
+@item @var{Type}
+@code{EXTERNAL}, @code{DYNAMIC} or neither
+
+@item @var{Device}
+the list of device choices
+
+@item @var{Locator}
+shown as a choice between @var{identifier-1}, @var{word-1} and @var{literal-1}.
+@end table
 
 @item
-@code{ASSIGN TO DISC '@var{file-name-1}'} will be assumed if there is no @code{ASSIGN} clause on a @code{SELECT}.
+@code{ASSIGN TO DISC @var{file-name-1}} will be assumed if there is no @code{ASSIGN} clause on a @code{SELECT}.
 
 @item
 If an @code{ASSIGN} clause is coded without a @var{Device}, the device @code{DISC} will be assumed.
@@ -494,7 +513,7 @@ If @var{literal-1} is coded, the value of the literal will serve as the File Loc
 If @var{identifier-1} is coded, the value of the identifier will serve as the File Location String that will identify the data file.
 
 @item
-If @var{word-1} (a syntactically valid word not duplicating that of a reserved or user-defined word) is coded, and a @var{Type} of @code{EXTERNAL} is specified, @var{word-1} itself will serve as the File Location String that will identify the data file.  If, however, a @var{Type} of @code{EXTERNAL} was @i{not} specified, the compiler will create a @code{PIC X(1024)} data item named @var{word-1} within the program; the contents of that data item at the time the program opens @var{file-name-1} will then serve as the File Location String that will identify the data file.
+If @var{word-1} (a syntactically valid word not duplicating a reserved or user-defined word) is coded, and a @var{Type} is @code{EXTERNAL}, then @var{word-1} itself will serve as the File Location String that will identify the data file.  If, however, a @var{Type} of @code{EXTERNAL} was @i{not} specified, the compiler will create a @code{PIC X(1024)} data item named @var{word-1} within the program; the contents of that data item at the time the program opens @var{file-name-1} will then serve as the File Location String that will identify the data file.
 
 @item
 File Location Strings will be discussed shortly.
@@ -526,68 +545,137 @@ The @code{LINE ADVANCING} device @i{requires} that a @var{Locator} be specified;
 File Location Strings are used (at runtime) to identify the path and filename to the data file that must be attached to @var{file-name-1} when that file is opened.
 
 @item
-If the compiler "config" file you used to compile the program with had a "filename-mapping" value of "yes", the GnuCOBOL runtime system will first attempt to identify a currently-defined environment variable whose value will serve as the data file's path and filename, as follows:
+If the compiler @i{configuration file} (@pxref{Compiler Configuration Files}) you used to compile the program with had a @code{filename-mapping} value of @code{yes}, the GnuCOBOL runtime system will first attempt to identify a currently-defined environment variable whose value will serve as the data file's path and filename, as follows:
 @enumerate a
 @item
-If the compiler "config" file (@pxref{Compiler Configuration Files}) you used to compile the program specified "mf" as the "assign-clause" value, then the File Locator String will be interpreted according to Microfocus COBOL rules --- namely, everything before the last "-" in the File Locator String will be ignored; the characters after the last "-" will be treated as the base of an environment variable name.  If there is no "-" character in the File Locator String then the entire File Locator String will serve as the base of an environment variable name.  This is the default behaviour for every config file except "ibm".
+If the compiler @i{configuration file} (@pxref{Compiler Configuration Files}) (@pxref{Compiler Configuration Files}) you used to compile the program specified @code{mf} as the @code{assign-clause} value, then the File Locator String will be interpreted according to Microfocus COBOL rules --- namely, everything before the last @samp{-} in the File Locator String will be ignored; the characters after the last @samp{-} will be treated as the base of an environment variable name.  If there is no @samp{-} character in the File Locator String then the entire File Locator String will serve as the base of an environment variable name.  This is the default behaviour for every config file except @code{ibm}.
 
 @item
-If, on the other hand, the compiler "config" file you used to compile the program specified "mf" as the "assign-clause" value, then the File Locator String will be interpreted according to according to IBM COBOL rules --- namely, the File Locator String is expected to be of the form "S-xxx" or "AS-xxx", in which case the "xxx" will be treated as the base of an environment variable name.  If there is no "-" character in the File Locator String then the entire File Locator String will serve as the base of an environment variable name.
+If, on the other hand, the compiler @i{configuration file} (@pxref{Compiler Configuration Files}) you used to compile the program specified @code{mf} as the @code{assign-clause} value, then the File Locator String will be interpreted according to according to IBM COBOL rules --- namely, the File Locator String is expected to be of the form @code{S-@var{xxx}} or @code{AS-@var{xxx}}, in which case the @var{xxx} will be treated as the base of an environment variable name.  If there is no @samp{-} character in the File Locator String then the entire File Locator String will serve as the base of an environment variable name.
 
 @item
-Once an environment variable name base (let's refer to it as "bbbb") has been determined, the runtime system will look for the first one of the following environment variables that exists, in this sequence:
+Once an environment variable name base (let's refer to it as @code{@var{bbbb}}) has been determined, the runtime system will look for the first one of the following environment variables that exists, in this sequence:
 
-@format
-DD_bbbb
-dd_bbbb
-bbbb
-@end format
-@* Windows systems are case-insensitive with regard to environment variables, so there is no difference between the first two when using a GnuCOBOL implementation built for either Windows/MinGW or native Windows.
+@display
+@env{DD_@var{bbbb}}
+@env{dd_@var{bbbb}}
+@env{@var{bbbb}}
+@end display
+
+Windows systems are case-insensitive with regard to environment variables, so there is no difference between the first two when using a GnuCOBOL implementation built for either Windows/MinGW or native Windows.
 
 If an environment variable was found, its value will serve as the path and filename to the data file.
 @end enumerate
-@item If no environment variable was found, or the "config" file used to compile the program had a "filename-mapping" value of "no", then the File Locator String value will serve as the path and filename to the data file.
-@item Paths and file names may be specified on an absolute (@code{C:\\Data\\datafile.dat}, @code{/Data/datafile.dat}, @dots{}) or relative-to-the-current-directory (@code{Data\\datafile.dat}, @code{Data/datafile.dat}, @dots{}) basis.
-There may not even be a path (@code{datafile.dat}), in which case the file must be in the current directory.
+
+@item
+If no environment variable was found, or the @i{configuration file} (@pxref{Compiler Configuration Files}) used to compile the program had a @code{filename-mapping} value of @code{NO}, then the File Locator String value will serve as the path and filename to the data file.
+
+@item
+Paths and file names may be specified on an absolute (@code{C:\\Data\\datafile.dat}, @code{/Data/datafile.dat}, @dots{}) or relative-to-the-current-directory (@code{Data\\datafile.dat}, @code{Data/datafile.dat}, @dots{}) basis.
+If no directory name is included (@code{datafile.dat}), the file must be in the current directory.
 @end enumerate
-@item The @syntaxidx{FILE STATUS} or @syntaxidx{SORT STATUS} clause (they are both equivalent and only one or the other, if any, should be specified) is used to specify the name of a two-digit numeric data item into which an I/O status code will be saved after every I/O verb that is executed against the file.  This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. Note that the following list is not definative - more can be added and any tests should include one for non zeros as a catch all.
+
+@item
+The @syntaxidx{FILE STATUS} or @syntaxidx{SORT STATUS} clause (they are both equivalent and only one or the other, if any, should be specified) is used to specify the name of a two-digit numeric data item into which an I/O status code will be saved after every I/O verb that is executed against the file.  This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. Note that the following list is not definitive: more can be added and any tests should include one for non zeros as a catch all.
 @anchoridx{File Status Codes}Possible status codes that can be returned to a @code{FILE STATUS} data item are as follows:
 
-@multitable @columnfractions .06 .94
-@headitem Code @tab Explanation
-@item 00 @tab Success
-@item 02 @tab Success (Duplicate Record Key Written)
-@item 04 @tab Success (Incomplete)
-@item 05 @tab Success (Optional File Not Found)
-@item 07 @tab Success (No Unit)
-@item 10 @tab End of file reached if reading forward or beginning-of-file reached if reading backward
-@item 14 @tab Out of key range
-@item 21 @tab Key invalid
-@item 22 @tab Key already exists
-@item 23 @tab Key not found
-@item 24 @tab Key boundary violation
-@item 30 @tab Permanent I/O error
-@item 31 @tab Inconsistent filename
-@item 34 @tab Boundary violation
-@item 35 @tab File not found
-@item 37 @tab Permission denied
-@item 38 @tab Closed with lock
-@item 39 @tab Conflicting attribute
-@item 41 @tab File already open
-@item 42 @tab File not open
-@item 43 @tab Read not done
-@item 44 @tab Record overflow
-@item 46 @tab Read error
-@item 47 @tab @code{OPEN INPUT} denied (insufficient permissions to read file)
-@item 48 @tab @code{OPEN OUTPUT} denied (insufficient permissions to write to file)
-@item 49 @tab @code{OPEN I-O} denied (insufficient permissions to read and/or write file)
-@item 51 @tab Record locked
-@item 52 @tab End of page
-@item 57 @tab @code{LINAGE} bad specification (I-O linage)
-@item 61 @tab File sharing failure
-@item 71 @tab Bad character
-@item 91 @tab File not available
-@end multitable
+@table @code
+@item 00
+Success
+
+@item 02
+Success (Duplicate Record Key Written)
+
+@item 04
+Success (Incomplete)
+
+@item 05
+Success (Optional File Not Found)
+
+@item 07
+Success (No Unit)
+
+@item 10
+End of file reached if reading forward or beginning-of-file reached if reading backward
+
+@item 14
+Out of key range
+
+@item 21
+Key invalid
+
+@item 22
+Key already exists
+
+@item 23
+Key not found
+
+@item 24
+Key boundary violation
+
+@item 30
+Permanent I/O error
+
+@item 31
+Inconsistent filename
+
+@item 34
+Boundary violation
+
+@item 35
+File not found
+
+@item 37
+Permission denied
+
+@item 38
+Closed with lock
+
+@item 39
+Conflicting attribute
+
+@item 41
+File already open
+
+@item 42
+File not open
+
+@item 43
+Read not done
+
+@item 44
+Record overflow
+
+@item 46
+Read error
+
+@item 47
+@code{OPEN INPUT} denied (insufficient permissions to read file)
+
+@item 48
+@code{OPEN OUTPUT} denied (insufficient permissions to write to file)
+
+@item 49
+@code{OPEN I-O} denied (insufficient permissions to read and/or write file)
+
+@item 51
+Record locked
+
+@item 52
+End of page
+
+@item 57
+@code{LINAGE} bad specification (I-O linage)
+
+@item 61
+File sharing failure
+
+@item 71
+Bad character
+
+@item 91
+File not available
+@end table
 
 @item
 The @syntaxidx{SHARING} clause defines the conditions under which the program will be willing (or not) to allow other programs executing at the same time to access the file.  @xref{File Sharing}, for the details.
@@ -596,14 +684,14 @@ The @syntaxidx{SHARING} clause defines the conditions under which the program wi
 The @syntaxidx{LOCK} clause defines how concurrent access to the file will be managed on a record-by-record basis.  @xref{Record Locking}, for the details.
 
 @item
-For syntax details  for the ORGANISATION clause, see next group of paragraphs.
+For syntax details  for the @code{ORGANIZATION} clause, see next group of paragraphs.
 
 @item
 A @code{SELECT} statement without an @code{ORGANIZATION} explicitly coded will be handled as if the following ORGANIZATION clause had been specified:
 
 @example
 ORGANIZATION IS SEQUENTIAL
-    ACCESS MODE IS SEQUENTIAL
+ACCESS MODE IS SEQUENTIAL
 @end example
 @end enumerate
 @comment *********************************************************************
@@ -615,7 +703,7 @@ ORGANIZATION IS SEQUENTIAL
 Files declared as @code{ORGANIZATION SEQUENTIAL} will consist of records with no explicit end-of-record delimiter character sequences; records in such files are "delineated" by a calculated byte-offset (based on the maximum record length) into the file.
 @enumerate
 @item
-The reserved words @code{BINARY}, @code{IS}, @code{MODE} and @code{RECORD} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{BINARY}, @code{IS}, @code{MODE} and @code{RECORD} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The reserved words @code{ORGANIZATION} and @code{ORGANISATION} are interchangeable.
@@ -678,7 +766,7 @@ Sequential files are processed using the following statements:
 Files declared as @code{ORGANIZATION LINE SEQUENTIAL} will consist of records terminated by an end-of-record delimiter character or character sequence.
 @enumerate
 @item
-The reserved words @code{CHARACTER}, @code{IS} and @code{MODE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{CHARACTER}, @code{IS} and @code{MODE} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The reserved words @code{ORGANIZATION} and @code{ORGANISATION} are interchangeable.
@@ -696,7 +784,7 @@ These files may be created with any standard text-editing or word processing sof
 Both fixed- and variable-length record formats are supported.
 
 @item
-The end-of-record delimiter sequence will be X'0A' (an ASCII line-feed character) or a X'0D0A' (an ASCII carriage-return + line-feed sequence).  The former is used on Unix implementations of GnuCOBOL (including Windows/MinGW, Windows/Cygwin and OSX implementations) while the latter would be used with native Windows implementations.
+The end-of-record delimiter sequence will be @code{X@samp{0A}} (an ASCII line-feed character) or a @code{X@samp{0D0A}} (an ASCII carriage-return + line-feed sequence).  The former is used on Unix implementations of GnuCOBOL (including Windows/MinGW, Windows/Cygwin and OSX implementations) while the latter would be used with native Windows implementations.
 
 @item
 When reading a @code{LINE SEQUENTIAL} file, records in excess of the size implied by the file's description in the @code{FILE SECTION} will be truncated while records shorter than that size will be padded to the right with @code{SPACES}.
@@ -750,7 +838,7 @@ Line Sequential files are processed using the following statements:
 These files are files with an internal organization such that records may be processed in a sequential manner based upon their physical location in the file or in a random manner by allowing records to be read, written or updated by specifying the relative record number in the file.
 @enumerate
 @item
-The reserved words @code{IS}, @code{KEY} and @code{MODE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{IS}, @code{KEY} and @code{MODE} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The reserved words @code{ORGANIZATION} and @code{ORGANISATION} are interchangeable.
@@ -822,10 +910,10 @@ Relative files are processed using the following statements:
 @page
 @newunit{5.2.1.4,ORGANIZATION INDEXED}
 @diagram{ORGANIZATION INDEXED Clause,ED-SELECT-ORG-IDX,ED-SELECT-ORG-IDX,None}
-Indexed files, like relative files, may have their records processed in either a sequential or random manner.  Unlike relative files, however, the actual location of a record in an indexed file is calculated automatically based upon the value(s) of one or more alphanumeric fields within records of the file.  For example, an indexed file containing product data might use the product identification code as a record key.  This means you may read, write or update the "A6G4328"th record or the "Z8X7723"th record directly, based upon the product id value of those records!
+Indexed files, like relative files, may have their records processed in either a sequential or random manner.  Unlike relative files, however, the actual location of a record in an indexed file is calculated automatically based upon the value(s) of one or more alphanumeric fields within records of the file.  For example, an indexed file containing product data might use the product identification code as a record key.  This means you may read, write or update the @code{A6G4328}@sup{th} record or the @code{Z8X7723}@sup{th} record directly, based upon the product id value of those records!
 @enumerate
 @item
-The reserved words @code{IS}, @code{KEY} and @code{MODE} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{IS}, @code{KEY} and @code{MODE} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The reserved words @code{ORGANIZATION} and @code{ORGANISATION} are interchangeable.
@@ -846,10 +934,10 @@ The phrase @code{ORGANIZATION IS} (and its internationalized alternative, @code{
 @syntaxidx{ACCESS MODE DYNAMIC} allows the file will be processed either in @code{RANDOM} or @code{SEQUENTIAL} mode; the program may switch between the two modes as needed.  The @code{START} statement is used to make the switch between modes.
 
 @item
- The @syntaxidx{RECORD KEY} clause defines the field within the record used to provide the primary access to records within the file.  No two records in the file will be allowed to have the same @code{PRIMARY KEY} field value. The @syntaxidx{SOURCE IS} clause is for use with @syntaxidx{Split Keys}.
+The @syntaxidx{RECORD KEY} clause defines the field within the record used to provide the primary access to records within the file.  No two records in the file will be allowed to have the same @code{PRIMARY KEY} field value. The @syntaxidx{SOURCE IS} clause is for use with @syntaxidx{Split Keys}.
 
 @item
- The @syntaxidx{ALTERNATE RECORD KEY} clause, if used, defines an additional field within the record that provides an alternate means of directly accessing records or an additional field by which the file's contents may be processed sequentially.  You have the choice of allowing records to have duplicate alternate key values, if necessary.
+The @syntaxidx{ALTERNATE RECORD KEY} clause, if used, defines an additional field within the record that provides an alternate means of directly accessing records or an additional field by which the file's contents may be processed sequentially.  You have the choice of allowing records to have duplicate alternate key values, if necessary.
 
 @item
 There may be multiple @code{ALTERNATE RECORD KEY} clauses, each defining an additional alternate key for the file.
@@ -903,7 +991,7 @@ Indexed files are processed using the following statements:
 The @code{SAME RECORD AREA} clause allows you to specify that multiple files should share the same input and output memory buffers.
 @enumerate
 @item
-The reserved words @code{AREA} and @code{FOR} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{AREA} and @code{FOR} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 This statement must be terminated with a period.
@@ -912,7 +1000,7 @@ This statement must be terminated with a period.
 While coding only a single file name (the repeated @var{file-name-1} item) is syntactically valid, this statement will have no effect upon the program unless at least two files are specified.
 
 @item
-The effect of this statement will be to cause the specified files to share the same I/O buffer in memory.  These buffers can sometimes get quite large, and by having multiple files share the same buffer memory you may significantly cut down the amount of memory the program is using (thus making "room" for more procedural code or data).  If you do use this feature, take care to ensure that no more than one of the specified files are ever OPEN simultaneously.
+The effect of this statement will be to cause the specified files to share the same I/O buffer in memory.  These buffers can sometimes get quite large, and by having multiple files share the same buffer memory you may significantly cut down the amount of memory the program is using (thus making ``room'' for more procedural code or data).  If you do use this feature, take care to ensure that no more than one of the specified files are ever OPEN simultaneously.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.2.3 MULTIPLE FILE Statement                                   **

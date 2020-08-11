@@ -96,6 +96,16 @@ HTML/gnucobqr.html: $(SOURCES_QR)
 	makeinfo -v -o $@ $(WARNING) \
 		--html --no-split $(HTML_OPT) gnucobqr.texi
 
+info/gnucobpg.info: gnucobpg.texi $(SOURCES)
+info/gnucobqr.info: gnucobqr.texi $(SOURCES_QR)
+info/gnucobsp.info: gnucobsp.texi $(SOURCES_SP)
+
+INFO = $(addsuffix .info,$(addprefix info/gnucob,pg sp qr))
+info: $(INFO)
+$(INFO):
+	@mkdir -p INFO
+	makeinfo -o $@ $(notdir $(basename $@)).texi
+
 maintainer-clean: clean pdf-clean html-clean info-clean
 
 clean:
@@ -110,6 +120,7 @@ html-clean:
 
 info-clean:
 	@rm -rvf info/gnucobqr.info info/gnucobsp.info info/gnucobpg.info
+
 
 publish: HTML/gnucobpg.html $(CSS)
 	test "$(WWW)"

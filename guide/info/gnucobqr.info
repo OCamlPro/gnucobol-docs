@@ -1,10 +1,10 @@
-This is gnucobqr.info, produced by makeinfo version 6.4 from
+This is gnucobqr.info, produced by makeinfo version 6.1 from
 gnucobqr.texi.
 
-This manual documents GnuCOBOL 2.2 Final, 7Sept2017 build.
+This manual documents GnuCOBOL 3.1 RC-1, July2020 build.
 
 Document  Copyright 2009-2014 Gary L. Cutler, FSF (Free Software Foundation).
-Updates:  Copyright 2014-2017 Vincent B. Coen, Gary L. Cutler & FSF.
+Updates:  Copyright 2014-2020 Vincent B. Coen, Gary L. Cutler & FSF.
 
      The authors and copyright holders of the Cobol programming language
      itself used herein:
@@ -36,7 +36,12 @@ File: gnucobqr.info,  Node: Top,  Next: CDF,  Up: (dir)
 GnuCOBOL Quick Reference
 ************************
 
-This manual documents GnuCOBOL 2.2 Final [7Sept2017].
+This manual documents GnuCOBOL 3.1 RC-1 [July2020].  It shows just the
+skeleton for the Cobol language as implemented in GnuCOBOL and for more
+details of each you should refer to the Programming Guide manual.  In
+addition there is also a manual GnuCOBOL Sample Programs showing various
+techniques including explanations used with active working programs for
+your guidance.
 * Menu:
 
 * 1: CDF.
@@ -54,28 +59,22 @@ File: gnucobqr.info,  Node: CDF,  Next: IDENTIFICATION DIVISION Syntax,  Prev: T
 1. CDF
 ******
 
-
 When the compiler is operating in Fixed Format Mode, all CDF statements
 must begin in column eight (8) or beyond.
 
-
 There are two types of supported CDF statements in GnuCOBOL -- Text
 Manipulation Statements and Compiler Directives.
-
 
 The CDF text manipulation statements COPY and REPLACE are used to
 introduce new code into programs either with or without changes, or may
 be used to modify existing statements already in the program.  Text
 manipulation statements are always terminated with a period.
 
-
 CDF directives, denoted by the presence of a ">>" character sequence as
 part of the statement name itself, are used to influence the process of
 program compilation.
 
-
 Compiler directives are never terminated with a period.
-
 
 
 =======================================================================
@@ -85,7 +84,8 @@ Compiler directives are never terminated with a period.
  >>CALL-CONVENTION    { COBOL   }
  ~~~~~~~~~~~~~~~~~    { EXTERN  }
                       { STDCALL }
-                      { STATIC  } 
+                      { STATIC  }
+
 
 =======================================================================
                        CDF COPY Statement Syntax
@@ -100,6 +100,7 @@ Compiler directives are never terminated with a period.
  [ REPLACING { Phrase-Clause | String-Clause }... ] .
    ~~~~~~~~~
 
+
 =======================================================================
                      CDF COPY Phrase-Clause Syntax
 =======================================================================
@@ -109,12 +110,14 @@ Compiler directives are never terminated with a period.
  { literal-1         }    { literal-2         }
  { word-1            }    { word-2            }
 
+
 =======================================================================
                      CDF COPY String-Clause Syntax
 =======================================================================
 
  [ LEADING|TRAILING ] ==partial-word-1== BY ==partial-word-2==
    ~~~~~~~ ~~~~~~~~                      ~~
+
 
 =======================================================================
                 CDF REPLACE Statement (Format 1) Syntax
@@ -123,12 +126,14 @@ Compiler directives are never terminated with a period.
  REPLACE [ ALSO ] { Phrase-Clause | String-Clause }... .
  ~~~~~~~   ~~~~
 
+
 =======================================================================
                 CDF REPLACE Statement (Format 2) Syntax
 =======================================================================
 
  REPLACE [ LAST ] OFF .
  ~~~~~~~   ~~~~   ~~~
+
 
 =======================================================================
                    CDF REPLACE Phrase-Clause Syntax
@@ -137,12 +142,14 @@ Compiler directives are never terminated with a period.
  { ==pseudo-text-1== } BY { ==pseudo-text-2== }
                        ~~
 
+
 =======================================================================
                    CDF REPLACE String-Clause Syntax
 =======================================================================
 
  [ LEADING|TRAILING ] ==partial-word-1== BY ==partial-word-2==
    ~~~~~~~ ~~~~~~~~                      ~~
+
 
 =======================================================================
                      CDF >>DEFINE Directive Syntax
@@ -154,6 +161,7 @@ Compiler directives are never terminated with a period.
                                          {             ~~~~~~~~   }
                                          { PARAMETER [ OVERRIDE ] }
                                            ~~~~~~~~~   ~~~~~~~~
+
 
 =======================================================================
                        CDF >>IF Directive Syntax
@@ -171,6 +179,7 @@ Compiler directives are never terminated with a period.
  >>END-IF
  ~~~~~~~~
 
+
 =======================================================================
                    CDF-Conditional-Expression Syntax
 =======================================================================
@@ -181,6 +190,7 @@ Compiler directives are never terminated with a period.
                                { ~~~                          }
                                { CDF-RelOp { cdf-variable-2 } }
                                {           { literal-2      } }
+
 
 =======================================================================
                            CDF-RelOp Syntax
@@ -199,18 +209,20 @@ Compiler directives are never terminated with a period.
  <>    or    EQUAL TO (with "NOT")
              ~~~~~
 
+
 =======================================================================
                       CDF >>SET Directive Syntax
 =======================================================================
 
- >>SET { [ CONSTANT ] cdf-variable-1 [ AS literal-1 ] }
- ~~~~~ {   ~~~~~~~~                    ~~             }
-       { SOURCEFORMAT AS FIXED|FREE                   }
-       { ~~~~~~~~~~~~    ~~~~~ ~~~~                   }
-       { NOFOLDCOPYNAME                               }
-       { ~~~~~~~~~~~~~~                               }
-       { FOLDCOPYNAME AS UPPER|LOWER                  }
+ >>SET { [ CONSTANT ] cdf-variable-1 literal-1 ] }
+ ~~~~~ {   ~~~~~~~~                              }
+       { SOURCEFORMAT AS FIXED|FREE              }
+       { ~~~~~~~~~~~~    ~~~~~ ~~~~              }
+       { NOFOLDCOPYNAME                          }
+       { ~~~~~~~~~~~~~~                          }
+       { FOLDCOPYNAME AS UPPER|LOWER             }
          ~~~~~~~~~~~~    ~~~~~ ~~~~~
+
 
 =======================================================================
                      CDF >>SOURCE Directive Syntax
@@ -218,6 +230,7 @@ Compiler directives are never terminated with a period.
 
  >>SOURCE FORMAT IS FIXED|FREE|VARIABLE
  ~~~~~~~~           ~~~~~ ~~~~ ~~~~~~~~
+
 
 =======================================================================
                       CDF >>TURN Directive Syntax
@@ -230,12 +243,14 @@ Compiler directives are never terminated with a period.
     { CHECKING ON [ WITH LOCATION ] }
       ~~~~~~~~ ~~        ~~~~~~~~
 
+
 =======================================================================
                        CDF >>D Directive Syntax
 =======================================================================
 
  >>D
  ~~~
+
 
 =======================================================================
                     CDF >>DISPLAY Directive Syntax
@@ -244,12 +259,14 @@ Compiler directives are never terminated with a period.
  >>DISPLAY source-text [ VCS = version-string ]
  ~~~~~~~~~               ~~~
 
+
 =======================================================================
                       CDF >>PAGE Directive Syntax
 =======================================================================
 
  >>PAGE
  ~~~~~~
+
 
 =======================================================================
                     CDF >>LISTING Directive Syntax
@@ -258,6 +275,7 @@ Compiler directives are never terminated with a period.
  >>LISTING  {ON}
  ~~~~~~~~~  {OFF}
 
+
 =======================================================================
                   CDF >>LEAP-SECONDS Directive Syntax
 =======================================================================
@@ -265,8 +283,7 @@ Compiler directives are never terminated with a period.
  >>LEAP-SECONDS
  ~~~~~~~~~~~~~~
 
-
-The ">>LEAP-SECONDS" CDF directive is syntactically recognized but is
+The '>>LEAP-SECONDS' CDF directive is syntactically recognized but is
 otherwise non-functional.
 
 =======================================================================
@@ -277,18 +294,98 @@ otherwise non-functional.
 
  These directives are active and have the same function as ones starting with >>:
 
+ $DEFINE
  $DISPLAY ON|OFF
- $SET
  $IF
  $ELIF
+ $ELSE
  $ELSE-IF
  $END
+ $SET
+
+ It is recommend to use the standard directives only instead of the MF directives
+ (when possible) as these have a a higher chance for being portable.
 
  $ (Dollar) Directives - Not Active.
  These are NOT active and will produce a warning message:
 
  $DISPLAY VCS ...
- 
+
+ Recognised but otherwise ignored.
+
+ @OPTIONS options-text
+
+ Additional Micro-Focus directives accepted :
+
+ ADDRSV | ADD-RSV literal-1
+ ADDSYN | ADD-SYN literal-1 = literal-2
+ ASSIGN  "EXTERNAL" | "DYNAMIC"
+ BOUND
+ CALLFH  literal-1
+ COMP1  |  COMP-1  "BINARY" | "FLOAT"
+ FOLDCOPYNAME | FOLD-COPY-NAME  AS "UPPER" | "LOWER"
+ MAKESYN  |  MAKE-SYN
+ NOBOUND  |  NO-BOUND
+ NOFOLDCOPYNAME  |  NOFOLD-COPY-NAME  |  NO-FOLD-COPY-NAME
+ OVERRIDE  literal-1 = literal-2
+ REMOVE  literal-1
+ SOURCEFORMAT | SOURCE-FORMAT "FIXED" | "FREE" | "VARIABLE"
+ SSRANGE "2"
+ NOSSRANGE  |  NO-SSRANGE
+
+
+=======================================================================
+              CDF Predefined Compilation Variables Syntax
+=======================================================================
+
+GnuCOBOL defines compilation variables when various conditions are true.
+If the condition associated with a variable is false, the variable is not defined.
+
+DEBUG       The -d debug flag is specified.
+EXECUTABLE  Module being compiled contains the main program.
+GCCOMP      The size of a COMP item is determined according to the GnuCOBOL scheme,
+            where for a picture of length:
+             1 - 2,  item = 1 byte
+             3 - 4,  item = 2 bytes
+             5 - 9,  item = 4 bytes
+            10 - 18, item = 8 bytes.
+
+GNUCOBOL    GnuCOBOL is compiling the source unit.
+HOSTSIGNS   A signed packed decimal item's value may be considered NUMERIC if
+            sign = X"F".
+IBMCOMP     The size of a COMP item is determined according to the IBM scheme,
+            where for a PICTURE of length :
+             1 - 4,  item = 2 bytes
+             5 - 9,  item = 4 bytes
+            10 - 18, item = 8 bytes.
+
+MODULE      The element being compiled does not contain the main program.
+NOHOSTSIGNS A signed packed decimal item's value may NOT be considered
+            NUMERIC if sign = X"F".
+NOIBMCOMP   The size of a COMP item is NOT determined according to the IBM scheme.
+NOSTICKY-LINKAGE
+            Sticky linkage (linkage section items remaining allocated between
+            invocations) is NOT active.
+NOTRUNC     Numeric data items are truncated according to their internal
+            representation.
+P64         Pointers are greater than 32 bits.
+STICKY-LINKAGE
+            Sticky linkage (linkage section items remaining allocated between
+            invocations) is active.
+TRUNC       Numeric data items are truncated according to their PICTURE clauses.
+
+These, while still supported may well be removed in the future and should not be
+used. See GCCOMP and GNUCOBOL instead:
+
+OCCOMP      The size of a COMP item is determined according to the GnuCOBOL scheme,
+            where for a PICTURE of length :
+             1 - 2,  item = 1 byte
+             3 - 4,  item = 2 bytes
+             5 - 9,  item = 4 bytes
+            10 - 18, item = 8 bytes.
+
+OPENCOBOL   GnuCOBOL is compiling the source unit.
+
 
 
 File: gnucobqr.info,  Node: IDENTIFICATION DIVISION Syntax,  Next: ENVIRONMENT DIVISION Syntax,  Prev: CDF,  Up: Top
@@ -304,15 +401,15 @@ File: gnucobqr.info,  Node: IDENTIFICATION DIVISION Syntax,  Next: ENVIRONMENT D
 [{ IDENTIFICATION } DIVISION. ]
  { ~~~~~~~~~~~~~~ } ~~~~~~~~
  { ID             }
-    ~~  
- { PROGRAM-ID.  } program-id [ AS {literal-1    }] [ Type-Clause ] .
- { ~~~~~~~~~~   }                 {program name }]
- { FUNCTION-ID. } { literal-1 }   [ AS literal-2 ].
-   ~~~~~~~~~~~    { function-name }
+   ~~
+ { PROGRAM-ID.  } { program name } .
+ { ~~~~~~~~~~   } { literal-1    } [ AS { literal-2 } ] [ Type-clause ] .
+ { FUNCTION-ID. } { literal-3 } [ AS literal-4 ] .
+   ~~~~~~~~~~~    { function-name } .
  { OPTIONS. }
    ~~~~~~~
  [ DEFAULT ROUNDED MODE IS {AWAY-FROM-ZERO         }
-   ~~~~~~~ ~~~~~~~         {NEAREST-AWAY-FROM-ZERO } 
+   ~~~~~~~ ~~~~~~~         {NEAREST-AWAY-FROM-ZERO }
                            {NEAREST-EVEN           }
                            {NEAREST-TOWARDS-ZERO   }
                            {PROHIBITED             }
@@ -321,7 +418,7 @@ File: gnucobqr.info,  Node: IDENTIFICATION DIVISION Syntax,  Next: ENVIRONMENT D
                            {TRUNCATION             }]
  [ ENTRY-CONVENTION IS {COBOL   }
    ~~~~~~~~~~~~~~~~    {EXTERN  }
-                       {STDCALL }]                       
+                       {STDCALL }]
  [ AUTHOR.        comment-1. ]
    ~~~~~~
  [ DATE-COMPILED. comment-2. ]
@@ -337,8 +434,11 @@ File: gnucobqr.info,  Node: IDENTIFICATION DIVISION Syntax,  Next: ENVIRONMENT D
  [ SECURITY.      comment-7. ]
    ~~~~~~~~
 
-
-The "AUTHOR"
+The 'AUTHOR' , 'DATE-COMPILED' , 'DATE-MODIFIED' , 'DATE-WRITTEN' ,
+'INSTALLATION' , 'REMARKS' and 'SECURITY' paragraphs are supported by
+GNU COBOL only to provide compatibility with programs written for the
+ANS1974 (or earlier) standards.  As of the ANS1985 standard, these
+clauses have become obsolete and should not be used in new programs.
 
 =======================================================================
                      PROGRAM-ID Type Clause Syntax
@@ -346,6 +446,7 @@ The "AUTHOR"
 
  IS [ COMMON ] [ INITIAL|RECURSIVE PROGRAM ]
       ~~~~~~     ~~~~~~~ ~~~~~~~~~
+
 
 
 File: gnucobqr.info,  Node: ENVIRONMENT DIVISION Syntax,  Next: DATA DIVISION Syntax,  Prev: IDENTIFICATION DIVISION Syntax,  Up: Top
@@ -377,6 +478,7 @@ File: gnucobqr.info,  Node: ENVIRONMENT DIVISION Syntax,  Next: DATA DIVISION Sy
  [ I-O-CONTROL.             File-Buffering Specification... . ]
    ~~~~~~~~~~~
 
+
 =======================================================================
                      CONFIGURATION SECTION Syntax
 =======================================================================
@@ -392,12 +494,14 @@ File: gnucobqr.info,  Node: ENVIRONMENT DIVISION Syntax,  Next: DATA DIVISION Sy
  [ REPOSITORY.      Function-Specification... . ]
    ~~~~~~~~~~
 
+
 =======================================================================
                         SOURCE-COMPUTER Syntax
 =======================================================================
 
  SOURCE-COMPUTER. computer-name [ WITH DEBUGGING MODE ] .
  ~~~~~~~~~~~~~~~                       ~~~~~~~~~ ~~~~
+
 
 =======================================================================
                         OBJECT-COMPUTER Syntax
@@ -420,8 +524,8 @@ File: gnucobqr.info,  Node: ENVIRONMENT DIVISION Syntax,  Next: DATA DIVISION Sy
                                  ~~~~~~~~~~~~~~
  .
 
-
-The "MEMORY SIZE"
+The 'MEMORY SIZE' and 'SEGMENT-LIMIT' clauses are syntactically
+recognized but are otherwise non-functional.
 
 =======================================================================
                          SPECIAL-NAMES Syntax
@@ -462,8 +566,8 @@ The "MEMORY SIZE"
   [ Symbolic-Characters-Clause ]...
   .
 
-
-The "EVENT STATUS"
+The 'EVENT STATUS' and 'SCREEN CONTROL' clauses are syntactically
+recognized but are otherwise non-functional.
 
 =======================================================================
                            REPOSITORY Syntax
@@ -478,6 +582,7 @@ The "EVENT STATUS"
              { intrinsic-function-name-2 INTRINSIC        }
              { ALL INTRINSIC             ~~~~~~~~~        }
                ~~~ ~~~~~~~~~
+
 
 =======================================================================
                  SPECIAL-NAMES Alphabet-Clause Syntax
@@ -495,6 +600,7 @@ The "EVENT STATUS"
                              { ~~~~~~~~~~        }
                              { Literal-Clause... }
 
+
 =======================================================================
              SPECIAL-NAMES ALPHABET Literal-Clause Syntax
 =======================================================================
@@ -504,12 +610,14 @@ The "EVENT STATUS"
              { {ALSO literal-3}...    }
                 ~~~~
 
+
 =======================================================================
              SPECIAL-NAMES Class-Definition-Clause Syntax
 =======================================================================
 
  CLASS class-name-1 IS { literal-1 [ THRU|THROUGH literal-2 ] }...
  ~~~~~                               ~~~~ ~~~~~~~
+
 
 =======================================================================
              SPECIAL-NAMES Switch-Definition-Clause Syntax
@@ -522,6 +630,7 @@ The "EVENT STATUS"
    [ OFF STATUS IS condition-name-2 ]
      ~~~
 
+
 =======================================================================
             SPECIAL-NAMES-Symbolic-Characters-Clause Syntax
 =======================================================================
@@ -532,6 +641,7 @@ The "EVENT STATUS"
 
    [ IN alphabet-name-1 ]
      ~~
+
 
 =======================================================================
                       INPUT-OUTPUT SECTION Syntax
@@ -549,6 +659,7 @@ The "EVENT STATUS"
 
      [ SAME-RECORD-Statement ]
 
+
 =======================================================================
                    I-O-CONTROL MULTIPLE FILE Syntax
 =======================================================================
@@ -559,8 +670,7 @@ The "EVENT STATUS"
                     ~~~~~~~~
     .
 
-
-The "MULTIPLE FILE TAPE" clause is obsolete and is therefore recognized
+The 'MULTIPLE FILE TAPE' clause is obsolete and is therefore recognized
 but not functional.
 
 =======================================================================
@@ -574,8 +684,8 @@ but not functional.
       { RECORD     }
         ~~~~~~
 
-
-The "SAME SORT-MERGE"
+The 'SAME SORT-MERGE' and 'SAME SORT' clauses are syntactically
+recognized but are otherwise non-functional.
 
 =======================================================================
                         SELECT Statement Syntax
@@ -606,9 +716,14 @@ The "SAME SORT-MERGE"
                 { EXCLUSIVE [ WITH { LOCK ON MULTIPLE RECORDS } ] }
                   ~~~~~~~~~        { ~~~~ ~~ ~~~~~~~~ ~~~~~~~ }
                                    { LOCK ON RECORD           }
- [ ORGANIZATION-Clause ]           { ~~~~ ~~ ~~~~~~           }
+                                   { ~~~~ ~~ ~~~~~~           }
                                    { ROLLBACK                 }
- [ RECORD DELIMITER IS STANDARD-1 ]  ~~~~~~~~
+                                   { ~~~~~~~~                 }
+ [ ORGANIZATION Clause ]
+   ~~~~~~~~~~~~
+ [ ORGANISATION Clause ]
+   ~~~~~~~~~~~~
+ [ RECORD DELIMITER IS STANDARD-1 ]
    ~~~~~~ ~~~~~~~~~    ~~~~~~~~~~
  [ RESERVE integer-1 AREAS ]
    ~~~~~~~
@@ -619,8 +734,9 @@ The "SAME SORT-MERGE"
                 { READ ONLY }
                   ~~~~ ~~~~
 
-
-The "COLLATING SEQUENCE"
+The 'COLLATING SEQUENCE' , 'RECORD DELIMITER' , 'RESERVE' and 'ALL
+OTHER' clauses are syntactically recognized but are otherwise
+non-functional.
 
 =======================================================================
                  ORGANIZATION SEQUENTIAL Clause Syntax
@@ -630,6 +746,7 @@ The "COLLATING SEQUENCE"
    ~~~~~~~~~~~~ ~~~~~~~~~~~~                    ~~~~~~~~~~
     [ ACCESS MODE IS SEQUENTIAL ]
       ~~~~~~         ~~~~~~~~~~
+
 
 =======================================================================
               ORGANIZATION LINE SEQUENTIAL Clause Syntax
@@ -642,8 +759,7 @@ The "COLLATING SEQUENCE"
     [ PADDING CHARACTER IS literal-1 | identifier-1 ]
       ~~~~~~~
 
-
-The "PADDING CHARACTER" clause is syntactically recognized but is
+The 'PADDING CHARACTER' clause is syntactically recognized but is
 otherwise non-functional.
 
 =======================================================================
@@ -661,6 +777,7 @@ otherwise non-functional.
     [ RELATIVE KEY IS identifier-1 ]
       ~~~~~~~~
 
+
 =======================================================================
                   ORGANIZATION INDEXED Clause Syntax
 =======================================================================
@@ -673,21 +790,23 @@ otherwise non-functional.
                      { ~~~~~~~    }
                      { RANDOM     }
                        ~~~~~~
-    [ RECORD KEY IS identifier-1
+    [ RECORD KEY IS { [ data-name-1       ]
       ~~~~~~
-          [ =|{SOURCE IS} identifier-2 ] ]
-               ~~~~~~
-    [ ALTERNATE RECORD KEY IS identifier-3
+                    { [ record-key-name-1 ]
+                      [ =|{SOURCE IS} data-name-2 ] ... ] }
+                           ~~~~~~
+    [ ALTERNATE RECORD KEY IS { [ data-name-3       ]
       ~~~~~~~~~ ~~~~~~
-          [ =|{SOURCE IS} identifier-4 ]
-               ~~~~~~
-          [ WITH DUPLICATES ] ]...
-                 ~~~~~~~~~~
+                              { [ record-key-name-2 ]
+                                [ =|{SOURCE IS} data-name-4 ] ... ] }
+                                     ~~~~~~
+                              [ WITH DUPLICATES ] ]...
+                                     ~~~~~~~~~~
+                              [ SUPPRESS WHEN ALL literal     ]
+                                ~~~~~~~~~~~~~~~~~
+                              [ SUPPRESS WHEN SPACES | ZEROES ]
+                                ~~~~~~~~~~~~~~~~~~~~   ~~~~~~
 
-
-The "SOURCE" clause is syntactically recognized but is otherwise
-non-functional.  It is supported to provide compatibility with COBOL
-source written for other COBOL implementations.
 
 
 File: gnucobqr.info,  Node: DATA DIVISION Syntax,  Next: PROCEDURE DIVISION Syntax,  Prev: ENVIRONMENT DIVISION Syntax,  Up: Top
@@ -737,6 +856,7 @@ File: gnucobqr.info,  Node: DATA DIVISION Syntax,  Next: PROCEDURE DIVISION Synt
      { 01-Level-Constant        }
      { 78-Level-Constant        }
 
+
 =======================================================================
                      File/Sort-Description Syntax
 =======================================================================
@@ -780,8 +900,9 @@ File: gnucobqr.info,  Node: DATA DIVISION Syntax,  Next: PROCEDURE DIVISION Synt
  [ VALUE OF implementor-name-1 IS literal-1 | identifier-7 ] .
    ~~~~~ ~~
 
-
-The "BLOCK CONTAINS"
+The 'BLOCK CONTAINS' , 'DATA RECORD' , 'LABEL RECORD' , 'RECORDING MODE'
+and 'VALUE OF' clauses are syntactically recognized but are obsolete and
+non-functional.  These clauses should not be coded in new programs.
 
 =======================================================================
                      FILE-SECTION-Data-Item Syntax
@@ -812,8 +933,7 @@ The "BLOCK CONTAINS"
  [ USAGE IS data-item-usage ] . [ FILE-SECTION-Data-Item ]...
    ~~~~~
 
-
-The "LEFT" and "RIGHT" (SYNCRONIZED) clauses are syntactically
+The 'LEFT' and 'RIGHT' (SYNCRONIZED) clauses are syntactically
 recognized but are otherwise non-functional.
 
 =======================================================================
@@ -849,8 +969,7 @@ recognized but are otherwise non-functional.
  [ VALUE IS [ ALL ] literal-1 ] . [ WORKING-STORAGE-SECTION-Data-Item ]...
    ~~~~~      ~~~
 
-
-The "LEFT" and "RIGHT" (SYNCRONIZED) clauses are syntactically
+The 'LEFT' and 'RIGHT' (SYNCRONIZED) clauses are syntactically
 recognized but are otherwise non-functional.
 
 =======================================================================
@@ -886,8 +1005,7 @@ recognized but are otherwise non-functional.
  [ VALUE IS [ ALL ] literal-1 ] . [ LOCAL-STORAGE-SECTION-Data-Item ]...
    ~~~~~      ~~~
 
-
-The "LEFT" and "RIGHT" (SYNCRONIZED) clauses are syntactically
+The 'LEFT' and 'RIGHT' (SYNCRONIZED) clauses are syntactically
 recognized but are otherwise non-functional.
 
 =======================================================================
@@ -923,8 +1041,7 @@ recognized but are otherwise non-functional.
  [ USAGE IS data-item-usage ] . [ LINKAGE-SECTION-Data-Item ]...
    ~~~~~
 
-
-The "LEFT" and "RIGHT" (SYNCRONIZED) clauses are syntactically
+The 'LEFT' and 'RIGHT' (SYNCRONIZED) clauses are syntactically
 recognized but are otherwise non-functional.
 
 =======================================================================
@@ -957,8 +1074,6 @@ recognized but are otherwise non-functional.
          ~~~~~~~
 
 
-The "CODE IS"
-
 =======================================================================
                     Report-Group-Definition Syntax
 =======================================================================
@@ -990,6 +1105,7 @@ The "CODE IS"
            { RF|{REPORT FOOTING}                      }
              ~~  ~~~~~~ ~~~~~~~
  . [ REPORT-SECTION-Data-Item ]...
+
 
 =======================================================================
                     REPORT-SECTION-Data-Item Syntax
@@ -1033,6 +1149,7 @@ The "CODE IS"
    { VALUE IS [ ALL ] literal-3   { UPON identifier-9           }   }
      ~~~~~      ~~~                 ~~~~
  . [ REPORT-SECTION-Data-Item ]...
+
 
 =======================================================================
                     SCREEN-SECTION-Data-Item Syntax
@@ -1078,6 +1195,7 @@ The "CODE IS"
    ~~~~    ~~~~~~~ ~~~~~~~~   ~~~~~~~~
  . [ SCREEN-SECTION-Data-Item ]...
 
+
 =======================================================================
                        01-Level-Constant Syntax
 =======================================================================
@@ -1092,12 +1210,14 @@ The "CODE IS"
    { FROM CDF-variable-name-1                   }
      ~~~~
 
+
 =======================================================================
                        66-Level-Data-Item Syntax
 =======================================================================
 
  66 identifier-1 RENAMES identifier-2 [ THRU|THROUGH identifier-3 ] .
                  ~~~~~~~                ~~~~ ~~~~~~~
+
 
 =======================================================================
                        77-Level-Data-Item Syntax
@@ -1124,8 +1244,7 @@ The "CODE IS"
  [ VALUE IS [ ALL ] literal-1 ] .
    ~~~~~      ~~~
 
-
-The "LEFT" and "RIGHT" (SYNCRONIZED) clauses are syntactically
+The 'LEFT' and 'RIGHT' (SYNCRONIZED) clauses are syntactically
 recognized but are otherwise non-functional.
 
 =======================================================================
@@ -1134,6 +1253,7 @@ recognized but are otherwise non-functional.
 
  78 constant-name-1 VALUE IS literal-1 .
                     ~~~~~
+
 
 =======================================================================
                        88-Level-Data-Item Syntax
@@ -1146,6 +1266,7 @@ recognized but are otherwise non-functional.
 
    [ WHEN SET TO FALSE IS literal-3 ] .
                  ~~~~~
+
 
 
 File: gnucobqr.info,  Node: PROCEDURE DIVISION Syntax,  Next: Intrinsic Functions Syntax,  Prev: DATA DIVISION Syntax,  Up: Top
@@ -1176,6 +1297,7 @@ File: gnucobqr.info,  Node: PROCEDURE DIVISION Syntax,  Next: Intrinsic Function
  [ END PROGRAM|FUNCTION name-1 ]
    ~~~ ~~~~~~~ ~~~~~~~~
 
+
 =======================================================================
              PROCEDURE DIVISION Subprogram-Argument Syntax
 =======================================================================
@@ -1188,6 +1310,7 @@ File: gnucobqr.info,  Node: PROCEDURE DIVISION Syntax,  Next: Intrinsic Function
                                      { ~~~~~~~   }
                                      { integer-1 }
 
+
 =======================================================================
             PROCEDURE DIVISION Main-Program-Argument Syntax
 =======================================================================
@@ -1195,12 +1318,14 @@ File: gnucobqr.info,  Node: PROCEDURE DIVISION Syntax,  Next: Intrinsic Function
  [ BY REFERENCE ] [ OPTIONAL ] identifier-1
       ~~~~~~~~~     ~~~~~~~~
 
+
 =======================================================================
                   PROCEDURE DIVISION RETURNING Syntax
 =======================================================================
 
  RETURNING identifier-1
  ~~~~~~~~~
+
 
 =======================================================================
                           DECLARATIVES Syntax
@@ -1224,8 +1349,8 @@ section-name-1 SECTION.
      { AFTER EC|{EXCEPTION CONDITION}                                       }
              ~~  ~~~~~~~~~ ~~~~~~~~~
 
-
-The "AFTER EXCEPTION CONDITION"
+The 'AFTER EXCEPTION CONDITION' and 'AFTER EC' clauses are syntactically
+recognized but are otherwise non-functional.
 
 =======================================================================
                            LENGTH OF Syntax
@@ -1234,6 +1359,7 @@ The "AFTER EXCEPTION CONDITION"
  LENGTH OF numeric-literal-1 | identifier-1
  ~~~~~~
 
+
 =======================================================================
                  Reference Modifier (Format 1) Syntax
 =======================================================================
@@ -1241,11 +1367,13 @@ The "AFTER EXCEPTION CONDITION"
  identifier-1 [ OF|IN identifier-2 ] [ (subscript...) ] (start:[ length ])
                 ~~ ~~
 
+
 =======================================================================
                  Reference Modifier (Format 2) Syntax
 =======================================================================
 
  intrinsic-function-reference (start:[ length ])
+
 
 =======================================================================
                      Arithmetic-Expression Syntax
@@ -1254,6 +1382,7 @@ The "AFTER EXCEPTION CONDITION"
  Unary-Expression-1 { **|^ } Unary-Expression-2
                     {  *|/ }
                     {  +|- }
+
 
 =======================================================================
                         Unary-Expression Syntax
@@ -1264,6 +1393,7 @@ The "AFTER EXCEPTION CONDITION"
  {         {   ~~~~~~ ~~   { literal-1          } } }
  {         {               { Function-Reference } } }
  { Arithmetic-Expression-2                          }
+
 
 =======================================================================
                         Class-Condition Syntax
@@ -1281,6 +1411,7 @@ The "AFTER EXCEPTION CONDITION"
                          { ~~~~~~~          }
                          { class-name-1     }
 
+
 =======================================================================
                          Sign-Condition Syntax
 =======================================================================
@@ -1292,6 +1423,7 @@ The "AFTER EXCEPTION CONDITION"
                          { ZERO     }
                            ~~~~
 
+
 =======================================================================
                        Relation-Condition Syntax
 =======================================================================
@@ -1300,6 +1432,7 @@ The "AFTER EXCEPTION CONDITION"
  { literal-1               }      ~~~         { literal-2               }
  { arithmetic-expression-1 }                  { arithmetic-expression-2 }
  { index-name-1            }                  { index-name-2            }
+
 
 =======================================================================
                              RelOp Syntax
@@ -1323,6 +1456,7 @@ The "AFTER EXCEPTION CONDITION"
  { <                        }
  { <=                       }
 
+
 =======================================================================
                        Combined Condition Syntax
 =======================================================================
@@ -1332,12 +1466,14 @@ The "AFTER EXCEPTION CONDITION"
                          { OR  }
                          { ~~  }
 
+
 =======================================================================
                        Negated Condition Syntax
 =======================================================================
 
  NOT Condition-1
  ~~~
+
 
 =======================================================================
                       ACCEPT FROM CONSOLE Syntax
@@ -1350,6 +1486,7 @@ The "AFTER EXCEPTION CONDITION"
 
  [ END-ACCEPT ]
    ~~~~~~~~~~
+
 
 =======================================================================
                     ACCEPT FROM COMMAND-LINE Syntax
@@ -1369,6 +1506,7 @@ The "AFTER EXCEPTION CONDITION"
  [ END-ACCEPT ]    ~~~    ~~~~~~~~~
    ~~~~~~~~~~
 
+
 =======================================================================
                     ACCEPT FROM ENVIRONMENT Syntax
 =======================================================================
@@ -1385,6 +1523,7 @@ The "AFTER EXCEPTION CONDITION"
           ~~~    ~~~~~~~~~
  [ END-ACCEPT ]
    ~~~~~~~~~~
+
 
 =======================================================================
                     ACCEPT screen-data-item Syntax
@@ -1419,8 +1558,10 @@ The "AFTER EXCEPTION CONDITION"
                    ~~~~~~~ ~~~~~~~~       { identifier-6 }
                  [ CONVERSION ]
                    ~~~~~~~~~~
-                 [ UPDATE ] ]
+                 [ UPDATE ]
                    ~~~~~~
+                 [ SIZE  { integer-6    } ]
+                   ~~~~  { identifier-7 }
           [ ON EXCEPTION imperative-statement-1 ]
                ~~~~~~~~~
           [ NOT ON EXCEPTION imperative-statement-2 ]
@@ -1428,8 +1569,8 @@ The "AFTER EXCEPTION CONDITION"
  [ END-ACCEPT ]
    ~~~~~~~~~~
 
-
-The "FROM CRT"
+The 'FROM CRT' , 'MODE IS BLOCK' and 'CONVERSION' clauses are
+syntactically recognized but are otherwise non-functional.
 
 =======================================================================
                      ACCEPT FROM DATE/TIME Syntax
@@ -1443,6 +1584,7 @@ The "FROM CRT"
                             { ~~~~~~~~~~~       }
  [ END-ACCEPT ]             { TIME              }
    ~~~~~~~~~~
+
 
 =======================================================================
                     ACCEPT FROM Screen-Info Syntax
@@ -1459,6 +1601,7 @@ The "FROM CRT"
  [ END-ACCEPT ]
    ~~~~~~~~~~
 
+
 =======================================================================
                     ACCEPT FROM Runtime-Info Syntax
 =======================================================================
@@ -1471,6 +1614,7 @@ The "FROM CRT"
                  ~~~~ ~~~~
  [ END-ACCEPT ]
    ~~~~~~~~~~
+
 
 =======================================================================
                          ACCEPT OMITTED Syntax
@@ -1486,6 +1630,7 @@ The "FROM CRT"
  [ END-ACCEPT ]
    ~~~~~~~~~~
 
+
 =======================================================================
                   ACCEPT FROM EXCEPTION-STATUS Syntax
 =======================================================================
@@ -1495,6 +1640,7 @@ The "FROM CRT"
 
  [ END-ACCEPT ]
    ~~~~~~~~~~
+
 
 =======================================================================
                              ADD TO Syntax
@@ -1527,6 +1673,7 @@ The "FROM CRT"
        ~~~    ~~~~ ~~~~~
  [ END-ADD ]
    ~~~~~~~
+
 
 =======================================================================
                            ADD GIVING Syntax
@@ -1562,6 +1709,7 @@ The "FROM CRT"
  [ END-ADD ]
    ~~~~~~~
 
+
 =======================================================================
                        ADD CORRESPONDING Syntax
 =======================================================================
@@ -1593,6 +1741,7 @@ The "FROM CRT"
  [ END-ADD ]
    ~~~~~~~
 
+
 =======================================================================
                             ALLOCATE Syntax
 =======================================================================
@@ -1603,12 +1752,14 @@ The "FROM CRT"
      [ RETURNING identifier-2 ]           ~~~~~~~~~~~
        ~~~~~~~~~
 
+
 =======================================================================
                              ALTER Syntax
 =======================================================================
 
  ALTER procedure-name-1 TO PROCEED TO procedure-name-2
  ~~~~~                  ~~
+
 
 =======================================================================
                               CALL Syntax
@@ -1631,6 +1782,7 @@ The "FROM CRT"
  [ END-CALL ]
    ~~~~~~~~
 
+
 =======================================================================
                          CALL Argument Syntax
 =======================================================================
@@ -1650,12 +1802,14 @@ The "FROM CRT"
                                { ~~~~~~~   }
                                { integer-1 }
 
+
 =======================================================================
                              CANCEL Syntax
 =======================================================================
 
  CANCEL { literal-1    }...
  ~~~~~~ { identifier-1 }
+
 
 =======================================================================
                              CLOSE Syntax
@@ -1668,8 +1822,10 @@ The "FROM CRT"
                        { WITH NO REWIND            }
                               ~~ ~~~~~~
 
-
-The "REEL"
+The 'REEL' , 'LOCK' and 'NO REWIND' clauses are syntactically recognized
+but are otherwise non-functional, except for the 'CLOSE...NO REWIND'
+statement, which will generate a file status of 07 rather than the usual
+00 (but take no other action).
 
 =======================================================================
                              COMMIT Syntax
@@ -1677,6 +1833,7 @@ The "REEL"
 
  COMMIT
  ~~~~~~
+
 
 =======================================================================
                             COMPUTE Syntax
@@ -1709,12 +1866,19 @@ The "REEL"
  [ END-COMPUTE ]
    ~~~~~~~~~~~
 
+
 =======================================================================
                             CONTINUE Syntax
 =======================================================================
 
  CONTINUE
  ~~~~~~~~
+
+                 { identifier-1            }
+ CONTINUE AFTER  { literal-1               }   SECONDS
+ ~~~~~~~~ ~~~~~  { arithmetic-expression-1 }   ~~~~~~~
+
+
 
 =======================================================================
                              DELETE Syntax
@@ -1728,6 +1892,7 @@ The "REEL"
        ~~~ ~~~~~~~
  [ END-DELETE ]
    ~~~~~~~~~~
+
 
 =======================================================================
                       DISPLAY UPON device Syntax
@@ -1746,6 +1911,7 @@ The "REEL"
  [ END-DISPLAY ]
    ~~~~~~~~~~~
 
+
 =======================================================================
                    DISPLAY UPON COMMAND-LINE Syntax
 =======================================================================
@@ -1761,6 +1927,7 @@ The "REEL"
  [ END-DISPLAY ]
    ~~~~~~~~~~~
 
+
 =======================================================================
                  DISPLAY UPON ENVIRONMENT-NAME Syntax
 =======================================================================
@@ -1775,6 +1942,7 @@ The "REEL"
         ~~~    ~~~~~~~~~
  [ END-DISPLAY ]
    ~~~~~~~~~~~
+
 
 =======================================================================
                     DISPLAY screen-data-item Syntax
@@ -1797,10 +1965,8 @@ The "REEL"
                 ~~~~~~ { ~~   }   { identifier-5 }
                        { DOWN }
                          ~~~~
-              [ TIMEOUT|TIME-OUT AFTER { integer-5    } ]
-                ~~~~~~~ ~~~~~~~~       { identifier-6 }
-              [ CONVERSION ] ]
-                ~~~~~~~~~~
+              [ SIZE { integer-5    }
+                ~~~~ { identifier-6 }  ]
        [ ON EXCEPTION imperative-statement-1 ]
             ~~~~~~~~~
        [ NOT ON EXCEPTION imperative-statement-2 ]
@@ -1808,8 +1974,10 @@ The "REEL"
  [ END-DISPLAY ]
    ~~~~~~~~~~~
 
-
-The "UPON CRT"
+The 'UPON CRT' , 'UPON CRT-UNDER' and 'CONVERSION' clauses are
+syntactically recognized but are otherwise non-functional.  They are
+supported to provide compatibility with COBOL source written for other
+COBOL implementations.
 
 =======================================================================
                           DIVIDE INTO Syntax
@@ -1840,6 +2008,7 @@ The "UPON CRT"
       ~~~    ~~~~ ~~~~~
  [ END-DIVIDE ]
    ~~~~~~~~~~
+
 
 =======================================================================
                        DIVIDE INTO GIVING Syntax
@@ -1872,6 +2041,7 @@ The "UPON CRT"
  [ END-DIVIDE ]
    ~~~~~~~~~~
 
+
 =======================================================================
                         DIVIDE BY GIVING Syntax
 =======================================================================
@@ -1903,12 +2073,14 @@ The "UPON CRT"
  [ END-DIVIDE ]
    ~~~~~~~~~~
 
+
 =======================================================================
                              ENTRY Syntax
 =======================================================================
 
  ENTRY literal-1 [ USING ENTRY-Argument... ]
  ~~~~~             ~~~~~
+
 
 =======================================================================
                          ENTRY-Argument Syntax
@@ -1920,6 +2092,7 @@ The "UPON CRT"
       { ~~~~~~~   }
       { VALUE     }
         ~~~~~
+
 
 =======================================================================
                             EVALUATE Syntax
@@ -1937,6 +2110,7 @@ The "UPON CRT"
  [ END-EVALUATE ]
    ~~~~~~~~~~~~
 
+
 =======================================================================
                    EVALUATE Selection Subject Syntax
 =======================================================================
@@ -1948,6 +2122,7 @@ The "UPON CRT"
  { expression-1 }
  { identifier-1 }
  { literal-1    }
+
 
 =======================================================================
                    EVALUATE Selection Object Syntax
@@ -1965,6 +2140,7 @@ The "UPON CRT"
  { { identifier-2 }   ~~~~ ~~~~~~~ { identifier-3 }   }
  { { literal-2    }                { literal-3    }   }
 
+
 =======================================================================
                               EXIT Syntax
 =======================================================================
@@ -1980,12 +2156,14 @@ The "UPON CRT"
         { PARAGRAPH         }
           ~~~~~~~~~
 
+
 =======================================================================
                               FREE Syntax
 =======================================================================
 
  FREE { [ ADDRESS OF ] identifier-1 }...
  ~~~~     ~~~~~~~
+
 
 =======================================================================
                             GENERATE Syntax
@@ -1994,12 +2172,14 @@ The "UPON CRT"
  GENERATE { report-name-1 }
  ~~~~~~~~ { identifier-1  }
 
+
 =======================================================================
                              GOBACK Syntax
 =======================================================================
 
- GOBACK
- ~~~~~~
+ GOBACK [ { RETURNING|GIVING { literal-1    }  ]
+ ~~~~~~   { ~~~~~~~~~ ~~~~~~ { identifier-1 }
+
 
 =======================================================================
                           Simple GO TO Syntax
@@ -2007,6 +2187,7 @@ The "UPON CRT"
 
  GO TO procedure-name-1
  ~~
+
 
 =======================================================================
                        GO TO DEPENDING ON Syntax
@@ -2016,6 +2197,7 @@ The "UPON CRT"
  ~~
       DEPENDING ON identifier-1
       ~~~~~~~~~
+
 
 =======================================================================
                                IF Syntax
@@ -2031,6 +2213,7 @@ The "UPON CRT"
           ~~~~ ~~~~~~~~
  [ END-IF ]
    ~~~~~~
+
 
 =======================================================================
                            INITIALIZE Syntax
@@ -2051,12 +2234,14 @@ The "UPON CRT"
       [ THEN TO DEFAULT ]
                 ~~~~~~~
 
+
 =======================================================================
                             INITIATE Syntax
 =======================================================================
 
  INITIATE report-name-1
  ~~~~~~~~
+
 
 =======================================================================
                             INSPECT Syntax
@@ -2091,6 +2276,7 @@ The "UPON CRT"
                [ | { AFTER|BEFORE } INITIAL { literal-9     } | ] ]
                  |   ~~~~~ ~~~~~~           { identifier-10 } |
 
+
 =======================================================================
                              MERGE Syntax
 =======================================================================
@@ -2114,8 +2300,8 @@ The "UPON CRT"
     { GIVING file-name-3...                   }
     { ~~~~~~                                  }
 
-
-The "DUPLICATES"
+The 'DUPLICATES' clause is syntactically recognized but is otherwise
+non-functional.
 
 =======================================================================
                           Simple MOVE Syntax
@@ -2124,12 +2310,14 @@ The "DUPLICATES"
  MOVE { literal-1    } TO identifier-2...
  ~~~~ { identifier-1 } ~~
 
+
 =======================================================================
                        MOVE CORRESPONDING Syntax
 =======================================================================
 
  MOVE CORRESPONDING identifier-1 TO identifier-2...
  ~~~~ ~~~~                       ~~
+
 
 =======================================================================
                           MULTIPLY BY Syntax
@@ -2158,8 +2346,9 @@ The "DUPLICATES"
          ~~~~ ~~~~~
     [ NOT ON SIZE ERROR imperative-statement-2 ]
       ~~~    ~~~~ ~~~~~
- [ END-DIVIDE ]
-   ~~~~~~~~~~
+ [ END-MULTIPLY ]
+   ~~~~~~~~~~~~
+
 
 =======================================================================
                         MULTIPLY GIVING Syntax
@@ -2188,8 +2377,9 @@ The "DUPLICATES"
          ~~~~ ~~~~~
     [ NOT ON SIZE ERROR imperative-statement-2 ]
       ~~~    ~~~~ ~~~~~
- [ END-DIVIDE ]
-   ~~~~~~~~~~
+ [ END-MULTIPLY ]
+   ~~~~~~~~~~~~
+
 
 =======================================================================
                               OPEN Syntax
@@ -2210,8 +2400,8 @@ The "DUPLICATES"
         {      { LOCK      } }
                  ~~~~
 
-
-The "NO REWIND"
+The 'NO REWIND' , and 'REVERSED' clauses are syntactically recognized
+but are otherwise non-functional.
 
 =======================================================================
                        Procedural PERFORM Syntax
@@ -2227,6 +2417,7 @@ The "NO REWIND"
       { ~~~~~ ~~~~ ~~~~~~~                                          }
       { { literal-1    } TIMES                                      }
       { { identifier-1 } ~~~~~                                      }
+
 
 =======================================================================
                          Inline PERFORM Syntax
@@ -2248,6 +2439,7 @@ The "NO REWIND"
  [ END-PERFORM ]
    ~~~~~~~~~~~
 
+
 =======================================================================
                             VARYING Syntax
 =======================================================================
@@ -2260,6 +2452,7 @@ The "NO REWIND"
    ~~~~~              ~~~~ { identifier-6 }   ~~ { identifier-7 }
          [ UNTIL conditional-expression-2 ] ]...
            ~~~~~
+
 
 =======================================================================
                         Sequential READ Syntax
@@ -2283,6 +2476,7 @@ The "NO REWIND"
       ~~~    ~~~
  [ END-READ ]
    ~~~~~~~~
+
 
 =======================================================================
                           Random READ Syntax
@@ -2309,12 +2503,14 @@ The "NO REWIND"
  [ END-READ ]
    ~~~~~~~~
 
+
 =======================================================================
                           READY TRACE Syntax
 =======================================================================
 
  READY TRACE
  ~~~~~ ~~~~~
+
 
 =======================================================================
                             RELEASE Syntax
@@ -2323,12 +2519,14 @@ The "NO REWIND"
  RELEASE record-name-1 [ FROM { literal-1    } ]
  ~~~~~~~                 ~~~~ { identifier-1 }
 
+
 =======================================================================
                           RESET TRACE Syntax
 =======================================================================
 
  RESET TRACE
  ~~~~~ ~~~~~
+
 
 =======================================================================
                              RETURN Syntax
@@ -2344,6 +2542,7 @@ The "NO REWIND"
       ~~~    ~~~
  [ END-RETURN ]
    ~~~~~~~~~~
+
 
 =======================================================================
                             REWRITE Syntax
@@ -2363,12 +2562,14 @@ The "NO REWIND"
  [ END-REWRITE ]
    ~~~~~~~~~~~
 
+
 =======================================================================
                             ROLLBACK Syntax
 =======================================================================
 
  ROLLBACK
  ~~~~~~~~
+
 
 =======================================================================
                              SEARCH Syntax
@@ -2385,6 +2586,7 @@ The "NO REWIND"
  [ END-SEARCH ]
    ~~~~~~~~~~
 
+
 =======================================================================
                            SEARCH ALL Syntax
 =======================================================================
@@ -2398,6 +2600,7 @@ The "NO REWIND"
  [ END-SEARCH ]
    ~~~~~~~~~~
 
+
 =======================================================================
                         SET ENVIRONMENT Syntax
 =======================================================================
@@ -2405,12 +2608,14 @@ The "NO REWIND"
  SET ENVIRONMENT { literal-1    } TO { literal-2    }
  ~~~ ~~~~~~~~~~~ { identifier-1 } ~~ { identifier-2 }
 
+
 =======================================================================
                       SET Program-Pointer Syntax
 =======================================================================
 
  SET program-pointer-1 TO ENTRY { literal-1    }
  ~~~                   ~~ ~~~~~ { identifier-1 }
+
 
 =======================================================================
                           SET ADDRESS Syntax
@@ -2422,12 +2627,14 @@ The "NO REWIND"
      TO [ ADDRESS OF ]  { pointer-name-2 }
      ~~   ~~~~~~~ ~~    { identifier-2   }
 
+
 =======================================================================
                            SET Index Syntax
 =======================================================================
 
  SET index-name-1 TO { literal-1    }
  ~~~              ~~ { identifier-2 }
+
 
 =======================================================================
                           SET UP/DOWN Syntax
@@ -2438,6 +2645,7 @@ The "NO REWIND"
                   { DOWN }
                     ~~~~
 
+
 =======================================================================
                        SET Condition Name Syntax
 =======================================================================
@@ -2447,6 +2655,7 @@ The "NO REWIND"
                             { FALSE }
                               ~~~~~
 
+
 =======================================================================
                            SET Switch Syntax
 =======================================================================
@@ -2455,6 +2664,7 @@ The "NO REWIND"
  ~~~                    ~~ { ~~  }
                            { OFF }
                              ~~~
+
 
 =======================================================================
                          SET ATTRIBUTE Syntax
@@ -2476,6 +2686,15 @@ The "NO REWIND"
                               { ~~~~~~~~~~~~~ }
                               { UNDERLINE     }
                                 ~~~~~~~~~
+
+
+=======================================================================
+                       SET LAST EXCEPTION Syntax
+=======================================================================
+
+ SET LAST EXCEPTION TO { OFF }
+ ~~~ ~~~~ ~~~~~~~~~ ~~   ~~~
+
 
 =======================================================================
                         File-Based SORT Syntax
@@ -2502,11 +2721,11 @@ The "NO REWIND"
     { ~~~~~~ ~~~~~~~~~                         }
     {       [ THRU|THROUGH procedure-name-4 ]  }
     {         ~~~~ ~~~~~~~                     }
-    { GIVING file-name-3...                    }
+    { GIVING file-name-2...                    }
       ~~~~~~
 
-
-The "DUPLICATES"
+The 'DUPLICATES' clause is syntactically recognized but is otherwise
+non-functional.
 
 =======================================================================
                            Table SORT Syntax
@@ -2523,8 +2742,8 @@ The "DUPLICATES"
     [ COLLATING SEQUENCE IS alphabet-name-1 ]
       ~~~~~~~~~
 
-
-The "DUPLICATES"
+The 'DUPLICATES' clause is syntactically recognized but is otherwise
+non-functional.
 
 =======================================================================
                              START Syntax
@@ -2557,6 +2776,7 @@ The "DUPLICATES"
  [ END-START ]
    ~~~~~~~~~
 
+
 =======================================================================
                               STOP Syntax
 =======================================================================
@@ -2570,6 +2790,7 @@ The "DUPLICATES"
       {                ~~~~~~                                   }
       { literal-3                                               }
 
+
 =======================================================================
                              STRING Syntax
 =======================================================================
@@ -2579,7 +2800,8 @@ The "DUPLICATES"
       { { literal-1    } [ DELIMITED BY { SIZE         } ] }...
         { identifier-1 }   ~~~~~~~~~    { ~~~~         }
                                         { literal-2    }
-        INTO identifier-3               { identifier-2 }
+                                        { identifier-2 }
+        INTO identifier-3
         ~~~~
       [ WITH POINTER identifier-4 ]
              ~~~~~~~
@@ -2589,6 +2811,7 @@ The "DUPLICATES"
         ~~~    ~~~~~~~~
  [ END-STRING ]
    ~~~~~~~~~~
+
 
 =======================================================================
                          SUBTRACT FROM Syntax
@@ -2619,6 +2842,7 @@ The "DUPLICATES"
        ~~~    ~~~~ ~~~~~
  [ END-SUBTRACT ]
    ~~~~~~~~~~~~
+
 
 =======================================================================
                         SUBTRACT GIVING Syntax
@@ -2652,6 +2876,7 @@ The "DUPLICATES"
  [ END-SUBTRACT ]
    ~~~~~~~~~~~~
 
+
 =======================================================================
                      SUBTRACT CORRESPONDING Syntax
 =======================================================================
@@ -2681,12 +2906,14 @@ The "DUPLICATES"
  [ END-SUBTRACT ]
    ~~~~~~~~~~~~
 
+
 =======================================================================
                             SUPPRESS Syntax
 =======================================================================
 
  SUPPRESS PRINTING
  ~~~~~~~~
+
 
 =======================================================================
                            TERMINATE Syntax
@@ -2695,6 +2922,7 @@ The "DUPLICATES"
  TERMINATE report-name-1...
  ~~~~~~~~~
 
+
 =======================================================================
                            TRANSFORM Syntax
 =======================================================================
@@ -2702,12 +2930,14 @@ The "DUPLICATES"
  TRANSFORM identifier-1 FROM { literal-1    } TO { literal-2    }
  ~~~~~~~~~              ~~~~ { identifier-2 } ~~ { identifier-3 }
 
+
 =======================================================================
                              UNLOCK Syntax
 =======================================================================
 
  UNLOCK filename-1 RECORD|RECORDS
  ~~~~~~
+
 
 =======================================================================
                             UNSTRING Syntax
@@ -2732,6 +2962,7 @@ The "DUPLICATES"
         ~~~    ~~~~~~~~
  [ END-UNSTRING ]
    ~~~~~~~~~~~~
+
 
 =======================================================================
                              WRITE Syntax
@@ -2761,6 +2992,7 @@ The "DUPLICATES"
  [ END-WRITE ]
    ~~~~~~~~~
 
+
 
 File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subroutines Syntax,  Prev: PROCEDURE DIVISION Syntax,  Up: Top
 
@@ -2775,12 +3007,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  ABS(number)
  ~~~
 
+
 =======================================================================
                          ACOS Function Syntax
 =======================================================================
 
  ACOS(cosine)
  ~~~~
+
 
 =======================================================================
                         ANNUITY Function Syntax
@@ -2789,12 +3023,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  ANNUITY(interest-rate, number-of-periods)
  ~~~~~~~
 
+
 =======================================================================
                          ASIN Function Syntax
 =======================================================================
 
  ASIN(sine)
  ~~~~
+
 
 =======================================================================
                          ATAN Function Syntax
@@ -2803,12 +3039,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  ATAN(tangent)
  ~~~~
 
+
 =======================================================================
                       BYTE-LENGTH Function Syntax
 =======================================================================
 
  BYTE-LENGTH(string)
  ~~~~~~~~~~~
+
 
 =======================================================================
                          CHAR Function Syntax
@@ -2817,12 +3055,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  CHAR(integer)
  ~~~~
 
+
 =======================================================================
                    COMBINED-DATETIME Function Syntax
 =======================================================================
 
  COMBINED-DATETIME(days, seconds)
  ~~~~~~~~~~~~~~~~~
+
 
 =======================================================================
                       CONCATENATE Function Syntax
@@ -2831,12 +3071,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  CONCATENATE(string-1 [, string-2 ]...)
  ~~~~~~~~~~~
 
+
 =======================================================================
                           COS Function Syntax
 =======================================================================
 
  COS(angle)
  ~~~
+
 
 =======================================================================
                     CURRENCY-SYMBOL Function Syntax
@@ -2845,12 +3087,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  CURRENCY-SYMBOL
  ~~~~~~~~~~~~~~~
 
+
 =======================================================================
                      CURRENT-DATE Function Syntax
 =======================================================================
 
  CURRENT-DATE
  ~~~~~~~~~~~~
+
 
 =======================================================================
                     DATE-OF-INTEGER Function Syntax
@@ -2859,12 +3103,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  DATE-OF-INTEGER(integer)
  ~~~~~~~~~~~~~~~
 
+
 =======================================================================
                    DATE-TO-YYYYMMDD Function Syntax
 =======================================================================
 
- DATE-TO-YYYYMMDD(yymmdd [, yy-cutoff ])
+ DATE-TO-YYYYMMDD(yymmdd [, yy-cutoff [, yy-execution-time ]])
  ~~~~~~~~~~~~~~~~
+
 
 =======================================================================
                     DAY-OF-INTEGER Function Syntax
@@ -2873,12 +3119,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  DAY-OF-INTEGER(integer)
  ~~~~~~~~~~~~~~
 
+
 =======================================================================
                     DAY-TO-YYYYDDD Function Syntax
 =======================================================================
 
- DAY-TO-YYYYDDD(yyddd [, yy-cutoff])
+ DAY-TO-YYYYDDD(yyddd [, yy-cutoff [, yy-execution-time ]])
  ~~~~~~~~~~~~~~
+
 
 =======================================================================
                            E Function Syntax
@@ -2887,12 +3135,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  E
  ~
 
+
 =======================================================================
                     EXCEPTION-FILE Function Syntax
 =======================================================================
 
  EXCEPTION-FILE
  ~~~~~~~~~~~~~~
+
 
 =======================================================================
                   EXCEPTION-LOCATION Function Syntax
@@ -2901,12 +3151,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  EXCEPTION-LOCATION
  ~~~~~~~~~~~~~~~~~~
 
+
 =======================================================================
                   EXCEPTION-STATEMENT Function Syntax
 =======================================================================
 
  EXCEPTION-STATEMENT
  ~~~~~~~~~~~~~~~~~~~
+
 
 =======================================================================
                    EXCEPTION-STATUS Function Syntax
@@ -2915,12 +3167,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  EXCEPTION-STATUS
  ~~~~~~~~~~~~~~~~
 
+
 =======================================================================
                           EXP Function Syntax
 =======================================================================
 
  EXP(number)
  ~~~
+
 
 =======================================================================
                          EXP10 Function Syntax
@@ -2929,12 +3183,46 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  EXP10(number)
  ~~~~~
 
+
 =======================================================================
                        FACTORIAL Function Syntax
 =======================================================================
 
  FACTORIAL(number)
  ~~~~~~~~~
+
+
+=======================================================================
+                FORMATTED-CURRENT-DATE Function Syntax
+=======================================================================
+
+ FORMATTED-CURRENT-DATE ( argument-1 )
+ ~~~~~~~~~~~~~~~~~~~~~~
+
+
+=======================================================================
+                    FORMATTED-DATE Function Syntax
+=======================================================================
+
+ FORMATTED-DATE ( argument-1, argument-2 )
+ ~~~~~~~~~~~~~~
+
+
+=======================================================================
+                  FORMATTED-DATETIME Function Syntax
+=======================================================================
+
+ FORMATTED-DATETIME ( argument-1, argument-2, argument-3, argument-4 )
+ ~~~~~~~~~~~~~~~~~~
+
+
+=======================================================================
+                    FORMATTED-TIME Function Syntax
+=======================================================================
+
+ FORMATTED-TIME ( argument-1, argument-2, argument-3 )
+ ~~~~~~~~~~~~~~
+
 
 =======================================================================
                      FRACTION-PART Function Syntax
@@ -2943,12 +3231,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  FRACTION-PART(number)
  ~~~~~~~~~~~~~
 
+
 =======================================================================
                    HIGHEST-ALGEBRAIC Function Syntax
 =======================================================================
 
  HIGHEST-ALGEBRAIC(numeric-identifier)
  ~~~~~~~~~~~~~~~~~
+
 
 =======================================================================
                         INTEGER Function Syntax
@@ -2957,12 +3247,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  INTEGER(number)
  ~~~~~~~
 
+
 =======================================================================
                     INTEGER-OF-DATE Function Syntax
 =======================================================================
 
  INTEGER-OF-DATE(date)
  ~~~~~~~~~~~~~~~
+
 
 =======================================================================
                     INTEGER-OF-DAY Function Syntax
@@ -2971,12 +3263,22 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  INTEGER-OF-DAY(date)
  ~~~~~~~~~~~~~~
 
+
+=======================================================================
+               INTEGER-OF-FORMATTED-DATE Function Syntax
+=======================================================================
+
+ INTEGER-OF-FORMATTED-DATE ( argument-1, argument-2 )
+ ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 =======================================================================
                      INTEGER-PART Function Syntax
 =======================================================================
 
  INTEGER-PART(number)
  ~~~~~~~~~~~~
+
 
 =======================================================================
                         LENGTH Function Syntax
@@ -2985,12 +3287,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  LENGTH(string)
  ~~~~~~
 
+
 =======================================================================
                        LENGTH-AN Function Syntax
 =======================================================================
 
  LENGTH-AN(string)
  ~~~~~~~~~
+
 
 =======================================================================
                     LOCALE-COMPARE Function Syntax
@@ -2999,12 +3303,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  LOCALE-COMPARE(argument-1, argument-2 [ , locale ])
  ~~~~~~~~~~~~~~
 
+
 =======================================================================
                       LOCALE-DATE Function Syntax
 =======================================================================
 
  LOCALE-DATE(date [, locale ])
  ~~~~~~~~~~~
+
 
 =======================================================================
                       LOCALE-TIME Function Syntax
@@ -3013,12 +3319,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  LOCALE-TIME(time [, locale ])
  ~~~~~~~~~~~
 
+
 =======================================================================
                LOCALE-TIME-FROM-SECONDS Function Syntax
 =======================================================================
 
  LOCALE-TIME-FROM-SECONDS(seconds [, locale ])
  ~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 =======================================================================
                           LOG Function Syntax
@@ -3027,12 +3335,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  LOG(number)
  ~~~
 
+
 =======================================================================
                          LOG10 Function Syntax
 =======================================================================
 
  LOG10(number)
  ~~~~~
+
 
 =======================================================================
                       LOWER-CASE Function Syntax
@@ -3041,12 +3351,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  LOWER-CASE(string)
  ~~~~~~~~~~
 
+
 =======================================================================
                    LOWEST-ALGEBRAIC Function Syntax
 =======================================================================
 
  LOWEST-ALGEBRAIC(numeric-identifier)
  ~~~~~~~~~~~~~~~~
+
 
 =======================================================================
                           MAX Function Syntax
@@ -3055,12 +3367,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  MAX(number-1 [, number-2 ]...)
  ~~~
 
+
 =======================================================================
                          MEAN Function Syntax
 =======================================================================
 
  MEAN(number-1 [, number-2 ]...)
  ~~~~
+
 
 =======================================================================
                         MEDIAN Function Syntax
@@ -3069,12 +3383,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  MEDIAN(number-1 [, number-2 ]...)
  ~~~~~~
 
+
 =======================================================================
                        MIDRANGE Function Syntax
 =======================================================================
 
  MIDRANGE(number-1 [, number-2 ]...)
  ~~~~~~~~
+
 
 =======================================================================
                           MIN Function Syntax
@@ -3083,12 +3399,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  MIN(number-1 [, number-2 ]...)
  ~~~
 
+
 =======================================================================
                           MOD Function Syntax
 =======================================================================
 
  MOD(value, modulus)
  ~~~
+
 
 =======================================================================
                    MODULE-CALLER-ID Function Syntax
@@ -3097,12 +3415,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  MODULE-CALLER-ID
  ~~~~~~~~~~~~~~~~
 
+
 =======================================================================
                       MODULE-DATE Function Syntax
 =======================================================================
 
  MODULE-DATE
  ~~~~~~~~~~~
+
 
 =======================================================================
                  MODULE-FORMATTED-DATE Function Syntax
@@ -3111,12 +3431,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  MODULE-FORMATTED-DATE
  ~~~~~~~~~~~~~~~~~~~~~
 
+
 =======================================================================
                        MODULE-ID Function Syntax
 =======================================================================
 
  MODULE-ID
  ~~~~~~~~~
+
 
 =======================================================================
                       MODULE-PATH Function Syntax
@@ -3125,12 +3447,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  MODULE-PATH
  ~~~~~~~~~~~
 
+
 =======================================================================
                      MODULE-SOURCE Function Syntax
 =======================================================================
 
  MODULE-SOURCE
  ~~~~~~~~~~~~~
+
 
 =======================================================================
                       MODULE-TIME Function Syntax
@@ -3139,12 +3463,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  MODULE-TIME
  ~~~~~~~~~~~
 
+
 =======================================================================
                 MONETARY-DECIMAL-POINT Function Syntax
 =======================================================================
 
  MONETARY-DECIMAL-POINT
  ~~~~~~~~~~~~~~~~~~~~~~
+
 
 =======================================================================
              MONETARY-THOUSANDS-SEPARATOR Function Syntax
@@ -3153,12 +3479,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  MONETARY-THOUSANDS-SEPARATOR
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 =======================================================================
                  NUMERIC-DECIMAL-POINT Function Syntax
 =======================================================================
 
  NUMERIC-DECIMAL-POINT
  ~~~~~~~~~~~~~~~~~~~~~
+
 
 =======================================================================
               NUMERIC-THOUSANDS-SEPARATOR Function Syntax
@@ -3167,6 +3495,7 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  NUMERIC-THOUSANDS-SEPARATOR
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 =======================================================================
                         NUMVAL Function Syntax
 =======================================================================
@@ -3174,12 +3503,15 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  NUMVAL(string)
  ~~~~~~
 
+
 =======================================================================
                        NUMVAL-C Function Syntax
 =======================================================================
 
- NUMVAL-C(string[,symbol])
+ NUMVAL-C (string [, symbol               ]
  ~~~~~~~~
+                  [, LOCALE locale-name-1 ] [, ANYCASE ])
+
 
 =======================================================================
                        NUMVAL-F Function Syntax
@@ -3188,12 +3520,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  NUMVAL-F(char)
  ~~~~~~~~
 
+
 =======================================================================
                           ORD Function Syntax
 =======================================================================
 
  ORD(char)
  ~~~
+
 
 =======================================================================
                         ORD-MAX Function Syntax
@@ -3202,12 +3536,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  ORD-MAX(char-1 [, char-2 ]...)
  ~~~~~~~
 
+
 =======================================================================
                         ORD-MIN Function Syntax
 =======================================================================
 
  ORD-MIN(char-1 [, char-2 ]...)
  ~~~~~~~
+
 
 =======================================================================
                           PI Function Syntax
@@ -3216,12 +3552,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  PI
  ~~
 
+
 =======================================================================
                      PRESENT-VALUE Function Syntax
 =======================================================================
 
  PRESENT-VALUE(rate, value-1 [, value-2 ])
  ~~~~~~~~~~~~~
+
 
 =======================================================================
                         RANDOM Function Syntax
@@ -3230,12 +3568,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  RANDOM[(seed)]
  ~~~~~~
 
+
 =======================================================================
                          RANGE Function Syntax
 =======================================================================
 
  RANGE(number-1 [, number-2 ]...)
  ~~~~~
+
 
 =======================================================================
                           REM Function Syntax
@@ -3244,12 +3584,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  REM(number,divisor)
  ~~~
 
+
 =======================================================================
                         REVERSE Function Syntax
 =======================================================================
 
  REVERSE(string)
  ~~~~~~~
+
 
 =======================================================================
               SECONDS-FROM-FORMATTED-TIME Function Syntax
@@ -3258,12 +3600,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  SECONDS-FROM-FORMATTED-TIME(format,time)
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 =======================================================================
                  SECONDS-PAST-MIDNIGHT Function Syntax
 =======================================================================
 
  SECONDS-PAST-MIDNIGHT
  ~~~~~~~~~~~~~~~~~~~~~
+
 
 =======================================================================
                          SIGN Function Syntax
@@ -3272,12 +3616,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  SIGN(number)
  ~~~~
 
+
 =======================================================================
                           SIN Function Syntax
 =======================================================================
 
  SIN(angle)
  ~~~
+
 
 =======================================================================
                          SQRT Function Syntax
@@ -3286,12 +3632,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  SQRT(number)
  ~~~~
 
+
 =======================================================================
                   STANDARD-DEVIATION Function Syntax
 =======================================================================
 
  STANDARD-DEVIATION(number-1 [, number-2 ]...)
  ~~~~~~~~~~~~~~~~~~
+
 
 =======================================================================
                   STORED-CHAR-LENGTH Function Syntax
@@ -3300,12 +3648,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  STORED-CHAR-LENGTH(string)
  ~~~~~~~~~~~~~~~~~~
 
+
 =======================================================================
                       SUBSTITUTE Function Syntax
 =======================================================================
 
  SUBSTITUTE(string, from-1, to-1 [, from-n, to-n ]...)
  ~~~~~~~~~~
+
 
 =======================================================================
                     SUBSTITUTE-CASE Function Syntax
@@ -3314,12 +3664,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  SUBSTITUTE-CASE(string, from-1, to-1 [, from-n, to-n ]...)
  ~~~~~~~~~~~~~~~
 
+
 =======================================================================
                           SUM Function Syntax
 =======================================================================
 
  SUM(number-1 [, number-2 ]...)
  ~~~
+
 
 =======================================================================
                           TAN Function Syntax
@@ -3328,12 +3680,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  TAN(angle)
  ~~~
 
+
 =======================================================================
                   TEST-DATE-YYYYMMDD Function Syntax
 =======================================================================
 
  TEST-DATE-YYYYMMDD(date)
  ~~~~~~~~~~~~~~~~~~
+
 
 =======================================================================
                    TEST-DAY-YYYYDDD Function Syntax
@@ -3342,12 +3696,22 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  TEST-DATE-YYYYDDD(date)
  ~~~~~~~~~~~~~~~~~
 
+
+=======================================================================
+                TEST-FORMATTED-DATETIME Function Syntax
+=======================================================================
+
+ TEST-FORMATTED-DATETIME ( argument-1, argument-2 )
+ ~~~~~~~~~~~~~~~~~~~~~~~
+
+
 =======================================================================
                       TEST-NUMVAL Function Syntax
 =======================================================================
 
  TEST-NUMVAL(string)
  ~~~~~~~~~~~
+
 
 =======================================================================
                      TEST-NUMVAL-C Function Syntax
@@ -3356,12 +3720,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  TEST-NUMVAL-C(string[,symbol])
  ~~~~~~~~~~~~~
 
+
 =======================================================================
                      TEST-NUMVAL-F Function Syntax
 =======================================================================
 
  TEST-NUMVAL-F(string)
  ~~~~~~~~~~~~~
+
 
 =======================================================================
                          TRIM Function Syntax
@@ -3370,12 +3736,14 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  TRIM(string [, LEADING|TRAILING ])
  ~~~~           ~~~~~~~ ~~~~~~~~
 
+
 =======================================================================
                       UPPER-CASE Function Syntax
 =======================================================================
 
  UPPER-CASE(string)
  ~~~~~~~~~~
+
 
 =======================================================================
                        VARIANCE Function Syntax
@@ -3384,6 +3752,7 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  VARIANCE(number-1 [, number-2 ]...)
  ~~~~~~~~
 
+
 =======================================================================
                      WHEN-COMPILED Function Syntax
 =======================================================================
@@ -3391,12 +3760,102 @@ File: gnucobqr.info,  Node: Intrinsic Functions Syntax,  Next: Built-In Subrouti
  WHEN-COMPILED
  ~~~~~~~~~~~~~
 
+
 =======================================================================
                      YEAR-TO-YYYY Function Syntax
 =======================================================================
 
- YEAR-TO-YYYY(yy [, yy-cutoff ])
+ YEAR-TO-YYYY(yy [, yy-cutoff [, yy-execution-time ]])
  ~~~~~~~~~~~~
+
+
+=======================================================================
+                  BOOLEAN-OF-INTEGER function Syntax
+=======================================================================
+
+ BOOLEAN-OF-INTEGER(argument-1 argument-2)
+ ~~~~~~~~~~~~~~~~~~
+
+This option is not yet implemented.
+
+The included file NEWS will indicate when it is.
+
+=======================================================================
+                     CHAR-NATIONAL Function Syntax
+=======================================================================
+
+ CHAR-NATIONAL(argument-1)
+ ~~~~~~~~~~~~~
+
+This option is not yet implemented.
+
+The included file NEWS will indicate when it is.
+
+=======================================================================
+                      DISPLAY-OF Function Syntax
+=======================================================================
+
+ DISPLAY-OF(argument-1 [ argument-2] )
+ ~~~~~~~~~~
+
+This option is not yet implemented.
+
+The included file NEWS will indicate when it is.
+
+=======================================================================
+                   EXCEPTION-FILE-N Function Syntax
+=======================================================================
+
+ EXCEPTION-FILE-N
+ ~~~~~~~~~~~~~~~~
+
+This option is not yet implemented.
+
+The included file NEWS will indicate when it is.
+
+=======================================================================
+                 EXCEPTION-LOCATION-N Function Syntax
+=======================================================================
+
+ EXCEPTION-LOCATION-N
+ ~~~~~~~~~~~~~~~~~~~~
+
+This option is not yet implemented.
+
+The included file NEWS will indicate when it is.
+
+=======================================================================
+                  INTEGER-OF-BOOLEAN Function Syntax
+=======================================================================
+
+ INTEGER-OF-BOOLEAN(argument-1)
+ ~~~~~~~~~~~~~~~~~~
+
+This option is not yet implemented.
+
+The included file NEWS will indicate when it is.
+
+=======================================================================
+                      NATIONAL-OF Function Syntax
+=======================================================================
+
+NATIONAL-OF(argument-1 [argument-2] )
+~~~~~~~~~~~
+
+This option is not yet implemented.
+
+The included file NEWS will indicate when it is.
+
+=======================================================================
+                   STANDARD-COMPARE Function Syntax
+=======================================================================
+
+STANDARD-COMPARE(argument-1 argument-2 [ordering-name-1] [argument-4] )
+~~~~~~~~~~~~~~~~
+
+This option is not yet implemented.
+
+The included file NEWS will indicate when it is.
 
 
 File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documentation License,  Prev: Intrinsic Functions Syntax,  Up: Top
@@ -3412,12 +3871,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "C$CALLEDBY" USING prog-name-area
  ~~~~              ~~~~~
 
+
 =======================================================================
                   C$CHDIR Built-In Subroutine Syntax
 =======================================================================
 
  CALL "C$CHDIR" USING directory-path, result
  ~~~~           ~~~~~
+
 
 =======================================================================
                    C$COPY Built-In Subroutine Syntax
@@ -3426,12 +3887,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "C$COPY" USING src-file-path, dest-file-path, 0
  ~~~~          ~~~~~
 
+
 =======================================================================
                   C$DELETE Built-In Subroutine Syntax
 =======================================================================
 
  CALL "C$DELETE" USING file-path, 0
  ~~~~            ~~~~~
+
 
 =======================================================================
                  C$FILEINFO Built-In Subroutine Syntax
@@ -3440,12 +3903,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "C$FILEINFO" USING file-path, file-info
  ~~~~              ~~~~~
 
+
 =======================================================================
                   C$GETPID Built-In Subroutine Syntax
 =======================================================================
 
  CALL "C$GETPID"
  ~~~~
+
 
 =======================================================================
                  C$JUSTIFY Built-In Subroutine Syntax
@@ -3454,12 +3919,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "C$JUSTIFY" USING data-item, "justification-type"
  ~~~~             ~~~~~
 
+
 =======================================================================
                  C$MAKEDIR Built-In Subroutine Syntax
 =======================================================================
 
  CALL "C$MAKEDIR" USING dir-path
  ~~~~             ~~~~~
+
 
 =======================================================================
                    C$NARG Built-In Subroutine Syntax
@@ -3468,12 +3935,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "C$NARG" USING arg-count-result
  ~~~~          ~~~~~
 
+
 =======================================================================
                 C$PARAMSIZE Built-In Subroutine Syntax
 =======================================================================
 
  CALL "C$PARAMSIZE" USING argument-number
  ~~~~               ~~~~~
+
 
 =======================================================================
                 C$PRINTABLE Built-In Subroutine Syntax
@@ -3482,12 +3951,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "C$PRINTABLE" USING data-item [ , char ]
  ~~~~               ~~~~~
 
+
 =======================================================================
                   C$SLEEP Built-In Subroutine Syntax
 =======================================================================
 
  CALL "C$SLEEP" USING seconds-to-sleep
  ~~~~           ~~~~~
+
 
 =======================================================================
                  C$TOLOWER Built-In Subroutine Syntax
@@ -3496,12 +3967,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "C$TOLOWER" USING data-item, BY VALUE convert-length
  ~~~~             ~~~~~               ~~~~~
 
+
 =======================================================================
                  C$TOUPPER Built-In Subroutine Syntax
 =======================================================================
 
  CALL "C$TOUPPER" USING data-item, BY VALUE convert-length
  ~~~~             ~~~~~               ~~~~~
+
 
 =======================================================================
                   CBL_AND Built-In Subroutine Syntax
@@ -3510,12 +3983,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "CBL_AND" USING item-1, item-2, BY VALUE byte-length
  ~~~~           ~~~~~                    ~~~~~
 
+
 =======================================================================
                CBL_CHANGE_DIR Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_CHANGE_DIR" USING directory-path
  ~~~~                  ~~~~~
+
 
 =======================================================================
             CBL_CHECK_FILE_EXIST Built-In Subroutine Syntax
@@ -3524,12 +3999,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "CBL_CHECK_FILE_EXIST" USING file-path, file-info
  ~~~~                        ~~~~~
 
+
 =======================================================================
                CBL_CLOSE_FILE Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_CLOSE_FILE" USING file-handle
  ~~~~                  ~~~~~
+
 
 =======================================================================
                CBL_COPY_FILE Built-In Subroutine Syntax
@@ -3538,12 +4015,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "CBL_COPY_FILE" USING src-file-path, dest-file-path
  ~~~~                 ~~~~~
 
+
 =======================================================================
                CBL_CREATE_DIR Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_CREATE_DIR" USING dir-path
  ~~~~                  ~~~~~
+
 
 =======================================================================
               CBL_CREATE_FILE Built-In Subroutine Syntax
@@ -3552,12 +4031,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "CBL_CREATE_FILE" USING file-path, 2, 0, 0, file-handle
  ~~~~                   ~~~~~
 
+
 =======================================================================
                CBL_DELETE_DIR Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_DELETE_DIR" USING dir-path
  ~~~~                  ~~~~~
+
 
 =======================================================================
               CBL_DELETE_FILE Built-In Subroutine Syntax
@@ -3566,12 +4047,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "CBL_DELETE_FILE" USING file-path
  ~~~~                   ~~~~~
 
+
 =======================================================================
                    CBL_EQ Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_EQ" USING item-1, item-2, BY VALUE byte-length
  ~~~~          ~~~~~                    ~~~~~
+
 
 =======================================================================
                CBL_ERROR_PROC Built-In Subroutine Syntax
@@ -3580,12 +4063,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "CBL_ERROR_PROC" USING function, program-pointer
  ~~~~                  ~~~~~
 
+
 =======================================================================
                CBL_EXIT_PROC Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_EXIT_PROC" USING function, program-pointer
  ~~~~                 ~~~~~
+
 
 =======================================================================
                CBL_FLUSH_FILE Built-In Subroutine Syntax
@@ -3594,12 +4079,14 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  CALL "CBL_FLUSH_FILE" USING file-handle
  ~~~~                  ~~~~~
 
+
 =======================================================================
                  CBL_GC_FORK Built-In Subroute Syntax
 =======================================================================
 
  CALL "CBL_GC_FORK" USING Child-PID
  ~~~~               ~~~~~
+
 
 =======================================================================
                CBL_GC_GETOPT Built-In Subroutine Syntax
@@ -3610,6 +4097,7 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
                             BY VALUE LONG-ONLY
                             BY REFERENCE RETURN-CHAR OPT-VAL
 
+
 =======================================================================
                CBL_GC_HOSTED Built-In Subroutine Syntax
 =======================================================================
@@ -3618,6 +4106,7 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  ~~~~                 ~~~~~
 
  Note replaces CBL_OC_HOSTED which is kept as a legacy item.
+
 
 
 =======================================================================
@@ -3630,6 +4119,7 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  Note replaces CBL_OC_NANOSLEEP which is kept as a legacy item.
 
 
+
 =======================================================================
               CBL_GC_PRINTABLE Built-In Subroutine Syntax
 =======================================================================
@@ -3638,6 +4128,7 @@ File: gnucobqr.info,  Node: Built-In Subroutines Syntax,  Next: GNU Free Documen
  ~~~~                    ~~~~~
 
 Note replaces C$PRINTABLE which is kept as a legacy item.
+
 
 =======================================================================
                CBL_GC_WAITPID Built-In Subroutine Syntax
@@ -3648,12 +4139,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
                        RETURNING RET-STATUS
                        ~~~~~~~~~
 
+
 =======================================================================
               CBL_GET_CSR_POS Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_GET_CSR_POS" USING cursor-locn-buffer
  ~~~~                   ~~~~~
+
 
 =======================================================================
             CBL_GET_CURRENT_DIR Built-In Subroutine Syntax
@@ -3666,12 +4159,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
                                   BY REFERENCE buffer
                                      ~~~~~~~~~
 
+
 =======================================================================
               CBL_GET_SCR_SIZE Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_GET_SCR_SIZE" USING no-of-lines, no-of-cols
  ~~~~                    ~~~~~
+
 
 =======================================================================
                   CBL_IMP Built-In Subroutine Syntax
@@ -3680,12 +4175,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
  CALL "CBL_IMP" USING item-1, item-2, BY VALUE byte-length
  ~~~~           ~~~~~                    ~~~~~
 
+
 =======================================================================
                   CBL_NIMP Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_NIMP" USING item-1, item-2, BY VALUE byte-length
  ~~~~            ~~~~~                    ~~~~~
+
 
 =======================================================================
                   CBL_NOR Built-In Subroutine Syntax
@@ -3694,12 +4191,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
  CALL "CBL_NOR" USING item-1, item-2, BY VALUE byte-length
  ~~~~           ~~~~~                    ~~~~~
 
+
 =======================================================================
                   CBL_NOT Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_NOT" USING item-1, BY VALUE byte-length
  ~~~~           ~~~~~            ~~~~~
+
 
 =======================================================================
                CBL_OPEN_FILE Built-In Subroutine Syntax
@@ -3708,12 +4207,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
  CALL "CBL_OPEN_FILE" USING file-path, access-mode, 0, 0, handle
  ~~~~                 ~~~~~
 
+
 =======================================================================
                    CBL_OR Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_OR" USING item-1, item-2, BY VALUE byte-length
  ~~~~          ~~~~~                    ~~~~~
+
 
 =======================================================================
                CBL_READ_FILE Built-In Subroutine Syntax
@@ -3722,12 +4223,30 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
  CALL "CBL_READ_FILE" USING handle, offset, nbytes, flag, buffer
  ~~~~                 ~~~~~
 
+
+=======================================================================
+             CBL_READ_KBD_CHAR Build-In Subroutine Syntax
+=======================================================================
+
+ CALL "CBL_READ_KBD_CHAR" USING char RETURNING status-code.
+ ~~~~                     ~~~~~      ~~~~~~~~~
+
+
 =======================================================================
               CBL_RENAME_FILE Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_RENAME_FILE" USING old-file-path, new-file-path
  ~~~~                   ~~~~~
+
+
+=======================================================================
+              CBL_SET_CSR_POS Build-In Subroutine Syntax
+=======================================================================
+
+ CALL "CBL_SET_CSR_POS" USING cursor-locn-buffer ?
+ ~~~~                   ~~~~~
+
 
 =======================================================================
                 CBL_TOLOWER Built-In Subroutine Syntax
@@ -3736,12 +4255,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
  CALL "CBL_TOLOWER" USING data-item, BY VALUE convert-length
  ~~~~               ~~~~~               ~~~~~
 
+
 =======================================================================
                 CBL_TOUPPER Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_TOUPPER" USING data-item, BY VALUE convert-length
  ~~~~               ~~~~~               ~~~~~
+
 
 =======================================================================
                CBL_WRITE_FILE Built-In Subroutine Syntax
@@ -3750,12 +4271,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
  CALL "CBL_WRITE_FILE" USING handle, offset, nbytes, 0, buffer
  ~~~~                  ~~~~~
 
+
 =======================================================================
                   CBL_XOR Built-In Subroutine Syntax
 =======================================================================
 
  CALL "CBL_XOR" USING item-1, item-2, BY VALUE byte-length
  ~~~~           ~~~~~                    ~~~~~
+
 
 =======================================================================
                    SYSTEM Built-In Subroutine Syntax
@@ -3764,12 +4287,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
  CALL "SYSTEM" USING command
  ~~~~          ~~~~~
 
+
 =======================================================================
                    X"91" Built-In Subroutine Syntax
 =======================================================================
 
  CALL X"91" USING return-code, function-code, binary-variable-arg
  ~~~~       ~~~~~
+
 
 =======================================================================
                    X"E4" Built-In Subroutine Syntax
@@ -3778,12 +4303,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
  CALL X"E4"
  ~~~~
 
+
 =======================================================================
                    X"E5" Built-In Subroutine Syntax
 =======================================================================
 
  CALL X"E5"
  ~~~~
+
 
 =======================================================================
                    X"F4" Built-In Subroutine Syntax
@@ -3792,12 +4319,14 @@ Note replaces C$PRINTABLE which is kept as a legacy item.
  CALL X"F4" USING byte, table
  ~~~~       ~~~~~
 
+
 =======================================================================
                    X"F5" Built-In Subroutine Syntax
 =======================================================================
 
  CALL X"F5" USING byte, table
  ~~~~       ~~~~~
+
 
 
 File: gnucobqr.info,  Node: GNU Free Documentation License,  Prev: Built-In Subroutines Syntax,  Up: Top
@@ -3808,7 +4337,7 @@ File: gnucobqr.info,  Node: GNU Free Documentation License,  Prev: Built-In Subr
                      Version 1.3, 3 November 2008
 
      Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
-     <http://fsf.org/>
+     <https://fsf.org/>
 
      Everyone is permitted to copy and distribute verbatim copies
      of this license document, but changing it is not allowed.
@@ -4205,7 +4734,7 @@ File: gnucobqr.info,  Node: GNU Free Documentation License,  Prev: Built-In Subr
      the GNU Free Documentation License from time to time.  Such new
      versions will be similar in spirit to the present version, but may
      differ in detail to address new problems or concerns.  See
-     <http://www.gnu.org/copyleft/>.
+     <https://www.gnu.org/licenses/>.
 
      Each version of the License is given a distinguishing version
      number.  If the Document specifies that a particular numbered
@@ -4284,14 +4813,14 @@ their use in free software.
 
 
 Tag Table:
-Node: Top1484
-Node: CDF1902
-Node: IDENTIFICATION DIVISION Syntax10382
-Node: ENVIRONMENT DIVISION Syntax12252
-Node: DATA DIVISION Syntax24316
-Node: PROCEDURE DIVISION Syntax40786
-Node: Intrinsic Functions Syntax103042
-Node: Built-In Subroutines Syntax124407
-Node: GNU Free Documentation License140313
+Node: Top1480
+Node: CDF2217
+Node: IDENTIFICATION DIVISION Syntax13748
+Node: ENVIRONMENT DIVISION Syntax15914
+Node: DATA DIVISION Syntax28807
+Node: PROCEDURE DIVISION Syntax45457
+Node: Intrinsic Functions Syntax108805
+Node: Built-In Subroutines Syntax134576
+Node: GNU Free Documentation License151067
 
 End Tag Table
