@@ -1263,7 +1263,7 @@ When viewing, note the Default settings.
              Note:  format of GC2.2 and older:
                     "PROGRAM-ID: %I    Line: %L        %S"
 
-For v3.2
+For v4.0+
  Environment name:  COB_TRACE_IO
   Parameter name:  trace_io
          Purpose:  define if I/O details should be added to trace
@@ -1286,7 +1286,7 @@ For v3.2
           Default:  100
           Example:  dump_width 120
 
-For v3.2
+For v4.0+
  Environment name:  COB_STATS_RECORD
   Parameter name:  stats_record
          Purpose:  define if I/O statistics should be written
@@ -1294,7 +1294,7 @@ For v3.2
          Default:  false
          Example:  STATS_RECORD true
 
-For v3.2
+For v4.0+
  Environment name:  COB_STATS_FILE
   Parameter name:  stats_file
          Purpose:  to define where COBOL I/O statistics should be written
@@ -1369,7 +1369,7 @@ For v3.2
           Default:  0
           Example:  VARSEQ_FORMAT 1
 
-For v3.2
+For v4.0+
  Environment name: COB_VARREL_FORMAT
   Parameter name: varrel_format
          Purpose: declare format to be used for variable length relative files
@@ -1385,7 +1385,7 @@ For v3.2
                        machines of different hardware archeticture
          Example: VARREL_FORMAT mf
 
-For v3.2
+For v4.0+
  Environment name:  COB_FIXREL_FORMAT
   Parameter name:  fixrel_format
          Purpose:  declare format to be used for fixed length relative
@@ -1399,7 +1399,7 @@ For v3.2
          Default:  gc  fixed size with no record length prefix
          Example:  FIXREL_FORMAT B32
 
-For v3.2
+For v4.0+
  Environment name: COB_VARFIX_FORMAT
   Parameter name: varfix_format
          Purpose: declare format to be used for fixed length relative files
@@ -1435,13 +1435,16 @@ For v3.2
    Parameter name:  ls_nulls
           Purpose:  Defines for LINE SEQUENTIAL files what to do with data
                     which is not DISPLAY type.  This could happen if a LINE
-                    SEQUENTIAL record has COMP data fields in it.
+                    SEQUENTIAL record has BINARY/COMP data fields in it.
+                    For v4.0+ (may change before its release candidate)
+                    This option is only for GnuCOBOL format files
              Type:  boolean
           Default:  false
-             Note:  The TRUE setting will handle files that contain COMP data
-                    in a similar manner to the method used by Micro Focus COBOL
+             Note:  The TRUE setting will insert a null character x"00" before
+                    those values to escape them, and redo on read-in.
           Example:  LS_NULL = TRUE
 
+For v4.0+
 Environment name:  COB_LS_SPLIT
   Parameter name:  ls_split
          Purpose:  Defines for LINE SEQUENTIAL files what to do when a record
@@ -1452,11 +1455,13 @@ Environment name:  COB_LS_SPLIT
                    The record is truncated and the file skips to the next LF
          Example:  LS_SPLIT = TRUE
 
+For v4.0+
 Environment name:  COB_LS_VALIDATE
   Parameter name:  ls_validate
          Purpose:  Defines for LINE SEQUENTIAL files that the data should be
                    validated. If any record has non-DISPLAY characters then
                    an error status of 34 is returned
+                   For v4.0+ (may change before its release candidate)
                    This option is only for GnuCOBOL format files
             Type:  boolean
          Default:  true
@@ -1465,16 +1470,16 @@ Environment name:  COB_LS_VALIDATE
                    If LS_NULLS is set, then LS_VALIDATE is not checked
          Example:  LS_VALIDATE = FALSE
 
-For v3.2
+For v4.0+ (may be replaced before its release candidate)
  Environment name: COB_MF_FILES
   Parameter name: mf_files
-         Purpose: declare that sequential/relative files should be in
-                  Micro Focus compatible format
-           Type:  boolean (evaluated for true only)
-         Default:   false
-         Example: mf_files True
+         Purpose:  Declares that all files in the program should be in
+                   Micro Focus compatible format.
+            Type:  boolean (evaluated for true only)
+         Default:  false
+         Example:  mf_files True
 
-For v3.2
+For v4.0+ (may be replaced before its release candidate)
  Environment name:  COB_MF_LS_NULLS
   Parameter name:  mf_ls_nulls
          Purpose:  Defines for Micro Focus compatible LINE SEQUENTIAL files
@@ -1485,9 +1490,21 @@ For v3.2
          Default:  true
             Note:  The TRUE setting will handle files that contain COMP data
                    in a similar manner to the method used by Micro Focus COBOL
-         Example:  LS_NULLS = TRUE
+         Example:  MF_LS_NULLS = TRUE
 
-For v3.2
+For v4.0+ (may be replaced before its release candidate)
+ Environment name:  COB_MF_LS_INSTAB
+   Parameter name:  mf_ls_instab
+          Purpose:  Defines for LINE SEQUENTIAL files that multiple spaces
+                    should be replaced by a TAB character, assuming a 'tab set'
+                    value of 8. Each TAB means to skip to the next column that
+                    is a multiple of 8
+                    Similar to Micro Focus INSERTTAB=ON option
+             Type:  boolean
+          Default:  false
+          Example:  MF_LS_INSTAB = TRUE
+
+For v4.0+ (may be replaced before its release candidate)
  Environment name:  COB_MF_LS_SPLIT
   Parameter name:  mf_ls_split
          Purpose:  Defines for Micro Focus compatible LINE SEQUENTIAL files what
@@ -1498,9 +1515,7 @@ For v3.2
          Default:  true
          Example:  MF_LS_SPLIT = FALSE
 
-         Example:  LS_SPLIT = TRUE
-
-For v3.2
+For v4.0+ (may be replaced before its release candidate)
  Environment name:  COB_MF_LS_VALIDATE
   Parameter name:  mf_ls_validate
          Purpose:  Defines for Micro Focus compatible LINE SEQUENTIAL files
@@ -1514,7 +1529,7 @@ For v3.2
                    If MF_LS_NULLS is set, then MF_LS_VALIDATE is not checked
          Example:  MF_LS_VALIDATE = FALSE
 
-For v3.2
+For v4.0+
  Environment name:  COB_SHARE_MODE
   Parameter name:  share_mode
          Purpose:  Defines what file sharing option should be used
@@ -1526,7 +1541,7 @@ For v3.2
          Default:  none
          Example:  share_mode = ALL
 
-For v3.2
+For v4.0+
  Environment name:  COB_RETRY_MODE
   Parameter name:  retry_mode
          Purpose:  Defines what I/O retry sharing option should be used
@@ -1537,7 +1552,7 @@ For v3.2
          Default:  none
          Example:  retry_mode = never
 
-For v3.2
+For v4.0+
  Environment name:  COB_RETRY_TIMES
   Parameter name:  retry_times
          Purpose:  Defines how many times I/O should be retried
@@ -1545,7 +1560,7 @@ For v3.2
          Default:  0
          Example:  retry_times = 10
 
-For v3.2
+For v4.0+
  Environment name:  COB_RETRY_SECONDS
   Parameter name:  retry_seconds
          Purpose:  Defines how many seconds I/O should be retried
@@ -1553,7 +1568,7 @@ For v3.2
          Default:  0
          Example:  retry_seconds = 6
 
-For v3.2
+For v4.0+
  Environment name:  COB_KEYCHECK
   Parameter name:  keycheck
          Purpose:  Must INDEXED file keys match COBOL SELECT exactly
@@ -1635,7 +1650,6 @@ For v3.2
              Note:  also sets the cursor type (if available)
           Example:  insert_mode Y
 
-For v3.2
  Environment name:  COB_MOUSE_FLAGS
   Parameter name:  mouse_flags
          Purpose:  specify which mouse events will be sent as function key
@@ -1650,7 +1664,6 @@ For v3.2
            Alias:  MOUSE_FLAGS
          Example:  11 (enable internal handling => 1, left press => 2,
                        double-click => 8; 1+2+8=11)
-For v3.2
  Environment name:  COB_MOUSE_INTERVAL
   Parameter name:  mouse_interval
          Purpose:  specifies the maximum time (in thousands of a second)
@@ -1661,7 +1674,6 @@ For v3.2
             Note:  0 disables the click resolution (instead press + release
                    are recognized), also disables positioning by mouse click
 
-For v3.2
  Environment name:  COB_DISPLAY_PRINT_PIPE
   Parameter name:  display_print_pipe
          Purpose:  Defines command line used for sending output of
@@ -1679,7 +1691,6 @@ For v3.2
          Default:  not set
          Example:  print 'cat >>/tmp/myprt.log'
 
-For v3.2
  Environment name:  COB_DISPLAY_PRINT_FILE
   Parameter name:  display_print_file
          Purpose:  Defines file to be appended to by DISPLAY UPON PRINTER
@@ -1688,7 +1699,6 @@ For v3.2
          Default:  not set
          Example:  display_printer '/tmp/myprt.log'
 
-For v3.2
  Environment name:  COB_DISPLAY_PUNCH_FILE
   Parameter name:  display_punch_file
          Purpose:  Defines file to be created on first
@@ -1739,6 +1749,8 @@ For v3.2
 @newunit{10.2.3.7,File I/O Environment Variables and/or dictionary file}
 @verbatim
 
+GnuCOBOL 4.+ only!
+
 Before a file is opened a check is done for environment variables that
 may define various attributes of the file
 First a check is made for attributes for files of the same ORGANIZATION
@@ -1761,7 +1773,7 @@ type=xx          Set file organization where 'xx' is one of
                  IX = INDEXED, SQ = SEQUENTIAL, RL = RELATIVE
                  LS = LINE SEQUENTIAL, LA = LINE ADVANCING
 mf               Set file to Micro Focus compatible format
-gc               Set to original GNU Cobol default format
+gc               Set to original GnuCOBOL default format
 recsz            The size for fixed size record file
 maxsz            Maximum record size for variable length records
 minsz            Minimum record size for variable length records
@@ -1795,6 +1807,10 @@ key1=(loc:len)   loc (zero relative) of key, len of key
 key2=(loc:len,loc:len ...)
                  define composite index
 dupn=Y           index allows dups
+
+  ---- For INDEXED BDB files -----
+big_endian       Set internal 'int' byte order to BIG ENDIAN
+little_endian    Set internal 'int' byte order to LITTLE ENDIAN
 
 @end verbatim
 @comment *********************************************************************
