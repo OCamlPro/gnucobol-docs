@@ -157,10 +157,10 @@ The @syntaxidx{CODE-SET} clause allows a custom alphabet, defined in the @syntax
 The @code{LINAGE} clause may only be specified in the @code{FD} of a sequential or line sequential file.  If used with a sequential file, the organization of that file will be implicitly changed to line sequential.   The various components of the @code{LINAGE} clause define the layout of printed pages as follows:
 @table @asis
 @item @syntaxidx{LINES AT TOP}
-Number of unused (i.e. left blank) lines at the top of every page.  The default if this if not specified is zero.
+Number of unused (@i{i.e.} left blank) lines at the top of every page.  The default if this if not specified is zero.
 
 @item @syntaxidx{LINES AT BOTTOM}
-Number of unused (i.e. left blank) lines at the bottom of every page.  The default if this if not specified is zero.
+Number of unused (@i{i.e.} left blank) lines at the bottom of every page.  The default if this if not specified is zero.
 
 @item @syntaxidx{LINAGE IS n LINES}
 Total number of used/usable lines on the page.
@@ -258,7 +258,7 @@ also marks the completion of the detailed description of the file and signifies 
 @end table
 
 @item
-Every @var{FILE-SECTION-Data-Item} description must be terminated with a period.
+Every FILE-SECTION-Data-Item description must be terminated with a period.
 
 @item
 If there are multiple record descriptions present for a given @code{FD} or @code{SD}, the one with the longest length will define the size of the record buffer into which a @statementref{READ} or a @statementref{RETURN} will deliver data read from the file and from which a @statementref{WRITE} or @statementref{RELEASE} statement will obtain the data to be written to the file.
@@ -303,7 +303,7 @@ The reserved word @code{PICTURE} may be abbreviated to @code{PIC}.
 The reserved word @code{JUSTIFIED} may be abbreviated to @code{JUST}.
 
 @item
-As the syntax diagram shows, the definition of a @var{WORKING-STORAGE-SECTION-Data-Item} is a recursive one in that there may be any number of such specifications coded following one another.  The first such specification must have a level number of 01.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of a record.  The definition of a record is terminated when one of the following occurs:
+As the syntax diagram shows, the definition of a @code{@var{WORKING-STORAGE-SECTION-Data-Item}} is a recursive one in that there may be any number of such specifications coded following one another.  The first such specification must have a level number of 01.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of a record.  The definition of a record is terminated when one of the following occurs:
 @itemize @bullet
 
 @item
@@ -315,7 +315,8 @@ A 77-level item is found --- this signifies the end of the definition of the rec
 @item
 A division or section header is found --- this also marks the completion of a record and signifies the end of the working-storage section as well.
 @end itemize
-@item Every @var{WORKING-STORAGE-SECTION-Data-Item} description must be terminated with a period.
+@item
+Every @code{@var{WORKING-STORAGE-SECTION-Data-Item}} description must be terminated with a period.
 
 @item
 The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 through 49 are used to define data items that may be part of a hierarchical structure.  Level number 01 can also be used to define a constant --- an item with an unchangeable value specified at compilation time.
@@ -354,16 +355,17 @@ The reserved word @code{PICTURE} may be abbreviated to @code{PIC}.
 The reserved word @code{JUSTIFIED} may be abbreviated to @code{JUST}.
 
 @item
-As the syntax diagram shows, the definition of a @var{LOCAL-STORAGE-SECTION-Data-Item} is a recursive one in that there may be any number of such specifications coded following one another.  The first such specification must have a level number of 01.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of a record.  The definition of a record is terminated when one of the following occurs:
+As the syntax diagram shows, the definition of a @code{@var{LOCAL-STORAGE-SECTION-Data-Item}} is a recursive one in that there may be any number of such specifications coded following one another.  The first such specification must have a level number of 01.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of a record.  The definition of a record is terminated when one of the following occurs:
 @itemize @bullet
-
 @item
 Another 01-level item is found --- this signifies the end of the definition of one record and the start of a another.
 
 @item
 A division or section header is found --- this also marks the completion of a record and signifies the end of the local-storage section as well.
 @end itemize
-@item Every @var{LOCAL-STORAGE-SECTION-Data-Item} description must be terminated with a period.
+
+@item
+Every @code{@var{LOCAL-STORAGE-SECTION-Data-Item}} description must be terminated with a period.
 
 @item
 The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 through 49 are used to define data items that may be part of a hierarchical structure.  Level number 01 can also be used to define a constant --- an item with an unchangeable value specified at compilation time.
@@ -393,7 +395,7 @@ The linkage section describes data within a subprogram that serves as either inp
 The reserved words @code{BY}, @code{CHARACTER}, @code{IS}, @code{KEY}, @code{ON} and @code{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 
 @item
-The reserved words @code{SYNCRONIZED} and "@code{SYNCHRONISED}" are interchangeable.  Both may be abbreviated as @code{SYNC}.
+The reserved words @code{SYNCRONIZED} and ``@code{SYNCHRONISED}'' are interchangeable.  Both may be abbreviated as @code{SYNC}.
 
 @item
 The reserved word @code{PICTURE} may be abbreviated to @code{PIC}.
@@ -402,7 +404,7 @@ The reserved word @code{PICTURE} may be abbreviated to @code{PIC}.
 The reserved word @code{JUSTIFIED} may be abbreviated to @code{JUST}.
 
 @item
-As the syntax diagram shows, the definition of a @var{LINKAGE-SECTION-Data-Item} is a recursive one in that there may be any number of such specifications coded following one another.  The first such specification must have a level number of 01.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of a record.  The definition of a record is terminated when one of the following occurs:
+As the syntax diagram shows, the definition of a @code{@var{LINKAGE-SECTION-Data-Item}} is a recursive one in that there may be any number of such specifications coded following one another.  The first such specification must have a level number of 01.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of a record.  The definition of a record is terminated when one of the following occurs:
 @itemize @bullet
 
 @item
@@ -411,7 +413,9 @@ Another 01-level item is found --- this signifies the end of the definition of o
 @item
 A division or section header is found --- this also marks the completion of a record and signifies the end of the linkage section as well.
 @end itemize
-@item Every @var{LINKAGE-SECTION-Data-Item} description must be terminated with a period.
+
+@item
+Every @code{@var{LINKAGE-SECTION-Data-Item}} description must be terminated with a period.
 
 @item
 The only valid level numbers are 01-49, 66, 77, 78 and 88.  Level numbers 01 through 49 are used to define data items that may be part of a hierarchical structure.  Level number 01 can also be used to define a constant --- an item with an unchangeable value specified at compilation time.
@@ -431,6 +435,7 @@ All 01-level data items described within a subprogram's linkage section should a
 @item
 Each 01-level data item described within a subprogram's linkage section should correspond to an argument passed on a @statementref{CALL} or an argument on a function call to the subprogram.
 @end enumerate
+
 @item
 Not specifying an @var{identifier-1} or @code{FILLER} immediately after the level number has the same effect as if @code{FILLER} were specified.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item or to describe a group item whose contents which will only be referenced using the names of those items that belong to it.  In the linkage section, 01-level data items cannot be named @code{FILLER}.
 
@@ -448,10 +453,10 @@ No storage is allocated for data defined in the linkage section; the data descri
 @diagram{REPORT SECTION,DD-REPORT-SECTION,DD-REPORT-SECTION,None}
 @diagram{Report-Description (RD),DD-RS-RD,DD-RS-RD,None}
 
-This section describes the layout of printed reports as well as many of the functional aspects of the generation of reports that will be produced via the Report Writer Control System. It is important to maintain the order of these clauses and ensure that all fields defined or referenced with this section are actually defined in the WORKING-STORAGE SECTION and not elsewhere.
+This section describes the layout of printed reports as well as many of the functional aspects of the generation of reports that will be produced via the Report Writer Control System. It is important to maintain the order of these clauses and ensure that all fields defined or referenced with this section are actually defined in the @code{WORKING-STORAGE SECTION} and not elsewhere.
 @enumerate
 @item
-The reserved words @code{ARE} and @code{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{ARE} and @code{IS} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The phrases @code{CONTROL IS} and @code{CONTROLS ARE} are interchangeable, as are the @code{PAGE LIMIT} and @code{PAGE LIMITS} phrases.
@@ -469,7 +474,7 @@ Each report referenced on a @code{REPORT IS} clause (@pxref{File/Sort-Descriptio
 @xref{GLOBAL}, for information on the @code{GLOBAL} option.
 
 @item
-Please see @ref{Report Writer Features}, if you have not read it already.  This will familiarize you with the Report Writer terminology that will follow.
+Please see @ref{Report Writer Features}, if you have not read it already.  It will familiarize you with the Report Writer terminology that follows.
 
 @item
 The following rules pertain to the @syntaxidx{PAGE LIMITS} clause:
@@ -484,10 +489,10 @@ All literals (@var{literal-2} through @var{literal-8}) must be numeric with non-
 All identifiers (@var{identifier-2} through @var{identifier-8}) must be numeric, unedited with non-zero positive integer values.
 
 @item
-Any value specified for @var{literal-2}|@var{identifier-2} will define the total number of available lines on any report page, not counting any unused margins at the top and/or bottom of the page (defined by the @code{LINES AT TOP} and @code{LINES AT BOTTOM} values specified on the @code{LINAGE} clause of the @code{FD} this @code{RD} is linked to --- @pxref{File/Sort-Description}).
+Any value specified for @var{literal-2} or @var{identifier-2} will define the total number of available lines on any report page, not counting any unused margins at the top and/or bottom of the page (defined by the @code{LINES AT TOP} and @code{LINES AT BOTTOM} values specified on the @code{LINAGE} clause of the @code{FD} this @code{RD} is linked to --- @pxref{File/Sort-Description}).
 
 @item
-Any value specified for @var{literal-3}|@var{identifier-3} will be ignored.
+Any value specified for @var{literal-3} or @var{identifier-3} will be ignored.
 
 @item
 The @syntaxidx{HEADING} clause defines the first line number at which a report heading or page heading may be presented.
@@ -496,7 +501,7 @@ The @syntaxidx{HEADING} clause defines the first line number at which a report h
 The @syntaxidx{FIRST DETAIL} clause defines the first line at which a detail group may be presented.
 
 @item
-The @syntaxidx{LAST CONTROL} HEADING clause defines the last line at which any line of a control heading may be presented.
+The @syntaxidx{LAST CONTROL} @code{HEADING} clause defines the last line at which any line of a control heading may be presented.
 
 @item
 The @syntaxidx{LAST DETAIL} clause defines the last line at which any line of a detail group may be presented.
@@ -506,37 +511,38 @@ The @syntaxidx{FOOTING} clause defines the last line at which any line of a cont
 
 @item
 The following rules establish default values for the various @code{PAGE LIMIT} clauses, assuming there is one:
+@table @code
+@item HEADING
+default is one (1)
+
+@item FIRST DETAIL HEADING
+value is used
+
+@item LAST CONTROL HEADING
+value from @code{LAST DETAIL} or, if that is absent, the value from @code{FOOTING} or, if that too is absent, the value from @code{PAGE LIMIT}
+
+@item LAST DETAIL
+value from @code{FOOTING} or, if that is absent, the value from @code{PAGE LIMIT}
+
+@item FOOTING
+value from @code{LAST DETAIL} or, if that is absent, the value from @code{PAGE LIMIT}
+@end table
+
+@item
+For the values specified on a @code{PAGE LIMIT} clause to be valid, all of the following must be true:
 @itemize @bullet
 
 @item
-@code{HEADING} --- the default is one (1)
+@code{FIRST DETAIL} @leq{} @code{HEADING}
 
 @item
-@code{FIRST DETAIL} --- the HEADING value is used
+@code{LAST CONTROL HEADING} @leq{} @code{FIRST DETAIL}
 
 @item
-@code{LAST CONTROL HEADING} --- the value from @code{LAST DETAIL} or, if that is absent, the value from @code{FOOTING} or, if that too is absent, the value from @code{PAGE LIMIT}
+@code{LAST DETAIL} @leq{} @code{LAST CONTROL HEADING}
 
 @item
-@code{LAST DETAIL} --- the value from @code{FOOTING} or, if that is absent, the value from @code{PAGE LIMIT}
-
-@item
-@code{FOOTING} --- the value from @code{LAST DETAIL} or, if that is absent, the value from @code{PAGE LIMIT}
-@end itemize
-@item For the values specified on a @code{PAGE LIMIT} clause to be valid, all of the following must be true:
-@itemize @bullet
-
-@item
-@code{HEADING} not > @code{FIRST DETAIL}
-
-@item
-@code{FIRST DETAIL} not > @code{LAST CONTROL HEADING}
-
-@item
-@code{LAST CONTROL HEADING} not > @code{LAST DETAIL}
-
-@item
-@code{LAST DETAIL} not > @code{FOOTING}
+@code{FOOTING} @leq{} @code{LAST DETAIL}
 @end itemize
 @end enumerate
 @item The following rules pertain to the @syntaxidx{CONTROL} clause:
@@ -561,7 +567,7 @@ At execution time:
 @itemize @bullet
 
 @item
-Each time a @statementref{GENERATE} is executed against a detail report group defined for this @code{RD}, the RWCS will check the contents of each @var{identifier-2} data item; whenever an @var{identifier-9}'s value has changed since the previous GENERATE, a control break condition will be in effect for that @var{identifier-2}.
+Each time a @statementref{GENERATE} is executed against a detail report group defined for this @code{RD}, the RWCS will check the contents of each @var{identifier-2} data item; whenever an @var{identifier-9}'s value has changed since the previous @code{GENERATE}, a control break condition will be in effect for that @var{identifier-2}.
 
 @item
 Once the list of control breaks has been determined, the @code{CONTROL FOOTING} for each @var{identifier-2} having a control break (if any such report group is defined) will be presented.
@@ -609,7 +615,7 @@ References to @code{PAGE-COUNTER} in the procedure division must be qualified wi
 The syntax shown here documents how a report group is defined to a report.  This syntax is valid only in the report section, and only then after an @code{RD}.
 @enumerate
 @item
-The reserved words @code{IS}, @code{NUMBER} and @code{ON} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{IS}, @code{NUMBER} and @code{ON} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The @code{RH} and @code{REPORT HEADING} terms are interchangeable, as are @code{PH} and @code{PAGE HEADING}, @code{CH} and @code{CONTROL HEADING}, @code{DE} and @code{DETAIL}, @code{CF} and @code{CONTROL FOOTING}, @code{PF} and @code{PAGE FOOTING} as well as @code{RF} and @code{REPORT FOOTING}.
@@ -624,7 +630,7 @@ The @syntaxref{TYPE} clause specifies the type of report group being defined.
 The level number used for a report group definition must be 01.
 
 @item
-The optional @var{identifier-1} specification assigns a name to this report group so that the group may be referenced either by a GENERATE statement or on a @code{USE BEFORE REPORTING}.
+The optional @var{identifier-1} specification assigns a name to this report group so that the group may be referenced either by a @code{GENERATE} statement or on a @code{USE BEFORE REPORTING}.
 
 @item
 No two report groups in the same report (@code{RD}) may named with the same @var{identifier-1}.  There may, however, be multiple @var{identifier-1} definitions in different reports.  In such instances, references to @var{identifier-1} must be qualified by the report name.
@@ -633,7 +639,7 @@ No two report groups in the same report (@code{RD}) may named with the same @var
 There may only be one report heading, report footing, final control heading, final control footing, page heading and page footing defined per report.
 
 @item
-Report group declarations must be followed by at least one @var{REPORT-SECTION-Data-Item} with a level number in the range 02-49.
+Report group declarations must be followed by at least one @code{@var{REPORT-SECTION-Data-Item}} with a level number in the range 02-49.
 
 @item
 @xref{Data Description Clauses}, for information on the usage of the various data description clauses.
@@ -648,7 +654,7 @@ Report group declarations must be followed by at least one @var{REPORT-SECTION-D
 Data item descriptions describing the report lines and fields that make up the substance of a report group immediately follow the definition of that group.
 @enumerate
 @item
-The reserved words @code{IS}, @code{NUMBER}, @code{OF}, @code{ON}, @code{RIGHT}, @code{TIMES} and @code{WHEN} (BLANK) are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{IS}, @code{NUMBER}, @code{OF}, @code{ON}, @code{RIGHT}, @code{TIMES} and @code{WHEN} (BLANK) are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The reserved word @code{COLUMN} may be abbreviated as @code{COL}.
@@ -678,7 +684,7 @@ Group items (those without @syntaxidx{PICTURE} clauses) are frequently used to d
 The screen section describes the screens to be displayed during terminal/console I-O.
 @enumerate
 @item
-The reserved words @code{CHARACTER} (@code{SEPARATE} clause), @code{IS}, @code{NUMBER}, @code{RIGHT}, @code{TIMES} and @code{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{CHARACTER} (@code{SEPARATE} clause), @code{IS}, @code{NUMBER}, @code{RIGHT}, @code{TIMES} and @code{WHEN} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The reserved word @code{COLUMN} may be abbreviated as @code{COL}.
@@ -711,10 +717,12 @@ The following sets of reserved words are interchangeable:
 @item
 @code{SECURE} and @code{NO-ECHO}
 @end itemize
-@item Data items defined in the screen section describe input, output or combination screen layouts to be used with @statementref{ACCEPT screen-data-item} or @statementref{DISPLAY screen-data-item} statements.  These screen layouts may define the entire available screen area or any subset of it.
 
 @item
-The term 'available screen area' is a nebulous one in those environments where command-line shell sessions are invoked within a graphical user-interface environment, as will be the case on Windows, OSX and most Unix/Linux systems --- these environments allow command-line session windows to exist with a variable number of available screen rows and columns.  When you are designing GnuCOBOL screens, you need to do so with an awareness of the logical screen row/column geometry the program will be executing within.
+Data items defined in the screen section describe input, output or combination screen layouts to be used with @statementref{ACCEPT screen-data-item} or @statementref{DISPLAY screen-data-item} statements.  These screen layouts may define the entire available screen area or any subset of it.
+
+@item
+The term @i{available screen area} is a nebulous one in those environments where command-line shell sessions are invoked within a graphical user-interface environment, as will be the case on Windows, OSX and most Unix/Linux systems --- these environments allow command-line session windows to exist with a variable number of available screen rows and columns.  When you are designing GnuCOBOL screens, you need to do so with an awareness of the logical screen row/column geometry the program will be executing within.
 
 @item
 Data items with level numbers 01 (Constants), 66, 78 and 88 may be used in the screen section;  they have the same syntax, rules and usage as they do in the other data division sections.
@@ -726,7 +734,7 @@ Without @syntaxref{LINE} or @syntaxref{COLUMN} clauses, screen section fields wi
 A @code{LINE} clause explicitly stated in the definition of a screen section data item will override any @code{LINE} clause included on the @code{ACCEPT screen-data-item} or @statement{DISPLAY screen-data-item} that presents that data item to the screen.  The same is true of @code{COLUMN} clauses.
 
 @item
-The Tab and Back-Tab (Shift-Tab on most keyboards) keys will position the cursor from field to field in the line/column sequence in which the fields occur on the screen at execution time, regardless of the sequence in which they were defined in the screen section.
+The @key{Tab} and @key{Back-Tab} (@key{Shift}-@key{Tab} on most keyboards) keys will position the cursor from field to field in the line/column sequence in which the fields occur on the screen at execution time, regardless of the sequence in which they were defined in the screen section.
 
 @item
 @xref{Data Description Clauses}, for information on the usage of the various data description clauses.
@@ -748,13 +756,14 @@ The Tab and Back-Tab (Shift-Tab on most keyboards) keys will position the cursor
 @comment *********************************************************************
 @newsubsection{6.8.1,01-Level Constants}
 @diagram{01-Level-Constant,DD-01-Constant,DD-01-Constant,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{SCREEN}
+
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{SCREEN}.
 
 The 01-level constant is one of four types of compilation-time constants that can be declared within a program.  The other three types are @directiveref{>>DEFINE} constants, @directiveref{>>SET} constants and 78-level constants (@pxref{78-Level Data Items}).
 @enumerate
 @item
-The reserved words @code{AS}, @code{IS} and @code{OF} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{AS}, @code{IS} and @code{OF} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 @xref{GLOBAL}, for information on the @code{GLOBAL} option.
@@ -783,7 +792,8 @@ This particular type of constant declaration provides the ability to determine t
 @item
  The @code{LENGTH} clause will produce a numeric value for @var{constant-name-1} identical to that which would be returned by the @intrinsic{LENGTH} executed against @var{identifier-1} or a data item declared with a @code{USAGE} of @var{usage-name}.
 @end enumerate
-@* Here is the listing of a GnuCOBOL program that uses 01-level constants to display the length (in bytes) of the various picture-less usage types.
+
+Here is the listing of a GnuCOBOL program that uses 01-level constants to display the length (in bytes) of the various picture-less usage types.
 @verbatim
     IDENTIFICATION DIVISION.
     PROGRAM-ID. Usage Lengths.
@@ -823,7 +833,8 @@ This particular type of constant declaration provides the ability to determine t
         STOP RUN
         .
 @end verbatim
-@* The output of this program, on a Windows 7 system with a 32-bit MinGW build of GnuCOBOL is:
+
+The output of this program, on a Windows 7 system with a 32-bit MinGW build of GnuCOBOL is:
 @verbatim
     On this system, with this build of GnuCOBOL, the
     PICTURE-less USAGE's have these lengths (in bytes):
@@ -848,8 +859,9 @@ This particular type of constant declaration provides the ability to determine t
 @page
 @newsubsection{6.8.2,66-Level Data Items}
 @diagram{66-Level-Data-Item,DD-66-Data-Item,DD-66-Data-Item,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}
+
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
 
 A 66-level data item regroups previously defined items by specifying alternative, possibly overlapping, groupings of elementary data items.
 @enumerate
@@ -871,13 +883,13 @@ All @code{RENAMES} entries associated with one logical record must immediately f
 @page
 @newsubsection{6.8.3,77-Level Data Items}
 @diagram{77-Level-Data-Item,DD-77-Data-Item,DD-77-Data-Item,DD-SYNC-LEFT-RIGHT}
-@center This syntax is valid in the following sections:
-@center @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}
+This syntax is valid in the following sections:
+@code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
 
 The intent of a 77-level item is to be able to create a stand-alone elementary data item.
 @enumerate
 @item
-The reserved words @code{CHARACTER}, @code{IS}, @code{RIGHT} (JUSTIFIED) and @code{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{CHARACTER}, @code{IS}, @code{RIGHT} (JUSTIFIED) and @code{WHEN} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The reserved word @code{JUSTIFIED} may be abbreviated as @code{JUST}, the reserved word @code{PICTURE} may be abbreviated as @code{PIC} and the reserved words @code{SYNCRONIZED} and @code{SYNCHRONISED} may be abbreviated as @code{SYNC}.
@@ -894,13 +906,13 @@ New programs requiring a stand-alone elementary item should be coded to use a le
 @page
 @newsubsection{6.8.4,78-Level Data Items}
 @diagram{78-Level-Constant,DD-78-Constant,DD-78-Constant,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{SCREEN}
 
 The 78-level constant is one of four types of compilation-time constants that can be declared within a program.  The other three types are @directiveref{>>DEFINE} constants, @directiveref{>>SET} constants and 01-level constants (@pxref{01-Level Constants}).
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 Constants defined in this way become undefined once an @code{END PROGRAM} or @code{END FUNCTION} is encountered in the input source.
@@ -921,25 +933,25 @@ Constants defined in this way become undefined once an @code{END PROGRAM} or @co
 @newsubsection{6.8.5,88-Level Data Items}
 @idx{Condition Names}
 @diagram{88-Level-Data-Item,DD-88-Data-Item,DD-88-Data-Item,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
-Condition names are Boolean (i.e. TRUE / FALSE) data items that receive their TRUE and FALSE values based upon the values of the non 88-level data item whose definition they immediately follow.
+Condition names are Boolean (@i{i.e.} @code{TRUE} / @code{FALSE}) data items that receive their @code{TRUE} and @code{FALSE} values based upon the values of the non 88-level data item whose definition they immediately follow.
 @enumerate
 @item
-The reserved words @code{ARE}, @code{IS}, @code{SET} and @code{TO} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{ARE}, @code{IS}, @code{SET} and @code{TO} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The reserved words @code{THRU} and @code{THROUGH} are interchangeable.
 
 @item
-Condition names are always defined subordinate to another (non 88-level) data item.  That data item must be an elementary item.  Whenever the parent data item assumes one of the values specified on the 88-level item's @syntaxref{VALUE} clause, @var{condition-name-1} will take on the value of TRUE.
+Condition names are always defined subordinate to another (non 88-level) data item.  That data item must be an elementary item.  Whenever the parent data item assumes one of the values specified on the 88-level item's @syntaxref{VALUE} clause, @var{condition-name-1} will take on the value of @code{TRUE}.
 
 @item
 Condition names do not occupy any storage.
 
 @item
-The optional @code{THROUGH} clause allows a range of possible TRUE values to be specified.
+The optional @code{THROUGH} clause allows a range of possible @code{TRUE} values to be specified.
 
 @item
 Whenever the parent data item assumes any value @i{except} one of the values specified on @var{condition-name-1}'s @code{VALUE} clause, @var{condition-name-1} will take on the value of FALSE.
@@ -1016,8 +1028,8 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 @comment *********************************************************************
 @newsubsection{6.9.1,ANY LENGTH}
 @diagram{ANY LENGTH Attribute,DD-ANY-LENGTH,DD-ANY-LENGTH,None}
-@center This syntax is valid in the following sections:
-@center @strong{LINKAGE}
+This syntax is valid in the following sections:
+@code{LINKAGE}
 
 Data items declared with the @code{ANY LENGTH} attribute have no fixed compile-time length.  Such items may only be defined in the linkage section of a subprogram as they may only serve as subroutine argument descriptions.  These items must have a @syntaxref{PICTURE} clause that specifies exactly one A, X or 9 symbol.
 @enumerate
@@ -1030,8 +1042,8 @@ The @code{ANY LENGTH} and @syntaxref{BASED} clauses cannot be used together in t
 @page
 @newsubsection{6.9.2,AUTO}
 @diagram{AUTO Attribute,DD-AUTO,DD-AUTO,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 A field whose description includes this attribute will cause the cursor to automatically advance to the next input-enabled field of a screen if the field is completely filled with input data.
 @enumerate
@@ -1044,8 +1056,8 @@ The @code{AUTO}, @syntaxref{AUTO-SKIP} and @syntaxref{AUTOTERMINATE} clauses are
 @page
 @newsubsection{6.9.3,AUTO-SKIP}
 @diagram{AUTO-SKIP Attribute,DD-AUTO-SKIP,DD-AUTO-SKIP,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 A field whose description includes this attribute will cause the cursor to automatically advance to the next input-enabled field of a screen if the field is completely filled with input data.
 @enumerate
@@ -1058,8 +1070,8 @@ The @syntaxref{AUTO}, @code{AUTO-SKIP} and @syntaxref{AUTOTERMINATE} clauses are
 @page
 @newsubsection{6.9.4,AUTOTERMINATE}
 @diagram{AUTOTERMINATE Attribute,DD-AUTOTERMINATE,DD-AUTOTERMINATE,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 A field whose description includes this attribute will cause the cursor to automatically advance to the next input-enabled field of a screen if the field is completely filled with input data.
 @enumerate
@@ -1072,32 +1084,30 @@ The @syntaxref{AUTO}, @syntaxref{AUTO-SKIP} and @code{AUTOTERMINATE} clauses are
 @page
 @newsubsection{6.9.5,BACKGROUND-COLOR}
 @diagram{BACKGROUND-COLOR Attribute,DD-BACKGROUND-COLOR,DD-BACKGROUND-COLOR,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause is used to specify the screen background color of the screen data item or the default screen background color of subordinate items if used on a group item.
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 The reserved words @code{BACKGROUND-COLOR} and @code{BACKGROUND-COLOUR} are interchangeable.
 
 @item
-You specify colors by number (0-7), or by using the constant names provided in the "screenio.cpy" copybook (which is provided with all GnuCOBOL source distributions).
+You specify colors by number (0-7), or by using the constant names provided in the @file{screenio.cpy} copybook (provided with all GnuCOBOL source distributions).
 
 @item
 Colors may also be specified using a numeric non-edited identifier whose value is in the range 0-7.
 @end enumerate
 
-For composite DISPLAY's, the attributes are always only applied to the previous source-item but the following also allows a change by variable or literal i.e.
+For composite @code{DISPLAY}'s, the attributes are always only applied to the previous source-item but the following also allows a change by variable or literal @i{i.e.}
 
 @verbatim
-
 DISPLAY "Name: "   BACKGROUND-COLOR COB-YELLOW
          NAME-VAR  BACKGROUND-COLOR COB-BLACK
 END-DISPLAY
-
 @end verbatim
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
@@ -1107,8 +1117,8 @@ END-DISPLAY
 @page
 @newsubsection{6.9.6,BASED}
 @diagram{BASED Attribute,DD-BASED,DD-BASED,None}
-@center This syntax is valid in the following sections:
-@center @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}
+This syntax is valid in the following sections:
+@code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
 
 Data items declared with @code{BASED} are allocated no storage at compilation time.  At run-time, the @syntaxref{ALLOCATE} or @syntaxref{SET ADDRESS} statements are used to allocate space for and (optionally) initialize such items.
 @enumerate
@@ -1124,14 +1134,15 @@ The @code{BASED} clause may only be used on level 01 and level 77 data items.
 @page
 @newsubsection{6.9.7,BEEP}
 @diagram{BEEP Attribute,DD-BEEP,DD-BEEP,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
 @enumerate
 @item
 The @code{BEEP} and @syntaxref{BELL} clauses are interchangeable, and may not be used together in the same data item description.
 
 @item
-Use this clause to cause an audible tone to occur when the screen item is DISPLAYed.
+Use this clause to cause an audible tone to occur when the screen item is @code{DISPLAY}ed.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.8 BELL                                                      **
@@ -1139,14 +1150,14 @@ Use this clause to cause an audible tone to occur when the screen item is DISPLA
 @page
 @newsubsection{6.9.8,BELL}
 @diagram{BELL Attribute,DD-BELL,DD-BELL,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 @enumerate
 @item
 The @syntaxref{BEEP} and @code{BELL} clauses are interchangeable, and may not be used together in the same data item description.
 
 @item
-Use this clause to cause an audible tone to occur when the screen item is DISPLAYed.
+Use this clause to cause an audible tone to occur when the screen item is @code{DISPLAY}ed.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.9 BLANK                                                     **
@@ -1154,10 +1165,10 @@ Use this clause to cause an audible tone to occur when the screen item is DISPLA
 @page
 @newsubsection{6.9.9,BLANK}
 @diagram{BLANK Attribute,DD-BLANK,DD-BLANK,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
-This clause will blank out either the entire screen (BLANK SCREEN) or just the line upon which data is about to be displayed (BLANK LINE).
+This clause will blank out either the entire screen (@code{BLANK SCREEN}) or just the line upon which data is about to be displayed (@code{BLANK LINE}).
 @enumerate
 @item
 Blanked-out areas will have their foreground and background colors set to the attributes of the field containing the @code{BLANK} clause.
@@ -1171,16 +1182,16 @@ This clause is useful when one screen section item is being displayed over the t
 @page
 @newsubsection{6.9.10,BLANK WHEN ZERO}
 @diagram{BLANK-WHEN-ZERO Attribute,DD-BLANK-WHEN-ZERO,DD-BLANK-WHEN-ZERO,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
-This clause will cause that item's value to be automatically transformed into spaces if a value of 0 is ever MOVEd to the item.
+This clause will cause that item's value to be automatically transformed into spaces if a value of 0 is ever @code{MOVE}d to the item.
 @enumerate
 @item
-The reserved word @code{WHEN} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{WHEN} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
-This clause may only be used on a PIC 9 data item with a @syntaxref{USAGE} of @code{DISPLAY}.
+This clause may only be used on a @code{PIC 9} data item with a @syntaxref{USAGE} of @code{DISPLAY}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.11 BLINK                                                    **
@@ -1188,8 +1199,8 @@ This clause may only be used on a PIC 9 data item with a @syntaxref{USAGE} of @c
 @page
 @newsubsection{6.9.11,BLINK}
 @diagram{BLINK Attribute,DD-BLINK,DD-BLINK,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 The @code{BLINK} clause modifies the visual appearance of the displayed field by making the field contents blink.
 @enumerate
@@ -1203,13 +1214,13 @@ The @code{BLINK} clause modifies the visual appearance of the displayed field by
 @newsubsection{6.9.12,COLUMN}
 @diagram{COLUMN (REPORT SECTION) Clause,DD-COLUMN-1,DD-COLUMN-1,None}
 @diagram{COLUMN (SCREEN SECTION) Clause,DD-COLUMN-2,DD-COLUMN-2,None}
-@center This syntax is valid in the following sections:
-@center @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{REPORT}, @code{SCREEN}
 
 The @code{COLUMN} clause provides the means of stating in which column a field should be presented on the console window (screen section) or a report (report section).
 @enumerate
 @item
-The reserved words @code{ARE}, @code{IS}, @code{NUMBER} and @code{NUMBERS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{ARE}, @code{IS}, @code{NUMBER} and @code{NUMBERS} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The reserved word @code{COLUMN} may be abbreviated as @code{COL}.
@@ -1224,10 +1235,10 @@ The value of @var{integer-1} must be 1 or greater.
 If @var{identifier-1} is used to specify either an absolute or relative column position, @var{identifier-1} must be defined as a numeric item of any @syntaxref{USAGE} other than @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2}, without editing symbols.  The value of @var{identifier-1} at the time the screen data item is presented must be 1 or greater.  Note that a @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2} identifier will be accepted by the compiler, but will produce unpredictable results at run-time.
 
 @item
-The column coordinate of a field may be stated on an absolute basis (i.e. @code{COLUMN 5}) or on a relative basis based upon the end of the previously-presented field (i.e. @code{COLUMN PLUS 1}).
+The column coordinate of a field may be stated on an absolute basis (@i{i.e.} @code{COLUMN 5}) or on a relative basis based upon the end of the previously-presented field (@i{i.e.} @code{COLUMN PLUS 1}).
 
 @item
-The symbol @code{+} may be used in lieu of the word @code{PLUS}, if desired; if symbol @code{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the symbol @code{+} sign to be simply treated as part of @var{integer-1} and will treat the @code{COLUMN} clause as an absolute column specification rather than a relative one.
+The symbol @samp{+} may be used in lieu of the word @code{PLUS}, if desired; if symbol @samp{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the symbol @samp{+} sign to be simply treated as part of @var{integer-1} and will treat the @code{COLUMN} clause as an absolute column specification rather than a relative one.
 
 @item
 Using relative column positioning (@code{COLUMN PLUS}) has slightly different behaviour depending upon the section in which the clause is used, as follows:
@@ -1249,8 +1260,8 @@ If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO
 @page
 @newsubsection{6.9.13,CONSTANT}
 @diagram{CONSTANT Attribute,DD-CONSTANT,DD-CONSTANT,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{SCREEN}
 
 This option signifies that the 01-level data item in whose declaration @code{CONSTANT} is specified will be treated as a symbolic name for a literal value, usable wherever a literal of the appropriate type could be used.
 @enumerate
@@ -1266,8 +1277,8 @@ The value of a data item defined as a constant cannot be changed at run-time.  I
 @page
 @newsubsection{6.9.14,EMPTY-CHECK}
 @diagram{EMPTY-CHECK Attribute,DD-EMPTY-CHECK,DD-EMPTY-CHECK,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause forces the user to enter data into the field it is specified on (or into all subordinate input-capable fields if @code{EMPTY-CHECK} is specified on a group item).
 @enumerate
@@ -1281,7 +1292,7 @@ In order to take effect, the user must first move the cursor into the field havi
 The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item @i{unless} data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}.
 
 @item
-In order to be functional, this attribute must be supported by the underlying 'curses' package your GnuCOBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @code{EMPTY-CHECK}.
+In order to be functional, this attribute must be supported by the underlying ``curses'' package your GnuCOBOL implementation was built with.  As of this time, the ``PDCurses'' package (used for native Windows or MinGW builds) does not support @code{EMPTY-CHECK}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.15 ERASE                                                    **
@@ -1289,8 +1300,8 @@ In order to be functional, this attribute must be supported by the underlying 'c
 @page
 @newsubsection{6.9.15,ERASE}
 @diagram{ERASE Clause,DD-ERASE,DD-ERASE,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 @code{ERASE} will blank-out screen contents from the location where the screen data item whose description contains this clause will be displayed, forward until the end of the screen (@code{ERASE EOS})
 @idx{EOS} or line (@code{ERASE EOL})
@@ -1310,13 +1321,13 @@ This clause is useful when one screen section item is being displayed over the t
 @page
 @newsubsection{6.9.16,EXTERNAL}
 @diagram{EXTERNAL Attribute,DD-EXTERNAL,DD-EXTERNAL,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}
 
 This clause marks a data item description, @code{FD} or @code{SD} @pxref{File/Sort-Description} as being shareable with other programs executed from the same execution thread.
 @enumerate
 @item
-By specifying the @code{EXTERNAL} clause on either an FD or an SD, the file description is capable of being shared between all programs executed from the same execution thread, provided an @code{EXTERNAL} clause is coded with the file's description in @i{each} program requiring it.  This sharing allows the file to be opened, read and/or written and closed in different programs.  This sharing applies to the record descriptions subordinate to the file description too.
+By specifying the @code{EXTERNAL} clause on either an @code{FD} or an @code{SD}, the file description is capable of being shared between all programs executed from the same execution thread, provided an @code{EXTERNAL} clause is coded with the file's description in @i{each} program requiring it.  This sharing allows the file to be opened, read and/or written and closed in different programs.  This sharing applies to the record descriptions subordinate to the file description too.
 
 @item
 By specifying the @code{EXTERNAL} clause on the description of a data item, the data item is capable of being shared between all programs executed from the same execution thread, provided the data item is coded (with an @code{EXTERNAL} clause) in each program requiring it.
@@ -1340,13 +1351,13 @@ An @code{EXTERNAL} item must have a data name and that name cannot be @code{FILL
 @page
 @newsubsection{6.9.17,FALSE}
 @diagram{FALSE Clause,DD-FALSE,DD-FALSE,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
-This clause, which may only appear on the definition of a level-88 condition name, is used to specify the value of the data item that serves as the parent of the level-88 condition name that will force the condition name to assume a value of FALSE.
+This clause, which may only appear on the definition of a level-88 condition name, is used to specify the value of the data item that serves as the parent of the level-88 condition name that will force the condition name to assume a value of @code{FALSE}.
 @enumerate
 @item
-The reserved words @code{IS}, @code{SET}, @code{TO} and @code{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{IS}, @code{SET}, @code{TO} and @code{WHEN} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 @xref{88-Level Data Items}, or @xref{Condition Names}, for more information.
@@ -1357,32 +1368,33 @@ The reserved words @code{IS}, @code{SET}, @code{TO} and @code{WHEN} are optional
 @page
 @newsubsection{6.9.18,FOREGROUND-COLOR}
 @diagram{FOREGROUND-COLOR Attribute,DD-FOREGROUND-COLOR,DD-FOREGROUND-COLOR,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause is used to specify the color of text within a screen data item or the default text color of subordinate items if used on a group item.
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 The reserved words @code{FOREGROUND-COLOR} and @code{FOREGROUND-COLOUR} are interchangeable.
 
 @item
-You specify colors by number (0-7), or by using the constant names provided in the "screenio.cpy" copybook (which is provided with all GnuCOBOL source distributions).
+You specify colors by number (0-7), or by using the constant names provided in the @file{screenio.cpy} copybook (which is provided with all GnuCOBOL source distributions).
 
 @item
 Colors may also be specified using a numeric non-edited identifier whose value is in the range 0-7.
 @end enumerate
-@* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
 @comment ** 6.9.19 FROM                                                     **
 @comment *********************************************************************
 @page
 @newsubsection{6.9.19,FROM}
 @diagram{FROM Clause,DD-FROM,DD-FROM,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause is used to specify either the data item a screen section field is to obtain its value from when the screen is displayed, or a literal that will specify the value of that same field.
 @enumerate
@@ -1394,8 +1406,8 @@ This clause is used to specify either the data item a screen section field is to
 @page
 @newsubsection{6.9.20,FULL}
 @diagram{FULL Attribute,DD-FULL,DD-FULL,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 The @code{FULL} clause forces the user to enter data into the field it is specified on (or into all subordinate input-capable fields if specified on a group item) sufficient to fill every character position of the field.
 @enumerate
@@ -1409,7 +1421,7 @@ In order for this clause to take effect at execution time, the user must move th
 The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item unless the proper amount of data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}, however.
 
 @item
-In order to be functional, this attribute must be supported by the underlying 'curses' package your GnuCOBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @code{FULL}.
+In order to be functional, this attribute must be supported by the underlying ``curses'' package your GnuCOBOL implementation was built with.  As of this time, the ``PDCurses'' package (used for native Windows or MinGW builds) does not support @code{FULL}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.21 GLOBAL                                                   **
@@ -1417,8 +1429,8 @@ In order to be functional, this attribute must be supported by the underlying 'c
 @page
 @newsubsection{6.9.21,GLOBAL}
 @diagram{GLOBAL Attribute,DD-GLOBAL,DD-GLOBAL,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{REPORT}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{REPORT}
 
 This clause marks a data item, 01-level constant, @code{FD} (@pxref{File/Sort-Description}), @code{SD} (@pxref{File/Sort-Description}) or an @code{RD} (@pxref{REPORT SECTION}) as being shareable with any nested subprograms.
 @enumerate
@@ -1447,8 +1459,8 @@ A @code{GLOBAL} item must have a data name and that name cannot be @code{FILLER}
 @page
 @newsubsection{6.9.22,GROUP INDICATE}
 @diagram{GROUP-INDICATE Attribute,DD-GROUP-INDICATE,DD-GROUP-INDICATE,None}
-@center This syntax is valid in the following sections:
-@center @strong{REPORT}
+This syntax is valid in the following sections:
+@code{REPORT}
 
 The @code{GROUP INDICATE} clause specifies that the data item in whose definition the clause appears will be presented only in very limited circumstances.
 @enumerate
@@ -1474,34 +1486,35 @@ On the first presentation of the detail group after any control break occurs.
 @page
 @newsubsection{6.9.23,HIGHLIGHT}
 @diagram{HIGHLIGHT Attribute,DD-HIGHLIGHT,DD-HIGHLIGHT,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause controls the intensity of text (@syntaxref{FOREGROUND-COLOR}) by setting that intensity to its highest of three possible settings.
 @enumerate
 @item
 This clause, along with @syntaxref{LOWLIGHT}, are intended to provide a three-level intensity scheme (@code{LOWLIGHT} @dots{} nothing (Normal) @dots{} @code{HIGHLIGHT}).
 @end enumerate
-@* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
 @comment ** 6.9.24 JUSTIFIED                                                **
 @comment *********************************************************************
 @page
 @newsubsection{6.9.24,JUSTIFIED}
 @diagram{JUSTIFIED Attribute,DD-JUSTIFIED,DD-JUSTIFIED,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
 The presence of a @code{JUSTIFIED RIGHT} clause in a data item's definition alters the manner in which data is stored into the field from the default 'left-justified, space filled' behaviour to 'right justified, space filled'.
 @enumerate
 @item
-The reserved word @code{RIGHT} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{RIGHT} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 The reserved word @code{JUSTIFIED} may be abbreviated as @code{JUST}.
 
 @item
-This clause is valid only on alphabetic (PIC A) or alphanumeric (PIC X) data items.
+This clause is valid only on alphabetic (@code{PIC A}) or alphanumeric (@code{PIC X}) data items.
 
 @item
 The presence or absence of this clause influences the behaviour of the @syntaxref{MOVE} statement as well as the @syntaxref{FROM}, @syntaxref{SOURCE} and @syntaxref{USING} data item description clauses.
@@ -1512,45 +1525,53 @@ If the value being stored into the field is the same length as the receiving fie
 @item
 The following examples illustrate the behaviour of the presence and absence of the @code{JUSTIFIED RIGHT} clause when the field size is different than that of the value being stored.  In these examples, the symbol @i{b} represents a space.
 
-@center @b{When the value is shorter than the field size...}
+@cartouche
+When the value is @i{shorter} than the field size:
 
 @multitable @columnfractions .5 .5
-@headitem Without JUSTIFIED @tab With JUSTIFIED
-
+@headitem Without @code{JUSTIFIED} @tab With @code{JUSTIFIED}
 @item
-@t{01  A PIC X(6).}
-@tab @t{01  A PIC X(6) JUSTIFIED RIGHT.}
-
-@item
-@t{MOVE @code{ABC} TO A}
-@tab @t{MOVE @code{ABC} TO A}
-
-@item
-
-@item
-Result is 'ABC@i{bbb}'
-@tab Result is '@i{bbb}ABC'
+@verbatim
+01  A PIC X(6).
+MOVE @code{ABC} TO A
+@end verbatim
+@tab
+@verbatim
+01  A PIC X(6) JUSTIFIED RIGHT.
+MOVE @code{ABC} TO A
+@end verbatim
 @end multitable
-@*
-@center @b{When the value is longer than the field size...}
 
 @multitable @columnfractions .5 .5
-@headitem Without JUSTIFIED @tab With JUSTIFIED
-
-@item
-@t{01  A PIC X(6).}
-@tab @t{01  A PIC X(6) JUSTIFIED RIGHT.}
-
-@item
-@t{MOVE @code{ABCDEFGHI} TO A}
-@tab @t{MOVE @code{ABCDEFGHI} TO A}
-
-@item
-
-@item
-Result is 'ABCDEF'
-@tab Result is 'DEFGHI'
+@headitem Result @tab Result
+@item @code{ABC@var{bbb}} @tab @code{@var{bbb}ABC}
 @end multitable
+@end cartouche
+
+@cartouche
+When the value is @i{longer} than the field size:
+
+@multitable @columnfractions .5 .5
+@headitem Without @code{JUSTIFIED} @tab With @code{JUSTIFIED}
+@item
+@verbatim
+01  A PIC X(6).
+MOVE 'ABCDEFGHI' TO A
+@end verbatim
+@tab
+@verbatim
+01  A PIC X(6) JUSTIFIED RIGHT.
+MOVE 'ABCDEFGHI' TO A
+@end verbatim
+@end multitable
+
+@multitable @columnfractions .5 .5
+@headitem Result @tab Result
+@item
+     @code{ABCDEF}
+@tab @code{DEFGHI}
+@end multitable
+@end cartouche
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.25 LEFTLINE                                                 **
@@ -1558,8 +1579,8 @@ Result is 'ABCDEF'
 @page
 @newsubsection{6.9.25,LEFTLINE}
 @diagram{LEFTLINE Attribute,DD-LEFTLINE,DD-LEFTLINE,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 The @code{LEFTLINE} clause will introduce a vertical line at the left edge of a screen field.
 @enumerate
@@ -1567,20 +1588,21 @@ The @code{LEFTLINE} clause will introduce a vertical line at the left edge of a 
 The @code{LEFTLINE}, @syntaxref{OVERLINE} and @syntaxref{UNDERLINE} clauses may be used in any combination in a single field's description.
 
 @item
-This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GnuCOBOL implementation built using 'PDCurses' (such as Windows/MinGW builds).
+This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GnuCOBOL implementation built using ``PDCurses'' (such as Windows/MinGW builds).
 
 @item
-Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will depend upon the video attribute capabilities of the terminal output drivers and 'curses' software being used.
+Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will depend upon the video attribute capabilities of the terminal output drivers and ``curses'' software being used.
 @end enumerate
-@* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
 @comment ** 6.9.26 LENGTH-CHECK                                             **
 @comment *********************************************************************
 @page
 @newsubsection{6.9.26,LENGTH-CHECK}
 @diagram{LENGTH-CHECK Attribute,DD-LENGTH-CHECK,DD-LENGTH-CHECK,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 The @code{LENGTH-CHECK} clause forces the user to enter data into the field it is specified on (or into all subordinate input-capable fields if specified on a group item) sufficient to fill every character position of the field.
 @enumerate
@@ -1594,7 +1616,7 @@ In order for this clause to take effect at execution time, the user must move th
 The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item unless the proper amount of data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}, however.
 
 @item
-In order to be functional, this attribute must be supported by the underlying 'curses' package your GnuCOBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @code{LENGTH-CHECK}.
+In order to be functional, this attribute must be supported by the underlying ``curses'' package your GnuCOBOL implementation was built with.  As of this time, the ``PDCurses'' package (used for native Windows or MinGW builds) does not support @code{LENGTH-CHECK}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.27 LINE                                                     **
@@ -1603,13 +1625,13 @@ In order to be functional, this attribute must be supported by the underlying 'c
 @newsubsection{6.9.27,LINE}
 @diagram{LINE (REPORT SECTION) Clause,DD-LINE-1,DD-LINE-1,None}
 @diagram{LINE (SCREEN SECTION) Clause,DD-LINE-2,DD-LINE-2,None}
-@center This syntax is valid in the following sections:
-@center @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{REPORT}, @code{SCREEN}
 
 This clause provides a means of explicitly stating on which line a field should be presented on the console window (screen section) or on a report (report section).
 @enumerate
 @item
-The reserved words @code{IS}, @code{NUMBER} and @code{ON} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{IS}, @code{NUMBER} and @code{ON} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The following points document the use of format 1 of the @code{LINE} clause:
@@ -1621,10 +1643,10 @@ The column location of a report item will be determined by the @syntaxref{COLUMN
 The value of @var{integer-1} must be 1 or greater.
 
 @item
-The report line number upon which the data item containing this clause along with any subordinate data items will be presented may be stated on an absolute basis (i.e. @code{LINE 5}) or on a relative basis based upon the previously-displayed line (i.e. @code{LINE PLUS 1}).
+The report line number upon which the data item containing this clause along with any subordinate data items will be presented may be stated on an absolute basis (@i{i.e.} @code{LINE 5}) or on a relative basis based upon the previously-displayed line (@i{i.e.} @code{LINE PLUS 1}).
 
 @item
-The symbol @code{+} may be used in lieu of the word @code{PLUS}, if desired; if @code{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the @code{+} to be simply treated as part of @var{integer-1} and will treat the LINE clause as an absolute line specification rather than a relative one.
+The symbol @samp{+} may be used in lieu of the word @code{PLUS}, if desired; if @samp{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the @samp{+} to be simply treated as part of @var{integer-1} and will treat the LINE clause as an absolute line specification rather than a relative one.
 
 @item
 The optional @syntaxidx{NEXT PAGE} clause specifies that --- regardless of whether or not the report group containing this clause @i{could} fit on the report page being currently generated, the report group will be @i{forced} to appear on a new page.
@@ -1641,13 +1663,13 @@ The value of @var{integer-1} must be 1 or greater.
 If @var{identifier-1} is used to specify either an absolute or relative column position, @var{identifier-1} must be defined as a numeric item of any @syntaxref{USAGE} other than @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2}, without editing symbols.  The value of @var{identifier-1} at the time the screen data item is presented must be 1 or greater.  Note that a @code{COMPUTATIONAL-1} or @code{COMPUTATIONAL-2} identifier will be accepted by the compiler, but will produce unpredictable results at run-time.
 
 @item
-The screen line number upon which the data item containing this clause along with any subordinate data items will be displayed may be stated on an absolute basis (i.e. @code{LINE 5}) or on a relative basis based upon the previously-displayed line (i.e. @code{LINE PLUS 1}).
+The screen line number upon which the data item containing this clause along with any subordinate data items will be displayed may be stated on an absolute basis (@i{i.e.} @code{LINE 5}) or on a relative basis based upon the previously-displayed line (@i{i.e.} @code{LINE PLUS 1}).
 
 @item
-The symbol @code{+} may be used in lieu of the word @code{PLUS}, if desired; if @code{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the @code{+} to be simply treated as part of @var{integer-1} and will treat the @code{LINE} clause as an absolute line specification rather than a relative one.
+The symbol @samp{+} may be used in lieu of the word @code{PLUS}, if desired; if @samp{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the @samp{+} to be simply treated as part of @var{integer-1} and will treat the @code{LINE} clause as an absolute line specification rather than a relative one.
 
 @item
-If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} or @syntaxref{VALUE} clause but has no LINE clause, the "current screen line" will be assumed.
+If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} or @syntaxref{VALUE} clause but has no LINE clause, the ``current screen line'' will be assumed.
 @end enumerate
 @end enumerate
 @comment *********************************************************************
@@ -1656,28 +1678,29 @@ If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO
 @page
 @newsubsection{6.9.28,LOWLIGHT}
 @diagram{LOWLIGHT Attribute,DD-LOWLIGHT,DD-LOWLIGHT,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 The @code{LOWLIGHT} clause controls the intensity of text (@code{FOREGROUND-COLOR}) by setting that intensity to its lowest of three possible settings.
 @enumerate
 @item
 This clause, along with @syntaxref{HIGHLIGHT}, are intended to provide a three-level intensity scheme (@code{LOWLIGHT} @dots{} nothing (Normal) @dots{} @code{HIGHLIGHT}).  In environments such as a Windows console where only two levels of intensity are supported, @code{LOWLIGHT} is the same as leaving this clause off altogether.
 @end enumerate
-@* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
 @comment ** 6.9.29 NEXT GROUP                                               **
 @comment *********************************************************************
 @page
 @newsubsection{6.9.29,NEXT GROUP}
 @diagram{NEXT-GROUP Clause,DD-NEXT-GROUP,DD-NEXT-GROUP,None}
-@center This syntax is valid in the following sections:
-@center @strong{REPORT}
+This syntax is valid in the following sections:
+@code{REPORT}
 
 This clause defines any rules for where the next group to be presented on a report will begin, line-wise, with respect to the @i{last} line of the group in which this clause appears.
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 The terms @syntaxidx{NEXT}, @syntaxidx{NEXT PAGE} and @syntaxidx{PAGE} are interchangeable.
@@ -1703,8 +1726,8 @@ The effects of @code{NEXT GROUP} will be in addition to any line spacing defined
 @page
 @newsubsection{6.9.30,NO-ECHO}
 @diagram{NO-ECHO Attribute,DD-NO-ECHO,DD-NO-ECHO,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 The @code{NO-ECHO} clause will cause all data entered into the field to appear on the screen as asterisks.
 @enumerate
@@ -1714,7 +1737,8 @@ The @code{NO-ECHO} and @syntaxref{SECURE} clauses are interchangeable, and may n
 @item
 This clause may only be used on a field allowing data entry (a field containing either the @syntaxref{USING} or @syntaxref{TO} clause).
 @end enumerate
-@* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
 @comment ** 6.9.31 OCCURS                                                   **
 @comment *********************************************************************
@@ -1723,13 +1747,13 @@ This clause may only be used on a field allowing data entry (a field containing 
 @diagram{OCCURS (REPORT SECTION) Clause,DD-OCCURS-1,DD-OCCURS-1,None}
 @diagram{OCCURS (SCREEN SECTION) Clause,DD-OCCURS-2,DD-OCCURS-2,None}
 @diagram{OCCURS (All Other Sections Clause,DD-OCCURS-3,DD-OCCURS-3,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
 The @code{OCCURS} clause is used to create a data structure called a table, where entries in that structure repeat multiple times.
 @enumerate
 @item
-The reserved words @code{BY} (INDEXED), @code{IS}, @code{KEY}, @code{ON} and @code{TIMES} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{BY} (INDEXED), @code{IS}, @code{KEY}, @code{ON} and @code{TIMES} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The value of @var{integer-2} specifies how many entries will be allocated in the table.
@@ -1740,7 +1764,8 @@ The following is an example of how a table might be defined:
 @example
 05 QUARTERLY-REVENUE OCCURS 4 TIMES PIC 9(7)V99.
 @end example
-@* This will allocate the following:
+
+This will allocate the following:
 
 @example
 QUARTERLY-REVENUE(1)
@@ -1748,7 +1773,8 @@ QUARTERLY-REVENUE(2)
 QUARTERLY-REVENUE(3)
 QUARTERLY-REVENUE(4)
 @end example
-@* Each occurrence is referenced using the subscript syntax (a numeric literal, arithmetic expression or numeric identifier enclosed within parenthesis) shown above.
+
+Each occurrence is referenced using the subscript syntax (a numeric literal, arithmetic expression or numeric identifier enclosed within parenthesis) shown above.
 
 @item
 The @code{OCCURS} clause may be used at the group level too, in which case the entire group structure repeats, as follows:
@@ -1759,26 +1785,29 @@ The @code{OCCURS} clause may be used at the group level too, in which case the e
     10 B     PIC X(1).
     10 C     PIC X(1).
 @end example
-@* This would allow references to any of the following:
+
+This would allow references to any of the following:
 
 @example
-GRP(1) - includes A(1), B(1) and C(1)
-GRP(2) - includes A(2), B(2) and C(2)
-GRP(3) - includes A(3), B(3) and C(3)
+GRP(1)   @r{includes A(1), B(1) and C(1)}
+GRP(2)   @r{includes A(2), B(2) and C(2)}
+GRP(3)   @r{includes A(3), B(3) and C(3)}
 @end example
-@* or each A,B,C item could be referenced as follows:
+
+or each A,B,C item could be referenced as follows:
 
 @example
-A(1) - Character #1 of GRP(1)
-B(1) - Character #2 of GRP(1)
-C(1) - Character #3 of GRP(1)
-A(2) - Character #1 of GRP(2)
-B(2) - Character #2 of GRP(2)
-C(2) - Character #3 of GRP(2)
-A(3) - Character #1 of GRP(3)
-B(3) - Character #2 of GRP(3)
-C(3) - Character #3 of GRP(3)
+A(1)   @r{character #1 of} GRP(1)
+B(1)   @r{character #2 of} GRP(1)
+C(1)   @r{character #3 of} GRP(1)
+A(2)   @r{character #1 of} GRP(2)
+B(2)   @r{character #2 of} GRP(2)
+C(2)   @r{character #3 of} GRP(2)
+A(3)   @r{character #1 of} GRP(3)
+B(3)   @r{character #2 of} GRP(3)
+C(3)   @r{character #3 of} GRP(3)
 @end example
+
 @item
 The optional @syntaxidx{DEPENDING ON} clause can be added to an @code{OCCURS} to create a variable-length table.  In such cases, the value of @var{integer-1} specifies what the minimum number of entries in the table will be while @var{integer-2} specifies the maximum.  Such tables will be allocated out to the maximum size specified as @var{integer-2}.  At execution time the value of @var{identifier-1} will determine how many of the table elements are accessible.
 
@@ -1802,7 +1831,7 @@ The following two examples illustrate two different ways a report could include 
 
 @center @t{05 SALES OCCURS 4 TIMES PIC 9(7)V99.}
 
-First, the "Hard Way":
+First, the ``Hard Way'':
 
 @example
 10 COL 7  PIC $(7)9.99 SOURCE SALES(1).
@@ -1810,7 +1839,8 @@ First, the "Hard Way":
 10 COL 27 PIC $(7)9.99 SOURCE SALES(3).
 10 COL 37 PIC $(7)9.99 SOURCE SALES(4).
 @end example
-@* And then using @code{STEP} and @code{VARYING}:
+
+And then using @code{STEP} and @code{VARYING}:
 
 @example
 10 COL 7  OCCURS 4 TIMES STEP 10 VARYING QTR FROM 1 BY 1
@@ -1824,8 +1854,8 @@ First, the "Hard Way":
 @page
 @newsubsection{6.9.32,OVERLINE}
 @diagram{OVERLINE Attribute,DD-OVERLINE,DD-OVERLINE,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 The @code{OVERLINE} clause will introduce a horizontal line at the top edge of a screen field.
 @enumerate
@@ -1833,25 +1863,26 @@ The @code{OVERLINE} clause will introduce a horizontal line at the top edge of a
 The @syntaxref{LEFTLINE}, @code{OVERLINE} and @syntaxref{UNDERLINE} clauses may be used in any combination in a single field's description.
 
 @item
-This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GnuCOBOL implementation built using 'PDCurses' (such as Windows/MinGW builds).
+This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GnuCOBOL implementation built using ``PDCurses'' (such as Windows/MinGW builds).
 
 @item
-Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will depend upon the video attribute capabilities of the terminal output drivers and 'curses' software being used.
+Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will depend upon the video attribute capabilities of the terminal output drivers and ``curses'' software being used.
 @end enumerate
-@* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
 @comment ** 6.9.33 PICTURE                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{6.9.33,PICTURE}
 @diagram{PICTURE Clause,DD-PICTURE,DD-PICTURE,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
 The picture clause defines the class (numeric, alphabetic or alphanumeric), size and format of the data that may be contained by the data item being defined.  Sometimes this role is assisted by the @syntaxref{USAGE} clause, and in a few instances will be assumed entirely by that clause.
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 The reserved word @code{PICTURE} may be abbreviated as @code{PIC}.  Most programmers prefer to use the latter.
@@ -1860,7 +1891,7 @@ The reserved word @code{PICTURE} may be abbreviated as @code{PIC}.  Most program
 A picture clause may only be specified on an elementary item.
 
 @item
-A @var{picture-string} is a sequence of the special symbols @code{$}, @code{*}, @code{+}, @code{,}, @code{-}, @code{.}, @code{/}, @code{0} (zero), @code{9}, @code{A}, @code{B}, @code{CR}, @code{DB}, @code{S}, @code{V}, @code{X} and @code{Z}.
+A @var{picture-string} is a sequence of the special symbols @samp{$}, @samp{*}, @samp{+}, @samp{,}, @samp{-}, @samp{.}, @samp{/}, @samp{0} (zero), @samp{9}, @samp{A}, @samp{B}, @code{CR}, @code{DB}, @samp{S}, @samp{V}, @samp{X} and @samp{Z}.
 
 @item
 In general, each picture symbol represents either a single character in storage or a single decimal digit.  There are a few exceptions, and they will be discussed as needed.
@@ -1871,19 +1902,20 @@ When a @var{picture-string} contains a repeated sequence of symbols --- @code{PI
 @item
 This first set of picture symbols defines the basic data type of a data item.  Each symbol represents a single character's worth of storage.
 @table @asis
-@item @code{A}
-Defines storage reserved for a single alphabetic character (@code{A}-@code{Z}, @code{a}-@code{z}).
+@item @samp{A}
+Defines storage reserved for a single alphabetic character (@samp{A}-@samp{Z}, @samp{a}-@samp{z}).
 
-@item @code{N}
-Defines storage reserved for a single character in the computer's @define{National Character set}.  Support for national character sets in GnuCOBOL is currently only partially implemented, and the compile- and run-time effect of using the @code{N} picture symbol is the same as if @code{X(2)} had been coded, with the additional effect that such a field will qualify as a @code{NATIONAL} or @code{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
+@item @samp{N}
+Defines storage reserved for a single character in the computer's @define{National Character set}.  Support for national character sets in GnuCOBOL is currently only partially implemented, and the compile- and run-time effect of using the @samp{N} picture symbol is the same as if @code{X(2)} had been coded, with the additional effect that such a field will qualify as a @code{NATIONAL} or @code{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
 
-@item @code{X}
+@item @samp{X}
 Defines storage reserved for a single alphanumeric character (any character).
 
-@item @code{9}
-Defines storage reserved for a single numeric digit character (@code{0}-@code{9}).
+@item @samp{9}
+Defines storage reserved for a single numeric digit character (@samp{0}-@samp{9}).
 @end table
-@* Typically, only one kind of each of those symbols is used in the same picture clause, but that isn't a requirement.  Data items that, of the three symbols above, use nothing but @code{A} picture symbols are known as @define{Alphabetic Data Items} while those that use @code{9} picture symbols without any @code{A} or @code{X} symbols (or those that have a @code{USAGE} without a @code{PICTURE}) are known as @define{Numeric Data Items}.  All other data items are referred to as @define{Alphanumeric Data Items}.
+
+Typically, only one kind of each of those symbols is used in the same picture clause, but that isn't a requirement.  Data items that, of the three symbols above, use nothing but @samp{A} picture symbols are known as @define{Alphabetic Data Items} while those that use @samp{9} picture symbols without any @samp{A} or @samp{X} symbols (or those that have a @code{USAGE} without a @code{PICTURE}) are known as @define{Numeric Data Items}.  All other data items are referred to as @define{Alphanumeric Data Items}.
 
 If you need to allocate space for a data item whose format is two letters followed by five digits followed by three letters, you could use the @var{picture-string} @code{AA99999AAA}, @code{A(2)9(5)A(3)} @code{XXXXXXXXXX} or @code{X(10)}.  There is absolutely no functional difference whatsoever between the four --- none of them provide any functionality the others do not.  The first two probably make for better @i{documentation} of the expected field contents, but they don't provide any run-time enforcement capabilities.
 
@@ -1892,14 +1924,14 @@ As far as enforcement goes, however, both alphabetic and numeric picture strings
 @item
 The following picture symbols may be used with numeric data items.
 @table @asis
-@item @code{P}
-Defines an implied digit position that will be considered to be a zero when the data item is referenced at run-time.  This symbol is used to allow data items that will contain very large values to be allocated using less storage by assuming a certain number of trailing zeros (one per @code{P}) to exist at the end of values.
+@item @samp{P}
+Defines an implied digit position that will be considered to be a zero when the data item is referenced at run-time.  This symbol is used to allow data items that will contain very large values to be allocated using less storage by assuming a certain number of trailing zeros (one per @samp{P}) to exist at the end of values.
 
-The @code{P} symbol is not allowed in conjunction with @code{N}.
+The @samp{P} symbol is not allowed in conjunction with @samp{N}.
 
-The @code{P} symbol may only be used at the beginning or end of a picture clause.
+The @samp{P} symbol may only be used at the beginning or end of a picture clause.
 
-@code{P} is a repeatable symbol.
+@samp{P} is a repeatable symbol.
 
 All computations and @syntaxref{MOVE} operations involving such a data item will behave as if the zeros were actually there.
 
@@ -1911,38 +1943,44 @@ In which case 9 characters of storage will be reserved.  The values 000000000 th
 
 @t{01  Gross-Revenue  PIC 9(3)P(6).}
 
-Whenever Gross-Revenue is referenced in calculations, or whenever its value is moved to another data item, the value of Gross-Revenue will be treated as if it is nnn000000, where 'nnn' is the actual value in storage.
+Whenever Gross-Revenue is referenced in calculations, or whenever its value is moved to another data item, the value of Gross-Revenue will be treated as if it is @code{@var{nnn}000000}, where @code{@var{nnn}} is the actual value in storage.
 
-If you wanted to store the value 128 million into that field, you would do so as if the @code{P}s were @code{9}s:
+If you wanted to store the value 128 million into that field, you would do so as if the @samp{P}s were @samp{9}s:
 
-@t{MOVE 128000000 TO Gross-Revenue}
+@example
+MOVE 128000000 TO Gross-Revenue
+@end example
 
-A @syntaxref{DISPLAY} of a data item containing @code{P} symbols is a little strange.  The value displayed will be what is actually in storage, but the total size of the displayed value will be as if the @code{P} symbols had been @code{9}s.  Thus, after the above statement established a value for Gross-Revenue, a @code{DISPLAY Gross-Revenue} would produce output of '@t{000000128}'.
+A @syntaxref{DISPLAY} of a data item containing @samp{P} symbols is a little strange.  The value displayed will be what is actually in storage, but the total size of the displayed value will be as if the @samp{P} symbols had been @samp{9}s.  Thus, after the above statement established a value for Gross-Revenue, a @code{DISPLAY Gross-Revenue} would produce output of @samp{000000128}.
 
-@item @code{S}
-This symbol, if used, must be the very first symbol in the @code{PICTURE} value.  A @code{S} indicates that the data item is @code{Signed}, meaning that negative values are possible for this data item.  Without an @code{S}, any negative values stored into this data item via a @code{MOVE} or arithmetic statement will have the negative sign stripped from it (in effect becoming the absolute value).
+@item @samp{S}
+This symbol, if used, must be the very first symbol in the @code{PICTURE} value.  A @samp{S} indicates that the data item is @code{Signed}, meaning that negative values are possible for this data item.  Without an @samp{S}, any negative values stored into this data item via a @code{MOVE} or arithmetic statement will have the negative sign stripped from it (in effect becoming the absolute value).
 
-The @code{S} symbol is not allowed in conjunction with @code{N}.
+The @samp{S} symbol is not allowed in conjunction with @samp{N}.
 
-The @code{S} symbol may only occur once in a picture string.  @xref{SIGN IS}, for further discussion of how negative values may be stored in a numeric data item.
+The @samp{S} symbol may only occur once in a picture string.  @xref{SIGN IS}, for further discussion of how negative values may be stored in a numeric data item.
 
-@item @code{V}
-This symbol is used to define where an implied decimal-point (if any) is located in a numeric item.  Just as there may only be a single decimal point in a number so may there be no more than one @code{V} in a @code{PICTURE}.  Implied decimal points occupy no space in storage --- they just specify how values are used.  For example, if the value @code{1234} is in storage in a field defined as PIC 999V9, that value would be treated as 123.4 in any statements that referenced it.
+@item @samp{V}
+This symbol is used to define where an implied decimal-point (if any) is located in a numeric item.  Just as there may only be a single decimal point in a number so may there be no more than one @samp{V} in a @code{PICTURE}.  Implied decimal points occupy no space in storage --- they just specify how values are used.  For example, if the value @code{1234} is in storage in a field defined as @code{PIC 999V9}, that value would be treated as 123.4 in any statements that referenced it.
 
-The @code{V} symbol is not allowed in conjunction with @code{N}.
+The @samp{V} symbol is not allowed in conjunction with @samp{N}.
 
-The @code{V} symbol may only occur once in a picture string.
+The @samp{V} symbol may only occur once in a picture string.
 @end table
-@item Any editing symbols introduced past this point will, if coded in the picture clause of an otherwise numeric data item, transform that data item from a numeric to a @define{Numeric Edited} data item.  Numeric edited data items are treated as alphanumeric and may not serve either as table subscripts or as source arguments on an arithmetic statement.
-@item The following are the fixed insertion editing symbols that may be specified in a picture string.  Each of these editing symbols will insert a special character into the field value at the position it is specified in the picture string.  These editing symbols will each introduce one extra character into the total field size for each occurrence of the symbol in the picture string.
+
+@item
+Any editing symbols introduced past this point will, if coded in the picture clause of an otherwise numeric data item, transform that data item from a numeric to a @define{Numeric Edited} data item.  Numeric edited data items are treated as alphanumeric and may not serve either as table subscripts or as source arguments on an arithmetic statement.
+
+@item
+The following are the fixed insertion editing symbols that may be specified in a picture string.  Each of these editing symbols will insert a special character into the field value at the position it is specified in the picture string.  These editing symbols will each introduce one extra character into the total field size for each occurrence of the symbol in the picture string.
 @table @asis
 
-@item @code{B}
-The @code{B} editing symbol introduces a blank into the field value for each occurrence.
+@item @samp{B}
+The @samp{B} editing symbol introduces a blank into the field value for each occurrence.
 
-Multiple @code{B} symbols may be coded.
+Multiple @samp{B} symbols may be coded.
 
-The following example will format a ten digit number (presumably a telephone number) into a "@t{### ### ####}" layout:
+The following example will format a ten digit number (presumably a telephone number) into a @samp{### ### ####} layout:
 @verbatim
     ...
         05 Phone-Number       PIC 9(3)B9(3)B9(4).
@@ -1950,12 +1988,13 @@ The following example will format a ten digit number (presumably a telephone num
         MOVE 5185551212 TO Phone-Number
         DISPLAY Phone-Number
 @end verbatim
-@* This code will display "@t{518 555 1212}".
 
-@item @code{0}
-The @code{0} (zero) editing symbol introduces one "0" character into the field value for each occurrence in the picture string.
+This code will display @samp{518 555 1212}.
 
-Multiple @code{0} symbols may be coded.
+@item @samp{0}
+The @samp{0} (zero) editing symbol introduces one ``0'' character into the field value for each occurrence in the picture string.
+
+Multiple @samp{0} symbols may be coded.
 
 Here's an example:
 @verbatim
@@ -1965,12 +2004,13 @@ Here's an example:
         MOVE 12345 TO Output-Item
         DISPLAY Output-Item
 @end verbatim
-@* The above will display "@t{102030405}".
 
-@item @code{/}
-The @code{/} editing symbol inserts one "/" character into the field value for each occurrence in the picture string.
+The above will display @samp{102030405}.
 
-Multiple @code{/} symbols may be coded.
+@item @samp{/}
+The @samp{/} editing symbol inserts one ``/'' character into the field value for each occurrence in the picture string.
+
+Multiple @samp{/} symbols may be coded.
 
 This editing symbol is most-frequently used to format dates, as follows:
 @verbatim
@@ -1980,14 +2020,17 @@ This editing symbol is most-frequently used to format dates, as follows:
         MOVE 20140207 TO Year-Month-Day
         DISPLAY Year-Month-Day
 @end verbatim
-@* This example displays "@t{2014/02/07}".
-@end table
-@item The following are the numeric formatting symbols that may be specified in a picture string.  Each of these editing symbols will insert special characters into the field value to present numbers in a "friendly" format.  These editing symbols will each introduce one extra character into the total field size for each occurrence of the symbol in the picture string.  Numeric fields whose picture clause contains these characters may neither be used as source fields in any calculation nor may they serve as source fields for the transfer of data values to any data item other than an alphanumeric field.
-@table @asis
-@item @code{.}
-The @code{.} symbol inserts a decimal point into a numeric field value.  When the contents of a numeric data item sending field are moved into a receiving data item whose picture clause contains the @code{.} editing symbol, implied (@code{V}) or actual decimal point in the sending data item or literal, respectively, will be aligned with the @code{.} symbol in the receiving field.  Digits are then transferred from the sending to the receiving field outward from the sending field's "V" or ".", truncating sending digits if there aren't enough positions in the receiving field.  Any digit positions in the receiving field that don't receive digits from the sending field, if any, will be set to 0.
 
-The @code{.} symbol is not allowed in conjunction with @code{N}.
+This example displays @samp{2014/02/07}.
+@end table
+
+@item
+The following are the numeric formatting symbols that may be specified in a picture string.  Each of these editing symbols will insert special characters into the field value to present numbers in a ``friendly'' format.  These editing symbols will each introduce one extra character into the total field size for each occurrence of the symbol in the picture string.  Numeric fields whose picture clause contains these characters may neither be used as source fields in any calculation nor may they serve as source fields for the transfer of data values to any data item other than an alphanumeric field.
+@table @asis
+@item @samp{.}
+The @samp{.} symbol inserts a decimal point into a numeric field value.  When the contents of a numeric data item sending field are moved into a receiving data item whose picture clause contains the @samp{.} editing symbol, implied (@samp{V}) or actual decimal point in the sending data item or literal, respectively, will be aligned with the @samp{.} symbol in the receiving field.  Digits are then transferred from the sending to the receiving field outward from the sending field's @samp{V} or @samp{.}, truncating sending digits if there aren't enough positions in the receiving field.  Any digit positions in the receiving field that don't receive digits from the sending field, if any, will be set to 0.
+
+The @samp{.} symbol is not allowed in conjunction with @samp{N}.
 
 An example will probably help:
 @verbatim
@@ -2002,14 +2045,15 @@ An example will probably help:
     MOVE Source-Field TO Dest-Field
     DISPLAY Dest-Field
 @end verbatim
-@* The example will display three results --- "@t{34567.89}", "@t{00019.00}" and "@t{00007.20}".
+
+The example will display three results --- @samp{34567.89}, @samp{00019.00} and @samp{00007.20}.
 
 Both data item definitions @i{appear} to have @i{two} decimal points in their picture clauses.  They actually don't, because the last character of every data item definition is always a period --- the period that ends the definition.
 
-@item @code{,}
-The @code{,} symbol serves as a thousands separator.  Many times, you'll see large numbers formatted with these symbols --- for example, 123,456,789.  This can be accomplished easily by adding thousands separator symbols to a picture string.  Thousands separator symbols that aren't needed will behave as if they were @code{9}s.
+@item @samp{,}
+The @samp{,} symbol serves as a thousands separator.  Many times, you'll see large numbers formatted with these symbols --- for example, 123,456,789.  This can be accomplished easily by adding thousands separator symbols to a picture string.  Thousands separator symbols that aren't needed will behave as if they were @samp{9}s.
 
-The @code{,} symbol is not allowed in conjunction with @code{N}.
+The @samp{,} symbol is not allowed in conjunction with @samp{N}.
 
 Here's an example:
 @verbatim
@@ -2019,81 +2063,83 @@ Here's an example:
     MOVE 12345 TO My-Lottery-Winnings
     DISPLAY My-Lottery-Winnings
 @end verbatim
-@* The value "@t{0000012,345}" (a very disappointing one for my retirement plans, but a good thousands separator demo) will be displayed.  Notice how, since the first comma wasn't needed due to the meagre amount I won, it behaved like another "9".
+
+The value @samp{0000012,345} (a very disappointing one for my retirement plans, but a good thousands separator demo) will be displayed.  Notice how, since the first comma wasn't needed due to the meagre amount I won, it behaved like another @samp{9}.
 @end table
-@* If desired, you may reverse the roles of the @code{.} and @code{,} editing symbols by specifying @code{DECIMAL POINT IS COMMA} in the @syntaxref{SPECIAL-NAMES} paragraph.
+
+If desired, you may reverse the roles of the @samp{.} and @samp{,} editing symbols by specifying @code{DECIMAL POINT IS COMMA} in the @syntaxref{SPECIAL-NAMES} paragraph.
 
 @item
-The following are insertion symbols.  They are used to insert an extra character (two in the case of "CR" and "DB") to signify the sign (positive or negative) of the numeric value that is moved into the field whose picture string contains one of these symbols, or the fact that the data item represents a currency (money) amount.  Only one of the @code{+}, @code{-}, @code{CR} or @code{DB} symbols may be used in a picture clause. In this context, when any of these symbols are used in a @var{picture-string}, they must be at the end.  The @code{+}, @code{-} and/or currency symbols may also be used as floating editing symbols at the @i{beginning} of the @var{picture-string} --- a subject that will be covered in the next numbered paragraph.
+The following are insertion symbols.  They are used to insert an extra character (two in the case of @code{CR} and @code{DB}) to signify the sign (positive or negative) of the numeric value that is moved into the field whose picture string contains one of these symbols, or the fact that the data item represents a currency (money) amount.  Only one of the @samp{+}, @samp{-}, @code{CR} or @code{DB} symbols may be used in a picture clause. In this context, when any of these symbols are used in a @var{picture-string}, they must be at the end.  The @samp{+}, @samp{-} and/or currency symbols may also be used as floating editing symbols at the @i{beginning} of the @var{picture-string} --- a subject that will be covered in the next numbered paragraph.
 @table @asis
-@item @code{+}
-If the value of the numeric value moved into the field is positive (0 or greater), a "+" character will be inserted.  If the value is negative (less than 0), a "-" character is inserted.
+@item @samp{+}
+If the value of the numeric value moved into the field is positive (0 or greater), a @samp{+} character will be inserted.  If the value is negative (less than 0), a @samp{-} character is inserted.
 
-The @code{+} symbol is not allowed in conjunction with @code{N}.
+The @samp{+} symbol is not allowed in conjunction with @samp{N}.
 
-@item @code{-}
-If the value of the numeric value moved into the field is positive (0 or greater), a space will be inserted.  If the value is negative (less than 0), a "-" character is inserted.
+@item @samp{-}
+If the value of the numeric value moved into the field is positive (0 or greater), a space will be inserted.  If the value is negative (less than 0), a @samp{-} character is inserted.
 
-The @code{-} symbol is not allowed in conjunction with @code{N}.
+The @samp{-} symbol is not allowed in conjunction with @samp{N}.
 
 @item @code{CR}
-This symbol is coded as the two characters "C" and "R".  If the value of the numeric value moved into the field is positive (0 or greater), two spaces will be inserted.  If the value is negative (less than 0), the characters "CR" (credit) are inserted.
+This symbol is coded as the two characters @samp{C} and @samp{R}.  If the value of the numeric value moved into the field is positive (0 or greater), two spaces will be inserted.  If the value is negative (less than 0), the characters @code{CR} (credit) are inserted.
 
-The @code{CR} symbol is not allowed in conjunction with @code{N}.
+The @code{CR} symbol is not allowed in conjunction with @samp{N}.
 
 @item @code{DB}
-This symbol is coded as the two characters "D" and "B".  If the value of the numeric value moved into the field is positive (0 or greater), two spaces will be inserted.  If the value is negative (less than 0), the characters "DB" (debit) are inserted.
+This symbol is coded as the two characters @samp{D} and @samp{B}.  If the value of the numeric value moved into the field is positive (0 or greater), two spaces will be inserted.  If the value is negative (less than 0), the characters @code{DB} (debit) are inserted.
 
-The @code{DB} symbol is not allowed in conjunction with @code{N}.
+The @code{DB} symbol is not allowed in conjunction with @samp{N}.
 
-@item @code{$}
+@item @samp{$}
 Regardless of the value moved into the field, this symbol will insert the currency symbol into the data item's value in the position where it occurs in the @var{picture-string} (@pxref{SPECIAL-NAMES}).
 
-The @code{$} symbol is not allowed in conjunction with @code{N}.
+The @samp{$} symbol is not allowed in conjunction with @samp{N}.
 @end table
 @item
-These editing symbols are known as floating replacement symbols.  These symbols may occur in sequences @i{before} any @code{9} editing symbols in the @var{picture-string} of a numeric data item.  Using these symbols transforms that numeric data item into a numerid @i{edited} data item, which can no longer be used in calculations or subscripts.
+These editing symbols are known as floating replacement symbols.  These symbols may occur in sequences @i{before} any @samp{9} editing symbols in the @var{picture-string} of a numeric data item.  Using these symbols transforms that numeric data item into a numerid @i{edited} data item, which can no longer be used in calculations or subscripts.
 
 @item
-Each of the following symbols behave like a @code{9}, until such point as all digits in the numeric value are exhausted and leading zeros are about to be inserted.  In effect, these editing symbols define what should happen to those leading zero.
+Each of the following symbols behave like a @samp{9}, until such point as all digits in the numeric value are exhausted and leading zeros are about to be inserted.  In effect, these editing symbols define what should happen to those leading zero.
 @table @asis
-@item @code{$}
-Of those currency symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by the currency symbol in-effect for the program (@pxref{SPECIAL-NAMES}).  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.
+@item @samp{$}
+Of those currency symbols that correspond to character positions in which leading zeros reside, the right-most will have its @samp{0} value replaced by the currency symbol in-effect for the program (@pxref{SPECIAL-NAMES}).  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.
 
-The @code{$} symbol is not allowed in conjunction with @code{N}.
+The @samp{$} symbol is not allowed in conjunction with @samp{N}.
 
-Any currency symbol coded to the right of a @code{.} will be treated exactly like a @code{9}.
+Any currency symbol coded to the right of a @samp{.} will be treated exactly like a @samp{9}.
 
-@item @code{*}
-This symbol is referred to as a check protection symbol.  All check-protection symbols that correspond to character positions in which leading zeros reside will have their "0" values replaced by "*".
+@item @samp{*}
+This symbol is referred to as a check protection symbol.  All check-protection symbols that correspond to character positions in which leading zeros reside will have their @samp{0} values replaced by @samp{*}.
 
-The @code{*} symbol is not allowed in conjunction with @code{N}.
+The @samp{*} symbol is not allowed in conjunction with @samp{N}.
 
-Any check-suppression symbol coded to the right of a @code{.} will be treated exactly like a @code{9}.
+Any check-suppression symbol coded to the right of a @samp{.} will be treated exactly like a @samp{9}.
 
-@item @code{+}
-Of those @code{+} symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by a "+" if the value in the data item is zero or greater or a "-" otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @code{+} and @code{-} in the same @var{picture-string}.
+@item @samp{+}
+Of those @samp{+} symbols that correspond to character positions in which leading zeros reside, the right-most will have its @samp{0} value replaced by a @samp{+} if the value in the data item is zero or greater or a @samp{-} otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @samp{+} and @samp{-} in the same @var{picture-string}.
 
-The @code{+} symbol is not allowed in conjunction with @code{N}.
+The @samp{+} symbol is not allowed in conjunction with @samp{N}.
 
-Any @code{+} symbol coded to the right of a @code{.} will be treated exactly like a @code{9}.
+Any @samp{+} symbol coded to the right of a @samp{.} will be treated exactly like a @samp{9}.
 
-@item @code{-}
-Of those @code{-} symbols that correspond to character positions in which leading zeros reside, the right-most will have its "0" value replaced by a space if the value in the data item is zero or greater or a "-" otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @code{+} and @code{-} in the same @var{picture-string}.
+@item @samp{-}
+Of those @samp{-} symbols that correspond to character positions in which leading zeros reside, the right-most will have its @samp{0} value replaced by a space if the value in the data item is zero or greater or a @samp{-} otherwise.  Any remaining leading zero values occupying positions described by this symbol will be replaced by spaces.  You cannot use both @samp{+} and @samp{-} in the same @var{picture-string}.
 
-The @code{-} symbol is not allowed in conjunction with @code{N}.
+The @samp{-} symbol is not allowed in conjunction with @samp{N}.
 
-Any @code{-} symbol coded to the right of a @code{.} will be treated exactly like a @code{9}.
+Any @samp{-} symbol coded to the right of a @samp{.} will be treated exactly like a @samp{9}.
 
-@item @code{Z}
-All @code{Z} symbols that correspond to character positions in which leading zeros reside will have their "0" values replaced by spaces.
+@item @samp{Z}
+All @samp{Z} symbols that correspond to character positions in which leading zeros reside will have their @samp{0} values replaced by spaces.
 
-Any zero-suppression symbol coded to the right of a @code{.} will be treated exactly like a @code{9}.
+Any zero-suppression symbol coded to the right of a @samp{.} will be treated exactly like a @samp{9}.
 @end table
 
-@code{Z} and @code{*} should not be coded in the same @var{picture-string}
+@samp{Z} and @samp{*} should not be coded in the same @var{picture-string}
 
-@code{+} and @code{-} should not be coded in the same @var{picture-string}
+@samp{+} and @samp{-} should not be coded in the same @var{picture-string}
 
 When multiple floating symbols are coded, even if there is only one of them used they will all be considered floating and will all be able to assume each other's properties.  For example, if a data item has a @code{PIC +$ZZZZ9.99} @var{picture-string}, and a value of 1 is moved to that field at run-time, the resulting value will be (the @i{b} symbol represents a space) @code{@i{bbbb}+$1.00}.  This is not consistent with many other COBOL implementations, where the result would have been @code{+$@i{bbbb}1.00}.
 
@@ -2105,8 +2151,8 @@ Most other COBOL implementations reject the use of multiple occurrences of multi
 @page
 @newsubsection{6.9.34,PRESENT WHEN}
 @diagram{PRESENT-WHEN Clause,DD-PRESENT-WHEN,DD-PRESENT-WHEN,None}
-@center This syntax is valid in the following sections:
-@center @strong{REPORT}
+This syntax is valid in the following sections:
+@code{REPORT}
 
 This clause names an existing @code{Condition Name} (@pxref{Condition Names}) that will serve as a switch controlling the presentation or suppression of a report group.
 @enumerate
@@ -2114,7 +2160,7 @@ This clause names an existing @code{Condition Name} (@pxref{Condition Names}) th
 If the specified condition-name has a value of FALSE when a @statementref{GENERATE} causes a report group to be presented, the presentation of that group will be suppressed.
 
 @item
-If the condition-name has a value of TRUE, the group will be presented.
+If the condition-name has a value of @code{TRUE}, the group will be presented.
 
 @item
 @xref{Condition Names}, for more information.
@@ -2125,55 +2171,58 @@ If the condition-name has a value of TRUE, the group will be presented.
 @page
 @newsubsection{6.9.35,PROMPT}
 @diagram{PROMPT Clause,DD-PROMPT,DD-PROMPT,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause defines the character that will be used as the fill-character for any input fields on the screen.
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
-The default prompt character, should no @code{CHARACTER} specification be coded, or should the @code{PROMPT} clause be absent altogether, is an underscore ("_").
+The default prompt character, should no @code{CHARACTER} specification be coded, or should the @code{PROMPT} clause be absent altogether, is an underscore (@samp{_}).
 
 @item
 Prompt characters will be automatically transformed into spaces upon input.
 @end enumerate
-@* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
 @comment ** 6.9.36 PROTECTED                                                **
 @comment *********************************************************************
 @page
 @newsubsection{6.9.36,PROTECTED}
 @diagram{PROTECTED Attribute,DD-PROTECTED,DD-PROTECTED,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 @enumerate
 
-The @code{PROTECTED} extended clause will effect the specified field to be limited in size, regardless of the picture size. OR DOES IT?
+The @code{PROTECTED} extended clause will effect the specified field to be limited in size, regardless of the picture size.@footnote{OR DOES IT? @i{author uncertain}}
 
 @item
-The SIZE phrase specifies the size (length) of the field. After the ACCEPT or DISPLAY is finished, the cursor is placed immediately after the field defined by this clause, unless this would place the cursor outside of the current terminal window. In this case, the cursor is wrapped around to the beginning of the next line (scrolling the window if necessary).
+The SIZE phrase specifies the size (length) of the field. After the @code{ACCEPT} or @code{DISPLAY} is finished, the cursor is placed immediately after the field defined by this clause, unless this would place the cursor outside of the current terminal window. In this case, the cursor is wrapped around to the beginning of the next line (scrolling the window if necessary).
 
 @item
-If the SIZE phrase is not used, then the field length defaults to the size of the item being accepted or displayed. If the CONVERT phrase is used, however, then the size of the field depends on the data type of the item and the verb being used.
+If the @code{SIZE} phrase is not used, then the field length defaults to the size of the item being accepted or displayed. If the @code{CONVERT} phrase is used, however, then the size of the field depends on the data type of the item and the verb being used.
 @enumerate A
 @item
-If the DISPLAY verb is executing, then the size is the same as if the CONVERT phrase were not specified except for numeric items. For numeric items, the size is the number of digits in the item, plus one if it is not an integer, plus one if it is signed. The remaining cases cover the size when an ACCEPT statement is used.
+If the @code{DISPLAY} verb is executing, then the size is the same as if the @code{CONVERT} phrase were not specified except for numeric items. For numeric items, the size is the number of digits in the item, plus one if it is not an integer, plus one if it is signed. The remaining cases cover the size when an @code{ACCEPT} statement is used.
 
 @item
 If the item is numeric or numeric edited, then the size is the number of digits in the item, plus one if it is not an integer, plus one if it is signed.
 
 @item
-If the item is alphanumeric edited, then the size is set to the number of "A" or "X" positions specified in its PICTURE clause.
+If the item is alphanumeric edited, then the size is set to the number of @samp{A} or @samp{X} positions specified in its @code{PICTURE} clause.
 
 @item
-For all other data types, the field size is set to the size of the item (same as if CONVERT were not specified).
+For all other data types, the field size is set to the size of the item (same as if @code{CONVERT} were not specified).
 @end enumerate
 
-@item Note that the OUTPUT phrase changes the way in which the default field size is computed. See that heading above for details. Also note that the OUTPUT phrase affects only the way items are displayed on the screen; the internal format of accepted data is not affected.
+@item
+Note that the @code{OUTPUT} phrase changes the way in which the default field size is computed. See that heading above for details. Also note that the @code{OUTPUT} phrase affects only the way items are displayed on the screen; the internal format of accepted data is not affected.
 
-@item Note that you cannot supply the CONVERT phrase in the Screen Section. Thus the size of a Screen Section field is always the size of its screen entry unless the SIZE phrase is specified.
+@item
+Note that you cannot supply the @code{CONVERT} phrase in the Screen Section. Thus the size of a Screen Section field is always the size of its screen entry unless the @code{SIZE} phrase is specified.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.37 REDEFINES                                                **
@@ -2181,13 +2230,13 @@ For all other data types, the field size is set to the size of the item (same as
 @page
 @newsubsection{6.9.37,REDEFINES}
 @diagram{REDEFINES Clause,DD-REDEFINES,DD-REDEFINES,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
 
 The @code{REDEFINES} clause causes the data item in who's definition the @code{REDEFINES} clause is specified (hereafter referred to as the redefines object) to occupy the same physical storage space as @var{identifier-1} (hereafter referred to as the redefines subject).
 @enumerate
 @item
-The following rules must all be followed in order to use REDEFINES:
+The following rules must all be followed in order to use @code{REDEFINES}:
 @enumerate A
 @item
 The level number of both the subject and object data items must be the same.
@@ -2196,10 +2245,10 @@ The level number of both the subject and object data items must be the same.
 The level numbers of both the subject and object data items cannot be 66, 78 or 88.
 
 @item
-If @code{n} represents the level number of the object, then no other data items with level number @code{n} may be defined between the subject and object data items unless they too are @code{REDEFINES} of the subject.
+If @i{N} represents the level number of the object, then no other data items with level number @i{N} may be defined between the subject and object data items unless they too are @code{REDEFINES} of the subject.
 
 @item
-If @code{n} represents the level number of the object, then no other data items with a level number numerically less than @code{n} may be defined between the subject and object data items.
+If @i{N} represents the level number of the object, then no other data items with a level number numerically less than @i{N} may be defined between the subject and object data items.
 
 @item
 The total allocated size of the subject data item must be the same as the total allocated size of the object data item.
@@ -2217,8 +2266,8 @@ No @syntaxref{VALUE} clause may be defined on the object data item, and no data 
 @page
 @newsubsection{6.9.38,RENAMES}
 @diagram{RENAMES Clause,DD-RENAMES,DD-RENAMES,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
 
 The @code{RENAMES} clause regroups previously defined items by specifying alternative, possibly overlapping, groupings of elementary data items.
 @enumerate
@@ -2232,7 +2281,7 @@ You must use the level number 66 for data description entries that contain the @
 The @var{identifier-1} and @var{identifier-2} data items, along with all data items defined between those two data items in the program source, must all be contained within the same 01-level record description.
 
 @item
-@xref{66-Level Data Items}, for additional information on the RENAMES clause.
+@xref{66-Level Data Items}, for additional information on the @code{RENAMES} clause.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.39 REQUIRED                                                 **
@@ -2240,8 +2289,8 @@ The @var{identifier-1} and @var{identifier-2} data items, along with all data it
 @page
 @newsubsection{6.9.39,REQUIRED}
 @diagram{REQUIRED Attribute,DD-REQUIRED,DD-REQUIRED,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause forces the user to enter data into the field it is specified on (or into all subordinate input-capable fields if @code{REQUIRED} is specified on a group item).
 @enumerate
@@ -2255,7 +2304,7 @@ In order to take effect, the user must first move the cursor into the field havi
 The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item @i{unless} data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}.
 
 @item
-In order to be functional, this attribute must be supported by the underlying 'curses' package your GnuCOBOL implementation was built with.  As of this time, the 'PDCurses' package (used for native Windows or MinGW builds) does not support @code{REQUIRED}.
+In order to be functional, this attribute must be supported by the underlying ``curses'' package your GnuCOBOL implementation was built with.  As of this time, the ``PDCurses'' package (used for native Windows or MinGW builds) does not support @code{REQUIRED}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.40 REVERSE-VIDEO                                            **
@@ -2263,8 +2312,8 @@ In order to be functional, this attribute must be supported by the underlying 'c
 @page
 @newsubsection{6.9.40,REVERSE-VIDEO}
 @diagram{REVERSE-VIDEO Attribute,DD-REVERSE-VIDEO,DD-REVERSE-VIDEO,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 The @code{REVERSE-VIDEO} attribute swaps the specified or implied @syntaxref{FOREGROUND-COLOR} and @syntaxref{BACKGROUND-COLOR} attributes for the field whose definition contains this clause (or all subordinate fields if used on a group item).
 
@@ -2275,8 +2324,8 @@ The @code{REVERSE-VIDEO} attribute swaps the specified or implied @syntaxref{FOR
 @page
 @newsubsection{6.9.41,SECURE}
 @diagram{SECURE Attribute,DD-SECURE,DD-SECURE,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause will cause all data entered into the field to appear on the screen as asterisks.
 @enumerate
@@ -2286,20 +2335,21 @@ The @syntaxref{NO-ECHO} and @code{SECURE} clauses are interchangeable, and may n
 @item
 This clause may only be used on a field allowing data entry (a field containing either the @syntaxref{USING} or @syntaxref{TO} clause).
 @end enumerate
-@* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
 @comment ** 6.9.42 SIGN IS                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{6.9.42,SIGN IS}
 @diagram{SIGN-IS Clause,DD-SIGN-IS,DD-SIGN-IS,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
-This clause, allowable only for @code{USAGE DISPLAY} numeric data items, specifies how an @code{S} symbol will be interpreted in a data item's picture clause.
+This clause, allowable only for @code{USAGE DISPLAY} numeric data items, specifies how an @samp{S} symbol will be interpreted in a data item's picture clause.
 @enumerate
 @item
-The reserved words @code{CHARACTER} and @code{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{CHARACTER} and @code{IS} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 @i{Without} the @syntaxidx{SEPARATE CHARACTER} option, the sign of the data item's value will be encoded by transforming the last (@syntaxidx{TRAILING}) or first (@syntaxidx{LEADING}) digit as follows:
@@ -2319,13 +2369,13 @@ The reserved words @code{CHARACTER} and @code{IS} are optional and may be includ
 @end multitable
 
 @item
-If the @code{SEPARATE CHARACTER} clause @i{is} used, then an actual @code{+} or @code{-} character will be inserted into the field's value as the first (@code{LEADING}) or last (@code{TRAILING}) character.  Note that having this character embedded within the data item's storage does not prevent the data item from being used as a source field in arithmetic operations.
+If the @code{SEPARATE CHARACTER} clause @i{is} used, then an actual @samp{+} or @samp{-} character will be inserted into the field's value as the first (@code{LEADING}) or last (@code{TRAILING}) character.  Note that having this character embedded within the data item's storage does not prevent the data item from being used as a source field in arithmetic operations.
 
 @item
-When @code{SEPARATE CHARACTER} is specified, the @code{S} symbol in the data item's @code{PICTURE} must be counted when determining the data item's size.
+When @code{SEPARATE CHARACTER} is specified, the @samp{S} symbol in the data item's @code{PICTURE} must be counted when determining the data item's size.
 
 @item
-Neither the presence of an encoded digit (see above) nor an actual @code{+} or @code{-} character embedded within the data item's storage prevents the data item from being used as a source field in arithmetic operations.
+Neither the presence of an encoded digit (see above) nor an actual @samp{+} or @samp{-} character embedded within the data item's storage prevents the data item from being used as a source field in arithmetic operations.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.43 SOURCE                                                   **
@@ -2333,13 +2383,13 @@ Neither the presence of an encoded digit (see above) nor an actual @code{+} or @
 @page
 @newsubsection{6.9.43,SOURCE}
 @diagram{SOURCE Clause,DD-SOURCE,DD-SOURCE,None}
-@center This syntax is valid in the following sections:
-@center @strong{REPORT}
+This syntax is valid in the following sections:
+@code{REPORT}
 
 This clause logically attaches a report section data item to another data item defined elsewhere in the data division.
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 When the report group containing this clause is presented, the value of the specified numeric literal or identifier will be automatically moved to the report data item prior to presentation.
@@ -2351,7 +2401,7 @@ The specified identifier may be defined anywhere in the data division, but if it
 The @syntaxref{PICTURE} of the report data item must be such that it would be legal to @syntaxref{MOVE} the specified literal or identifier to a data item with that @code{PICTURE}.
 
 @item
-The @code{ROUNDED} option comes into play should the number of digits to the right of an actual or assumed decimal point be different between the specified literal or identifier value (the "source value") and the @code{PICTURE} specified for the field in whose definition the @code{SOURCE} clause appears (the "target field").  @i{Without} @code{ROUNDED}, excess digits in the source value will simply be truncated to fit the target field.  @i{With} @code{ROUNDED}, the source value will be arithmetically rounded to fit the target field.  @xref{ROUNDED}, for information on the @code{NEAREST-AWAY-FROM-ZERO} rounding rule, which is the one that will apply.
+The @code{ROUNDED} option comes into play should the number of digits to the right of an actual or assumed decimal point be different between the specified literal or identifier value (the ``source value'') and the @code{PICTURE} specified for the field in whose definition the @code{SOURCE} clause appears (the ``target field'').  @i{Without} @code{ROUNDED}, excess digits in the source value will simply be truncated to fit the target field.  @i{With} @code{ROUNDED}, the source value will be arithmetically rounded to fit the target field.  @xref{ROUNDED}, for information on the @code{NEAREST-AWAY-FROM-ZERO} rounding rule, which is the one that will apply.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.44 SUM OF                                                   **
@@ -2359,13 +2409,13 @@ The @code{ROUNDED} option comes into play should the number of digits to the rig
 @page
 @newsubsection{6.9.44,SUM OF}
 @diagram{SUM-OF Clause,DD-SUM-OF-Info,DD-SUM-OF-TeX,None}
-@center This syntax is valid in the following sections:
-@center @strong{REPORT}
+This syntax is valid in the following sections:
+@code{REPORT}
 
 The @code{SUM} clause establishes a summation counter whose value will be arithmetically calculated whenever the field is presented.
 @enumerate
 @item
-The reserved words @code{OF} and @code{ON} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{OF} and @code{ON} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 The @code{SUM} clause may only appear in a @code{CONTROL FOOTING} report group.
@@ -2418,8 +2468,8 @@ If, however, you want to reset the @code{SUM} counter only when the control foot
 @page
 @newsubsection{6.9.45,SYNCRONIZED}
 @diagram{SYNCRONIZED,DD-SYNCRONIZED,DD-SYNCRONIZED,DD-SYNC-LEFT-RIGHT}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
 
 This optional clause optimizes the storage of binary numeric items to store them in such a manner as to make it as fast as possible for the CPU to fetch them.
 @enumerate
@@ -2456,8 +2506,8 @@ The following illustrates the allocation of a group of data items both without a
 @page
 @newsubsection{6.9.46,TO}
 @diagram{TO Clause,DD-TO,DD-TO,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause logically attaches a screen section data item to another data item defined elsewhere in the data division.
 @enumerate
@@ -2473,8 +2523,8 @@ The @syntaxref{FROM}, @code{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses
 @page
 @newsubsection{6.9.47,TYPE}
 @diagram{TYPE Clause,DD-TYPE,DD-TYPE,None}
-@center This syntax is valid in the following sections:
-@center @strong{REPORT}
+This syntax is valid in the following sections:
+@code{REPORT}
 
 This clause defines the type of report group that is being defined for a report.
 @enumerate
@@ -2499,8 +2549,8 @@ The various report groups that constitute a report may be defined in any order.
 @page
 @newsubsection{6.9.48,UNDERLINE}
 @diagram{UNDERLINE Attribute,DD-UNDERLINE,DD-UNDERLINE,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 The @code{UNDERLINE} clause will introduce a horizontal line at the bottom edge of a screen field.
 @enumerate
@@ -2508,25 +2558,26 @@ The @code{UNDERLINE} clause will introduce a horizontal line at the bottom edge 
 The @syntaxref{LEFTLINE}, @syntaxref{OVERLINE} and @code{UNDERLINE} clauses may be used in any combination in a single field's description.
 
 @item
-This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GnuCOBOL implementation built using 'PDCurses' (such as Windows/MinGW builds).
+This clause is essentially non-functional when used within Windows command shell (cmd.exe) environments and running programs compiled using a GnuCOBOL implementation built using ``PDCurses'' (such as Windows/MinGW builds).
 
 @item
-Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will depend upon the video attribute capabilities of the terminal output drivers and 'curses' software being used.
+Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will depend upon the video attribute capabilities of the terminal output drivers and ``curses'' software being used.
 @end enumerate
-@* @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
 @comment ** 6.9.49 USAGE                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{6.9.49,USAGE}
 @diagram{USAGE Clause,DD-USAGE,DD-USAGE,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}
 
 The @code{USAGE} clause defines the format that will be used to store the value of a data item.
 @enumerate
 @item
-The reserved word @code{IS} is optional and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
 The following table summarizes the various USAGE specifications available in GnuCOBOL.
@@ -2535,24 +2586,26 @@ The following table summarizes the various USAGE specifications available in Gnu
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
-@tab Range of Values:          @tab Defined by the quantity of @code{9}s and the presence or absence of an @code{S} in the @code{PICTURE}
+@tab Range of Values:          @tab Defined by the quantity of @samp{9}s and the presence or absence of an @samp{S} in the @code{PICTURE}
 
 @item
 @tab Storage Format:           @tab Compatible Binary Integer
 
 @item
-@tab Negative Values Allowed?: @tab If @code{PICTURE} contains @code{S}
+@tab Negative Values Allowed?: @tab If @code{PICTURE} contains @samp{S}
 
 @item
 @tab @code{PICTURE} Used?:            @tab Yes
 @end multitable
-@* @t{BINARY-C-LONG [ SIGNED ]}@*@t{~~~~~~~~~~~~~}
+
+@t{BINARY-C-LONG [ SIGNED ]}@*@t{~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY-DOUBLE SIGNED}
 @end multitable
-@* @t{BINARY-C-LONG UNSIGNED}@*@t{~~~~~~~~~~~~~ ~~~~~~~~}
+
+@t{BINARY-C-LONG UNSIGNED}@*@t{~~~~~~~~~~~~~ ~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2567,7 +2620,8 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{BINARY-CHAR [ SIGNED ]}@*@t{~~~~~~~~~~~}
+
+@t{BINARY-CHAR [ SIGNED ]}@*@t{~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2582,7 +2636,8 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{BINARY-CHAR UNSIGNED}@*@t{~~~~~~~~~~~ ~~~~~~~~}
+
+@t{BINARY-CHAR UNSIGNED}@*@t{~~~~~~~~~~~ ~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2597,7 +2652,8 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{BINARY-DOUBLE [ SIGNED ]}@*@t{~~~~~~~~~~~~~}
+
+@t{BINARY-DOUBLE [ SIGNED ]}@*@t{~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2612,7 +2668,8 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{BINARY-DOUBLE UNSIGNED}@*@t{~~~~~~~~~~~~~ ~~~~~~~~}
+
+@t{BINARY-DOUBLE UNSIGNED}@*@t{~~~~~~~~~~~~~ ~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2627,13 +2684,15 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{BINARY-INT}@*@t{~~~~~~~~~~}
+
+@t{BINARY-INT}@*@t{~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY-LONG SIGNED}
 @end multitable
-@* @t{BINARY-LONG [ SIGNED ]}@*@t{~~~~~~~~~~~}
+
+@t{BINARY-LONG [ SIGNED ]}@*@t{~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2648,7 +2707,8 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{BINARY-LONG UNSIGNED}@*@t{~~~~~~~~~~~ ~~~~~~~~}
+
+@t{BINARY-LONG UNSIGNED}@*@t{~~~~~~~~~~~ ~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2663,13 +2723,15 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{BINARY-LONG-LONG}@*@t{~~~~~~~~~~~~~~~~}
+
+@t{BINARY-LONG-LONG}@*@t{~~~~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY-DOUBLE SIGNED}
 @end multitable
-@* @t{BINARY-SHORT [ SIGNED ]}@*@t{~~~~~~~~~~~~}
+
+@t{BINARY-SHORT [ SIGNED ]}@*@t{~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2684,7 +2746,8 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{BINARY-SHORT UNSIGNED}@*@t{~~~~~~~~~~~~ ~~~~~~~~}
+
+@t{BINARY-SHORT UNSIGNED}@*@t{~~~~~~~~~~~~ ~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2699,56 +2762,63 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{COMPUTATIONAL}@*@t{~~~~}
+
+@t{COMPUTATIONAL}@*@t{~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY}
 @end multitable
-@* @t{COMP[UTATIONAL]-1}@*@t{~~~~           ~~}
+
+@t{COMP[UTATIONAL]-1}@*@t{~~~~           ~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{FLOAT-SHORT}
 @end multitable
-@* @t{COMP[UTATIONAL]-2}@*@t{~~~~           ~~}
+
+@t{COMP[UTATIONAL]-2}@*@t{~~~~           ~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{FLOAT-LONG}
 @end multitable
-@* @t{COMP[UTATIONAL]-3}@*@t{~~~~           ~~}
+
+@t{COMP[UTATIONAL]-3}@*@t{~~~~           ~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{PACKED-DECIMAL}
 @end multitable
-@* @t{COMP[UTATIONAL]-4}@*@t{~~~~           ~~}
+
+@t{COMP[UTATIONAL]-4}@*@t{~~~~           ~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY}
 @end multitable
-@* @t{COMP[UTATIONAL]-5}@*@t{~~~~           ~~}
+
+@t{COMP[UTATIONAL]-5}@*@t{~~~~           ~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
-@tab Range of Values: @tab Depends on number of @code{9}s in the @code{PICTURE} and the @code{binary-size} setting of the configuration file used to compile the program
+@tab Range of Values: @tab Depends on number of @samp{9}s in the @code{PICTURE} and the @code{binary-size} setting of the configuration file used to compile the program
 
 @item
 @tab Storage Format: @tab Native Binary Integer
 
 @item
-@tab Negative Values Allowed?: @tab If @code{PICTURE} contains @code{S}
+@tab Negative Values Allowed?: @tab If @code{PICTURE} contains @samp{S}
 
 @item
 @tab @code{PICTURE} Used?: @tab Yes
 @end multitable
-@* @t{COMP[UTATIONAL]-6}@*@t{~~~~           ~~}
+
+@t{COMP[UTATIONAL]-6}@*@t{~~~~           ~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
-@tab Range of Values: @tab Defined by the quantity of @code{9}s and the presence or absence of an @code{S} in the @code{PICTURE}
+@tab Range of Values: @tab Defined by the quantity of @samp{9}s and the presence or absence of an @samp{S} in the @code{PICTURE}
 
 @item
 @tab Storage Format: @tab Unsigned Packed Decimal
@@ -2759,22 +2829,24 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab Yes
 @end multitable
-@* @t{COMP[UTATIONAL]-X}@*@t{~~~~           ~~}
+
+@t{COMP[UTATIONAL]-X}@*@t{~~~~           ~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
-@tab Range of Values: @tab If used with @code{PIC X}, allocates one byte of storage per @code{X}; range of values is 0 to max storable in that many bytes.  If used with @code{PIC 9}, range of values depends on number of @code{9}s in PICTURE
+@tab Range of Values: @tab If used with @code{PIC X}, allocates one byte of storage per @samp{X}; range of values is 0 to max storable in that many bytes.  If used with @code{PIC 9}, range of values depends on number of @samp{9}s in PICTURE
 
 @item
 @tab Storage Format: @tab Native unsigned (X) or signed (9) Binary
 
 @item
-@tab Negative Values Allowed?: @tab If @code{PICTURE} 9 and contains @code{S}
+@tab Negative Values Allowed?: @tab If @code{PICTURE} 9 and contains @samp{S}
 
 @item
 @tab @code{PICTURE} Used?: @tab Yes
 @end multitable
-@* @t{DISPLAY}@*@t{~~~~~~~}
+
+@t{DISPLAY}@*@t{~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2784,16 +2856,17 @@ The following table summarizes the various USAGE specifications available in Gnu
 @tab Storage Format: @tab Characters
 
 @item
-@tab Negative Values Allowed?: @tab If @code{PICTURE} contains @code{S}
+@tab Negative Values Allowed?: @tab If @code{PICTURE} contains @samp{S}
 
 @item
 @tab @code{PICTURE} Used?: @tab Yes
 @end multitable
-@* @t{FLOAT-DECIMAL-16}@*@t{~~~~~~~~~~~~~~~~}
+
+@t{FLOAT-DECIMAL-16}@*@t{~~~~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
-@tab Range of Values: @tab -9.999999999999999 \times 10^383 -- 9.999999999999999 \times 10^384
+@tab Range of Values: @tab -9.999999999999999 * 10@sup{383} -- 9.999999999999999 * 10@sup{384}
 
 @item
 @tab Storage Format: @tab Native IEEE 754 Decimal64 Floating-point
@@ -2804,11 +2877,12 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{FLOAT-DECIMAL-34}@*@t{~~~~~~~~~~~~~~~~}
+
+@t{FLOAT-DECIMAL-34}@*@t{~~~~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
-@tab Range of Values: @tab -9.99999... \times 10^6143 -- 9.99999... \times 10^6144
+@tab Range of Values: @tab -9.99999... * 10@sup{6143} -- 9.99999... * 10@sup{6144}
 
 @item
 @tab Storage Format: @tab Native IEEE 754 Decimal128 Floating-point
@@ -2819,11 +2893,12 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{FLOAT-LONG}@*@t{~~~~~~~~~~}
+
+@t{FLOAT-LONG}@*@t{~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
-@tab Range of Values: @tab Approximately -1.797693134862316 \times 10^308 -- 1.797693134862316 \times 10^308
+@tab Range of Values: @tab Approximately -1.797693134862316 * 10@sup{308} -- 1.797693134862316 * 10@sup{308}
 
 @item
 @tab Storage Format: @tab Native IEEE 754 Binary64 Floating-point
@@ -2834,11 +2909,12 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{FLOAT-SHORT}@*@t{~~~~~~~~~~~}
+
+@t{FLOAT-SHORT}@*@t{~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
-@tab Range of Values: @tab Approximately -3.4028235 \times 10^38 -- 3.4028235 \times 10^38
+@tab Range of Values: @tab Approximately -3.4028235 * 10@sup{38} -- 3.4028235 * 10@sup{38}
 
 @item
 @tab Storage Format: @tab Native IEEE 754 Binary32
@@ -2849,7 +2925,8 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{INDEX}@*@t{~~~~~}
+
+@t{INDEX}@*@t{~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2864,28 +2941,31 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{NATIONAL}@*@t{~~~~~~~~}
+
+@t{NATIONAL}@*@t{~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab @code{USAGE NATIONAL}, while syntactically recognized, is not supported by GnuCOBOL
 @end multitable
-@* @t{PACKED-DECIMAL}@*@t{~~~~~~~~~~~~~~}
+
+@t{PACKED-DECIMAL}@*@t{~~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
-@tab Range of Values: @tab Defined by the quantity of @code{9}s and the presence or absence of an @code{S} in the PICTURE
+@tab Range of Values: @tab Defined by the quantity of @samp{9}s and the presence or absence of an @samp{S} in the PICTURE
 
 @item
 @tab Storage Format: @tab Signed Packed Decimal
 
 @item
-@tab Negative Values Allowed?: @tab If @code{PICTURE} contains @code{S}
+@tab Negative Values Allowed?: @tab If @code{PICTURE} contains @samp{S}
 
 @item
 @tab @code{PICTURE} Used?: @tab Yes
 @end multitable
-@* @t{POINTER}@*@t{~~~~~~~}
+
+@t{POINTER}@*@t{~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2900,13 +2980,15 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{PROCEDURE-POINTER}@*@t{~~~~~~~~~~~~~~~~~}
+
+@t{PROCEDURE-POINTER}@*@t{~~~~~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{PROGRAM-POINTER}
 @end multitable
-@* @t{PROGRAM-POINTER}@*@t{~~~~~~~~~~~~~~~}
+
+@t{PROGRAM-POINTER}@*@t{~~~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
 @item
@@ -2921,78 +3003,85 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab @code{PICTURE} Used?: @tab No
 @end multitable
-@* @t{SIGNED-INT}@*@t{~~~~~~~~~~}
+
+@t{SIGNED-INT}@*@t{~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY-LONG SIGNED}
 @end multitable
-@* @t{SIGNED-LONG}@*@t{~~~~~~~~~~~}
+
+@t{SIGNED-LONG}@*@t{~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY-DOUBLE SIGNED}
 @end multitable
-@* @t{SIGNED-SHORT}@*@t{~~~~~~~~~~~~}
+
+@t{SIGNED-SHORT}@*@t{~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY-SHORT SIGNED}
 @end multitable
-@* @t{UNSIGNED-INT}@*@t{~~~~~~~~~~~~}
+
+@t{UNSIGNED-INT}@*@t{~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY-LONG UNSIGNED}
 @end multitable
-@* @t{UNSIGNED-LONG}@*@t{~~~~~~~~~~~~~}
+
+@t{UNSIGNED-LONG}@*@t{~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY-DOUBLE UNSIGNED}
 @end multitable
-@* @t{UNSIGNED-SHORT}@*@t{~~~~~~~~~~~~~~}
+
+@t{UNSIGNED-SHORT}@*@t{~~~~~~~~~~~~~~}
 @multitable @columnfractions 0.05 0.95
 
 @item
 @tab Same as @code{BINARY-SHORT UNSIGNED}
 @end multitable
-@item Binary data (integer or floating-point) can be stored in either a @i{Big-Endian} or @i{Little-Endian} form.
+@item
+Binary data (integer or floating-point) can be stored in either a @i{Big-Endian} or @i{Little-Endian} form.
 
 Big-endian data allocation calls for the bytes that comprise a binary item to be allocated such that the least-significant byte is the right-most byte.  For example, a four-byte binary item having a value of decimal 20 would be big-endian allocated as 00000014 (shown in hexadecimal notation).
 
 Little-endian data allocation calls for the bytes that comprise a binary item to be allocated such that the least-significant byte is the left-most byte.  For example, a four-byte binary item having a value of decimal 20 would be little-endian allocated as 14000000 (shown in hexadecimal notation).
 
-All CPUs are capable of @code{understanding} big-endian format, which makes it the @code{most-compatible} form of binary storage across computer systems.
+All CPUs are capable of @i{understanding} big-endian format, which makes it the @i{most compatible} form of binary storage across computer systems.
 
-Some CPUs --- such as the Intel/AMD i386/x64 architecture processors used in most Windows PCs --- prefer to process binary data stored in a little-endian format.  Since that format is more efficient on those systems, it is referred to as the @code{native} binary format.
+Some CPUs --- such as the Intel/AMD i386/x64 architecture processors used in most Windows PCs --- prefer to process binary data stored in a little-endian format.  Since that format is more efficient on those systems, it is referred to as the @i{native} binary format.
 
-On a system supporting only one format of binary storage (generally, that would be big-endian), the terms 'most-efficient' and 'native format' are synonymous.
-
-@item
-Data items that have the @syntaxidx{UNSIGNED} attribute explicitly coded, or @code{DISPLAY}, @code{PACKED-DECIMAL}, @code{COMP-5}, @code{COMP-X} items that do not have an @code{S} symbol in their picture clause cannot preserve negative values that may be stored into them.  Storing a negative value into such a field will actually result in the sign being stripped, essentially saving the absolute value in the data item.
+On a system supporting only one format of binary storage (generally, that would be big-endian), the terms @i{most efficient} and @i{native} format are synonymous.
 
 @item
-Packed-decimal (i.e. @code{USAGE PACKED-DECIMAL}, @code{USAGE COMP-3} or @code{USAGE COMP-6}) data is stored as a series of bytes such that each byte contains two 4-bit fields, referred to as 'nibbles' (since they comprise half a "byte", they're just "nibbles" --- don't groan, I don't just make this stuff up!).  Each nibble represents a @code{9} in the @code{PICTURE} and each holds a single decimal digit encoded as its binary value (0 = 0000, 1 = 0001, @dots{} , 9 = 1001).
-
-The @i{last} byte of a @code{PACKED-DECIMAL} or @code{COMP-3} data item will always have its left nibble corresponding to the last @code{9} in the @code{PICTURE} and its right nibble reserved as a sign indicator.  This sign indicator is always present regardless of whether or not the @code{PICTURE} included an @code{S} symbol.
-
-The @i{first} byte of the data item will contain an unused left nibble if the @code{PICTURE} had an even number of @code{9} symbols in it.
-
-The sign indicator will have a value of a hexadecimal A through F.  Traditional packed decimal encoding rules call for hexadecimal values of F, A, C or E ("FACE") in the sign nibble to indicate a positive value and B or D to represent a negative value (hexadecimal digits 0-9 are undefined).  Testing with a Windows MinGW/GnuCOBOL implementation shows that --- in fact --- hex digit D represents a negative number and any other hexadecimal digit denotes a positive number.  Therefore, a @code{PIC S9(3) COMP-3} packed-decimal field with a value of -15 would be stored internally as a hexadecimal 015D in GnuCOBOL.
-
-If you attempt to store a negative number into a packed decimal field that has no @code{S} in its @code{PICTURE}, the absolute value of the negative number will actually be stored.
-
-@code{USAGE COMP-6} does not allow for negative values, therefore no sign nibble will be allocated.  A @code{USAGE COMP-6} data item containing an odd number of @code{9} symbols in its @code{PICTURE} will leave its leftmost nibble unused.
+Data items that have the @syntaxidx{UNSIGNED} attribute explicitly coded, or @code{DISPLAY}, @code{PACKED-DECIMAL}, @code{COMP-5}, @code{COMP-X} items that do not have an @samp{S} symbol in their picture clause cannot preserve negative values that may be stored into them.  Storing a negative value into such a field will actually result in the sign being stripped, essentially saving the absolute value in the data item.
 
 @item
-The @code{USAGE} specifications @code{FLOAT-DECIMAL-16} and @code{FLOAT-DECIMAL-34} will encode data using IEEE 754 @code{Decimal64} and @code{Decimal128} format, respectively.  The former allows for up to 16 digits of exact precision while the latter offers 34.  The phrase "exact precision" is used because the traditional binary renderings of decimal real numbers in a floating-point format (@code{FLOAT-LONG} and @code{FLOAT-SHORT}, for example) only yield an approximation of the actual value because many decimal fractions cannot be precisely rendered in binary.  The Decimal64 and Decimal128 renderings, however, render decimal real numbers in encoded decimal form in much the same way that @code{PACKED-DECIMAL} renders a decimal integer in digit-by-digit decimal form.  The exact manner in which this rendering is performed is complex (Wikipedia has an excellent article on the subject --- just search for @code{Decimal64}).
+Packed-decimal (@i{i.e.} @code{USAGE PACKED-DECIMAL}, @code{USAGE COMP-3} or @code{USAGE COMP-6}) data is stored as a series of bytes such that each byte contains two 4-bit fields, referred to as @dfn{nibbles} (since they comprise half a ``byte'', they're just ``nibbles'' --- don't groan, I don't just make this stuff up!).  Each nibble represents a @samp{9} in the @code{PICTURE} and each holds a single decimal digit encoded as its binary value (0 = 0000, 1 = 0001, @dots{} , 9 = 1001).
+
+The @i{last} byte of a @code{PACKED-DECIMAL} or @code{COMP-3} data item will always have its left nibble corresponding to the last @samp{9} in the @code{PICTURE} and its right nibble reserved as a sign indicator.  This sign indicator is always present regardless of whether or not the @code{PICTURE} included an @samp{S} symbol.
+
+The @i{first} byte of the data item will contain an unused left nibble if the @code{PICTURE} had an even number of @samp{9} symbols in it.
+
+The sign indicator will have a value of a hexadecimal A through F.  Traditional packed decimal encoding rules call for hexadecimal values of F, A, C or E (``FACE'') in the sign nibble to indicate a positive value and B or D to represent a negative value (hexadecimal digits 0-9 are undefined).  Testing with a Windows MinGW/GnuCOBOL implementation shows that --- in fact --- hex digit D represents a negative number and any other hexadecimal digit denotes a positive number.  Therefore, a @code{PIC S9(3) COMP-3} packed-decimal field with a value of -15 would be stored internally as a hexadecimal 015D in GnuCOBOL.
+
+If you attempt to store a negative number into a packed decimal field that has no @samp{S} in its @code{PICTURE}, the absolute value of the negative number will actually be stored.
+
+@code{USAGE COMP-6} does not allow for negative values, therefore no sign nibble will be allocated.  A @code{USAGE COMP-6} data item containing an odd number of @samp{9} symbols in its @code{PICTURE} will leave its leftmost nibble unused.
+
+@item
+The @code{USAGE} specifications @code{FLOAT-DECIMAL-16} and @code{FLOAT-DECIMAL-34} will encode data using IEEE 754 @i{Decimal64} and @i{Decimal128} format, respectively.  The former allows for up to 16 digits of exact precision while the latter offers 34.  The phrase ``exact precision'' is used because the traditional binary renderings of decimal real numbers in a floating-point format (@code{FLOAT-LONG} and @code{FLOAT-SHORT}, for example) only yield an approximation of the actual value because many decimal fractions cannot be precisely rendered in binary.  The Decimal64 and Decimal128 renderings, however, render decimal real numbers in encoded decimal form in much the same way that @code{PACKED-DECIMAL} renders a decimal integer in digit-by-digit decimal form.  The exact manner in which this rendering is performed is complex (Wikipedia has an excellent article on the subject --- just search for @i{Decimal64}).
 
 @item
 GnuCOBOL stores @code{FLOAT-DECIMAL-16} and @code{FLOAT-DECIMAL-34} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
 
 @item
-The @code{USAGE} specifications @code{FLOAT-LONG} and @code{FLOAT-SHORT} use the IEEE 754 @code{Binary64} and @code{Binary32} formats, respectively.  These are binary encodings of real decimal numbers, and as such cannot represent every possible value between the minimum and maximum values in the range for those usages.  Wikipedia has an excellent article on the Binary64 and Binary32 encoding schemes --- just search on @code{Binary32} or @code{Binary64}.
+The @code{USAGE} specifications @code{FLOAT-LONG} and @code{FLOAT-SHORT} use the IEEE 754 @i{Binary64} and @i{Binary32} formats, respectively.  These are binary encodings of real decimal numbers, and as such cannot represent every possible value between the minimum and maximum values in the range for those usages.  Wikipedia has an excellent article on the Binary64 and Binary32 encoding schemes --- just search on @i{Binary32} or @i{Binary64}.
 
 GnuCOBOL stores @code{FLOAT-LONG} and @code{FLOAT-SHORT} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
 
@@ -3008,8 +3097,8 @@ The only @code{USAGE} that is allowed in the report section is @code{USAGE DISPL
 @page
 @newsubsection{6.9.50,USING}
 @diagram{USING Clause,DD-USING,DD-USING,None}
-@center This syntax is valid in the following sections:
-@center @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{SCREEN}
 
 This clause logically attaches a screen section data item to another data item defined elsewhere in the data division.
 @enumerate
@@ -3029,13 +3118,13 @@ The @syntaxref{FROM}, @syntaxref{TO}, @code{USING} and @syntaxref{VALUE} clauses
 @newsubsection{6.9.51,VALUE}
 @diagram{VALUE (Condition Names) Clause,DD-VALUE-1,DD-VALUE-1,None}
 @diagram{VALUE (Other Data Items),DD-VALUE-2,DD-VALUE-2,None}
-@center This syntax is valid in the following sections:
-@center @strong{FILE}, @strong{WORKING-STORAGE}, @strong{LOCAL-STORAGE}, @strong{LINKAGE}, @strong{REPORT}, @strong{SCREEN}
+This syntax is valid in the following sections:
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
 The @code{VALUE} clause is used to define condition names or to assign values (at compilation time) to data items.
 @enumerate
 @item
-The reserved words @code{ARE} and @code{IS} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
+The reserved words @code{ARE} and @code{IS} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
 This clause cannot be specified on the same data item as a @syntaxref{FROM}, @syntaxref{TO} or @syntaxref{USING} clause.
@@ -3070,10 +3159,10 @@ This format of the @code{VALUE} clause may not be used anywhere in the descripti
 If the optional @syntaxidx{ALL} clause is used, it may only be used with an alphanumeric literal value; the value will be repeated as needed to completely fill the data item.  Here are some examples with and without @code{ALL} (the symbol @i{b} denotes a space):
 
 @example
-PIC X(5) VALUE "A"      *> A@i{bbbb}
-PIC X(5) VALUE ALL "A"  *> AAAAA
+PIC X(5) VALUE @samp{A}      *> A@i{bbbb}
+PIC X(5) VALUE ALL @samp{A}  *> AAAAA
 PIC 9(3) VALUE 1        *> 001
-PIC 9(3) VALUE ALL "1"  *> 111
+PIC 9(3) VALUE ALL @samp{1}  *> 111
 @end example
 @item
 When used in the definition of a screen data item:
@@ -3118,9 +3207,12 @@ Initialize small tables at compile time by including a @code{VALUE} clause on th
        15 SST-SIZE       PIC X(2).
        15 SST-NECK       PIC 9(2).
 @end example
-@* Admittedly, this table is much more verbose than the one shown with a group @code{VALUE}.  What is good about this initialization technique, however, is that you can have as many @code{FILLER} and @code{VALUE} items as you need for a larger table, and those values can be as long as necessary!
+
+Admittedly, this table is much more verbose than the one shown with a group @code{VALUE}.  What is good about this initialization technique, however, is that you can have as many @code{FILLER} and @code{VALUE} items as you need for a larger table, and those values can be as long as necessary!
 @end enumerate
-@item Many COBOL compilers do not allow the use of @code{VALUE} and @syntaxref{OCCURS} on the same data item; additionally, they don't allow a @code{VALUE} clause on a data item subordinate to an @code{OCCURS}.  GnuCOBOL, however, has neither of these restrictions!
+
+@item
+Many COBOL compilers do not allow the use of @code{VALUE} and @syntaxref{OCCURS} on the same data item; additionally, they don't allow a @code{VALUE} clause on a data item subordinate to an @code{OCCURS}.  GnuCOBOL, however, has neither of these restrictions!
 
 Observe the following example, which illustrates a fourth manner in which tables may be initialized in GnuCOBOL:
 
@@ -3130,9 +3222,12 @@ Observe the following example, which illustrates a fourth manner in which tables
     10 B        PIC X(1) VALUE '%'.
     10 N        PIC 9(2) VALUE 10.
 @end example
-@* In this example, all six @code{A} items will be initialized to "?", all six @code{B} items will be initialized to "%" and all six @code{N} items will be initialized to 10.  It's not clear exactly how many times this sort of initialization will be useful, but it's there if you need it.
+
+In this example, all six @samp{A} items will be initialized to @samp{?}, all six @samp{B} items will be initialized to @samp{%} and all six @samp{N} items will be initialized to 10.  It's not clear exactly how many times this sort of initialization will be useful, but it's there if you need it.
 @end enumerate
-@item The @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} and @code{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
+
+@item
+The @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} and @code{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @iftex
 @sp 3
