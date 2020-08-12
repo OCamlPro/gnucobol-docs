@@ -72,20 +72,21 @@ The @code{Employee} data item consists of two subordinate data items --- an @cod
 
 As was presented earlier (@pxref{Structured Data}), a data item that is broken down into other data items is referred to as a group item, while one that isn't broken down is called an elementary item.
 
-COBOL uses the concept of a @i{level number} to indicate the level at which a data item occurs in a data structure such as the example shown above.  When these data items are defined, they are all defined together with a number in the range 1-49 specified in front of their names.  Over the years, a convention has come to exist among COBOL programmers that level numbers are always coded as two-digit numbers --- they don't @i{need} to be specified as two-digit numbers, but every example you see in this document will take that approach!
+COBOL uses the concept of a @i{level} number to indicate the level at which a data item occurs in a data structure such as the example shown above.  When these data items are defined, they are all defined together with a number in the range 1-49 specified in front of their names.  Over the years, a convention has come to exist among COBOL programmers that level numbers are always coded as two-digit numbers --- they don't @i{need} to be specified as two-digit numbers, but every example you see in this document will take that approach!
 
 The data item at the top, also referred to as a @i{record}, always has a level number of 01.  After that, you may assign level numbers as you wish (01--02--03--04@dots{}, 01--05--10--15@dots{}, etc.), as long as you follow these simple rules:
 @enumerate
 @item
-Every data item at the same @code{level} of a hierarchy diagram such as the one you see here (if you were to make one, which you rarely will, if ever, once you get used to this concept) must have the same level number.
+Every data item at the same @i{level} of a hierarchy diagram such as the one you see here (if you were to make one, which you rarely will, if ever, once you get used to this concept) must have the same level number.
 
 @item
 Every new level uses a level number that is strictly greater than the one used in the parent (next higher) level.
 
 @item
-When describing data hierarchies, you may never use a level number greater than 49 (except for 66, 77, 78 and 88 which have very special meanings --- see @pxref{Special Data Items}).
+When describing data hierarchies, you may never use a level number greater than 49 (except for 66, 77, 78 and 88 which have very special meanings (@pxref{Special Data Items}).
 @end enumerate
-@* So, the definition of these data items in a GnuCOBOL program would go something like this:
+
+So, the definition of these data items in a GnuCOBOL program would go something like this:
 @verbatim
     01  Employee
         05 Employee-Name
@@ -102,13 +103,14 @@ When describing data hierarchies, you may never use a level number greater than 
               15 Month
               15 Day
 @end verbatim
-@* The indentation is purely at the discretion of the programmer to make things easier for humans to read (the compiler couldn't care less).  Historically, COBOL implementations that required Fixed Format Mode source programs required that the @code{01} level number begin in Area A and that everything else begins in Area B.  GnuCOBOL only requires that all data definition syntax occur in columns 8-72.  In Free Format Mode, of course, there aren't even those limitations.
 
-Did you notice that there are two each of @code{Year}, @code{Month} and @code{Day} data names defined?  That's perfectly legal, provided that each can be uniquely @code{qualified} so as to be distinct from the other.  Take for example the @code{Year} items.  One is defined as part of the @code{From-Date} data item while the other is defined as part of the "To-Date" data item.  In COBOL, we would actually code references to these two data items as either @code{Year OF From-Date} and @code{Year OF To-Date} or @code{Year IN From-Date} and @code{Year IN To-Date} (COBOL allows either @code{IN} or @code{OF} to be used).  Since these references would clarify any confusion to us as to which @code{Year} might be referenced, the GnuCOBOL compiler won't be confused either.
+The indentation is purely at the discretion of the programmer to make things easier for humans to read (the compiler couldn't care less).  Historically, COBOL implementations that required Fixed Format Mode source programs required that the @code{01} level number begin in Area A and that everything else begins in Area B.  GnuCOBOL only requires that all data definition syntax occur in columns 8-72.  In Free Format Mode, of course, there aren't even those limitations.
 
-The coding example shown above is incomplete --- it only describes the data item names and their hierarchical relationships to one other.  In addition, any valid data item definitions will also need to describe what type of data is to be contained in a data item (Numeric? Alphanumeric? Alphabetic?), how much data can be held in the data item and a multitude of other characteristics.
+Did you notice that there are two each of @code{Year}, @code{Month} and @code{Day} data names defined?  That's perfectly legal, provided that each can be uniquely @code{qualified} so as to be distinct from the other.  Take for example the @code{Year} items.  One is defined as part of the @code{From-Date} data item while the other is defined as part of the @code{To-Date} data item.  In COBOL, we would actually code references to these two data items as either @code{Year OF From-Date} and @code{Year OF To-Date} or @code{Year IN From-Date} and @code{Year IN To-Date} (COBOL allows either @code{IN} or @code{OF} to be used).  Since these references would clarify any confusion to us as to which @code{Year} might be referenced, the GnuCOBOL compiler won't be confused either.
 
-When group items are being defined, subordinate items may be assigned a @code{name} of @syntaxidx{FILLER}.  There may be any number of @code{FILLER} items defined within a group item.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item.  Note that it is possible that the name of the group item itself might be specified as @code{FILLER} if there is no need to ever refer directly to the group structure itself.
+The coding example shown above is incomplete; it only describes the data item names and their hierarchical relationships to one other.  In addition, any valid data item definitions will also need to describe what type of data is to be contained in a data item (Numeric? Alphanumeric? Alphabetic?), how much data can be held in the data item and a multitude of other characteristics.
+
+When group items are being defined, subordinate items may be assigned the ``name'' @syntaxidx{FILLER}.  There may be any number of @code{FILLER} items defined within a group item.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item.  Note that it is possible that the name of the group item itself might be specified as @code{FILLER} if there is no need to ever refer directly to the group structure itself.
 @comment *********************************************************************
 @comment ** 6.2 FILE SECTION                                                **
 @comment *********************************************************************
@@ -153,24 +155,27 @@ The @syntaxidx{CODE-SET} clause allows a custom alphabet, defined in the @syntax
 
 @item
 The @code{LINAGE} clause may only be specified in the @code{FD} of a sequential or line sequential file.  If used with a sequential file, the organization of that file will be implicitly changed to line sequential.   The various components of the @code{LINAGE} clause define the layout of printed pages as follows:
-@itemize @bullet
+@table @asis
+@item @syntaxidx{LINES AT TOP}
+Number of unused (i.e. left blank) lines at the top of every page.  The default if this if not specified is zero.
+
+@item @syntaxidx{LINES AT BOTTOM}
+Number of unused (i.e. left blank) lines at the bottom of every page.  The default if this if not specified is zero.
+
+@item @syntaxidx{LINAGE IS n LINES}
+Total number of used/usable lines on the page.
+
+@comment Because the next "item" is really a comment on the previous 3,
+@comment it's set at the left of the table under the terms, not the definitions.
+@item The sum of the previous three specifications should be the total number of possible lines available on one printed page.
+@sp 1
+
+@item @syntaxidx{FOOTING AT}
+Line number beyond which nothing may be printed except for any footing that is to appear on every page.  The default for this if not specified is zero, meaning there will be no footings.  This value cannot be larger than the @code{LINAGE IS @var{n} LINES} value.
+@end table
 
 @item
-@syntaxidx{LINES AT TOP} --- the number of unused (i.e. left blank) lines at the top of every page.  The default if this if not specified is zero.
-
-@item
-@syntaxidx{LINES AT BOTTOM} --- the number of unused (i.e. left blank) lines at the bottom of every page.  The default if this if not specified is zero.
-
-@item
-@syntaxidx{LINAGE IS n LINES} --- the total number of used/usable lines on the page.
-
-@item
-The sum of the previous three specifications should be the total number of possible lines available on one printed page.
-
-@item
-@syntaxidx{FOOTING AT} --- the line number beyond which nothing may be printed except for any footing that is to appear on every page.  The default for this if not specified is zero, meaning there will be no footings.  This value cannot be larger than the @code{LINAGE IS n LINES} value.
-@end itemize
-@item This page structure --- once defined --- can be automatically enforced by the @statementref{WRITE}.
+This page structure --- once defined --- can be automatically enforced by the @statementref{WRITE}.
 
 @item
 Specifying a @code{LINAGE} clause in an @code{FD} will cause the @register{LINAGE-COUNTER} to be created for the file.  This automatically-created data item will always contain the current relative line number on the page being prepared which will serve as the starting point for a @statement{WRITE}.
@@ -185,7 +190,7 @@ The @syntaxidx{REPORT IS} clause announces to the compiler that the file will be
 The clause may only be specified in the @code{FD} of a sequential or line sequential file.  If used with a sequential file, the organization of that file will be implicitly changed to line sequential.
 
 @item
-The @code{FD} cannot be followed by record descriptions --- detailed descriptions of data to be printed to the file will be defined in the @syntaxref{REPORT SECTION}.
+The @code{FD} cannot be followed by record descriptions.  Detailed descriptions of data to be printed to the file will be defined in the @syntaxref{REPORT SECTION}.
 
 @item
 If a @code{LINAGE} clause is also specified, Values specified for @code{LINAGE IS} and @code{FOOTING AT} will be ignored.  The values of @code{LINES AT BOTTOM} and @code{LINES AT TOP}, if any, will be honoured.
@@ -201,7 +206,6 @@ Sorts and merges will be performed in memory, if the amount of data being sorted
 @item
 Should actual disk work files be necessary due to the amount of data being sorted or merged, they will be automatically allocated to disk in a folder defined by:
 @itemize @bullet
-
 @item
 The @envvarruntimeref{TMPDIR}
 
@@ -211,10 +215,11 @@ The @envvarruntime{TMP}
 @item
 The @envvarruntime{TEMP}
 @end itemize
-@* (in that order)
+
+(in that order).
 
 @item
-These disk files will be automatically purged upon @code{SORT} or @code{MERGE} termination.  They will also be purged if the program terminates abnormally before the @code{SORT} or @code{MERGE} finishes.  Should you ever need to know, temporary sort/merge work files will be named "cob*.tmp".
+These disk files will be automatically purged upon @code{SORT} or @code{MERGE} termination.  They will also be purged if the program terminates abnormally before the @code{SORT} or @code{MERGE} finishes.  Should you ever need to know, temporary sort/merge work files will be named @file{cob*.tmp}.
 
 @item
 If you specify a specific filename in the sort/merge work file's @code{SELECT}, it will be ignored.
@@ -241,18 +246,19 @@ The reserved word @code{PICTURE} may be abbreviated to @code{PIC}.
 
 @item
 As the syntax diagram shows, the definition of a @var{FILE-SECTION-Data-Item} is a recursive one in that there may be any number of such specifications coded following a FD or SD.  The first such specification must have a level number of 01, and will describe a specific format of data record within the file.  Specifications that follow that one may have level numbers greater than 01, in which case they are defining a hierarchical breakdown of the record.  The definition of a record is terminated when one of the following occurs:
-@itemize @bullet
+@table @asis
+@item Another 01-level item is found
+signifies the start of another record layout for the file.
+
+@item Another @code{FD} or @code{SD} is found
+marks the completion of the detailed description of the file and begins another.
+
+@item A division or section header is found
+also marks the completion of the detailed description of the file and signifies the end of the file section as well.
+@end table
 
 @item
-Another 01-level item is found --- this signifies the start of another record layout for the file.
-
-@item
-Another @code{FD} or @code{SD} is found --- this marks the completion of the detailed description of the file and begins another.
-
-@item
-A division or section header is found --- this also marks the completion of the detailed description of the file and signifies the end of the file section as well.
-@end itemize
-@item Every @var{FILE-SECTION-Data-Item} description must be terminated with a period.
+Every @var{FILE-SECTION-Data-Item} description must be terminated with a period.
 
 @item
 If there are multiple record descriptions present for a given @code{FD} or @code{SD}, the one with the longest length will define the size of the record buffer into which a @statementref{READ} or a @statementref{RETURN} will deliver data read from the file and from which a @statementref{WRITE} or @statementref{RELEASE} statement will obtain the data to be written to the file.

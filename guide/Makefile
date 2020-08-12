@@ -1,11 +1,9 @@
 .PHONY: force-update \
 	pdf pdf-a4 pdf-letter \
-	html \
+	html info \
 	clean pdf-clean html-clean info-clean maintainer-clean
 
-SOURCES_COMMON = Macros.texi fdl.texi
-
-# FIXME: include all sources, the macro-generated includes are currently missing
+SOURCES_COMMON = Macros.texi fdl.texi $(wildcard [LNS]*-*.texi)
 
 SOURCES = gnucobpg.texi \
 	1.texi 2.texi 3.texi 4.texi 5.texi 6.texi \
@@ -21,8 +19,6 @@ SOURCES_SP = gnucobsp.texi \
 
 SOURCES_QR = gnucobqr.texi \
 	$(SOURCES_COMMON)
-
-CLEANFILES = *.aux  *.cp *.fn *.ky *.log *.pg *.toc *.tp *.vr *.vrs *.t2d *.t2p
 
 all: pdf-letter html
 
@@ -48,18 +44,6 @@ info/gnucobsp.info: $(SOURCES_SP)
 
 PDFOPTIONS = -q
 
-PDFs/%-letter.pdf : %.texi
-	@mkdir -p $(dir $@)
-	texi2pdf $(PDFOPTIONS) -o $@ -c $<
-
-PDFs/%-a4.pdf : %.texi
-	@mkdir -p $(dir $@)
-	texi2pdf $(PDFOPTIONS) --command=@afourpaper -o $@ -c $<
-
-info/%.info : %.texi
-	@mkdir -p $(dir $@)
-	makeinfo -v -o $@ $(WARNING) --no-split $(INFO_OPT) $<
-
 CSS = css/gnucobpg.css
 
 WARNING = --no-warn
@@ -73,53 +57,50 @@ INFO_OPT =
 html: HTML/gnucobsp.html HTML/gnucobqr.html HTML/gnucobpg.html \
 		HTML/gnucobpg/index.html 
 
-info: info/gnucobsp.info info/gnucobqr.info info/gnucobpg.info
-
 # FIXME index.html overlaps with INDEX.html created by the INDEX note
+# FIX:  Who cares about split HTML anyway? Just drop it.  
 HTML/gnucobpg/index.html: $(SOURCES)
 	@mkdir -p $(dir $@)
 	makeinfo -v -o $(dir $@) $(WARNING) \
 		--html            $(HTML_OPT) gnucobpg.texi
 
-HTML/gnucobpg.html: $(SOURCES)
+info: info/gnucobsp.info info/gnucobqr.info info/gnucobpg.info
+
+#
+# Rules
+#
+
+PDFs/%-letter.pdf : %.texi
+	@mkdir -p $(dir $@)
+	texi2pdf $(PDFOPTIONS) -o $@ -c $<
+
+PDFs/%-a4.pdf : %.texi
+	@mkdir -p $(dir $@)
+	texi2pdf $(PDFOPTIONS) --command=@afourpaper -o $@ -c $<
+
+HTML/%.html : %.texi
 	@mkdir -p $(dir $@)
 	makeinfo -v -o $@ $(WARNING) \
-		--html --no-split $(HTML_OPT) gnucobpg.texi
+		--html --no-split $(HTML_OPT) $<
 
-HTML/gnucobsp.html: $(SOURCES_SP)
+info/%.info : %.texi
 	@mkdir -p $(dir $@)
-	makeinfo -v -o $@ $(WARNING) \
-		--html --no-split $(HTML_OPT) gnucobsp.texi
+	makeinfo -v -o $@ $(WARNING) $(INFO_OPT) $<
 
-HTML/gnucobqr.html: $(SOURCES_QR)
-	@mkdir -p $(dir $@)
-	makeinfo -v -o $@ $(WARNING) \
-		--html --no-split $(HTML_OPT) gnucobqr.texi
-
-info/gnucobpg.info: gnucobpg.texi $(SOURCES)
-info/gnucobqr.info: gnucobqr.texi $(SOURCES_QR)
-info/gnucobsp.info: gnucobsp.texi $(SOURCES_SP)
-
-INFO = $(addsuffix .info,$(addprefix info/gnucob,pg sp qr))
-info: $(INFO)
-$(INFO):
-	@mkdir -p INFO
-	makeinfo -o $@ $(notdir $(basename $@)).texi
 
 maintainer-clean: clean pdf-clean html-clean info-clean
 
 clean:
-	@test -z "$(CLEANFILES)" || rm -rvf $(CLEANFILES)
+	@rm -rvf *.aux  *.cp *.fn *.ky *.log *.pg *.toc *.tp *.vr *.vrs *.t2d *.t2p
 
 pdf-clean:
-	@rm -rvf  PDFs/gnucobqr-a4.pdf PDFs/gnucobsp-a4.pdf PDFs/gnucobpg-a4.pdf \
-		PDFs/gnucobpg-letter.pdf PDFs/gnucobqr-letter.pdf PDFs/gnucobsp-letter.pdf
+	@rm -rvf  PDFs/gnucob*.pdf
 
 html-clean:
-	@rm -rvf HTML/gnucobqr.html HTML/gnucobsp.html HTML/gnucobpg.html HTML/gnucobpg
+	@rm -rvf HTML/gnucob*.html
 
 info-clean:
-	@rm -rvf info/gnucobqr.info info/gnucobsp.info info/gnucobpg.info
+	@rm -rvf info/gnucob*.info
 
 
 publish: HTML/gnucobpg.html $(CSS)
