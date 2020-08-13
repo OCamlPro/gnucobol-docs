@@ -101,7 +101,7 @@ When a GnuCOBOL program is executed from a command-line, the complete command li
 Multiple space-delimited tokens may be treated as a single token by enclosing them in quotes.  For example, there are only three tokens generated from the command line @command{C:\Pgms\myprog.exe @samp{THIS IS A} TEST} --- @samp{C:\Pgms\myprog.exe}, @samp{THIS IS A} and @samp{TEST}.  When quote characters are used to create multi-word tokens, the quote characters themselves are stripped from the token's value.
 
 @item
-Once tokens have been identified, the first one (the command) will be discarded; the rest will be stored into the @code{CHAINING} arguments when the program begins execution, with the 2nd token going to the 1st argument, the 3rd token going to the 2nd argument and so forth.
+Once tokens have been identified, the first one (the command) will be discarded; the rest will be stored into the @code{CHAINING} arguments when the program begins execution, with the 2nd token going to the 1@sup{st} argument, the 3rd token going to the 2nd argument and so forth.
 
 @item
 If there are more tokens than there are arguments, the excess tokens will be discarded.
@@ -893,7 +893,7 @@ The various @code{AT} clauses provide a means of positioning the cursor to a spe
 The @code{LINE} and @code{COLUMN} clauses provide one mechanism for specifying the line and column position to which the cursor will be positioned before allowing the user to enter data.  In the absence of one or the other, a value of 1 will be assumed for the one that is missing.  The author's personal preference, however, is to explicitly code both.
 
 @item
-The @var{literal-3} or @var{identifier-4} value, if specified, must be a four- or six-digit value with the 1st half of the number indicating the line where the cursor should be positioned and the second half indicating the column.  You may code only one of each clause on any @code{ACCEPT}.
+The @var{literal-3} or @var{identifier-4} value, if specified, must be a four- or six-digit value with the 1@sup{st} half of the number indicating the line where the cursor should be positioned and the second half indicating the column.  You may code only one of each clause on any @code{ACCEPT}.
 @end enumerate
 
 @item
@@ -2391,7 +2391,7 @@ If executed within a subprogram (i.e. a subroutine or user-defined function), @c
 If executed within a main program, @code{GOBACK} will act as a @code{STOP RUN} statement.
 
 @item
-The optional @code{RETURNING} clause provides the opportunity to return a numeric value to the operating system (technically, an @i{exit status}  The manner in which the exit status value is interrogated by the operating system varies.  Windows can use @code{%ERRORLEVEL%} to query the return code while Unix shells such as @command{sh}, @command{bash} and @command{ksh} can query the exit status as @code{$?}.  Other Unix shells may have different ways to access the exit status.
+The optional @code{RETURNING} clause provides the opportunity to return a numeric value to the operating system (technically, an @i{exit status}  The manner in which the exit status value is interrogated by the operating system varies.  Windows can use @code{%ERRORLEVEL%} to query the exit status while Unix shells such as @command{sh}, @command{bash} and @command{ksh} can query the exit status as @code{$?}.  Other Unix shells may have different ways to access the exit status.
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.20 GO TO                                                   **
@@ -2449,7 +2449,7 @@ The reserved word @code{TO} is optional and may be omitted.  The presence or abs
 The @syntaxref{PICTURE} and/or @syntaxref{USAGE} of the specified @var{identifier-1} must be such as to define it as a numeric, unedited, preferably unsigned integer data item.
 
 @item
-If the value of @var{identifier-1} has the value 1, control will be transferred to the 1st specified procedure name.  If the value is 2, control will transfer to the 2nd procedure name, and so on.
+If the value of @var{identifier-1} has the value 1, control will be transferred to the 1@sup{st} specified procedure name.  If the value is 2, control will transfer to the 2nd procedure name, and so on.
 
 If control of execution is transferred to a procedure named on the statement, and the @code{GO TO} is executed within the scope of@dots{}
 @enumerate A
@@ -3185,7 +3185,7 @@ You may only write new content (which will be appended after the previously exis
 The @syntaxidx{SHARING} clause informs the GnuCOBOL file runtime modules how you are willing to co-exist with any other GnuCOBOL programs that may attempt to open the same file after your program does.  @xref{File Sharing}, for an explanation of the @code{SHARING} clause.
 
 @item
-The @syntaxidx{WITH LOCK} option will be functional only if your GnuCOBOL build can support it.  GnuCOBOL built for MinGW or native Windows will not, because the Unix "fcntl() primitive doesn't exist in those environments.  GnuCOBOL built for Cygwin or Unix will.
+The @syntaxidx{WITH LOCK} option will be functional only if your GnuCOBOL build can support it.  GnuCOBOL built for MinGW or native Windows will not, because the Unix @code{fcntl} primitive doesn't exist in those environments.  GnuCOBOL built for Cygwin or Unix will.
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.29 PERFORM                                                 **
@@ -3251,7 +3251,7 @@ The default, if this clause is absent, is @code{WITH TEST BEFORE}.
 This clause may not be coded when the @code{TIMES} clause is used.
 
 @item
-The optional @var{VARYING-Clause} is a mechanism that creates an advanced loop-management mechanism complete with one or more numeric data items being automatically incremented (or decremented) on each loop iteration as well as the termination control of an @code{UNTIL} clause.  @xref{VARYING}, for the details.
+The optional @code{@var{VARYING-Clause}} is a mechanism that creates an advanced loop-management mechanism complete with one or more numeric data items being automatically incremented (or decremented) on each loop iteration as well as the termination control of an @code{UNTIL} clause.  @xref{VARYING}, for the details.
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.29.2 Inline PERFORM                                        **
@@ -3280,37 +3280,38 @@ The following points describe the sequence of events that take place as a result
 When the @code{PERFORM} begins execution, the @code{FROM} value will be moved to @var{identifier}.
 
 @item
-If the @code{PERFORM} specifies or implies @code{WITH TEST BEFORE}, @var{conditional-expression-1} will be evaluated and processing of the @code{PERFORM} will halt if the expression evaluates to @code{TRUE}.  If @code{WITH TEST BEFORE} was @i{not} specified or implied, or if the conditional expression evaluated to FALSE, processing proceeds with step (@samp{C}).
+If the @code{PERFORM} specifies or implies @code{WITH TEST BEFORE}, @var{conditional-expression-1} will be evaluated and processing of the @code{PERFORM} will halt if the expression evaluates to @code{TRUE}.  If @code{WITH TEST BEFORE} was @i{not} specified or implied, or if the conditional expression evaluated to @code{FALSE}, processing proceeds with step C.
 
 @item
 The statements within the perform scope will be executed.  If a @code{GO TO} executed within the perform scope transfers control to a point outside the perform scope, processing of the @code{PERFORM} will halt.
 
 @item
-When the statements within the perform scope terminate the loop iteration, by@dots{}
+When the statements within the perform scope terminate the loop iteration, by one of:
 @itemize @bullet
 @item
-@dots{}allowing the flow of execution to attempt to fall past the last statement in the perform scope, or@dots{}
+allowing the flow of execution to attempt to fall past the last statement in the perform scope
 
 @item
-@dots{}executing an @statementrefalt{EXIT PERFORM CYCLE,EXIT}, or@dots{}
+executing an @statementrefalt{EXIT PERFORM CYCLE,EXIT}
 
 @item
-@dots{}executing an @statement{EXIT PARAGRAPH} or @statement{EXIT SECTION} when there is only one paragraph (or section) in the perform scope ( this option only applies to a procedural @code{PERFORM})
+executing an @statement{EXIT PARAGRAPH} or @statement{EXIT SECTION} when there is only one paragraph (or section) in the perform scope ( this option only applies to a procedural @code{PERFORM})
 @end itemize
-@*Control will return back to the @code{PERFORM}, where --- if @code{WITH TEST AFTER} was specified --- @var{conditional-expression-1} will be evaluated and processing of the @code{PERFORM} will halt if the expression evaluates to @code{TRUE}.  If @code{WITH TEST AFTER} was @i{not} specified, or if the conditional expression evaluated to FALSE, processing continues with the next step.
+
+If @code{WITH TEST AFTER} was specified, control will return back to the @code{PERFORM}, where  @var{conditional-expression-1} will be evaluated, and processing of the @code{PERFORM} will halt if the expression evaluates to @code{TRUE}.  If @code{WITH TEST AFTER} was @i{not} specified, or if the conditional expression evaluated to @code{FALSE}, processing continues with the next step.
 
 @item
 The @code{BY} value, if any, will be added to @var{identifier-2}.  If no @code{BY} is specified, it will be treated as if @code{BY 1} had been specified.
 
 @item
-Return to step (@samp{C}).
+Return to step C.
 @end enumerate
 
 @item
-Most @var{VARYING-Clause}s have no @code{AFTER} specified.  Those that do, however, are establishing a loop-within-a-loop situation where the process described above in steps (@samp{A}) through (@samp{F}) will take place from the @code{AFTER}, and those six processing steps actually replace step (@samp{C}) of the @code{VARYING}.  This ``nesting'' process can continue indefinitely, with each additional @code{AFTER}.
+Most @code{@var{VARYING-Clause}}s have no @code{AFTER} specified.  Those that do, however, are establishing a loop-within-a-loop situation where the process described above in steps (@samp{A}) through (@samp{F}) will take place from the @code{AFTER}, and those six processing steps actually replace step C of the @code{VARYING}.  This ``nesting'' process can continue indefinitely, with each additional @code{AFTER}.
 @end enumerate
 
-This is the point where an example should really help you see this at work.  Observe the following code which defines a two-dimensional (3 row by 4 column) table and a pair of numeric data items to be used to subscript references to each element of the table:
+An example should really help you see this at work.  Observe the following code which defines a two-dimensional (3 row by 4 column) table and a pair of numeric data items to be used to subscript references to each element of the table:
 
 @example
 01  PERFORM-DEMO.
@@ -3409,7 +3410,7 @@ If @var{file-name-1} was specified as @code{ACCESS MODE SEQUENTIAL}, this is the
 If @var{file-name-1} is an @syntaxref{ORGANIZATION RELATIVE} or @syntaxref{ORGANIZATION INDEXED} file with @code{ACCESS MODE DYNAMIC}, this statement as well as a random @syntaxrefalt{READ,Random READ} may be used.
 
 @item
-The keywords @syntaxidx{NEXT} and @syntaxidx{PREVIOUS} specify what direction of ``travel'' the reading process will take through the file.  If neither is specified, @code{NEXT} is assumed.
+The keywords @syntaxidx{NEXT} and @syntaxidx{PREVIOUS} specify what ``direction of travel'' the reading process will take through the file.  If neither is specified, @code{NEXT} is assumed.
 
 @item
 The @code{PREVIOUS} option is available only for @code{ORGANIZATION INDEXED} files.
@@ -3467,24 +3468,27 @@ If @var{file-name-1} is an @syntaxref{ORGANIZATION RELATIVE} or @syntaxref{ORGAN
 The minimal statement @code{READ @var{file-name-1}} is perfectly legal according to @i{both} READ formats.  For that reason, when @code{ACCESS MODE DYNAMIC} has been specified and you want to tell the GnuCOBOL compiler that this minimal statement should be treated as a @i{random} @code{READ}, you must omit the @code{NEXT} or @code{PREVIOUS} available to the sequential format of the @statement{READ} to ensure the statement @i{will} be treated as a random @code{READ}.
 
 @item
-The optional @syntaxidx{KEY} clause tells the compiler how a record is to be located in the file.  If the clause is absent, and@dots{}
-@enumerate A
-@item
-@dots{}if the file is an @code{ORGANIZATION RELATIVE} file, the contents of the field declared as the file's @code{RELATIVE KEY} will be used to identify a record, otherwise@dots{}
+The optional @syntaxidx{KEY} clause tells the compiler how a record is to be located in the file.
 
-@item
-@dots{}if the file is an @code{ORGANIZATION INDEXED} file, the contents of the field declared as the file's @code{RECORD KEY} will be used to identify a record.
-@end enumerate
+If the @code{KEY} clause is absent, and the file is 
 
-@item
-But, if the @code{KEY} clause @i{is} specified, and@dots{}
-@enumerate A
-@item
-@dots{}if the file is an @code{ORGANIZATION RELATIVE} file, the contents of @var{identifier-2} will be used as the relative record number of the record to be accessed --- @var{identifier-2} need not be the @syntaxrefalt{RELATIVE KEY,ORGANIZATION RELATIVE} field of the file (although it could be if you wish).
+@table @code
+@item ORGANIZATION RELATIVE
+the contents of the field declared as the file's @code{RELATIVE KEY} will be used to identify a record
 
-@item
-@dots{}if the file is an @code{ORGANIZATION INDEXED} file, @var{identifier-2} @i{must} be the @syntaxrefalt{RECORD KEY,ORGANIZATION INDEXED} or one of the file's @code{ALTERNATE RECORD KEY} fields (if any) --- the current contents of that field will identify the record to be accessed.  If an alternate record key is used, and that key allows duplicate values, the record accessed will be the @i{first} one having that key value.
-@end enumerate
+@item ORGANIZATION INDEXED
+the contents of the field declared as the file's @code{RECORD KEY} will be used to identify a record.
+@end table
+
+If the @code{KEY} clause @i{is} specified, and the file is
+
+@table @code
+@item ORGANIZATION RELATIVE
+the contents of @var{identifier-2} will be used as the relative record number of the record to be accessed.  @var{identifier-2} need not be the @syntaxrefalt{RELATIVE KEY,ORGANIZATION RELATIVE} field of the file (although it could be if you wish).
+
+@item ORGANIZATION INDEXED
+@var{identifier-2} @i{must} be the @syntaxrefalt{RECORD KEY,ORGANIZATION INDEXED} or one of the file's @code{ALTERNATE RECORD KEY} fields (if any).  The current contents of that field will identify the record to be accessed.  If an alternate record key is used, and that key allows duplicate values, the record accessed will be the @i{first} one having that key value.
+@end table
 
 @item
 Once read from the file, the newly-retrieved record data will be saved into the 01-level record structure(s) that immediately follow the file's @code{FD}.  If the optional @syntaxidx{INTO} clause is present, a copy of the just-retrieved record will be automatically moved to @var{identifier-1}.
@@ -3564,7 +3568,7 @@ The @envvarruntimeref{COB_SET_TRACE} provides another way to control tracing.  I
 @page
 @newsubsection{7.8.34,RETURN}
 @diagram{RETURN,PD-RETURN,PD-RETURN,None}
-The @statement{RETURN} reads a record from a sort- or merge work file.
+The @statement{RETURN} reads a record from a sort or merge work file.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -3698,7 +3702,7 @@ The search index will be incremented by 1
 If the search index now has a value greater than the number of entries in the table, the search is considered to have failed and the @var{imperative-statement-1} on the optional @syntaxidx{AT END} clause, if any, will be executed.  After that, control will fall into the first executable statement following the @code{SEARCH}.
 
 @item
-If the search index now has a value less than or equal to the number of entries in the table, search processing returns back to step (@samp{A}).
+If the search index now has a value less than or equal to the number of entries in the table, search processing returns back to step A.
 @end itemize
 @end enumerate
 @end enumerate
@@ -3737,7 +3741,7 @@ No two records in the table may have the same @code{KEY} field values.  If the t
 @end enumerate
 
 @item
-If rule (@samp{A}) is violated, the compiler will reject the @code{SEARCH ALL}.  If rules (@samp{B}) and/or (@samp{C}) are violated, there will be no message issued by the compiler, but the run-time results of a @code{SEARCH ALL} against the table will probably be incorrect.
+If rule @i{A} is violated, the compiler will reject the @code{SEARCH ALL}.  If rules @i{B} and/or @i{C} are violated, there will be no message issued by the compiler, but the run-time results of a @code{SEARCH ALL} against the table will probably be incorrect.
 
 @item
 The @var{conditional-expression-1} should involve the @code{KEY} field(s), using the search index (the table's @code{INDEXED BY} index name) as a subscript.
@@ -3746,7 +3750,7 @@ The @var{conditional-expression-1} should involve the @code{KEY} field(s), using
 The function of the single, mandatory, @syntaxidx{WHEN} clause is to compare the key field(s) of the table, as indexed by the search index data item, against whatever literal and/or identifier values you are comparing the key field(s) to in the @var{conditional-expression-1} in order to locate the desired entry in the table.  The search index will be automatically varied in a manner designed to require the minimum number of tests.
 
 @item
-The internal processing of the SEARCH ALL statement begins by setting internal ``first'' and ``last'' pointers to the 1st and last entry locations of the table.  Processing then proceeds as follows:
+The internal processing of the SEARCH ALL statement begins by setting internal ``first'' and ``last'' pointers to the 1@sup{st} and last entry locations of the table.  Processing then proceeds as follows:
 @enumerate A
 @item
 The entry half-way between ``first'' and ``last'' is identified.  We'll call this the ``current'' entry, and will set its table entry location into @var{index-name-1}.
@@ -3765,7 +3769,7 @@ If the key(s) are GREATER THAN the value(s), then the table entry being searched
 @end itemize
 
 @item
-If the new ``first'' and ``last'' pointers are different than the old ``first'' and ``last'' pointers, there's more left to be searched, so return to step (@samp{A}) and continue.
+If the new ``first'' and ``last'' pointers are different than the old ``first'' and ``last'' pointers, there's more left to be searched, so return to step @i{A} and continue.
 
 @item
 If the new ``first'' and ``last'' pointers are the same as the old ``first'' and ``last'' pointers, the table has been exhausted and the entry being searched for cannot be found; @var{imperative-statement-1} is executed, after which control falls through into the next statement following the @code{SEARCH ALL}.  If there is no @code{AT END} clause coded, control simply falls into the next statement following the @code{SEARCH ALL}.
@@ -4032,7 +4036,7 @@ When @syntaxidx{USING} is specified, none of the @var{file-name-1} files may be 
 @item
 When an input procedure is used, the procedure(s) specified on the @syntaxidx{INPUT PROCEDURE} clause will be invoked as if by a procedural @statementrefalt{PERFORM,Procedural PERFORM} with no @code{VARYING}, @code{TIMES} or @code{UNTIL} options specified.  Records will be loaded into the sort work file --- one at a time --- within the input procedure using the @statementref{RELEASE}.  This, by the way, is how you could sort the contents of relative or indexed files.
 
-A @statementref{GO TO} that transfers control out of the input procedure will terminate the @statement{SORT} but allows the program to continue executing from the point where the @statement{GO TO} transferred control to.  Once an input procedure has been ``aborted'' using a @code{GO TO} it cannot be resumed, and the contents of the sort work file are lost.  You may, however, re-execute the @statement{SORT} itself.  USING A @statement{GO TO}.@footnote{To prematurely terminate a sort, or re-starting a previously-cancelled sort is not considered good programming style and should be avoided.}
+A @statementref{GO TO} that transfers control out of the input procedure will terminate the @statement{SORT} but allows the program to continue executing from the point where the @statement{GO TO} transferred control to.  Once an input procedure has been ``aborted'' using a @code{GO TO} it cannot be resumed, and the contents of the sort work file are lost.  You may, however, re-execute the @statement{SORT} itself.@footnote{Using a @statement{GO TO} to prematurely terminate a sort, or re-starting a previously-cancelled sort is not considered good programming style and should be avoided.}
 
 An input procedure should be terminated in the same way a procedural @statement{PERFORM} would be.
 
@@ -4061,7 +4065,7 @@ SORT Sort-File
     DESCENDING KEY Transaction-Amount
 @end example
 
-The effect of this statement will be to sort all transactions into ascending order of the date the transaction took place (oldest first, newest last).  Unless the business running this program is going out of business, there are most-likely many transactions for any given date.  Therefore, within each grouping of transactions all with the same date, transactions will be sub-sorted into ascending sequence of the account number the transactions apply to.  Since it's quite possible there might be multiple transactions for an account on any given date, a third level sub-sort will arrange all transactions for the same account on the same date into descending sequence of the actual amount of the transaction (largest first, smallest last).  If two or more transactions of $100.00 were recorded for account #12345 on the 31st of August 2009, those transactions will be retained in the order in which they were loaded into the sort work file.
+The effect of this statement will be to sort all transactions into ascending order of the date the transaction took place (oldest first, newest last).  Unless the business running this program is going out of business, there are most-likely many transactions for any given date.  Therefore, within each grouping of transactions all with the same date, transactions will be sub-sorted into ascending sequence of the account number the transactions apply to.  Since it's quite possible there might be multiple transactions for an account on any given date, a third level sub-sort will arrange all transactions for the same account on the same date into descending sequence of the actual amount of the transaction (largest first, smallest last).  If two or more transactions of $100.00 were recorded for account #12345 on the 31@sup{st} of August 2009, those transactions will be retained in the order in which they were loaded into the sort work file.
 
 @item
  Should disk work files be necessary due to the amount of data being sorted, they will be automatically allocated to disk in a folder defined by the @envvarruntime{TMPDIR}, @envvarruntime{TMP} or @envvarruntimerefs{TEMP} (checked for existence in that sequence).  These disk files will be automatically purged upon @code{SORT} termination or program execution termination (normal or otherwise).
@@ -4119,7 +4123,7 @@ The sort will take place by rearranging the data in @var{table-name-1} into the 
 If you are sorting @var{table-name-1} for the purpose of preparing the table for use with a @statementref{SEARCH ALL}, care must be taken that the @code{KEY} specifications on the @code{SORT} agree with those in the table's definition.
 
 @item
-Although the specification of one or more KEY clauses is optional, currently, a table sort with no @code{KEY} specification(s) made on the @statement{SORT} is unsupported by GnuCOBOL and will be rejected by the compiler.
+Although the specification of one or more @code{KEY} clauses is optional, currently, a table sort with no @code{KEY} specification(s) made on the @statement{SORT} is unsupported by GnuCOBOL and will be rejected by the compiler.
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.41 START                                                   **
@@ -4151,19 +4155,23 @@ If no @code{FIRST}, @code{LAST} or @code{KEY} clause is specified, @code{KEY IS 
 
 @item
 After successful execution of a @statement{START}, the internal logical record pointer into the @var{file-name-1} data will be positioned to the record which satisfied the actual or implied @code{FIRST}, @code{LAST} or @code{KEY} clause specification, as follows:
-@enumerate A
-@item
-If @code{FIRST} was specified, the logical record pointer will point to the first record in the file.
+@table @code
+@item FIRST
+the logical record pointer will point to the first record in the file.
 
-@item
-If @code{LAST} was specified, the logical record pointer will point to the last record in the file.
+@item LAST
+the logical record pointer will point to the last record in the file.
 
-@item
-If @code{KEY} was specified or implied, the logical record pointer will be specified to the @i{first} record satisfying the relation condition; to identify this record, the file's contents are searched in a first-to-last (in sequence of the key implied by the @code{KEY} clause), provided the relation is @code{EQUAL TO}, @code{GREATER THAN} or @code{GREATER THAN OR EQUAL TO} (or any of their syntactical equivalents).
+@item KEY
+(specified or implied), and the relation used is
 
-@item
-If @code{KEY} was specified or implied, the logical record pointer will be specified to the @i{last} record satisfying the relation condition; to identify this record, the file's contents are searched in a last-to-first (in sequence of the key implied by the @code{KEY} clause), provided the relation is @code{LESS THAN}, @code{LESS THAN OR EQUAL TO} or @code{NOT GREATER THAN} (or any of their syntactical equivalents).
-@end enumerate
+@table @asis
+@item @code{EQUAL TO}, @code{GREATER THAN} or @code{GREATER THAN OR EQUAL TO} (or equivalent)
+the logical record pointer will be specified to the @i{first} record satisfying the relation condition; to identify this record. The file's contents are searched in a first-to-last (in sequence of the key implied by the @code{KEY} clause), provided the relation is 
+@item @code{LESS THAN}, @code{LESS THAN OR EQUAL TO} or @code{NOT GREATER THAN} (or equivalent)
+the logical record pointer will be specified to the @i{last} record satisfying the relation condition; to identify this record. The file's contents are searched in a last-to-first (in sequence of the key implied by the @code{KEY} clause)
+@end table
+@end table
 
 The next sequential @statement{READ} will read the record that is pointed to by the logical record pointer.
 
@@ -4193,16 +4201,16 @@ The @syntaxidx{RUN} clause halts the program without displaying any special mess
 The @var{literal-3} clause displays the specified text on the @code{SYSOUT}/@code{STDOUT} device, waits for the user to press the Enter key and then --- once the key has been pressed --- allows the program to continue execution.
 
 @item
-The optional @code{RETURNING} clause provides the opportunity to return a numeric value to the operating system (a @dfn{return code}).  The manner in which the return code may be interrogated by the operating system varies, but Windows can use @code{%ERRORLEVEL%} to query the return code while Unix shells such as sh, bash and ksh can query the return code as @code{$?}.  Other Unix shells may have different ways to access return code values.
+The optional @code{RETURNING} clause provides the opportunity to return a numeric value to the operating system (an @dfn{exit status}).  The manner in which the exit status may be interrogated by the operating system varies, but Windows can use @code{%ERRORLEVEL%} to query the exit status while Unix shells such as sh, bash and ksh can query the exit status as @code{$?}.  Other Unix shells may have different ways to access return code values.
 
 @item
-The @syntaxidx{STATUS} clause provides another means of returning a return code.  Using the @code{STATUS} clause is functionally equivalent to using the @code{RETURNING} clause.
+The @syntaxidx{STATUS} clause provides another means of returning an exit status.  Using the @code{STATUS} clause is functionally equivalent to using the @code{RETURNING} clause.
 
 @item
-Using the @code{STATUS} clause without a @var{literal-2} or @var{identifier-2} will return a return code of 0 if the @syntaxidx{NORMAL} keyword is used or a 1 if @syntaxidx{ERROR} was specified.
+Using the @code{STATUS} clause without a @var{literal-2} or @var{identifier-2} will return an exit status of 0 if the @syntaxidx{NORMAL} keyword is used or a 1 if @syntaxidx{ERROR} was specified.
 
 @item
-Your program will @i{always} return a return code, even if no @code{RETURNING} or @code{STATUS} clause is specified.  In the absence of the use of these clauses, the value in the @registerrefalt{RETURN-CODE,Special Registers} at the time the @statement{STOP} is executed will be used as the return code.
+Your program will @i{always} return an exit status, even if no @code{RETURNING} or @code{STATUS} clause is specified.  In the absence of the use of these clauses, the value in the @registerrefalt{RETURN-CODE,Special Registers} at the time the @statement{STOP} is executed will be used as the exit status.
 
 @item
 Any programmer-defined exit procedure (established via the @subpgmref{CBL_EXIT_PROC}) will be executed by @code{STOP RUN}, but not by @code{STOP @var{literal-3}}.
@@ -4211,16 +4219,25 @@ Any programmer-defined exit procedure (established via the @subpgmref{CBL_EXIT_P
 Valid return code values can be in the range -2147483648 to +2147483647.
 
 @item
-The three code snippets below are all equivalent --- they show different ways in which a GnuCOBOL program may be coded to pass a return code value of 16 back to the operating system and then halt.
+The three code snippets below are all equivalent.  They show different ways in which a GnuCOBOL program may be coded to pass an exit status value of 16 back to the operating system and then halt.
 
+@enumerate
+@item
 @example
 STOP RUN RETURNING 16
+@end example
 
+@item
+@example
 MOVE 16 TO RETURN-CODE
 STOP RUN
+@end example
 
+@item
+@example
 STOP RUN WITH ERROR STATUS 16
 @end example
+@end enumerate
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.43 STRING                                                  **
@@ -4245,7 +4262,7 @@ The @syntaxidx{POINTER} data item --- @var{identifier-4} --- must be a non-edite
 Each @var{literal-1} / @var{identifier-1} will be referred to as a source item.  The receiving data item is @var{identifier-3}.
 
 @item
-The @statement{STRING}'s processing is based upon a @define{current character pointer}.  The initial value of the current character pointer will be the value of @var{identifier-4} at the time the @code{STRING} statement began execution.  If no @code{POINTER} clause is coded, a value of 1 (meaning ``the 1st character position'') will be assumed for the current character pointer's initial value.
+The @statement{STRING}'s processing is based upon a @define{current character pointer}.  The initial value of the current character pointer will be the value of @var{identifier-4} at the time the @code{STRING} statement began execution.  If no @code{POINTER} clause is coded, a value of 1 (meaning ``the 1@sup{st} character position'') will be assumed for the current character pointer's initial value.
 
 @item
 For each source item, the contents of the sending item will be copied --- character-by-character --- into @var{identifier-3} at the character position specified by the current character pointer.  After each character is copied, the current character pointer will be incremented by 1 so that it points to the position within @var{identifier-3} where the @i{next} character should be copied.
@@ -4270,10 +4287,10 @@ All sending items have been fully processed
 @end enumerate
 
 @item
-If event (@samp{A}) occurs, @var{identifier-3} will remain unchanged.
+If event @i{A} occurs, @var{identifier-3} will remain unchanged.
 
 @item
-The occurrence of either event (@samp{A}) or (@samp{B}) triggers what is referred to as an @define{overflow condition}.
+The occurrence of either event @i{A} or @i{B} triggers what is referred to as an @define{overflow condition}.
 
 @item
 The @var{identifier-3}) is neither automatically initialized (to spaces or any other value) at the start of a @code{STRING} statement nor will it be space-filled should the total number of sending item characters copied into it be less than its size.  You may explicitly initialize @var{identifier-3} yourself via the @syntaxref{INITIALIZE} or @syntaxref{MOVE} statements before executing the @code{STRING} if you wish.
@@ -4507,10 +4524,10 @@ Each of @var{identifier-6}, @var{identifier-7} and @var{identifier-8} must be el
 At the time the @statement{UNSTRING} begins execution, @var{identifier-7} must have a value greater than 0.
 
 @item
-@var{identifier-1} will be referred to as the '@i{source string}' and each @var{identifier-4} will be referred to as a '@i{destination field}' in the following discussions.
+@var{identifier-1} will be referred to as the @i{source string} and each @var{identifier-4} will be referred to as a @i{destination field} in the following discussions.
 
 @item
- The @statement{UNSTRING}'s processing is based upon a '@i{current character pointer}', the initial value of which will be the value of @var{identifier-7} at the time the @code{UNSTRING} statement began execution.  If no @code{POINTER} clause is coded, a value of 1 (meaning ``the 1st character position'') will be assumed for the current character pointer's initial value.
+ The @statement{UNSTRING}'s processing is based upon a @i{current character pointer}, the initial value of which will be the value of @var{identifier-7} at the time the @code{UNSTRING} statement began execution.  If no @code{POINTER} clause is coded, a value of 1 (meaning ``the 1@sup{st} character position'') will be assumed for the current character pointer's initial value.
 
 @item
 The source string will be parsed into sub strings starting from the current character pointer position.  Sub strings are identified by using the various delimiter strings specified on the @syntaxidx{DELIMITED BY} clause as inter-sub string separators.
@@ -4547,10 +4564,10 @@ All destination fields have been fully processed
 @end enumerate
 
 @item
-If event (@samp{A}) occurs, none of the destination field contents (or the contents of their @code{DELIMITER} or @var{COUNT} identifiers) will be changed.
+If event @i{A} occurs, none of the destination field contents (or the contents of their @code{DELIMITER} or @var{COUNT} identifiers) will be changed.
 
 @item
-An @i{overflow} condition exists if either event (@samp{A}) occurs, or if event (@samp{B}) occurs with at least one character position in @var{identifier-1} not having been processed.
+An @i{overflow} condition exists if either event @i{A} occurs, or if event @i{B} occurs with at least one character position in @var{identifier-1} not having been processed.
 
 @item
 The optional @code{ON OVERFLOW} and @code{NOT ON OVERFLOW} clauses may be used to detect and react to the occurrence or not, respectively, of an overflow condition.  @xref{ON OVERFLOW + NOT ON OVERFLOW}, for additional information.
@@ -4666,10 +4683,10 @@ The optional @code{INVALID KEY} and @code{NOT INVALID KEY} clauses may be used w
 When @code{WRITE} is used against an @syntaxref{ORGANIZATION LINE SEQUENTIAL} file, with or without the @syntaxref{LINE ADVANCING} option, an end-of-record delimiter character sequence will be written to the file to signify where one record ends and the next record begins.  This delimiter sequence will be either of the following:
 @itemize @bullet
 @item
-A line-terminator sequence consisting of an ASCII carriage-return/line-feed character sequence (X'0D0A') if you are running a MinGW or native Windows build of GnuCOBOL
+A line-terminator sequence consisting of an ASCII carriage-return/line-feed character sequence (@code{X'0D0A'}) if you are running a MinGW or native Windows build of GnuCOBOL
 
 @item
-A line-terminator sequence consisting of an ASCII line-feed character (X'0A') if you are running a Cygwin, Linux, Unix or OSX build of GnuCOBOL
+A line-terminator sequence consisting of an ASCII line-feed character (@code{X'0A'}) if you are running a Cygwin, Linux, Unix or OSX build of GnuCOBOL
 @end itemize
 
 @item
