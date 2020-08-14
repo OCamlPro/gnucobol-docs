@@ -82,7 +82,7 @@ Every report has the same basic structure, as shown here, even though not all re
 @end multitable
 @* These groups will be presented (printed) across however many formatted pages are necessary to hold them.  No single report group will be allowed to cross page boundaries.
 
-The management of paging, enforcement of the "groups cannot span pages" rule and almost every aspect of report generation are handled entirely by the Report Writer Control System.
+The management of paging, enforcement of the @i{groups cannot span pages} rule and almost every aspect of report generation are handled entirely by the Report Writer Control System.
 @comment *********************************************************************
 @comment ** 9.3 The Anatomy of a Report Page                                **
 @comment *********************************************************************
@@ -111,7 +111,7 @@ Each page of a report is divided into as many as five (5) areas, as shown in the
 @end format
 @* When describing a report via the @syntaxrefalt{RD,REPORT SECTION} clause, the total number of usable lines are specified as the @code{PAGE LIMIT} value; this value is the sum of the number of lines contained in the Heading, Body and Footing Areas.
 
-The unusable areas of a page (if any) will appear above and below that usable area.  You don't specify the unusable area in the @code{RD}, but rather using a @syntaxrefalt{LINAGE,File/Sort-Description} clause in the @code{FD} of the file the report is "attached" to.
+The unusable areas of a page (if any) will appear above and below that usable area.  You don't specify the unusable area in the @code{RD}, but rather using a @syntaxrefalt{LINAGE,File/Sort-Description} clause in the @code{FD} of the file the report is ``attached'' to.
 
 The various report groups will be presentable in the various areas of a page, as follows:
 @table @asis
@@ -140,7 +140,7 @@ Footing Area --- An exception to this is the situation where the report footing 
 @comment ** 9.4 How RWCS Builds Report Pages                                **
 @comment *********************************************************************
 @newsection{9.4,How RWCS Builds Report Pages}
-A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, ASCII form-feed characters (X'0C') will be written to the report file to support the statement's @code{ADVANCING PAGE} option.  Whether the data for a report line created via @code{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @code{WRITE @var{record-name} BEFORE ADVANCING PAGE} or @code{WRITE @var{record-name} AFTER ADVANCING PAGE}, respectively.
+A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, @sc{ASCII} form-feed characters (X'0C') will be written to the report file to support the statement's @code{ADVANCING PAGE} option.  Whether the data for a report line created via @code{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @code{WRITE @var{record-name} BEFORE ADVANCING PAGE} or @code{WRITE @var{record-name} AFTER ADVANCING PAGE}, respectively.
 
 The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @code{RD} for the report (specifically the @code{PAGE LIMITS} and related options) and its internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
 
@@ -156,7 +156,7 @@ What paper orientation will you use, --- Landscape (long edge of the paper at th
 What tool will be used to print the report (direct printing to the device, notepad.exe, MS-Word, @dots{})?
 
 @item
-What font and font size will be used for the report when it is printed?  RWCS-generated reports will assume that a fixed-width font such as "Courier", "Lucida Console", "Consolas" and the like will be used to print, as variable-pitch fonts would make the proper alignment of columns of data on reports virtually impossible.
+What font and font size will be used for the report when it is printed?  RWCS-generated reports will assume that a fixed-width font such as ``Courier'', ``Lucida Console'', ``Consolas'' and the like will be used to print, as variable-pitch fonts would make the proper alignment of columns of data on reports virtually impossible.
 
 @item
 When unprintable area exists at all four margins of the paper?  These are generally caused by the printer itself or by its software driver.
@@ -234,7 +234,7 @@ SORT SORT-FILE
     USING Input-file
     OUTPUT PROCEDURE 100-Generate-Report
 @end example
-@* As a result of the sort, our program might expect to see data somewhat like this (date, time and sales totals are shown as "@dots{}"):
+@* As a result of the sort, our program might expect to see data somewhat like this (date, time and sales totals are shown as ``@dots{}''):
 
 @example
    +-------------------- Register Number
@@ -254,28 +254,28 @@ SORT SORT-FILE
 ...4456778002003...
 ...0002345002004...
 @end example
-@* Because of the sort, the most-frequently changing value of the three sort keys will be that of Sorted-Register-Number.  This essentially defines the "detail" level of the report.
+@* Because of the sort, the most-frequently changing value of the three sort keys will be that of @code{Sorted-Register-Number}.  This essentially defines the ``detail'' level of the report.
 
-The next most-frequently changing value is that of Sorted-Department-Number, and the least-frequently changing value is that of Sorted-Store-Number.  remember that the program should be generating totals each time one of these two values change, plus a grand total of sales at the end of the report.  These three points are the @define{Control Break} points of the report.
+The next most-frequently changing value is that of @code{Sorted-Department-Number}, and the least-frequently changing value is that of @code{Sorted-Store-Number}.  remember that the program should be generating totals each time one of these two values change, plus a grand total of sales at the end of the report.  These three points are the @define{Control Break} points of the report.
 
 When the report is defined, it's @code{RD} would contain a @code{CONTROLS ARE} clause that lists the control breaks in least- to most-frequent sequence of changing.  This would be coded as:
 
 @code{CONTROLS ARE FINAL, Sorted-Store-Number, Sorted-Department-Number}
 
-A FINAL control break only occurs once, at the very end of the report.  The @code{CONTROL FOOTING} for this break will be the one that produces the grand total of sales for all stores.
+A @code{FINAL} control break only occurs once, at the very end of the report.  The @code{CONTROL FOOTING} for this break will be the one that produces the grand total of sales for all stores.
 
-The next break listed on the @code{CONTROLS} clause will be the one that occurs next most-frequently (Sorted-Store-Number).  This control break will be the one that produces the summation for each entire store, and will have its own @code{CONTROL FOOTING}.
+The next break listed on the @code{CONTROLS} clause will be the one that occurs next most-frequently (@code{Sorted-Store-Number}).  This control break will be the one that produces the summation for each entire store, and will have its own @code{CONTROL FOOTING}.
 
-The next (and last, in this case) break listed on the CONTROLS clause will be the one that occurs even more frequently (Sorted-Department-Number).  The @code{CONTROL FOOTING} for this control field will be the one that summarizes sales for each department within a store.
+The next (and last, in this case) break listed on the @code{CONTROLS} clause will be the one that occurs even more frequently (@code{Sorted-Department-Number}).  The @code{CONTROL FOOTING} for this control field will be the one that summarizes sales for each department within a store.
 
-This sequence of control breaks from least- to most-frequent (in other words, in the order they occur on the CONTROLS ARE clause) is the '@i{control hierarchy}' of the report; control breaks that occur more frequently than others are said to be at a lower level in the control hierarchy.
+This sequence of control breaks from least- to most-frequent (in other words, in the order they occur on the @code{CONTROLS ARE} clause) is the '@i{control hierarchy}' of the report; control breaks that occur more frequently than others are said to be at a lower level in the control hierarchy.
 
-Defining a control hierarchy (via @code{CONTROLS ARE}) that does not match the actual sequence in which data will be processed is a great way to guarantee a "broken" report.  I'll show you an example in a later section.
+Defining a control hierarchy (via @code{CONTROLS ARE}) that does not match the actual sequence in which data will be processed is a great way to guarantee a ``broken'' report.  I'll show you an example in a later section.
 @comment *********************************************************************
 @comment ** 9.6 An Example                                                  **
 @comment *********************************************************************
 @newsection{9.6,An Example}
-This section contains an example of the RWCS at work.  The complete program, presented here, is a stripped-down version of a program I have used to generate a report for a class I teach on PC hardware.  This report will provide benchmark statistics on a variety of popular AMD and Intel CPUs.  The data for the report was obtained from the website @url{www.cpubenchmark.net} in December of 2013.  By the time you are reading this, that data will most likely have become rather out-of-date, but it illustrates RWCS well enough.
+This section contains an example of the RWCS at work.  The complete program, presented here, is a stripped-down version of a program I have used to generate a report for a class I teach on PC hardware.  This report will provide benchmark statistics on a variety of popular AMD and Intel CPUs.  The data for the report was obtained from the website @url{www.cpubenchmark.net} in December of 2013.  By the time you are reading this, that data will most likely have become rather out of date, but it illustrates RWCS well enough.
 @menu
 * 9.6.1: Data.
 * 9.6.2: Program.
@@ -291,10 +291,10 @@ Here is the data that the program will be reading.  Each record reflects the agg
 A five-digit number showing the aggregated benchmark scores for the CPU; the higher this number, the better the CPU performed in benchmark testing.
 
 @item Vendor
-The name of the vendor who makes the CPU.  In this data, that will either be "AMD" (American Micro Devices) or "INTEL".
+The name of the vendor who makes the CPU.  In this data, that will either be ``AMD'' (American Micro Devices) or ``INTEL''.
 
 @item Family
-The 7-character family of CPU products the CPU falls into.  This will have values such as "A4", "A10", "Core i5", "Core i7", etc.
+The 7-character family of CPU products the CPU falls into.  This will have values such as ``A4'', ``A10'', ``Core i5'', ``Core i7'', etc.
 
 @item Model
 The specific model of CPU within the family.
@@ -1011,7 +1011,7 @@ ____________________________________________
 @comment ** 9.8 Turning PHYSICAL Page Formatting Into LOGICAL Formatting    **
 @comment *********************************************************************
 @newsection{9.8,Turning PHYSICAL Page Formatting Into LOGICAL Formatting}
-You can trick RWCS into using the PAGE LIMIT values as logical specifications rather than physical ones quite easily --- simply include an ASCII form-feed (X'0C') character into your page heading design!  Here's how the sample program shown earlier could be easily modified:
+You can trick RWCS into using the @code{PAGE LIMIT} values as logical specifications rather than physical ones quite easily --- simply include an @sc{ASCII} form-feed (@code{X'0C'}) character into your page heading design!  Here's how the sample program shown earlier could be easily modified:
 
 Simply Change This@dots{}
 
@@ -1055,7 +1055,7 @@ Simply Change This@dots{}
 @end example
 @* RWCS will still be counting lines to decide when to close off one page and start a new one, but when a new page is started its page heading will @i{physically} form-feed the printer when the report is printed.  As long as any printer you plan on using supports at least as many physical print lines as what is defined as the @code{PAGE LIMIT} value in whatever paper orientation and font you plan on (or are limited to) printing in, you have now divorced your program from the physical realities of the printer!
 
-Of course, whatever software you are using to deliver the printed document to the printer with, must allow the ASCII form-feed character to pass through to the printer.
+Of course, whatever software you are using to deliver the printed document to the printer with, must allow the @sc{ASCII} form-feed character to pass through to the printer.
 @iftex
 @sp 3
 @center ------------------------------------------------------------
