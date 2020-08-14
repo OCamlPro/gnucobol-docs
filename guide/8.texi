@@ -1972,7 +1972,18 @@ If @var{convert-length} is negative or zero, no conversion will be performed.
 @newsubsection{8.2.15,CBL_AND}
 @diagram{CBL_AND Built-In Subroutine,SS-CBL_AND,SS-CBL_AND,None}
 @multitable @columnfractions 0.3 0.7
-@item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 1}  @tab This subroutine performs a bit-by-bit logical AND operation between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the AND process.
+@item
+@verbatim
+ Old    Old    New
+Arg 1  Arg 2  Arg 2
+ Bit    Bit    Bit
+=====  =====  =====
+  0      0      0
+  0      1      0
+  1      0      0
+  1      1      1
+@end verbatim
+@tab This subroutine performs a bit-by-bit logical @code{AND} operation between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the @code{AND} process.
  @* @* The @var{item-1} argument may be an alphanumeric literal or a data item and @var{item-2} must be a data item.  The length of both @var{item-1} and @var{item-2} must be at least 8*@var{byte-length}.
 @end multitable
 
@@ -2250,7 +2261,7 @@ END PROGRAM ExitProc.
 @page
 @newsubsection{8.2.27,CBL_FLUSH_FILE}
 @diagram{CBL_FLUSH_FILE Built-In Subroutine,SS-CBL_FLUSH_FILE,SS-CBL_FLUSH_FILE,None}
-In Micro Focus COBOL, calling this subroutine flushes any as-yet unwritten memory buffers for the (output) file whose file-handle is specified as the argument to disk.
+In Micro Focus COBOL, calling this subroutine flushes any as-yet unwritten buffers for the (output) file whose file-handle is specified as the argument to disk.
 
 This routine is non-functional in GnuCOBOL.  It exists only to provide compatibility for applications that may have been developed for Micro Focus COBOL.
 @comment *********************************************************************
@@ -2261,26 +2272,27 @@ This routine is non-functional in GnuCOBOL.  It exists only to provide compatibi
 @diagram{CBL_GC_FORK Built-In Subroute,SS-CBL_GC_FORK,SS-CBL_GC_FORK,None}
 CBL_GC_FORK allows you to fork the current COBOL process to a new one.
 
-The current content of the process' storage (including LOCAL-STORAGE) will be identical, any file handles get invalid in the new process, positions and file and record locks are only available to the original process.
+The current content of the process's storage (including LOCAL-STORAGE) will be identical, any file handles get invalid in the new process, positions and file and record locks are only available to the original process.
 
 This system routine is not available on Windows (exception: GCC on Cygwin).
 
-Parameters: none Returns: PID (the child process gets '0' returned, the calling process gets the PID of the created children).
+Parameters: none
+
+Returns: @code{pid} (the child process gets '0' returned, the calling process gets the @code{pid} of the created child).
 
 Negative values are returned for system dependant error codes and -1 if the function is not available on the current system.
 
-@example
-
-CBL_GC_FORK allows you to fork the current COBOL process to a new one. The
-current content of the process' storage (including LOCAL-STORAGE) will be
+@code{CBL_GC_FORK} allows you to fork the current COBOL process to a new one. The
+current content of the process' storage (including @code{LOCAL-STORAGE}) will be
 identical, any file handles get invalid in the new process, positions and
 file / record locks are only available to the original process.
-This system routine is not available on Windows (exception: GCC on Cygwin).
-Parameters: none Returns: PID (the child process gets '0' returned, the calling
-process gets the PID of the created children). Negative values are returned for
+This system routine is not available on Windows (exception: @command{gcc} on Cygwin).
+Parameters: none Returns: @code{pid} (the child process gets 0 returned, the calling
+process gets the @code{pid} of the created children). Negative values are returned for
 system dependant error codes and -1 if the function is not available on the
 current system.
 
+@example
  IDENTIFICATION DIVISION.
  PROGRAM-ID. prog.
  DATA DIVISION.
@@ -2331,12 +2343,11 @@ current system.
 @page
 @newsubsection{8.2.29,CBL_GC_GETOPT}
 @diagram{CBL_GC_GETOPT Built-In Subroutine,SS-CBL_GC_GETOPT,SS-CBL_GC_GETOPT,None}
-CBL_GC_GETOPT realises the quite well-known option parser, getopt, for GnuCOBOL.
+@code{CBL_GC_GETOPT} adapts the well-known option parser, @code{getopt}, to GnuCOBOL.
 
 The usage of this system routine is described by the following example.
 
 @example
-
  IDENTIFICATION DIVISION.
  PROGRAM-ID. PROG.
  DATA DIVISION.
@@ -2353,33 +2364,39 @@ The usage of this system routine is described by the following example.
  01  RETURN-CHAR         PIC X(4).
  01  OPT-VAL             PIC X(10).
  01  COUNTER             PIC 9 VALUE 0.
+@end example
 
-We first need to define the necessary fields for getopt's shortoptions (so),
-longoptions (lo), longoption index (longind), long-only-option (long-only)
-and also the fields for return values return-char and opt-val (arbitrary
+We first need to define the necessary fields for @code{getopt}'s @code{shortoptions}, @code{longoptions}, longoption index (@code{longind}), long-only-option (@code{long-only})
+and also the fields for return values @code{return-char} and @code{opt-val} (arbitrary
 size with trimming, see return codes).
-The shortoptions are written down as an alphanumeric field (i.e., a string
+
+The @code{shortoptions} are written down as an alphanumeric field (i.e., a string
 with arbitrary size) as follows:
+
+@example
 "ab:c::d"
+@end example
 
-This means we want getopt to look for shortoptions named a, b, c or d and
-we demand an option value for b and we are accepting an optional one for c.
-The longoptions are defined as a table of records with oname, has-value,
- valpoint and val.
+This means we want @code{getopt} to look for short options named @samp{a}, @samp{b}, @samp{c} or @samp{d}, require an option value for @samp{b}, and accept an optional one for @samp{c}.
 
-oname defines the name of a longoption.
- has-value defines if an option value is demanded (has-val = 1), optional
- (has-val = 2) or not required (has-val = 0).
-valpoint is a pointer used to specify an address to save getopt's return
- value to. The pointer is optional. If it is NULL, getopt returns a value
- as usual. If you use the pointer it has to point to a PIC X(4) field.
-The field val is a PIC X(4) character which is returned if the longoption
- was recognized.
+The @code{longoptions} are defined as a table of records with @code{oname}, @code{has-value}, @code{valpoint} and @code{val}.@footnote{Say what? the discussion and code seem to have diverged.}
+
+@code{oname} defines the name of a longoption.
+@code{has-value} defines if an option value is demanded (@code{has-val = 1}), optional
+(@code{has-val = 2}) or not required (@code{has-val = 0}).
+
+@code{valpoint} is a pointer used to specify an address to save @code{getopt's} return
+value to. The pointer is optional. If it is @code{NULL}, @code{getopt} returns a value
+as usual. If you use the pointer it has to point to a @code{PIC X(4)} field.
+The field val is a @code{PIC X(4)} character which is returned if the longoption
+was recognized.
 
 The longoption structure is immutable! You can only vary the number of
 records.
-Now we have the tools to run CBL_GC_GETOPT within the procedure division.
 
+Now we have the tools to run @code{CBL_GC_GETOPT} within the procedure division.
+
+@example
 PROCEDURE DIVISION.
      MOVE     "version" to OPTIONNAME (1).
      MOVE     0 TO HAS-VALUE (1).
@@ -2397,55 +2414,92 @@ PROCEDURE DIVISION.
               DISPLAY OPT-VAL END-DISPLAY
      END-PERFORM
      STOP RUN.
+@end example
 
 The example shows how we initialize all parameters and call the routine until
-CBL_GC_GETOPT runs out of options and returns -1.
-The return-char might contain the following:
-regular character if an option was recognized
- ' ?' if we have an undefined or ambiguous option
- '1'  if we have a non-option (only if first byte of so is '-')
- '0'  if valpoint != NULL and we are writing the return value to the specified
-      address
- '-1' if we don't have any more options (or reach the first non-option if first
-      byte of so is '+')
+@code{CBL_GC_GETOPT} runs out of options and returns -1.
 
-The return-codes of CBL_GC_GETOPT are:
- 1 if we've got a non-option (only if first byte of so is '-')
- 0 if valpoint != NULL and we are writing the return value to the specified
-   address
--1 if we don't have any more options (or reach the first non-option if first
-   byte of so is '+')
- 2 if we have got an truncated option value in opt-val (because opt-val was
-   too small)
- 3 if we got a regular answer from getopt
+@noindent
+@code{return-char} might contain the following 
+regular character if an option was recognized:
 
-@end example
+@table @code
+@item ?
+undefined or ambiguous option
+
+@item 1
+non-option (only if first byte of so is @samp{-})
+
+@item 0
+@code{valpoint != NULL} and we are writing the return value to the specified address
+
+@item -1
+no more options (or reach the first non-option if first byte of @code{shortoptions} is @samp{+})
+@end table
+
+@noindent
+The return-codes of @code{CBL_GC_GETOPT} are:
+
+@table @code
+@item 1
+a non-option (only if first byte of so is @samp{-})
+
+@item 0
+@code{valpoint != NULL} and we are writing the return value to the specified address
+
+@item -1
+no more options (or reach the first non-option if first byte of @code{shortoptions} is @samp{+})
+
+@item 2
+truncated option value in @code{opt-val} (because @code{opt-val} was too small)
+
+@item 3
+a regular answer from @code{getopt}
+@end table
 @comment *********************************************************************
 @comment ** 8.2.30 CBL_GC_HOSTED                                           **
 @comment *********************************************************************
 @page
 @newsubsection{8.2.30,CBL_GC_HOSTED}
 @diagram{CBL_GC_HOSTED Built-In Subroutine,SS-CBL_GC_HOSTED,SS-CBL_GC_HOSTED,None}
-@example
-CBL_GC_HOSTED provides access to the following C hosted variables:
- argc to binary-long by value
- argv to pointer to char **
- stdin, stdout, stderr to pointer
- errno giving address of errno in pointer to binary-long, use based for more
-   direct access and conditional access to the following variables:
-tzname pointer to pointer to array of two char pointers
-timezone C long, will be seconds west of UTC
-daylight C int, will be 1 during daylight savings
 
-System will need to HAVE TIMEZONE defined for these to return anything
-meaningful.
-Attempts made when they are not available WILL return 1 from CBL GC HOSTED.
+@code{CBL_GC_HOSTED} provides access to the following C hosted variables:
+@table @code
+@item argc
+@code{binary-long by value}
+
+@item argv
+@code{pointer to char **}
+
+@item stdin, stdout, stderr
+@code{pointer}
+
+@item errno
+giving address of @code{errno} in pointer to @code{binary-long}, use @code{based} for more
+@end table
+
+Direct access and conditional access to the following variables:
+
+@table @code
+@item tzname
+@code{pointer to pointer to array of two char pointer}s
+
+@item timezone
+C @code{long}, will be seconds west of UTC
+
+@item daylight
+C @code{int}, will be 1 during daylight savings
+@end table
+
+The system will need @code{HAVE TIMEZONE} defined for these to return anything meaningful.  Attempts made when they are not available will return 1 from @code{CBL GC HOSTED}.
 
 It returns 0 when match, 1 on failure, case matters as does length, "arg"
 won't match.
+
 The usage of this system routine is described by the following example.
 
- IDENTIFICATION DIVISION.
+@example
+IDENTIFICATION DIVISION.
  PROGRAM-ID. HOSTED.
  DATA DIVISION.
  WORKING-STORAGE SECTION.
@@ -2518,10 +2572,9 @@ The usage of this system routine is described by the following example.
      end-if
      goback.
  end program hosted.
-
 @end example
 
-Note that the legacy name of this routine that starts with CBL_OC is deprecated, as is NANOSLEEP but will still work. It is recommended that all library routines names starting with CBL_OC are replaced with CBL_GC to minimise issues.
+Note that the legacy name of this routine that starts with @code{CBL_OC} is deprecated, as is @code{NANOSLEEP} but will still work. It is recommended that all library routines names starting with @code{CBL_OC} are replaced with @code{CBL_GC} to minimise issues.
 @comment *********************************************************************
 @comment ** 8.2.31 CBL_GC_NANOSLEEP                                        **
 @comment *********************************************************************
@@ -2532,13 +2585,13 @@ This subroutine puts the program to sleep for the specified number of nanosecond
 
 The effective granularity of @var{nanoseconds-to-sleep} values will depend upon the granularity of the system clock your computer is using and the timing granularity of the operating system that computer is running.
 
-For example, You will not expect to see any difference whatsoever between values of 1, 100, 500 or 1000, but you should see a difference between values such as 250000000 and 500000000.
+For example, you will not expect to see any difference between values of 1, 100, 500 or 1000, but you should see a difference between values such as 250000000 and 500000000.
 
 The @var{nanoseconds-to-sleep} argument is a numeric literal or data item.
 
-There are one BILLION nanoseconds in a second, so if you wanted to put the program to sleep for 1/4 second you'd use a @var{nanoseconds-to-sleep} value of 250000000.
+There are one @i{billion} nanoseconds in a second, so if you wanted to put the program to sleep for 1/4 second you'd use a @var{nanoseconds-to-sleep} value of 250000000.
 
-Note that the legacy name of this routine starts with CBL_OC is deprecated, as is HOSTED but will still work. It is recommended that all library routines names starting with CBL_OC are replaced with CBL_GC to minimise issues.
+Note that the legacy name of this routine starts with ``CBL_OC'' is deprecated, as is @code{HOSTED}, but will still work. It is recommended that all library routines names starting with ``CBL_OC'' are replaced with ``CBL_GC'' to minimise issues.
 @comment *********************************************************************
 @comment ** 8.2.32 CBL_GC_PRINTABLE                                        **
 @comment *********************************************************************
@@ -2547,7 +2600,7 @@ Note that the legacy name of this routine starts with CBL_OC is deprecated, as i
 @diagram{CBL_GC_PRINTABLE Built-In Subroutine,SS-CBL_GC_PRINTABLE,SS-CBL_GC_PRINTABLE,None}
 The @code{CBL_GC_PRINTABLE} subroutine converts the contents of the data-item specified as the first argument to printable characters.
 
-Those characters that are deemed printable (as defined by the character set used by @var{data-item}) will remain unchanged, while those that are NOT printable will be converted to the character specified as the second argument.
+Those characters that are deemed printable (as defined by the character set used by @var{data-item}) will remain unchanged, while those that are @i{not} printable will be converted to the character specified as the second argument.
 
 If no @var{char} argument is provided, a period (@samp{.}) will be used.
 @comment *********************************************************************
@@ -2556,17 +2609,21 @@ If no @var{char} argument is provided, a period (@samp{.}) will be used.
 @page
 @newsubsection{8.2.33,CBL_GC_WAITPID}
 @diagram{CBL_GC_WAITPID Built-In Subroutine,SS-CBL_GC_WAITPID,SS-CBL_GC_WAITPID,None}
+
+@code{CBL_GC_WAITPID} allows you to wait until another system process ended.
+
+Additionally you can check the process's return code.
+
+Parameters: none
+
+Returns: function-status / child-status
+
+Negative values are returned for system dependant error codes and -1 if the function is not available on the current system.
+
 @example
-CBL_GC_WAITPID allows you to wait until another system process ended.
-Additional you can check the process' return code.
-Parameters: none Returns: function-status / child-status Negative values
-are returned for system dependant error codes and -1 if the function is not
-available on the current system.
-
-     CALL     "CBL_GC_WAITPID" USING CHILD-PID RETURNING WAIT-STS
-     MOVE     0 TO RETURN-CODE
-     DISPLAY  'CBL_GC_WAITPID ended with status: ' WAIT-STS
-
+CALL     "CBL_GC_WAITPID" USING CHILD-PID RETURNING WAIT-STS
+MOVE     0 TO RETURN-CODE
+DISPLAY  'CBL_GC_WAITPID ended with status: ' WAIT-STS
 @end example
 @comment *********************************************************************
 @comment ** 8.2.34 CBL_GET_CSR_POS                                          **
@@ -2634,7 +2691,18 @@ Zero values will be returned if the screen has not been initialized and values o
 @newsubsection{8.2.37,CBL_IMP}
 @diagram{CBL_IMP Built-In Subroutine,SS-CBL_IMP,SS-CBL_IMP,None}
 @multitable @columnfractions 0.3 0.7
-@item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 1}  @tab This subroutine performs a bit-by-bit logical "implies" process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the IMP process.
+@item
+@verbatim
+ Old    Old    New
+Arg 1  Arg 2  Arg 2
+ Bit    Bit    Bit
+=====  =====  =====
+  0      0      1
+  0      1      1
+  1      0      0
+  1      1      1
+@end verbatim
+@tab This subroutine performs a bit-by-bit logical @i{implies} process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the @code{IMP} process.
  @* @* The @var{item-1} argument may be an alphanumeric literal or a data item and @var{item-2} must be a data item.  The length of both @var{item-1} and @var{item-2} must be at least 8*@var{byte-length}.
 @end multitable
 
@@ -2650,7 +2718,18 @@ A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @newsubsection{8.2.38,CBL_NIMP}
 @diagram{CBL_NIMP Built-In Subroutine,SS-CBL_NIMP,SS-CBL_NIMP,None}
 @multitable @columnfractions 0.3 0.7
-@item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 0}  @tab This subroutine performs the negation of a bit-by-bit logical "implies" process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the NIMP process.
+@item
+@verbatim
+ Old    Old    New
+Arg 1  Arg 2  Arg 2
+ Bit    Bit    Bit
+=====  =====  =====
+  0      0      0
+  0      1      0
+  1      0      1
+  1      1      0
+@end verbatim
+@tab This subroutine performs the @i{negation} of a bit-by-bit logical @i{implies} process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the @code{NIMP} process.
  @* @* The @var{item-1} argument may be an alphanumeric literal or a data item and @var{item-2} must be a data item.  The length of both @var{item-1} and @var{item-2} must be at least 8*@var{byte-length}.
 @end multitable
 
@@ -2666,7 +2745,18 @@ A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @newsubsection{8.2.39,CBL_NOR}
 @diagram{CBL_NOR Built-In Subroutine,SS-CBL_NOR,SS-CBL_NOR,None}
 @multitable @columnfractions 0.3 0.7
-@item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 0}  @tab This subroutine performs the negation of a bit-by-bit logical "or" process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the NOR process.
+@item
+@verbatim
+ Old    Old    New
+Arg 1  Arg 2  Arg 2
+ Bit    Bit    Bit
+=====  =====  =====
+  0      0      1
+  0      1      0
+  1      0      0
+  1      1      0
+@end verbatim
+@tab This subroutine performs the negation of a bit-by-bit logical @i{or'} process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the @code{NOR} process.
  @* @* The @var{item-1} argument may be an alphanumeric literal or a data item and @var{item-2} must be a data item.  The length of both @var{item-1} and @var{item-2} must be at least 8*@var{byte-length}.
 @end multitable
 
@@ -2681,7 +2771,7 @@ A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @page
 @newsubsection{8.2.40,CBL_NOT}
 @diagram{CBL_NOT Built-In Subroutine,SS-CBL_NOT,SS-CBL_NOT,None}
-This subroutine ``flips'' the left-most 8*@var{byte-length} bits of @var{item-1}, changing 0 bits to 1s and 1s to 0s.  The changes are made directly im @var{item-1}.
+This subroutine ``flips'' the left-most 8*@var{byte-length} bits of @var{item-1}, changing 0 bits to 1, and 1 bits to 0.  The changes are made directly im @var{item-1}.
 
 The @var{item-1} argument must be a data item.  The length of @var{item-1} must be at least 8*@var{byte-length}.
 
@@ -2700,13 +2790,18 @@ This routine opens an existing file for use as a byte-stream file usable by CBL_
 
 The @var{file-path} argument  is an alphanumeric literal or data-item.
 
-The @var{access-mode} argument is a numeric literal or data item with a PIC X USAGE COMP-X (or USAGE BINARY-CHAR) definition; it specifies how you wish to use the file, as follows:
+The @var{access-mode} argument is a numeric literal or data item with a @code{PIC X USAGE COMP-X} (or @code{USAGE BINARY-CHAR}) definition; it specifies how you wish to use the file, as follows:
 
-@display
-1 = input (read-only)
-2 = output (write-only)
-3 = input and/or output
-@end display
+@table @code
+@item 1
+input (read-only)
+
+@item 2
+output (write-only)
+
+@item 3
+input and/or output
+@end table
 
 The third and fourth arguments would specify a locking mode and device specification, respectively, but they're not implemented in GnuCOBOL (currently, at least) --- just specify each as 0.
 
@@ -2720,7 +2815,18 @@ A @registerref{RETURN-CODE} value of -1 indicates an invalid argument, while a v
 @newsubsection{8.2.43,CBL_OR}
 @diagram{CBL_OR Built-In Subroutine,SS-CBL_OR,SS-CBL_OR,None}
 @multitable @columnfractions 0.3 0.7
-@item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 1}  @tab This subroutine performs a bit-by-bit logical "or" process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the OR process.
+@item
+@verbatim
+ Old    Old    New
+Arg 1  Arg 2  Arg 2
+ Bit    Bit    Bit
+=====  =====  =====
+  0      0      0
+  0      1      1
+  1      0      1
+  1      1      1
+@end verbatim
+@tab This subroutine performs a bit-by-bit logical @i{or} process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the @code{OR} process.
  @* @* The @var{item-1} argument may be an alphanumeric literal or a data item and @var{item-2} must be a data item.  The length of both @var{item-1} and @var{item-2} must be at least 8*@var{byte-length}.
 @end multitable
 
@@ -2753,13 +2859,13 @@ Upon completion, the @registerref{RETURN-CODE} will be set to 0 if the read was 
 @diagram{CBL_READ_KBD_CHAR Build-In Subroutine,SS-CBL_READ_KBD_CHAR,SS-CBL_READ_KBD_CHAR,None}
 Waits until a character is typed from the terminal and then read it with no echo.
 
-Parameters: char             PIC X.        Receives the character that was typed, in @sc{ASCII}.
+Parameters: char @code{PIC X}. Receives the character that was typed, in @sc{ASCII}.
 
-status-code      PIC XX COMP-5.
+status-code @code{PIC XX COMP-5}.
 
-If RETURNING is not used the RETURN-CODE special register receives the status-code where zero is success and non-zero it is not.
+If @code{RETURNING} is not used the @code{RETURN-CODE} special register receives the status-code where zero is success and non-zero it is not.
 
-[ Above information taken from MF WB manual ].
+[Above information taken from MF WB manual].
 @comment *********************************************************************
 @comment ** 8.2.46 CBL_RENAME_FILE                                          **
 @comment *********************************************************************
@@ -2824,7 +2930,18 @@ Upon completion, the @registerref{RETURN-CODE} will be set to 0 if the write was
 @newsubsection{8.2.51,CBL_XOR}
 @diagram{CBL_XOR Built-In Subroutine,SS-CBL_XOR,SS-CBL_XOR,None}
 @multitable @columnfractions 0.3 0.7
-@item @t{@ Old @ @ @ Old @ @ @ New} @* @t{Arg 1@ @ Arg 2@ @ Arg 2} @* @t{@ Bit@ @ @ @ Bit@ @ @ @ Bit} @* @t{=====@ @ =====@ @ =====} @* @t{@ @ 0@ @ @ @ @ @ 0@ @ @ @ @ @ 0} @* @t{@ @ 0@ @ @ @ @ @ 1@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 0@ @ @ @ @ @ 1} @* @t{@ @ 1@ @ @ @ @ @ 1@ @ @ @ @ @ 0}  @tab This subroutine performs a bit-by-bit logical "exclusive or" process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the XOR process. @* @* The @var{item-1} argument may be an alphanumeric literal or a data item and @var{item-2} must be a data item.  The length of both @var{item-1} and @var{item-2} must be at least 8*@var{byte-length}.
+@item
+@verbatim
+ Old    Old    New
+Arg 1  Arg 2  Arg 2
+ Bit    Bit    Bit
+=====  =====  =====
+  0      0      0
+  0      1      1
+  1      0      1
+  1      1      0
+@end verbatim
+@tab This subroutine performs a bit-by-bit logical @i{exclusive or} process between the left-most 8*@var{byte-length} corresponding bits of @var{item-1} and @var{item-2}, storing the resulting bit string into @var{item-2}.  The truth table shown to the left documents the @code{XOR} process. @* @* The @var{item-1} argument may be an alphanumeric literal or a data item and @var{item-2} must be a data item.  The length of both @var{item-1} and @var{item-2} must be at least 8*@var{byte-length}.
 @end multitable
 
 The @var{byte-length} argument may be a numeric literal or data item, and must be specified using @syntaxrefalt{BY VALUE,CALL}.
@@ -2846,11 +2963,11 @@ Output from the command (if any) will appear in the command window in which the 
 
 On a Unix system, the shell environment will be established using the default shell program.  This is also true when using a GnuCOBOL build created with and for OSX or the Cygwin Unix emulator.
 
-With native Windows Windows/MinGW builds, the shell environment will be the Windows console window command processor (usually "cmd.exe") appropriate for the version of Windows you're using.
+With native Windows Windows/MinGW builds, the shell environment will be the Windows console window command processor (usually @command{cmd.exe}) appropriate for the version of Windows you're using.
 
-To trap output from the executed command and process it within the GnuCOBOL program, use a redirection (>) to send the command output to a temporary file which you read from within the program once control returns.
+To trap output from the executed command and process it within the GnuCOBOL program, use a redirection (@samp{>}) to send the command output to a temporary file which you read from within the program once control returns.
 
-The exit status of the executed command will be available in the RETURN-CODE special-register.
+The exit status of the executed command will be available in the @code{RETURN-CODE} special-register.
 @comment *********************************************************************
 @comment ** 8.2.53 X"91"                                                    **
 @comment *********************************************************************
@@ -2859,12 +2976,11 @@ The exit status of the executed command will be available in the RETURN-CODE spe
 @diagram{X"91" Built-In Subroutine,SS-X91,SS-X91,None}
 The original Micro Focus version of this routine is capable of providing a wide variety of functions.  GnuCOBOL supports just three of them:
 @itemize @bullet
+@item
+Turning runtime switches (@code{SWITCH-1}, @dots{} , @code{SWITCH-8}) on.
 
 @item
-Turning runtime switches (SWITCH-1, @dots{} , SWITCH-8) on.
-
-@item
-Turning runtime switches (SWITCH-1, @dots{} , SWITCH-8) off.
+Turning runtime switches (@code{SWITCH-1}, @dots{} , @code{SWITCH-8}) off.
 
 @item
 Retrieving the number of arguments passed to a subroutine.
@@ -2878,7 +2994,7 @@ The third argument --- @var{variable-arg} --- is defined differently depending u
 @table @asis
 
 @item 11
-Sets and/or clears all eight of the COBOL switches (SWITCH-1 through SWITCH-8).  @xref{SPECIAL-NAMES}, for an explanation of those switches.
+Sets and/or clears all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}).  @xref{SPECIAL-NAMES}, for an explanation of those switches.
 
 The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR}.
 
@@ -2887,14 +3003,14 @@ Each occurrence that is set to a value of zero prior to the @code{CALL X"91"} wi
 Values other than 0 or 1 will be ignored.
 
 @item 12
-Reads all eight of the COBOL switches (SWITCH-1 through SWITCH-8)
+Reads all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8})
 
 The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR}.
 
 Each of the 1@sup{st} eight occurrences of the array will be set to either 0 or 1 --- 1 if the corresponding switch is set, 0 otherwise.
 
 @item 16
-Retrieves the number of arguments passed to the program executing the CALL X"91", saving that number into the @var{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).
+Retrieves the number of arguments passed to the program executing the @code{CALL X"91"}, saving that number into the @var{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).
 @end table
 @comment *********************************************************************
 @comment ** 8.2.54 X"E4"                                                    **
@@ -2902,13 +3018,13 @@ Retrieves the number of arguments passed to the program executing the CALL X"91"
 @page
 @newsubsection{8.2.54,X"E4"}
 @diagram{X"E4" Built-In Subroutine,SS-XE4,SS-XE4,None}
-Use X"E4" to clear the screen.  There are no arguments and no returned value.
+Use @code{X"E4"} to clear the screen.  There are no arguments and no returned value.
 @comment *********************************************************************
 @comment ** 8.2.55 X"E5"                                                    **
 @comment *********************************************************************
 @newsubsection{8.2.55,X"E5"}
 @diagram{X"E5" Built-In Subroutine,SS-XE5,SS-XE5,None}
-The X"E5" routine will sound the PC ``bell''.  There are no arguments and no returned value.
+The @code{X"E5"} routine will sound the PC ``bell''.  There are no arguments and no returned value.
 @comment *********************************************************************
 @comment ** 8.2.56 X"F4"                                                    **
 @comment *********************************************************************
