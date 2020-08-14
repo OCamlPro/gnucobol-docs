@@ -1882,113 +1882,113 @@ Regardless of the manner in which a main program is executed (i.e. directly or v
 By default, the GnuCOBOL compiler will truncate binary data items to the precision indicated by their @syntaxref{PICTURE} clause, if they have one. This applies to COMP, BINARY and COMP-4 items Only.
 @* The fact is, however, that binary truncation has a significant effect on the performance of GnuCOBOL programs.  When binary truncation is in effect, arithmetic operations performed against all types of numeric data items (even @code{USAGE DISPLAY}) are slowed down.
 
-Before continuing, it's worth making the point that we're @i{not} talking about astronomical performance degradations here.  Today's computers are @i{fast}, and a user sitting at the keyboard, running a gnucobol program is unlikely to notice.  but, if you have a gnucobol program that has to process large amounts of data, performing some significant ``number crunching'' against that data as it goes, the impact of truncation could become noticeable.
+Before continuing, it's worth making the point that we're @i{not} talking about astronomical performance degradations here.  Today's computers are @i{fast}, and a user sitting at the keyboard, running a GnuCOBOL program is unlikely to notice.  But, if you have a GnuCOBOL program that has to process large amounts of data, performing some significant ``number crunching'' against that data as it goes, the impact of truncation could become noticeable.
 
-the following program compares the performance of performing arithmetic operations (in a totally non-scientific, non-rigorous way) against data items with a @syntaxref{usage} of @code{display}, @code{comp} and @code{binary-long}.  it was actually my intent when i first wrote the program to merely demonstrate the relative performance differences between different types of numeric data storage, and it certainly met that objective.
+The following program compares the performance of performing arithmetic operations (in a totally non-scientific, non-rigorous way) against data items with a @syntaxref{USAGE} of @code{DISPLAY}, @code{COMP} and @code{BINARY-LONG}.  It was actually my intent when I first wrote the program to merely demonstrate the relative performance differences between different types of numeric data storage, and it certainly met that objective.
 
 @example
-identification division.
-program-id. demomath.
-data division.
-working-storage section.
-01  begin-time.
-    05 bt-hh                    pic 9(2).
-    05 bt-mm                    pic 9(2).
-    05 bt-ss                    pic 9(2).
-    05 bt-hu                    pic 9(2).
-01  binary-item         binary-long signed value 0.
-01  comp-item           comp    pic s9(9)  value 0.
-01  display-item        display pic s9(9)  value 0.
-01  end-time.
-    05 et-hh                    pic 9(2).
-    05 et-mm                    pic 9(2).
-    05 et-ss                    pic 9(2).
-    05 et-hu                    pic 9(2).
-78  repeat-count                value 10000000.
-01  time-diff                   pic zz9.99.
-procedure division.
-010-test-usage-display.
-    accept  begin-time from time
-    perform repeat-count times
-        add 7 to display-item
-    end-perform
-    perform 100-determine-time-diff
-    display 'usage display: ' time-diff ' seconds'
+IDENTIFICATION DIVISION.
+PROGRAM-ID. DEMOMATH.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01  Begin-Time.
+    05 BT-HH                    PIC 9(2).
+    05 BT-MM                    PIC 9(2).
+    05 BT-SS                    PIC 9(2).
+    05 BT-HU                    PIC 9(2).
+01  Binary-Item         BINARY-LONG SIGNED VALUE 0.
+01  Comp-Item           COMP    PIC S9(9)  VALUE 0.
+01  Display-Item        DISPLAY PIC S9(9)  VALUE 0.
+01  End-Time.
+    05 ET-HH                    PIC 9(2).
+    05 ET-MM                    PIC 9(2).
+    05 ET-SS                    PIC 9(2).
+    05 ET-HU                    PIC 9(2).
+78  Repeat-Count                VALUE 10000000.
+01  Time-Diff                   PIC ZZ9.99.
+PROCEDURE DIVISION.
+010-Test-Usage-DISPLAY.
+    ACCEPT  Begin-Time FROM TIME
+    PERFORM Repeat-Count TIMES
+        ADD 7 TO Display-Item
+    END-PERFORM
+    PERFORM 100-Determine-Time-Diff
+    DISPLAY 'USAGE DISPLAY: ' Time-Diff ' SECONDS'
     .
-020-test-usage-comp.
-    accept begin-time from time
-    perform repeat-count times
-        add 7 to comp-item
-    end-perform
-    perform 100-determine-time-diff
-    display 'usage comp:    ' time-diff ' seconds'
+020-Test-Usage-COMP.
+    ACCEPT Begin-Time FROM TIME
+    PERFORM Repeat-Count TIMES
+        ADD 7 TO Comp-Item
+    END-PERFORM
+    PERFORM 100-Determine-Time-Diff
+    DISPLAY 'USAGE COMP:    ' Time-Diff ' SECONDS'
     .
-040-test-usage-binary.
-    accept begin-time from time
-    perform repeat-count times
-        add 7 to binary-item
-    end-perform
-    perform 100-determine-time-diff
-    display 'usage binary:  ' time-diff ' seconds'
+040-Test-Usage-BINARY.
+    ACCEPT Begin-Time FROM TIME
+    PERFORM Repeat-Count TIMES
+        ADD 7 TO Binary-Item
+    END-PERFORM
+    PERFORM 100-Determine-Time-Diff
+    DISPLAY 'USAGE BINARY:  ' Time-Diff ' SECONDS'
     .
-099-done.
-    stop run
+099-Done.
+    STOP RUN
     .
-100-determine-time-diff.
-    accept end-time from time
-    compute time-diff =
-      ( (et-hh * 360000 + et-mm * 6000 + et-ss * 100 + et-hu)
-      - (bt-hh * 360000 + bt-mm * 6000 + bt-ss * 100 + bt-hu) )
+100-Determine-Time-Diff.
+    ACCEPT End-Time FROM TIME
+    COMPUTE Time-Diff =
+      ( (ET-HH * 360000 + ET-MM * 6000 + ET-SS * 100 + ET-HU)
+      - (BT-HH * 360000 + BT-MM * 6000 + BT-SS * 100 + BT-HU) )
       / 100
     .
 @end example
-@* each data item has 7 added to it ten @i{million} times.
+@* Each data item has 7 added to it ten @i{million} times.
 
-the time (to one-one-hundredth of a second) will be retrieved before and after each test and the difference between the two is displayed.  this is why the computations were done so many times --- it was to make sure the timing was measurable with only a 1/100 second ``stopwatch''.
+The time (to one-one-hundredth of a second) will be retrieved before and after each test and the difference between the two is displayed.  This is why the computations were done so many times --- it was to make sure the timing was measurable with only a 1/100 second ``stopwatch''.
 
-i also ran the tests multiple times, just to make sure i had consistent results (i did).  like i mentioned earlier, this is not a rigorous, scientific benchmark of numeric performance; it's just a quick-and-dirty comparison.
+I also ran the tests multiple times, just to make sure I had consistent results (I did).  Like I mentioned earlier, this is not a rigorous, scientific benchmark of numeric performance; it's just a quick-and-dirty comparison.
 
-here are the results:
-
-@example
-test 1:
-usage display:   1.72 seconds
-usage comp:      0.62 seconds
-usage binary:    0.02 seconds
-
-test 2:
-usage display:   1.69 seconds
-usage comp:      0.61 seconds
-usage binary:    0.02 seconds
-
-test 3:
-usage display:   1.69 seconds
-usage comp:      0.65 seconds
-usage binary:    0.02 seconds
-@end example
-@* the results i saw here were consistent with those that would have been obtained from most of the cobol implementations i have ever worked with --- @code{usage comp} has a significant performance advantage over @code{usage display} and @code{usage binary-long} (and presumably the other @code{binary-@i{xxx}} usages as well) perform identically, within the measurement tolerances of the test.
-
-imagine my surprise, however, when i discovered that the use of @switch{-fnotrunc} also made a difference:
+Here are the results:
 
 @example
-test 4:
-usage display:   1.72 seconds
-usage comp:      0.07 seconds
-usage binary:    0.02 seconds
+Test 1:
+USAGE DISPLAY:   1.72 SECONDS
+USAGE COMP:      0.62 SECONDS
+USAGE BINARY:    0.02 SECONDS
 
-test 5:
-usage display:   1.72 seconds
-usage comp:      0.07 seconds
-usage binary:    0.02 seconds
+Test 2:
+USAGE DISPLAY:   1.69 SECONDS
+USAGE COMP:      0.61 SECONDS
+USAGE BINARY:    0.02 SECONDS
 
-test 6:
-usage display:   1.73 seconds
-usage comp:      0.06 seconds
-usage binary:    0.02 seconds
+Test 3:
+USAGE DISPLAY:   1.69 SECONDS
+USAGE COMP:      0.65 SECONDS
+USAGE BINARY:    0.02 SECONDS
 @end example
-@* as you can see, there was a huge drop in @code{usage comp} timings by turning off truncation.  as a result, i see absolutely no reason whatsoever why the @switch{-fnotrunc} option shouldn't be used on all gnucobol compilations.
+@* The results I saw here were consistent with those that would have been obtained from most of the COBOL implementations I have ever worked with --- @code{USAGE COMP} has a significant performance advantage over @code{USAGE DISPLAY} and @code{USAGE BINARY-LONG} (and presumably the other @code{BINARY-@i{xxx}} usages as well) perform identically, within the measurement tolerances of the test.
 
-if you want to squeeze every last bit of performance out of your gnucobol programs, don't forget to investigate the @switchidx{-o}, @switchidx{-o2} and the @switchidx{-os}, all of which influence the optimization of compiled code.  actually run programs using various optimization switches (or not) and compare execution times against those of unoptimized compiled versions of your programs.  don't just compare the generated c code because sometimes the differences can't be seen at the C source-code level.
+Imagine my surprise, however, when I discovered that the use of @switch{-fnotrunc} also made a difference:
+
+@example
+Test 4:
+USAGE DISPLAY:   1.72 SECONDS
+USAGE COMP:      0.07 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 5:
+USAGE DISPLAY:   1.72 SECONDS
+USAGE COMP:      0.07 SECONDS
+USAGE BINARY:    0.02 SECONDS
+
+Test 6:
+USAGE DISPLAY:   1.73 SECONDS
+USAGE COMP:      0.06 SECONDS
+USAGE BINARY:    0.02 SECONDS
+@end example
+@* As you can see, there was a huge drop in @code{USAGE COMP} timings by turning off truncation.  As a result, I see absolutely no reason whatsoever why the @switch{-fnotrunc} option shouldn't be used on all GnuCOBOL compilations.
+
+If you want to squeeze every last bit of performance out of your GnuCOBOL programs, don't forget to investigate the @switchidx{-O}, @switchidx{-O2} and the @switchidx{-Os}, all of which influence the optimization of compiled code.  Actually run programs using various optimization switches (or not) and compare execution times against those of unoptimized compiled versions of your programs.  Don't just compare the generated C code because sometimes the differences can't be seen at the C source-code level.
 
 @example
 Test 7:
