@@ -3,8 +3,8 @@
 @comment *********************************************************************
 @newchapter{8,Functions}
 @menu
-* 8.1:  Intrinsic Functions. 
-* 8.2:  Built-In System Subroutines. 
+* 8.1:  Intrinsic Functions.
+* 8.2:  Built-In System Subroutines.
 @end menu
 @newsection{8.1,Intrinsic Functions}
 GnuCOBOL supports a wide variety of ``intrinsic functions'' that may be used anywhere in the PROCEDURE DIVISION where a literal is allowed.  For example:
@@ -2000,7 +2000,7 @@ A result of zero will be passed back in the @registerref{RETURN-CODE}.
 @diagram{CBL_CHANGE_DIR Built-In Subroutine,SS-CBL_CHANGE_DIR,SS-CBL_CHANGE_DIR,None}
 This routine makes @var{directory-path} (an alphanumeric literal or identifier) the current directory.
 
-The return code of the operation, which will be either 0=Success or 128=failure, is returned in the @registerref{RETURN-CODE}. 
+The return code of the operation, which will be either 0=Success or 128=failure, is returned in the @registerref{RETURN-CODE}.
 
 The directory change remains in effect until the program terminates (in which the original current directory at the time the program was started will be automatically restored) or until another @code{CBL_CHANGE_DIR} or a @subpgmref{C$CHDIR} is executed.
 @comment *********************************************************************
@@ -2313,14 +2313,14 @@ current system.
                    MOVE 0 TO CHILD-PID
                    PERFORM PARENT-CODE
               WHEN OTHER
-                   MULTIPLY CHILD-PID BY -1 END-MULTIPLY
+                   MULTIPLY -1 BY CHILD-PID END-MULTIPLY
                    DISPLAY 'CBL_GC_FORK returned system error: ' CHILD-PID
      END-EVALUATE
      STOP     RUN.
  CHILD-CODE.
      CALL     "C$SLEEP" USING 1 END-CALL
      DISPLAY  "Hello, I am the child"
-     MOVE     2 TO RETURN-CODE
+     MOVE     2 TO RETURN-CODE.
  PARENT-CODE.
      DISPLAY  "Hello, I am the parent"
      CALL     "CBL_GC_WAITPID" USING CHILD-PID RETURNING WAIT-STS
@@ -2334,7 +2334,7 @@ current system.
               WHEN WAIT-STS < -1
                    MULTIPLY -1 BY WAIT-STS END-MULTIPLY
                    DISPLAY 'CBL_GC_WAITPID returned system error: ' WAIT-STS
-     END-EVALUATE
+     END-EVALUATE.
 
 @end example
 @comment *********************************************************************
@@ -2420,7 +2420,7 @@ The example shows how we initialize all parameters and call the routine until
 @code{CBL_GC_GETOPT} runs out of options and returns -1.
 
 @noindent
-@code{return-char} might contain the following 
+@code{return-char} might contain the following
 regular character if an option was recognized:
 
 @table @code
