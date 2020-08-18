@@ -69,3 +69,41 @@ When tempted to put advice in ALL CAPS, please don't. For whole
 sentences, Consider @footnote instead, else italics is probably a what
 you're looking for.
 
+# HTML-aware macros #
+
+Currently, there are just two: 
+
+* **@dictionary**{@style, class} defines a @table with *@style*, per
+  usual, preceded by a division of class *class*.
+
+* **@enddict** terminates @dictionary
+
+The effect outside HTML is identical to `@table`. HTML output wraps
+the table in a division:
+
+    @dictionary{@code, definitions}
+    @item 00
+    Success
+    
+    @item 02
+    Success (Duplicate Record Key Written)
+	@enddict
+	
+produces
+
+    <div class=definitions>
+      <dl compact="compact">
+        <dt><code>00</code></dt>
+        <dd><p>Success </p>
+        </dd>
+        <dt><code>02</code></dt>
+        <dd><p>Success (Duplicate Record Key Written) </p>
+      </dl>
+    </div>
+
+By nesting the `dl` list in a `<div>` tag, CSS can be used to modify
+the list's appearance.
+
+For correct HTML output, it's *very important* to close with @enddict,
+else the `div` is never closed. 
+

@@ -62,6 +62,37 @@
 @end iftex
 @end macro
 @comment +-------------------------------------------------------------------+
+@comment | Begin HTML dictionary list (@table) with a division, for CSS.
+@comment | Use is similar to @table: 
+@comment |     @dictionary @code, classname
+@comment |     @item term-1
+@comment |     a definition
+@comment | 
+@comment |     @item term-2
+@comment |     another defintion
+@comment |     @enddict
+@comment +-------------------------------------------------------------------+
+@macro dictionary {style, class}
+@ifhtml
+@html
+<div class=\class\>
+@end html
+@end ifhtml
+@table \style\
+@end macro
+
+@comment +-------------------------------------------------------------------+
+@comment | End HTML dictionary list (@table) and close the division, for CSS. 
+@comment +-------------------------------------------------------------------+
+@macro enddict
+@end table
+@ifhtml
+@html
+</div>
+@end html
+@end ifhtml
+@end macro
+@comment +-------------------------------------------------------------------+
 @comment | MACRO: directive{xxxxx}                                           |
 @comment |                                                                   |
 @comment | Adds language syntax '"xxxxx" CDF directive' (with quotations) to |

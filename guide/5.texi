@@ -58,7 +58,7 @@ This paragraph is not allowed in a nested subprogram.  A nested program inherits
 The value specified for @var{computer-name} is irrelevant, provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @var{computer-name} value may include spaces.  This need not match the @var{computer-name} used with the @code{OBJECT-COMPUTER} paragraph, if any.
 
 @item
-The @syntaxidx{DEBUGGING MODE} clause, if present, will inform the compiler that debugging lines (those with a "D" in column 7 if Fixed Source Mode is in effect, or those prefixed with a @code{>>D} if Free Source Mode is in effect) --- normally treated as comments --- are to be compiled.
+The @syntaxidx{DEBUGGING MODE} clause, if present, will inform the compiler that debugging lines (those with a @samp{D} in column 7 if Fixed Source Mode is in effect, or those prefixed with a @code{>>D} if Free Source Mode is in effect) --- normally treated as comments --- are to be compiled.
 
 @item
 Even without the @code{DEBUGGING MODE} clause, it is still possible to compile debugging lines.  Debugging lines may also be compiled by specifying the @switchidx{-fdebugging-line} to the GnuCOBOL compiler.
@@ -144,13 +144,13 @@ The @syntaxidx{CONSOLE IS CRT} clause, if specified, will cause a @statement{DIS
 If the @syntaxidx{CRT STATUS} clause is not specified, an implicit @syntaxidx{COB-CRT-STATUS} identifier (with a @code{PICTURE 9(4)}) will be allocated for the purpose of receiving screen @code{ACCEPT} statuses.  If @code{CRT STATUS} is specified, then @var{identifier-1} must be defined in the program as a @code{PICTURE 9(4)} field.
 
 @item
-The @syntaxidx{CURRENCY SIGN} clause may be used to redefine the character to be used as a currency sign in a @syntaxref{PICTURE} clause.  The default currency sign is a dollar-sign ($).  You may specify any character @i{except} @code{0}-@code{9}, @code{A}-@code{Z}, @code{a}-@code{z}, @code{+}, @code{-}, @code{,}, @code{.}, @code{*}, @code{/}, @code{;}, @code{(}, @code{)}, @code{=}, @code{\\}, quote (") or space.
+The @syntaxidx{CURRENCY SIGN} clause may be used to redefine the character to be used as a currency sign in a @syntaxref{PICTURE} clause.  The default currency sign is a dollar-sign (@samp{$}).  You may specify any character @i{except} @code{0}-@code{9}, @code{A}-@code{Z}, @code{a}-@code{z}, @code{+}, @code{-}, @code{,}, @code{.}, @code{*}, @code{/}, @code{;}, @code{(}, @code{)}, @code{=}, @code{\\}, quote (@samp{"}) or space.
 
 @item
 The @syntaxidx{CURSOR IS} clause allows you to specify a 4- or 6-character data item into which the cursor screen location at the time a screen @code{ACCEPT} is satisfied.  The value will be returned as @i{rrcc} or @i{rrrccc}, depending upon the length of the specified @var{identifier-2}, where @i{rr} and @i{rrr} represent the row number (starting at zero) and @i{cc} and @i{ccc} represent the column number (also starting at zero).  There is no default data item allocated for this data if the @code{CURSOR IS} clause is not specified, and it is the programmer's responsibility to define @var{identifier-2} if the clause is specified.
 
 @item
-The @syntaxidx{DECIMAL POINT IS COMMA} clause reverses the definition of the "," and "." characters when they are used as @code{PICTURE} editing symbols and within numeric literals.  This can have unwanted side-effects - see @ref{Punctuation}.
+The @syntaxidx{DECIMAL POINT IS COMMA} clause reverses the definition of the @samp{,} and @samp{.} characters when they are used as @code{PICTURE} editing symbols and within numeric literals.  This can have unwanted side-effects - see @ref{Punctuation}.
 
 @item
 The @syntaxidx{LOCALE} clause may be used to associate external OS-defined locale names (@var{literal-2}) with an internal name (@var{locale-name-1}) that may then be referenced within the program.  Locale names are defined by the Operating System and/or C compiler GnuCOBOL will be utilizing on your computer.
@@ -250,25 +250,25 @@ This is the (screen-mode) display of the PC or Unix system.
 @item  @plainidx{STDIN}
 @itemx @plainidx{SYSIN}
 @itemx @plainidx{SYSIPT}
-These devices (they are all synonymous) represent standard system input (pipe 0).  On a PC or UNIX system, this is typically the keyboard.  The contents of a file may be delivered to a GnuCOBOL program for access via one of these device names by adding the sequence "0< filename" to the end of the programs execution command.
+These devices (they are all synonymous) represent standard system input (pipe 0).  On a PC or UNIX system, this is typically the keyboard.  The contents of a file may be delivered to a GnuCOBOL program for access via one of these device names by adding the sequence @samp{0< filename} to the end of the programs execution command.
 
 @item @plainidx{PRINTER}
 @itemx @plainidx{STDOUT}
 @itemx @plainidx{SYSLIST}
 @itemx @plainidx{SYSLST}
 @itemx @plainidx{SYSOUT}
-These devices (they are all synonymous) represent standard system output (pipe 1).  On a PC or UNIX system, this is typically the display.  Output sent to one of these devices by a GnuCOBOL program can be sent to a file by adding the sequence "1> filename" to the end of the programs execution command.
+These devices (they are all synonymous) represent standard system output (pipe 1).  On a PC or UNIX system, this is typically the display.  Output sent to one of these devices by a GnuCOBOL program can be sent to a file by adding the sequence @samp{1> filename} to the end of the programs execution command.
 
 @item @plainidx{STDERR}
 @itemx @plainidx{SYSERR}
-These devices (they are synonymous) represent standard system error output (pipe 2).  On a PC or UNIX system, this is typically the display.  Output sent to one of these devices by a GnuCOBOL program can be sent to a file by adding the sequence "2> filename" to the end of the programs execution command.
+These devices (they are synonymous) represent standard system error output (pipe 2).  On a PC or UNIX system, this is typically the display.  Output sent to one of these devices by a GnuCOBOL program can be sent to a file by adding the sequence @samp{2> filename} to the end of the programs execution command.
 @end table
 @item
-The @code{@var{feature-name-1} IS @var{mnemonic-name-3}} clause allow for mnemonic names to be assigned to up to the 13 printer channel (i.e. vertical page positioning) position feature names @code{Cnn} (nn=01-12) and @code{CSP}.  Once a channel position has been assigned a mnemonic name, statements of the form @code{WRITE @var{record-name} AFTER ADVANCING @var{mnemonic-name-3}} may be coded to write the specified print record at the channel position assigned to @var{mnemonic-name-3}.
+The @code{@var{feature-name-1} IS @var{mnemonic-name-3}} clause allow for mnemonic names to be assigned to up to the 13 printer channel (i.e. vertical page positioning) position feature names @code{C@var{nn}} (@code{@var{nn}=01-12}) and @code{CSP}.  Once a channel position has been assigned a mnemonic name, statements of the form @code{WRITE @var{record-name} AFTER ADVANCING @var{mnemonic-name-3}} may be coded to write the specified print record at the channel position assigned to @var{mnemonic-name-3}.
 
 Printers supporting channel positioning are generally mainframe-type line printers.  When writing to printers that do not support channel positioning, a formfeed will be issued to the printer.
 
-The @code{CSP} positioning option stands for "No Spacing".  Testing on a MinGW build of GnuCOBOL shows that this too results in a formfeed being issued.
+The @code{CSP} positioning option stands for ``No Spacing''.  Testing on a MinGW build of GnuCOBOL shows that this too results in a formfeed being issued.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.3.1 Alphabet-Name-Clause                                    **
@@ -328,7 +328,7 @@ The reserved words @code{THRU} and @code{THROUGH} are interchangeable.
  The literal(s) specified on this clause define the possible characters that may be found in a data item's value in order to be considered part of the class.
 
 @item
-For example, the following defines a class called "Hexadecimal", the definition of which specifies the only characters that may be present in an alphanumeric data item if that data item is to be part of the "Hexadecimal" class:
+For example, the following defines a class called @code{Hexadecimal}, the definition of which specifies the only characters that may be present in an alphanumeric data item if that data item is to be part of the @code{Hexadecimal} class:
 
 @example
 CLASS Hexadecimal IS '0' THRU '9'
@@ -425,7 +425,17 @@ As an alternative to using the @syntaxidx{ALL INTRINSIC} clause, you may instead
 The @var{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @code{AS} clause to provide an alias name for a built-in intrinsic function.
 
 @item
-The following example enables all intrinsic functions to be specified without the use of the @code{FUNCTION} keyword, (2) names two user-defined functions named @code{MY-FUNCTION-1} and @code{MY-FUNCTION-2} that will be used by the program and (3) specifies the alias names @code{SIGMA} for the intrinsic function @code{STANDARD-DEVIATION} and @code{MF2} for @code{MY-FUNCTION-2}.
+The following example
+@itemize @bullet
+@item
+enables all intrinsic functions to be specified without the use of the @code{FUNCTION} keyword,
+
+@item
+names two user-defined functions named @code{MY-FUNCTION-1} and @code{MY-FUNCTION-2} that will be used by the program and
+
+@item
+specifies the alias names @code{SIGMA} for the intrinsic function @code{STANDARD-DEVIATION} and @code{MF2} for @code{MY-FUNCTION-2}.
+@end itemize
 
 @example
 REPOSITORY.
@@ -571,7 +581,7 @@ If an environment variable was found, its value will serve as the path and filen
 If no environment variable was found, or the @i{configuration file} (@pxref{Compiler Configuration Files}) used to compile the program had a @code{filename-mapping} value of @code{NO}, then the File Locator String value will serve as the path and filename to the data file.
 
 @item
-Paths and file names may be specified on an absolute (@code{C:\\Data\\datafile.dat}, @code{/Data/datafile.dat}, @dots{}) or relative-to-the-current-directory (@code{Data\\datafile.dat}, @code{Data/datafile.dat}, @dots{}) basis.
+Paths and file names may be specified on an absolute (@code{C:\\Data\\datafile.dat}, @code{/Data/datafile.dat}, @dots{}) or relative to the current directory (@code{Data\\datafile.dat}, @code{Data/datafile.dat}, @dots{}) basis.
 If no directory name is included (@code{datafile.dat}), the file must be in the current directory.
 @end enumerate
 
@@ -579,7 +589,7 @@ If no directory name is included (@code{datafile.dat}), the file must be in the 
 The @syntaxidx{FILE STATUS} or @syntaxidx{SORT STATUS} clause (they are both equivalent and only one or the other, if any, should be specified) is used to specify the name of a two-digit numeric data item into which an I/O status code will be saved after every I/O verb that is executed against the file.  This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. Note that the following list is not definitive: more can be added and any tests should include one for non zeros as a catch all.
 @anchoridx{File Status Codes}Possible status codes that can be returned to a @code{FILE STATUS} data item are as follows:
 
-@table @code
+@dictionary{@code, definitions}
 @item 00
 Success
 
@@ -675,7 +685,7 @@ Bad character
 
 @item 91
 File not available
-@end table
+@enddict
 
 @item
 The @syntaxidx{SHARING} clause defines the conditions under which the program will be willing (or not) to allow other programs executing at the same time to access the file.  @xref{File Sharing}, for the details.
@@ -700,7 +710,7 @@ ACCESS MODE IS SEQUENTIAL
 @page
 @newunit{5.2.1.1,ORGANIZATION SEQUENTIAL}
 @diagram{ORGANIZATION SEQUENTIAL Clause,ED-SELECT-ORG-SEQ,ED-SELECT-ORG-SEQ,None}
-Files declared as @code{ORGANIZATION SEQUENTIAL} will consist of records with no explicit end-of-record delimiter character sequences; records in such files are "delineated" by a calculated byte-offset (based on the maximum record length) into the file.
+Files declared as @code{ORGANIZATION SEQUENTIAL} will consist of records with no explicit end-of-record delimiter character sequences; records in such files are ``delineated'' by a calculated byte-offset (based on the maximum record length) into the file.
 @enumerate
 @item
 The reserved words @code{BINARY}, @code{IS}, @code{MODE} and @code{RECORD} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
