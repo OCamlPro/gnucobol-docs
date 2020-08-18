@@ -5,8 +5,8 @@
 @comment | @anchor.                                                          |
 @comment +-------------------------------------------------------------------+
 @macro anchoridx {term}
-@anchor{\term\}
 @idx{\term\}
+@anchor{\term\}
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: define{xxxxx}                                              |
@@ -15,8 +15,8 @@
 @comment | into the document.                                                |
 @comment +-------------------------------------------------------------------+
 @macro define {term}
-@dfn{\term\}
 @idx{\term\}
+@dfn{\term\}
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: diagram{title,fileinfo,filetex,note                        |
@@ -101,7 +101,6 @@
 @comment | document.                                                         |
 @comment +-------------------------------------------------------------------+
 @macro envvarruntime {v}
-
 @idx{\v\ Environment Variable}
 @idx{Environment Variables, \v\}
 @code{\v\} run-time environment variable
@@ -139,7 +138,6 @@
 @comment +-------------------------------------------------------------------+
 @macro idx {text}
 @cindex \text\
-
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: intrinsic{xxxxx}                                           |
@@ -186,10 +184,10 @@
 @comment +-------------------------------------------------------------------+
 @macro newappsec {no,name}
 @sp 1
+@idx{\name\}
 @set NEWSYNTAX On
 @node \name\
 @unnumberedsec \no\. \name\
-@idx{\name\}
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: newchapter{no,nodename}                                    |
@@ -269,10 +267,9 @@
 @comment | NOTE: the additional line break before @end macro is necessary!!! |
 @comment +-------------------------------------------------------------------+
 @macro register {v}
-@registertext{\v\}
 @idx{\v\ Special Register}
 @idx{Special Registers, \v\}
-
+@registertext{\v\}
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: registerref{xxxxx}                                         |
@@ -355,9 +352,9 @@
 @comment | the concept index and also puts "xxxxx switch" into the document. |
 @comment +-------------------------------------------------------------------+
 @macro switchidx {text}
-@switch{\text\}
 @idx{Compiler Switches, \text\}
 @idx{\text\ Compiler Switch}
+@switch{\text\}
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: syntaxidx{xxxxx}                                           |
@@ -366,8 +363,18 @@
 @comment | and to the concept index.                                         |
 @comment +-------------------------------------------------------------------+
 @macro syntaxidx {text}
-@code{\text\}
 @idx{\text\}
+@code{\text\}
+@end macro
+@comment +-------------------------------------------------------------------+
+@comment | Capture text in the index, and pass it through. 
+@comment | Note: This macro *must* occur at end of line.  
+@comment |       Otherwise, anything after it will be included in the
+@comment |       index term.  
+@comment +-------------------------------------------------------------------+
+@macro plainidx {text}
+\text\
+@cindex \text\
 @end macro
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: syntaxref{xxxxx}                                           |

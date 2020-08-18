@@ -37,8 +37,10 @@ For any given version of GnuCOBOL you can also list the full current set of rese
 When you write GnuCOBOL programs, you'll need to create a variety of words to represent various aspects of the program, the program's data and the external environment in which the program will run.  This will include internal names by which data files will be referenced, data item names and names of executable logic procedures.
 
 User-defined words may be composed from the characters @samp{A} through @samp{Z} (upper- and/or lower-case), @samp{0} through @samp{9}, dash (@samp{-})
-@idx{- (Character in Words/Names)} and underscore (@samp{_})
-@idx{_ (Character in user-defined words)}.  User-defined words may neither start nor end with hyphen or underscore characters.
+@idx{- (Character in Words/Names)}
+and underscore (@samp{_}).
+@idx{_ (Character in user-defined words)}
+User-defined words may neither start nor end with hyphen or underscore characters.
 
 Other programming languages provide the programmer with a similar capability of creating their own words (names) for parts of a program; COBOL is somewhat unusual when compared to other languages in that user-defined words may @i{start} with a digit.
 
@@ -736,8 +738,10 @@ Prior to the COBOL2002 standard, source statements in COBOL programs were struct
 As of the COBOL2002 standard, a second mode now exists for COBOL source code statements --- in this mode of operation, COBOL statements may each be up to 255 characters long, with no specific requirements as to what should appear in which columns.
 
 Of course, in keeping with the long-standing COBOL tradition of maintaining backwards compatibility with older standards, programmers (and, of course, compliant COBOL compilers) are capable of working in either mode.  It is even possible to switch back and forth in the same program.  The  terms @define{Fixed Format Mode}
-@idx{Source Line Format, Fixed} and @define{Free Format Mode}
-@idx{Source Line Format, Free} are used to refer to these two modes of source code formatting.
+@idx{Source Line Format, Fixed}
+and @define{Free Format Mode}
+@idx{Source Line Format, Free}
+are used to refer to these two modes of source code formatting.
 
 The GnuCOBOL compiler (cobc) supports both of these source line format modes, defaulting to Fixed Format Mode lacking any other information.
 
@@ -766,7 +770,8 @@ The following discussion presents the various components of every GnuCOBOL sourc
 @table @b
 @item 1-6
 @idx{Sequence Number Area (Columns 1-6)}
-@idx{Columns 1-6 (Sequence Number Area)} - Sequence Number Area
+@idx{Columns 1-6 (Sequence Number Area)}
+Sequence Number Area
 
 Historically, back in the days when punched-cards were used to submit COBOL program source to a COBOL compiler, this part of a COBOL statement was reserved for a six-digit sequence number.  While the contents of this area are ignored by COBOL compilers, it existed so that a program actually punched on 80-character cards could --- if the card deck were dropped on the floor --- be run through a card sorter machine and restored to its proper sequence.  Of course, this isn't necessary today; if truth be told, it hasn't been necessary for a long time.
 
@@ -774,7 +779,8 @@ Historically, back in the days when punched-cards were used to submit COBOL prog
 
 @item 7
 @idx{Indicator Area (Column 7)}
-@idx{Column 7 (Indicator Area)} - Indicator Area
+@idx{Column 7 (Indicator Area)}
+Indicator Area
 
 Column 7 serves as an indicator in which one of five possible values will appear --- space, @code{D} (or @code{d}), @code{-} (dash), @code{/} or @code{*}.  The meanings of these characters are as follows:
 @table @asis
@@ -796,19 +802,22 @@ The line is a continuation of the previous line.  These are needed only when an 
 
 @item 8-11
 @idx{Area @samp{A} (Columns 8-11)}
-@idx{Columns 8-11 (Area @samp{A})} - Area @samp{A}
+@idx{Columns 8-11 (Area A)}
+Area A
 
-Language @code{DIVISION}, @code{SECTION} and paragraph section headers must begin in Area A, as must the level numbers 01, 77 in data description entries and the @code{FD} and @code{SD} file and @code{SORT} description headers.
+Language @code{DIVISION}, @code{SECTION} and paragraph section headers must b   egin in Area A, as must the level numbers 01, 77 in data description entries and the @code{FD} and @code{SD} file and @code{SORT} description headers.
 
 @item 12-72
 @idx{Area @samp{B} (Columns 12-72)}
-@idx{Columns 12-72 (Area @samp{B})} - Area @samp{B}
+@idx{Columns 12-72 (Area B)}
+Area B
 
 All other COBOL programming language components are coded in these columns.
 
 @item 73-80
 @idx{Program Name Area (Columns 73-80)}
-@idx{Columns 73-80 (Program Name Area)} - Program Name Area
+@idx{Columns 73-80 (Program Name Area)}
+Program Name Area
 
 This is another obsolete area of COBOL statements.  This part of every statement also hails back to the day when programs were punched on cards; it was expected that the name of the program (or at least the first 8 characters of it) would be punched here so that --- if a dropped COBOL source deck contained more than one program --- that handy card sorter machine could be used to first separate the cards by program name and then sort them by sequence number.  Today's COBOL compilers (including GnuCOBOL) simply ignore anything past column 72.
 
@@ -896,28 +905,30 @@ The following information describes how comments may be embedded into GnuCOBOL p
 
 @multitable @columnfractions .18 .72
 @headitem Comment Type @tab Source Mode --- Description
-@item Blank Lines @tab @b{FIXED} --- Blank lines may be inserted as desired. 
+@item Blank Lines @tab @b{FIXED} --- Blank lines may be inserted as desired.
 
 @b{FREE} --- Blank lines may be inserted as desired.
 @item Full-line comments @tab @b{FIXED} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding an asterisk (@samp{*}) in column seven (7).
-@idx{* In Column 7 (Comment)} 
+@idx{* In Column 7 (Comment)}
 
 @b{FREE} --- An entire source line will be treated as a comment (and will be ignored by the compiler) by coding the sequence @samp{*>}, starting in any column, as the first non-blank characters on the line.
 @idx{*> (Comment)}
-@item Full-line comments with form-feed @tab @b{FIXED} --- An entire source line will be treated as a comment by coding a slash (@samp{/}) in column seven (7).  Many COBOL compilers will also issue a form-feed in the program listing so that the @samp{/} line is at the top of a new page.  The GnuCOBOL compiler does not support this form-feed behaviour. 
+@item Full-line comments with form-feed @tab @b{FIXED} --- An entire source line will be treated as a comment by coding a slash (@samp{/}) in column seven (7).  Many COBOL compilers will also issue a form-feed in the program listing so that the @samp{/} line is at the top of a new page.  The GnuCOBOL compiler does not support this form-feed behaviour.
 
 The GnuCOBOL Interactive Compiler, or GCic, @i{does} support this form-feed behaviour when it generates program source listings!  @xref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}, for the source and cross-reference listing (produced by GCic) of this program --- you can see the effect of @samp{/} there.
-@idx{/ In Column 7 (Comment)} 
+@idx{/ In Column 7 (Comment)}
 
 @b{FREE} --- There is no Free Source Mode equivalent to @samp{/}.
-@item Partial-line comments @tab @b{FIXED} --- Any text following the character sequence @samp{*>} on a source line will be treated as a comment.  The @samp{*} must appear in column seven (7) or beyond. 
+@item Partial-line comments @tab @b{FIXED} --- Any text following the character sequence @samp{*>} on a source line will be treated as a comment.  The @samp{*} must appear in column seven (7) or beyond.
 
 @b{FREE} --- Any text following the character sequence @samp{*>} on a source line will be treated as a comment.  The @samp{*} may appear in any column.
 @item Comments that may be treated as code, typically for debugging purposes @tab @b{FIXED} --- By coding a @samp{D} in column 7
-@idx{D In Column 7 (Debugging Line)} (upper- or lower-case), an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler. 
+@idx{D In Column 7 (Debugging Line)}
+(upper- or lower-case), an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler.
 
 @b{FREE} --- By specifying the character sequence @samp{>>D}
-@idx{>>D (Debugging Line)} (upper- or lower-case) as the first non-blank characters on a source line, an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler. 
+@idx{>>D (Debugging Line)}
+(upper- or lower-case) as the first non-blank characters on a source line, an otherwise valid GnuCOBOL source line will be treated as a comment by the compiler.
 
 Debugging statements may be compiled either by specifying the @switch{-fdebugging-line} on the GnuCOBOL compiler or by adding the @code{WITH DEBUGGING MODE} clause to the @code{SOURCE-COMPUTER} paragraph.
 @end multitable
@@ -930,7 +941,7 @@ Literals are constant values that will not change during the execution of a prog
 @comment ** 2.1.19.1 Numeric Literals                                       **
 @comment *********************************************************************
 @newunit{2.1.19.1,Numeric Literals}A numeric literal
-@idx{Literals (Numeric)} is a numeric constant which may be used as an array subscript, as a value in arithmetic expressions, or in any procedural statement where a numeric value may be used.  Numeric literals may take any of the following forms:
+@idx{Literals (Numeric)}
 @itemize @bullet
 @item
 Integers such as 1, 56, 2192 or -54.
@@ -944,11 +955,11 @@ Floating-point values using @samp{E@var{nn}} notation such as @code{9.92E25}, re
 @item
 Hexadecimal numeric literals
 @idx{Hexadecimal Numeric Literal}
-@idx{Numeric Literal (Hexadecimal)} such as @code{H"1F"} (31 decimal), @code{h'22'} (34 decimal) or @code{H'DEAD'} (57005 decimal).  The @samp{H} character may either be upper- or lower-case and either single quote (@samp{'}) or double-quote (@samp{"}) characters may be used in a hexadecimal literal, provided both aren't used in the same literal.  Hexadecimal numeric literals are limited to a maximum of sixteen hexadecimal digits (a 64-bit value).
+@idx{Numeric Literal (Hexadecimal)}
 
 @item
 Null terminated literals
-@idx{Null Terminated Literals} using @code{Z"@var{character}"}.
+@idx{Null Terminated Literals}
 
 @item
 Raw C string using @code{L"@var{characters}"}.
@@ -979,7 +990,7 @@ National Literals (Hexadecimal)  @code{NX"@var{ character }"}.
 @comment *********************************************************************
 @newunit{2.1.19.2,Alphanumeric Literals}
 An alphanumeric literal
-@idx{Literals (Alphanumeric)} is a character string suitable for display on a computer screen, printing on a report, transmission through a communications connection or storage in alphanumeric or alphabetic data items.
+@idx{Literals (Alphanumeric)}
 
 An alphanumeric literal is not valid for use in arithmetic expressions unless it is first converted to its numeric computational equivalent; there are three numeric conversion intrinsic functions built into GnuCOBOL that can perform this conversion --- @syntaxref{NUMVAL}, @syntaxref{NUMVAL-C} and @syntaxref{NUMVAL-F}.
 
@@ -987,16 +998,16 @@ Alphanumeric literals may take any of the following forms:
 @itemize @bullet
 @item
 A sequence of characters enclosed by a pair of single-quote (@samp{'})
-@idx{' (Apostrophe)} or double-quote (")
-@idx{" (Quote)} characters constitutes a string literal.  The double-quote character (@samp{"}) may be used as a data character within an apostrophe-delimited string literal, and an apostrophe may be used as a data character within a double-quote-delimited string literal.  If an apostrophe character must be included as a data character within an apostrophe-delimited string literal, express that character as two consecutive apostrophes ('@w{}').  If a double-quote character must be included as a data character within a double-quote-delimited string literal, express that character as two consecutive double-quotes ("").
+@idx{' (Apostrophe)}
+@idx{" (Quote)}
 
 @item
 A literal formed according to the same rules as for a string literal (above), but prefixed with the letter @samp{Z} (upper- or lower-case) constitutes a zero-delimited string literal.  These literals differ from ordinary string literals in that they will be explicitly terminated with a byte of hexadecimal value 00.  These @define{Zero-Delimited Alphanumeric Literals}
-@idx{Alphanumeric Literal (Zero-Delimited)} are easily passable to C subprograms, as this is the convention C uses to store character strings.
+@idx{Alphanumeric Literal (Zero-Delimited)}
 
 @item
 A @define{Hexadecimal Alphanumeric Literal}
-@idx{Alphanumeric Literal (Hexadecimal)} such as @code{X"4A4B4C"} (4A4B4C16 = the ASCII string 'JKL'), @code{x'20'} (an ASCII space) or @code{X'30313233'} (3031323316 = the ASCII string `0123').  The @samp{X} character may either be upper- or lower-case and either single quote (@samp{'}) or double-quote (@samp{"}) characters may be used.  These hexadecimal alphanumeric literals should always consist of an even number of hexadecimal digits, because each character is represented by eight bits worth of data (2 hex digits).  Hexadecimal alphanumeric literals may be of almost unlimited length.
+@idx{Alphanumeric Literal (Hexadecimal)}
 @end itemize
 
 Alphanumeric literals too long to fit on a single line may be continued to the next line in one of two ways:
@@ -1004,7 +1015,7 @@ Alphanumeric literals too long to fit on a single line may be continued to the n
 @item
 If you are using Fixed Format Mode, the alphanumeric literal can be run right up to and including column 72.  The literal may then be continued on the next line anywhere after column 11 by coding another quote or apostrophe (whichever was used to begin the literal originally).  The continuation line must also have a hyphen (-)
 @idx{- In Column 7 (Continuation)}
-@idx{Continuation (- in Column 7)} coded in the indicator area (column 7).  Here is an example (the scale is just for column number reference):
+@idx{Continuation (- in Column 7)}
 @end enumerate
 @smallexample
 @t{         1         2         3         4         5         6         7   }
@@ -1019,7 +1030,7 @@ If you are using Fixed Format Mode, the alphanumeric literal can be run right up
 @item
 Regardless of whether the compiler is operating in Fixed or Free Format Mode, GnuCOBOL allows alphanumeric literals to be broken up into separate fragments.  These fragments have their own beginning and ending quote/apostrophe characters and are ``glued together'' at compilation time using @samp{&}
 @idx{& (Literal Concatenation)}
-@idx{Literal Concatenation (&)} characters.  No continuation indicator is needed.  Here's an example:
+@idx{Literal Concatenation (&)}
 @end enumerate
 @smallexample
 @t{         1         2         3         4         5         6         7   }
@@ -1080,8 +1091,8 @@ Programmers may create their own figurative constants via the @syntaxrefalt{SYMB
 @comment *********************************************************************
 @newsubsection{2.1.20,Punctuation}
 A comma (@samp{,})
-@idx{, (Punctuation)} or a semicolon (@samp{;})
-@idx{; (Punctuation)} may be inserted into a GnuCOBOL program to improve readability at any spot where white space would be legal, except of course within alphanumeric literals (unless you actually @i{mean} for those characters to be part of the alphanumeric literals value).  These characters are always optional.
+@idx{, (Punctuation)}
+@idx{; (Punctuation)}
 
 The use of comma characters can cause confusion to a COBOL compiler if the @code{DECIMAL POINT IS COMMA} clause is used in the @syntaxref{SPECIAL-NAMES} paragraph, as might be the case in Europe.  The following statement, which calls a subroutine passing it two arguments (the numeric constants 1 and 2):
 
@@ -1090,7 +1101,7 @@ The use of comma characters can cause confusion to a COBOL compiler if the @code
 Would --- with @code{DECIMAL POINT IS COMMA} in effect --- actually be interpreted as a subroutine call with 1 argument (the non-integer numeric literal whose value is 1 and 2 tenths).  For this reason, it is best to always follow a comma with a space.
 
 The period character (@samp{.})
-@idx{. (Punctuation)} is used to terminate statements in the identification, environment and data divisions and sentences in the procedure division.  Syntax diagrams describing code in the first three divisions will explicitly show where periods need to occur.
+@idx{. (Punctuation)}
 
 The rules for where and when periods are needed in the procedure division are somewhat complicated.  @xref{Use of Periods}, for the details.
 @comment *********************************************************************
@@ -1580,7 +1591,7 @@ See the period at the end of the second @syntaxref{MULTIPLY}?  That is what term
 @comment *********************************************************************
 @page
 @newsubsection{2.2.7,Use of VERB/END-VERB Constructs}
-Prior to the 1985 COBOL standard, using a period character was the only way to signal the end of a statement's scope.  
+Prior to the 1985 COBOL standard, using a period character was the only way to signal the end of a statement's scope.
 
 Unfortunately, this caused some problems.  Take a look at this code:
 
