@@ -45,7 +45,7 @@ info/gnucobpg.info: $(SOURCES)
 info/gnucobqr.info: $(SOURCES_QR)
 info/gnucobsp.info: $(SOURCES_SP)
 
-PDFOPTIONS = -q
+PDFOPTIONS = -q -c
 
 CSS = css/gnucobpg.css
 
@@ -75,11 +75,11 @@ info: info/gnucobsp.info info/gnucobqr.info info/gnucobpg.info
 
 PDFs/%-letter.pdf : %.texi
 	@mkdir -p $(dir $@)
-	texi2pdf $(PDFOPTIONS) -o $@ -c $<
+	texi2pdf $(PDFOPTIONS) -o $@ $<
 
 PDFs/%-a4.pdf : %.texi
-	@mkdir -p $(dir $@)
-	texi2pdf $(PDFOPTIONS) --command=@afourpaper -o $@ -c $<
+	@mkdir -p $(dir  $@)
+	texi2pdf $(PDFOPTIONS) --command=@afourpaper -o $@ $<
 
 HTML/%.html : %.texi
 	@mkdir -p $(dir $@)

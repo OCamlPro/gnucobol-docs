@@ -21,7 +21,8 @@ For each implementation of the GnuCOBOL compiler the supplied files NEWS should 
 @newsubsection{2.1.1,Language Reserved Words}
 Cobol programs consist of a sequence of words and symbols.  Words, which consist of sequences of letters (upper- and/or lower-case), digits, dashes (@samp{-}) and/or underscores (@samp{_}) may have a pre-defined, specific, meaning to the compiler or may be invented by the programmer for his/her purposes.
 
-The GnuCOBOL language specification defines over 1130 @define{Reserved Words} --- words to which the compiler assigns a special meaning. This list and number applies to the default list which covers many implementations and that it is possible to limit the list to either a specific implementation via -std=xyz[-strict] or to manually unreserve words if they are used in existing sources as user-defined words.
+The GnuCOBOL language specification defines over 1130
+@define{Reserved Words} --- words to which the compiler assigns a special meaning. This list and number applies to the default list which covers many implementations and that it is possible to limit the list to either a specific implementation via -std=xyz[-strict] or to manually unreserve words if they are used in existing sources as user-defined words.
 
 Programmers may use a reserved word as @i{part} of a word they are creating themselves, but may not create their own word as an exact duplicate (without regard to case) of a COBOL reserved word. Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines and reserved words. The list of reserved words can be changed by adding or removing specific words for a given compile or as a default by use of the steering command -std and -conf. See the specific config files that are by default, held in @file{/usr/local/share/gnucobol/config}. Also using the option @samp{FUNCTION ALL INTRINSIC}, will add another 100+ reserved words. These can be modified to match the requirements of a business or project team but be warned that these are updated when a new version of the compiler is built so might be more prudent to create your own configuation based on an existing one but with a different name.
 
@@ -170,18 +171,22 @@ This hierarchical structure of program components standardizes the composition o
 @comment *********************************************************************
 @statementref{COPY}
 @newsubsection{2.1.6,Copybooks}
-A @define{Copybook} is a segment of program code that may be utilized by multiple programs simply by having those programs use the @statement{COPY} to import that code.  This code may define files, data structures or procedural code.
+A
+@define{Copybook} is a segment of program code that may be utilized by multiple programs simply by having those programs use the @statement{COPY} to import that code.  This code may define files, data structures or procedural code.
 
 Today's current programming languages have a statement (usually, this statement is named ``import'', ``include'' or ``#include'') that performs this same function.  What makes the COBOL copybook feature different than the ``include'' facility in newer languages, however, is the fact that the @statement{COPY} can edit the imported source code as it is being copied.  This capability makes copybook libraries extremely valuable to making code reusable. Also see section 3. Compiler Directing Facility commands COPY and REPLACE.
 @comment *********************************************************************
 @comment ** 2.1.7 Structured Data                                           **
 @comment *********************************************************************
 @newsubsection{2.1.7,Structured Data}
-A contiguous area of storage within the memory space of a program that may be referenced, by name, in a COBOL program is referred to as a @define{Data Item}.  Other programming languages use the term variable, property or attribute to describe the same thing.
+A contiguous area of storage within the memory space of a program that may be referenced, by name, in a COBOL program is referred to as a
+@define{Data Item}.  Other programming languages use the term variable, property or attribute to describe the same thing.
 
-COBOL introduced the concept of structured data.  The principle of structured data in COBOL is based on the idea of being able to group related and contiguously-allocated data items together into a single aggregate data item, called a @define{Group Item}.  For example, a 35-character 'Employee-Name' group item might consist of a 20-character 'Last-Name' followed by a 14-character 'First-Name' and a 1-character 'Middle-Initial'.
+COBOL introduced the concept of structured data.  The principle of structured data in COBOL is based on the idea of being able to group related and contiguously-allocated data items together into a single aggregate data item, called a
+@define{Group Item}.  For example, a 35-character 'Employee-Name' group item might consist of a 20-character 'Last-Name' followed by a 14-character 'First-Name' and a 1-character 'Middle-Initial'.
 
-A data item that isn't itself formed from other data items is referred to in COBOL as an @define{Elementary Item}.  In the previous example, 'Last-Name', 'First-Name' and 'Middle-Initial' are all elementary items.
+A data item that isn't itself formed from other data items is referred to in COBOL as an
+@define{Elementary Item}.  In the previous example, 'Last-Name', 'First-Name' and 'Middle-Initial' are all elementary items.
 @comment *********************************************************************
 @comment ** 2.1.8 Files                                                     **
 @comment *********************************************************************
@@ -486,9 +491,7 @@ A Sample Screen Produced by a GnuCOBOL Program:
 The above screen was produced by the GnuCOBOL Interactive Compiler, or GCic.  @xref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}, for the source and cross-reference listing of this program.
 @end iftex
 @ifnottex
-@group
 @verbatim
-
 ================================================================================
  GCic (2014/01/02 11:24) GnuCOBOL 2.1 23NOV2013 Interactive Compilation
 +------------------------------------------------------------------------------+
@@ -516,7 +519,6 @@ The above screen was produced by the GnuCOBOL Interactive Compiler, or GCic.  @x
  GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL
 ================================================================================
 @end verbatim
-@end group
 
 The above screen was produced by the GnuCOBOL Interactive Compiler, or GCic.  @xref{GCic,GCic,GCic,gnucobsp,GnuCOBOL Sample Programs}, for the source and cross-reference listing of this program.  PDF versions of this document will include an actual graphical image of this sample screen.
 @end ifnottex
@@ -737,9 +739,11 @@ Prior to the COBOL2002 standard, source statements in COBOL programs were struct
 
 As of the COBOL2002 standard, a second mode now exists for COBOL source code statements --- in this mode of operation, COBOL statements may each be up to 255 characters long, with no specific requirements as to what should appear in which columns.
 
-Of course, in keeping with the long-standing COBOL tradition of maintaining backwards compatibility with older standards, programmers (and, of course, compliant COBOL compilers) are capable of working in either mode.  It is even possible to switch back and forth in the same program.  The  terms @define{Fixed Format Mode}
+Of course, in keeping with the long-standing COBOL tradition of maintaining backwards compatibility with older standards, programmers (and, of course, compliant COBOL compilers) are capable of working in either mode.  It is even possible to switch back and forth in the same program.  The  terms
+@define{Fixed Format Mode}
 @idx{Source Line Format, Fixed}
-and @define{Free Format Mode}
+and
+@define{Free Format Mode}
 @idx{Source Line Format, Free}
 are used to refer to these two modes of source code formatting.
 
@@ -830,7 +834,8 @@ This is another obsolete area of COBOL statements.  This part of every statement
 @newsubsection{2.1.17,Program Structure}
 @diagram{Complete GnuCOBOL Program,Complete-Program-Info,Complete-Program-TeX,None}
 
-Each program consists of up to four @define{Divisions} (major groupings of sections, paragraphs and descriptive or procedural coding that all relate to a common purpose), named Identification, Environment, Data and Procedure.
+Each program consists of up to four
+@define{Divisions} (major groupings of sections, paragraphs and descriptive or procedural coding that all relate to a common purpose), named Identification, Environment, Data and Procedure.
 @enumerate
 @item
 Not all divisions are needed in every program, but they must be specified in the order shown when they @i{are} used.
@@ -1002,11 +1007,13 @@ A sequence of characters enclosed by a pair of single-quote (@samp{'})
 @idx{" (Quote)}
 
 @item
-A literal formed according to the same rules as for a string literal (above), but prefixed with the letter @samp{Z} (upper- or lower-case) constitutes a zero-delimited string literal.  These literals differ from ordinary string literals in that they will be explicitly terminated with a byte of hexadecimal value 00.  These @define{Zero-Delimited Alphanumeric Literals}
+A literal formed according to the same rules as for a string literal (above), but prefixed with the letter @samp{Z} (upper- or lower-case) constitutes a zero-delimited string literal.  These literals differ from ordinary string literals in that they will be explicitly terminated with a byte of hexadecimal value 00.  These
+@define{Zero-Delimited Alphanumeric Literals}
 @idx{Alphanumeric Literal (Zero-Delimited)}
 
 @item
-A @define{Hexadecimal Alphanumeric Literal}
+A
+@define{Hexadecimal Alphanumeric Literal}
 @idx{Alphanumeric Literal (Hexadecimal)}
 @end itemize
 
@@ -1542,7 +1549,8 @@ Evaluates to @code{FALSE AND (FALSE AND TRUE)} which evaluates to @code{FALSE}
 @comment *********************************************************************
 @page
 @newsubsection{2.2.6,Use of Periods}
-All COBOL implementations distinguish between sentences and statements in the procedure division.  A @define{Statement} is a single executable COBOL instruction.  For example, these are all statements:
+All COBOL implementations distinguish between sentences and statements in the procedure division.  A
+@define{Statement} is a single executable COBOL instruction.  For example, these are all statements:
 
 @example
 MOVE SPACES TO Employee-Address
@@ -1575,7 +1583,8 @@ How then do we inform the compiler that the @code{DISPLAY} statement is outside 
 
 That's where sentences come in.
 
-A COBOL @define{Sentence} is defined as any arbitrarily long sequence of statements, followed by a period (.) character.  The period character is what terminates the scope of a set of statements.  Therefore, our example should have been coded like this:
+A COBOL
+@define{Sentence} is defined as any arbitrarily long sequence of statements, followed by a period (.) character.  The period character is what terminates the scope of a set of statements.  Therefore, our example should have been coded like this:
 
 @example
 IF Loan-Balance < 10000
@@ -1625,7 +1634,8 @@ ELSE
 
 @code{NEXT SENTENCE} informs the compiler that if the @code{B = 1} condition is false, control should fall into the first statement that follows the next period.
 
-With the 1985 standard for COBOL, a much more elegant solution was introduced.  Any COBOL @define{Verb} (the first reserved word of a statement) that needed such a thing was allowed to use an @code{END-@var{verb}} construct to end its scope without disrupting the scope of any other statement it might have been in.  Any COBOL 85 compiler would have allowed the following solution to our problem:
+With the 1985 standard for COBOL, a much more elegant solution was introduced.  Any COBOL
+@define{Verb} (the first reserved word of a statement) that needed such a thing was allowed to use an @code{END-@var{verb}} construct to end its scope without disrupting the scope of any other statement it might have been in.  Any COBOL 85 compiler would have allowed the following solution to our problem:
 
 @example
 IF A = 1
@@ -1723,7 +1733,8 @@ If the file's @code{SELECT} contains a @code{LOCK MODE IS AUTOMATIC} clause, eve
 If the file's @code{SELECT} contains a @code{LOCK MODE IS MANUAL} clause, locks are placed on records @i{only} when a @statement{READ} executed against the file includes a @code{LOCK} clause (this clause will be discussed shortly).
 
 @item
-If the @code{LOCK ON} clause @i{is} specified in the file's @code{SELECT}, locks (either automatically or manually acquired) will continue to accumulate as more and more records are read, until they are explicitly released.  This is referred to as @define{multiple record locking}.
+If the @code{LOCK ON} clause @i{is} specified in the file's @code{SELECT}, locks (either automatically or manually acquired) will continue to accumulate as more and more records are read, until they are explicitly released.  This is referred to as
+@define{multiple record locking}.
 
 Locks acquired vie multiple record locking remain in-effect until the program holding the lock@dots{}
 @itemize @bullet
@@ -1744,7 +1755,8 @@ Locks acquired vie multiple record locking remain in-effect until the program ho
 @end itemize
 
 @item
-If the @syntaxidx{LOCK ON} clause is @i{not} specified, then the next I/O statement your program executes, except for @syntaxref{START}, will release the lock.  This is referred to as @define{single record locking}.
+If the @syntaxidx{LOCK ON} clause is @i{not} specified, then the next I/O statement your program executes, except for @syntaxref{START}, will release the lock.  This is referred to as
+@define{single record locking}.
 
 @item
 A @code{LOCK} clause, which may be coded on a @syntaxref{READ}, @syntaxref{REWRITE} or @statementref{WRITE} looks like this:

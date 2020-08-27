@@ -393,16 +393,27 @@ If no @var{alphabet-name-1} is specified, the systems native character set will 
 
 @item
 The following two code examples define the same set of figurative constant names for five ASCII control characters (assuming that ASCII is the system's native character set).  The two examples are identical in their effects, even though the way the figurative constants are defined is different.
-@smallformat
 
+@table @i
+@item Individually
+@example
 @group
-@t{SYMBOLIC CHARACTERS NUL IS 1    SYMBOLIC CHARACTERS NUL SOH BEL DC1 DC2}
-@t{                    SOH IS 2                    ARE   1   2   8  18  19}
-@t{                    BEL IS 8}
-@t{                    DC1 IS 18}
-@t{                    DC2 IS 19}
+SYMBOLIC CHARACTERS NUL IS 1
+                    SOH IS 2
+                    BEL IS 8
+                    DC1 IS 18
+                    DC2 IS 19
 @end group
-@end smallformat
+@end example
+
+@item Respectively
+@example
+@group
+SYMBOLIC CHARACTERS NUL SOH BEL DC1 DC2
+                ARE   1   2   8  18  19
+@end group
+@end example
+@end table
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.4 REPOSITORY                                                **
@@ -589,7 +600,13 @@ If no directory name is included (@code{datafile.dat}), the file must be in the 
 The @syntaxidx{FILE STATUS} or @syntaxidx{SORT STATUS} clause (they are both equivalent and only one or the other, if any, should be specified) is used to specify the name of a two-digit numeric data item into which an I/O status code will be saved after every I/O verb that is executed against the file.  This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. Note that the following list is not definitive: more can be added and any tests should include one for non zeros as a catch all.
 @anchoridx{File Status Codes}Possible status codes that can be returned to a @code{FILE STATUS} data item are as follows:
 
-@dictionary{@code, definitions}
+@c dictionary{code, definitions}
+@ifhtml
+@html
+<div class=definitions>
+@end html
+@end ifhtml
+@table @code
 @item 00
 Success
 
@@ -685,7 +702,7 @@ Bad character
 
 @item 91
 File not available
-@enddict
+@enddict{}
 
 @item
 The @syntaxidx{SHARING} clause defines the conditions under which the program will be willing (or not) to allow other programs executing at the same time to access the file.  @xref{File Sharing}, for the details.
