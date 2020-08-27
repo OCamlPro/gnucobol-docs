@@ -110,7 +110,8 @@ Did you notice that there are two each of @code{Year}, @code{Month} and @code{Da
 
 The coding example shown above is incomplete; it only describes the data item names and their hierarchical relationships to one other.  In addition, any valid data item definitions will also need to describe what type of data is to be contained in a data item (Numeric? Alphanumeric? Alphabetic?), how much data can be held in the data item and a multitude of other characteristics.
 
-When group items are being defined, subordinate items may be assigned the ``name'' @syntaxidx{FILLER}.  There may be any number of @code{FILLER} items defined within a group item.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item.  Note that it is possible that the name of the group item itself might be specified as @code{FILLER} if there is no need to ever refer directly to the group structure itself.
+When group items are being defined, subordinate items may be assigned the ``name'' @
+@syntaxidx{FILLER}.  There may be any number of @code{FILLER} items defined within a group item.  A data item named @code{FILLER} cannot be referenced directly; these items are generally used to specify an unused portion of the total storage allocated to a group item.  Note that it is possible that the name of the group item itself might be specified as @code{FILLER} if there is no need to ever refer directly to the group structure itself.
 @comment *********************************************************************
 @comment ** 6.2 FILE SECTION                                                **
 @comment *********************************************************************
@@ -151,18 +152,19 @@ The sequence in which files are defined via @code{FD} or @code{SD}, as compared 
  The name specified as @var{file-name-1} must exactly match the name specified on the file's @code{SELECT} statement.
 
 @item
-The @syntaxidx{CODE-SET} clause allows a custom alphabet, defined in the @syntaxref{SPECIAL-NAMES} paragraph, to be associated with a file. This clause is valid only when used with sequential or line sequential files.
+The
+@syntaxidx{CODE-SET} clause allows a custom alphabet, defined in the @syntaxref{SPECIAL-NAMES} paragraph, to be associated with a file. This clause is valid only when used with sequential or line sequential files.
 
 @item
 The @code{LINAGE} clause may only be specified in the @code{FD} of a sequential or line sequential file.  If used with a sequential file, the organization of that file will be implicitly changed to line sequential.   The various components of the @code{LINAGE} clause define the layout of printed pages as follows:
 @table @asis
-@item @syntaxidx{LINES AT TOP}
+@item @plainidx{LINES AT TOP}
 Number of unused (@i{i.e.} left blank) lines at the top of every page.  The default if this if not specified is zero.
 
-@item @syntaxidx{LINES AT BOTTOM}
+@item @plainidx{LINES AT BOTTOM}
 Number of unused (@i{i.e.} left blank) lines at the bottom of every page.  The default if this if not specified is zero.
 
-@item @syntaxidx{LINAGE IS n LINES}
+@item @plainidx{LINAGE IS n LINES}
 Total number of used/usable lines on the page.
 
 @comment Because the next "item" is really a comment on the previous 3,
@@ -170,7 +172,7 @@ Total number of used/usable lines on the page.
 @item The sum of the previous three specifications should be the total number of possible lines available on one printed page.
 @sp 1
 
-@item @syntaxidx{FOOTING AT}
+@item @plainidx{FOOTING AT}
 Line number beyond which nothing may be printed except for any footing that is to appear on every page.  The default for this if not specified is zero, meaning there will be no footings.  This value cannot be larger than the @code{LINAGE IS @var{n} LINES} value.
 @end table
 
@@ -178,13 +180,17 @@ Line number beyond which nothing may be printed except for any footing that is t
 This page structure --- once defined --- can be automatically enforced by the @statementref{WRITE}.
 
 @item
-Specifying a @code{LINAGE} clause in an @code{FD} will cause the @register{LINAGE-COUNTER} to be created for the file.  This automatically-created data item will always contain the current relative line number on the page being prepared which will serve as the starting point for a @statement{WRITE}.
+Specifying a @code{LINAGE} clause in an @code{FD} will cause the
+@register{LINAGE-COUNTER} to be created for the file.  This automatically-created data item will always contain the current relative line number on the page being prepared which will serve as the starting point for a @statement{WRITE}.
 
 @item
- The @syntaxidx{RECORD CONTAINS} and @syntaxidx{RECORD IS VARYING} clauses are ignored (with a warning message issued) when used with line sequential files.  With other file organizations, these mutually-exclusive clauses define the length of data records within the file.  The data item specified as @var{identifier-6} must be defined within one of the record descriptions of @var{file-name-1}.
+The
+@syntaxidx{RECORD CONTAINS} and
+@syntaxidx{RECORD IS VARYING} clauses are ignored (with a warning message issued) when used with line sequential files.  With other file organizations, these mutually-exclusive clauses define the length of data records within the file.  The data item specified as @var{identifier-6} must be defined within one of the record descriptions of @var{file-name-1}.
 
 @item
-The @syntaxidx{REPORT IS} clause announces to the compiler that the file will be dedicated to the Report Writer Control System (RWCS); the clause names one or more reports, each to be described in the report section.  The following special rules apply when the @code{REPORT} clause is used:
+The
+@syntaxidx{REPORT IS} clause announces to the compiler that the file will be dedicated to the Report Writer Control System (RWCS); the clause names one or more reports, each to be described in the report section.  The following special rules apply when the @code{REPORT} clause is used:
 @enumerate A
 @item
 The clause may only be specified in the @code{FD} of a sequential or line sequential file.  If used with a sequential file, the organization of that file will be implicitly changed to line sequential.
@@ -207,15 +213,17 @@ Sorts and merges will be performed in memory, if the amount of data being sorted
 Should actual disk work files be necessary due to the amount of data being sorted or merged, they will be automatically allocated to disk in a folder defined by:
 @itemize @bullet
 @item
-The @envvarruntimeref{TMPDIR}
+The
+@envvarruntimeref{TMPDIR}
 
 @item
-The @envvarruntime{TMP}
+The
+@envvarruntime{TMP}
 
 @item
-The @envvarruntime{TEMP}
+The
+@envvarruntime{TEMP}
 @end itemize
-
 (in that order).
 
 @item
@@ -233,7 +241,9 @@ If you specify a specific filename in the sort/merge work file's @code{SELECT}, 
 @newsubsection{6.2.2,FILE-SECTION-Data-Item}
 @diagram{FILE-SECTION-Data-Item,DD-FS-Data-Item,DD-FS-Data-Item,DD-SYNC-LEFT-RIGHT}
 
-Every sort file description (@code{SD} or @code{FD}) must be followed by at least one 01-level data item, except for file descriptions containing the @code{REPORT IS} clause.  These 01-level data items, in turn, may be broken down into subordinate group and elementary items.  An 01-level data item defined here in the file section is also known as a @define{Record}, even if it is an elementary item, provided that elementary item lacks the @syntaxidx{CONSTANT} attribute.
+Every sort file description (@code{SD} or @code{FD}) must be followed by at least one 01-level data item, except for file descriptions containing the @code{REPORT IS} clause.  These 01-level data items, in turn, may be broken down into subordinate group and elementary items.  An 01-level data item defined here in the file section is also known as a
+@define{Record}, even if it is an elementary item, provided that elementary item lacks the
+@syntaxidx{CONSTANT} attribute.
 @enumerate
 @item
 The reserved words @code{BY}, @code{IS}, @code{KEY}, @code{ON} and @code{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
@@ -477,7 +487,8 @@ Each report referenced on a @code{REPORT IS} clause (@pxref{File/Sort-Descriptio
 Please see @ref{Report Writer Features}, if you have not read it already.  It will familiarize you with the Report Writer terminology that follows.
 
 @item
-The following rules pertain to the @syntaxidx{PAGE LIMITS} clause:
+The following rules pertain to the
+@syntaxidx{PAGE LIMITS} clause:
 @enumerate A
 @item
 If no @code{PAGE LIMITS} clause is specified, the entire report will be generated as if it consists of a single arbitrarily long page.
@@ -495,19 +506,24 @@ Any value specified for @var{literal-2} or @var{identifier-2} will define the to
 Any value specified for @var{literal-3} or @var{identifier-3} will be ignored.
 
 @item
-The @syntaxidx{HEADING} clause defines the first line number at which a report heading or page heading may be presented.
+The
+@syntaxidx{HEADING} clause defines the first line number at which a report heading or page heading may be presented.
 
 @item
-The @syntaxidx{FIRST DETAIL} clause defines the first line at which a detail group may be presented.
+The
+@syntaxidx{FIRST DETAIL} clause defines the first line at which a detail group may be presented.
 
 @item
-The @syntaxidx{LAST CONTROL} @code{HEADING} clause defines the last line at which any line of a control heading may be presented.
+The
+@syntaxidx{LAST CONTROL} @code{HEADING} clause defines the last line at which any line of a control heading may be presented.
 
 @item
-The @syntaxidx{LAST DETAIL} clause defines the last line at which any line of a detail group may be presented.
+The
+@syntaxidx{LAST DETAIL} clause defines the last line at which any line of a detail group may be presented.
 
 @item
-The @syntaxidx{FOOTING} clause defines the last line at which any line of a control footing group may be presented.
+The
+@syntaxidx{FOOTING} clause defines the last line at which any line of a control footing group may be presented.
 
 @item
 The following rules establish default values for the various @code{PAGE LIMIT} clauses, assuming there is one:
@@ -545,13 +561,17 @@ For the values specified on a @code{PAGE LIMIT} clause to be valid, all of the f
 @code{FOOTING} @leq{} @code{LAST DETAIL}
 @end itemize
 @end enumerate
-@item The following rules pertain to the @syntaxidx{CONTROL} clause:
+
+@item
+The following rules pertain to the
+@syntaxidx{CONTROL} clause:
 @enumerate A
 @item
 If there is no @code{CONTROL} clause, the report will contain no control breaks; this implies that there can be no @code{CONTROL HEADING} or @code{CONTROL FOOTING} report groups defined for this @code{RD}.
 
 @item
-Include the reserved word @syntaxidx{FINAL} if you want to include a special control heading before the first detail line is generated (@code{CONTROL HEADING FINAL}) or after the last detail line is generated (@code{CONTROL FOOTING FINAL}).
+Include the reserved word
+@syntaxidx{FINAL} if you want to include a special control heading before the first detail line is generated (@code{CONTROL HEADING FINAL}) or after the last detail line is generated (@code{CONTROL FOOTING FINAL}).
 
 @item
 If you specify @code{FINAL}, it must be the first control break named in the @code{RD}.
@@ -585,9 +605,9 @@ Only after this processing has occurred will the detail report group specified o
 @item Each @code{RD} will have the following allocated for it:
 @enumerate A
 @item
-The @registerref{PAGE-COUNTER}, which will contain the current report page number.
+The
+@registerref{PAGE-COUNTER}, which will contain the current report page number.
 @itemize @bullet
-
 @item
 This register will be set to a value of 1 when an @statementref{INITIATE} is executed for the report and will be incremented by 1 each time the RWCS starts a new page of the report.
 
@@ -597,7 +617,8 @@ References to @code{PAGE-COUNTER} within the report section will be implicitly q
 @item
 References to @code{PAGE-COUNTER} in the procedure division must be qualified with the appropriate report name if there are multiple @code{RD}s defined.
 @end itemize
-@item The @register{LINE-COUNTER}, which will contain the current line number on the current page.
+@item The
+@register{LINE-COUNTER}, which will contain the current line number on the current page.
 @end enumerate
 @item The @code{RD} must be followed by at least one 01-level report group definition.
 @end enumerate
@@ -669,7 +690,8 @@ The reserved word @code{PICTURE} may be abbreviated as @code{PIC}.
 The @syntaxref{SOURCE}, @syntaxref{SUM} and @syntaxref{VALUE} clauses, valid only on an elementary item, are mutually-exclusive of each other.
 
 @item
-Group items (those without @syntaxidx{PICTURE} clauses) are frequently used to describe entire lines of a report, while elementary items (those with a picture clause) are frequently used to describe specific fields of information on the report.  When this coding convention is being used, group items will have @syntaxref{LINE} clauses and no @syntaxref{COLUMN} clauses while elementary items will be specified the other way around.
+Group items (those without
+@syntaxidx{PICTURE} clauses) are frequently used to describe entire lines of a report, while elementary items (those with a picture clause) are frequently used to describe specific fields of information on the report.  When this coding convention is being used, group items will have @syntaxref{LINE} clauses and no @syntaxref{COLUMN} clauses while elementary items will be specified the other way around.
 
 @item
 @xref{Data Description Clauses}, for information on the usage of the various data description clauses.
@@ -775,7 +797,9 @@ This particular type of constant declaration provides the ability to determine t
  Constants defined in this way become undefined once an @code{END PROGRAM} or @code{END FUNCTION} is encountered in the input source.
 
 @item
- Data descriptions of this form do not actually allocate any storage --- they merely define a name (@var{constant-name-1}) that may be used anywhere a numeric literal (@syntaxidx{BYTE-LENGTH} or @syntaxidx{LENGTH} options) or a literal of the same type as @var{literal-1} may be used.
+Data descriptions of this form do not actually allocate any storage --- they merely define a name (@var{constant-name-1}) that may be used anywhere a numeric literal (see
+@syntaxidx{BYTE-LENGTH} or
+@syntaxidx{LENGTH} options) or a literal of the same type as @var{literal-1} may be used.
 
 @item
  The @var{constant-name-1} name may not be referenced on a CDF directive.
@@ -1649,7 +1673,8 @@ The report line number upon which the data item containing this clause along wit
 The symbol @samp{+} may be used in lieu of the word @code{PLUS}, if desired; if @samp{+} is used, however, there must be at least one space separating it from @var{integer-1}.  Failure to include this space will cause the @samp{+} to be simply treated as part of @var{integer-1} and will treat the LINE clause as an absolute line specification rather than a relative one.
 
 @item
-The optional @syntaxidx{NEXT PAGE} clause specifies that --- regardless of whether or not the report group containing this clause @i{could} fit on the report page being currently generated, the report group will be @i{forced} to appear on a new page.
+The optional
+@syntaxidx{NEXT PAGE} clause specifies that --- regardless of whether or not the report group containing this clause @i{could} fit on the report page being currently generated, the report group will be @i{forced} to appear on a new page.
 @end enumerate
 @item The following points document the use for format 2 of the @code{LINE} clause:
 @enumerate A
@@ -1703,7 +1728,10 @@ This clause defines any rules for where the next group to be presented on a repo
 The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
-The terms @syntaxidx{NEXT}, @syntaxidx{NEXT PAGE} and @syntaxidx{PAGE} are interchangeable.
+The terms
+@syntaxidx{NEXT},
+@syntaxidx{NEXT PAGE} and
+@syntaxidx{PAGE} are interchangeable.
 
 @item
 A report group must contain at least one @code{LINE NUMBER} clause in order to also contain a @code{NEXT GROUP} clause.
@@ -1809,10 +1837,13 @@ C(3)   @r{character #3 of} GRP(3)
 @end example
 
 @item
-The optional @syntaxidx{DEPENDING ON} clause can be added to an @code{OCCURS} to create a variable-length table.  In such cases, the value of @var{integer-1} specifies what the minimum number of entries in the table will be while @var{integer-2} specifies the maximum.  Such tables will be allocated out to the maximum size specified as @var{integer-2}.  At execution time the value of @var{identifier-1} will determine how many of the table elements are accessible.
+The optional
+@syntaxidx{DEPENDING ON} clause can be added to an @code{OCCURS} to create a variable-length table.  In such cases, the value of @var{integer-1} specifies what the minimum number of entries in the table will be while @var{integer-2} specifies the maximum.  Such tables will be allocated out to the maximum size specified as @var{integer-2}.  At execution time the value of @var{identifier-1} will determine how many of the table elements are accessible.
 
 @item
-See the documentation of the @syntaxref{SEARCH}, @syntaxref{SEARCH ALL} and @syntaxref{SORT} statements for explanations of the @syntaxidx{KEY} and @syntaxidx{INDEXED BY} clauses.
+See the documentation of the @syntaxref{SEARCH}, @syntaxref{SEARCH ALL} and @syntaxref{SORT} statements for explanations of the
+@syntaxidx{KEY} and
+@syntaxidx{INDEXED BY} clauses.
 
 @item
 The @code{OCCURS} clause cannot be specified in a data description entry that has a level number of 01, 66, 77, or 88, although it is valid in data items described @i{subordinate} to an 01-level data item.
@@ -1821,10 +1852,12 @@ The @code{OCCURS} clause cannot be specified in a data description entry that ha
 The following points apply to an @code{OCCURS} used in the report section:
 @enumerate A
 @item
-The optional @syntaxidx{STEP} clause defines an incrementation value that will be added to any absolute @syntaxref{LINE} or @syntaxref{COLUMN} number specifications that may be part of or subordinate to this data item's definition.
+The optional
+@syntaxidx{STEP} clause defines an incrementation value that will be added to any absolute @syntaxref{LINE} or @syntaxref{COLUMN} number specifications that may be part of or subordinate to this data item's definition.
 
 @item
-The optional @syntaxidx{VARYING} clause defines an identifier that may be used as a subscript for the multiple occurrences of this or any subordinate data item should the @syntaxref{SOURCE} or @syntaxref{SUM} clause(s) on this or subordinate data items reference entries within the table.  The @var{identifier-2} data item is dynamically created as needed and cannot be referenced outside the scope of the report data item definition.
+The optional
+@syntaxidx{VARYING} clause defines an identifier that may be used as a subscript for the multiple occurrences of this or any subordinate data item should the @syntaxref{SOURCE} or @syntaxref{SUM} clause(s) on this or subordinate data items reference entries within the table.  The @var{identifier-2} data item is dynamically created as needed and cannot be referenced outside the scope of the report data item definition.
 
 @item
 The following two examples illustrate two different ways a report could include four quarters worth of sales figures in its detail lines --- one doing things 'the hard way' and one using the advanced @code{OCCURS} capabilities of @code{STEP} and @code{VARYING}.  Both assume the definition of the following table exists in working-storage:
@@ -1906,7 +1939,8 @@ This first set of picture symbols defines the basic data type of a data item.  E
 Defines storage reserved for a single alphabetic character (@samp{A}-@samp{Z}, @samp{a}-@samp{z}).
 
 @item @samp{N}
-Defines storage reserved for a single character in the computer's @define{National Character set}.  Support for national character sets in GnuCOBOL is currently only partially implemented, and the compile- and run-time effect of using the @samp{N} picture symbol is the same as if @code{X(2)} had been coded, with the additional effect that such a field will qualify as a @code{NATIONAL} or @code{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
+Defines storage reserved for a single character in the computer's
+@define{National Character set}.  Support for national character sets in GnuCOBOL is currently only partially implemented, and the compile- and run-time effect of using the @samp{N} picture symbol is the same as if @code{X(2)} had been coded, with the additional effect that such a field will qualify as a @code{NATIONAL} or @code{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
 
 @item @samp{X}
 Defines storage reserved for a single alphanumeric character (any character).
@@ -1915,7 +1949,10 @@ Defines storage reserved for a single alphanumeric character (any character).
 Defines storage reserved for a single numeric digit character (@samp{0}-@samp{9}).
 @end table
 
-Typically, only one kind of each of those symbols is used in the same picture clause, but that isn't a requirement.  Data items that, of the three symbols above, use nothing but @samp{A} picture symbols are known as @define{Alphabetic Data Items} while those that use @samp{9} picture symbols without any @samp{A} or @samp{X} symbols (or those that have a @code{USAGE} without a @code{PICTURE}) are known as @define{Numeric Data Items}.  All other data items are referred to as @define{Alphanumeric Data Items}.
+Typically, only one kind of each of those symbols is used in the same picture clause, but that isn't a requirement.  Data items that, of the three symbols above, use nothing but @samp{A} picture symbols are known as
+@define{Alphabetic Data Items} while those that use @samp{9} picture symbols without any @samp{A} or @samp{X} symbols (or those that have a @code{USAGE} without a @code{PICTURE}) are known as
+@define{Numeric Data Items}.  All other data items are referred to as
+@define{Alphanumeric Data Items}.
 
 If you need to allocate space for a data item whose format is two letters followed by five digits followed by three letters, you could use the @var{picture-string} @code{AA99999AAA}, @code{A(2)9(5)A(3)} @code{XXXXXXXXXX} or @code{X(10)}.  There is absolutely no functional difference whatsoever between the four --- none of them provide any functionality the others do not.  The first two probably make for better @i{documentation} of the expected field contents, but they don't provide any run-time enforcement capabilities.
 
@@ -1969,7 +2006,8 @@ The @samp{V} symbol may only occur once in a picture string.
 @end table
 
 @item
-Any editing symbols introduced past this point will, if coded in the picture clause of an otherwise numeric data item, transform that data item from a numeric to a @define{Numeric Edited} data item.  Numeric edited data items are treated as alphanumeric and may not serve either as table subscripts or as source arguments on an arithmetic statement.
+Any editing symbols introduced past this point will, if coded in the picture clause of an otherwise numeric data item, transform that data item from a numeric to a
+@define{Numeric Edited} data item.  Numeric edited data items are treated as alphanumeric and may not serve either as table subscripts or as source arguments on an arithmetic statement.
 
 @item
 The following are the fixed insertion editing symbols that may be specified in a picture string.  Each of these editing symbols will insert a special character into the field value at the position it is specified in the picture string.  These editing symbols will each introduce one extra character into the total field size for each occurrence of the symbol in the picture string.
@@ -2352,7 +2390,10 @@ This clause, allowable only for @code{USAGE DISPLAY} numeric data items, specifi
 The reserved words @code{CHARACTER} and @code{IS} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
-@i{Without} the @syntaxidx{SEPARATE CHARACTER} option, the sign of the data item's value will be encoded by transforming the last (@syntaxidx{TRAILING}) or first (@syntaxidx{LEADING}) digit as follows:
+@i{Without} the
+@syntaxidx{SEPARATE CHARACTER} option, the sign of the data item's value will be encoded by transforming the last (see
+@syntaxidx{TRAILING}) or first (see
+@syntaxidx{LEADING}) digit as follows:
 
 @multitable @columnfractions .25 .25 .25
 @headitem First/Last Digit @tab Value For Positive @tab Value for Negative
@@ -2395,7 +2436,9 @@ The reserved word @code{IS} is optional and may be omitted.  The presence or abs
 When the report group containing this clause is presented, the value of the specified numeric literal or identifier will be automatically moved to the report data item prior to presentation.
 
 @item
-The specified identifier may be defined anywhere in the data division, but if it is defined in the report section it may only be @syntaxidx{PAGE-COUNTER}, @syntaxidx{LINE-COUNTER} or a @syntaxref{SUM} counter.
+The specified identifier may be defined anywhere in the data division, but if it is defined in the report section it may only be
+@syntaxidx{PAGE-COUNTER},
+@syntaxidx{LINE-COUNTER} or a @syntaxref{SUM} counter.
 
 @item
 The @syntaxref{PICTURE} of the report data item must be such that it would be legal to @syntaxref{MOVE} the specified literal or identifier to a data item with that @code{PICTURE}.
@@ -2436,7 +2479,8 @@ Any @var{identifier-7} data items that are sum counters must either be defined i
 The @code{PICTURE} of the report data item in who's description this @code{SUM} clause appears in must be such that it would be legal to @syntaxref{MOVE} the specified @var{identifier-7} or @var{literal-2} value to a data item with that @code{PICTURE}.
 
 @item
-The following points apply to the @syntaxidx{UPON} option:
+The following points apply to the
+@syntaxidx{UPON} option:
 @enumerate A
 @item
 The data item @var{identifier-9} must be the name of a detail group specified in the same report as the control footing group in which this @code{SUM} clause appears.
@@ -2450,7 +2494,9 @@ If there is no @code{UPON} clause specified, the value of @var{identifier-7} or 
 @item
 If there is only a single detail group in the report's definition, the @code{UPON} clause is meaningless.
 @end enumerate
-@item The following points apply to the @syntaxidx{RESET} option:
+@item
+The following points apply to the
+@syntaxidx{RESET} option:
 @enumerate A
 @item
 If the @code{RESET} option is coded, @code{FINAL} or @var{identifier-8} (whichever is coded on the @code{RESET}) must be one of the report's control breaks specified on the @code{CONTROLS} clause.
@@ -3059,7 +3105,8 @@ Some CPUs --- such as the Intel/AMD i386/x64 architecture processors used in mos
 On a system supporting only one format of binary storage (generally, that would be big-endian), the terms @i{most efficient} and @i{native} format are synonymous.
 
 @item
-Data items that have the @syntaxidx{UNSIGNED} attribute explicitly coded, or @code{DISPLAY}, @code{PACKED-DECIMAL}, @code{COMP-5}, @code{COMP-X} items that do not have an @samp{S} symbol in their picture clause cannot preserve negative values that may be stored into them.  Storing a negative value into such a field will actually result in the sign being stripped, essentially saving the absolute value in the data item.
+Data items that have the
+@syntaxidx{UNSIGNED} attribute explicitly coded, or @code{DISPLAY}, @code{PACKED-DECIMAL}, @code{COMP-5}, @code{COMP-X} items that do not have an @samp{S} symbol in their picture clause cannot preserve negative values that may be stored into them.  Storing a negative value into such a field will actually result in the sign being stripped, essentially saving the absolute value in the data item.
 
 @item
 Packed-decimal (@i{i.e.} @code{USAGE PACKED-DECIMAL}, @code{USAGE COMP-3} or @code{USAGE COMP-6}) data is stored as a series of bytes such that each byte contains two 4-bit fields, referred to as @dfn{nibbles} (since they comprise half a ``byte'', they're just ``nibbles'' --- don't groan, I don't just make this stuff up!).  Each nibble represents a @samp{9} in the @code{PICTURE} and each holds a single decimal digit encoded as its binary value (0 = 0000, 1 = 0001, @dots{} , 9 = 1001).
@@ -3156,7 +3203,8 @@ The @code{VALUE} clause is ignored on @syntaxref{EXTERNAL} data items or on any 
 This format of the @code{VALUE} clause may not be used anywhere in the description of an 01 item (or any of its subordinate items) serving as an @code{FD} or @code{SD} record description.
 
 @item
-If the optional @syntaxidx{ALL} clause is used, it may only be used with an alphanumeric literal value; the value will be repeated as needed to completely fill the data item.  Here are some examples with and without @code{ALL} (the symbol @i{b} denotes a space):
+If the optional
+@syntaxidx{ALL} clause is used, it may only be used with an alphanumeric literal value; the value will be repeated as needed to completely fill the data item.  Here are some examples with and without @code{ALL} (the symbol @i{b} denotes a space):
 
 @example
 PIC X(5) VALUE @samp{A}      *> A@i{bbbb}

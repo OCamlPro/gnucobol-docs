@@ -35,17 +35,24 @@
 @comment *********************************************************************
 @newsection{11.1,Subprogram Types}
 
-Simply stated, a @define{Subprogram} is a program that is invoked by another program; the subprogram performs whatever its designed operations are and --- when complete --- typically returns control back to the program that invoked it.  There are two different types of subprograms supported by GnuCOBOL, subroutines and user-defined functions.  The distinction between these two subprogram types lies in the manner in which they are executed.
+Simply stated, a
+@define{Subprogram} is a program that is invoked by another program; the subprogram performs whatever its designed operations are and --- when complete --- typically returns control back to the program that invoked it.  There are two different types of subprograms supported by GnuCOBOL, subroutines and user-defined functions.  The distinction between these two subprogram types lies in the manner in which they are executed.
 
-When program @i{A} invokes subprogram @i{B} as a @define{Subroutine}, it does so using a special statement dedicated to that function (the @statementref{CALL}, just as if @i{B} were one of the built-in system subroutines.
+When program @i{A} invokes subprogram @i{B} as a
+@define{Subroutine}, it does so using a special statement dedicated to that function (the @statementref{CALL}, just as if @i{B} were one of the built-in system subroutines.
 
-When program @i{A} invokes program @i{B} as a @define{User-Defined Function}, it does so in a manner identical to how @i{B} would have been invoked had it been one of the many built-in intrinsic functions.
+When program @i{A} invokes program @i{B} as a
+@define{User-Defined Function}, it does so in a manner identical to how @i{B} would have been invoked had it been one of the many built-in intrinsic functions.
 
-In either instance, program @i{A} is referred to as the @define{Calling Program} while program @i{B} is known as the @define{Called Program}.  GnuCOBOL programs may be a calling program, a called program or both.
+In either instance, program @i{A} is referred to as the
+@define{Calling Program} while program @i{B} is known as the
+@define{Called Program}.  GnuCOBOL programs may be a calling program, a called program or both.
 
-A program written in the C programming language may serve as either the calling or called program too.  A called program may act as a calling program to another called program.  When a calling program does not serve as a called program to any program, that calling program is known as a @define{Main Program}.
+A program written in the C programming language may serve as either the calling or called program too.  A called program may act as a calling program to another called program.  When a calling program does not serve as a called program to any program, that calling program is known as a
+@define{Main Program}.
 
-Both subroutines and user-defined functions may return a value.  The value they return must be an integer in the range -2147483648 to +2147483647.  This value will be available in the @registerrefalt{RETURN-CODE,Special Registers} and also as the value of the data item specified on the @syntaxrefalt{RETURNING,CALL} clause of a subroutine's @code{CALL}.
+Both subroutines and user-defined functions may return a value.  The value they return must be an integer in the range -2147483648 to +2147483647.  This value will be available in the
+@registerrefalt{RETURN-CODE,Special Registers} and also as the value of the data item specified on the @syntaxrefalt{RETURNING,CALL} clause of a subroutine's @code{CALL}.
 @comment *********************************************************************
 @comment ** 11.2 Independent vs Contained vs Nested Subprograms              **
 @comment *********************************************************************
@@ -54,12 +61,10 @@ Both subroutines and user-defined functions may return a value.  The value they 
 Subprograms (either subroutines or user-defined functions) can be implemented in three different ways.
 @table @asis
 
-@item @define{Independent Subprograms}
-
+@item @itemdfn{Independent Subprograms}
 These are subprograms that are coded as the only COBOL program in their @topic{Compilation Unit}.
 
-@item @define{Contained Subprograms}
-
+@item @itemdfn{Contained Subprograms}
 These are subprograms which occur in the same Compilation Unit as a main program and/or other subprograms.  Each contained subprogram is separated from the next via an @code{END PROGRAM} marker line.  As an example@dots{}
 
 @example
@@ -81,8 +86,7 @@ The last program in any GnuCOBOL source file need not have an @code{END} marker.
 
 When multiple programs occur in a source file, it is assumed that the programs are related to one another in that they will be @code{CALL}ed or executed as functions from the others.
 
-@item @define{Nested Subprograms}
-
+@item @itemdfn{Nested Subprograms}
 It is also possible to create source files where GnuCOBOL programs are nested inside each other.  Take for example these four GnuCOBOL programs:
 
 @example
@@ -135,9 +139,11 @@ When an alternate entry-point is called, execution within the subroutine will be
 
 Any subprogram may be either statically or dynamically loaded into memory.
 
-A @define{Static Subprogram} is one which was in the same @topic{Compilation Unit} as the other program(s) which call it, therefore meaning that its executable object code is part of the same executable file as its calling program.  The static subprogram was therefore loaded into memory as part of and at the same time as the calling program.
+A
+@define{Static Subprogram} is one which was in the same @topic{Compilation Unit} as the other program(s) which call it, therefore meaning that its executable object code is part of the same executable file as its calling program.  The static subprogram was therefore loaded into memory as part of and at the same time as the calling program.
 
-A @define{Dynamic Subprogram} is one whose executable object code exists as an executable file separate from that containing the calling program; these two programs were therefore each compiled in their own separate @topic{Compilation Group}.  Dynamic subprograms are located and loaded into memory the first time they are executed.  Dynamic subprograms may be unloaded from memory via the @statementref{CANCEL}, if desired.
+A
+@define{Dynamic Subprogram} is one whose executable object code exists as an executable file separate from that containing the calling program; these two programs were therefore each compiled in their own separate @topic{Compilation Group}.  Dynamic subprograms are located and loaded into memory the first time they are executed.  Dynamic subprograms may be unloaded from memory via the @statementref{CANCEL}, if desired.
 
 GnuCOBOL subprograms may be created as either static or dynamic subprograms, as desired by the programmer.
 
@@ -149,7 +155,8 @@ Here is how these four programs would be compiled if the three subprograms are t
 cobc -x M.cbl A.cbl B.cbl C.cbl
 @end example
 
-This command informs the compiler (cobc) that four programs are to be compiled (the first named on the command must always be the main program), and a single executable file is to be created (due to the @switchidx{-x}).
+This command informs the compiler (cobc) that four programs are to be compiled (the first named on the command must always be the main program), and a single executable file is to be created (due to the
+@switchidx{-x}).
 
 Here is how the main program and the three subprograms could be compiled if the three subprograms are to be dynamic:
 
@@ -158,7 +165,9 @@ cobc -x M.cbl
 cobc -m A.cbl B.cbl C.cbl
 @end example
 
-These commands will create an executable file for the main program (@switch{-x}) and three separate dynamically-loadable libraries (@switchidx{-m}), one for each of the three subprograms.  Had we wished, we could have created a single dynamically-loadable library containing all three subprograms by adding the @switchidx{-b} to their compilation:
+These commands will create an executable file for the main program (@switch{-x}) and three separate dynamically-loadable libraries (see
+@switchidx{-m}), one for each of the three subprograms.  Had we wished, we could have created a single dynamically-loadable library containing all three subprograms by adding the
+@switchidx{-b} to their compilation:
 
 @example
 cobc -m -b A.cbl B.cbl C.cbl
@@ -178,7 +187,9 @@ Dynamically-loadable modules will be named @file{@var{xxxxxxxx}.dll} on a Window
 The first time any of the GnuCOBOL subprograms in a dynamically-loadable module are invoked, the entry-point referenced must be the one for which the @file{.dll}, @file{.so} or @file{.dylib} file is named.
 
 @item
-@anchor{Locating Dynamically-Loadable Modules}When a dynamically-loadable module needs to be loaded (because it is not already in memory from a previous subprogram execution), the dynamically-loadable library will be sought in the same directory from which the main program was loaded.  If it cannot be found there, each directory named in the @envvarruntimeref{PATH} will be searched.  If it was not located in any of those directories, the library specified by the @envvarruntime{COB_LIBRARY_PATH} will be searched.  Finally, if it @i{still} cannot be located, execution will be terminated with an error message (@i{libcob: Cannot find module 'xxxxxxxx'}).
+@anchor{Locating Dynamically-Loadable Modules}When a dynamically-loadable module needs to be loaded (because it is not already in memory from a previous subprogram execution), the dynamically-loadable library will be sought in the same directory from which the main program was loaded.  If it cannot be found there, each directory named in the
+@envvarruntimeref{PATH} will be searched.  If it was not located in any of those directories, the library specified by the
+@envvarruntime{COB_LIBRARY_PATH} will be searched.  Finally, if it @i{still} cannot be located, execution will be terminated with an error message (@i{libcob: Cannot find module 'xxxxxxxx'}).
 
 @item
 Once the dynamically-loadable module has been successfully loaded, any of the entry-points contained within it are now available for reference.
@@ -190,7 +201,10 @@ Dynamically-loadable modules may be removed from memory via the @statementref{CA
 Once a dynamically-loadable module is actually loaded into memory, even if it is subsequently unloaded (via the @statement{CANCEL}), its list of entry-points remain available to the GnuCOBOL run-time library and subsequent re-executions of any of those entry points will be able to bypass the search (rule #4) as well as the @i{first-execution rule} (rule #3).
 @end enumerate
 
-Consult the documentation on the @envvarruntime{COB_PRE_LOAD}, @envvarruntime{COB_PHYSICAL_CANCEL} and @envvarruntimerefs{COB_LOAD_CASE} for additional options when using dynamically-loadable modules.
+Consult the documentation on the
+@envvarruntime{COB_PRE_LOAD},
+@envvarruntime{COB_PHYSICAL_CANCEL} and
+@envvarruntimerefs{COB_LOAD_CASE} for additional options when using dynamically-loadable modules.
 @comment *********************************************************************
 @comment ** 11.5 Subprogram Execution Flow                                   **
 @comment *********************************************************************
@@ -224,10 +238,12 @@ If it is a dynamic subroutine, the GnuCOBOL run-time system will check to see if
 @item
 Once the module has been located (if location was needed), it will be loaded into memory (if not already loaded).
 @end enumerate
-@item Execution of the calling program is suspended and control will transfer to the called program, as follows:
+@item
+Execution of the calling program is suspended and control will transfer to the called program, as follows:
 @enumerate A
 @item
-If the @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION} clause of the subprogram included the @syntaxidx{INITIAL} clause, the program will be reinitialized back to its compile-time state.  This will happen regardless of the @code{INITIAL} clause the first time the subprogram is executed.
+If the @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION} clause of the subprogram included the
+@syntaxidx{INITIAL} clause, the program will be reinitialized back to its compile-time state.  This will happen regardless of the @code{INITIAL} clause the first time the subprogram is executed.
 
 @item
 Local-storage, if any, will be allocated and initialized.
@@ -235,20 +251,28 @@ Local-storage, if any, will be allocated and initialized.
 @item
 Execution will begin at the first executable statement following the subprograms entry-point.  The entry point will be either the first executable statement following any @syntaxref{DECLARATIVES} that might be present (if the subprogram was invoked using its primary entry-point name) or the first executable statement following the @statementref{ENTRY} naming the entry-point specified on the @code{CALL} if the subprogram was invoked using an alternate entry point.
 @end enumerate
-@item The flow of execution will then progress through the coding of the subprogram as it would with any other program.
+@item
+The flow of execution will then progress through the coding of the subprogram as it would with any other program.
 
-@item If the subprogram issues a @statementref{STOP} with the @code{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
+@item
+If the subprogram issues a @statementref{STOP} with the @code{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
 
-@item If the subprogram wishes to return control back to the calling program, it will do so using either the @statementref{GOBACK} or the @statementrefalt{EXIT PROGRAM,EXIT}.  At this time:
+@item
+If the subprogram wishes to return control back to the calling program, it will do so using either the @statementref{GOBACK} or the @statementrefalt{EXIT PROGRAM,EXIT}.  At this time:
 @enumerate A
 @item
-If the subprograms procedure division header or @statement{ENTRY} included a @syntaxidx{RETURNING}, the value of the data item found on that clause is moved to the @registerref{RETURN-CODE}; this behaviour can be altered utilizing the @syntaxrefalt{CALL-CONVENTION,SPECIAL-NAMES} feature to leave @code{RETURN-CODE} unchanged.
+If the subprograms procedure division header or
+@statement{ENTRY} included a
+@syntaxidx{RETURNING}, the value of the data item found on that clause is moved to the
+@registerref{RETURN-CODE}; this behaviour can be altered utilizing the
+@syntaxrefalt{CALL-CONVENTION,SPECIAL-NAMES} feature to leave @code{RETURN-CODE} unchanged.
 
 @item
 Local-storage, if any, is de-allocated.
 
 @item
-If the calling program included a @code{RETURNING} clause on the @code{CALL} statement that invoked the subprogram, the value of the @code{RETURNING} data item in the subroutine is moved to that data item.  If there was no @code{RETURNING} specified in the subroutine, the value of the @register{RETURN-CODE} is moved to that data item.
+If the calling program included a @code{RETURNING} clause on the @code{CALL} statement that invoked the subprogram, the value of the @code{RETURNING} data item in the subroutine is moved to that data item.  If there was no @code{RETURNING} specified in the subroutine, the value of the
+@register{RETURN-CODE} is moved to that data item.
 
 @item
 Execution will resume back in the calling program with the first executable statement following the @code{CALL} that invoked the subprogram.
@@ -282,20 +306,25 @@ Local-storage, if any, will be allocated and initialized.
 @item
 Execution will begin with the first executable statement in the procedure division following any @syntaxref{DECLARATIVES} that might be present.
 @end enumerate
-@item The flow of execution will then progress through the coding of the function as it would with any other program.
+@item
+The flow of execution will then progress through the coding of the function as it would with any other program.
 
-@item If the function issues a @statementref{STOP} with the @code{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
+@item
+If the function issues a @statementref{STOP} with the @code{RUN} option, program execution ceases and control returns to the operating system or whatever execution shell invoked the main program.
 
-@item If the function wishes to return control back to the calling program, it will do so using either the @statementref{GOBACK} or the @statementrefalt{EXIT FUNCTION,EXIT}.  At this time:
+@item
+If the function wishes to return control back to the calling program, it will do so using either the @statementref{GOBACK} or the @statementrefalt{EXIT FUNCTION,EXIT}.  At this time:
 @enumerate A
 @item
-The value of the data item found on the user-defined functions @syntaxref{PROCEDURE DIVISION RETURNING} clause is moved to the @registerref{RETURN-CODE}.
+The value of the data item found on the user-defined functions @syntaxref{PROCEDURE DIVISION RETURNING} clause is moved to the
+@registerref{RETURN-CODE}.
 
 @item
 Local-storage, if any, is de-allocated.
 
 @item
-Execution will resume back in the calling program at the point where the returned value of the function is needed.  At that point, the value in the @register{RETURN-CODE} will be used for the function's value.
+Execution will resume back in the calling program at the point where the returned value of the function is needed.  At that point, the value in the
+@register{RETURN-CODE} will be used for the function's value.
 @end enumerate
 @end enumerate
 @comment *********************************************************************
@@ -357,15 +386,18 @@ The three ways arguments are passed are as follows.
 
 @item @code{BY REFERENCE}
 
-When a subroutine argument is passed @syntaxidx{BY REFERENCE}, the subroutine is passed the @i{address} of the @i{actual data item} being passed as an argument.  The item may anything defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will ``see'' the results of that change when the subroutine returns control.  This is the default manner in which GnuCOBOL passes arguments to a subroutine, should no @code{BY} clauses be included on the @code{CALL}.
+When a subroutine argument is passed
+@syntaxidx{BY REFERENCE}, the subroutine is passed the @i{address} of the @i{actual data item} being passed as an argument.  The item may anything defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will ``see'' the results of that change when the subroutine returns control.  This is the default manner in which GnuCOBOL passes arguments to a subroutine, should no @code{BY} clauses be included on the @code{CALL}.
 
 @item @code{BY CONTENT}
 
-When a subroutine is passed an argument @syntaxidx{BY CONTENT}, the subroutine is passed the @i{address} of a @i{copy} of the actual data being passed as an argument.  The item may anything defined within the data division of the program.  The copy is made each time the @code{CALL} statement is executed, immediately before the @code{CALL} actually takes place.  If the subroutine modifies the contents of this argument, it will be the @i{copy} that is modified, not the original data item; the calling program will therefore not ``see'' the results of that change when the subroutine returns control.
+When a subroutine is passed an argument
+@syntaxidx{BY CONTENT}, the subroutine is passed the @i{address} of a @i{copy} of the actual data being passed as an argument.  The item may anything defined within the data division of the program.  The copy is made each time the @code{CALL} statement is executed, immediately before the @code{CALL} actually takes place.  If the subroutine modifies the contents of this argument, it will be the @i{copy} that is modified, not the original data item; the calling program will therefore not ``see'' the results of that change when the subroutine returns control.
 
 @item @code{BY VALUE}
 
-Passing a subroutine argument @syntaxidx{BY VALUE} passes the @i{actual value} of the data being passed as an argument.  The item may be any elementary binary numeric item defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will not ``see'' the results of that change when the subroutine returns control.
+Passing a subroutine argument
+@syntaxidx{BY VALUE} passes the @i{actual value} of the data being passed as an argument.  The item may be any elementary binary numeric item defined within the data division of the program.  If the subroutine modifies the contents of this argument, the calling program will not ``see'' the results of that change when the subroutine returns control.
 @end table
 
 The first two ways in which arguments may be passed (@code{BY REFERENCE} and @code{BY CONTENT}) are intended for use when a GnuCOBOL program is being called, while the first and third (@code{BY REFERENCE} and @code{BY VALUE}) are intended for use when a C program is being called.  You @i{can} use @code{BY VALUE} arguments when calling GnuCOBOL subroutines, but remember that those arguments are limited to being a numeric binary data item.
@@ -380,7 +412,10 @@ When coding a GnuCOBOL subprogram (a subroutine or user-defined function), all a
 
 These arguments must be explicitly included on the @syntaxref{PROCEDURE DIVISION USING} clause that lists the arguments in the sequence in which they will be passed to the subprogram.
 
-These arguments described in the @code{PROCEDURE DIVISION USING} clause may each be defined as either @code{BY REFERENCE}, if the calling program is passing them either @syntaxidx{BY REFERENCE} or @syntaxidx{BY CONTENT}, or as @syntaxidx{BY VALUE} if they are being passed @code{BY VALUE}.
+These arguments described in the @code{PROCEDURE DIVISION USING} clause may each be defined as either @code{BY REFERENCE}, if the calling program is passing them either
+@syntaxidx{BY REFERENCE} or
+@syntaxidx{BY CONTENT}, or as
+@syntaxidx{BY VALUE} if they are being passed @code{BY VALUE}.
 
 By default, all arguments are assumed to be @code{BY REFERENCE} unless explicitly stated otherwise on the procedure division header.
 
@@ -473,7 +508,8 @@ DemoEXTERNAL: **********
 @comment *********************************************************************
 @newsection{11.7,Recursive Subprograms}
 
-A subroutine may @code{CALL} itself, either directly or indirectly from another subroutine or user-defined function that it @code{CALL}s.  Any subroutine that indulges in this sort of behaviour (called recursion) is called a @define{Recursive Subprogram}.
+A subroutine may @code{CALL} itself, either directly or indirectly from another subroutine or user-defined function that it @code{CALL}s.  Any subroutine that indulges in this sort of behaviour (called recursion) is called a
+@define{Recursive Subprogram}.
 
 Any GnuCOBOL subroutine can be recursively invoked only if it is defined to the GnuCOBOL compiler as @i{being} a recursive subroutine.  This is accomplished by adding the @code{RECURSIVE} attribute to its @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION}.
 

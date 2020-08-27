@@ -69,7 +69,9 @@ The program name is called as a included element and not dynamically which is th
 @code{COPY} statements may be used anywhere within a COBOL program where the code contained within the copybook would be syntactically valid.
 
 @item
-The optional @syntaxidx{SUPPRESS} clause (with or without the optional @syntaxidx{PRINTING} reserved word) is valid syntactically but is non-functional.  It is supported to facilitate compatibility with source code written for other versions of COBOL.
+The optional
+@syntaxidx{SUPPRESS} clause (with or without the optional
+@syntaxidx{PRINTING} reserved word) is valid syntactically but is non-functional.  It is supported to facilitate compatibility with source code written for other versions of COBOL.
 
 @item
 There is no difference between the use of the word @code{IN} and the word @code{OF} --- use the one you prefer.
@@ -87,7 +89,8 @@ All @code{COPY} statements are located and the contents of the corresponding cop
 @xref{Locating Copybooks}, for the specific rules on how copybooks are located by the compiler.
 
 @item
-The optional @syntaxidx{REPLACING} clause allows for one or more of either of the following kinds of text replacements to be made:
+The optional
+@syntaxidx{REPLACING} clause allows for one or more of either of the following kinds of text replacements to be made:
 @table @asis
 @item @var{Phrase-Clause}
 Replacement of one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
@@ -111,7 +114,9 @@ The replacement string, which follows the @code{BY}, may be specified using any 
 If the replacement string is a multiple-item phrase or is to be deleted altogether, you must use the @code{==@var{pseudo-text-2}==} option.  If @code{@var{pseudo-text-2}} is null (in other words, the replacement text is specified as @code{====}), all encountered occurrences of the search string will be deleted.
 @end itemize
 @item @var{String-Clause}
-Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @code{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @code{LEADING ==0100-== BY ====}.
+Using this, you may replace character sequences that occur at the beginning (see
+@syntaxidx{LEADING}) or end (see
+@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @code{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @code{LEADING ==0100-== BY ====}.
 @end table
 @end enumerate
 @comment *********************************************************************
@@ -134,7 +139,8 @@ A period is absolutely mandatory at the end of every @code{REPLACE} statement (e
 The following points apply to Format 1 of the @code{REPLACE} statement:
 @enumerate A
 @item
-Format 1 of the @code{REPLACE} statement can be used to make changes to program source code in much the same way as the @syntaxidx{REPLACING} option of the @code{COPY} statement can, via these options:
+Format 1 of the @code{REPLACE} statement can be used to make changes to program source code in much the same way as the
+@syntaxidx{REPLACING} option of the @code{COPY} statement can, via these options:
 @table @asis
 @item @var{Phrase-Clause}
 Replace one or more complete reserved words, user-defined identifiers or literals; the following points apply to this option:
@@ -152,7 +158,9 @@ Search strings on @code{REPLACE} are always specified using the @code{==@var{pse
 The replacement string, which follows the @code{BY}, is specified using the @code{==@var{pseudo-text-2}==} option.  If @code{@var{pseudo-text-2}} is null (in other words, the replacement text is specified as @code{====}), all encountered occurrences of the search string will be deleted.
 @end itemize
 @item @var{String-Clause}
-Using this, you may replace character sequences that occur at the beginning (@syntaxidx{LEADING}) or end (@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @code{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @code{LEADING ==0100-== BY ====}.
+Using this, you may replace character sequences that occur at the beginning (see
+@syntaxidx{LEADING}) or end (see
+@syntaxidx{TRAILING}) of reserved or user-defined words.  For example, to change all words of the form "0100-xxxxxx" to "020-xxxxxx", code @code{LEADING ==0100-== BY ==020-==}.  To simply remove all "0100-" prefixes from words, code @code{LEADING ==0100-== BY ====}.
 @end table
 
 @item
@@ -162,7 +170,8 @@ Once a Format 1 @code{REPLACE} statement is encountered in the currently-compili
 Replace Mode remains in-effect --- continuing to make source code changes --- until another Format 1 @code{REPLACE} is encountered, the end of currently compiling program source file is reached or a Format 2 @code{REPLACE} statement is encountered.
 
 @item
-When a Format 1 @code{REPLACE} statement with the @syntaxidx{ALSO} keyword is encountered without Replace Mode being currently active, the effect will be as if the @code{ALSO} had not been specified.  If Replace Mode already was in effect, the effect will be to ``push'' the current change specification(s) onto the top of a stack and add the specification(s) of the new statement to those that were already in effect.
+When a Format 1 @code{REPLACE} statement with the
+@syntaxidx{ALSO} keyword is encountered without Replace Mode being currently active, the effect will be as if the @code{ALSO} had not been specified.  If Replace Mode already was in effect, the effect will be to ``push'' the current change specification(s) onto the top of a stack and add the specification(s) of the new statement to those that were already in effect.
 
 @item
 When a Format 1 @code{REPLACE} without the @code{ALSO} keyword is encountered, any stacked change specification(s), if any, will be discarded and the currently in-effect change specification(s), if any, will be replaced by those of the new statement.
@@ -202,16 +211,20 @@ CDF variables defined in this way become undefined once an @code{END PROGRAM} or
 The @directive{>>DEFINE} is one way to create CDF variables that may be processed by other CDF statements such as @syntaxref{>>IF}.  The @directiveref{>>SET} provides another way to create them.
 
 @item
-CDF variable names follow the rules for standard GnuCOBOL user-defined names, and may not duplicate any CDF reserved word.  CDF variable names may duplicate COBOL reserved words, provided the @syntaxidx{CONSTANT} option is not specified, but such names are not recommended.
+CDF variable names follow the rules for standard GnuCOBOL user-defined names, and may not duplicate any CDF reserved word.  CDF variable names may duplicate COBOL reserved words, provided the
+@syntaxidx{CONSTANT} option is not specified, but such names are not recommended.
 
 @item
-The @code{CONSTANT} option is valid only in conjunction with @var{literal-1}.  When @code{CONSTANT} is specified, the CDF variable that is created may be used within your regular COBOL code as if it were a literal value.  Without this option, the CDF variable may only be referenced on other CDF statements.  The @syntaxidx{OFF} option is used to create a variable without assigning it any value.
+The @code{CONSTANT} option is valid only in conjunction with @var{literal-1}.  When @code{CONSTANT} is specified, the CDF variable that is created may be used within your regular COBOL code as if it were a literal value.  Without this option, the CDF variable may only be referenced on other CDF statements.  The
+@syntaxidx{OFF} option is used to create a variable without assigning it any value.
 
 @item
-The @syntaxidx{PARAMETER} option is used to create a variable whose value is that of the environment variable of the same name.  Note that this value assignment occurs at compilation time, not program execution time.
+The
+@syntaxidx{PARAMETER} option is used to create a variable whose value is that of the environment variable of the same name.  Note that this value assignment occurs at compilation time, not program execution time.
 
 @item
-In the absence of the @syntaxidx{OVERRIDE} option, @var{cdf-variable-1} must not yet have been defined.  When the @code{OVERRIDE} option is specified, @var{cdf-variable-1} will be created with the specified value, if it had not yet been defined.  If it had already been defined, it will be redefined with the new value.
+In the absence of the
+@syntaxidx{OVERRIDE} option, @var{cdf-variable-1} must not yet have been defined.  When the @code{OVERRIDE} option is specified, @var{cdf-variable-1} will be created with the specified value, if it had not yet been defined.  If it had already been defined, it will be redefined with the new value.
 @end enumerate
 @comment *********************************************************************
 @comment ** 3.5 >>IF Directive                                              **
@@ -227,13 +240,16 @@ The @directive{>>IF} causes the GnuCOBOL compiler to process or ignore COBOL sou
 The reserved words @code{IS}, @code{THAN} and @code{TO} are optional and may be omitted.  The presence or absence of these words has no effect on the program.
 
 @item
-Each @code{>>IF} directive must be terminated by an @syntaxidx{>>END-IF} directive.
+Each @code{>>IF} directive must be terminated by an
+@syntaxidx{>>END-IF} directive.
 
 @item
-There may be any number of @syntaxidx{>>ELIF} clauses following an @code{>>IF}, including zero.
+There may be any number of
+@syntaxidx{>>ELIF} clauses following an @code{>>IF}, including zero.
 
 @item
-There may no more than one @syntaxidx{>>ELSE} clause following an @code{>>IF}.  When @code{>>ELSE} is used, it must follow the @code{>>IF} and all @code{>>ELIF} clauses.
+There may no more than one
+@syntaxidx{>>ELSE} clause following an @code{>>IF}.  When @code{>>ELSE} is used, it must follow the @code{>>IF} and all @code{>>ELIF} clauses.
 
 @item
 Only one of the @var{Program-Source-Lines-n} block of statements that lie within the scope of the @code{>>IF} @dots{} @code{>>END-IF} may be processed by the compiler.  Which one (if any) that gets processed will be decided as follows:
@@ -257,10 +273,12 @@ A @var{Program-Source-Lines-n} block may contain any valid COBOL or CDF code.
 The following points pertain to any @var{CDF-Conditional-Expression-n}:
 @enumerate A
 @item
-The @syntaxidx{DEFINED} option tests for whether @var{cdf-variable-1} has been defined, but not yet assigned a value (@code{>>DEFINE @dots{} OFF}); use the @code{NOT} option to test for the variable not being defined.
+The
+@syntaxidx{DEFINED} option tests for whether @var{cdf-variable-1} has been defined, but not yet assigned a value (@code{>>DEFINE @dots{} OFF}); use the @code{NOT} option to test for the variable not being defined.
 
 @item
-The @syntaxidx{SET} option tests for whether @var{cdf-variable-1} has been given a value, either via a @code{>>SET} statement or via a @code{>>DEFINE} without the @code{OFF} option.
+The
+@syntaxidx{SET} option tests for whether @var{cdf-variable-1} has been given a value, either via a @code{>>SET} statement or via a @code{>>DEFINE} without the @code{OFF} option.
 
 @item
 Two CDF variables, two literals or a single CDF variable and a single literal may be compared against each other using a relational operator.  Unlike the standard GnuCOBOL @statementref{IF}, multiple comparisons cannot be @code{AND}ed or @code{OR}ed together; you may nest a second @code{>>IF} inside the first, however, to simulate an @code{AND} and an @code{OR} may be simulated via the @code{>>ELIF} option.
@@ -275,7 +293,10 @@ The @code{<>} symbol stands for @code{NOT EQUAL TO}.
 @page
 @newsection{3.6,>>SET}
 @diagram{CDF >>SET Directive,CDF-SET,CDF-SET,None}
-The @directive{>>SET} provides an alternate means of performing the actions of the @code{>>DEFINE} and @code{>>SOURCE} directives, as well as a means of controlling the compiler's @switchidx{-free}, @switchidx{-fixed} and @switchidx{-ffold-copy} from within program source code.
+The @directive{>>SET} provides an alternate means of performing the actions of the @code{>>DEFINE} and @code{>>SOURCE} directives, as well as a means of controlling the compiler's
+@switchidx{-free},
+@switchidx{-fixed} and
+@switchidx{-ffold-copy} from within program source code.
 @enumerate
 @item
 The reserved word @code{AS} is optional (only on the @code{SOURCEFORMAT} and @code{FOLDCOPYNAME} clauses) and may be included, or not, at the discretion of the programmer.  The presence or absence of this word has no effect upon the program.
@@ -284,13 +305,18 @@ The reserved word @code{AS} is optional (only on the @code{SOURCEFORMAT} and @co
 CDF variables defined in this way become undefined once an @code{END PROGRAM} or @code{END FUNCTION} directive is encountered in the input source.
 
 @item
-The @syntaxidx{FOLDCOPYNAME} option provides the equivalent of specifying the compiler @switch{-ffold-copy=@var{xxx}}, where @code{@var{xxx}} is either @syntaxidx{UPPER} or @syntaxidx{LOWER}.
+The
+@syntaxidx{FOLDCOPYNAME} option provides the equivalent of specifying the compiler @switch{-ffold-copy=@var{xxx}}, where @code{@var{xxx}} is either
+@syntaxidx{UPPER} or
+@syntaxidx{LOWER}.
 
 @item
-The @syntaxidx{NOFOLDCOPYNAME} option turns off the effect of either the @code{>>SET FOLDCOPYNAME} statement or the compiler @switch{-ffold-copy=@var{xxx}}.
+The
+@syntaxidx{NOFOLDCOPYNAME} option turns off the effect of either the @code{>>SET FOLDCOPYNAME} statement or the compiler @switch{-ffold-copy=@var{xxx}}.
 
 @item
-If the @syntaxidx{CONSTANT} option is used, @var{literal-1} must also be used.  This option provides another means of defining constants that may be used anywhere in the program that a literal could be specified.
+If the
+@syntaxidx{CONSTANT} option is used, @var{literal-1} must also be used.  This option provides another means of defining constants that may be used anywhere in the program that a literal could be specified.
 
 @item
 The remaining options of the @directive{>>SET} provide equivalent functionality to the @code{>>DEFINE} and @code{>>SOURCE} directives, as follows:
@@ -323,7 +349,9 @@ The remaining options of the @directive{>>SET} provide equivalent functionality 
 @page
 @newsection{3.7,>>SOURCE}
 @diagram{CDF >>SOURCE Directive,CDF-SOURCE,CDF-SOURCE,None}
-The @directive{>>SOURCE} puts the compiler into @code{FIXED} or @code{FREE} source-code format mode.  This, in effect, provides yet another mechanism for controlling the compiler's @switchidx{-free} and @switchidx{-fixed}.
+The @directive{>>SOURCE} puts the compiler into @code{FIXED} or @code{FREE} source-code format mode.  This, in effect, provides yet another mechanism for controlling the compiler's
+@switchidx{-free} and
+@switchidx{-fixed}.
 @idx{Fixed Format Mode}
 @idx{Free Format Mode}
 @idx{Source Line Format, Fixed}

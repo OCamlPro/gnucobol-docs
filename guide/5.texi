@@ -58,10 +58,12 @@ This paragraph is not allowed in a nested subprogram.  A nested program inherits
 The value specified for @var{computer-name} is irrelevant, provided it is a valid COBOL word that does not match any GnuCOBOL reserved word.  The @var{computer-name} value may include spaces.  This need not match the @var{computer-name} used with the @code{OBJECT-COMPUTER} paragraph, if any.
 
 @item
-The @syntaxidx{DEBUGGING MODE} clause, if present, will inform the compiler that debugging lines (those with a @samp{D} in column 7 if Fixed Source Mode is in effect, or those prefixed with a @code{>>D} if Free Source Mode is in effect) --- normally treated as comments --- are to be compiled.
+The
+@syntaxidx{DEBUGGING MODE} clause, if present, will inform the compiler that debugging lines (those with a @samp{D} in column 7 if Fixed Source Mode is in effect, or those prefixed with a @code{>>D} if Free Source Mode is in effect) --- normally treated as comments --- are to be compiled.
 
 @item
-Even without the @code{DEBUGGING MODE} clause, it is still possible to compile debugging lines.  Debugging lines may also be compiled by specifying the @switchidx{-fdebugging-line} to the GnuCOBOL compiler.
+Even without the @code{DEBUGGING MODE} clause, it is still possible to compile debugging lines.  Debugging lines may also be compiled by specifying the
+@switchidx{-fdebugging-line} to the GnuCOBOL compiler.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.2 OBJECT-COMPUTER                                           **
@@ -84,13 +86,15 @@ The value specified for @var{computer-name}, if any, is irrelevant provided it i
 The @code{OBJECT-COMPUTER} paragraph is not allowed in a nested subprogram. A nested program inherits the @code{OBJECT-COMPUTER} settings of its parent program.
 
 @item
-The @syntaxidx{COLLATING SEQUENCE} clause allows you to specify a customized character collating sequence to be used when alphanumeric values are compared to one another.  Data will still be stored in the character set native to the computer, but the logical sequence in which characters are ordered for comparison purposes can be altered from that defined by the computer's native character set.  The @var{alphabet-name-1} you specify needs to be defined in the @syntaxref{SPECIAL-NAMES} paragraph.
+The
+@syntaxidx{COLLATING SEQUENCE} clause allows you to specify a customized character collating sequence to be used when alphanumeric values are compared to one another.  Data will still be stored in the character set native to the computer, but the logical sequence in which characters are ordered for comparison purposes can be altered from that defined by the computer's native character set.  The @var{alphabet-name-1} you specify needs to be defined in the @syntaxref{SPECIAL-NAMES} paragraph.
 
 @item
 If no @code{COLLATING SEQUENCE} clause is specified, the collating sequence implied by the character set native to the computer (usually ASCII) will be used.
 
 @item
-The optional @syntaxidx{CLASSIFICATION} clause may be used to specify a locale for the environment in which the program will execute, for the purpose of influencing the upper-case and lower-case mappings of characters for the @syntaxref{UPPER-CASE} and @syntaxref{LOWER-CASE} intrinsic functions and the classification of characters for the @code{ALPHABETIC}, @code{ALPHABETIC-LOWER} and @code{ALPHABETIC-UPPER} class tests.  The definitions of these classes is taken from the cultural convention specification (@code{LC_CTYPE}) from the specified locale.
+The optional
+@syntaxidx{CLASSIFICATION} clause may be used to specify a locale for the environment in which the program will execute, for the purpose of influencing the upper-case and lower-case mappings of characters for the @syntaxref{UPPER-CASE} and @syntaxref{LOWER-CASE} intrinsic functions and the classification of characters for the @code{ALPHABETIC}, @code{ALPHABETIC-LOWER} and @code{ALPHABETIC-UPPER} class tests.  The definitions of these classes is taken from the cultural convention specification (@code{LC_CTYPE}) from the specified locale.
 
 The meanings of the four locale specifications are as follows:
 @enumerate A
@@ -135,25 +139,33 @@ The @code{SPECIAL-NAMES} paragraph is not allowed in a nested subprogram. A nest
 Only the final clause specified within this paragraph should be terminated with a period.
 
 @item
-The @syntaxidx{CALL-CONVENTION} clause allows a decimal integer, representing a series of ON/OFF switch settings, to be associated with a mnemonic name which may then be coded on a @statementref{CALL}.  The switch settings defined by this mnemonic will then control how the linkage to a subroutine invoked by the @code{CALL} statement that references @var{mnemonic-name-1} will be handled.
+The
+@syntaxidx{CALL-CONVENTION} clause allows a decimal integer, representing a series of ON/OFF switch settings, to be associated with a mnemonic name which may then be coded on a @statementref{CALL}.  The switch settings defined by this mnemonic will then control how the linkage to a subroutine invoked by the @code{CALL} statement that references @var{mnemonic-name-1} will be handled.
 
 @item
-The @syntaxidx{CONSOLE IS CRT} clause, if specified, will cause a @statement{DISPLAY} lacking an explicit @code{UPON} clause to be treated as a @statementref{DISPLAY screen-data-item}, and any @statement{ACCEPT} lacking a @code{FROM} clause to be treated as a @statementref{ACCEPT screen-data-item}.
+The
+@syntaxidx{CONSOLE IS CRT} clause, if specified, will cause a @statement{DISPLAY} lacking an explicit @code{UPON} clause to be treated as a @statementref{DISPLAY screen-data-item}, and any @statement{ACCEPT} lacking a @code{FROM} clause to be treated as a @statementref{ACCEPT screen-data-item}.
 
 @item
-If the @syntaxidx{CRT STATUS} clause is not specified, an implicit @syntaxidx{COB-CRT-STATUS} identifier (with a @code{PICTURE 9(4)}) will be allocated for the purpose of receiving screen @code{ACCEPT} statuses.  If @code{CRT STATUS} is specified, then @var{identifier-1} must be defined in the program as a @code{PICTURE 9(4)} field.
+If the
+@syntaxidx{CRT STATUS} clause is not specified, an implicit
+@syntaxidx{COB-CRT-STATUS} identifier (with a @code{PICTURE 9(4)}) will be allocated for the purpose of receiving screen @code{ACCEPT} statuses.  If @code{CRT STATUS} is specified, then @var{identifier-1} must be defined in the program as a @code{PICTURE 9(4)} field.
 
 @item
-The @syntaxidx{CURRENCY SIGN} clause may be used to redefine the character to be used as a currency sign in a @syntaxref{PICTURE} clause.  The default currency sign is a dollar-sign (@samp{$}).  You may specify any character @i{except} @code{0}-@code{9}, @code{A}-@code{Z}, @code{a}-@code{z}, @code{+}, @code{-}, @code{,}, @code{.}, @code{*}, @code{/}, @code{;}, @code{(}, @code{)}, @code{=}, @code{\\}, quote (@samp{"}) or space.
+The
+@syntaxidx{CURRENCY SIGN} clause may be used to redefine the character to be used as a currency sign in a @syntaxref{PICTURE} clause.  The default currency sign is a dollar-sign (@samp{$}).  You may specify any character @i{except} @code{0}-@code{9}, @code{A}-@code{Z}, @code{a}-@code{z}, @code{+}, @code{-}, @code{,}, @code{.}, @code{*}, @code{/}, @code{;}, @code{(}, @code{)}, @code{=}, @code{\\}, quote (@samp{"}) or space.
 
 @item
-The @syntaxidx{CURSOR IS} clause allows you to specify a 4- or 6-character data item into which the cursor screen location at the time a screen @code{ACCEPT} is satisfied.  The value will be returned as @i{rrcc} or @i{rrrccc}, depending upon the length of the specified @var{identifier-2}, where @i{rr} and @i{rrr} represent the row number (starting at zero) and @i{cc} and @i{ccc} represent the column number (also starting at zero).  There is no default data item allocated for this data if the @code{CURSOR IS} clause is not specified, and it is the programmer's responsibility to define @var{identifier-2} if the clause is specified.
+The
+@syntaxidx{CURSOR IS} clause allows you to specify a 4- or 6-character data item into which the cursor screen location at the time a screen @code{ACCEPT} is satisfied.  The value will be returned as @i{rrcc} or @i{rrrccc}, depending upon the length of the specified @var{identifier-2}, where @i{rr} and @i{rrr} represent the row number (starting at zero) and @i{cc} and @i{ccc} represent the column number (also starting at zero).  There is no default data item allocated for this data if the @code{CURSOR IS} clause is not specified, and it is the programmer's responsibility to define @var{identifier-2} if the clause is specified.
 
 @item
-The @syntaxidx{DECIMAL POINT IS COMMA} clause reverses the definition of the @samp{,} and @samp{.} characters when they are used as @code{PICTURE} editing symbols and within numeric literals.  This can have unwanted side-effects - see @ref{Punctuation}.
+The
+@syntaxidx{DECIMAL POINT IS COMMA} clause reverses the definition of the @samp{,} and @samp{.} characters when they are used as @code{PICTURE} editing symbols and within numeric literals.  This can have unwanted side-effects - see @ref{Punctuation}.
 
 @item
-The @syntaxidx{LOCALE} clause may be used to associate external OS-defined locale names (@var{literal-2}) with an internal name (@var{locale-name-1}) that may then be referenced within the program.  Locale names are defined by the Operating System and/or C compiler GnuCOBOL will be utilizing on your computer.
+The
+@syntaxidx{LOCALE} clause may be used to associate external OS-defined locale names (@var{literal-2}) with an internal name (@var{locale-name-1}) that may then be referenced within the program.  Locale names are defined by the Operating System and/or C compiler GnuCOBOL will be utilizing on your computer.
 
 @item
 The following is the list of possible locale codes, for example, that would be available on a Windows computer running a GnuCOBOL version that was built utilizing the MinGW Unix-emulator and the GNU C compiler (gcc):
@@ -239,7 +251,8 @@ zh_CN, zh_HK, zh_MO, zh_SG, zh_TW, zu_ZA
 @end table
 
 @item
-The @syntaxidx{NUMERIC SIGN TRAILING SEPARATE} specification causes all signed numeric @code{USAGE DISPLAY} data items to be created as if the @code{SIGN IS TRAILING SEPARATE CHARACTER} clause was included in their definitions.
+The
+@syntaxidx{NUMERIC SIGN TRAILING SEPARATE} specification causes all signed numeric @code{USAGE DISPLAY} data items to be created as if the @code{SIGN IS TRAILING SEPARATE CHARACTER} clause was included in their definitions.
 
 @item
 The @code{@var{device-name-1} IS @var{mnemonic-name-2}} clause allows you to specify an alternate name (@var{device-name-1}) for one of the built-in GnuCOBOL device name @var{mnemonic-name-2}.  The list of device names built-into GnuCOBOL, and the physical device associated with that name, are as follows:
@@ -277,7 +290,8 @@ The @code{CSP} positioning option stands for ``No Spacing''.  Testing on a MinGW
 @newunit{5.1.3.1,Alphabet-Name-Clause}
 @diagram{SPECIAL-NAMES Alphabet-Clause,ED-SPECIAL-NAMES-AN-Info,ED-SPECIAL-NAMES-AN-TeX,None}
 @diagram{SPECIAL-NAMES ALPHABET Literal-Clause,ED-SPECIAL-NAMES-L-Info,ED-SPECIAL-NAMES-L-TeX,None}
-The @syntaxidx{ALPHABET} clause relates @var{alphabet-name-1} to a specified character code set or collating sequence, including one you define yourself using the @var{literal-1} option.
+The
+@syntaxidx{ALPHABET} clause relates @var{alphabet-name-1} to a specified character code set or collating sequence, including one you define yourself using the @var{literal-1} option.
 @enumerate
 @item
 The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
@@ -286,7 +300,10 @@ The reserved word @code{IS} is optional and may be omitted.  The presence or abs
 The reserved words @code{THRU} and @code{THROUGH} are interchangeable.
 
 @item
-GnuCOBOL considers @syntaxidx{ASCII}, @syntaxidx{STANDARD-1} and @syntaxidx{STANDARD-2} to be interchangeable.
+GnuCOBOL considers
+@syntaxidx{ASCII},
+@syntaxidx{STANDARD-1} and
+@syntaxidx{STANDARD-2} to be interchangeable.
 
 @item
 @syntaxidx{NATIVE} specifies the system default character set.
@@ -351,13 +368,17 @@ The switch-definition clause associates a condition-name with a run-time executi
 The reserved words @code{IS} and @code{STATUS} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
 
 @item
-The valid @var{switch-name-1} names are @syntaxidx{SWITCH-n} (@code{@var{n}} = 0-36).
+The valid @var{switch-name-1} names are
+@syntaxidx{SWITCH-n} (@code{@var{n}} = 0-36).
 
 @item
-If the program is compiled with the @switchidx{-fsyntax-extension}, the switch names @syntaxidx{SWn} (@code{@var{n}} = 0-15) are also valid; they correspond to @code{SWITCH-0} through @code{SWITCH-15}, respectively as well as @code{SWITCH-16} through @code{SWITCH-36}, @code{SWITCH 0} through @code{SWITCH 26} and @code{SWITCH A} through @code{SWITCH Z}.
+If the program is compiled with the
+@switchidx{-fsyntax-extension}, the switch names
+@syntaxidx{SWn} (@code{@var{n}} = 0-15) are also valid; they correspond to @code{SWITCH-0} through @code{SWITCH-15}, respectively as well as @code{SWITCH-16} through @code{SWITCH-36}, @code{SWITCH 0} through @code{SWITCH 26} and @code{SWITCH A} through @code{SWITCH Z}.
 
 @item
-At execution time, each switch will be associated with a @envvarruntime{COB_SWITCH_n}, where @code{@var{n}} will have the value @samp{0} through @samp{15}.  Any of these sixteen environment variables that have the value @code{ON} (regardless of upper- or lower-case value) will be considered to be set ``on''.  Any of these sixteen environment variables having no value at all or a value other than @code{ON} will be considered @code{OFF}.
+At execution time, each switch will be associated with a
+@envvarruntime{COB_SWITCH_n}, where @code{@var{n}} will have the value @samp{0} through @samp{15}.  Any of these sixteen environment variables that have the value @code{ON} (regardless of upper- or lower-case value) will be considered to be set ``on''.  Any of these sixteen environment variables having no value at all or a value other than @code{ON} will be considered @code{OFF}.
 
 @item
 Each specified switch must have at least one of a @code{IS @var{mnemonic-name-1}}, @code{ON STATUS} or an @code{OFF STATUS} option defined for it, otherwise there will be no way to reference the switch from within a GnuCOBOL program.
@@ -366,7 +387,9 @@ Each specified switch must have at least one of a @code{IS @var{mnemonic-name-1}
 The @code{IS @var{mnemonic-name-1}} syntax provides a means for setting the switch to either an @code{ON} or @code{OFF} value via the @statementref{SET}.
 
 @item
-The @syntaxidx{ON STATUS} and @syntaxidx{OFF STATUS} syntax provides a way of associating a condition-name with either the on or off status of the switch, so that status may be tested at execution time via the @statementref{IF}.
+The
+@syntaxidx{ON STATUS} and
+@syntaxidx{OFF STATUS} syntax provides a way of associating a condition-name with either the on or off status of the switch, so that status may be tested at execution time via the @statementref{IF}.
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.3.4 Symbolic-Characters-Clause                              **
@@ -427,10 +450,15 @@ The REPOSITORY paragraph provides a way to control access to the various built-i
 The @code{REPOSITORY} paragraph is not allowed in a nested subprogram. A nested program inherits the @code{REPOSITORY} settings of its parent program.
 
 @item
-The @syntaxidx{INTRINSIC} clause allows you to flag one or more (or @syntaxidx{ALL}) built-in intrinsic functions as being usable without the need to code the keyword @syntaxidx{FUNCTION} in front of the function names.
+The
+@syntaxidx{INTRINSIC} clause allows you to flag one or more (or
+@syntaxidx{ALL}) built-in intrinsic functions as being usable without the need to code the keyword
+@syntaxidx{FUNCTION} in front of the function names.
 
 @item
-As an alternative to using the @syntaxidx{ALL INTRINSIC} clause, you may instead compile your GnuCOBOL programs using the @switchidx{-fintrinsics=ALL}.
+As an alternative to using the
+@syntaxidx{ALL INTRINSIC} clause, you may instead compile your GnuCOBOL programs using the
+@switchidx{-fintrinsics=ALL}.
 
 @item
 The @var{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @code{AS} clause to provide an alias name for a built-in intrinsic function.
@@ -497,7 +525,9 @@ After @var{file-name-1}, the various clauses may be coded in any sequence.
 A period must follow the last coded clause.
 
 @item
-The @syntaxidx{OPTIONAL} clause, to be used only for files that will be used to provide input data to the program, indicates the file may or may not actually be available at run-time.  Attempts to @code{OPEN} an @code{OPTIONAL} file when the file does not exist will receive a special non-fatal file status value (see status 05 in the list of file status values below) indicating the file is not available; a subsequent attempt to @code{READ} that file will return an @code{AT END} (end-of-file) condition.  Optionally, files may be designated as @code{NOT OPTIONAL}, if desired.  This is useful when specifying the compiler's @switchidx{-foptional-file}, which automatically makes all files @code{OPTIONAL} except for those explicitly declared as @code{NOT OPTIONAL}.
+The
+@syntaxidx{OPTIONAL} clause, to be used only for files that will be used to provide input data to the program, indicates the file may or may not actually be available at run-time.  Attempts to @code{OPEN} an @code{OPTIONAL} file when the file does not exist will receive a special non-fatal file status value (see status 05 in the list of file status values below) indicating the file is not available; a subsequent attempt to @code{READ} that file will return an @code{AT END} (end-of-file) condition.  Optionally, files may be designated as @code{NOT OPTIONAL}, if desired.  This is useful when specifying the compiler's
+@switchidx{-foptional-file}, which automatically makes all files @code{OPTIONAL} except for those explicitly declared as @code{NOT OPTIONAL}.
 
 @item
 The @var{file-name-1} value that you specify will be the name by which you will reference the file within your program.  This name should be formed according to the rules for user-defined names (@pxref{User-Defined Words}).
@@ -597,7 +627,9 @@ If no directory name is included (@code{datafile.dat}), the file must be in the 
 @end enumerate
 
 @item
-The @syntaxidx{FILE STATUS} or @syntaxidx{SORT STATUS} clause (they are both equivalent and only one or the other, if any, should be specified) is used to specify the name of a two-digit numeric data item into which an I/O status code will be saved after every I/O verb that is executed against the file.  This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. Note that the following list is not definitive: more can be added and any tests should include one for non zeros as a catch all.
+The
+@syntaxidx{FILE STATUS} or
+@syntaxidx{SORT STATUS} clause (they are both equivalent and only one or the other, if any, should be specified) is used to specify the name of a two-digit numeric data item into which an I/O status code will be saved after every I/O verb that is executed against the file.  This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. Note that the following list is not definitive: more can be added and any tests should include one for non zeros as a catch all.
 @anchoridx{File Status Codes}Possible status codes that can be returned to a @code{FILE STATUS} data item are as follows:
 
 @c dictionary{code, definitions}
@@ -705,10 +737,12 @@ File not available
 @enddict{}
 
 @item
-The @syntaxidx{SHARING} clause defines the conditions under which the program will be willing (or not) to allow other programs executing at the same time to access the file.  @xref{File Sharing}, for the details.
+The
+@syntaxidx{SHARING} clause defines the conditions under which the program will be willing (or not) to allow other programs executing at the same time to access the file.  @xref{File Sharing}, for the details.
 
 @item
-The @syntaxidx{LOCK} clause defines how concurrent access to the file will be managed on a record-by-record basis.  @xref{Record Locking}, for the details.
+The
+@syntaxidx{LOCK} clause defines how concurrent access to the file will be managed on a record-by-record basis.  @xref{Record Locking}, for the details.
 
 @item
 For syntax details  for the @code{ORGANIZATION} clause, see next group of paragraphs.
@@ -748,7 +782,8 @@ These files may contain either @code{USAGE DISPLAY} or @code{USAGE COMPUTATIONAL
 While records in a @code{ORGANIZATION SEQUENTIAL} file may be defined as having variable-length records, the file will be structured in such a manner as to reserve space for each record equal to the size of the largest possible record, based on the file's description in the @code{FILE SECTION}.
 
 @item
-The @syntaxidx{ACCESS MODE SEQUENTIAL} clause is optional because, if absent, it will be assumed anyway for this type of file.  The internal structure of these files is such that they can only be processed in a sequential manner; in order to read the 100th record in such a file, for example, you first must read records 1 through 99.
+The
+@syntaxidx{ACCESS MODE SEQUENTIAL} clause is optional because, if absent, it will be assumed anyway for this type of file.  The internal structure of these files is such that they can only be processed in a sequential manner; in order to read the 100th record in such a file, for example, you first must read records 1 through 99.
 
 @item
 Sequential files are processed using the following statements:
@@ -817,7 +852,8 @@ The end-of-record delimiter sequence will be @code{X@samp{0A}} (an ASCII line-fe
 When reading a @code{LINE SEQUENTIAL} file, records in excess of the size implied by the file's description in the @code{FILE SECTION} will be truncated while records shorter than that size will be padded to the right with @code{SPACES}.
 
 @item
-The @syntaxidx{ACCESS MODE SEQUENTIAL} clause is optional because, if absent, it will be assumed anyway for this type of file.  The internal structure of these files is such that the data can only be processed in a sequential manner; in order to read the 100th record in such a file, for example, you first must read records 1 through 99.
+The
+@syntaxidx{ACCESS MODE SEQUENTIAL} clause is optional because, if absent, it will be assumed anyway for this type of file.  The internal structure of these files is such that the data can only be processed in a sequential manner; in order to read the 100th record in such a file, for example, you first must read records 1 through 99.
 
 @item
 Files assigned to @code{PRINTER} or @code{CONSOLE} should be specified as @code{ORGANIZATION LINE SEQUENTIAL}.
@@ -877,7 +913,8 @@ The phrase @code{ORGANIZATION IS} (and its internationalized alternative, @code{
 @code{ORGANIZATION RELATIVE} files cannot be assigned to the @code{CONSOLE}, @code{DISPLAY}, @code{LINE ADVANCING} or @code{PRINTER} devices.
 
 @item
-The @syntaxidx{RELATIVE KEY} clause is optional only if @code{ACCESS MODE SEQUENTIAL} is specified.
+The
+@syntaxidx{RELATIVE KEY} clause is optional only if @code{ACCESS MODE SEQUENTIAL} is specified.
 
 @item
 While an @code{ORGANIZATION RELATIVE} file may be defined as having variable-length records, the file will be structured in such a manner as to reserve space for each record equal to the size of the largest possible record as defined by the file's description in the @code{FILE SECTION}.
@@ -892,7 +929,8 @@ While an @code{ORGANIZATION RELATIVE} file may be defined as having variable-len
 @syntaxidx{ACCESS MODE DYNAMIC} indicates the program may switch back and forth between @code{SEQUENTIAL} and @code{RANDOM} mode during execution.  The file starts out initially in @code{SEQUENTIAL} mode when first opened but the program may use the @statementref{START} to switch between sequential and random access.
 
 @item
-The @syntaxidx{RELATIVE KEY} data item is a numeric data item that cannot be defined as a field within records of this file.  Its purpose is to return the current relative record number of a relative file that is being processed in @code{SEQUENTIAL} access mode and to serve as a key that specifies the relative record number to be read or written when processing a relative file in @code{RANDOM} access mode.
+The
+@syntaxidx{RELATIVE KEY} data item is a numeric data item that cannot be defined as a field within records of this file.  Its purpose is to return the current relative record number of a relative file that is being processed in @code{SEQUENTIAL} access mode and to serve as a key that specifies the relative record number to be read or written when processing a relative file in @code{RANDOM} access mode.
 
 @item
 Relative files are processed using the following statements:
@@ -961,16 +999,22 @@ The phrase @code{ORGANIZATION IS} (and its internationalized alternative, @code{
 @syntaxidx{ACCESS MODE DYNAMIC} allows the file will be processed either in @code{RANDOM} or @code{SEQUENTIAL} mode; the program may switch between the two modes as needed.  The @code{START} statement is used to make the switch between modes.
 
 @item
-The @syntaxidx{RECORD KEY} clause defines the field within the record used to provide the primary access to records within the file.  No two records in the file will be allowed to have the same @code{PRIMARY KEY} field value. The @syntaxidx{SOURCE IS} clause is for use with @syntaxidx{Split Keys}.
+The
+@syntaxidx{RECORD KEY} clause defines the field within the record used to provide the primary access to records within the file.  No two records in the file will be allowed to have the same @code{PRIMARY KEY} field value. The
+@syntaxidx{SOURCE IS} clause is for use with
+@syntaxidx{Split Keys}.
 
 @item
-The @syntaxidx{ALTERNATE RECORD KEY} clause, if used, defines an additional field within the record that provides an alternate means of directly accessing records or an additional field by which the file's contents may be processed sequentially.  You have the choice of allowing records to have duplicate alternate key values, if necessary.
+The
+@syntaxidx{ALTERNATE RECORD KEY} clause, if used, defines an additional field within the record that provides an alternate means of directly accessing records or an additional field by which the file's contents may be processed sequentially.  You have the choice of allowing records to have duplicate alternate key values, if necessary.
 
 @item
 There may be multiple @code{ALTERNATE RECORD KEY} clauses, each defining an additional alternate key for the file.
 
 @item
-Usage of the @syntaxidx{SUPPRESS WHEN} clause is used when @syntaxidx{Sparse Keys} are required which may take the form for a literal or spaces or zeroes.
+Usage of the
+@syntaxidx{SUPPRESS WHEN} clause is used when
+@syntaxidx{Sparse Keys} are required which may take the form for a literal or spaces or zeroes.
 
 @item
 Indexed files are processed using the following statements:

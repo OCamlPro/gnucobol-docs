@@ -142,7 +142,8 @@ Footing Area --- An exception to this is the situation where the report footing 
 @newsection{9.4,How RWCS Builds Report Pages}
 A report created via a @statementref{WRITE} will contain carriage-control information.  Most notably, @sc{ASCII} form-feed characters (X'0C') will be written to the report file to support the statement's @code{ADVANCING PAGE} option.  Whether the data for a report line created via @code{ADVANCING PAGE} occurs @i{before} or @i{after} the form-feed character depends upon whether the programmer coded @code{WRITE @var{record-name} BEFORE ADVANCING PAGE} or @code{WRITE @var{record-name} AFTER ADVANCING PAGE}, respectively.
 
-The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @code{RD} for the report (specifically the @code{PAGE LIMITS} and related options) and its internally-generated and managed @registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
+The GnuCOBOL implementation of RWCS does not issue any carriage-control information to the report files it produces --- instead, it relies upon the information coded in the @code{RD} for the report (specifically the @code{PAGE LIMITS} and related options) and its internally-generated and managed
+@registerrefalt{LINE-COUNTER,Special Registers} for the report to know when to issue any blank lines to the file to fill-out the end of a printed page.
 
 Because this is the way the GnuCOBOL RWCS works, in order to design an RWCS-generated report you'll need to know answers to the following questions:
 @enumerate
@@ -256,7 +257,8 @@ SORT SORT-FILE
 @end example
 @* Because of the sort, the most-frequently changing value of the three sort keys will be that of @code{Sorted-Register-Number}.  This essentially defines the ``detail'' level of the report.
 
-The next most-frequently changing value is that of @code{Sorted-Department-Number}, and the least-frequently changing value is that of @code{Sorted-Store-Number}.  remember that the program should be generating totals each time one of these two values change, plus a grand total of sales at the end of the report.  These three points are the @define{Control Break} points of the report.
+The next most-frequently changing value is that of @code{Sorted-Department-Number}, and the least-frequently changing value is that of @code{Sorted-Store-Number}.  remember that the program should be generating totals each time one of these two values change, plus a grand total of sales at the end of the report.  These three points are the
+@define{Control Break} points of the report.
 
 When the report is defined, it's @code{RD} would contain a @code{CONTROLS ARE} clause that lists the control breaks in least- to most-frequent sequence of changing.  This would be coded as:
 
