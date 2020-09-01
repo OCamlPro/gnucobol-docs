@@ -18,7 +18,7 @@
 @idx{\term\}
 @dfn{\term\}
 @end macro
-@comment For use after @item
+@comment For use after @item, must occur at end of line
 @macro itemdfn {term}
 @dfn{\term\}
 @idx{\term\}
@@ -77,26 +77,37 @@
 @comment |     another defintion
 @comment |     @enddict
 @comment +-------------------------------------------------------------------+
-@macro dictionary {code, class}
 @ifhtml
+@macro dictionary {code, class}
 @html
 <div class=\class\>
 @end html
-@end ifhtml
 @table \code\
 @end macro
+@end ifhtml
 
+@ifnothtml
+@macro dictionary {code, class}
+@table \code\
+@end macro
+@end ifnothtml
 @comment +-------------------------------------------------------------------+
 @comment | End HTML dictionary list (@table) and close the division, for CSS. 
 @comment +-------------------------------------------------------------------+
+@ifhtml
 @macro enddict
 @end table
-@ifhtml
 @html
 </div>
 @end html
-@end ifhtml
 @end macro
+@end ifhtml
+
+@ifnothtml
+@macro enddict
+@end table
+@end macro
+@end ifnothtml
 @comment +-------------------------------------------------------------------+
 @comment | MACRO: directive{xxxxx}                                           |
 @comment |                                                                   |
