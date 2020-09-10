@@ -1540,10 +1540,10 @@ The @var{mnemonic-name-1} /
 causes the linkage to the subroutine to be performed in such a way as to require the subroutine to be statically-linked with the calling program.  Note that this enables static-linking to be used on a subroutine-by-subroutine selective basis.
 
 @item @code{STDCALL}
-allows system-standard calling conventions (as opposed to GnuCOBOL calling conventions) to be used when calling a subroutine.  The definition of what constitutes ``system standard'' may vary from operating system to operating system.  Use of this requires special knowledge about the linkage requirements of subroutines you are intending to @code{CALL}.  Subroutines written in GnuCOBOL do not need this option.
+allows system standard calling conventions (as opposed to GnuCOBOL calling conventions) to be used when calling a subroutine.  The definition of what constitutes ``system standard'' may vary from operating system to operating system.  Use of this requires special knowledge about the linkage requirements of subroutines you are intending to @code{CALL}.  Subroutines written in GnuCOBOL do not need this option.
 
 @item @var{mnemonic-name-1}
-allows a custom-defined calling convention to be used.  Such mnemonic names are defined using the @syntaxrefalt{CALL-CONVENTION,SPECIAL-NAMES} clause.  That clause associates a decimal integer value with @var{mnemonic-name-1} such that the individual bits set on or off in the binary equivalent of the integer affect linkage to the subroutine as described in the following chart.  Those rows of the chart marked with a ``No'' in the @b{Supported} column represent bit positions (switch settings) in the integer value that are currently accepted (to provide compatibility to other COBOL implementations) if coded, but are otherwise unsupported.
+allows a custom defined calling convention to be used.  Such mnemonic names are defined using the @syntaxrefalt{CALL-CONVENTION,SPECIAL-NAMES} clause.  That clause associates a decimal integer value with @var{mnemonic-name-1} such that the individual bits set on or off in the binary equivalent of the integer affect linkage to the subroutine as described in the following chart.  Those rows of the chart marked with a ``No'' in the @b{Supported} column represent bit positions (switch settings) in the integer value that are currently accepted (to provide compatibility to other COBOL implementations) if coded, but are otherwise unsupported.
 
 Note that bit 0 is the right-most bit in the binary value.
 
@@ -2543,16 +2543,16 @@ The following example shows how @code{GO TO ... DEPENDING ON} may be used in a r
 @headitem GO TO DEPENDING ON @tab EVALUATE
 @item
 @verbatim
-    GO TO                         
-      ACCT-TYPE-1                 
-      ACCT-TYPE-2                 
-      ACCT-TYPE-3                 
-    DEPENDING ON Acct-Type.       
-    <<< Invalid Acct Type >>>     
-    GO TO All-Done.               
-Acct-Type-1.                      
-    <<< Handle Acct Type 1 >>>    
-    GO TO All-Done.               
+    GO TO
+      ACCT-TYPE-1
+      ACCT-TYPE-2
+      ACCT-TYPE-3
+    DEPENDING ON Acct-Type.
+    <<< Invalid Acct Type >>>
+    GO TO All-Done.
+Acct-Type-1.
+    <<< Handle Acct Type 1 >>>
+    GO TO All-Done.
 Acct-Type-2.
     <<< Handle Acct Type 2 >>>
     GO TO All-Done.
@@ -2562,16 +2562,16 @@ All-Done.
 @end verbatim
 @tab
 @verbatim
-EVALUATE Acct-Type             
-WHEN 1                         
-    <<< Handle Acct Type 1 >>> 
-WHEN 2                         
-    <<< Handle Acct Type 2 >>> 
-WHEN 3                         
-    <<< Handle Acct Type 3 >>> 
-WHEN OTHER                     
-    <<< Invalid Acct Type >>>  
-END-EVALUATE.                  
+EVALUATE Acct-Type
+WHEN 1
+    <<< Handle Acct Type 1 >>>
+WHEN 2
+    <<< Handle Acct Type 2 >>>
+WHEN 3
+    <<< Handle Acct Type 3 >>>
+WHEN OTHER
+    <<< Invalid Acct Type >>>
+END-EVALUATE.
 @end verbatim
 @end multitable
 
@@ -3573,7 +3573,7 @@ The minimal statement @code{READ @var{file-name-1}} is perfectly legal according
 The optional
 @syntaxidx{KEY} clause tells the compiler how a record is to be located in the file.
 
-If the @code{KEY} clause is absent, and the file is 
+If the @code{KEY} clause is absent, and the file is
 
 @table @code
 @item ORGANIZATION RELATIVE
@@ -4295,7 +4295,7 @@ the logical record pointer will point to the last record in the file.
 
 @table @asis
 @item @code{EQUAL TO}, @code{GREATER THAN} or @code{GREATER THAN OR EQUAL TO} (or equivalent)
-the logical record pointer will be specified to the @i{first} record satisfying the relation condition; to identify this record. The file's contents are searched in a first-to-last (in sequence of the key implied by the @code{KEY} clause), provided the relation is 
+the logical record pointer will be specified to the @i{first} record satisfying the relation condition; to identify this record. The file's contents are searched in a first-to-last (in sequence of the key implied by the @code{KEY} clause), provided the relation is
 @item @code{LESS THAN}, @code{LESS THAN OR EQUAL TO} or @code{NOT GREATER THAN} (or equivalent)
 the logical record pointer will be specified to the @i{last} record satisfying the relation condition; to identify this record. The file's contents are searched in a last-to-first (in sequence of the key implied by the @code{KEY} clause)
 @end table
