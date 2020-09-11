@@ -4,7 +4,31 @@ set -e
 html=frs.sourceforge.net:/home/project-web/gnucobol/htdocs/HTML
 version=3.1
 
-make publish-css WWW=$html/$version
+tgt=all
 
-scp HTML/*.html $html/$version/
+if [ "$1" ]
+then
+    tgt=$1
+fi
 
+case $tgt in
+    all)
+	make publish-css WWW=$html/$version
+	scp HTML/*.html $html/$version/
+	;;
+    html)
+	set -x
+	scp HTML/*.html $html/$version/
+	;;
+    guide)
+	set -x
+	scp HTML/gnucobpg.html  $html/$version/
+	;;
+    css|js)
+	make publish-css WWW=$html/$version
+	;;
+    *)
+	echo $0 'all | html | guide | css | js' >&2
+	exit 1
+	;;
+esac
