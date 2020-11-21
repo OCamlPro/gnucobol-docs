@@ -1,4 +1,4 @@
-# The GnuCOBOL Grammar for version 3.1-dev
+# The GnuCOBOL Grammar for version 4.0-early-dev
 
 ## Summary
 

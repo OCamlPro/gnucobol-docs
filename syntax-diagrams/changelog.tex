@@ -20,11 +20,12 @@
 \paragraph{Configuration options}
 \begin{itemize}
 \item \textbf{Deleted compiler configuration options}: select-working (see \bug{421}).
-\item \textbf{New compiler configuration options}: align-opt, align-record, assign-variable, assign-using-variable, assign-ext-dyn, assign-disk-from, dpc-in-data, implicit-assign-dynamic-var, reference-bounds-check, same-as-clause, sync-left-right and vsam-status.
+\item \textbf{New compiler configuration options}: align-opt, align-record, assign-variable, assign-using-variable, assign-ext-dyn, assign-disk-from, implicit-assign-dynamic-var, reference-bounds-check, same-as-clause and sync-left-right.
 \item \textbf{New runtime configuration options}:
   \begin{itemize}
   \item bdb\_byteorder (whether BDB should use native, big endian or little endian byte order).
   \item create\_table (whether the ODBC\slash{}OCI file handler should create a DDL file from an XFD file if no DDL exists).
+  \item dups\_ahead (whether a duplicates in an INDEXED file leads to file status 02).
   \item mf\_ls\_instab (whether to replace tabs by spaces which fill up to the next tab stop (tab stops set 8 spaces apart)).
   \item keycheck (check whether INDEXED file keys match the SELECT specification exactly).
   \end{itemize}
@@ -33,7 +34,6 @@
 
 \paragraph{Compiler directives}
 \begin{itemize}
-\item \textbf{New Micro Focus directives}: DPC-IN-DATA.
 \item \textbf{\directiveindicator{}SET directive}: added XFD phrase.
 \end{itemize}
 
@@ -56,7 +56,6 @@
 
 \paragraph{Procedure division}
 \begin{itemize}
-\item \textbf{ACCEPT statement (screen)}: fixed some issues with mice.
 \item \textbf{COMMIT statement}: added optional word TRANSACTION.
 \item \textbf{DELETE statement (file)}: added ON EXCEPTION handlers.
 \item \textbf{File I-O}: added support for multiple simultaneous file handlers.
@@ -68,6 +67,7 @@
 \item \textbf{INSPECT statement}: fixed multiple TALLYING phrases being rejected (see \bug{47})
 \item \textbf{Procedure division header}: fixed error when a variable-length parameter was not referenced (\bug{648}).
 \item \textbf{Procedure division header}: added recognition of z/OS-PARM-style main program parameter (\fr{357}).
+\item \textbf{Reference modification}: added out-of-bounds checks within IF statement conditions.
 \item \textbf{REWRITE statement}: enabled for LINE SEQUENTIAL files.
 \item \textbf{ROLLBACK statement}: added optional word TRANSACTION.
 \item \textbf{SET statement}: added support for FH-{}-FCD and FH-{}-KEYDEF (\fr{349}).
@@ -78,31 +78,37 @@
 \item \textbf{WRITE statement (indexed)}: fixed bug involving file status 21.
 \end{itemize}
 
-\section{GnuCOBOL 3.1-dev}
+\section{GnuCOBOL 3.1.1-dev}
 
-NB: Some changes have been made to 3.1-dev which have not yet been merged up to 4.0-early-dev. They have been marked with an asterisk (*).
+NB: Some changes have been made to 3.1.1-dev which have not yet been merged up to 4.0-early-dev. They have been marked with an asterisk (*).
 
 \paragraph{General}
 \begin{itemize}
+\item \textbf{AIX support}: fixed NIST tests script.
 \item \textbf{C API (configuration)}: added cob\_set\_runtime\_option and cob\_get\_runtime\_option for specifying the file handle which printer output or trace output should go to.
-\item \textbf{C API (environment)*}: added function cob\_getenv\_direct.
-\item \textbf{C API (fields)*}: added functions cob\_get\_dbl\_param, cob\_get\_field\_constant, cob\_get\_field\_digits, cob\_get\_field\_scale, cob\_get\_field\_sign, cob\_get\_field\_size, cob\_get\_field\_str, cob\_get\_field\_str\_buffered, cob\_get\_field\_type, cob\_get\_param\_field, cob\_get\_param\_str, cob\_get\_param\_str\_bufffered, cob\_put\_dbl\_param, cob\_put\_field\_str, cob\_put\_field\_str, explain\_field\_type (feature requests \frnoname{383} and~\frnoname{384}).
+\item \textbf{C API (environment)}: added function cob\_getenv\_direct.
+\item \textbf{C API (fields)}: added functions cob\_get\_dbl\_param, cob\_get\_field\_constant, cob\_get\_field\_digits, cob\_get\_field\_scale, cob\_get\_field\_sign, cob\_get\_field\_size, cob\_get\_field\_str, cob\_get\_field\_str\_buffered, cob\_get\_field\_type, cob\_get\_param\_field, cob\_get\_param\_str, cob\_get\_param\_str\_bufffered, cob\_put\_dbl\_param, cob\_put\_field\_str, cob\_put\_field\_str, explain\_field\_type (feature requests \frnoname{383} and~\frnoname{384}).
+\item \textbf{C API (version)}: added libcob\_version and set\_libcob\_version for querying the version of libcob.
 \item \textbf{cobc command-line options}: added -fcallfh (and COBOL-IT alias -use-extfh).
 \item \textbf{cobc command-line options}: added -fdump to dump data of all modules on abend of program.
+\item \textbf{cobc command-line options}: added -fno-dump to suppress dumps of data from certain sections.
 \item \textbf{cobc command-line options}: disabled -fif-cutoff pending removal.
 \item \textbf{cobc command-line options}: added -fno-remove-unreachable to disable removal of unreachable code.
 \item \textbf{cobc command-line options}: -debug no longer implies -ftrace (\bug{449}).
 \item \textbf{cobc command-line options}: added -O0 for disabling optimisations (\fr{255}).
 \item \textbf{cobc command-line options}: replaced -tsymbols by -f(no-)tsysmbols.
 \item \textbf{cobc command-line options}: added -fno-theader, -fno-tmessages and -fno-tsource to suppress parts of listings.
-\item \textbf{cobc command-line options*}: added -Wadditional to enable any messages not enabled by -Wall.
-\item \textbf{cobc command-line options*}: added -Wextra as alias for -W.
-\item \textbf{cobc command-line options*}: added -Wno-error.
+\item \textbf{cobc command-line options}: added -Wadditional to enable any messages not enabled by -Wall.
+\item \textbf{cobc command-line options}: added -Wextra as alias for -W.
+\item \textbf{cobc command-line options}: added -Wno-error.
 \item \textbf{cobc command-line options}: added -Wno-dialect to suppress dialect-specific warnings.
 \item \textbf{cobc command-line options}: added -Wother to enable miscellaneous warnings.
 \item \textbf{cobc command-line options}: added -fgen-c-line-directives and -fgen-c-labels to enable generation of labels and directives indicating where generated C code came from in the original COBOL source.
 \item \textbf{cobc command-line options}: honour POSIXLY\_CORRECT environment variable.
 \item \textbf{cobc command-line options}: added -fec and -fno-ec to enable and disable exception checks.
+\item \textbf{cobc command-line options}: added -f(no-)diagnostics-show-option, to show the command-line option resposible for a diagnostic message (\fr{386}).
+\item \textbf{cobc command-line options}: added -Wdangling-text to warn on source text beyond the program area (previously only part of -Wall).
+\item \textbf{cobc command-line options}: -Wimplicit-define and -Wcorresponding are now enabled by default.
 \item \textbf{cobcrun}: allow redirection of cobcrun's output (\bug{616}).
 \item \textbf{cobcrun command-line options}: renamed -runtime-conf to -runtime-config.
 \item \textbf{cobcrun command-line options}: added --verbose.
@@ -112,24 +118,32 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \item \textbf{Copyfiles}: fixed segfault when GnuCOBOL tried and failed to open a copyfile (\bug{458}).
 \item \textbf{Copyfiles}: GnuCOBOL now checks for recursive copyfiles (\bug{467}).
 \item \textbf{Debugging}: Added debug logging for compiler developers (-{}-enable-debug-log ./configure option).
-\item \textbf{Dependencies}: GnuCOBOL now (optionally) depends on libxml2 and cJSON (for XML and JSON I-O).
+\item \textbf{Dependencies}: GnuCOBOL now (optionally) depends on libxml2 (for XML I-O) and cJSON or JSON-C (for JSON I-O).
 \item \textbf{Dependencies}: moved documentation of GnuCOBOL's requirements from README to new file DEPENDENCIES.
+\item \textbf{Dependencies}: minimum Texinfo version increased to 6.1.
 \item \textbf{Documentation}: added Markdown versions of README and DEPENDENCIES.
+\item \textbf{Documentation}: updated SourceForge URL to new \url{https://sourceforge.net/p/gnucobol/}.
+\item \textbf{Documentation}: fixed warnings and errors while generating texi documentation.
+\item \textbf{Documentation}: improved portability of documentation generation scripts.
 \item \textbf{DJGGP support}: added minimal support for DJGGP.
 \item \textbf{Error messages}: runtime error messages now use translated versions (depending on a user's language).
 \item \textbf{Error messages}: added checks for version control conflict markers in source code.
 \item \textbf{Error messages}: increased default maximum number of error messages to 128 from 100.
 \item \textbf{Expressions}: fixed \bug{431}, where decimal constants were not initialised in INITIAL programs.
+\item \textbf{Hardening}: added ./configure option -{}-enable-hardening to control hardening compilation options.
 \item \textbf{IBM i support}: fixed segfault involving filepaths
 \item \textbf{Listings}: fixed the substitution of tokens in quotes in copyfiles (\bug{494}).
 \item \textbf{Listings}: fixed some cases of cross-reference listings containing wrong line numbers.
 \item \textbf{Listings}: now require the size of a listing page to be at least 20 lines.
 \item \textbf{Listings}: fixed segfault in listing programs with large REPLACE arguments (\bug{515}).
 \item \textbf{Listings}: fixed stack overflow in listing programs long literals (\bug{569}).
-\item \textbf{Mac OS support}: some build issues fixed (see \bug{644}).
+\item \textbf{Mac OS support}: some build issues fixed (see \bug{644} and \bug{73}).
+\item \textbf{Microsoft Visual C++}: dropped support for Visual Studio 2005.
 \item \textbf{MinGW support}: added script for generating binaries using MinGW.
+\item \textbf{MinGW support}: fixed issue with output filenames containing a dash.
 \item \textbf{Modules}: enabled running of modules generated with older versions of GnuCOBOL (\fr{239}).
 \item \textbf{MPIR support}: added as an alternative to GMP for GnuCOBOL's maths library.
+\item \textbf{Multiple programs}: fixed crash when a single file contained a large number of programs and functions (\bug{666}).
 \item \textbf{National literals}: added Fujitsu NC national character literals (\fr{352}).
 \item \textbf{National literals}: fixed NX type literals being treated as alphanumeric (\bug{658}).
 \item \textbf{Nested programs}: fixed \bug{435}, where identifiers in the containing program where not propagated to the contained program, causing a segfault.
@@ -138,10 +152,12 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \item \textbf{OrangeC support}: added minimal support for OrangeC.
 \item \textbf{Recursion}: fixed \bug{222}, where the return value was lost when returning from a recursive call.
 \item \textbf{Reserved words}: allow users to make default reserved words aliases for other words.
+\item \textbf{Sandboxed builds}: fixed \bug{73} and \bug{576}.
 \item  \textbf{Screen section testsuite}: added a manual testsuite for screen section functionality (\patch{26}).
 \item \textbf{Signals}: added error message for SIGFPE (see \bug{434}).
 \item \textbf{Solaris support}: fixed errors and warnings when compiling in Solaris 10.
 \item \textbf{Tracing}: added new options for controlling tracing (see \fr{242}).
+\item \textbf{Translations}: added Serbian and updated all others.
 \item \textbf{User-defined words}: increased default maximum user-defined length to 63 characters (per COBOL~202X draft standard).
 \item \textbf{Windows support}: renamed makedist.bat to makedist.cmd.
 \item \textbf{Windows support}: fixed cjson.dll not being included in distributions.
@@ -151,11 +167,12 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \paragraph{Configuration options}
 \begin{itemize}
 \item \textbf{assign-clause compiler configuration option}: added options external (equivalent to ibm) and dynamic (equivalent to mf).
+\item \textbf{assign-clause compiler configuration option}: changed value to ``external'' (i.e. ``ibm'') in the BS2000, COBOL-85, COBOL~2002 and COBOL~2014 dialects.
 \item \textbf{IBM dialect}: reserved words updated to Enterprise COBOL V6.2.
 \item \textbf{incorrect-conf-sec-order option}: changed to ``ok'' from ``error'' in mf and default dialects.
 \item \textbf{MF dialect}: added ARGUMENT-NUMBER and ARGUMENT-VALUE as reserved words.
 \item \textbf{New compiler configurations}: realia for CA Realia II.
-\item \textbf{New compiler configuration options}: assign-disk-from, assign-ext-dyn, assign-using-variable, assign-variable, binary-comp-1, call-convention-mnemonic, call-convention-linkage, continue-after, display-special-fig-consts, free-redefines-position (\fr{211}), hp-octal-literals, implicit-assign-dynamic-var, goto-entry, line-col-zero-default, national-character-literals move-figurative-space-to-numeric, move-non-numeric-lit-to-numeric-is-zero, missing-statement, numeric-pointer, perform-without-varying-by, record-delimiter, record-delim-with-fixed-recs, records-mismatch-record-clause, report-column-plus, screen-section-rules, sequential-delimiters, symbolic-constant, type-to-clause*, usage-type*, xml-generate-extra-phrases, zero-length-literals.
+\item \textbf{New compiler configuration options}: assign-disk-from, assign-ext-dyn, assign-using-variable, assign-variable, binary-comp-1, call-convention-mnemonic, call-convention-linkage, continue-after, display-special-fig-consts, dpc-in-data, free-redefines-position (\fr{211}), hp-octal-literals, implicit-assign-dynamic-var, goto-entry, line-col-zero-default, local-implies-recursive*, national-character-literals move-figurative-space-to-numeric, move-non-numeric-lit-to-numeric-is-zero, missing-statement, numeric-pointer, perform-without-varying-by, record-delimiter, record-delim-with-fixed-recs, records-mismatch-record-clause, ref-mod-zero-length*, report-column-plus, screen-section-rules, sequential-delimiters, symbolic-constant, type-to-clause*, usage-type*, vsam-status, xml-generate-extra-phrases, zero-length-literals.
 \item \textbf{New runtime configuration options}:
   \begin{itemize}
   \item col\_just\_lrc (for enabling\slash{}disabling the LEFT\slash{}RIGHT\slash{}CENTER phrases of the report COLUMN clause),
@@ -175,9 +192,15 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \paragraph{Compiler directives}
 \begin{itemize}
 \item \textbf{COPY statement}: added support for copybook and library names containing periods as text-names. For example,  ``COPY copybook.cpy.'' is now accepted. See \fr{344}.
+\item \textbf{COPY statement}: for ``COPY copybook IN library'', GnuCOBOL tries to resolve ``library'' using the environment variable ``COB\_COPY\_LIB\_library'', before testing as-is and, if that fails, ignoring library entirely.
+\item \textbf{COPY statement}: copybook names containing an extensions are no longer searched for by adding further extensions to the name.
 \item \textbf{DISPLAY directives}: allow a wider range of characters.
+\item \textbf{\directiveindicator{}IF directive*}: improved syntax error handling.
+\item \textbf{\textdollar{}IF directive*}: added \textdollar{}END-IF as a scope terminator.
 \item \textbf{@OPTIONS directive}: added recognition of.
-\item \textbf{New Micro Focus directives}: ADDRSV, ADDSYN, MAKESYN, OVERRIDE and REMOVE (\fr{210}); ASSIGN, BOUND*, CALLFH, COMP1 and SSRANGE*.
+\item \textbf{New Micro Focus directives}: ADDRSV, ADDSYN, MAKESYN, OVERRIDE and REMOVE (\fr{210}); ASSIGN, BOUND*, CALLFH, CHECKNUM*, COMP1, DPC-IN-DATA, and SSRANGE*.
+\item \textbf{New Micro Focus directives*}: added detection of SPZERO.
+\item \textbf{\directiveindicator{}REF-MOD-ZERO-LENGTH directive*}: added.
 \item \textbf{\directiveindicator{}TURN directive*}: added experimental implementation.
 \end{itemize}
 
@@ -235,11 +258,13 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \item \textbf{LIKE clause*}: added recognition of (see \fr{193}).
 \item \textbf{LINE clause}: ``LINE +1'' and similar clauses are no longer allowed; there must now be a space between the sign and the number.
 \item \textbf{LINE clause (report)}: allow LINES instead of LINE.
+\item \textbf{Local-storage section*}: in the Micro~Focus dialect, the presence of a local-storage section now implicitly defines a program as RECURSIVE.
+\item \textbf{OCCURS clause}: fixed issues with OCCURS UNBOUNDED.
 \item \textbf{PICTURE clause}: added recognition of PIC 1(n).
 \item \textbf{PICTURE clause}: improved error messages.
 \item \textbf{PICTURE clause}: added recognition of LOCALE phrase.
 \item \textbf{PICTURE clause*}: fixed compiler crash with malformed picture-string (\bug{659}).
-\item \textbf{RECORD VARYING clause}: fixed \bug{441}, where an FD could be declared as RECORD VARYING, but have records of only one size.
+\item \textbf{RECORD VARYING clause}: added warning under -Wadditional for an FD with RECORD VARYING but with records of only one size (see \bug{441}).
 \item \textbf{RENAMES clause}: strengthened syntax checks.
 \item \textbf{RENAMES clause}: fixed \bug{623}, where RENAMES items had a LENGTH OF zero.
 \item \textbf{SAME AS clause}: implemented (\fr{193}).
@@ -269,6 +294,14 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \item \textbf{ACCEPT statement (screen)}: added support for Microsoft COBOL position specifiers.
 \item \textbf{ACCEPT statement (screen)}: removed silent minimum of 500~ms from TIME-OUT phrase (\fr{196}).
 \item \textbf{ACCEPT statement (screen)}: added recognition of CURSOR clause.
+\item \textbf{ACCEPT statement (screen)}: fixed some issues with mice.
+\item \textbf{ACCEPT statement (screen)}: improved numeric entry
+  \begin{itemize}
+  \item prevent deletion, backspacing over or overwriting of decimal point;
+  \item entering a decimal point now jumps to character after it;
+  \item allow entry of plus\slash{}minus signs;
+  \item added new insert behaviour: cursor on integral digits inserts to right, cursor on decimal digits inserts to left, cursor starts on rightmost integer digit upon entering field, GnuCOBOL beeps at last character only when no insertion is possible.
+  \end{itemize}
 \item \textbf{ACCEPT statement (temporal)}: fixed \bug{469}, where ACCEPT FROM DAY was off by $-1$.
 \item \textbf{ALLOCATE statement}: added recognition of LOC clause.
 \item \textbf{CALL statement}: fixed ON EXCEPTION not working properly with -fstatic (\bug{462}).
@@ -284,6 +317,7 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \item \textbf{DISPLAY statement (screen)}: added configuration option to disable Micro Focus' special behaviour with some figurative constants (see \bug{423}).
 \item \textbf{DISPLAY statement (screen)}: fixed \bug{428}, where DISPLAY ALL ``x'' WITH SIZE only displayed ``x'' once.
 \item \textbf{DISPLAY statement (screen)}: added support for Microsoft COBOL's position specifiers and ERASE phrase.
+\item \textbf{DISPLAY statement (screen)*}: fixed \bug{665}, where spaces where replaced with underscores in ``DISPLAY \ldots\ USING''.
 \item \textbf{ENTRY statement}: added LINKAGE phrase (\fr{311}).
 \item \textbf{Error messages}: runtime error messages now include ``error: '' after the filename and before the actual error message.
 \item \textbf{Error messages}: fixed incorrect use of ``parameter'' where ``argument'' was meant.
@@ -291,10 +325,13 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \item \textbf{EVALUATE statement}: added partial support for WHEN clauses not containing any statements, which transfer control to the next WHEN clause containing a statement, if any (so the behaviour is like C's switch statement).
 \item \textbf{Exceptions}: the exception status is now only reset by SET LAST EXCEPTION TO OFF.
 \item \textbf{Exceptions}: fixed EC-SIZE-OVERFLOW being raised when EC-SIZE-ZERO-DIVIDE is active (\bug{223}).
-\item \textbf{EXHIBIT statement*}: added.
+\item \textbf{EXHIBIT statement}: added.
 \item \textbf{File I-O}: fixed \bug{457}, where file status 30 was set instead of the correct permanent error status (34, 35 or 37).
 \item \textbf{File I-O}: added support for VBISAM 2.1.1.
 \item \textbf{File I-O}: error messages from libcob now include the file I-O statement that caused them, when known.
+\item \textbf{File I-O}: added support for file locking on Windows.
+\item \textbf{File I-O}: filenames starting with a period or a number are no longer resolved; periods in an external-file-name are always replaced by an undrscore (so ``MY.FILE'' will be resolved as ``DD\_MY\_FILE'', ``dd\_MY\_FILE'' or ``MYFILE'').
+\item \textbf{File I-O}: filename mapping is now applied in called subroutines.
 \item \textbf{File I-O (BDB)}: fixed file status after OPEN OUTPUT on an OPTIONAL file.
 \item \textbf{File I-O (ISAM)}: fixed bug involving START\ \ldots\ LESS EQUAL followed by READ PREVIOUS.
 \item \textbf{File I-O (ISAM)}: fixed \bug{589}, where READ would skip records with duplicate keys after a DELETE.
@@ -302,7 +339,9 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \item \textbf{Floating-point arithmetic}: fixed \bug{478}, where calculations with the SIZE ERROR phrase have different results to calculations without it.
 \item \textbf{Floating-point arithmetic}: now activate the SIZE ERROR handler when a floating-point variable is set to a non-finite value (see \bug{122}).
 \item \textbf{GO TO statement}: added non-standard ENTRY phrase extension.
+\item \textbf{INITIALIZE statement}: optimised.
 \item \textbf{INQUIRE statement}: added recognition of.
+\item \textbf{INSPECT statement}: optimised.
 \item \textbf{JSON GENERATE statement}: added (\patch{45}).
 \item \textbf{JSON PARSE statement}: added recognition of.
 \item \textbf{LENGTH OF phrase}: fixed error message when used on group fields (\bug{175}).
@@ -323,6 +362,7 @@ NB: Some changes have been made to 3.1-dev which have not yet been merged up to 
 \item \textbf{RAISE statement}: added recognition of.
 \item \textbf{READ statement (relative)}: fixed file status on end of file.
 \item \textbf{Reference modification}: improved out-of-bounds error message (\bug{445}).
+\item \textbf{Reference modification*}: allow zero-length reference modification (\fr{390}).
 \item \textbf{SORT statement}: added sorting of tables without keys (\patch{42}).
 \item \textbf{SORT statement}: added recognition of more COLLATING SEQUENCE phrases.
 \item \textbf{OPEN statement}: fail with file status 39 when the first record of an indexed file is larger than specified in the FD.
