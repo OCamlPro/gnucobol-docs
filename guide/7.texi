@@ -781,6 +781,8 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 * 7.8.48: UNLOCK
 * 7.8.49: UNSTRING
 * 7.8.50: WRITE
+
+* 7.8.51: EXHIBIT
 @end menu
 @comment *********************************************************************
 @comment ** 7.8.1 ACCEPT                                                   **
@@ -4884,6 +4886,71 @@ The @code{AT END-OF-PAGE} clause will be triggered, thus executing @var{imperati
 @end enumerate
 @end enumerate
 @end enumerate
+
+@comment *********************************************************************
+@comment ** 7.8.51 EXHIBIT                                                  **
+@comment *********************************************************************
+@page
+@newsubsection{7.8.51,EXHIBIT}
+@diagram{WRITE,PD-EXHIBIT,PD-EXHIBIT,None}
+The @statement{EXHIBIT} causes an (optionally conditional) display of the literals, and/or identifiers (optionally preceded by the identifier name) specified in the statement for the purposes of debugging.
+@enumerate
+@item
+
+WARNINGS:
+
+EXHIBIT is only present to ease migrations, this is an archaic language element in GnuCOBOL (but without the archaic message warning because there is no explicit dialect configuration for that other than the reserved word). Depending on the -std used it will either compile or not. As the standard says about archaic language elements:
+
+    it should not be used in new compilation groups because better programming practices exist
+
+The use of DISPLAY is more portable and allows for the same feature-set (with the exception of CHANGED which GnuCOBOL may not support for a long time and with the need of a literal for NAMED).
+This statement can be removed from any later version.
+
+@item
+
+@comment Syntactical Specifications:
+@item
+The reserved words @code{NAMED}, @code{CHANGED} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
+
+@item
+Each identifier specified in the EXHIBIT statement can be any class of data. TALLY and RETURN-CODE are the only special registers that can be used as identifiers.
+
+@item
+Literals and identifiers displayed by the EXHIBIT statement are separated by a space on the displayed line.
+
+@item
+Each literal can be any figurative constant other than ALL.
+
+@item
+If the literal is numeric, it must be an unsigned integer.
+
+@item
+Each execution of an EXHIBIT NAMED statement displays each identifier or literal specified, with each identifier (including any qualifiers and subscripts) followed by a "=" (equal sign) and its current value. They all appear on a single line on the order in which they appear in the statement.
+
+@item
+Each execution of an EXHIBIT CHANGED NAMED statement displays each identifier or literal specified, with each identifier (including any qualifiers and subscripts) followed by a "=" (equal sign) and its current value. They all appear on a single line on the order in which they appear in the statement. However, the display for each identifier (name and value) is conditional on the value of that identifier having changed since the last execution of the current EXHIBIT statement. If one or more of the identifier values have not changed, neither the name nor the value is printed for those identifiers. If none of the identifier values has changed, and no literals are specified, no display takes place (display of a blank line is suppressed).
+
+@item
+Each execution of an EXHIBIT CHANGED statement displays the current value of each identifier or literal specified. They all appear on a single line on the order in which they appear in the statement. However, the value display for each identifier is conditional on the value of that identifier having changed since the last execution of the current EXHIBIT statement. If one or more of the identifier values have not changed, the value for those identifiers are not printed and spaces are inserted instead. If none of the identifier values has changed, and no literals are specified, a blank line is displayed  (display of a blank line is not suppressed).
+
+@item
+Each execution of an EXHIBIT statement with neither the CHANGED nor the NAMED option displays each identifier or literal specified. They all appear on a single line in the order in which they appear in the statement.
+
+@item
+An EXHIBIT statement is the same as an EXHIBIT NAMED statement.
+
+@item
+ERASE is a display attribute which got into GnuCOBOL when MS-COBOL support was increased, it is not yet implemented.
+
+@item
+The  CHANGED  clause is not yet implemented but recognised by GnuCOBOL.
+
+@item
+The  UPON mnemonic-name-1  clause is not yet implemented but recognised by GnuCOBOL.
+
+
+@end enumerate
+
 @iftex
 @sp 3
 @center ------------------------------------------------------------
