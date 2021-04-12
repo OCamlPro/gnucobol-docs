@@ -2941,7 +2941,20 @@ If the attempt to move the file fails (for example, it doesn't exist), the
 @page
 @newsubsection{8.2.47,CBL_SET_CSR_POS}
 @diagram{CBL_SET_CSR_POS Build-In Subroutine,SS-CBL_SET_CSR_POS,SS-CBL_SET_CSR_POS,None}
-Set current position on terminal.
+Set current cursor position on terminal.
+
+This subroutine will set the cursor location on the screen, using a 2-byte value into the supplied @var{cursor-locn-buffer}.  The first byte of @var{cursor-locn-buffer} is for the line (row) location while the second sets the column location.
+
+The two byte data block must be in binary form, and will be based upon starting values of 0, meaning that if the routine is called with a value of (14,11) cursor will be located at line 15, column 12.
+
+The following is a typical @var{cursor-locn-buffer} definition:
+
+@example
+01  CURSOR-LOCN-BUFFER.
+    05 CURSOR-LINE          USAGE BINARY-CHAR.
+    05 CURSOR-COLUMN        USAGE BINARY-CHAR.
+@end example
+
 @comment *********************************************************************
 @comment ** 8.2.48 CBL_TOLOWER                                              **
 @comment *********************************************************************
