@@ -1,5 +1,7 @@
-   DISPLAY identifier-1 [ UPON CRT|CRT-UNDER ]
+   DISPLAY identifier-1 [ UPON CRT|CRT-UNDER ] |
    ~~~~~~~                ~~~~ ~~~ ~~~~~~~~~
+           [position-spec] {identifier-1 | literal-1} ...
+
        [ AT { | LINE NUMBER { integer-1    }            | } ]
          ~~ { | ~~~~        { identifier-2 }            | }
             { | COLUMN|COL|POSITION|POS NUMBER { integer-2    }
@@ -16,9 +18,21 @@
                          ~~~~
               [ SIZE { integer-5    }
                 ~~~~ { identifier-6 }  ]
+              [ NO ADVANCING ]
+                ~~~~~~~~~~~~
        [ ON EXCEPTION imperative-statement-1 ]
             ~~~~~~~~~
        [ NOT ON EXCEPTION imperative-statement-2 ]
          ~~~    ~~~~~~~~~
  [ END-DISPLAY ]
    ~~~~~~~~~~~
+
+    where  position-spec is
+    { (position-spec-num, position-spec-num) }
+    { (,position-spec-num)                   }
+    { (position-spec-num,)                   }
+
+    where  position-spec-num  is
+    { identifier-1 } [{ + } integer-1 ]
+    { integer-2    } [{ - }           ]
+
