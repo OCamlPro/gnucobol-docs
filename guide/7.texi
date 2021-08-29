@@ -669,7 +669,7 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 *   7.8.1.1: ACCEPT FROM CONSOLE
 *   7.8.1.2: ACCEPT FROM COMMAND-LINE
 *   7.8.1.3: ACCEPT FROM ENVIRONMENT
-*   7.8.1.4: ACCEPT screen-data-item
+*   7.8.1.4: ACCEPT Data-Item
 *   7.8.1.5: ACCEPT FROM DATE/TIME
 *   7.8.1.6: ACCEPT FROM Screen-Info
 *   7.8.1.7: ACCEPT FROM Runtime-Info
@@ -696,7 +696,8 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 *   7.8.12.1: DISPLAY UPON device
 *   7.8.12.2: DISPLAY UPON COMMAND-LINE
 *   7.8.12.3: DISPLAY UPON ENVIRONMENT-NAME
-*   7.8.12.4: DISPLAY screen-data-item
+*   7.8.12.4: DISPLAY Data-Item
+*   7.8.12.5: DISPLAY data-item (Microsoft v1, 2)
 @end detailmenu
 * 7.8.13: DIVIDE
 @detailmenu
@@ -888,13 +889,13 @@ A simpler approach to retrieving an environment variables value is to use the
 @item
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to an attempt to retrieve the value of a non-existent environment variable or the successful retrieval of an environment variable's value, respectively.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
 @end enumerate
-@comment *********************************************************************
+@comment ********************************************************************
 @comment ** 7.8.1.4 ACCEPT screen-data-item                                **
-@comment *********************************************************************
+@comment ********************************************************************
 @page
-@newunit{7.8.1.4,ACCEPT screen-data-item}
-@diagram{ACCEPT screen-data-item,PD-ACCEPT-4,PD-ACCEPT-4,PD-ACCEPT-4}
-This format of the @statement{ACCEPT} is used to retrieve data from a formatted console window screen.
+@newunit{7.8.1.4,ACCEPT data-item}
+@diagram{ACCEPT data-item,PD-ACCEPT-4,PD-ACCEPT-4,PD-ACCEPT-4}
+This format of the @statement{ACCEPT} is used to retrieve data from a working storate item or a formatted console window screen.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -909,7 +910,7 @@ The reserved words @code{TIMEOUT} and @code{TIME-OUT} are interchangeable.
 @comment Semantic Specifications:
 
 @item
-If @var{identifier-1} is defined in the @syntaxref{SCREEN SECTION}, any @code{AT}, @var{Attribute-Specification}, @code{LOWER}, @code{UPPER} or @code{SCROLL} clauses will be ignored.  In these cases, an implied @syntaxrefalt{DISPLAY,DISPLAY screen-data-item} of @var{identifier-1} will occur before input is accepted.  Coding an explicit @code{DISPLAY identifier-1} before an @code{ACCEPT identifier-1} is redundant and will incur the performance penalty of painting the screen contents twice.
+If @var{identifier-1} is defined in the @syntaxref{SCREEN SECTION}, any @code{AT}, @var{Attribute-Specification}, @code{LOWER}, @code{UPPER} or @code{SCROLL} clauses will be ignored.  In these cases, an implied @syntaxrefalt{DISPLAY,DISPLAY data-item} of @var{identifier-1} will occur before input is accepted.  Coding an explicit @code{DISPLAY identifier-1} before an @code{ACCEPT identifier-1} is redundant and will incur the performance penalty of painting the screen contents twice.
 
 @item
 The various @code{AT} clauses provide a means of positioning the cursor to a specific spot on the screen before the screen is read.  One or the other (but not both) may be used, as follows:
@@ -1763,6 +1764,7 @@ No @code{INVALID KEY} or @code{NOT INVALID KEY} clause may be specified for a fi
 * 7.8.12.2: DISPLAY UPON COMMAND-LINE
 * 7.8.12.3: DISPLAY UPON ENVIRONMENT-NAME
 * 7.8.12.4: DISPLAY data-item
+* 7.8.12.5: DISPLAY data-item (Microsoft v1, 2)
 @end menu
 @comment *********************************************************************
 @comment ** 7.8.12.1 DISPLAY UPON device                                   **
@@ -1847,12 +1849,12 @@ Consider using @syntaxref{SET ENVIRONMENT} in lieu of @code{DISPLAY} to set envi
 @item
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to the failure or success, respectively, of an attempt to display output to the specified item.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
 @end enumerate
-@comment *********************************************************************
-@comment ** 7.8.12.4 DISPLAY data-item                              **
-@comment *********************************************************************
+@comment *************************************************************
+@comment ** 7.8.12.4 DISPLAY Data-Item                              **
+@comment *************************************************************
 @page
-@newunit{7.8.12.4,DISPLAY data-item}
-@diagram{DISPLAY data-item,PD-DISPLAY-4,PD-DISPLAY-4,PD-DISPLAY-4}
+@newunit{7.8.12.4,DISPLAY Data-Item}
+@diagram{DISPLAY Data-Item,PD-DISPLAY-4,PD-DISPLAY-4,PD-DISPLAY-4}
 This format of the @statement{DISPLAY} presents data onto a formatted screen.
 @enumerate
 @comment Syntactical Specifications:
@@ -1917,7 +1919,7 @@ The following @var{Attribute-Specification} clauses are allowed on the @code{DIS
 @end itemize
 
 @item
-@xref{ACCEPT screen-data-item}, for additional information on the other @code{WITH} clause options.
+@xref{ACCEPT data-item}, for additional information on the other @code{WITH} clause options.
 @end enumerate
 
 @item
@@ -1929,6 +1931,15 @@ When @code{DISPLAY} is used with Line and column where multiple variables or lit
 If this is needed then the use of @code{CONCATENATE} to built more than one element together prior to the display, @i{e.g.}, @code{DISPLAY FUNCTION CONCATENATE (VARS-1 VARS-2) AT 0201}.
 
 When @code{DISPLAY} is used without line or column controls only one variable or literal may will appear on a line, so the use of the above example should also be employed.
+
+@comment *************************************************************
+@comment ** 7.8.12.5 DISPLAY data-item (Microsoft v1, 2)            **
+@comment *************************************************************
+@page
+@newunit{7.8.12.5,DISPLAY data-item}
+@diagram{DISPLAY data-item,PD-DISPLAY-5,PD-DISPLAY-5,None}
+This format of the @statement{DISPLAY} presents data onto a formatted screen using the Microsoft format from v1 and v2 compilers (MsDos).
+
 @comment *********************************************************************
 @comment ** 7.8.13 DIVIDE                                                  **
 @comment *********************************************************************
