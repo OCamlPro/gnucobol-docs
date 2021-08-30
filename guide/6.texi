@@ -741,7 +741,7 @@ The following sets of reserved words are interchangeable:
 @end itemize
 
 @item
-Data items defined in the screen section describe input, output or combination screen layouts to be used with @statementref{ACCEPT screen-data-item} or @statementref{DISPLAY screen-data-item} statements.  These screen layouts may define the entire available screen area or any subset of it.
+Data items defined in the screen section describe input, output or combination screen layouts to be used with @statementref{ACCEPT data-item} or @statementref{DISPLAY data-item} statements.  These screen layouts may define the entire available screen area or any subset of it.
 
 @item
 The term @i{available screen area} is a nebulous one in those environments where command-line shell sessions are invoked within a graphical user-interface environment, as will be the case on Windows, OSX and most Unix/Linux systems --- these environments allow command-line session windows to exist with a variable number of available screen rows and columns.  When you are designing GnuCOBOL screens, you need to do so with an awareness of the logical screen row/column geometry the program will be executing within.
@@ -750,10 +750,10 @@ The term @i{available screen area} is a nebulous one in those environments where
 Data items with level numbers 01 (Constants), 66, 78 and 88 may be used in the screen section;  they have the same syntax, rules and usage as they do in the other data division sections.
 
 @item
-Without @syntaxref{LINE} or @syntaxref{COLUMN} clauses, screen section fields will display on the console window beginning at whatever line/column coordinate is stated or implied by the @code{ACCEPT screen-data-item} or @statement{DISPLAY screen-data-item} that presents the screen item.  After a field is presented to the console window, the next field will be presented immediately following that field.
+Without @syntaxref{LINE} or @syntaxref{COLUMN} clauses, screen section fields will display on the console window beginning at whatever line/column coordinate is stated or implied by the @code{ACCEPT data-item} or @statement{DISPLAY data-item} that presents the screen item.  After a field is presented to the console window, the next field will be presented immediately following that field.
 
 @item
-A @code{LINE} clause explicitly stated in the definition of a screen section data item will override any @code{LINE} clause included on the @code{ACCEPT screen-data-item} or @statement{DISPLAY screen-data-item} that presents that data item to the screen.  The same is true of @code{COLUMN} clauses.
+A @code{LINE} clause explicitly stated in the definition of a screen section data item will override any @code{LINE} clause included on the @code{ACCEPT data-item} or @statement{DISPLAY data-item} that presents that data item to the screen.  The same is true of @code{COLUMN} clauses.
 
 @item
 The @key{Tab} and @key{Back-Tab} (@key{Shift}-@key{Tab} on most keyboards) keys will position the cursor from field to field in the line/column sequence in which the fields occur on the screen at execution time, regardless of the sequence in which they were defined in the screen section.
@@ -1313,7 +1313,7 @@ The @code{EMPTY-CHECK} and @syntaxref{REQUIRED} clauses are interchangeable, and
 In order to take effect, the user must first move the cursor into the field having this clause in its definition.
 
 @item
-The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item @i{unless} data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}.
+The @statementref{ACCEPT data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item @i{unless} data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}.
 
 @item
 In order to be functional, this attribute must be supported by the underlying ``curses'' package your GnuCOBOL implementation was built with.  As of this time, the ``PDCurses'' package (used for native Windows or MinGW builds) does not support @code{EMPTY-CHECK}.
@@ -1442,7 +1442,7 @@ The @code{FULL} and @syntaxref{LENGTH-CHECK} clauses are interchangeable, and ma
 In order for this clause to take effect at execution time, the user must move the cursor into the field having this clause in its definition.
 
 @item
-The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item unless the proper amount of data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}, however.
+The @statementref{ACCEPT data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item unless the proper amount of data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}, however.
 
 @item
 In order to be functional, this attribute must be supported by the underlying ``curses'' package your GnuCOBOL implementation was built with.  As of this time, the ``PDCurses'' package (used for native Windows or MinGW builds) does not support @code{FULL}.
@@ -1637,7 +1637,7 @@ The @syntaxref{FULL} and @code{LENGTH-CHECK} clauses are interchangeable, and ma
 In order for this clause to take effect at execution time, the user must move the cursor into the field having this clause in its definition.
 
 @item
-The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item unless the proper amount of data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}, however.
+The @statementref{ACCEPT data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item unless the proper amount of data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}, however.
 
 @item
 In order to be functional, this attribute must be supported by the underlying ``curses'' package your GnuCOBOL implementation was built with.  As of this time, the ``PDCurses'' package (used for native Windows or MinGW builds) does not support @code{LENGTH-CHECK}.
@@ -2337,7 +2337,7 @@ The @syntaxref{EMPTY-CHECK} and @code{REQUIRED} clauses are interchangeable, and
 In order to take effect, the user must first move the cursor into the field having this clause in its definition.
 
 @item
-The @statementref{ACCEPT screen-data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item @i{unless} data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}.
+The @statementref{ACCEPT data-item} will ignore the Enter key and any other cursor-moving keystrokes that would cause the cursor to move to another screen item @i{unless} data has been entered into the field.  Function keys will still be allowed to terminate the @code{ACCEPT}.
 
 @item
 In order to be functional, this attribute must be supported by the underlying ``curses'' package your GnuCOBOL implementation was built with.  As of this time, the ``PDCurses'' package (used for native Windows or MinGW builds) does not support @code{REQUIRED}.
