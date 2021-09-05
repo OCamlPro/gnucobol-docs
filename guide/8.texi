@@ -2036,8 +2036,7 @@ With this routine you may create a new directory --- the name of which is suppli
 
 Only the lowest-level directory (last) in the specified path can be created --- all others must already exist.  This subroutine will @i{not} behave as a @code{mkdir -p} (Unix) or @code{mkdir /p} (Windows).
 
-The
-@registerref{RETURN-CODE} will be set to the return code of the operation; the value will be either 0=Success or 128=failure.
+The @registerref{RETURN-CODE} will be set to the return code of the operation; the value will be either 0=Success or 128=failure.
 @comment *********************************************************************
 @comment ** 8.2.9 C$NARG                                                    **
 @comment *********************************************************************
@@ -2076,9 +2075,19 @@ If no @var{char} argument is provided, a period (@samp{.}) will be used.
 @page
 @newsubsection{8.2.12,C$SLEEP}
 @diagram{C$SLEEP Built-In Subroutine,SS-C$SLEEP,SS-C$SLEEP,None}
-@code{C$SLEEP} puts the program to sleep for the specified number of seconds.  The @var{seconds-to-sleep} argument may be a numeric literal or data item.
+@code{C$SLEEP} puts the program to sleep for the specified number of seconds and/or fractions of a second.  The @var{seconds-to-sleep} argument may be a numeric literal or data item.
 
-Sleep times less than 1 will be interpreted as 0, which immediately returns control to the calling program without any sleep delay.
+Sleep times less than 1 will be interpreted as 0, subject to the speed of the CPU and the O/S (Operating System) used, as well as the timing of the generated C code, which can immediately returns control to the calling program without any sleep delay.
+
+When using a variable argument defined as 9(n)v9(m) where n is maximum seconds in 7 days, i.e., (60 x 60 x 24 x 7) = 604,800 (seconds)  and m is at a point too fast for the CPU and O/S. In practice m should be 2 for a hundredth of a second but actual testing against the target CPU would be need.
+
+The maximum time can be adjusted by the define MAX_SLEEP_TIME during compilation of the compiler [and no I do not know where it is in the codebase] e.g.:
+@verbatim
+
+/* maximum sleep time in seconds, currently 7 days */
+#define MAX_SLEEP_TIME 3600*24*7
+
+@end verbatim
 @comment *********************************************************************
 @comment ** 8.2.13 C$TOLOWER                                                **
 @comment *********************************************************************
@@ -2232,8 +2241,7 @@ The only argument --- @var{dir-path} (an alphanumeric literal or identifier) ---
 
 Only the lowest-level directory (last) in the specified path will be deleted, and that directory must be empty to be deleted.
 
-The
-@registerref{RETURN-CODE} will be set to the return code of the operation; the value will be either 0=Success or 128=failure.
+The @registerref{RETURN-CODE} will be set to the return code of the operation; the value will be either 0=Success or 128=failure.
 @comment *********************************************************************
 @comment ** 8.2.23 CBL_DELETE_FILE                                          **
 @comment *********************************************************************
