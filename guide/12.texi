@@ -34,7 +34,7 @@ Marking changes becomes more of a challenge when free-format source code is in e
 @comment ** 12.2 Data Item Coding and Naming Conventions                    **
 @comment *********************************************************************
 @newsection{12.2,Data Item Coding and Naming Conventions}
-When programs get very large, it becomes more and more challenging to keep track of the data items that will be used in the program.  Here, in no particular order of importance, are a variety of conventions that can simply that problem.
+When programs get very large, it becomes more and more challenging to keep track of the data items that will be used in the program.  Here, in no particular order of importance, are a variety of conventions that can simplify that problem.
 
 Remember that the points described here are intended to make things easier for you, the programmer.  No COBOL compiler cares one way or another whether any of these suggestions are followed.
 @enumerate
@@ -140,6 +140,10 @@ Consider including an acronym to be inserted into the name of any data item defi
     05 WS-FSM-Status-CD           PIC 9(2).
     05 FILLER                     PIC X(11) VALUE ', Meaning: '.
     05 WS-FSM-Msg-TXT             PIC X(25).
+....
+01  WS-OI-SUB                     PIC 99  COMP.
+01  WS-OI-IDX                     PIC 99  COMP.
+
 @end example
 
 The ``-FSM-'' acronyms make it easier to locate the description of the 01-item the status code and message text items belong to.
@@ -148,16 +152,16 @@ The ``-FSM-'' acronyms make it easier to locate the description of the 01-item t
 @comment ** 12.3 Table Subscripting versus Table Indexing                   **
 @comment *********************************************************************
 @newsection{12.3,Table Subscripting versus Table Indexing}
-The elements of a table may be referenced either using a subscript or an index.  Syntactically, this is coded using parenthesis, as per the following three examples, all of which store the letter @samp{A} into the 17th occurrence of a data item named WSS-Output-Image-TXT:
+The elements of a table may be referenced either using a subscript or an index.  Syntactically, this is coded using parenthesis, as per the following three examples, all of which store the letter @samp{A} into the 17th occurrence of a data item named WS-Output-Image-TXT:
 @enumerate
 @item
-@t{MOVE 'A' TO WSS-Output-Image-TXT (17)}
+@t{MOVE 'A' TO WS-Output-Image-TXT (17)}
 
 @item
-@t{MOVE 17 TO WSS-OI-SUB} @* @t{MOVE 'A' TO WSS-Output-Image-TXT (WSS-OI-SUB)}
+@t{MOVE 17 TO WS-OI-SUB} @* @t{MOVE 'A' TO WS-Output-Image-TXT (WS-OI-SUB)}
 
 @item
-@t{SET WSS-OI-IDX TO 17} @* @t{MOVE 'A' TO WSS-Output-Image-TXT (WSS-OI-IDX)}
+@t{SET WS-OI-IDX TO 17} @* @t{MOVE 'A' TO WS-Output-Image-TXT (WS-OI-IDX)}
 @end enumerate
 
 The 1st and 2nd examples are referred to as
