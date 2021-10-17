@@ -206,6 +206,22 @@ When the file is read, the GnuCOBOL runtime system will strip the trailing delim
 
 These files should not be defined to contain any exact binary data fields because the contents of those fields could inadvertently have the end-of-record sequence as part of their values --- this would confuse the runtime system when reading the file, and it would interpret that value as an actual end-of-record sequence.
 
+The following environment variables can have an effect on LINE SEQUENTIAL processing behaviour so may require changes to settings for:
+@verbatim
+
+COB_LS_FIXED
+COB_LS_NULLS
+COB_LS_SPLIT
+
+When using Micro Focus compatable formats:
+COB-MF-LS-NULLS
+COB_MF_LS_INSTAB
+COB_MF_LS_SPLIT
+COB_MF_LS_VALIDATE
+@end verbatim
+
+See sections 10.2.3.4 and 10.2.3.7 for more information.
+
 @anchoridx{LINE ADVANCING}
 @item @code{LINE ADVANCING}
 These are files with an internal structure similar to that of a line sequential file.  These files are defined (without an explicit @code{ORGANIZATION} specification) using the @code{LINE ADVANCING} clause on their @statementref{SELECT}.
