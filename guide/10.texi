@@ -78,8 +78,10 @@ Options:
   -P[=<dir or file>]     generate preprocessed program listing (.lst)
   -Xref                  generate cross reference through 'cobxref'
                          (V. Coen's 'cobxref' must be in path)
-                         {This uses the internal tool only. See 10.1.1.1 for example output.
-                         To use Cobxref you must run this separately. See second example as 10.1.1.2}
+                         {This uses the internal tool only. See 10.1.1.1 for example
+                         output.
+                         To use Cobxref you must run this separately.
+                         See second example as 10.1.1.2}
 
   -I <directory>         add <directory> to copy/include search path
   -L <directory>         add <directory> to library search path
@@ -126,7 +128,8 @@ Warning options:
                          * ALWAYS active
   -Woverlap              warn about overlapping MOVE of items
   -Wparentheses          warn about lack of parentheses around AND within OR
-  -Wpossible-overlap     warn about MOVE of items that may overlap depending on variables
+  -Wpossible-overlap     warn about MOVE of items that may overlap depending
+                         on variables
                          * NOT set with -Wall
   -Wpossible-truncate    warn about possible field truncation
                          * NOT set with -Wall
@@ -151,9 +154,11 @@ Compiler options:
                          * default: initialize to picture
   -fdump=<scope>         dump data fields on abort, <scope> may be
                          a combination of: ALL, WS, LS, RD, FD, SC
-  -ffold-call=[UPPER|LOW ER]	fold PROGRAM-ID, CALL, CANCEL subject to value
+  -ffold-call=[UPPER|LOWER]
+                         fold PROGRAM-ID, CALL, CANCEL subject to value
                          * default: no transformation
-  -ffold-copy=[UPPER|LOW ER]	fold COPY subject to value
+  -ffold-copy=[UPPER|LOWER]
+                         fold COPY subject to value
                          * default: no transformation
   -fibmcomp              sets -fbinary-size=2-4-8 -fsynchronized-clause=ok
   -fimplicit-init        automatic initialization of the COBOL runtime system
@@ -461,7 +466,7 @@ The following shows the output from using -Xref.
 
    Using the internal -Xref as extra options -X -t prog.list:
 
-   GnuCOBOL 3.1-dev.0      prog.cbl             Fri Dec  6 14:17:52 2019  Page 0001
+GnuCOBOL 3.1.2.0        prog.cbl             Thu Nov 25 15:31:52 2021  Page 0001
 
 LINE    PG/LN  A...B............................................................
 
@@ -496,8 +501,7 @@ LINE    PG/LN  A...B............................................................
 000026  000024         10  FILLER PIC X(01).
 000027  000027 PROCEDURE        DIVISION.
 000028  000028     STOP RUN.
-
-GnuCOBOL 3.1-dev.0      prog.cbl             Fri Dec  6 14:17:52 2019  Page 0002
+GnuCOBOL 3.1.2.0        prog.cbl             Thu Nov 25 15:31:52 2021  Page 0002
 
 NAME                           DEFINED                REFERENCES
 
@@ -506,7 +510,7 @@ FL1                            9      not referenced
 FL2                            10     not referenced
 FL3                            11     not referenced
 FL4                            12     not referenced
-FL5                            13       25
+FL5                            13       25                             x1
 FL6                            14     not referenced
 FL7                            15     not referenced
 FL8                            16     not referenced
@@ -520,7 +524,7 @@ FLD3                           23     not referenced
 FLD4                           24     not referenced
 FLD2                           25     not referenced
 
-GnuCOBOL 3.1-dev.0      prog.cbl             Fri Dec  6 14:17:52 2019  Page 0003
+GnuCOBOL 3.1.2.0        prog.cbl             Thu Nov 25 15:31:52 2021  Page 0003
 
 LABEL                          DEFINED                REFERENCES
 
@@ -533,14 +537,19 @@ E prog                         27
 @comment ** 10.1.1.2 Cross reference using cobxref                          **
 @comment *********************************************************************
 @newsubsection{10.1.1.2, Cross Reference listing using cobxref}
-This program is found in the contrib area or by itself in Sourceforge under its own name (@code{cobxref}).
+This program is found in the contrib area or by itself in Sourceforge under its own name
+(@code{cobxref}).
 
 The following shows the output from using @code{cobxref} with the same program example.
+
+Note that cobxref also reports the COPY depth which can be up to 9 and includes the program
+being compiled as depth 1.
 
 @verbatim
 Using cobxref with command cobxref prog.cbl :
 
-ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    1
+ACS Cobol Xref v2.02.03          Dictionary File for PROG    25/11/2021  15:22:00:04
+                                  Page    1
 
      1  000001 IDENTIFICATION   DIVISION.
      2  000002 PROGRAM-ID.      prog.
@@ -574,8 +583,8 @@ ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:0
     30  000027 PROCEDURE        DIVISION.
     31  000028     STOP RUN.
     32        *>>>Info: Total Copy Depth Used = 02
-
-ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    2
+ACS Cobol Xref v2.02.03          Dictionary File for PROG    25/11/2021  15:22:00:04
+                                  Page    2
 Symbols of Module: PROG (PROG)
 ------------------------------
 
@@ -603,41 +612,12 @@ I                               000008W  000022
 J                               000009W  000028
 M                               000010W  000028
 SETUP-REC                       000011W
-
-ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    3
+ACS Cobol Xref v2.02.03          Dictionary File for PROG    25/11/2021  15:22:00:04
+                                  Page    3
 Symbols of Module: PROG (PROG)
 ------------------------------
 Procedure                       Defn     Locations
 -------------------------------+---------------------------------------------------------------
-
-None
-
-ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    4
-Symbols of Module: PROG (PROG)
-------------------------------
-Unreferenced Working Storage Symbols
-
-FL1                             000012W
-FL2                             000013W
-FL3                             000014W
-FL4                             000015W
-FL6                             000017W
-FL7                             000018W
-FL9                             000020W
-FLA                             000021W
-FLB                             000022W
-FLC                             000023W
-FLD                             000024W
-FLD1                            000025W
-FLD2                            000028W
-FLD3                            000026W
-FLD4                            000027W
-SETUP-REC                       000011W
-
-ACS Cobol Xref v2.02.02          Dictionary File for PROG    06/12/2019  14:19:09:39                                   Page    5
-Symbols of Module: PROG (PROG)
-------------------------------
-Unreferenced Procedures
 
 None
 @end verbatim
@@ -844,20 +824,36 @@ GnuCOBOL uses compiler configuration files to define various options that will c
 
 If this is not defined under *nix it will default to @file{/usr/local/share/gnucobol/config}.
 
-The following is a verbatim listing of the default configuration file (the one used if you don't specify the @switch{-conf}), just to show you the types of settings that may appear:
+The following is a verbatim listing of the default configuration file (the one used if you don't specify the @switch{-conf}), just to show you the types of settings that may appear and taken from v3.1.2 :
 @verbatim
 # GnuCOBOL compiler configuration
 #
-# Copyright (C) 2001-2012, 2014-2017 Free Software Foundation, Inc.
-# Written by Keisuke Nishida, Roger While, Simon Sobisch, Edward Hart
+# Copyright (C) 2001-2012, 2014-2020 Free Software Foundation, Inc.
+# Written by Keisuke Nishida, Roger While, Simon Sobisch, Edward Hart,
+# Ron Norman
 #
+# This file is part of GnuCOBOL.
+#
+# The GnuCOBOL compiler is free software: you can redistribute it
+# and/or modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# GnuCOBOL is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GnuCOBOL.  If not, see <https://www.gnu.org/licenses/>.
+
 
 # Value: any string
 name: "GnuCOBOL"
 
 # Value: enum
-standard-define                 0
-#        CB_STD_OC = 0,
+standard-define			0
+#        CB_STD_GC = 0,
 #        CB_STD_MF,
 #        CB_STD_IBM,
 #        CB_STD_MVS,
@@ -868,25 +864,25 @@ standard-define                 0
 #        CB_STD_2014
 
 # Value: int
-tab-width:                      8
-text-column:                    72
+tab-width:			8
+text-column:			72
 # Maximum word-length for COBOL words / Programmer defined words
 # Be aware that GC checks the word length against COB_MAX_WORDLEN
-# first (currently 61)
-word-length:                    61
+# first (currently 63)
+word-length:			63
 
 # Maximum literal size in general
-literal-length:                 8191
+literal-length:			8191
 
 # Maximum numeric literal size (absolute maximum: 38)
-numeric-literal-length: 38
+numeric-literal-length:		38
 
 # Maximum number of characters allowed in the character-string (max. 255)
-pic-length:                             255
+pic-length:			255
 
-# Value: 'mf', 'ibm'
-#
-assign-clause:                  mf
+# Default assign type
+# Value: 'dynamic', 'external'
+assign-clause:			dynamic
 
 # If yes, file names are resolved at run time using
 # environment variables.
@@ -897,16 +893,16 @@ assign-clause:                  mf
 #  4. the literal "DATAFILE"
 # If no, the value of the assign clause is the file name.
 #
-filename-mapping:               yes
+filename-mapping:		yes
 
 # Alternate formatting of numeric fields
-pretty-display:                 yes
+pretty-display:			yes
 
 # Allow complex OCCURS DEPENDING ON
-complex-odo:                    no
+complex-odo:			no
 
 # Allow REDEFINES to other than last equal level number
-indirect-redefines:             no
+indirect-redefines:		no
 
 # Binary byte size - defines the allocated bytes according to PIC
 # Value:         signed  unsigned  bytes
@@ -929,135 +925,209 @@ indirect-redefines:             no
 #               15 - 16   15 - 16      7
 #               17 - 18   17 - 18      8
 #
-binary-size:                    1-2-4-8
+binary-size:			1-2-4-8
 
 # Numeric truncation according to ANSI
-binary-truncate:                yes
+binary-truncate:		yes
 
 # Binary byte order
 # Value: 'native', 'big-endian'
-binary-byteorder:               big-endian
+binary-byteorder:		big-endian
 
 # Allow larger REDEFINES items
-larger-redefines-ok:            no
+larger-redefines-ok:		no
 
 # Allow certain syntax variations (eg. REDEFINES position)
-relax-syntax-checks:            no
+relax-syntax-checks:		no
+
+# Allow zero length reference-modification
+# (only checked with active EC-BOUND-REF-MOD)
+ref-mod-zero-length:		yes
 
 # Perform type OSVS - If yes, the exit point of any currently
 # executing perform is recognized if reached.
-perform-osvs:                   no
+perform-osvs:			no
 
 # Compute intermediate decimal results like IBM OSVS
-arithmetic-osvs:                no
+arithmetic-osvs:		no
 
 # MOVE like IBM (mvc); left to right, byte by byte
-move-ibm:               no
+move-ibm:			no
 
-# If yes, linkage-section items remain allocated
+# SELECT RELATIVE KEY and ASSIGN fields must be in WORKING-STORAGE
+select-working:		no
+
+# LOCAL-STORAGE SECTION implies RECURSIVE attribute
+local-implies-recursive:		no
+
+# If yes, LINKAGE SECTION items remain allocated
 # between invocations.
-sticky-linkage:                 no
+sticky-linkage:			no
 
 # If yes, allow non-matching level numbers
-relax-level-hierarchy:          no
+relax-level-hierarchy:		no
 
 # If yes, evaluate constant expressions at compile time
-constant-folding:               yes
+constant-folding:		yes
 
 # Allow Hex 'F' for NUMERIC test of signed PACKED DECIMAL field
-hostsign:                       no
+hostsign:			no
 
 # If yes, set WITH UPDATE clause as default for ACCEPT dest-item,
 # except if WITH NO UPDATE clause is used
-accept-update:                  no
+accept-update:			no
 
 # If yes, set WITH AUTO clause as default for ACCEPT dest-item,
 # except if WITH TAB clause is used
-accept-auto:                    no
+accept-auto:			no
 
-# If yes, DISPLAY's and ACCEPT's are, by default, done on the CRT (i.e.,
-# using curses).
-console-is-crt:                 no
+# If yes, DISPLAYs and ACCEPTs are, by default, done on the CRT (i.e., using
+# curses).
+console-is-crt:			no
 
-# If yes, allow redefinition of the current program's name. This prevents
-# its use in a prototype-format CALL/CANCEL statement.
-program-name-redefinition:      yes
+# If yes, allow redefinition of the current program's name. This prevents its
+# use in a prototype-format CALL/CANCEL statement.
+program-name-redefinition:	yes
 
 # If yes, NO ECHO/NO-ECHO/OFF is the same as SECURE (hiding input with
 # asterisks, not spaces).
-no-echo-means-secure:           no
+no-echo-means-secure:		no
+
+# If yes, the first item in a field screen ACCEPT/DISPLAY (e.g. DISPLAY x UPON
+# CRT) is located after the previous ACCEPT/DISPLAY (as though LINE 0 COL 0 had
+# been specified).
+line-col-zero-default:		yes
+
+# If yes, DISPLAY SPACES acts as ERASE EOS, DISPLAY X"01" acts as ERASE EOL,
+# DISPLAY X"02" acts as BLANK SCREEEN and DISPLAY X"07" acts as BELL. Note
+# DISPLAY LOW-VALUE is excluded from this; it will always just position the
+# cursor.
+display-special-fig-consts:	no
+
+# If yes, COMP-1 is a signed 16-bit integer and any PICTURE clause is ignored.
+binary-comp-1:			no
+
+# If yes, POINTER is handled as BINARY-DOUBLE UNSIGNED instead of its own class
+numeric-pointer:		no
+
+# auto-adjust to zero like MicroFocus does
+move-non-numeric-lit-to-numeric-is-zero: no
+
+# If yes, implicitly define a variable for an ASSIGN DYNAMIC which does not
+# match an existing data item.
+implicit-assign-dynamic-var:	yes
+
+# What rules to apply to SCREEN SECTION items clauses
+screen-section-rules:		gc
+
+# Whether DECIMAL-POINT IS COMMA has effect in XML/JSON GENERATE
+dpc-in-data:			xml
 
 # Dialect features
 # Value: 'ok', 'warning', 'archaic', 'obsolete', 'skip', 'ignore', 'error',
 #        'unconformable'
 
-alter-statement:                        obsolete
-comment-paragraphs:                     obsolete
-call-overflow:                          archaic
-data-records-clause:                    obsolete
-debugging-mode:                         ok
-use-for-debugging:                      obsolete
-listing-statements:                     skip  # may be a user-defined word
-title-statement:                        skip  # may be a user-defined word
-entry-statement:                        ok
-goto-statement-without-name:            obsolete
-label-records-clause:                   obsolete
-memory-size-clause:                     obsolete
-move-noninteger-to-alphanumeric:        error
-move-figurative-constant-to-numeric:    archaic
-move-figurative-quote-to-numeric:       obsolete
-multiple-file-tape-clause:              obsolete
-next-sentence-phrase:                   archaic
-odo-without-to:                         warning
-padding-character-clause:               obsolete
-section-segments:                       ignore
-stop-literal-statement:                 obsolete
-stop-identifier-statement:              obsolete
-synchronized-clause:                    ok
-top-level-occurs-clause:                ok
-value-of-clause:                        obsolete
-numeric-boolean:                        ok
-hexadecimal-boolean:                    ok
-national-literals:                      ok
-hexadecimal-national-literals:          ok
-acu-literals:                   unconformable
-word-continuation:                      warning
-not-exception-before-exception:         ok
-accept-display-extensions:              ok
-renames-uncommon-levels:                ok
-constant-01:                            ok
-constant-78:                            ok
-program-prototypes:                     ok
-reference-out-of-declaratives:          warning
-numeric-value-for-edited-item:          ok
-incorrect-conf-sec-order:               warning
-define-constant-directive:              archaic
+alter-statement:			obsolete
+comment-paragraphs:			obsolete
+call-overflow:				archaic
+data-records-clause:			obsolete
+debugging-mode:				ok
+use-for-debugging:			ok
+listing-statements:			skip	# may be a user-defined word
+title-statement:			skip	# may be a user-defined word
+entry-statement:			ok
+goto-statement-without-name:		obsolete
+label-records-clause:			obsolete
+memory-size-clause:			obsolete
+move-noninteger-to-alphanumeric:	error
+move-figurative-constant-to-numeric:	archaic
+move-figurative-space-to-numeric:	error
+move-figurative-quote-to-numeric:	obsolete
+multiple-file-tape-clause:		obsolete
+next-sentence-phrase:			archaic
+odo-without-to:				warning
+padding-character-clause:		obsolete
+section-segments:			ignore
+stop-literal-statement:			obsolete
+stop-identifier-statement:		obsolete
+same-as-clause:				ok
+type-to-clause:				ok
+usage-type:					ok
+synchronized-clause:			ok
+special-names-clause:			ok
+top-level-occurs-clause:		ok
+value-of-clause:			obsolete
+numeric-boolean:			ok
+hexadecimal-boolean:			ok
+national-literals:			ok
+hexadecimal-national-literals:		ok
+national-character-literals:		warning
+# TO-DO: Add separate config option for H"..." to be unsupported,numeric,non-numeric(acu)
+acu-literals:				unconformable
+hp-octal-literals:			unconformable
+word-continuation:			warning
+not-exception-before-exception:		ok
+accept-display-extensions:		ok
+renames-uncommon-levels:		ok
+symbolic-constant:			ok
+constant-78:				ok
+constant-01:				ok
+perform-varying-without-by:		ok
+reference-out-of-declaratives:		warning
+program-prototypes:			ok
+call-convention-mnemonic:		ok
+call-convention-linkage:		ok
+numeric-value-for-edited-item:		ok
+incorrect-conf-sec-order:		ok
+define-constant-directive:		archaic
+free-redefines-position:		warning
+records-mismatch-record-clause	warning
+record-delimiter:			ok
+sequential-delimiters:			ok
+record-delim-with-fixed-recs:		ok
+missing-statement:			warning
+zero-length-literals:			ok
+xml-generate-extra-phrases:		ok
+continue-after:				ok
+goto-entry:				warning
+assign-variable:			ok
+assign-using-variable:			ok
+assign-ext-dyn:				ok
+assign-disk-from:			ok
+vsam-status:				ignore
 
 # use complete word list; synonyms and exceptions are specified below
-reserved-words:         default
+reserved-words:		default
 
 # not-reserved:
 # Value: Word to be taken out of the reserved words list
-not-reserved:   TERMINAL
-
+not-reserved:	TERMINAL
 # reserved:
-# Entries of the form word-1=word-2 define word-1 as an alias for default
+#   Entries of the form word-1=word-2 define word-1 as an alias for default
 # reserved word word-2. No spaces are allowed around the equal sign.
-reserved:       AUTO-SKIP=AUTO
-reserved:       AUTOTERMINATE=AUTO
-reserved:       BACKGROUND-COLOUR=BACKGROUND-COLOR
-reserved:       BEEP=BELL
-reserved:       BINARY-INT=BINARY-LONG
-reserved:       BINARY-LONG-LONG=BINARY-DOUBLE
-reserved:       EMPTY-CHECK=REQUIRED
-reserved:       EQUALS=EQUAL
-reserved:       FOREGROUND-COLOUR=FOREGROUND-COLOR
-reserved:       INITIALISE=INITIALIZE
-reserved:       INITIALISED=INITIALIZED
-reserved:       LENGTH-CHECK=FULL
-reserved:       ORGANISATION=ORGANIZATION
-reserved:       SYNCHRONISED=SYNCHRONIZED
-reserved:       TIMEOUT=TIME-OUT
+reserved:	AUTO-SKIP=AUTO
+reserved:	AUTOTERMINATE=AUTO
+reserved:	BACKGROUND-COLOUR=BACKGROUND-COLOR
+reserved:	BEEP=BELL
+reserved:	BINARY-INT=BINARY-LONG
+reserved:	BINARY-LONG-LONG=BINARY-DOUBLE
+reserved:	CELLS=CELL
+reserved:	COLOURS=COLORS
+reserved:	EMPTY-CHECK=REQUIRED
+reserved:	EQUALS=EQUAL
+reserved:	FOREGROUND-COLOUR=FOREGROUND-COLOR
+reserved:	HIGH-VALUES=HIGH-VALUE
+reserved:	INITIALISE=INITIALIZE
+reserved:	INITIALISED=INITIALIZED
+reserved:	LENGTH-CHECK=FULL
+reserved:	LOW-VALUES=LOW-VALUE
+reserved:	ORGANISATION=ORGANIZATION
+reserved:	PIXELS=PIXEL
+reserved:	SYNCHRONISED=SYNCHRONIZED
+reserved:	TIMEOUT=TIME-OUT
+reserved:	VALUES=VALUE
+reserved:	ZEROES=ZERO
+reserved:	ZEROS=ZERO
 
 @end verbatim
 @comment *********************************************************************
@@ -1118,7 +1188,7 @@ Do not specify the @file{.so} or @file{.dll} extension on the program name.  The
 
 The general usage and syntax of cobcrun is as follows as issued by running cobcrun -h (or --help) :
 @verbatim
-COBOL driver program for GnuCOBOL modules
+GnuCOBOL module loader
 
 Usage: cobcrun [options] PROGRAM [parameter ...]
   or:  cobcrun options
@@ -1127,8 +1197,9 @@ Options:
   -h, -help                      display this help and exit
   -V, -version                   display cobcrun and runtime version and exit
   -i, -info                      display runtime information (build/environment)
+  -v, -verbose                   display extended output with --info
   -c <file>, -config=<file>      set runtime configuration from <file>
-  -r, -runtime-conf              display current runtime configuration
+  -r, -runtime-config            display current runtime configuration
                                  (value and origin for all settings)
   -M <module>, -module=<module>  set entry point module name and/or load path
                                  where -M module prepends any directory to the
