@@ -1226,9 +1226,9 @@ cobcrun printaccount.exe acct=6625378
 @newunit{10.2.2.2,Dynamically Loaded Subprograms}
 Dynamically-loaded subprograms are executed (from a COBOL syntax point of view) just like any other subprograms.  What makes them unique, however, is that they are loaded into memory only when they are actually used the first time during the execution of a program.
 
-When a dynamically-loadable module needs to be loaded (because it is not already in memory from a previous subprogram execution), the dynamically-loadable library will be sought in the same directory from which the main program was loaded.  If it cannot be found there, each directory named in the
-@envvarruntimeref{PATH} will be searched.  If it was not located in any of those directories, the library specified by the
-@envvarruntime{COB_LIBRARY_PATH} will be searched.  Finally, if it @i{still} cannot be located, execution will be terminated with an error message (@i{libcob: Cannot find module 'xxxxxxxx'}).
+When a dynamically-loadable module needs to be loaded (because it is not already in memory from a previous subprogram execution), the dynamically-loadable library will be sought by libcob in each directory named in the library specified by the
+@envvarruntime{COB_LIBRARY_PATH} will be searched and if not found then
+@envvarruntimeref{PATH} will be searched.  Finally, if it @i{still} cannot be located, execution will be terminated with an error message (@i{libcob: Cannot find module 'xxxxxxxx'}). For speed performance purposes all such should therefore be stored within the directories pointed to by the environment variable @envvarruntime{COB_LIBRARY_PATH}.
 
 The process of locating dynamically-loadable modules is case-sensitive on UNIX systems; @code{CALL "dynsub"} and @code{CALL "DYNSUB"} will both fail to locate the @code{DynSub.so} library on a UNIX system.
 
@@ -1249,7 +1249,7 @@ The following is a list of the various environment variables that can play a rol
 @item @plainidx{COB_DISPLAY_WARNINGS}
 If set to a value of @samp{Y}, any run-time warnings (such as noting the implicit closing of open files when a @statementref{GOBACK} or @statementref{STOP} with the @code{RUN} option is executed) will be displayed.  Any other value for this environment variable (including not setting the variable at all) will suppress such messages.
 @item @plainidx{COB_LIBRARY_PATH}
-At runtime, GnuCOBOL will attempt to locate and load any application dynamically-loadable libraries using from the directory in which the program executable was found or, if it wasn't found there, using the @code{PATH} environment variable.  If these library files could be somewhere else, specify the directory path using this variable.
+At runtime, GnuCOBOL will attempt to locate and load any application dynamically loadable libraries used this varfiable that points to the directories specified, if it wasn't found there, using the @code{PATH} environment variable.
 @item @plainidx{COB_LOAD_CASE}
 If set to either @code{UPPER} or @code{LOWER}, this environment variable will internally convert referenced entry-point names to either upper- or lower-case before initiating searches for dynamically-loadable modules.  The @code{UPPER} and @code{LOWER} values of the environment variable are actually case-insensitive.
 @item @plainidx{COB_PHYSICAL_CANCEL}
