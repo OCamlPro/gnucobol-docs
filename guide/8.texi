@@ -248,6 +248,23 @@ The @code{Char-Value} item now has the corresponding @sc{ASCII} character value.
 This function returns a 12-digit numeric result, the first seven digits of which are the integer value of @var{days} argument (a numeric data item or literal) and the last five of which are the integer value of @var{seconds} argument (also a numeric data item or literal).
 
 If @var{days} is less than 1 or greater than 3,067,671, or if @var{seconds} is less than 1 or greater than 86,400, a value of 0 is returned and a runtime error will result.
+
+@var{days}
+Must be in integer date form. For details, see Integer date form.
+A value in integer date form is a positive integer that represents a number of days succeeding 31 December 1600, in the Gregorian calendar. It is based on a starting date of Monday, 1 January 1601 and integer date 1 represents Monday, 1 January 1601.
+
+@var{seconds}
+Must be in standard numeric time form. For details, see Standard numeric time form. A value in standard numeric time form is a numeric value
+representing seconds past midnight.
+
+The returned value is determined by arithmetic expression
+Days-1 + (Seconds-2/100000).
+The date occupies the integer part of the returned value and the time is
+represented in the fractional part of the returned value.
+
+Example
+Given the integer date form value "143951", which represents the date 15 February 1995, and the standard numeric time form value "18867.812479168304", which represents the time "05:14:27.812479168304", the returned value would be exactly "143951.1886781247".
+
 @comment *********************************************************************
 @comment ** 8.1.9 CONCATENATE                                               **
 @comment *********************************************************************
