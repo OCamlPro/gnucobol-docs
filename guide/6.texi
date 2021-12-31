@@ -819,43 +819,42 @@ Data descriptions of this form do not actually allocate any storage --- they mer
 
 Here is the listing of a GnuCOBOL program that uses 01-level constants to display the length (in bytes) of the various picture-less usage types.
 @verbatim
-    IDENTIFICATION DIVISION.
-    PROGRAM-ID. Usage Lengths.
-    DATA DIVISION.
-    WORKING-STORAGE SECTION.
-    01  Len-BINARY-C-LONG    CONSTANT AS LENGTH OF BINARY-C-LONG.
-    01  Len-BINARY-CHAR      CONSTANT AS LENGTH OF BINARY-CHAR.
-    01  Len-BINARY-DOUBLE    CONSTANT AS LENGTH OF BINARY-DOUBLE.
-    01  Len-BINARY-LONG      CONSTANT AS LENGTH OF BINARY-LONG.
-    01  Len-BINARY-SHORT     CONSTANT AS LENGTH OF BINARY-SHORT.
-    01  Len-COMP-1           CONSTANT AS LENGTH OF COMP-1.
-    01  Len-COMP-2           CONSTANT AS LENGTH OF COMP-2.
-    01  Len-FLOAT-DECIMAL-16 CONSTANT AS LENGTH OF FLOAT-DECIMAL-16.
-    01  Len-FLOAT-DECIMAL-34 CONSTANT AS LENGTH OF FLOAT-DECIMAL-34.
-    01  Len-FLOAT-LONG       CONSTANT AS LENGTH OF FLOAT-LONG.
-    01  Len-FLOAT-SHORT      CONSTANT AS LENGTH OF FLOAT-SHORT.
-    01  Len-POINTER          CONSTANT AS LENGTH OF POINTER.
-    01  Len-PROGRAM-POINTER  CONSTANT AS LENGTH OF PROGRAM-POINTER.
-    PROCEDURE DIVISION.
-    000-Main.
-        DISPLAY "On this system, with this build of GnuCOBOL, the"
-        DISPLAY "PICTURE-less USAGE's have these lengths (in bytes):"
-        DISPLAY " "
-        DISPLAY "BINARY-C-LONG:    " Len-BINARY-C-LONG
-        DISPLAY "BINARY-CHAR:      " Len-BINARY-CHAR
-        DISPLAY "BINARY-DOUBLE:    " Len-BINARY-DOUBLE
-        DISPLAY "BINARY-LONG:      " Len-BINARY-LONG
-        DISPLAY "BINARY-SHORT:     " Len-BINARY-SHORT
-        DISPLAY "COMP-1:           " Len-COMP-1
-        DISPLAY "COMP-2:           " Len-COMP-2
-        DISPLAY "FLOAT-DECIMAL-16: " Len-FLOAT-DECIMAL-16
-        DISPLAY "FLOAT-DECIMAL-34: " Len-FLOAT-DECIMAL-34
-        DISPLAY "FLOAT-LONG:       " Len-FLOAT-LONG
-        DISPLAY "FLOAT-SHORT:      " Len-FLOAT-SHORT
-        DISPLAY "POINTER:          " Len-POINTER
-        DISPLAY "PROGRAM-POINTER:  " Len-PROGRAM-POINTER
-        STOP RUN
-        .
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. Usage-Lengths.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  Len-BINARY-C-LONG    CONSTANT AS LENGTH OF BINARY-C-LONG.
+       01  Len-BINARY-CHAR      CONSTANT AS LENGTH OF BINARY-CHAR.
+       01  Len-BINARY-DOUBLE    CONSTANT AS LENGTH OF BINARY-DOUBLE.
+       01  Len-BINARY-LONG      CONSTANT AS LENGTH OF BINARY-LONG.
+       01  Len-BINARY-SHORT     CONSTANT AS LENGTH OF BINARY-SHORT.
+       01  Len-COMP-1           CONSTANT AS LENGTH OF COMP-1.
+       01  Len-COMP-2           CONSTANT AS LENGTH OF COMP-2.
+       01  Len-FLOAT-DECIMAL-16 CONSTANT AS LENGTH OF FLOAT-DECIMAL-16.
+       01  Len-FLOAT-DECIMAL-34 CONSTANT AS LENGTH OF FLOAT-DECIMAL-34.
+       01  Len-FLOAT-LONG       CONSTANT AS LENGTH OF FLOAT-LONG.
+       01  Len-FLOAT-SHORT      CONSTANT AS LENGTH OF FLOAT-SHORT.
+       01  Len-POINTER          CONSTANT AS LENGTH OF POINTER.
+       01  Len-PROGRAM-POINTER  CONSTANT AS LENGTH OF PROGRAM-POINTER.
+       PROCEDURE DIVISION.
+       000-Main.
+           DISPLAY "On this system, with this build of GnuCOBOL, the"
+           DISPLAY "PICTURE-less USAGE's have these lengths (in bytes):"
+           DISPLAY " "
+           DISPLAY "BINARY-C-LONG:    " Len-BINARY-C-LONG
+           DISPLAY "BINARY-CHAR:      " Len-BINARY-CHAR
+           DISPLAY "BINARY-DOUBLE:    " Len-BINARY-DOUBLE
+           DISPLAY "BINARY-LONG:      " Len-BINARY-LONG
+           DISPLAY "BINARY-SHORT:     " Len-BINARY-SHORT
+           DISPLAY "COMP-1:           " Len-COMP-1
+           DISPLAY "COMP-2:           " Len-COMP-2
+           DISPLAY "FLOAT-DECIMAL-16: " Len-FLOAT-DECIMAL-16
+           DISPLAY "FLOAT-DECIMAL-34: " Len-FLOAT-DECIMAL-34
+           DISPLAY "FLOAT-LONG:       " Len-FLOAT-LONG
+           DISPLAY "FLOAT-SHORT:      " Len-FLOAT-SHORT
+           DISPLAY "POINTER:          " Len-POINTER
+           DISPLAY "PROGRAM-POINTER:  " Len-PROGRAM-POINTER
+           STOP RUN.
 @end verbatim
 
 The output of this program, on a Windows 7 system with a 32-bit MinGW build of GnuCOBOL is:
@@ -876,6 +875,28 @@ The output of this program, on a Windows 7 system with a 32-bit MinGW build of G
     FLOAT-SHORT:      4
     POINTER:          4
     PROGRAM-POINTER:  4
+
+The output of this program, on a Linux X64 system running cobc (GnuCOBOL) 3.1.2.0 is:
+
+On this system, with this build of GnuCOBOL, the
+PICTURE-less USAGE's have these lengths (in bytes):
+
+BINARY-C-LONG:    8
+BINARY-CHAR:      1
+BINARY-DOUBLE:    8
+BINARY-LONG:      4
+BINARY-SHORT:     2
+COMP-1:           4
+COMP-2:           8
+FLOAT-DECIMAL-16: 8
+FLOAT-DECIMAL-34: 16
+FLOAT-LONG:       8
+FLOAT-SHORT:      4
+POINTER:          8
+PROGRAM-POINTER:  8
+
+Spot the differences between 32 and 64 bit.
+
 @end verbatim
 @comment *********************************************************************
 @comment ** 6.8.2 66-Level Data Items                                       **
