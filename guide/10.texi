@@ -1227,12 +1227,11 @@ cobcrun printaccount.exe acct=6625378
 Dynamically-loaded subprograms are executed (from a COBOL syntax point of view) just like any other subprograms.  What makes them unique, however, is that they are loaded into memory only when they are actually used the first time during the execution of a program.
 
 When a dynamically-loadable module needs to be loaded (because it is not already in memory from a previous subprogram execution), the dynamically-loadable library will be sought by libcob in each directory named in the library specified by the
-@envvarruntime{COB_LIBRARY_PATH} will be searched and if not found then
-@envvarruntimeref{PATH} will be searched.  Finally, if it @i{still} cannot be located, execution will be terminated with an error message (@i{libcob: Cannot find module 'xxxxxxxx'}). For speed performance purposes all such should therefore be stored within the directories pointed to by the environment variable @envvarruntime{COB_LIBRARY_PATH}.
+@envvarruntime{COB_LIBRARY_PATH} will be searched and if not found then.  Finally, if it @i{still} cannot be located, execution will be terminated with an error message (@i{libcob: Cannot find module 'xxxxxxxx'}). For speed performance purposes all such should therefore be stored within the directories pointed to by the environment variable @envvarruntime{COB_LIBRARY_PATH}.
 
-The process of locating dynamically-loadable modules is case-sensitive on UNIX systems; @code{CALL "dynsub"} and @code{CALL "DYNSUB"} will both fail to locate the @code{DynSub.so} library on a UNIX system.
+The process of locating dynamically-loadable modules is case sensitive on UNIX systems; @code{CALL "dynsub"} and @code{CALL "DYNSUB"} will both fail to locate the @code{DynSub.so} library on a UNIX system.
 
-Windows implementations of GnuCOBOL may, or may not, be similarly case sensitive with regard to library names, depending upon the Windows version and GnuCOBOL build options --- it is safest to simply treat library names as case-sensitive in all environments.
+Windows implementations of GnuCOBOL may, or may not, be similarly case sensitive with regard to library names, depending upon the Windows version and GnuCOBOL build options --- it is safest to simply treat library names as case sensitive in all environments.
 
 It is possible, however, to automatically cause all library names to 'fold' to upper-case by specifying the
 @switchidx{-ffold-call} with the ``upper'' option (i.e. @code{--fold-call=upper}) to the GnuCOBOL compiler.  Similarly, library names could be folded to lower-case by using the ``lower'' option (i.e. @code{--fold-call=lower}.  If libraries are maintained entirely using upper- or lower-case file names, either of these options will allow libraries to be found regardless of how the programmer entered their names on @statement{CALL}s.
@@ -1251,12 +1250,12 @@ If set to a value of @samp{Y}, any run-time warnings (such as noting the implici
 @item @plainidx{COB_LIBRARY_PATH}
 At runtime, GnuCOBOL will attempt to locate and load any application dynamically loadable libraries used this variable that points to the directories specified, if it wasn't found there, using the @code{PATH} environment variable.
 @item @plainidx{COB_LOAD_CASE}
-If set to either @code{UPPER} or @code{LOWER}, this environment variable will internally convert referenced entry-point names to either upper- or lower-case before initiating searches for dynamically-loadable modules.  The @code{UPPER} and @code{LOWER} values of the environment variable are actually case-insensitive.
+If set to either @code{UPPER} or @code{LOWER}, this environment variable will internally convert referenced entry point names to either upper- or lower-case before initiating searches for dynamically loadable modules.  The @code{UPPER} and @code{LOWER} values of the environment variable are actually case insensitive.
 @item @plainidx{COB_PHYSICAL_CANCEL}
-If set to @samp{Y}, @samp{y} or @samp{1}, a @statementref{CANCEL} will physically unload a subprogram dynamically-loadable module.
+If set to @samp{Y}, @samp{y} or @samp{1}, a @statementref{CANCEL} will physically unload a subprogram dynamically loadable module.
 If set to anything else, a @statementref{CANCEL} logically unloads a module so that subsequent use will re-initialize the module as if it had actually been reloaded, but the overhead of actually reloading the module will be avoided.
 @item @plainidx{COB_PRE_LOAD}
-If set to any non-null value, this variable will cause all dynamically-loadable libraries to be loaded when the program begins execution (rather than searching for and loading the module upon first use).
+If set to any non-null value, this variable will cause all dynamically loadable libraries to be loaded when the program begins execution (rather than searching for and loading the module upon first use).
 @item @plainidx{COB_SET_DEBUG}
 If a @syntaxrefalt{USE FOR DEBUGGING,DECLARATIVES} section exists, the code within it will be disabled unless this environment variable is set to a value of @samp{Y}, @samp{y} or @samp{1}.
 @item @plainidx{COB_SET_TRACE}
