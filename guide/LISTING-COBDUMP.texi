@@ -1,7 +1,7 @@
 @smallformat
 @verbatim
-GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
-                                          C:/Users/tda010/Documents/Programs/Samples/COBDUMP.cbl
+GNUCOBOL 3.1.2 06MAR202 Source Listing                                                2022/03/06
+                                                                                     COBDUMP.cbl
 Line   Statement                                                                         Page: 1
 ====== =========================================================================================
      1        >>SOURCE FORMAT IS FIXED
@@ -53,169 +53,172 @@ Line   Statement                                                                
     47       *> GC0609 Converted to OpenCOBOL 1.1 - COBOL '85 w/ some COBOL **
     48       *>        2002 features                                        **
     49       *> GC0410 Enhanced to make 2nd argument (buffer length)        **
-
-================================================================================================
-GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 1
-@end verbatim
-@end smallformat
-@page
-@smallformat
-@verbatim
-GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
-                                          C:/Users/tda010/Documents/Programs/Samples/COBDUMP.cbl
-Line   Statement                                                                         Page: 2
-====== =========================================================================================
     50       *>        optional                                             **
     51       *> GC0211 Ported to IBM Enterprise COBOL                       **
     52       *> GC0612 Updated for OpenCOBOL 2.0                            **
-    53       *>***************************************************************
-    54        ENVIRONMENT DIVISION.
-    55        CONFIGURATION SECTION.
-    56        REPOSITORY.
-    57            FUNCTION ALL INTRINSIC.
-    58        DATA DIVISION.
-    59        WORKING-STORAGE SECTION.
-    60        01  WS-Addr-PTR                           USAGE POINTER.
-    61        01  WS-Addr-NUM REDEFINES WS-Addr-PTR
-    62                                                  USAGE BINARY-LONG.
-    63
-    64        01  WS-Addr-SUB                           USAGE BINARY-CHAR.
-    65
-    66        01  WS-Addr-Value-NUM                     USAGE BINARY-LONG.
-    67
-    68        01  WS-Buffer-Byte-CHR.
-    69            05 WS-Buffer-Byte-NUM                 USAGE BINARY-CHAR.
-    70
-    71        01  WS-Buffer-Length-NUM                  USAGE BINARY-LONG.
-    72
-    73        01  WS-Buffer-SUB                         PIC 9(4) COMP-5.
-    74
-    75        01  WS-Hex-Digit-TXT VALUE '0123456789ABCDEF'.
-    76            05 WS-Hex-Digit-CHR                   OCCURS 16 TIMES
-    77                                                  PIC X(1).
-    78
-    79        01  WS-Nibble-SUB                         PIC 9(1) COMP-5.
-    80
-    81        01  WS-Nibble-Left-SUB                    PIC 9(1) COMP-5.
-    82
-    83        01  WS-Nibble-Right-SUB                   PIC 9(1) COMP-5.
-    84
-    85        01  WS-Output-Detail-TXT.
-    86            05 WS-OD-Addr-TXT.
-    87               10 WS-OD-Addr-Hex-CHR              OCCURS 8 TIMES PIC X.
-    88            05 FILLER                             PIC X(1).
-    89            05 WS-OD-Relative-Byte-NUM            PIC Z(3)9.
-    90            05 FILLER                             PIC X(1).
-    91            05 WS-OD-Hex-TXT                      OCCURS 16 TIMES.
-    92               10 WS-OD-Hex-1-CHR                 PIC X.
-    93               10 WS-OD-Hex-2-CHR                 PIC X.
-    94               10 FILLER                          PIC X.
-    95            05 WS-OD-ASCII-Data-TXT.
-    96               10 WS-OD-ASCII-CHR                 OCCURS 16 TIMES
-    97                                                  PIC X.
-    98
+    53       *> VC0322 Moved lines only with . to end of previous statement **
 
 ================================================================================================
-GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 2
+GCic for UNIX/Linux Copyright (C) 2009-2022, Gary L. Cutler, GPL                         Page: 1
 @end verbatim
 @end smallformat
 @page
 @smallformat
 @verbatim
-GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
-                                          C:/Users/tda010/Documents/Programs/Samples/COBDUMP.cbl
+GNUCOBOL 3.1.2 06MAR202 Source Listing                                                2022/03/06
+                                                                                     COBDUMP.cbl
+Line   Statement                                                                         Page: 2
+====== =========================================================================================
+    54       *>        Fix for bug #816 by making WS-Buffer-Byte-NUM        **
+    55       *>        UNSIGNED                                             **
+    56       *>***************************************************************
+    57        ENVIRONMENT DIVISION.
+    58        CONFIGURATION SECTION.
+    59        REPOSITORY.
+    60            FUNCTION ALL INTRINSIC.
+    61        DATA DIVISION.
+    62        WORKING-STORAGE SECTION.
+    63        01  WS-Addr-PTR                           USAGE POINTER.
+    64        01  WS-Addr-NUM REDEFINES WS-Addr-PTR
+    65                                                  USAGE BINARY-LONG.
+    66
+    67        01  WS-Addr-SUB                           USAGE BINARY-CHAR.
+    68
+    69        01  WS-Addr-Value-NUM                     USAGE BINARY-LONG.
+    70
+    71        01  WS-Buffer-Byte-CHR.
+    72            05 WS-Buffer-Byte-NUM                 USAGE BINARY-CHAR
+    73                                                         UNSIGNED.
+    74
+    75        01  WS-Buffer-Length-NUM                  USAGE BINARY-LONG.
+    76
+    77        01  WS-Buffer-SUB                         PIC 9(4) COMP-5.
+    78
+    79        01  WS-Hex-Digit-TXT VALUE '0123456789ABCDEF'.
+    80            05 WS-Hex-Digit-CHR                   OCCURS 16 TIMES
+    81                                                  PIC X(1).
+    82
+    83        01  WS-Nibble-SUB                         PIC 9(1) COMP-5.
+    84
+    85        01  WS-Nibble-Left-SUB                    PIC 9(1) COMP-5.
+    86
+    87        01  WS-Nibble-Right-SUB                   PIC 9(1) COMP-5.
+    88
+    89        01  WS-Output-Detail-TXT.
+    90            05 WS-OD-Addr-TXT.
+    91               10 WS-OD-Addr-Hex-CHR              OCCURS 8 TIMES PIC X.
+    92            05 FILLER                             PIC X(1).
+    93            05 WS-OD-Relative-Byte-NUM            PIC Z(3)9.
+    94            05 FILLER                             PIC X(1).
+    95            05 WS-OD-Hex-TXT                      OCCURS 16 TIMES.
+    96               10 WS-OD-Hex-1-CHR                 PIC X.
+    97               10 WS-OD-Hex-2-CHR                 PIC X.
+    98               10 FILLER                          PIC X.
+    99            05 WS-OD-ASCII-Data-TXT.
+   100               10 WS-OD-ASCII-CHR                 OCCURS 16 TIMES
+   101                                                  PIC X.
+   102        01  WS-Output-SUB                         PIC 9(2) COMP-5.
+   103
+   104        >>SOURCE FORMAT IS FREE
+   105        01  WS-Output-Header-1-TXT.
+   106            05 VALUE '<-Addr-> Byte <---------------- Hexadecimal ''----------------> <---
+
+================================================================================================
+GCic for UNIX/Linux Copyright (C) 2009-2022, Gary L. Cutler, GPL                         Page: 2
+@end verbatim
+@end smallformat
+@page
+@smallformat
+@verbatim
+GNUCOBOL 3.1.2 06MAR202 Source Listing                                                2022/03/06
+                                                                                     COBDUMP.cbl
 Line   Statement                                                                         Page: 3
 ====== =========================================================================================
-    99        01  WS-Output-SUB                         PIC 9(2) COMP-5.
-   100
-   101        >>SOURCE FORMAT IS FREE
-   102        01  WS-Output-Header-1-TXT.
-   103            05 VALUE '<-Addr-> Byte <---------------- Hexadecimal ''----------------> <---
-       - Char ---->' PIC X(80).
-   104
-   105        01  WS-Output-Header-2-TXT.
-   106            05 VALUE '======== ==== =============================================== ======
-       ==========' PIC X(80).
-   107        >>SOURCE FORMAT IS FIXED
+   107 - Char ---->' PIC X(80).
    108
-   109        LINKAGE SECTION.
-   110        01  L-Buffer-TXT                          PIC X ANY LENGTH.
-   111
-   112        01  L-Buffer-Length-NUM                   USAGE BINARY-LONG.
+   109        01  WS-Output-Header-2-TXT.
+   110            05 VALUE '======== ==== =============================================== ======
+   111 ==========' PIC X(80).
+   112        >>SOURCE FORMAT IS FIXED
    113
-   114        PROCEDURE DIVISION USING L-Buffer-TXT,
-   115                                 OPTIONAL L-Buffer-Length-NUM.
-   116        000-Main SECTION.
-   117            IF NUMBER-OF-CALL-PARAMETERS = 1
-   118                MOVE LENGTH(L-Buffer-TXT) TO WS-Buffer-Length-NUM
-   119            ELSE
-   120                MOVE L-Buffer-Length-NUM  TO WS-Buffer-Length-NUM
-   121            END-IF
-   122            MOVE SPACES TO WS-Output-Detail-TXT
-   123            SET WS-Addr-PTR TO ADDRESS OF L-Buffer-TXT
-   124            PERFORM 100-Generate-Address
-   125            MOVE 0 TO WS-Output-SUB
-   126            DISPLAY WS-Output-Header-1-TXT UPON SYSERR
-   127            DISPLAY WS-Output-Header-2-TXT UPON SYSERR
-   128            PERFORM VARYING WS-Buffer-SUB FROM 1 BY 1
-   129                      UNTIL WS-Buffer-SUB > WS-Buffer-Length-NUM
-   130                ADD 1 TO WS-Output-SUB
-   131                IF WS-Output-SUB = 1
-   132                    MOVE WS-Buffer-SUB TO WS-OD-Relative-Byte-NUM
-   133                END-IF
-   134                MOVE L-Buffer-TXT (WS-Buffer-SUB : 1)
-   135                  TO WS-OD-ASCII-CHR (WS-Output-SUB)
-   136                     WS-Buffer-Byte-CHR
-   137                DIVIDE WS-Buffer-Byte-NUM BY 16
-   138                    GIVING WS-Nibble-Left-SUB
-   139                    REMAINDER WS-Nibble-Right-SUB
-   140                ADD 1 TO WS-Nibble-Left-SUB
-   141                         WS-Nibble-Right-SUB
-   142                MOVE WS-Hex-Digit-CHR (WS-Nibble-Left-SUB)
-   143                  TO WS-OD-Hex-1-CHR  (WS-Output-SUB)
-   144                MOVE WS-Hex-Digit-CHR (WS-Nibble-Right-SUB)
-   145                  TO WS-OD-Hex-2-CHR  (WS-Output-SUB)
+   114        LINKAGE SECTION.
+   115        01  L-Buffer-TXT                          PIC X ANY LENGTH.
+   116
+   117        01  L-Buffer-Length-NUM                   USAGE BINARY-LONG.
+   118
+   119        PROCEDURE DIVISION USING L-Buffer-TXT,
+   120                                 OPTIONAL L-Buffer-Length-NUM.
+   121        000-Main SECTION.
+   122            IF NUMBER-OF-CALL-PARAMETERS = 1
+   123                MOVE LENGTH(L-Buffer-TXT) TO WS-Buffer-Length-NUM
+   124            ELSE
+   125                MOVE L-Buffer-Length-NUM  TO WS-Buffer-Length-NUM
+   126            END-IF
+   127            MOVE SPACES TO WS-Output-Detail-TXT
+   128            SET WS-Addr-PTR TO ADDRESS OF L-Buffer-TXT
+   129            PERFORM 100-Generate-Address
+   130            MOVE 0 TO WS-Output-SUB
+   131            DISPLAY WS-Output-Header-1-TXT UPON SYSERR
+   132            DISPLAY WS-Output-Header-2-TXT UPON SYSERR
+   133            PERFORM VARYING WS-Buffer-SUB FROM 1 BY 1
+   134                      UNTIL WS-Buffer-SUB > WS-Buffer-Length-NUM
+   135                ADD 1 TO WS-Output-SUB
+   136                IF WS-Output-SUB = 1
+   137                    MOVE WS-Buffer-SUB TO WS-OD-Relative-Byte-NUM
+   138                END-IF
+   139                MOVE L-Buffer-TXT (WS-Buffer-SUB : 1)
+   140                  TO WS-OD-ASCII-CHR (WS-Output-SUB)
+   141                     WS-Buffer-Byte-CHR
+   142                DIVIDE WS-Buffer-Byte-NUM BY 16
+   143                    GIVING WS-Nibble-Left-SUB
+   144                    REMAINDER WS-Nibble-Right-SUB
+   145                ADD 1 TO WS-Nibble-Left-SUB
+   146                         WS-Nibble-Right-SUB
+   147                MOVE WS-Hex-Digit-CHR (WS-Nibble-Left-SUB)
+   148                  TO WS-OD-Hex-1-CHR  (WS-Output-SUB)
+   149                MOVE WS-Hex-Digit-CHR (WS-Nibble-Right-SUB)
+   150                  TO WS-OD-Hex-2-CHR  (WS-Output-SUB)
+   151                IF WS-Output-SUB = 16
+   152                    CALL "C$PRINTABLE" USING WS-OD-ASCII-Data-TXT
+   153                    DISPLAY WS-Output-Detail-TXT UPON SYSERR
+   154                    MOVE SPACES TO WS-Output-Detail-TXT
+   155                    MOVE 0 TO WS-Output-SUB
+   156                    SET WS-Addr-PTR UP BY 16
+   157                    PERFORM 100-Generate-Address
+   158                END-IF
+   159            END-PERFORM
 
 ================================================================================================
-GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 3
+GCic for UNIX/Linux Copyright (C) 2009-2022, Gary L. Cutler, GPL                         Page: 3
 @end verbatim
 @end smallformat
 @page
 @smallformat
 @verbatim
-GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
-                                          C:/Users/tda010/Documents/Programs/Samples/COBDUMP.cbl
+GNUCOBOL 3.1.2 06MAR202 Source Listing                                                2022/03/06
+                                                                                     COBDUMP.cbl
 Line   Statement                                                                         Page: 4
 ====== =========================================================================================
-   146                IF WS-Output-SUB = 16
-   147                    CALL "C$PRINTABLE" USING WS-OD-ASCII-Data-TXT
-   148                    DISPLAY WS-Output-Detail-TXT UPON SYSERR
-   149                    MOVE SPACES TO WS-Output-Detail-TXT
-   150                    MOVE 0 TO WS-Output-SUB
-   151                    SET WS-Addr-PTR UP BY 16
-   152                    PERFORM 100-Generate-Address
-   153                END-IF
-   154            END-PERFORM
-   155            IF WS-Output-SUB > 0
-   156                CALL "C$PRINTABLE" USING WS-OD-ASCII-Data-TXT
-   157                DISPLAY WS-Output-Detail-TXT UPON SYSERR
-   158            END-IF
-   159            EXIT PROGRAM
-   160            .
-   161        100-Generate-Address SECTION.
-   162            MOVE 8 TO WS-Addr-SUB
-   163            MOVE WS-Addr-NUM TO WS-Addr-Value-NUM
-   164            MOVE ALL '0' TO WS-OD-Addr-TXT
-   165            PERFORM WITH TEST BEFORE UNTIL WS-Addr-Value-NUM = 0
-   166                DIVIDE WS-Addr-Value-NUM BY 16
-   167                    GIVING WS-Addr-Value-NUM
-   168                    REMAINDER WS-Nibble-SUB
-   169                ADD 1 TO WS-Nibble-SUB
-   170                MOVE WS-Hex-Digit-CHR (WS-Nibble-SUB)
-   171                  TO WS-OD-Addr-Hex-CHR (WS-Addr-SUB)
-   172                SUBTRACT 1 FROM WS-Addr-SUB
-   173            END-PERFORM
-   174            .
+   160            IF WS-Output-SUB > 0
+   161                CALL "C$PRINTABLE" USING WS-OD-ASCII-Data-TXT
+   162                DISPLAY WS-Output-Detail-TXT UPON SYSERR
+   163            END-IF
+   164            EXIT PROGRAM.
+   165
+   166        100-Generate-Address SECTION.
+   167            MOVE 8 TO WS-Addr-SUB
+   168            MOVE WS-Addr-NUM TO WS-Addr-Value-NUM
+   169            MOVE ALL '0' TO WS-OD-Addr-TXT
+   170            PERFORM WITH TEST BEFORE UNTIL WS-Addr-Value-NUM = 0
+   171                DIVIDE WS-Addr-Value-NUM BY 16
+   172                    GIVING WS-Addr-Value-NUM
+   173                    REMAINDER WS-Nibble-SUB
+   174                ADD 1 TO WS-Nibble-SUB
+   175                MOVE WS-Hex-Digit-CHR (WS-Nibble-SUB)
+   176                  TO WS-OD-Addr-Hex-CHR (WS-Addr-SUB)
+   177                SUBTRACT 1 FROM WS-Addr-SUB
+   178            END-PERFORM
+   179            .
 
 
 
