@@ -1056,17 +1056,20 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 * 6.9.38: RENAMES.
 * 6.9.39: REQUIRED.
 * 6.9.40: REVERSE-VIDEO.
-* 6.9.41: SECURE.
-* 6.9.42: SIGN IS.
-* 6.9.43: SOURCE.
-* 6.9.44: SUM OF.
-* 6.9.45: SYNCRONIZED.
-* 6.9.46: TO.
-* 6.9.47: TYPE.
-* 6.9.48: UNDERLINE.
-* 6.9.49: USAGE.
-* 6.9.50: USING.
-* 6.9.51: VALUE.
+* 6.9.41: SAME.
+* 6.9.42: SECURE.
+* 6.9.43: SIGN.
+* 6.9.44: SOURCE.
+* 6.9.45: SUM.
+* 6.9.46: SYNCRONIZED.
+* 6.9.47: TO.
+* 6.9.48: TYPE.
+* 6.9.49: TYPEDEF.
+* 6.9.50: UNDERLINE.
+* 6.9.51: USAGE.
+* 6.9.52: USING.
+* 6.9.53: VALUE.
+
 @end menu
 @comment *********************************************************************
 @comment ** 6.9.1 ANY LENGTH                                                **
@@ -2375,11 +2378,79 @@ This syntax is valid in the following sections:
 The @code{REVERSE-VIDEO} attribute swaps the specified or implied @syntaxref{FOREGROUND-COLOR} and @syntaxref{BACKGROUND-COLOR} attributes for the field whose definition contains this clause (or all subordinate fields if used on a group item).
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
 @comment *********************************************************************
-@comment ** 6.9.41 SECURE                                                   **
+@comment ** 6.9.41 SAME AS                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.41,SECURE}
+@newsubsection{6.9.41,SAME AS}
+@diagram{SAME-AS Clause,DD-SAME-AS,DD-SAME-AS,None}
+The syntax is valid in the following sections:
+@code{WORKING-STORAGE}
+
+The @code{SAME AS} causes a data item to inherit the same definition of another data item.
+
+@enumerate
+@item
+Data-name-1 is a data Item defined elsewhere in the same program.
+@item
+Data-name-1 shall not be subscripted.
+@item
+A data description entry that specifies the SAME AS clause shall not be immediately followed by a subordinate data description entry or level 88 entry.
+@item
+Neither the description of data-name-1 nor the description of any data items subordinate to the subject of the entry shall directly or indirectly contain a SAME AS clause that references the subject of the entry or any group item to which this entry is subordinate.
+@item
+The description of data-name-1, including its subordinate data items, shall not contain a TYPE clause that references the record to which this entry is subordinate.
+@item
+The description of data-name-1 shall not contain an OCCURS clause. However, items subordinate to data-name-1 may contain OCCURS clauses.
+@item
+Data-name-1 shall reference an elementary item or a level 1 group item described in the file, working-storage, local-storage, or linkage section.
+@item
+If the subject of the entry is a level 77 item, data-name-1 shall reference an elementary item.
+@item
+A group item to which the subject of the entry is subordinate shall not contain a GROUP-USAGE, SIGN, or USAGE clause.
+@item
+The effect of the SAME AS clause is as though the data description identified by data-name-1 had been coded in place of the SAME AS clause, excluding the level number, name, and the EXTERNAL, GLOBAL, REDEFINES clauses specified for data-name-1; level numbers of subordinate items may be adjusted as described in general rule 2.
+@item
+If data-name-1 describes a group item:
+@item
+the subject of the entry is a group whose subordinate elements have the same names, descriptions, and hierarchy as the subordinate elements of data-name-1, the level numbers of items subordinate to that group are adjusted, if necessary, to preserve the hierarchy of data-name-1, level numbers in the resulting hierarchy may exceed 49.
+
+@example
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+
+       WORKING-STORAGE  SECTION.
+       01 MESSAGE-TEXT-2 EXTERNAL.
+            02 MAIN-FILE-NAME     PIC X(50).
+            02 FILLER REDEFINES MAIN-FILE-NAME.
+                05 FILLER PIC 9999.
+            02 MAIN-FILE-NAME-2.
+                05 FILLER PIC 9999.
+                05 DETAIL-NO PIC 9999.
+           02 FILLER         SAME AS MAIN-FILE-NAME.
+       77 OUTPUT-NAME     SAME AS DETAIL-NO GLOBAL.
+       01 Z-MESSAGE-T2    SAME AS MAIN-FILE-NAME-2.
+       01 Z-MESSAGE-T3.
+             49 MT3                    SAME AS MESSAGE-TEXT-2.
+             49 MT3-REN  REDEFINES MT3 SAME AS MESSAGE-TEXT-2.
+
+       PROCEDURE DIVISION.
+           DISPLAY MAIN-FILE-NAME OF MESSAGE-TEXT-2
+           DISPLAY DETAIL-NO      OF Z-MESSAGE-T2
+           DISPLAY MAIN-FILE-NAME OF MT3
+           DISPLAY OUTPUT-NAME
+           GOBACK.
+
+@end example
+@end enumerate
+@comment *********************************************************************
+@comment ** 6.9.42 SECURE                                                   **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.42,SECURE}
 @diagram{SECURE Attribute,DD-SECURE,DD-SECURE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2395,10 +2466,10 @@ This clause may only be used on a field allowing data entry (a field containing 
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
-@comment ** 6.9.42 SIGN IS                                                  **
+@comment ** 6.9.43 SIGN IS                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.42,SIGN IS}
+@newsubsection{6.9.43,SIGN IS}
 @diagram{SIGN-IS Clause,DD-SIGN-IS,DD-SIGN-IS,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
@@ -2438,10 +2509,10 @@ When @code{SEPARATE CHARACTER} is specified, the @samp{S} symbol in the data ite
 Neither the presence of an encoded digit (see above) nor an actual @samp{+} or @samp{-} character embedded within the data item's storage prevents the data item from being used as a source field in arithmetic operations.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.43 SOURCE                                                   **
+@comment ** 6.9.44 SOURCE                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.43,SOURCE}
+@newsubsection{6.9.44,SOURCE}
 @diagram{SOURCE Clause,DD-SOURCE,DD-SOURCE,None}
 This syntax is valid in the following sections:
 @code{REPORT}
@@ -2466,10 +2537,10 @@ The @syntaxref{PICTURE} of the report data item must be such that it would be le
 The @code{ROUNDED} option comes into play should the number of digits to the right of an actual or assumed decimal point be different between the specified literal or identifier value (the ``source value'') and the @code{PICTURE} specified for the field in whose definition the @code{SOURCE} clause appears (the ``target field'').  @i{Without} @code{ROUNDED}, excess digits in the source value will simply be truncated to fit the target field.  @i{With} @code{ROUNDED}, the source value will be arithmetically rounded to fit the target field.  @xref{ROUNDED}, for information on the @code{NEAREST-AWAY-FROM-ZERO} rounding rule, which is the one that will apply.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.44 SUM OF                                                   **
+@comment ** 6.9.45 SUM OF                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.44,SUM OF}
+@newsubsection{6.9.45,SUM OF}
 @diagram{SUM-OF Clause,DD-SUM-OF-Info,DD-SUM-OF-TeX,None}
 This syntax is valid in the following sections:
 @code{REPORT}
@@ -2528,10 +2599,10 @@ If, however, you want to reset the @code{SUM} counter only when the control foot
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.45 SYNCRONIZED                                              **
+@comment ** 6.9.46 SYNCRONIZED                                              **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.45,SYNCRONIZED}
+@newsubsection{6.9.46,SYNCRONIZED}
 @diagram{SYNCRONIZED,DD-SYNCRONIZED,DD-SYNCRONIZED,DD-SYNC-LEFT-RIGHT}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
@@ -2566,10 +2637,10 @@ The following illustrates the allocation of a group of data items both without a
 @image{synchronization,6in}
 @end iftex
 @comment *********************************************************************
-@comment ** 6.9.46 TO                                                       **
+@comment ** 6.9.47 TO                                                       **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.46,TO}
+@newsubsection{6.9.47,TO}
 @diagram{TO Clause,DD-TO,DD-TO,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2583,16 +2654,168 @@ The @code{TO} clause is used to define a data-entry field with no initial value;
 The @syntaxref{FROM}, @code{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.47 TYPE                                                     **
+@comment ** 6.9.48 TYPE                                                     **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.47,TYPE}
+@newsubsection{6.9.48,TYPE}
 @diagram{TYPE Clause,DD-TYPE,DD-TYPE,None}
-This syntax is valid in the following sections:
+The syntax is valid in all other sections than:
 @code{REPORT}
 
-This clause defines the type of report group that is being defined for a report.
+As format 1
 @enumerate
+@item
+The TYPE clause indicates that the data description of the subject of the entry is specified by a user-defined data type.
+@item
+The user defined data type is defined using the TYPEDEF clause, which is described in TYPEDEF clause (see page xxx).
+@item
+The following general rules apply: If type-name-1 (defined using the TYPEDEF clause) describes a group item, then the subject of the TYPE clause is a group item whose subordinate elements have the same names, descriptions, and hierarchies as the subordinate elements of type-name-1.
+@item
+Since the subject of the TYPE clause may have a level number as high as 49 and type-name-1 may be a group item with 49 levels, the number of levels of this hierarchy may exceed 49. In fact, since descriptions of type names may reference other type names, there is no limit to the number of levels in this hierarchy.
+@item
+If a VALUE clause is specified in the data description of the subject of the TYPE clause, any VALUE clause specified in the description of type-name-1 is ignored for this entry.
+@item
+The scoping rules for type names are similar to the scoping rules for data names.
+@item
+Reference modification is not allowed for an elementary item that is the subject of a TYPE clause.
+@item
+The description of type-name-1, including its subordinate data items, cannot contain a TYPE clause that references the record to which the subject of the TYPE clause (that references type-name-1), is subordinate.
+@item
+For example, A is a group item defined using the TYPEDEF clause. B is also a group item defined using the TYPEDEF clause, but which also includes a subordinate item of TYPE A. This being the case, the type definition for A cannot include items of TYPE B.
+@item
+The subject of a TYPE clause cannot be renamed in whole, or in part and cannot be redefined explicitly or implicitly.
+@item
+If the subject of a TYPE clause is subordinate to a group item, the data description of the group item cannot contain the USAGE clause.
+@item
+The TYPE clause cannot occur in a data description entry with the BLANK WHEN ZERO, FORMAT, JUSTIFIED, PICTURE, REDEFINES, RENAMES, SIGN, SYNCHRONIZED, or USAGE clause.
+@item
+The TYPE clause can be specified in a data description entry with the EXTERNAL, GLOBAL, OCCURS, TYPEDEF, and VALUE clauses.
+@item
+The essential characteristics of a type, which is identified by its type-name, are the relative positions and lengths of the elementary items defined in the type declaration, and the BLANK WHEN ZERO, JUSTIFIED, PICTURE, SIGN, SYNCHRONIZED, and USAGE clauses specified for each of these elementary items.
+@item
+The TYPE clause shall not be specified in the same data description entry with any clauses except BASED, CLASS, CONSTANT RECORD, DEFAULT, DESTINATION, entry-name, EXTERNAL, GLOBAL, INVALID, level-number, OCCURS, PRESENT WHEN, PROPERTY, TYPEDEF, VALIDATE-STATUS, VALUE, and VARYING.
+
+@item
+Figure 1. Example Showing How TYPEDEF and TYPE Clauses Can Be Used
+
+@example
+
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 MAIN-FILE-NAME-T     PIC X(50) IS TYPEDEF.
+       01 DETAIL-NO-T             PIC 9999  IS TYPEDEF.
+        01 MAIN-FILE-NAME-2T              IS TYPEDEF.
+          05 FILLER    PIC 9999.
+          05 DETAIL-NO TYPE TO DETAIL-NO-T.
+
+       01  MESSAGE-TEXT-2T IS TYPEDEF.
+         02 MAIN-FILE-NAME     TYPE MAIN-FILE-NAME-T.
+         02 FILLER REDEFINES MAIN-FILE-NAME.
+             05 FILLER PIC 9999.
+         02 MAIN-FILE-NAME-2   TYPE MAIN-FILE-NAME-2T.
+         02 FILLER                TYPE MAIN-FILE-NAME-T.
+
+       01  MESSAGE-TEXT-2 EXTERNAL TYPE MESSAGE-TEXT-2T.
+       77 OUTPUT-NAME TYPE TO DETAIL-NO-T GLOBAL.
+       01 Z-MESSAGE-T2 TYPE MAIN-FILE-NAME-2T.
+       01 Z-MESSAGE-T3.
+          49 MT3                    TYPE MESSAGE-TEXT-2T.
+          49 MT3-REN  REDEFINES MT3 TYPE MESSAGE-TEXT-2T.
+
+       PROCEDURE DIVISION.
+           DISPLAY MAIN-FILE-NAME OF MESSAGE-TEXT-2
+           DISPLAY DETAIL-NO         OF Z-MESSAGE-T2
+           DISPLAY MAIN-FILE-NAME OF MT3
+           DISPLAY OUTPUT-NAME
+           GOBACK.
+
+@end example
+@item
+Figure 2. Example Showing How TYPEDEF and TYPE Clauses Can Be Used
+
+@example
+
+     DATA DIVISION.
+     FILE SECTION.
+     FD PRT-FILE.
+     01 PRT-REC.
+        05 PRT-RECORD                PIC X(132).
+     01 INVE-TYP-T IS TYPEDEF        PIC S9(3) VALUE 0.
+             88 INVE-TYP-BOOK             VALUE 4, 5.
+        88 INVE-TYP-BOOK-001         VALUE 4.
+        88 INVE-TYP-BOOK-002         VALUE 5.
+        88 INVE-TYP-CLOTHES          VALUE 1, 2, 3.
+        88 INVE-TYP-CLOTHES-SWEATERS VALUE 1.
+        88 INVE-TYP-CLOTHES-SOCKS    VALUE 2.
+        88 INVE-TYP-CLOTHES-PANTS    VALUE 3.
+
+    FD DATA-IN.
+    01 DATA-IN-REC.
+       05 INVE-TYP          TYPE INVE-TYP-T.
+       05 FILLER            PIC X(80).
+
+    WORKING-STORAGE SECTION.
+    01 ARTI-PRICE-T TYPEDEF PIC S9(4)V9(2) value 0.
+    01 ARTI-COLOR-T TYPEDEF PIC S9(2) VALUE 1.
+       88 ARTI-COLOR-BLUE   VALUE 1.
+       88 ARTI-COLOR-RED    VALUE 2.
+       88 ARTI-COLOR-GREEN  VALUE 3.
+
+    01 ARTI-SIZE-T    TYPEDEF PIC S9(2) VALUE 10.
+    01 ARTI-COUNTER-T TYPEDEF PIC S9(6) VALUE 0.
+
+    01 ARTI-B-T TYPEDEF.
+       05 ARTI-B-VALUE PIC s9(2).
+          88 ARTI-B-BLUE  VALUE 1.
+          88 ARTI-B-RED   VALUE 2.
+          88 ARTI-B-GREEN VALUE 3.
+
+    01 TEST-ARTI       TYPE ARTI-B-T.
+
+    01 WORK-INVE-TYP  TYPE INVE-TYP-T.
+
+    01 CLOTHING-ARTI IS TYPEDEF.
+       05 CLOTHING-TYP    TYPE INVE-TYP-T.
+       05 PRICE           TYPE ARTI-PRICE-T.
+       05 COLOR           TYPE ARTI-COLOR-T.
+       05 CLOTHING-SIZE   TYPE ARTI-SIZE-T.
+       05 FILLER PIC X(70).
+
+    01 SWEATERS TYPE CLOTHING-ARTI.
+    01 SOCKS    TYPE CLOTHING-ARTI.
+    01 PANTS    TYPE CLOTHING-ARTI.
+
+    01 BOOK-ARTI IS TYPEDEF.
+       05 BOOK-TYP     TYPE INVE-TYP-T.
+       05 PRICE        TYPE ARTI-PRICE-T.
+       05 FILLER       PIC X(20).
+       05 BOOK-TITLE   PIC X(40).
+       05 FILLER       PIC X(14).
+
+    01 BOOK-001       TYPE BOOK-ARTI.
+    01 BOOK-002       TYPE BOOK-ARTI.
+
+    01 SWEATERS-COUNT TYPE ARTI-COUNTER-T.
+    01 SOCKS-COUNT    TYPE ARTI-COUNTER-T.
+    01 PANTS-COUNT    TYPE ARTI-COUNTER-T.
+
+    01 BOOK-001-COUNT TYPE ARTI-COUNTER-T.
+    01 BOOK-002-COUNT TYPE ARTI-COUNTER-T.
+
+    01 CLOTHES-COUNT  TYPE ARTI-COUNTER-T.
+    01 BOOK-COUNT     TYPE ARTI-COUNTER-T.
+
+@end example
+@end enumerate
+This syntax is valid in the following sections:
+@code {REPORT}
+
+As Format 2
+@enumerate
+@item
+This clause defines the type of report group that is being defined for a report.
 @item
 This clause is required on any 01-level data item definitions (other than 01-level constants) in the report section.  This clause is invalid on any other report section data item definitions.
 
@@ -2609,10 +2832,47 @@ The various report groups that constitute a report may be defined in any order.
 @xref{RWCS Lexicon}, for a description of the seven different types of report groups.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.48 UNDERLINE                                                **
+@comment ** 6.9.49 TYPEDEF                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.48,UNDERLINE}
+@newsubsection{6.9.49,TYPEDEF}
+@diagram{TYPEDEF Clause,DD-TYPEDEF,DD-TYPEDEF,None}
+This syntax is valid in the following sections FILE, WORKING-STORAGE, LOCAL-STORAGE and LINKAGE
+@enumerate
+@item
+The TYPEDEF clause identifies a type declaration which creates a user defined data type and is used to apply this user defined data type to the description of a data item.
+
+@item
+The TYPEDEF clause specifies that the data description entry is a type declaration.
+@item
+The TYPEDEF clause can only be specified for level 01 entries, which can also be group items, and for which the data-name format of the entry name clause is specified. If the TYPEDEF clause is specified for a data description, then that same data description must include a data-name, that is, it must not be specified with either an implicit or explicit FILLER clause.
+@item
+If a group item is specified, all subordinate items of the group become part of the type declaration.
+@item
+No storage is allocated for a type declaration.
+@item
+These type definitions act like templates that can then be used to define new data items using the TYPE clause or that can subsequently be referenced in a USAGE clause.
+@item
+The new data item acquires all the characteristics of the user-defined data type. If the user defined data type is a group item, then the new data item has subordinate elements of the same name, description, and hierarchy as those belonging to the user defined data type.
+@item
+All of the other data description clauses, if they are specified, are assumed by any data item that is defined using the user defined data type (within the TYPE or USAGE clause).
+@item
+The following clauses cannot be specified along with TYPEDEF: EXTERNAL, GLOBAL, LIKE, OCCURS, REDEFINES.
+@item
+If the TYPEDEF clause is specified for a group item, then subordinate items can be specified with OCCURS or REDEFINES clauses. TYPEDEF cannot be used with complex OCCURS DEPENDING ON. This means that you cannot specify an OCCURS DEPENDING ON clause within a table that is part of a TYPEDEF.
+@item
+The VALUE clause cannot be specified either in the data descriptions specifying the TYPEDEF clause or in any subordinate item except for condition-names (88 level entries) within the TYPEDEF structure.
+@item
+The TYPE clause can be specified in the same data description entry as the TYPEDEF clause but the description of the subject of the entry, including its subordinate items, shall not contain a TYPE clause that directly or indirectly references this type definition.
+@item
+In FILE SECTION, a data description entry declared at level number 1 that includes a TYPEDEF clause is not a record description entry.
+@end enumerate
+
+@comment *********************************************************************
+@comment ** 6.9.50 UNDERLINE                                                **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.50,UNDERLINE}
 @diagram{UNDERLINE Attribute,DD-UNDERLINE,DD-UNDERLINE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2631,10 +2891,10 @@ Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will dep
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
-@comment ** 6.9.49 USAGE                                                    **
+@comment ** 6.9.51 USAGE                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.49,USAGE}
+@newsubsection{6.9.51,USAGE}
 @diagram{USAGE Clause,DD-USAGE,DD-USAGE,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}
@@ -3105,6 +3365,89 @@ The following table summarizes the various USAGE specifications available in Gnu
 @item
 @tab Same as @code{BINARY-SHORT UNSIGNED}
 @end multitable
+
+@item
+type-name-1
+
+@item
+This USAGE clause indicates that the data description of the subject of the entry is specified by a user-defined data type. The user-defined data type is defined using the TYPEDEF clause, which is described in TYPEDEF clause.
+
+@example
+
+Example 1:
+
+01 struct-1     TYPEDEF.
+    05  part-1  pic x(20).
+    05  part-2  pic x(10).
+01  a.
+    05  b  USAGE struct-1.
+    05  x  USAGE USHORT.
+01 USHORT      pic 9(04) comp-5 typedef.
+
+Which would be interpreted as if it had been coded as:
+
+ 01  a.
+     05  b.
+         10  part-1 pic x(20).
+         10  part-2 pic x(10).
+     05  x          pic 9(04) comp-5.
+
+Example 2:
+
+   IDENTIFICATION   DIVISION.
+   PROGRAM-ID.      prog.
+   DATA             DIVISION.
+   WORKING-STORAGE  SECTION.
+   01 MAIN-FILE-NAME-T     PIC X(50) IS TYPEDEF.
+   01 DETAIL-NO-T             PIC 9999  IS TYPEDEF.
+   01 MAIN-FILE-NAME-2T              IS TYPEDEF.
+      05 FILLER               PIC 9999.
+      05 DETAIL-NO            USAGE DETAIL-NO-T.
+
+   01  MESSAGE-TEXT-2T        IS TYPEDEF.
+     02 MAIN-FILE-NAME     USAGE MAIN-FILE-NAME-T.
+     02 FILLER                REDEFINES MAIN-FILE-NAME.
+         05 FILLER            PIC 9999.
+     02 MAIN-FILE-NAME-2   USAGE MAIN-FILE-NAME-2T.
+     02 FILLER                USAGE MAIN-FILE-NAME-T.
+
+   01  MESSAGE-TEXT-2 EXTERNAL USAGE MESSAGE-TEXT-2T.
+
+   77 OUTPUT-NAME              USAGE DETAIL-NO-T GLOBAL.
+
+   01 Z-MESSAGE-T2             USAGE MAIN-FILE-NAME-2T.
+   01 Z-MESSAGE-T3.
+      49 MT3                   USAGE MESSAGE-TEXT-2T.
+      49 MT3-REN REDEFINES MT3 USAGE MESSAGE-TEXT-2T.
+
+   PROCEDURE DIVISION.
+       DISPLAY MAIN-FILE-NAME OF MESSAGE-TEXT-2
+       DISPLAY DETAIL-NO         OF Z-MESSAGE-T2
+       DISPLAY MAIN-FILE-NAME OF MT3
+       DISPLAY OUTPUT-NAME
+       GOBACK.
+
+Example 3:
+
+   77  INT                     PIC S9(09)COMP-5 IS TYPEDEF.
+   01  Z-RETURNCODE            USAGE INT VALUE 0.
+   01  MESSAGE-TEXT-2                           IS TYPEDEF.
+       02 MAIN-FILE-NAME    PIC X(50).
+       02 FILLER               PIC X(79).
+   01 Z-MESSAGE-T2 USAGE MESSAGE-TEXT-2.
+   77 VIRMSG-TEXT              PIC  X(129) IS TYPEDEF.
+   01  MESSAGE-TEXT-2                       IS TYPEDEF.
+       02 MAIN-FILE-NAME    PIC X(50).
+       02 FILLER               PIC X(79).
+   01 Z-MESSAGE-TEXT           USAGE VIRMSG-TEXT.
+   01 Z-MESSAGE-T2 REDEFINES Z-MESSAGE-TEXT USAGE MESSAGE-TEXT-2.
+   01  W102-TYPE IS TYPEDEF.
+       COPY SERVERFIELDS.
+   01 T-A                      USAGE W102-TYPE.
+   01 T-N                      USAGE W102-TYPE.
+
+@end example
+
 @item
 Binary data (integer or floating-point) can be stored in either a @i{Big-Endian} or @i{Little-Endian} form.
 
@@ -3153,10 +3496,10 @@ A @code{USAGE} clause specified at the group item level will apply that @code{US
 The only @code{USAGE} that is allowed in the report section is @code{USAGE DISPLAY}.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.50 USING                                                    **
+@comment ** 6.9.52 USING                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.50,USING}
+@newsubsection{6.9.52,USING}
 @diagram{USING Clause,DD-USING,DD-USING,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -3173,10 +3516,10 @@ When the screen item whose definition this clause is part of (or its parent) is 
 The @syntaxref{FROM}, @syntaxref{TO}, @code{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.51 VALUE                                                    **
+@comment ** 6.9.53 VALUE                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.51,VALUE}
+@newsubsection{6.9.53,VALUE}
 @diagram{VALUE (Condition Names) Clause,DD-VALUE-1,DD-VALUE-1,None}
 @diagram{VALUE (Other Data Items),DD-VALUE-2,DD-VALUE-2,None}
 This syntax is valid in the following sections:
