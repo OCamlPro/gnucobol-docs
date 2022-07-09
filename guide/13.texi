@@ -4,21 +4,477 @@
 @newchapter{13,Programming for XFD}
 This chapter deals with the initial support for ODBC and OCI as file-handlers (so far PostgrSQL, MySQL, SQLite, MSSQL) and OCI, along with new directory COB_SCHEMA_DIR containing the necessary internal schema files to match the file definition to the database table all though usage of $XDF.
 
-There's no particular order of importance to the topics presented here.
 @menu
-* 13.1: Topic 1.
-* 13.2: Topic 2.
-* 13.3: Topic 3.
-* 13.4: Topic 4.
-* 13.5: Topic 5.
-* 13.6: Topic 6.
+* 13.1: GnuCobol use SQL for files.
 @end menu
 @comment *********************************************************************
-@comment ** 13.1,Topic one                                                  **
+@comment ** 13.1,GnuCobol use SQL for files                                 **
 @comment *********************************************************************
+@newsection{13.1,GnuCobol use SQL for files}
+The ACUCOBOL compiler has a defined syntax for describing records that can be stored in SQL tables. This is referred to as XFD (extended file descriptor). The various XFD directives are intermixed in the record description of a data file as either $XFD (similar to $SET) or as comments *((XFD … )). Each directive precedes the data item it is affecting.  When a program is compiled that has these directives and the compiler is directed by a compile option, then the record layout is written out to a text file which is later used at run-time to process the data records. i.e., facilitate mapping the COBOL data fields to/from SQL columns.
+
+The goal of this project is for GnuCOBOL to accept directives similar in syntax to the ACUCOBOL XFD syntax1 (plus a few additions as required) and develop run-time modules to handle all of the COBOL I/O verbs while the data is stored in a SQL table.
+
+The purpose for doing this is to allow legacy COBOL to have data stored in SQL tables without rewriting the COBOL code. If a COBOL based application is already using EXEC SQL this feature of having INDEXED files stored in SQL tables is really not of any use. Once the data is in SQL tables it may be accessed by other SQL tools. To get access to more advanced SQL features, the COBOL code will need to be recoded to use EXEC SQL, but this can be done at points which provide the most advantage.
+
+At present both INDEXED and RELATIVE files are supported using either an ODBC or OCI (Oracle Call Interface) interface. RELATIVE files are supported by adding a special column that gets a unique number as the RELATIVE KEY. The intention is that you could store the data for the ‘master data files’ of an application in an SQL database. Often COBOL based applications have intermediate data files and it would be a waste of time to place these into the database. Also keep in mind that the performance of ISAM will be much better than using an SQL database. However, SQL provides the opportunity to use ‘ad hoc inquiry’ and other third party tools to process your data.
+
+When directed by the XFD directives, the GnuCOBOL compiler will write out the CREATE TABLE statements that could be used to represent the file. The GnuCOBOL compiler will also write out a data description file which is read at runtime and used to manage the conversion of data between the COBOL record view and the SQL column view. The format of this data description file is not exactly the same as what ACUCOBOL had used since the file is easily regenerated. The more important feature is to accept similar XFD directives intermixed in the record description.
+
+XFD Directives
+
+The following directives are accepted intermixed in the COBOL record description. The KEY IS clauses from SELECT statements will be used to generate SQL INDEX statements.
+
+@anchoridx{XFD Directives}
+@multitable @columnfractions .20 .80
+@headitem $XFD Name @tab XFD Directive Descriptions
+@item ALL        @tab Indicates this is a special module defining all files in an application system so all files in this module should be defined for use via SQL
+@item FILE       @tab Name to be used for SQL table, filename.ddl and filename.xd instead of guessing from the SELECT/ASSIGN. If FILE is not provided then if ASSIGN “filename” is used that is taken, other wise the SELECT name is used for the table name and the .ddl and .xd files.
+@item ALPHA      @tab Next field is handled as a single CHAR type. If a group item the entire group is a single CHAR column. May optionally have alternate name.
+@item BINARY     @tab Next field handled as BINARY (RAW) so arbitrary hex data is stored. If a group item the entire group becomes a single BINARY column. May optionally have alternate name
+@item CHAR       @tab Next field is handled as a single CHAR type. If a group item the entire group is a single CHAR column. May optionally have alternate name.
+@item DATE       @tab Next field is a date in the defined format
+@item            @tab M - month (01 – 12), Y - year (2 or 4 digit), D - day of month (01-31)
+@item            @tab H - hour (00 -23), N – minute, S – second, T - hundredths of a second
+@item            @tab J - Julian day, E - day of year
+@item            @tab YY%nn – ‘nn’ is the pivot year
+@item            @tab YYY+nnnn – ‘nnnn’ is added to YYY to compute the actual year
+@item GROUP type @tab The next field or group item is taken as a single SQL column of the declared type
+@item NAME       @tab Name to be used for the next SQL column
+@item NUMERIC    @tab Next field is handled as NUMERIC, may optionally have alternate name
+@item USE type   @tab The word ‘USE’ is essentially ignore and the next word defines the field type
+@item VARCHAR    @tab Emit next field as VARCHAR instead of CHAR
+@item VAR-LENGTH @tab Emit next field as VARCHAR instead of CHAR
+@item WHEN fld op val @tab ‘fld’ is some previous field in the record, ‘val’ is a numeric value of alpha value in quotes, op is one of =, !=, >, >=, <, <=. ‘val’ may be ‘other’ to indicate other cases. If the condition is true then the following field/group format is used.
+@item AND fld op val @tab A continuation of the previous WHEN logically connect as an AND condition
+@item OR fld op val  @tab A continuation of the previous WHEN logically connect as an OR condition
+@end multitable
+
+@anchoridx{GnuCOBOL Compile time Options}
+@multitable @columnfractions .20 .80
+@headitem Name @tab GnuCOBOL Compile time Option Descriptions
+@item -fsqldb=name      @tab ’name’ indicates which database is to be used. Choose one of ODBC, MySQL, MSSQL, OCI, Oracle10, Oracle11, Oracle12.
+@item -fsqlschema=name  @tab ’name’ is sub-directory into which the filename.ddl holding CREATE TABLE is written as well as the filename.xd  holding the data mapping information.
+If omitted then the ddl/xd files are written to the base ‘schema_dir’ directory.
+@end multitable
+
+@verbatim
+
+Environment
+Variable         runtime.cfg  GnuCOBOL Run time Option Descriptions
+
+COB_SCHEMA_DIR   schema_dir   Define location where the filename.xd files are
+                              stored. Default: $COB_CONFIG_DIR/schema
+COB_SCHEMA_NAME  schema_name  Database schema name
+COB_SCHEMA_UID   schema_uid   Database User-id for connecting to the database
+COB_SCHEMA_PWD   schema_pwd   Password for database User-Id
+COB_SCHEMA_DSN   schema_dsn   DSN name for database
+COB_DEBUG_LOG                 Parameters for GnuCOBOL logging feature.
+                              Module type is ‘db’
+
+@end verbatim
 
 
+Implementation Plan - GnuCOBOL Developer Notes
 
+To support $XFD directives changes were made to pplex.l, ppparse.y and scanner.l. Also codegen.c and field.c will need changes.
+
+Additional flags may have to be added to cb_field to retain the XFD directive information.
+
+In codegen.c (output_file_initialization) depending on use of XFD and compile options is the location to emit the CREATE TABLE and the data description file. The cob_file will get some new flags for io_routine to indicate the file is really handled by ODBC/OCI.
+
+A new fileio routine (fodbc.c and later foci.c) were developed following the recently developed interface for multiple I/O handlers. The cob_load_xfd routine loads the data description file into internal structures. Multiple schemas could have the same table name/structure for development, QA, production, etc. This could be indicated via runtime.cfg options and/or environment variables. IO_asgname may have format=odbc or format=oci to indicate which method is used to access the SQL table for the file. You may also specify table=sql_table_name to override the default SQL table.
+
+At run-time when the file is opened the file description is loaded into memory for fast access and conversion of the data between COBOL data type and SQL column data. Since SQL tables are usually collected under a database schema we’ll need a compile option to generate the external file description under either a default directory or under a given ‘schema’ name. At run-time an environment variable and/or runtime.cfg option could be used to define which database schema is to be used along with the database user-id and password. Often a database user-id has a default schema associated with it.
+
+The module fsqlxfd.c contains routines common to both fodbc.c and foci.c such as loading of the filename.xd information and conversion of the data between SQL and COBOL data types. When the file is OPENed and the table is found to not exist, then cob_load_ddl loads the filename.ddl into memory for the OCI/ODBC routine to submit the CREATE TABLE/INDEX statements as required. As the table is loaded, if it contains column types not supported by the current database then there is a translation done during the load process.
+
+
+Format of filename.xd
+
+
+GnuCOBOL has its own format instead of using what ACUCOBOL had. The first character on each line indicates what the line is. Lines starting with # or * are comments. Each field is separated by a comma.
+
+@anchoridx{Header line}
+@multitable @columnfractions .15 .85
+@headitem Name @tab Header Line Description
+@item H     @tab Is a header
+@item 1     @tab Version number
+@item table @tab SQL table name
+@item ‘,’   @tab For character used as decimal, default ‘,’
+@item ‘.’   @tab For character used as comma, default ‘.’
+@item Hex   @tab Indicate how numeric signs are handled
+@item num   @tab File type, 3 for INDEXED, 2 for RELATIVE
+@end multitable
+
+@anchoridx{Label}
+@multitable @columnfractions .15 .85
+@headitem Name @tab Label Description
+@item L   @tab Is a Label
+@item Num @tab Numeric label, may be referenced by ‘goto’ or ‘condition’
+@end multitable
+
+@anchoridx{Goto}
+@multitable @columnfractions .15 .85
+@headitem Name @tab Goto Description
+@item G   @tab Is a Goto
+@item Num @tab Numeric label to transfer to
+@end multitable
+
+@anchoridx{Condition}
+@multitable @columnfractions .15 .85
+@headitem Name @tab Condition Description
+@item C       @tab Is a Condition to be tested (Appear in postfix sequence) Complex WHEN clauses become multiple Condition tests
+@item Label   @tab If condition test is true, then goto this label, 0 indicates more coming, non-zero indicates end of the WHEN condition to be tested
+@item Opcode  @tab >=, >, <=, <, =, !=, &&, ||, !
+@item Operand @tab Usually the data field
+@item Value   @tab String in quotes or numeric value
+@end multitable
+
+@anchoridx{Date Format}
+@multitable @columnfractions .15 .85
+@headitem Name @tab Date Format Description
+@item D        @tab Date format definition
+@item num      @tab Unique number for this format
+@item ‘date’   @tab Date format string
+@item num      @tab Total number of digits in this date field
+@item num      @tab 1 if DATE present else 0
+@item num      @tab 1 if TIME present else 0
+@item yy rule  @tab + means add yyAdj to YY, % defines pivot point
+@item num      @tab Value for adjusting the Year
+@item P:L      @tab Year Position and Length within field
+@item P:L      @tab Month Position and Length within field
+@item P:L      @tab Day Position and Length within field
+@item P:L      @tab Hours Position and Length within field
+@item P:L      @tab Minutes Position and Length within field
+@item P:L      @tab Seconds Position and Length within field
+@item P:L      @tab Century date Position and Length within field
+@end multitable
+
+You may define how your application stores DATE information. The database will always expect dates to be in a full YYYYMMDD format and date/time to be in YYYYMMDDHHMISS format. Date fields could be defined like the following:
+
+@verbatim
+
+     $XFD  DATE "YYYYMMDD"
+     $XFD  DATE "YY%60MMDD"
+     $XFD  DATE "YYY+1800MMDD"
+     $XFD  DATE "YYMMDDCC"
+
+@end verbatim
+
+The Y is a place holder for YEAR, MM for month, DD for day, HH hour, MI minutes, SS seconds, CC for century. If the Ys are followed by ‘%’ then the digits after the ‘%’ defines a pivot year used to map the YY value into a 4 digit year. In the above example if the YY value is below 60 then it is 19YY else 20YY
+
+If the Y's are followed by ‘+’ then the digits after the ‘+’ are added to the Y value. In above example, the year is 1800 + YYY value. There is a limit of 16 different DATE formats per record.
+
+If the day is defined like DDD (3 Ds) then it is taken to be the day of the year.  For example:
+
+@verbatim
+
+     $XFD DATE "YYYYDDD"
+
+@end verbatim
+@anchoridx{Data}
+@multitable @columnfractions .15 .85
+@headitem Name @tab Data Description
+@item F        @tab Define data Field
+@item num      @tab Offset from record to start of COBOL data field
+@item num      @tab Bytes occupied by COBOL data field
+@item num      @tab Type of data field
+@item          @tab  1  Arbitrary Binary Data
+@item          @tab  2  PIC S9 COMP-5
+@item          @tab  3  PIC 9  COMP-5
+@item          @tab  4  PIC 9  COMP-6
+@item          @tab  5  PIC S9 BINARY/COMP/COMP-4
+@item          @tab  6  PIC 9  BINARY/COMP/COMP-4
+@item          @tab  7  PIC x  COMP-X
+@item          @tab  8  COMP-1/COMP-2
+@item          @tab  9  PIC S9 COMP-3/PACKED DECIMAL
+@item          @tab 10  PIC 9  COMP-3/PACKED DECIMAL
+@item          @tab 11  PIC S9 SIGN LEADING
+@item          @tab 12  PIC S9 SIGN LEADING SEPARATE
+@item          @tab 13  PIC S9
+@item          @tab 14  PIC 9  SIGN TRAILING
+@item          @tab 15  PIC 9  SIGN TRAILING SEPARATE
+@item          @tab 16  PIC 9
+@item          @tab 17  PIC A
+@item          @tab 18  PIC X National characters
+@item          @tab 19  PIC X Wide characters
+@item          @tab 20  PIC X
+@item          @tab 21  PIC X - VARCHAR
+@item          @tab
+@item num      @tab Bytes needed to store as SQL data
+@item num      @tab Digits in numeric field
+@item num      @tab Scale (or decimal places)
+@item num      @tab Unique id of date format (see D)
+@item num      @tab COBOL level number
+@item name     @tab SQL Column name used for data field
+@end multitable
+
+@anchoridx{Key definition}
+@multitable @columnfractions .15 .85
+@headitem Name @tab Key Definitions Description
+@item K        @tab Define an index
+@item num      @tab Index number (1 – 16)
+@item dup      @tab Y if duplicates allowed, else N
+@item sup      @tab Y if key may be suppressed, else N
+@item char     @tab Suppress character either as ‘c’ or 0xHH or “string”
+@item columns  @tab Comma separate list of column names in order that make up the index
+@end multitable
+
+@verbatim
+
+Example Records to Table With the following:
+
+           SELECT OPTIONAL TSPFILE
+           ASSIGN TO "testsql"
+           ORGANIZATION INDEXED ACCESS DYNAMIC
+           RECORD KEY IS PRIME-KEY
+           SOURCE IS CM-CUST-NUM
+
+           ALTERNATE RECORD KEY IS SPLIT-KEY2
+           SOURCE IS CM-TELEPHONE,CM-MACHINE WITH DUPLICATES
+                SUPPRESS WHEN "900"
+
+           ALTERNATE RECORD KEY IS SPLIT-KEY3
+           SOURCE IS CM-DISK,CM-DP-MGR,CM-MACHINE WITH DUPLICATES
+                SUPPRESS WHEN ALL "*"
+           FILE STATUS IS CUST-STAT
+           .
+
+           SELECT FLATFILE ASSIGN "relfile"
+           ORGANIZATION RELATIVE
+           ACCESS IS RANDOM RELATIVE KEY IS REC-NUM
+           FILE STATUS IS CUST-STAT.
+
+           SELECT FLATSEQ ASSIGN "relfile"
+           ORGANIZATION RELATIVE
+           ACCESS IS SEQUENTIAL RELATIVE KEY IS REC-NUM
+           FILE STATUS IS CUST-STAT.
+
+Note that FLATFILE and FLATSEQ are the same file called “relfile” with a different
+ACCESS. Given the following record description:
+
+@end verbatim
+
+@verbatim
+
+      $XFD ALL
+       FD  FLATFILE
+           BLOCK CONTAINS 5 RECORDS.
+
+       01  FLAT-RECORD.
+           10  RL-CUST-NUM                     PICTURE X(8).
+           10  RL-COMPANY                      PICTURE X(25).
+           10  RL-TRAILER                      PICTURE X(16).
+
+       FD  FLATSEQ
+           BLOCK CONTAINS 5 RECORDS.
+
+       01  RS-RECORD.
+           10  RS-CUST-NUM                     PICTURE X(8).
+           10  RS-COMPANY                      PICTURE X(25).
+           10  RS-TRAILER                      PICTURE X(16).
+
+       FD  TSPFILE
+           BLOCK CONTAINS 5 RECORDS.
+
+      $XFD NAME=tspfilex
+       01  TSPFL-RECORD.
+           05  TSPFL-REC.
+      $XFD USE GROUP CUSTNUM
+           10  CM-CUST-NUM.
+             15  CM-CUST-PRE                   PICTURE X(3).
+             15  CM-CUST-NNN                   PICTURE X(5).
+           10  CM-STATUS                       PICTURE X.
+           10  CM-COMPANY                      PICTURE X(25).
+      $XFD USE GROUP VAR_LENGTH custaddr
+           10  CM-ADDRESS.
+             15  CM-ADDRESS-1                  PICTURE X(25).
+             15  CM-ADDRESS-2                  PICTURE X(25).
+             15  CM-ADDRESS-3                  PICTURE X(25).
+           10  CM-TELEPHONE                    PICTURE 9(10).
+           10  CM-DP-MGR                       PICTURE X(25).
+           10  CM-MACHINE                      PICTURE X(8).
+           10  CM-MEMORY                       PICTURE X(4).
+      $XFD WHEN (CM-STATUS = 'A' && CM-TELEPHONE > 100)
+      $XFD AND CM-MACHINE = 'B' || CM-COMPANY = ' '
+           10  CM-MEMORYX REDEFINES CM-MEMORY.
+             15  CM-MEMSZ                      PICTURE 9(2).
+             15  CM-MEMUNIT                    PICTURE X(2).
+           10  CM-DISK                         PICTURE X(8).
+           10  CM-TAPE                         PICTURE X(8).
+      $XFD WHEN CM-STATUS = 'X'
+           10  CM-TAPEX REDEFINES CM-TAPE      PICTURE 9(8).
+      $XFD WHEN CM-STATUS = 'Y'
+           10  CM-TAPEY REDEFINES CM-TAPE      PICTURE 9(6)V99.
+           10  CM-NO-TERMINALS                 PICTURE 9(5) BINARY.
+           10  CM-COMPX                        PICTURE XXX COMP-X.
+           10  CM-COMP5                        PICTURE 9(7) COMP-5.
+           10  CM-COMP1                        COMP-1.
+           10  CM-COMP2                        COMP-2.
+           10  CM-PRICE                        PICTURE 9(3)V99 COMP-3.
+           10  CM-PRICES                       PICTURE S9(5)V99.
+      $XFD DATE "MMDDYYYY"
+           10  CM-DATE                        PICTURE 9(8) COMP-3.
+      $XFD DATE "YYMMDDCC"
+           10  CM-DATE2                        PICTURE 9(8) COMP-3.
+
+@end verbatim
+
+@verbatim
+
+And  the resulting SQL table(s) would look like:
+
+tspfilex.ddl --
+
+CREATE TABLE tspfilex (
+   custnum                                  CHAR(8) NOT NULL,
+   status                                   CHAR(1),
+   company                                  CHAR(25),
+   custaddr                                 VARCHAR(75),
+   telephone                                DECIMAL(10) NOT NULL,
+   dp_mgr                                   CHAR(25) NOT NULL,
+   machine                                  CHAR(8) NOT NULL,
+   memory                                   CHAR(4),
+   memsz                                    DECIMAL(2),
+   memunit                                  CHAR(2),
+   disk                                     CHAR(8) NOT NULL,
+   tape                                     CHAR(8),
+   tapex                                    DECIMAL(8),
+   tapey                                    DECIMAL(8,2),
+   no_terminals                             DECIMAL(5),
+   compx                                    DECIMAL(8),
+   comp5                                    DECIMAL(7),
+   comp1                                    FLOAT(23),
+   comp2                                    FLOAT(53),
+   price                                    DECIMAL(5,2),
+   prices                                   DECIMAL(7,2),
+   date_x                                   DATE,
+   date2                                    DATE
+);
+CREATE UNIQUE INDEX pk_tspfilex ON tspfilex (custnum);
+CREATE INDEX k1_tspfilex ON tspfilex (telephone,machine);
+CREATE INDEX k2_tspfilex ON tspfilex (disk,dp_mgr,machine);
+
+relfile.ddl --
+
+CREATE TABLE relfile (
+   cust_num                                 CHAR(8),
+   company                                  CHAR(25),
+   trailer                                  CHAR(16),
+   rid_relfile                              BIGINT PRIMARY KEY
+);
+
+@end verbatim
+
+@verbatim
+
+The tspfilex.xd description for this follows:
+
+H,1,tspfilex,2,',','.',0,3
+D,1,'MMDDYYYY',8,1,0,,0,4:4,0:2,2:2,0:0,0:0,0:0,0:0
+D,2,'YYMMDDCC',8,1,0,,0,0:2,2:2,4:2,0:0,0:0,0:0,6:2
+F,0000,0008,20,0009,0,0,,10,custnum
+F,0008,0001,20,0002,0,0,,10,status
+F,0009,0025,20,0026,0,0,,10,company
+F,0034,0075,21,0076,0,0,,10,custaddr
+F,0109,0010,16,0013,10,0,,10,telephone
+F,0119,0025,20,0026,0,0,,10,dp_mgr
+F,0144,0008,20,0009,0,0,,10,machine
+C,0,=,status,'A'
+C,0,>,telephone,100
+C,0,&&
+C,0,=,machine,'B'
+C,0,=,company,' '
+C,0,||
+C,2,&&
+F,0152,0004,20,0005,0,0,,10,memory
+G,3
+L,2
+F,0152,0002,16,0005,2,0,,15,memsz
+F,0154,0002,20,0003,0,0,,15,memunit
+L,3
+F,0156,0008,20,0009,0,0,,10,disk
+C,5,=,status,'X'
+C,6,=,status,'Y'
+F,0164,0008,20,0009,0,0,,10,tape
+G,7
+L,5
+F,0164,0008,16,0011,8,0,,10,tapex
+G,7
+L,6
+F,0164,0008,16,0011,8,2,,10,tapey
+L,7
+F,0172,0004,06,0013,5,0,,10,no_terminals
+F,0176,0003,07,0011,8,0,,10,compx
+F,0179,0004,03,0013,7,0,,10,comp5
+F,0183,0004,08,0036,15,8,,10,comp1
+F,0187,0008,08,0036,34,17,,10,comp2
+F,0195,0003,10,0008,5,2,,10,price
+F,0198,0007,13,0010,7,2,,10,prices
+F,0205,0005,10,0032,8,0,1,10,date_x
+F,0210,0005,10,0032,8,0,2,10,date2
+K,0,N,N,,custnum
+K,1,Y,Y,"900",telephone,machine
+K,2,Y,Y,0x2A,disk,dp_mgr,machine
+@end verbatim
+
+@verbatim
+
+The relfile.xd description for this follows:
+
+H,1,relfile,0,',','.',0,2
+F,0000,0008,20,0009,0,0,,10,cust_num
+F,0008,0025,20,0026,0,0,,10,company
+F,0033,0016,20,0017,0,0,,10,trailer
+F,0049,0004,03,0015,12,0,,00,rid_relfile
+K,0,N,N,,rid_relfile
+
+@end verbatim
+
+Application Schema
+
+
+Sometimes COBOL programs will have local views of the data by copying a record to
+some other group item which redefines the data differently. In some cases these
+“hidden” redefines will cause problems for SQL columns. For example, if a field is
+defined as PIC 9(x) but sometimes the same location in the record contains
+non-numeric data, then SQL will reject the storing of such data as it violates the
+strict data typing.
+By using the $XFD WHEN you are able to define which a portion of the record has one
+view other another. The I/O logic will then only copy the valid column of data.
+
+It may therefore be a good idea to collect all of the file definitions into a single
+module, verify that all possible redefines are identified. The $XFD ALL directives
+indicates that such a module is being compiled. Think of this module as defining
+all of the master data files in an application which will be migrated into SQL
+tables.
+
+
+Check the DDL
+
+
+It is a good idea to check the DDL generated by the GnuCOBOL compiler and make
+sure it suits your local database guidelines. You may also need to add local
+directives such as a STORAGE clause for Oracle. You should then use the
+appropriate tool (eg. Mysql or sqlplus) and manually create all of the tables to
+be used by an application. There may also be considerations for what database
+user-id has permission to create tables, read/write tables etc.
+
+
+Automatic Table Creation
+
+
+At OPEN time, the filename.xd is processed and if not present that is considered
+a serious error (30) is returned.
+
+At OPEN time, a check is done to see if the table exists and if not, the run-time
+code then reads the filename.ddl and submits it to the database to create the
+table and indexes. If the filename.ddl is not present then OPEN is given an
+error (30). If runtime.cfg option create_table is ‘true’ then the runtime will
+attempt to recreate filename.ddl from the information in  filename.xd.
+
+Taken from Development Notes by Ron Norman February 2020.
 @iftex
 @sp 3
 @center ------------------------------------------------------------
