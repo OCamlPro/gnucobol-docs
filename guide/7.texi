@@ -4742,6 +4742,15 @@ If @var{file-name-1} is a Sort/Merge work file, no action will be taken.
 Not all GnuCOBOL implementations support locking.  Whether they do or not depends upon the operating system they were built for and the build options that were used when GnuCOBOL was generated.  When a program using one of those GnuCOBOL implementations issues an UNLOCK, it will ignored.  There will be no compiler message issued.  Buffer syncing, if needed, will still occur.
 
 @item
+For GnuCOBOL UNLOCK is implied in GnuCOBOL on file close so there's no use to do it afterwards. A CLOSE will always trigger syncing the file to disk, too.
+
+@item
+Doing UNLOCK before a close, will explicit unlock any records with a lock when running on INDEXED files, for other files it will release any locks on the file if it wasn't opened for exclusive locking and will trigger syncing to disk (not done for any INDEXED file).
+
+@item
+When using Linux and for that matter most *nix platforms, the system maintains it's own cache and buffers for file processing so there can and most likely will be a short delay before all data is written out to disk.
+
+@item
 @xref{Record Locking}, for additional information on record locking.
 @end enumerate
 @comment *********************************************************************
