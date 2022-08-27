@@ -336,8 +336,26 @@ The remaining options of the @directive{>>SET} provide equivalent functionality 
 @item >>SET SOURCEFORMAT AS FREE
 @code{>>SOURCE FORMAT IS FREE}
 
+@item >>SET SOURCEFORMAT AS VARIABLE
+@code{>>SOURCE FORMAT IS }
+
+@item >>SET SOURCEFORMAT AS XOPEN
+@code{>>SOURCE FORMAT IS XOPEN}
+
+@item >>SET SOURCEFORMAT AS XCARD
+@code{>>SOURCE FORMAT IS XCARD}
+
+@item >>SET SOURCEFORMAT AS CRT
+@code{>>SOURCE FORMAT IS CRT}
+
+@item >>SET SOURCEFORMAT AS TERMINAL
+@code{>>SOURCE FORMAT IS TERMINAL}
+
+@item >>SET SOURCEFORMAT AS COBOLX
+@code{>>SOURCE FORMAT IS COBOLX}
+
 @item >>SET XFD literal-1
-[to do]
+[See chapter 13]
 
 @item >>SET Micro-Focus-Directive
 [to do]
@@ -370,7 +388,25 @@ FREE : Source code text area starts in column 1 and continues till the end of li
 VARIABLE : Identical to FIXED format above except that it extends up to column 256 (in MF and some others, it is 252).
 
 @item
-You may switch between @code{FIXED}, @code{FREE} and @code{VARIABLE} modes as desired.
+XOPEN : X/Open Free-form format. The program-text area may start in column 1 unless an indicator is present, and lines may contain up to 80 characters. Indicator for debugging lines is D instead of D or d.
+
+@item
+XCARD : ICOBOL xCard format. Variable format with right margin set at column 255 instead of 250.
+
+@item
+CRT   : ICOBOL Free-form format (CRT). Similar to the X/Open format above, with lines containing up to 320 characters and single-character debugging line indicators (D or d).
+
+@item
+TERMINAL : ACUCOBOL-GT Terminal format. Similar to the CRT format above, with indicator for debugging lines being \D instead of D or d. This format is mostly compatible with VAX COBOL terminal source format.
+
+@item
+COBOLX : This format is similar to the CRT format above, except that the indicator area is always present in column 1; the program-text area starts in column 2 and extends up to the end of the record. Lines may contain up to 255 characters.
+
+@item
+Note that with source formats XOPEN, CRT, TERMINAL, and COBOLX, missing spaces are not inserted within continued alphanumeric literals that are truncated before the right margin
+
+@item
+You may switch between the various format modes as desired and it takes effect immediately.
 
 @item
 You may also use the @directive{>>SET} to perform this function.
