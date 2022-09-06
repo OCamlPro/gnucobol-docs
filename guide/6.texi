@@ -1021,6 +1021,7 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 * 6.9.3:  AUTO-SKIP.
 * 6.9.4:  AUTOTERMINATE.
 * 6.9.5:  BACKGROUND-COLOR.
+* 6.9.5B: BEFORE TIME.
 * 6.9.6:  BASED.
 * 6.9.7:  BEEP.
 * 6.9.8:  BELL.
@@ -1043,9 +1044,11 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 * 6.9.25: LEFTLINE.
 * 6.9.26: LENGTH-CHECK.
 * 6.9.27: LINE.
+* 6.9.27B: LOWER.
 * 6.9.28: LOWLIGHT.
 * 6.9.29: NEXT GROUP.
 * 6.9.30: NO-ECHO.
+* 6.9.30B: NO UPDATE.
 * 6.9.31: OCCURS.
 * 6.9.32: OVERLINE.
 * 6.9.33: PICTURE.
@@ -1057,15 +1060,21 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 * 6.9.39: REQUIRED.
 * 6.9.40: REVERSE-VIDEO.
 * 6.9.41: SAME.
+* 6.9.41B: SCROLL DOWN.
+* 6.9.41C: SCROLL UP.
 * 6.9.42: SECURE.
 * 6.9.43: SIGN.
+* 6.9.43B: SIZE.
 * 6.9.44: SOURCE.
 * 6.9.45: SUM.
 * 6.9.46: SYNCRONIZED.
+* 6.9.46B: TIME OUT
 * 6.9.47: TO.
 * 6.9.48: TYPE.
 * 6.9.49: TYPEDEF.
 * 6.9.50: UNDERLINE.
+* 6.9.50B: UPDATE.
+* 6.9.50C: UPPER.
 * 6.9.51: USAGE.
 * 6.9.52: USING.
 * 6.9.53: VALUE.
@@ -1159,6 +1168,18 @@ END-DISPLAY
 @end verbatim
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
+@comment *********************************************************************
+@comment ** 6.9.5B BEFORE TIME                                              **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.5B,BEFORE TIME}
+@diagram{BEFORE TIME Attribute,DD-BEFORE-TIME,DD-BEFORE-TIME,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+This clause is used to specify time sequence etc, etc, etc. NEEDS CONTENT HERE.
+
 @comment *********************************************************************
 @comment ** 6.9.6 BASED                                                     **
 @comment *********************************************************************
@@ -1722,6 +1743,17 @@ If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO
 @end enumerate
 @end enumerate
 @comment *********************************************************************
+@comment ** 6.9.27B LOWER                                                   **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.27B,LOWER}
+@diagram{LOWER Attribute,DD-LOWER,DD-LOWER,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+This clause provides a means of explicitly stating that accepted data will be in lower case.
+
+@comment *********************************************************************
 @comment ** 6.9.28 LOWLIGHT                                                 **
 @comment *********************************************************************
 @page
@@ -1773,7 +1805,7 @@ The @code{NEXT GROUP} option cannot be specified in either a @code{REPORT HEADIN
 The effects of @code{NEXT GROUP} will be in addition to any line spacing defined by the next-presented group's @code{LINE NUMBER} clause.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.30 NO-ECHO                                                  **
+@comment ** 6.9.30 NO ECHO                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{6.9.30,NO-ECHO}
@@ -1791,6 +1823,17 @@ This clause may only be used on a field allowing data entry (a field containing 
 @end enumerate
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+@comment *********************************************************************
+@comment ** 6.9.30B NO UPDATE                                               **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.30B,NO UPDATE}
+@diagram{NO-UPDATE Attribute,DD-NO-UPDATE,DD-NO-UPDATE,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+The @code{NO UPDATE} clause forces the field to which this is applied will not be updated MORE??.
+
 @comment *********************************************************************
 @comment ** 6.9.31 OCCURS                                                   **
 @comment *********************************************************************
@@ -2447,6 +2490,27 @@ the subject of the entry is a group whose subordinate elements have the same nam
 @end example
 @end enumerate
 @comment *********************************************************************
+@comment ** 6.9.41B SCROLL DOWN                                             **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.41B,SCROLL DOWN}
+@diagram{SCROLL-DOWN Attribute,DD-SCROLL-DOWN,DD-SCROLL-DOWN,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+This clause will cause downward scrolling.
+@comment *********************************************************************
+@comment ** 6.9.41C SCROLL UP                                               **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.41C,SCROLL UP}
+@diagram{SCROLL-UP Attribute,DD-SCROLL-UP,DD-SCROLL-UP,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+This clause will cause upward scrolling.  MORE HERE ??
+
+@comment *********************************************************************
 @comment ** 6.9.42 SECURE                                                   **
 @comment *********************************************************************
 @page
@@ -2508,6 +2572,17 @@ When @code{SEPARATE CHARACTER} is specified, the @samp{S} symbol in the data ite
 @item
 Neither the presence of an encoded digit (see above) nor an actual @samp{+} or @samp{-} character embedded within the data item's storage prevents the data item from being used as a source field in arithmetic operations.
 @end enumerate
+@comment *********************************************************************
+@comment ** 6.9.43B SIZE                                                    **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.43B,SIZE}
+@diagram{SIZE Clause,DD-SIZE,DD-SIZE,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+This clause does WHAT EXACTLY ??????
+
 @comment *********************************************************************
 @comment ** 6.9.44 SOURCE                                                   **
 @comment *********************************************************************
@@ -2636,6 +2711,18 @@ The following illustrates the allocation of a group of data items both without a
 @sp 1
 @image{synchronization,6in}
 @end iftex
+@comment *********************************************************************
+@comment ** 6.9.46B TIME OUT                                                **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.46B,TIME OUT}
+@diagram{TIME-OUT Clause,DD-TIME-OUT,DD-TIME-OUT,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+This clause will force a specific time for the data tp be entered.
+
+
 @comment *********************************************************************
 @comment ** 6.9.47 TO                                                       **
 @comment *********************************************************************
@@ -2867,7 +2954,6 @@ The TYPE clause can be specified in the same data description entry as the TYPED
 @item
 In FILE SECTION, a data description entry declared at level number 1 that includes a TYPEDEF clause is not a record description entry.
 @end enumerate
-
 @comment *********************************************************************
 @comment ** 6.9.50 UNDERLINE                                                **
 @comment *********************************************************************
@@ -2890,6 +2976,28 @@ Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will dep
 @end enumerate
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+@comment *********************************************************************
+@comment ** 6.9.50B UPDATE                                                  **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.50B,UPDATE}
+@diagram{UPDATE Clause,DD-UPDATE,DD-UPDATE,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+The @code{UPDATE} clause will display the existing data before allowing user to update it.
+
+@comment *********************************************************************
+@comment ** 6.9.50C UPPER                                                   **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.50C,UPPER}
+@diagram{UPPER Clause,DD-UPPER,DD-UPPER,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+The @code{UPPER} clause force the accepted data to be in Upper Case.
+
 @comment *********************************************************************
 @comment ** 6.9.51 USAGE                                                    **
 @comment *********************************************************************
