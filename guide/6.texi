@@ -1989,7 +1989,7 @@ The reserved word @code{PICTURE} may be abbreviated as @code{PIC}.  Most program
 A picture clause may only be specified on an elementary item.
 
 @item
-A @var{picture-string} is a sequence of the special symbols @samp{$}, @samp{*}, @samp{+}, @samp{,}, @samp{-}, @samp{.}, @samp{/}, @samp{0} (zero), @samp{9}, @samp{A}, @samp{B}, @code{CR}, @code{DB}, @samp{S}, @samp{V}, @samp{X} and @samp{Z}.
+A @var{picture-string} is a sequence of the special symbols @samp{$}, @samp{*}, @samp{+}, @samp{,}, @samp{-}, @samp{.}, @samp{/}, @samp{0} (zero), @samp{1}, @samp{9}, @samp{A}, @samp{B}, @code{CR}, @code{DB}, @samp{S}, @samp{V}, @samp{X} and @samp{Z}.
 
 @item
 In general, each picture symbol represents either a single character in storage or a single decimal digit.  There are a few exceptions, and they will be discussed as needed.
@@ -2022,6 +2022,9 @@ Typically, only one kind of each of those symbols is used in the same picture cl
 If you need to allocate space for a data item whose format is two letters followed by five digits followed by three letters, you could use the @var{picture-string} @code{AA99999AAA}, @code{A(2)9(5)A(3)} @code{XXXXXXXXXX} or @code{X(10)}.  There is absolutely no functional difference whatsoever between the four --- none of them provide any functionality the others do not.  The first two probably make for better @i{documentation} of the expected field contents, but they don't provide any run-time enforcement capabilities.
 
 As far as enforcement goes, however, both alphabetic and numeric picture strings do provide for both compile-time and run-time enforcement capabilities.  In the case of compilation enforcement, the compiler can issue warning messages if you attempt to specify a non-numeric value for a numeric data item or if you attempt to @syntaxref{MOVE} a non-numeric data item to one that is numeric.  Similar capabilities exist for alphabetic data items.  At run-time, you may use a special class test (@pxref{Class Conditions}) to determine if the contents of a data item are entirely numeric or entirely alphabetic.
+
+@item @samp{1}
+Defines storage for a single bit representing a boolean condition with a states of zero or 1, condition of off or on. Warning the level of implementation of this feature is compiler version specific starting with v3.1-RC-1.
 
 @item
 The following picture symbols may be used with numeric data items.
@@ -2703,7 +2706,7 @@ If the binary item occupies two bytes of storage, the binary item is allocated a
 If the binary item occupies four bytes of storage, the binary item is allocated at the next word boundary.
 
 @item
-If the binary item occupies four bytes of storage, the binary item is allocated at the next word boundary.
+If the binary item occupies eight bytes of storage, the binary item is allocated at the next word boundary.
 @end enumerate
 @end enumerate
 @iftex
