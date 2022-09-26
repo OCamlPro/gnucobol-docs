@@ -707,6 +707,7 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 @end detailmenu
 * 7.8.14: ENTRY
 * 7.8.15: EVALUATE
+* 7.8.15B: EXAMINE
 * 7.8.16: EXHIBIT
 * 7.8.17: EXIT
 * 7.8.18: FREE
@@ -2274,6 +2275,58 @@ Enter a digit (0 Quits): 9
 Enter a digit (0 Quits): 0
 Bye!
 @end example
+@end enumerate
+
+@comment *********************************************************************
+@comment ** 7.8.15B EXAMINE                                                 **
+@comment *********************************************************************
+@page
+@newsubsection{7.8.15B,EXAMINE}
+@diagram{EXAMINE,PD-EXAMINE,PD-EXAMINE,None}
+The @statement{EXAMINE} is the pre runner for INSPECT which should be used over the pre 1970 Cobol standard EXAMINE, and it is used to count the number of times a specified character appears in a data item and/or to replace a character with another character.
+@enumerate
+
+@item
+This statement is only available subject to specific dialects being set when running the GnuCOBOL compiler.
+
+@item
+In all cases, the description of identifier must be such that its usage is display (explicitly or implicitly).
+
+@item
+When identifier represents a non numeric data item, examination starts at the leftmost character and proceeds to the right. Each character in the data item is examined in turn. For purposes of the EXAMINE statement, external floating point items are treated as non numeric data items.
+
+@item
+When identifier represents a numeric data item, this data item must consist of numeric characters, and may possess an operational sign. Examination starts at the leftmost character and proceeds to the right. Each character is examined in turn.
+
+@item
+If the letter 'S' is used in the PICTURE of the data item description to indicate the presence of an operational sign, the sign is ignored by the EXAMINE statement.
+
+@item
+Each literal must consist of a single character belonging to a class consistent with that of the identifier; in addition, each literal may be any figurative constant except ALL. If identifier is numeric, each literal must be an unsigned integer or the figurative constant ZERO (ZEROES, ZEROS).
+
+@item
+When Format 1 is used, an integral count is created which replaces the value of a special register called TALLY, whose implicit description is that of an unsigned integer of five digits.
+
+@item
+When the ALL option is used, this count represents the number of occurrences of literal-1.
+
+@item
+When the LEADING option is used, this count represents the number of occurrences of literal-1 prior to encountering a character other than literal-1.
+
+@item
+When the UNTIL FIRST option is used, this count represents all characters encountered before the first occurrence of literal-1.
+
+@item
+Whether Format 2 is used, or the REPLACING option of Format 1, the replacement rules are the same. They are as follows:
+
+@item
+When the ALL option is used, literal-2 is substituted for each occurrence of literal-1.
+
+@item
+When the LEADING option is used, the substitution of literal-2 for each occurrence of literal-1 terminates as soon as a character other than literal-1 or the right hand boundary of the data item is encountered.
+
+@item
+When the UNTIL FIRST option is used, the substitution of literal-2 terminates as soon as literal-1 or the right hand boundary of the data item is encountered.
 @end enumerate
 
 @comment *********************************************************************
