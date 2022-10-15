@@ -1,4 +1,7 @@
-#!/bin/bash                                                                     
+#!/bin/bash
+# 15/10/22 vbc 0.1 Added gnucobpr to all areas
+#                  and Makefile
+#
 echo
 echo "GC manual build (PDF)"
 #
@@ -10,6 +13,9 @@ echo
 echo   "Building Programmer's Guide"...
 make PDFs/gnucobpg-a4.pdf
 make PDFs/gnucobpg-letter.pdf
+echo   "Building Programmer's Reference"...
+make PDFs/gnucobpr-a4.pdf
+make PDFs/gnucobpr-letter.pdf
 echo   "Building Quick Reference"...
 make PDFs/gnucobqr-a4.pdf
 make PDFs/gnucobqr-letter.pdf

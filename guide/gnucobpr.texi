@@ -1,0 +1,462 @@
+\input texinfo   @comment -*-texinfo-*-
+@comment %**start of header
+@comment *********************************************************************
+@comment ** DOCUMENT HEADER                                                 **
+@comment *********************************************************************
+@comment ** SPECIAL INSTRUCTIONS WHEN RUNNING "MAKEINFO":                   **
+@comment ** --------------------------------------------------------------- **
+@comment ** Use the command "makeinfo --no-split gnucobpr.texi" to build    **
+@comment ** an INFO file from this source.                                  **
+@comment **                                                                 **
+@comment ** Unfortunately, every version of MAKEINFO the author has tried   **
+@comment ** produces a corrupted TAG TABLE at the end of the INFO file,     **
+@comment ** making it impossible to gain access to nodes past the first     **
+@comment ** several chapters.  If, however, you manually edit the generated **
+@comment ** INFO file and DELETE the entire TAG TABLE from the end of the   **
+@comment ** file (including the "Tag Table" and "End Tag Table" lines) the  **
+@comment ** INFO file will be fine.  It will take a little longer for an    **
+@comment ** INFO reader to locate a node (a millisecond or two) but the     **
+@comment ** extra time will be unnoticeable.                                **
+@comment *********************************************************************
+@comment ** SPECIAL INSTRUCTIONS WHEN RUNNING "TEXI2PDF":                   **
+@comment ** --------------------------------------------------------------- **
+@comment ** Use the command "texi2pdf -q -c gnucobpr-xx.texi" to build a    **
+@comment ** PDF (xx="a4" or "letter")                                       **
+@comment *********************************************************************
+@comment
+@comment Now includes doc changes for CURRENT Edition as in Chap. E.
+@comment
+@setfilename gnucobpr.info
+@set CHAPNAME Contents
+@finalout
+@include Macros.texi
+@comment tex-style @paragraphindent 0
+@set BUILD 29 September 2022 at 19:00 GMT.
+@set VERSION 3.2
+@comment %**end of header
+@setchapternewpage odd
+@comment *********************************************************************
+@comment ** COPYING POLICY STATEMENT                                        **
+@comment *********************************************************************
+@copying
+This manual documents GnuCOBOL @value{VERSION}, @value{BUILD} build.
+
+@*Document  Copyright 2009-2014 Gary L. Cutler, FSF (Free Software Foundation).
+@*Updates:  Copyright 2014-2022 Vincent B. Coen, Gary L. Cutler & FSF.
+@quotation
+
+The authors and copyright holders of the COBOL programming language itself used herein:
+
+
+FLOW-MATIC (trademark for Sperry Rand Corporation) Programming for the Univac(R) I & II. Data Automation Systems copyrighted 1958, 1959, by Sperry Rand Corporation; IBM commercial translator form F28-8013, copyrighted 1959 by IBM; FACT DSI27A5260-2760, copyrighted 1960 by Minneapolis-Honeywell,
+have specifically authorised the use of this material in whole or in part of the COBOL specifications. Such authorisation extends to the reproduction & use of COBOL specifications in programming manuals or similar publications.
+
+@end quotation
+@quotation
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License [FDL], Version 1.3 or any later version published by the Free Software Foundation; with Invariant Section ``Introduction'', no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+Permission is granted to make and distribute verbatim copies of this manual provided the copyright notice and this permission notice are preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this manual under the conditions for verbatim copying, provided that the entire resulting derived work is distributed under the terms of a permission notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual into another language, under the above conditions for modified versions, except that this permission notice may be stated in a translation approved by the Free Software Foundation.
+
+@end quotation
+@end copying
+@dircategory GNU-COBOL
+@direntry
+* GNU-COBOL: (gnucobpr)        GnuCOBOL Programmer's Reference
+@end direntry
+@comment *********************************************************************
+@comment ** TITLE PAGE (WHEN GENERATING PDF VIA TeX)                        **
+@comment *********************************************************************
+@titlepage
+@title GnuCOBOL Programmer's Reference
+@subtitle For Version @value{VERSION} [@value{BUILD}] and for 4.0 (partial & tentative only).
+@author Gary L. Cutler (@email{cutlergl@@gmail.com}).
+@author For updates Vincent B. Coen (@email{vbcoen@@gmail.com}).
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+@page
+@comment *********************************************************************
+@comment ** TABLE OF CONTENTS (WHEN GENERATING PDF VIA TeX)                 **
+@comment *********************************************************************
+@headings off
+@oddheading GnuCOBOL @value{VERSION} [@value{BUILD}] Programmer's Reference @| @| @thispage
+@oddfooting @today{} @| @| @value{CHAPNAME}
+@evenheading @thispage @| @| GnuCOBOL @value{VERSION} [@value{BUILD}] Programmer's Reference
+@evenfooting @value{CHAPNAME} @| @| @today{}
+@contents
+@comment *********************************************************************
+@comment ** TOP NODE POINT (Ignore if running TeX)                          **
+@comment *********************************************************************
+@ifnottex
+@validatemenus off
+@end ifnottex
+@c jkl @ifinfo
+@node Top
+@top GnuCOBOL Programmer's Reference
+This manual documents the @value{BUILD} build of GnuCOBOL @value{VERSION}.
+@menu
+List of Chapters and Appendices:
+
+* 1:  Introduction.
+* 2:  COBOL Fundamentals.
+* 3:  CDF - Compiler Directing Facility.
+* 4:  IDENTIFICATION DIVISION.
+* 5:  ENVIRONMENT DIVISION.
+* 6:  DATA DIVISION.
+* 7:  PROCEDURE DIVISION.
+* 8:  Functions.
+* 9:  Report Writer Usage.
+* 10: Interfacing With The OS.
+* 11: Sub-Programming.
+* 12: Programming Style Suggestions.
+* 13: Programming for XFD.
+* A:  Appendix A - Glossary of Terms.
+* B:  Appendix B - Reserved Word List.
+* C1: Appendix C1 - Grouped Word Lists by feature and function.
+* C2: Appendix C2 - Intrinsic Functions.
+* C3: Appendix C3 - System routines.
+* C4: Appendix C4 - System names.
+* D:  Appendix D - GNU Free Documentation License.
+* E:  Appendix E - Summary of Document Changes.
+* F4: Appendix F4 - Summary of Compiler Changes to v4
+* F3: Appendix F3 - Summary of Compiler Changes to v3.1.1
+* F2: Appendix F2 - Summary of Compiler Changes after GnuCOBOL Compiler v2.2.
+* F1: Appendix F1 - Summary of Compiler Changes since 2009 and version v1-1.
+* I:  INDEX.
+
+Full Contents:
+
+@detailmenu
+* 1:  Introduction.
+*   1.1:  Additional Reference Sources.
+*   1.2:  Introducing COBOL.
+*     1.2.2:  Why YOU Should Learn COBOL.
+*     1.2.2:  Programmer Productivity.
+*   1.3:  So What is GnuCOBOL?.
+
+* 2:  COBOL Fundamentals.
+*   2.1: The COBOL Language - The Basics.
+*     2.1.1:  Language Reserved Words.
+*     2.1.2:  User-Defined Words.
+*     2.1.3:  Case Insensitivity.
+*     2.1.4:  Readability of Programs.
+*     2.1.5:  Divisions Organize Programs.
+*     2.1.6:  Copybooks.
+*     2.1.7:  Structured Data.
+*     2.1.8:  Files.
+*     2.1.9:  Table Handling.
+*     2.1.10: Sorting and Merging Data.
+*     2.1.11: String Manipulation.
+*     2.1.12: Screen Formatting Features.
+*       2.1.12.2: A Sample Screen.
+*       2.1.12.2: Color Palette and Video Attributes.
+*     2.1.13: Report Writer Features.
+*     2.1.14: Data Initialization.
+*     2.1.15: Syntax Diagram Conventions.
+*     2.1.16: Format of Program Source Lines.
+*     2.1.17: Program Structure.
+*     2.1.18: Comments.
+*     2.1.19: Literals.
+*       2.1.19.1: Numeric Literals.
+*       2.1.19.2: Alphanumeric Literals.
+*       2.1.19.3: Figurative Constants.
+*     2.1.20: Punctuation.
+*     2.1.21: Interfacing to Other Environments.
+*   2.2: The COBOL Language - Advanced Techniques.
+*   2.2.1:  Table References.
+*   2.2.2:  Qualification of Data Names.
+*   2.2.3:  Reference Modifiers.
+*   2.2.4:  Arithmetic Expressions.
+*   2.2.5: Conditional Expressions.
+*     2.2.5.1: Condition Names.
+*     2.2.5.2: Class Conditions.
+*     2.2.5.3: Sign Conditions.
+*     2.2.5.4: Switch-Status Conditions.
+*     2.2.5.5: Relation Conditions.
+*     2.2.5.6: Combined Conditions.
+*     2.2.5.7: Negated Conditions.
+*   2.2.6: Use of Periods.
+*   2.2.7: Use of VERB/END-VERB Constructs.
+*   2.2.8: Concurrent Access to Files.
+*     2.2.8.1: File Sharing.
+*     2.2.8.2: Record Locking.
+
+* 3:  CDF - Compiler Directing Facility.
+*   3.1 : >>CALL-CONVENTION.
+*   3.2 : COPY.
+*   3.3 : REPLACE.
+*   3.4 : >>DEFINE.
+*   3.5 : >>IF.
+*   3.6 : >>SET.
+*   3.7 : >>SOURCE.
+*   3.8 : >>TURN.
+*   3.9 : >>D.
+*   3.10: >>DISPLAY.
+*   3.11: >>PAGE.
+*   3.12: >>LISTING.
+*   3.13: >>LEAP-SECONDS.
+*   3.14: $ Directives.
+*   3.15: Predefined compilation variables.
+
+* 4:  IDENTIFICATION DIVISION.
+
+* 5:  ENVIRONMENT DIVISION.
+*   5.1: CONFIGURATION SECTION.
+*     5.1.1: SOURCE-COMPUTER.
+*     5.1.2: OBJECT-COMPUTER.
+*     5.1.3: SPECIAL-NAMES.
+*       5.1.3.1: Alphabet-Name-Clause.
+*       5.1.3.2: Class-Definition-Clause.
+*       5.1.3.3: Switch-Definition-Clause.
+*       5.1.3.4: Symbolic-Characters-Clause.
+*     5.1.4: REPOSITORY.
+*   5.2: INPUT-OUTPUT SECTION.
+*     5.2.1: SELECT.
+*       5.2.1.1: ORGANIZATION SEQUENTIAL.
+*       5.2.1.2: ORGANIZATION LINE SEQUENTIAL.
+*       5.2.1.3: ORGANIZATION RELATIVE.
+*       5.2.1.4: ORGANIZATION INDEXED.
+*     5.2.2: SAME RECORD AREA.
+*     5.2.3: MULTIPLE FILE.
+
+* 6:  DATA DIVISION.
+*   6.1: Data Definition Principles.
+*   6.2: FILE SECTION.
+*     6.2.2: File/Sort-Description.
+*     6.2.2: FILE-SECTION-Data-Item.
+*   6.3: WORKING-STORAGE SECTION.
+*   6.4: LOCAL-STORAGE SECTION.
+*   6.5: LINKAGE SECTION.
+*   6.6: REPORT SECTION.
+*     6.6.1: Report Group Definitions.
+*     6.6.2: REPORT SECTION Data Items.
+*   6.7: SCREEN SECTION.
+*   6.8: Special Data Items.
+*     6.8.1: 01-Level Constants.
+*     6.8.2: 66-Level Data Items.
+*     6.8.3: 77-Level Data Items.
+*     6.8.4: 78-Level Data Items.
+*     6.8.5: 88-Level Data Items.
+*   6.9: Data Description Clauses.
+*     6.9.1:  ANY LENGTH.
+*     6.9.2:  AUTO.
+*     6.9.3:  AUTO-SKIP.
+*     6.9.4:  AUTOTERMINATE.
+*     6.9.5:  BACKGROUND-COLOR.
+*     6.9.5B: BEFORE TIME.
+*     6.9.6:  BASED.
+*     6.9.7:  BEEP.
+*     6.9.8:  BELL.
+*     6.9.9:  BLANK.
+*     6.9.10: BLANK WHEN ZERO.
+*     6.9.11: BLINK.
+*     6.9.12: COLUMN.
+*     6.9.13: CONSTANT.
+*     6.9.14: EMPTY-CHECK.
+*     6.9.15: EXTERNAL.
+*     6.9.16: ERASE.
+*     6.9.17: FALSE.
+*     6.9.18: FOREGROUND-COLOR.
+*     6.9.19: FROM.
+*     6.9.20: FULL.
+*     6.9.21: GLOBAL.
+*     6.9.22: GROUP INDICATE.
+*     6.9.23: HIGHLIGHT.
+*     6.9.24: JUSTIFIED.
+*     6.9.25: LEFTLINE.
+*     6.9.26: LENGTH-CHECK.
+*     6.9.27: LINE.
+*     6.9.27B: LOWER.
+*     6.9.28: LOWLIGHT.
+*     6.9.29: NEXT GROUP.
+*     6.9.30: NO-ECHO.
+*     6.9.30B: NO UPDATE.
+*     6.9.31: OCCURS.
+*     6.9.32: OVERLINE.
+*     6.9.33: PICTURE.
+*     6.9.34: PRESENT WHEN.
+*     6.9.35: PROMPT.
+*     6.9.36: PROTECTED.
+*     6.9.37: REDEFINES.
+*     6.9.38: RENAMES.
+*     6.9.39: REQUIRED.
+*     6.9.40: REVERSE-VIDEO.
+*     6.9.41: SAME.
+*     6.9.41B: SCROLL DOWN.
+*     6.9.41C: SCROLL UP.
+*     6.9.42: SECURE.
+*     6.9.43: SIGN.
+*     6.9.43B: SIZE.
+*     6.9.44: SOURCE.
+*     6.9.45: SUM.
+*     6.9.46: SYNCRONIZED.
+*     6.9.46B: TIME OUT
+*     6.9.47: TO.
+*     6.9.48: TYPE.
+*     6.9.49: TYPEDEF.
+*     6.9.50: UNDERLINE.
+*     6.9.50B: UPDATE.
+*     6.9.50C: UPPER.
+*     6.9.51: USAGE.
+*     6.9.52: USING.
+*     6.9.53: VALUE.
+
+* 7:  PROCEDURE DIVISION.
+*   7.1:  PROCEDURE DIVISION USING.
+*   7.2:  PROCEDURE DIVISION CHAINING.
+*   7.3:  PROCEDURE DIVISION RETURNING.
+*   7.4:  PROCEDURE DIVISION Sections and Paragraphs.
+*   7.5:  DECLARATIVES.
+*   7.6: Common Clauses on Executable Statements.
+*     7.6.1: AT END + NOT AT END.
+*     7.6.2: CORRESPONDING.
+*     7.6.3: INVALID KEY + NOT INVALID KEY.
+*     7.6.4: ON EXCEPTION + NOT ON EXCEPTION.
+*     7.6.5: ON OVERFLOW + NOT ON OVERFLOW.
+*     7.6.6: ON SIZE ERROR + NOT ON SIZE ERROR.
+*     7.6.7: ROUNDED.
+*   7.7: Special Registers.
+*   7.8: GnuCOBOL Statements.
+
+* 8: Functions.
+*   8.1: Intrinsic Functions.
+*   8.2: Built-In System Subroutines.
+
+* 9:  Report Writer Usage.
+*   9.1: RWCS Lexicon.
+*   9.2: The Anatomy of a Report.
+*   9.3: The Anatomy of a Report Page.
+*   9.4: How RWCS Builds Report Pages.
+*   9.5: Control Hierarchy.
+*   9.6: An Example.
+*     9.6.1: Data.
+*     9.6.2: Program.
+*     9.6.3: Generated Report Pages.
+*   9.7: Control Hierarchy (Revisited).
+*   9.8: Turning PHYSICAL Page Formatting Into LOGICAL Formatting.
+
+* 10:  Interfacing With The OS.
+*   10.1: Compiling Programs.
+*     10.1.1: cobc - The GnuCOBOL Compiler.
+*     10.1.1,1: cobc option -Xref an example.
+*     10.1.1,2: Cross Reference listing using cobxref.
+*     10.1.2: Compilation Time Environment Variables.
+*     10.1.3: Predefined Compilation Variables.
+*     10.1.4: Locating Copybooks.
+*     10.1.5: Compiler Configuration Files.
+*   10.2: Running Programs.
+*     10.2.1: Direct Execution.
+*     10.2.2: Executing Dynamically-Loadable Libraries.
+*     10.2.2.1: cobcrun - Command-line Execution.
+*     10.2.2.2: Dynamically Loaded Subprograms.
+*     10.2.3: Run Time Environment Variables.
+*     10.2.3.1: General instructions
+*     10.2.3.2: General Environment
+*     10.2.3.3: Call Environment
+*     10.2.3.4: File I/O
+*     10.2.3.5: Screen I/O
+*     10.2.3.6: Report I/O
+*     10.2.3.7: File I/O Environment Variables and/or dictionary file
+
+*     10.2.4: Program Arguments.
+*   10.3: Binary Truncation.
+
+* 11:  Sub-Programming.
+*  11.1: Subprogram Types.
+*  11.2: Independent vs Contained vs Nested Subprograms.
+*  11.3: Alternate Entry Points.
+*  11.4: Dynamic vs Static Subprograms.
+*  11.5: Subprogram Execution Flow.
+*    11.5.1: Subroutine Execution Flow.
+*    11.5.2: User-Defined Function Execution Flow.
+*  11.6: Sharing Data Between Calling and Called Programs.
+*    11.6.1: Subprogram Arguments.
+*      11.6.1.1: Calling Program Considerations.
+*      11.6.1.2: Called Program Considerations.
+*    11.6.2: GLOBAL Data Items.
+*    11.6.3: EXTERNAL Data Items.
+*  11.7: Recursive Subprograms.
+*  11.8: Combining GnuCOBOL and C Programs.
+*    11.8.1: GnuCOBOL Run-Time Library Requirements.
+*    11.8.2: String Allocation Differences Between GnuCOBOL and C.
+*    11.8.3: Matching C Data Types with GnuCOBOL USAGE's.
+*    11.8.4: GnuCOBOL Main Programs CALLing C Subprograms.
+*    11.8.5: C Main Programs Calling GnuCOBOL Subprograms.
+
+* 12: Programming Style Suggestions.
+*   12.1: Marking Changes in Programs.
+*   12.2: Data Item Coding and Naming Conventions.
+*   12.3: Table Subscripting versus Table Indexing.
+*   12.4: Copybook Naming Conventions and Usage.
+*   12.5: PROCEDURE DIVISION Sections Versus Paragraphs.
+*   12.6: COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE.
+
+* 13: Programming for XFD.
+*   13.1: GnuCobol use SQL for files.
+
+* A:  Appendix A - Glossary of Terms.
+
+* B:  Appendix B - Reserved Word List.
+
+* C1:  Appendix C1 - Grouped Word Lists by feature and function.
+* C2:  Appendix C2 - Intrinsic Functions.
+* C3:  Appendix C3 - System routines.
+* C4:  Appendix C4 - System names.
+* D:   Appendix D - GNU Free Documentation License.
+@comment* E:   Appendix E - Summary of Document Changes.
+@comment* F4:  Appendix F4 - Summary of Compiler Changes to v4
+@comment* F3:  Appendix F3 - Summary of Compiler Changes to v3.1.1
+@comment* F2:  Appendix F2 - Summary of Compiler Changes after GnuCOBOL Compiler v2.2.
+@comment* F1:  Appendix F1 - Summary of Compiler Changes since 2009 and version v1-1.
+
+@end detailmenu
+@end menu
+@c jkl @end ifinfo
+@settitle GnuCOBOL Programmer's Reference
+@comment Above to force TOC on odd page so a blank page on even side.
+@comment *********************************************************************
+@comment ** Document Body                                                   **
+@comment *********************************************************************
+@include 1.texi
+@include 2.texi
+@include 3.texi
+@include 4.texi
+@include 5.texi
+@include 6.texi
+@include 7.texi
+@include 8.texi
+@include 9.texi
+@include 10.texi
+@include 11.texi
+@include 12.texi
+@include 13.texi
+@include A.texi
+@include B.texi
+@include C.texi
+@include D.texi
+@comment@include E.texi
+@comment@include updates.texi
+@comment@include F4.texi
+@comment@include F3.texi
+@comment@include F2.texi
+@comment@include F1.texi
+@comment *********************************************************************
+@comment ** Index                                                           **
+@comment *********************************************************************
+@node INDEX
+@unnumbered Index
+@set CHAPNAME Index
+@printindex cp
+@ifhtml
+@html
+<p> <a href="https://validator.w3.org/check?uri=referer"><img
+      src="https://www.w3.org/Icons/valid-html401"
+      alt="Valid HTML 4.01 Transitional" height="31" width="88"></a> </p>
+@end html
+@end ifhtml
+@bye

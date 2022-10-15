@@ -13,6 +13,13 @@ SOURCES = gnucobpg.texi \
 	cbintr.tex cbmnem.tex cbrese.tex cbsyst.tex \
 	$(SOURCES_COMMON)
 
+SOURCES_PR = gnucobpr.texi \
+	1.texi 2.texi 3.texi 4.texi 5.texi 6.texi \
+	7.texi 8.texi 9.texi 10.texi 11.texi 12.texi \
+	A.texi B.texi C.texi D.texi \
+	cbintr.tex cbmnem.tex cbrese.tex cbsyst.tex \
+	$(SOURCES_COMMON)
+
 SOURCES_SP = gnucobsp.texi \
 	LISTING-COBDUMP.texi LISTING-colors.texi LISTING-DAY-FROM-DATE.texi \
 	LISTING-GCic.texi LISTING-STREAMIOcb.texi LISTING-STREAMIO.texi \
@@ -24,25 +31,29 @@ SOURCES_QR = gnucobqr.texi \
 all: pdf-letter html
 
 force-update:
-	touch gnucobpg.texi gnucobqr.texi gnucobsp.texi
+	touch gnucobpg.texi gnucobpr.texi gnucobqr.texi gnucobsp.texi
 
 
 pdf: pdf-a4 pdf-letter
 
-pdf-a4: PDFs/gnucobsp-a4.pdf PDFs/gnucobqr-a4.pdf PDFs/gnucobpg-a4.pdf
+pdf-a4: PDFs/gnucobsp-a4.pdf PDFs/gnucobqr-a4.pdf PDFs/gnucobpg-a4.pdf PDFs/gnucobpr-a4.pdf
 
-pdf-letter: PDFs/gnucobsp-letter.pdf PDFs/gnucobqr-letter.pdf PDFs/gnucobpg-letter.pdf
+pdf-letter: PDFs/gnucobsp-letter.pdf PDFs/gnucobqr-letter.pdf PDFs/gnucobpg-letter.pdf PDFs/gnucobpr-letter.texi
 
 PDFs/gnucobpg-a4.pdf: $(SOURCES)
+PDFs/gnucobpr-a4.pdf: $(SOURCES_PR)
 PDFs/gnucobqr-a4.pdf: $(SOURCES_QR)
 PDFs/gnucobsp-a4.pdf: $(SOURCES_SP)
 PDFs/gnucobpg-letter.pdf: $(SOURCES)
+PDFs/gnucobpr-letter.pdf: $(SOURCES_PR)
 PDFs/gnucobqr-letter.pdf: $(SOURCES_QR)
 PDFs/gnucobsp-letter.pdf: $(SOURCES_SP)
 HTML/gnucobpg.html: $(SOURCES)
+HTML/gnucobpr.html: $(SOURCES_PR)
 HTML/gnucobqr.html: $(SOURCES_QR)
 HTML/gnucobsp.html: $(SOURCES_SP)
 info/gnucobpg.info: $(SOURCES)
+info/gnucobpr.info: $(SOURCES_PR)
 info/gnucobqr.info: $(SOURCES_QR)
 info/gnucobsp.info: $(SOURCES_SP)
 
@@ -59,7 +70,8 @@ HTML_OPT = --css-ref=$(CSS) --no-headers \
 INFO_OPT =
 
 html: HTML/gnucobsp.html HTML/gnucobqr.html HTML/gnucobpg.html \
-		HTML/gnucobpg/index.html
+		HTML/gnucobpg/index.html HTML/gnucobpr.html \
+		HTML/gnucobpr/index.html
 
 # FIXME index.html overlaps with INDEX.html created by the INDEX note
 # FIX:  Who cares about split HTML anyway? Just drop it.
@@ -68,7 +80,13 @@ HTML/gnucobpg/index.html: $(SOURCES)
 	makeinfo -v -o $(dir $@) $(WARNING) \
 		--html            $(HTML_OPT) gnucobpg.texi
 
-info: info/gnucobsp.info info/gnucobqr.info info/gnucobpg.info
+HTML/gnucobpr/index.html: $(SOURCES_PR)
+	@mkdir -p $(dir $@)
+	makeinfo -v -o $(dir $@) $(WARNING) \
+		--html            $(HTML_OPT) gnucobpr.texi
+
+info: info/gnucobsp.info info/gnucobqr.info info/gnucobpg.info /
+	info/gnucobpr.info
 
 #
 # Rules
@@ -117,6 +135,17 @@ publish-css: HTML/gnucobpg.html $(CSS)
 	test "$(WWW)"
 	scp css/gnucobpg.css    $(WWW)/css/
 	scp js/tree.js          $(WWW)/js/
+
+publish-css: HTML/gnucobpr.html $(CSS)
+	test "$(WWW)"
+	scp css/gnucobpr.css    $(WWW)/css/
+	scp js/tree.js          $(WWW)/js/
+
+publish: HTML/gnucobpr.html $(CSS)
+	test "$(WWW)"
+	scp HTML/gnucobpr.html $(WWW)
+	scp css/gnucobpr.css   $(WWW)/css/
+	scp js/tree.js         $(WWW)/js/
 
 tags: TAGS
 TAGS:
