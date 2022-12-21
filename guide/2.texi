@@ -21,21 +21,21 @@ For each implementation of the GnuCOBOL compiler the supplied files NEWS should 
 @newsubsection{2.1.1,Language Reserved Words}
 Cobol programs consist of a sequence of words and symbols.  Words, which consist of sequences of letters (upper- and/or lower-case), digits, dashes (@samp{-}) and/or underscores (@samp{_}) may have a pre-defined, specific, meaning to the compiler or may be invented by the programmer for his/her purposes.
 
-The GnuCOBOL language specification defines over 1130
-@define{Reserved Words} --- words to which the compiler assigns a special meaning. This list and number applies to the default list which covers many implementations and that it is possible to limit the list to either a specific implementation via -std=xyz[-strict] or to manually unreserve words if they are used in existing sources as user-defined words.
+The GnuCOBOL language specification defines well over 1130
+@define{Reserved Words} --- words to which the compiler assigns a special meaning. This list and number applies to the default list which covers many implementations. It is possible to limit the list to either a specific implementation via -std=xyz[-strict] or to manually unreserve words if they are used in existing sources as user-defined words.
 
-Programmers may use a reserved word as @i{part} of a word they are creating themselves, but may not create their own word as an exact duplicate (without regard to case) of a COBOL reserved word. Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines and reserved words. The list of reserved words can be changed by adding or removing specific words for a given compile or as a default by use of the steering command -std and -conf. See the specific config files that are by default, held in @file{/usr/local/share/gnucobol/config}. Also using the option @samp{FUNCTION ALL INTRINSIC}, will add another 100+ reserved words. These can be modified to match the requirements of a business or project team but be warned that these are updated when a new version of the compiler is built so might be more prudent to create your own configuation based on an existing one but with a different name.
+Programmers may use a reserved word as @i{part} of a word they are creating themselves, but may not create their own word as an exact duplicate (without regard to case) of a COBOL reserved word. Note that a reserved word includes all classes, such as intrinsic functions, mnemonics names, system routines. The list of reserved words can be changed by adding or removing specific words for a given compile or as a default by use of the steering command -std= (dialect) and --conf= (users config file). See the specific config files that are by default, held in @file{/usr/local/share/gnucobol/config}. Also using the option @samp{FUNCTION ALL INTRINSIC}, will add another 100+ reserved words. These can be modified to match the requirements of a business or project team but be Warned, that these are updated when a new version of the compiler is built so might be more prudent to create your own configuation based on an existing one but with a different name.
 
-In addition, you can add and/or remove reserved words by adding one of these options to cobc to add @option{-freserved-words=@var{value}} or @option{-freserved=@var{word}} or, to remove, @option{-fnot-reserved=@var{word}}. As well as @option{-freserved=@var{word}:@var{alias}} to create an alias for a word as well as @option{-fnot-register=@var{word}} or @option{-fregister=@var{word}} to remove or add, a special register word.
+In addition, you can add and/or remove reserved words by adding one of these options to cobc to add @option{-freserved=@var{word}} or, to remove, @option{-fnot-reserved=@var{word}}. As well as @option{-freserved=@var{word}:@var{alias}} to create an alias for a word as well as @option{-fnot-register=@var{word}} or @option{-fregister=@var{word}} to remove or add, a special register word.
 
-See Appendix C for a complete list of GnuCOBOL reserved words .
+See Appendix's B for a complete list of GnuCOBOL reserved words and C1 - 4 (for grouped word lists).
 
 For any given version of GnuCOBOL you can also list the full current set of reserved words by running cobc with @option{--list-reserved}, @option{--list-intrinsic}, @option{--list-system} as well as @option{--list-mnemonics}. Again subject to variation depending on usage of the @option{--std} line command.
 @comment *********************************************************************
 @comment ** 2.1.2 User-Defined Words                                        **
 @comment *********************************************************************
 @newsubsection{2.1.2,User-Defined Words}
-When you write GnuCOBOL programs, you'll need to create a variety of words to represent various aspects of the program, the program's data and the external environment in which the program will run.  This will include internal names by which data files will be referenced, data item names and names of executable logic procedures.
+When you write GnuCOBOL programs, you'll need to create a variety of words to represent various aspects of the program, the program's data and the external environment in which the program will run.  This will include internal names by which data files will be referenced, data item names and names of executable logic procedures as section and paragraph names.
 
 User-defined words may be composed from the characters @samp{A} through @samp{Z} (upper- and/or lower-case), @samp{0} through @samp{9}, dash (@samp{-})
 @idx{- (Character in Words/Names)}
@@ -47,12 +47,12 @@ Other programming languages provide the programmer with a similar capability of 
 
 With the exception of logic procedure names, which may consist entirely of nothing but digits, user-defined words must contain at least one letter.
 
-The maximum size of a user defined word in Cobol is 31 characters as per the COBOL 2014 Standard but to help support other compilers this can be extended by the usage of -std (COBOL85 and ibm-strict has 30) to increase the limit to 63 characters.
+The maximum size of a user defined word in Cobol is 31 characters as per the COBOL 2014 Standard but to help support other compilers it can be extended by the usage of -std (COBOL85 and ibm-strict has 30) to increase the limit to 63 characters.
 It must be pointed out that exceeding the standard limit will seriously restrict the ability of transferring any code written for GnuCOBOL to another brand of compiler without changing all such user defined words to 30 or 31.  The whole art of writing using Cobol is to minimise the need to change any code over the years that your programs will be in use.
 
 There are very many examples of programs written going back to the 1960's that are still in operation around the world and the number of lines of Cobol code is estimated between 200 and 600 billion.
 
-For example, this author (Vincent Coen) has code going back to the early 60's with admittedly changes over the years, still in full operation just take a look at the Contrib area and check out cobxref (also on Sourceforge), dectrans, flightlog (also on Sourceforge) and also in Sourceforge - ACAS (Applewood Computers Accounting System) - this one with the original code only, going back to 1967.
+For example, this author (Vincent Coen) has code going back to the early 60's with admittedly changes over the years, still in full operation, just take a look at the Contrib area and check out cobxref - Cobol Cross Reference listing tool (also on Sourceforge), dectrans - (Decision Translator), flightlog - Pilots Log Book (also on Sourceforge), and also in Sourceforge - ACAS (Applewood Computers Accounting System) - this one with the original code only, going back to 1967.
 
 Of course many if not most of these applications have had many changes, upgrades etc, over the years, but it shows just how long programs written in Cobol have survived and gone on in full time use for some 60 years.
 
@@ -177,7 +177,8 @@ COBOL programs are structured into four major areas of coding, each with its own
 
 Each division may consist of a variety of sections and each section consists of one or more paragraphs.  A paragraph consists of sentences, each of which consists of one or more statements.
 
-This hierarchical structure of program components standardizes the composition of all COBOL programs.  Much of this manual describes the various divisions, sections, paragraphs and statements that may comprise any COBOL program.
+This hierarchical structure of program components standardises the composition of all COBOL programs.  Much of this manual describes the various divisions, sections, paragraphs and statements that may comprise any COBOL program.
+
 @comment *********************************************************************
 @comment ** 2.1.6 Copybooks                                                 **
 @comment *********************************************************************
