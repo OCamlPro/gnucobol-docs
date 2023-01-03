@@ -1223,9 +1223,12 @@ The data retrieved from the system and the format in which it is structured will
 @item @code{DAY YYYYDDD} @tab Current date in Julian form @tab yyyyddd
 @item @code{TIME} @tab Time, including hundredths of a second (nn) @tab hhmmssnn
 @item @code{DAY-OF-WEEK} @tab Current day within a week where 1 = Monday.., 7 = Sunday @tab d
-@item @code{MICROSECOND-TIME} @tab Time in micro seconds where --STD=ACU @tab ms
-
+@item @code{TIME} @tab Time, including hundredths of a second (nn) @tab hhmmssnn
+@item @code{MICROSECOND-TIME} @tab Time in micro seconds where --STD=ACU or -std=acu-strict @tab PIC 9(12)
 @end multitable
+
+@item For both TIME and MICROSECOND-TIME, where data items are less than 12 digits, the previous 8 digit time will be provided. The format of the data is similar to the ACCEPT ... FROM TIME support, except that there are now six decimal places for fractional second values: HHMMSSUUUUUU (Hours, Minutes, Seconds, Microseconds).
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.1.6 ACCEPT FROM Screen-Info                                **
