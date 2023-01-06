@@ -782,7 +782,7 @@ The @key{Tab} and @key{Back-Tab} (@key{Shift}-@key{Tab} on most keyboards) keys 
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{SCREEN}.
 
-The 01-level constant is one of four types of compilation-time constants that can be declared within a program.  The other three types are @directiveref{>>DEFINE} constants, @directiveref{>>SET} constants and 78-level constants (@pxref{78-Level Data Items}).
+The 01-level constant is one of five types of compilation-time constants that can be declared within a program.  The other four types are  @directiveref{>>DEFINE} constants, @directiveref{>>SET} constants, 78-level constants (@pxref{78-Level Data Items} and arithmetic-espression-1).
 @enumerate
 @item
 The reserved words @code{AS}, @code{IS} and @code{OF} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
@@ -816,6 +816,25 @@ Data descriptions of this form do not actually allocate any storage --- they mer
 @item
  The @code{LENGTH} clause will produce a numeric value for @var{constant-name-1} identical to that which would be returned by the @intrinsic{LENGTH} executed against @var{identifier-1} or a data item declared with a @code{USAGE} of @var{usage-name}.
 @end enumerate
+
+Here is an example of using the option arithmetic-espression.
+@verbatim
+       PROGRAM-ID. TESTCONST.
+       ENVIRONMENT DIVISION.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 A   CONSTANT 2.
+       01 B   CONSTANT ( (3 + 2) * A).
+       01 CON CONSTANT (A ** B).
+       01 MYDATA PIC X(CON).
+       PROCEDURE DIVISION.
+        DISPLAY CON
+        ACCEPT omitted
+        MOVE "123456789012345678901234567890" TO MYDATA
+         DISPLAY MYDATA
+        ACCEPT omitted
+        GOBACK.
+@end verbatim
 
 Here is the listing of a GnuCOBOL program that uses 01-level constants to display the length (in bytes) of the various picture-less usage types.
 @verbatim
