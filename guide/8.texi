@@ -10,7 +10,9 @@
 GnuCOBOL supports a wide variety of ``intrinsic functions'' that may be used anywhere in the PROCEDURE DIVISION where a literal is allowed.  For example:
 
 @example
+
 MOVE FUNCTION LENGTH(Employee-Last-Name) TO Employee-LN-Len
+
 @end example
 
 Note how the word @code{FUNCTION} is part of the syntax when you use an intrinsic function.  You can use intrinsic functions without having to include the reserved word @code{FUNCTION} via settings in the @syntaxref{REPOSITORY} paragraph.  You may accomplish the same thing by specifying the
@@ -29,7 +31,186 @@ EXCEPTION-LOCATION-N
 INTEGER-OF-BOOLEAN
 NATIONAL-OF
 STANDARD-COMPARE
+
 @end example
+
+@verbatim
+
+Date and Time Formats
+~~~~~~~~~~~~~~~~~~~~~
+
+@end verbatim
+
+For functions @code{FORMATTED-CURRENT-DATE}, @code{FORMATTED-DATE}, @code{FORMATTED-TIME}, and @code{FORMATTED-DATETIME}, the format literal argument indicates the format of the date or time value that is the result of the function. The result of the function will have the same type as its format literal, which can be alphanumeric, national or UTF-8.
+
+For functions @code{INTEGER-OF-FORMATTED-DATE}, @code{SECONDS-FROM-FORMATTED-TIME}, and @code{TEST-FORMATTED-DATETIME}, the format literal indicates the format of the date or time value specified as the second argument of the function.
+
+The permissible format strings are listed as follows. For a full description of each subfield in the format literals, including a range of permissible values in data associated with the formats, see the Value meanings and limits section.
+
+@verbatim
+
+Integer date form:
+~~~~~~~~~~~~~~~~~
+
+@end verbatim
+
+A value in integer date form is a positive integer that represents the number of days since 31 December, 1600 in the Gregorian calendar.
+
+It must be greater than zero and less than or equal to the value of FUNCTION INTEGER-OF-DATE (99991231), which is 3,067,671.
+
+@verbatim
+
+Standard date form:
+~~~~~~~~~~~~~~~~~~
+
+@end verbatim
+
+A value in standard date form is an integer of the form YYYYMMDD, calculated using (YYYY * 10,000) + (MM * 100) + DD, where:
+
+YYYY represents the year in the Gregorian calendar. It must be an integer in the range [1601, 9999].
+
+MM represents a month and must be an integer in the range [01, 12].
+
+DD represents a day and must be an integer in the range [01, 31], valid for the specified month and year combination.
+
+@verbatim
+
+Julian date form:
+~~~~~~~~~~~~~~~~
+
+@end verbatim
+
+A value in Julian date form is an integer of the form YYYYDDD, calculated using (YYYY * 1000) + DDD, where:
+
+YYYY represents the year in the Gregorian calendar. It must be an integer in the range [1601, 9999].
+
+DDD represents the day of the year. It must be a positive integer in the range [1, 366], valid for the year specified.
+
+@verbatim
+
+UTC offset value:
+~~~~~~~~~~~~~~~~
+
+@end verbatim
+
+A UTC offset value is an integer representation of offset from UTC (Coordinated Universal Time) expressed in minutes. The value must be greater than or equal to -1439 and less than or equal to 1439.
+
+Note: The offset value 1439 represents 23 hours 59 minutes, which is one minute less than a day.
+Standard numeric time form
+
+A value in standard numeric time form is a numeric value representing seconds past midnight. The value must be greater than or equal to zero and less than 86,400
+
+@verbatim
+
+Date and time formats:
+~~~~~~~~~~~~~~~~~~~~~
+
+@end verbatim
+
+For functions @code{FORMATTED-CURRENT-DATE}, @code{FORMATTED-DATE}, @code{FORMATTED-TIME}, and @code{FORMATTED-DATETIME}, the format literal argument indicates the format of the date or time value that is the result of the function. The result of the function will have the same type as its format literal, which can be alphanumeric, national or UTF-8.
+
+For functions @code{INTEGER-OF-FORMATTED-DATE}, @code{SECONDS-FROM-FORMATTED-TIME}, and @code{TEST-FORMATTED-DATETIME}, the format literal indicates the format of the date or time value specified as the second argument of the function.
+
+The permissible format strings are listed as follows. For a full description of each subfield in the format literals, including a range of permissible values in data associated with the formats, see Value meanings and limits.
+
+@verbatim
+
+Date formats            Format literals
+~~~~~~~~~~~~            ~~~~~~~~~~~~~~~
+
+Basic calendar date     YYYYMMDD
+Extended calendar date  YYYY-MM-DD
+Basic ordinal date      YYYYDDD
+Extended ordinal date   YYYY-DDD
+Basic week date         YYYYWwwD
+Extended week date      YYYY-Www-D
+
+Integer-seconds time formats:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Integer-seconds time formats            Format literals
+
+Basic local time                        hhmmss
+Extended local time                     hh:mm:ss
+Basic Coordinated Universal Time (UTC) 	hhmmssZ
+Extended UTC time                       hh:mm:ssZ
+Basic offset time                       hhmmss+hhmm
+Extended offset time                   	hh:mm:ss+hh:mm
+
+Fractional-seconds time formats:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fractional-seconds time formats         Format literals
+Basic local time                        hhmmss.ssss
+Extended local time                     hh:mm:ss.ssss
+Basic Coordinated Universal Time (UTC) 	hhmmss.ssssZ
+Extended UTC time                       hh:mm:ss.ssssZ
+Basic offset time                       hhmmss.ssss+hhmm
+Extended offset time                    hh:mm:ss.ssss+hh:mm
+
+@end verbatim
+
+Note: The period is used as the decimal separator, and four "s" characters after the period are used for illustrative purposes. The number of "s" characters that might be specified after the decimal separator in these formats might range from 1 to 9.
+
+@verbatim
+
+Value meanings and limits:
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The permissible date and time formats have the following meanings and limits:
+
+Format    Meaning and limits
+YYYY      Year, 1601-9999
+MM        Month, 01-12
+DD        Day of month, 01-{28|29|30|31} dependent on month sub-field
+DDD       Day of year for ordinal date formats, 001-365|366
+ww        Week of year, 01-53
+D         Day of week, 1-7
+W
+-
+hh        Hours, 00-23
+mm        Minutes, 00-59
+ss        Seconds, 00-59
+.s        Fractional seconds, always prefixed with '.' then 1-9 's'
++|-hh:mm  UTC offset hours (extended times only), the offset can be adjusted
+          upward (by a '+' prefix) or downward (by a - prefix). A prefix of 0
+          (zero) indicates that an offset of UTC is not available on the system.
+Z         UTC time indicator
+
+@end verbatim
+
+
+@verbatim
+
+Value meanings and limits:
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The permissible date and time formats have the following meanings and limits:
+
+Format 	Meaning and limits:
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+YYYY      Year, 1601-9999
+MM        Month, 01-12
+DD        Day of month, 01-{28|29|30|31} dependent on month sub-field
+DDD       Day of year for ordinal date formats, 001-365|366
+ww        Week of year, 01-53
+D         Day of week, 1-7
+W
+-
+hh        Hours, 00-23
+mm        Minutes, 00-59
+ss        Seconds, 00-59
+.s        Fractional seconds, always prefixed with '.' then 1-9 's'
++|-hh:mm  UTC offset hours (extended times only), the offset can be adjusted
+          upward (by a '+' prefix) or downward (by a - prefix).
+
+          A prefix of 0 (zero) indicates that an offset of UTC is not available
+          on the system.
+Z 	       UTC time indicator
+
+@end verbatim
+
 
 The supported intrinsic functions are listed in the following sections, along with their syntax and usage notes.
 @menu
@@ -1595,13 +1776,21 @@ If the date is valid, a 0 value is returned.  If it isn't, a value of 1 or 2 is 
 @diagram{TEST-FORMATTED-DATETIME Function,FN-TEST-FORMATTED-DATETIME,FN-TEST-FORMATTED-DATETIME,None}
 @code{TEST-FORMATTED-DATETIME} tests whether a date literal representing a date, a time or a combined date and time is valid according to the specified format.
 
-@var{argument-1} shall be a national or alphanumeric literal. The content must be either a date format or a combined date and time format.
+@var{argument-1} must a literal of type alphanumeric, UTF-8 or national, that contains a date, time or combined data time format. See Date and Time formats for details.
 
 @var{argument-2} must be a data item of the same type as @var{argument-1}.
 
 Returned value:
 
 If no format or range problems occur during evaluation of @var{argument-2} according to the format in @var{argument-1}, the returned value is zero. Otherwise the returned value is the ordinal character position at which the first error in @var{argument-2} was detected.
+
+Example
+
+Using the following arguments, it will generates a return value of 5, as the fifth character of argument-2 ("4") contains an incorrect value for the first digit of the month representation.
+
+FUNCTION TEST-FORMATTED-DATETIME(“YYYYMMDD", "20124523")
+
+
 @comment *********************************************************************
 @comment ** 8.1.95 TEST-NUMVAL                                              **
 @comment *********************************************************************
