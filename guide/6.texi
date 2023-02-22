@@ -782,7 +782,7 @@ The @key{Tab} and @key{Back-Tab} (@key{Shift}-@key{Tab} on most keyboards) keys 
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{SCREEN}.
 
-The 01-level constant is one of five types of compilation-time constants that can be declared within a program.  The other four types are  @directiveref{>>DEFINE} constants, @directiveref{>>SET} constants, 78-level constants (@pxref{78-Level Data Items} and arithmetic-espression-1).
+The 01-level constant is one of five types of compilation-time constants that can be declared within a program.  The other four types are  @directiveref{>>DEFINE} constants, @directiveref{>>SET} constants, 78-level constants (@pxref{78-Level Data Items} and arithmetic-expression-1).
 @enumerate
 @item
 The reserved words @code{AS}, @code{IS} and @code{OF} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
@@ -817,8 +817,20 @@ Data descriptions of this form do not actually allocate any storage --- they mer
  The @code{LENGTH} clause will produce a numeric value for @var{constant-name-1} identical to that which would be returned by the @intrinsic{LENGTH} executed against @var{identifier-1} or a data item declared with a @code{USAGE} of @var{usage-name}.
 @end enumerate
 
-Here is an example of using the option arithmetic-espression.
+Here is usage examples of the option arithmetic-expression
+
 @verbatim
+
+ 78 wCONST VALUE 2 *  (23 + 3) + (10 / 2).
+ 01 wCONST2 constant (23 + 3)**2.
+ 01 wCONST3 constant (12 + wCONST2)**2 - wCONST.
+ 78 wCONST4 value    (12 + wCONST3)**2 - wCONST2.
+
+@end verbatim
+
+Here is another example of using the option arithmetic-expression.
+@verbatim
+
        PROGRAM-ID. TESTCONST.
        ENVIRONMENT DIVISION.
        DATA DIVISION.
@@ -834,10 +846,12 @@ Here is an example of using the option arithmetic-espression.
          DISPLAY MYDATA
         ACCEPT omitted
         GOBACK.
+
 @end verbatim
 
 Here is the listing of a GnuCOBOL program that uses 01-level constants to display the length (in bytes) of the various picture-less usage types.
 @verbatim
+
        IDENTIFICATION DIVISION.
        PROGRAM-ID. Usage-Lengths.
        DATA DIVISION.
@@ -874,10 +888,12 @@ Here is the listing of a GnuCOBOL program that uses 01-level constants to displa
            DISPLAY "POINTER:          " Len-POINTER
            DISPLAY "PROGRAM-POINTER:  " Len-PROGRAM-POINTER
            STOP RUN.
+
 @end verbatim
 
 The output of this program, on a Windows 7 system with a 32-bit MinGW build of GnuCOBOL is:
 @verbatim
+
     On this system, with this build of GnuCOBOL, the
     PICTURE-less USAGE's have these lengths (in bytes):
 
@@ -989,6 +1005,10 @@ Constants defined in this way become undefined once an @code{END PROGRAM} or @co
 
 @item
  Care must be taken that @var{constant-name-1} does not duplicate any other data item name that has been defined in the program as references to that data item name will refer to the constant and not the data item.  The GnuCOBOL compiler will not issue a warning about this condition.
+
+@item
+ See in 6.8.1 for examples of using the option arithmetic-expression.
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.8.5 88-Level Data Items                                       **
