@@ -249,7 +249,7 @@ Every sort file description (@code{SD} or @code{FD}) must be followed by at leas
 The reserved words @code{BY}, @code{IS}, @code{KEY}, @code{ON} and @code{WHEN} are optional and may be included, or not, at the discretion of the programmer.  The presence or absence of these words has no effect upon the program.
 
 @item
-The reserved words @code{SYNCRONIZED} and @code{SYNCRONIZED} are interchangeable.  Both may be abbreviated to @code{SYNC}.
+The reserved words @code{SYNCRONIZED} and @code{SYNCRONISED} are interchangeable.  Both may be abbreviated to @code{SYNC}.
 
 @item
 The reserved word @code{PICTURE} may be abbreviated to @code{PIC}.
@@ -3673,6 +3673,7 @@ The @syntaxref{FROM}, @syntaxref{TO}, @code{USING} and @syntaxref{VALUE} clauses
 @newsubsection{6.9.53,VALUE}
 @diagram{VALUE (Condition Names) Clause,DD-VALUE-1,DD-VALUE-1,None}
 @diagram{VALUE (Other Data Items),DD-VALUE-2,DD-VALUE-2,None}
+@diagram{VALUE (For Tables),DD-VALUE-3,DD-VALUE-3,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
@@ -3784,6 +3785,37 @@ In this example, all six @samp{A} items will be initialized to @samp{?}, all six
 
 @item
 The @syntaxref{FROM}, @syntaxref{TO}, @syntaxref{USING} and @code{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
+
+@item
+Format-3 (Table): The value clause for tables specifies the initial value of working-storage section and local-storage section data items.
+
+@example
+Example 1: Table value clause
+
+ 03  Level-1      occurs 10 times.
+     05  Level-2  occurs 3 times PIC X.
+                     value "A" "B" "C" FROM (2 2) to (3 1)
+                           "X" "Y" "Z" FROM (1 1) to (! 3)
+                           space       FROM (3 2).
+
+@end example
+
+@example
+Example 2: Table value clause with Initialize
+
+  01  Group-Items.
+      03                  value "Implicit Filler".
+      03  filler   pic 1  value B"1".
+      03  Var-Table   occurs 10 times
+            pic 9   value 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, (1) to (10).
+  . . .
+   initialize Group-Items
+             with filler
+               All to value.
+
+@end example
+
+
 @end enumerate
 @iftex
 @sp 3

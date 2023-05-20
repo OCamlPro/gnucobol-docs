@@ -413,6 +413,41 @@ An alphanumeric character string consisting of the binary representation of each
 The length of the character string returned, in bytes, is eight times the length of @var{argument-1}, in bytes.
 @end enumerate
 
+@example
+
+        >>SOURCE FREE
+*> Example of use of function BIT-OF
+identification division.
+program-id. pgmbitof.
+environment division.
+configuration section.
+   repository. function all intrinsic.
+data division.
+working-storage section.
+01 AAA PIC XXX VALUE "1 2".
+01 BBB PIC XXX VALUE "A B".
+
+procedure division.
+  display BIT-OF(1)     at 0110
+  display BIT-OF(2)     at 0210
+  display BIT-OF(3)     at 0310
+  display BIT-OF(0123)  at 0410
+  display BIT-OF(AAA)   at 0510
+  display BIT-OF(BBB)   at 0610
+  accept omitted
+  stop run.
+
+Produces :
+
+00110001
+00110010
+00110011
+00110000001100010011001000110011
+001100010010000000110010
+010000010010000001000010
+
+@end example
+
 @comment *********************************************************************
 @comment ** 8.1.7 BIT-TO-CHAR                                               **
 @comment *********************************************************************
@@ -426,7 +461,7 @@ The function type is alphanumeric.
 @item
 @var{argument-1} must be an alphanumeric literal, alphanumeric data item, or alphanumeric group item.
 @item
-@var{argument-1} must consist only of the characters '0' and '1'.
+@var{argument-1} must consist only of the characters "0" and "1".
 @item
 The length of @var{argument-1} must be a multiple of 8 bytes.
 @end enumerate
@@ -435,10 +470,42 @@ The length of @var{argument-1} must be a multiple of 8 bytes.
 Returned values:
 @enumerate
 @item
-A character string consisting of bytes representing the sequence of '0' and '1' characters in @var{argument-1}.
+A character string consisting of bytes representing the sequence of "0" and "1" characters in @var{argument-1}.
 @item
 The length of the result string is equal to the length of the input string divided by 8.
 @end enumerate
+
+@example
+
+        >>SOURCE FREE
+*> Example of use of function BIT-TO-CHAR
+identification division.
+program-id. pgmbittochar.
+environment division.
+configuration section.
+  repository. function all intrinsic.
+data division.
+working-storage section.
+01 AAA PIC X(8) VALUE "0110000".
+
+procedure division.
+  display BIT-TO-CHAR("00110000") at 0610
+  display BIT-TO-CHAR("00110001") at 0710
+  display BIT-TO-CHAR("00110010") at 0810
+  display BIT-TO-CHAR("00110011") at 0910
+  display BIT-TO-CHAR(AAA)        at 1010
+  accept omitted
+  stop run.
+
+Produces:
+
+    0
+    1
+    2
+    3
+    a
+
+@end example
 
 @comment *********************************************************************
 @comment ** 8.1.8 BYTE-LENGTH                                               **
