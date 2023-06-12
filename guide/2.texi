@@ -586,6 +586,72 @@ COB-COLOR-YELLOW
 @item White
 COB-COLOR-WHITE
 @end table
+
+@item Extended Colors
+This is a video feature that is dependent upon the curses package built into your version of GnuCOBOL.
+The actual result of extended color codes depends on the terminal's capabilities and the underlying screenio library (and for PDCurses also the setting of COB_LEGACY parameter).
+
+With PDcurses library in a Windows operating system, you can use additional color codes, from 8 to 15, both for Foreground and for Background.
+
+In that case in a GnuCOBOL program you can use a palette with all following color codes (classic color codes from 0 to 7 and extended color codes from 8 to 15):
+
+@verbatim
+
+*> Classic Colors
+78 COB-COLOR-BLACK         VALUE  0.
+78 COB-COLOR-BLUE          VALUE  1.
+78 COB-COLOR-GREEN         VALUE  2.
+78 COB-COLOR-CYAN          VALUE  3.
+78 COB-COLOR-RED           VALUE  4.
+78 COB-COLOR-MAGENTA       VALUE  5.
+*> 78 COB-COLOR-YELLOW     VALUE  6.
+78 COB-COLOR-BROWN         VALUE  6. *> Previous value for YELLOW
+78 COB-COLOR-WHITE         VALUE  7.
+
+*> Extended colors (you need to set the parameter "COB_LEGACY = 1")
+78 COB-COLOR-GREY          VALUE  8.
+78 COB-COLOR-LIGHT-BLUE    VALUE  9.
+78 COB-COLOR-LIGHT-GREEN   VALUE 10.
+78 COB-COLOR-LIGHT-CYAN    VALUE 11.
+78 COB-COLOR-LIGHT-RED     VALUE 12.
+78 COB-COLOR-LIGHT-MAGENTA VALUE 13.
+78 COB-COLOR-PINK          VALUE 13. *> same code as LIGHT-MAGENTA
+78 COB-COLOR-YELLOW        VALUE 14.
+78 COB-COLOR-LIGHT-WHITE   VALUE 15.
+
+@end verbatim
+
+@item
+Using these new codes from 8 to 15 for the Foreground color you get the same effect as specifying the corresponding color from 0 to 7 but with the HIGHLIGHT attribute (and that is ultimately one of the new colors).
+Using the new background color codes 8 to 15 results in a BLINK (the character flashes on the screen).
+
+To get one of the new colors also for the background you need to set the parameter "COB_LEGACY = 1" using one of the following modes:
+
+- into the runtime configuration file
+- setting the environment variable
+- setting the environment variable into the GnuCOBOL source file as following:
+
+Set environment 'COB_LEGACY' TO '1'
+This setting must be made at the beginning of the program and cannot be changed while the program is running.
+
+@item
+Summarizing.
+
+Without specifying the parameter COB_LEGACY = 1 will give you what follows:
+
+- using FOREGROUND-COLOR and a color code from 8 to 15: the character will be HIGHLIGHT (and that is the new color).
+
+- using BACKGROUND-COLOR and a color code from 8 to 15: the character will be the corresponding color coded from 0 to 7 and BLINK. (the character flashes on the screen)
+With specifying the parameter COB_LEGACY = 1 will give you what follows:
+
+- using FOREGROUND-COLOR and a color code from 8 to 15: the foreground character will be the new color.
+
+- using BACKGROUND-COLORand a color code from 8 to 15: the background of character will be the new color.
+
+@item
+Ncurses library in Unix operating system does not support extended colors at this time.
+
+
 @item Text Brightness
 There are three possible brightness levels supported for text --- lowlight (dim), normal and highlight (bright).  Not all GnuCOBOL implementations will support all three (some treat lowlight the same as normal).  The deciding factor as to whether two or three levels are supported lies with the version of the @i{curses} package that is being used.  This is a utility screen-IO package that is included into the GnuCOBOL run-time library when the GnuCOBOL software is built.
 
