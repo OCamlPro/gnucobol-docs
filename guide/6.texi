@@ -1613,7 +1613,13 @@ This clause, along with @syntaxref{LOWLIGHT}, are intended to provide a three-le
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
 
-The presence of a @code{JUSTIFIED RIGHT} clause in a data item's definition alters the manner in which data is stored into the field from the default 'left-justified, space filled' behaviour to 'right justified, space filled'.
+The presence of a @code{JUSTIFIED RIGHT} clause in a data item's definition alters the manner in which data is stored into the field from the default 'left-justified, space filled' behaviour to 'right justified, space filled'. Unless you are using any of the IBM dialects, it has NO effect on the initial content of a variable, eg:
+@verbatim
+01  A PIC X(12) JUST RIGHT VALUE 'ABC'.
+
+Will show content as 'ABC' with NO justification taken place.
+@end verbatim
+
 @enumerate
 @item
 The reserved word @code{RIGHT} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
@@ -1641,12 +1647,12 @@ When the value is @i{shorter} than the field size:
 @item
 @verbatim
 01  A PIC X(6).
-MOVE @code{ABC} TO A
+MOVE 'ABC' TO A
 @end verbatim
 @tab
 @verbatim
 01  A PIC X(6) JUSTIFIED RIGHT.
-MOVE @code{ABC} TO A
+MOVE 'ABC' TO A
 @end verbatim
 @end multitable
 
