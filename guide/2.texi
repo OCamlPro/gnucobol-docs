@@ -620,37 +620,49 @@ In that case in a GnuCOBOL program you can use a palette with all following colo
 @end verbatim
 
 @item
-Before to use this palette with classic and extended color codes you need to set the parameter "COB_LEGACY = 1" using one of the following modes:
+Before using this palette with classic and extended color codes you need to set the parameter "COB_LEGACY = 1" using one of the following modes:
 
-- into the runtime configuration file
-- setting the environment variable
-- setting the environment variable into the COBOL source file as following:
+@verbatim
 
-Set environment 'COB_LEGACY' TO '1'
-This setting must be made at the beginning of the program and cannot be changed while the program is running.
+1. Into the runtime configuration file (See COB_LEGACY at 10.2.3.5.
+   Screen I/O).
+2. Setting the environment variable at the operating system level.
+3. Setting the environment variable in the COBOL source file as following:
 
-Using an extended color code from 8 to 15 without specifying the parameter COB_LEGACY = 1 will give you the corresponding "classic" color (a color code from 0 to 7) and the following attribute:
-- using FOREGROUND-COLOR and a color code from 8 to 15: the character will be HIGHLIGHT
-- using BACKGROUND-COLOR and a color code from 8 to 15: the character will BLINK
+@end verbatim
+
+SET ENVIRONMENT "COB_LEGACY" TO "1"
+In this last mode, The GnuCobol statement must be made at the beginning of the program and cannot be changed while the program is running.
+
+Using an extended color code from 8 to 15 without specifying the parameter COB_LEGACY = 1, will give you the corresponding "classic" color (a color code from 0 to 7) and the following attribute:
+
+@verbatim
+
+1. Using FOREGROUND-COLOR and a color code from 8 to 15: the character
+   will be HIGHLIGHT.
+2. Using BACKGROUND-COLOR and a color code from 8 to 15: the character
+   will BLINK.
+
+@end verbatim
 
 Ncurses library in Unix operating system does not support extended colors at this time.
 
 @item
 Summarizing.
 
-Without specifying the parameter COB_LEGACY = 1 will give you what follows:
+Without specifying the environment variable COB_LEGACY = 1, will give you, what follows:
 
-- using FOREGROUND-COLOR and a color code from 8 to 15: the character will be HIGHLIGHT (and that is the new color).
+1. Using FOREGROUND-COLOR and a color code from 8 to 15: the character will be HIGHLIGHT (and that is the new color).
 
-- using BACKGROUND-COLOR and a color code from 8 to 15: the character will be the corresponding color coded from 0 to 7 and BLINK. (the character flashes on the screen)
+2. Using BACKGROUND-COLOR and a color code from 8 to 15: the character will be the corresponding color coded from 0 to 7 and BLINK. (the character flashes on the screen)
 With specifying the parameter COB_LEGACY = 1 will give you what follows:
 
-- using FOREGROUND-COLOR and a color code from 8 to 15: the foreground character will be the new color.
+3  Using FOREGROUND-COLOR and a color code from 8 to 15: the foreground character will be the new color.
 
-- using BACKGROUND-COLORand a color code from 8 to 15: the background of character will be the new color.
+4. Using BACKGROUND-COLOR and a color code from 8 to 15: the background of character will be the new color.
 
 @item
-Ncurses library in Unix operating system does not support extended colors at this time.
+Ncurses library in *nix operating systems does not support extended colors at this time. [ *nix includes Linux, OSX, etc ]
 
 
 @item Text Brightness
