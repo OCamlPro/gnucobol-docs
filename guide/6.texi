@@ -1056,6 +1056,7 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 @newsection{6.9,Data Description Clauses}
 @menu
 * 6.9.1:  ANY LENGTH.
+* 6.9.1B: ANY NUMERIC
 * 6.9.2:  AUTO.
 * 6.9.3:  AUTO-SKIP.
 * 6.9.4:  AUTOTERMINATE.
@@ -1127,11 +1128,33 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 This syntax is valid in the following sections:
 @code{LINKAGE}
 
-Data items declared with the @code{ANY LENGTH} attribute have no fixed compile-time length.  Such items may only be defined in the linkage section of a subprogram as they may only serve as subroutine argument descriptions.  These items must have a @syntaxref{PICTURE} clause that specifies exactly one A, X or 9 symbol.
+Data items declared with the @code{ANY LENGTH} attribute have no fixed compile-time length.  Such items may only be defined in the linkage section of a subprogram as they may only serve as subroutine argument descriptions.  These items must have a @syntaxref{PICTURE} clause that specifies exactly one A, X, U or 1 symbol.
 @enumerate
 @item
-The @code{ANY LENGTH} and @syntaxref{BASED} clauses cannot be used together in the same data item description.
+The @code{ANY LENGTH} and @syntaxref{BASED} clauses cannot be used together in the same data item description. The @code{ANY LENGTH} clause specifies that the length of the data item will be determined at runtime, the type is determined (and someday checked with EC-PROGRAM-ARGS) by the picture symbol.
+
+They are determined by checking the caller's definition, which therefore MUST be either a GnuCOBOL module or a C program that uses api functions to create COBOL fields.
 @end enumerate
+
+@comment *********************************************************************
+@comment ** 6.9.1B ANY NUMERIC                                              **
+@comment *********************************************************************
+@page
+@newsubsection{6.9.1B,ANY NUMERIC}
+@diagram{ANY NUMERIC Attribute,DD-ANY-NUMERIC,DD-ANY-NUMERIC,None}
+This syntax is valid in the following sections:
+@code{LINKAGE}
+
+Data items declared with the @code{ANY NUMERIC} attribute has no fixed compile-time length.  Such items may only be defined in the linkage section of a subprogram as they may only serve as subroutine argument descriptions.  These items must have a @syntaxref{PICTURE} clause that specifies exactly one 9 symbol.
+The ANY NUMERIC clause specifies that the length and the usage of the data item will be determined at runtime.
+
+They are determined by checking the caller's definition, which therefore MUST be either a GnuCOBOL module or a C program that uses api functions to create COBOL fields.
+
+@enumerate
+@item
+The @code{ANY NUMERIC} and @syntaxref{BASED} clauses cannot be used together in the same data item description.
+@end enumerate
+
 @comment *********************************************************************
 @comment ** 6.9.2 AUTO                                                      **
 @comment *********************************************************************
