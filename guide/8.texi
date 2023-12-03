@@ -2269,16 +2269,17 @@ The following sections describe the various built-in subroutines.  @i{All subrou
 * 8.2.45: CBL_READ_KBD_CHAR.
 * 8.2.46: CBL_RENAME_FILE.
 * 8.2.47: CBL_SET_CSR_POS.
-* 8.2.48: CBL_TOLOWER.
-* 8.2.49: CBL_TOUPPER.
-* 8.2.50: CBL_WRITE_FILE.
-* 8.2.51: CBL_XOR.
-* 8.2.52: SYSTEM.
-* 8.2.53: X"91".
-* 8.2.54: X"E4".
-* 8.2.55: X"E5".
-* 8.2.56: X"F4".
-* 8.2.57: X"F5".
+* 8.2.48: CBL_SET_SCR_SIZE.
+* 8.2.49: CBL_TOLOWER.
+* 8.2.50: CBL_TOUPPER.
+* 8.2.51: CBL_WRITE_FILE.
+* 8.2.52: CBL_XOR.
+* 8.2.53: SYSTEM.
+* 8.2.54: X"91".
+* 8.2.55: X"E4".
+* 8.2.56: X"E5".
+* 8.2.57: X"F4".
+* 8.2.58: X"F5".
 @end menu
 @page
 @comment *********************************************************************
@@ -3429,12 +3430,35 @@ The following is a typical @var{cursor-locn-buffer} definition:
     05 CURSOR-LINE          USAGE BINARY-CHAR.
     05 CURSOR-COLUMN        USAGE BINARY-CHAR.
 @end example
-
 @comment *********************************************************************
-@comment ** 8.2.48 CBL_TOLOWER                                              **
+@comment ** 8.2.48 CBL_SET_SCR_SIZE                                         **
 @comment *********************************************************************
 @page
-@newsubsection{8.2.48,CBL_TOLOWER}
+@newsubsection{8.2.48,CBL_SET_SCR_SIZE}
+@diagram{CBL_GET_SET_SIZE Built-In Subroutine,SS-CBL_SET_SCR_SIZE,SS-CBL_GET_SCR_SIZE,None}
+Use this subroutine to set the current console screen size.
+
+WARNING: This function may well not be created so this text is really a place holder as no information about its use is currently available - at least as of v3.2 final although it is in one of the compiler source files.
+
+This also means that the definition of this function has NOT been passed to the manual maintainer, i.e., Vincent Coen.
+If you know exactly where this is correctly defined, may be in another compiler manual please pass link  of it, thanks.
+
+The following are typical @var{no-of-lines} and @var{no-of-columns} definitions:
+
+@example
+01  NO-OF-LINES             USAGE BINARY-CHAR.
+01  NO-OF-COLUMNS           USAGE BINARY-CHAR.
+@end example
+
+GnuCOBOL run-time screen management must have been initialized prior to CALLing this routine in order to set meaningful values.  This means that a @statementref{DISPLAY data-item} or a @statementref{ACCEPT data-item} must have been executed prior to executing the @statement{CALL}.
+
+Zero values will be returned if the screen has not been initialized and values of 24 (lines) and 80 (columns) will be returned if GnuCOBOL was not generated to include screen I/O.
+
+@comment *********************************************************************
+@comment ** 8.2.49 CBL_TOLOWER                                              **
+@comment *********************************************************************
+@page
+@newsubsection{8.2.49,CBL_TOLOWER}
 @diagram{CBL_TOLOWER Built-In Subroutine,SS-CBL_TOLOWER,SS-CBL_TOLOWER,None}
 This routine will convert the first @var{convert-length} (a numeric literal or data item) characters of @var{data-item} (an alpha-numeric identifier) to lower-case.
 
@@ -3442,9 +3466,10 @@ The @var{convert-length} argument must be specified @syntaxrefalt{BY VALUE,CALL}
 
 If @var{convert-length} is negative or zero, no conversion will be performed.
 @comment *********************************************************************
-@comment ** 8.2.49 CBL_TOUPPER                                              **
+@comment ** 8.2.50 CBL_TOUPPER                                              **
 @comment *********************************************************************
-@newsubsection{8.2.49,CBL_TOUPPER}
+@page
+@newsubsection{8.2.50,CBL_TOUPPER}
 @diagram{CBL_TOUPPER Built-In Subroutine,SS-CBL_TOUPPER,SS-CBL_TOUPPER,None}
 This routine will convert the first @var{convert-length} (a numeric literal or data item) characters of @var{data-item} (an alpha-numeric identifier) to upper-case.
 
@@ -3452,10 +3477,10 @@ The @var{convert-length} argument must be specified @syntaxrefalt{BY VALUE,CALL}
 
 If @var{convert-length} is negative or zero, no conversion will be performed.
 @comment *********************************************************************
-@comment ** 8.2.50 CBL_WRITE_FILE                                           **
+@comment ** 8.2.51 CBL_WRITE_FILE                                           **
 @comment *********************************************************************
 @page
-@newsubsection{8.2.50,CBL_WRITE_FILE}
+@newsubsection{8.2.51,CBL_WRITE_FILE}
 @diagram{CBL_WRITE_FILE Built-In Subroutine,SS-CBL_WRITE_FILE,SS-CBL_WRITE_FILE,None}
 This routine writes @var{nbytes} of data from @var{buffer} to the byte-stream file defined by @var{handle} starting at byte number @var{offset} within the file.
 
@@ -3469,10 +3494,10 @@ Currently, the only allowable value for the flags argument is 0.  This argument 
 Upon completion, the
 @registerref{RETURN-CODE} will be set to 0 if the write was successful or to 30 if an I/O error condition occurred.  If a value of -1 is returned, a problem was identified with the subroutine arguments.
 @comment *********************************************************************
-@comment ** 8.2.51 CBL_XOR                                                  **
+@comment ** 8.2.52 CBL_XOR                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{8.2.51,CBL_XOR}
+@newsubsection{8.2.52,CBL_XOR}
 @diagram{CBL_XOR Built-In Subroutine,SS-CBL_XOR,SS-CBL_XOR,None}
 @multitable @columnfractions 0.3 0.7
 @item
@@ -3496,10 +3521,10 @@ Any bits in @var{item-2} after the 8*@var{byte-length} point will be unaffected.
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.2.52 SYSTEM                                                   **
+@comment ** 8.2.53 SYSTEM                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{8.2.52,SYSTEM}
+@newsubsection{8.2.53,SYSTEM}
 @diagram{SYSTEM Built-In Subroutine,SS-SYSTEM,SS-SYSTEM,None}
 This subroutine submits @var{command} (an alphanumeric literal or data item) to a command shell for execution as if it were typed into a console/terminal window.
 
@@ -3515,10 +3540,10 @@ To trap output from the executed command and process it within the GnuCOBOL prog
 
 The exit status of the executed command will be available in the @code{RETURN-CODE} special-register.
 @comment *********************************************************************
-@comment ** 8.2.53 X"91"                                                    **
+@comment ** 8.2.54 X"91"                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{8.2.53,X"91"}
+@newsubsection{8.2.54,X"91"}
 @diagram{X"91" Built-In Subroutine,SS-X91,SS-X91,None}
 The original Micro Focus version of this routine is capable of providing a wide variety of functions.  GnuCOBOL supports just three of them:
 @itemize @bullet
@@ -3559,23 +3584,23 @@ Each of the 1@sup{st} eight occurrences of the array will be set to either 0 or 
 Retrieves the number of arguments passed to the program executing the @code{CALL X"91"}, saving that number into the @var{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).
 @end table
 @comment *********************************************************************
-@comment ** 8.2.54 X"E4"                                                    **
+@comment ** 8.2.55 X"E4"                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{8.2.54,X"E4"}
+@newsubsection{8.2.55,X"E4"}
 @diagram{X"E4" Built-In Subroutine,SS-XE4,SS-XE4,None}
 Use @code{X"E4"} to clear the screen.  There are no arguments and no returned value.
 @comment *********************************************************************
-@comment ** 8.2.55 X"E5"                                                    **
+@comment ** 8.2.56 X"E5"                                                    **
 @comment *********************************************************************
-@newsubsection{8.2.55,X"E5"}
+@newsubsection{8.2.56,X"E5"}
 @diagram{X"E5" Built-In Subroutine,SS-XE5,SS-XE5,None}
 The @code{X"E5"} routine will sound the PC ``bell''.  There are no arguments and no returned value.
 @comment *********************************************************************
-@comment ** 8.2.56 X"F4"                                                    **
+@comment ** 8.2.57 X"F4"                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{8.2.56,X"F4"}
+@newsubsection{8.2.57,X"F4"}
 @diagram{X"F4" Built-In Subroutine,SS-XF4,SS-XF4,None}
 This routine packs the low-order (rightmost) bit from each of the eight 1-byte items in @var{table} into the corresponding bit positions of the single-byte data item @var{byte}.
 
@@ -3590,10 +3615,10 @@ Typically, table is defined similarly to the following:
     05 Each-Byte OCCURS 8 TIMES USAGE BINARY-CHAR.
 @end example
 @comment *********************************************************************
-@comment ** 8.2.57 X"F5"                                                    **
+@comment ** 8.2.58 X"F5"                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{8.2.57,X"F5"}
+@newsubsection{8.2.58,X"F5"}
 @diagram{X"F5" Built-In Subroutine,SS-XF5,SS-XF5,None}
 This routine unpacks each bit of the single-byte data item @var{byte} into the low-order (rightmost) bit of each of the corresponding eight 1-byte items in @var{table}.  The other seven bit positions of each of the first eight entries in @var{table} will be set to zero.
 
