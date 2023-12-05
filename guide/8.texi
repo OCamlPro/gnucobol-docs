@@ -930,13 +930,17 @@ The returned value is formatted to the same form as @var{argument-1}.
 @var{argument-1} shall be a national or alphanumeric literal.
 
 @var{argument-2} shall be a value in integer date form.
+
+Example
+Given the date format "YYYYMMDD" and the value "143951", which represents the date 15 February 1995, the returned value would be "19950215".
+
 @comment *********************************************************************
 @comment ** 8.1.31 FORMATTED-DATETIME                                       **
 @comment *********************************************************************
 @page
 @newsubsection{8.1.31,FORMATTED-DATETIME}
 @diagram{FORMATTED-DATETIME Function,FN-FORMATTED-DATETIME,FN-FORMATTED-DATETIME,None}
-@code{FORMATTED-DATETIME} uses a combined time and date form to convert and combine a date in integer form and a numeric time expressed as seconds past midnight in UTC.
+@code{FORMATTED-DATETIME} uses a combined time and date form to convert and combine a date in integer form and a numeric time expressed as seconds past midnight in UTC. See Date and Time Formats for details.
 
 @var{argument-1} shall be a national or alphanumeric literal.
 
@@ -955,6 +959,12 @@ The returned value is a representation of the date contained in @var{argument-2}
 If the format in @var{argument-1} indicates that the returned value is to be expressed in UTC, the time portion of the returned value reflects the adjustment of the value in @var{argument-3} by the offset in @var{argument-4}.
 
 If the format in @var{argument-1} indicates that the time is to be returned as an offset from UTC, the value in @var{argument-3} is reflected directly in the time portion of the returned value and the offset in @var{argument-4} is reflected directly in the offset portion of the returned value.
+
+Example
+If the first argument has the format "YYMMDDThhmmss.ss+hhmm", the second argument the value
+"143951", the third argument the value "18867.812479168304", and the fourth argument the value
+"+300", the returned value would be "19950215T05142781+0500".
+
 @comment *********************************************************************
 @comment ** 8.1.32 FORMATTED-TIME                                           **
 @comment *********************************************************************
@@ -980,6 +990,10 @@ Is a representation of the standard numeric time contained in @var{argument-2} a
 If the format in @var{argument-1} indicates that the returned value is to be expressed in UTC, the time portion of the returned value reflects the adjustment of the value in @var{argument-2} by the offset in @var{argument-3}.
 
 If the format in @var{argument-1} indicates that the time is to be returned as an offset from UTC, the value in @var{argument-2} is reflected directly in the time portion of the returned value and the offset in @var{argument-3} is reflected directly in the offset portion of the returned value.
+
+Example
+If the first argument has the format "hhmmss.ss+hhmm", the second argument the value "18867.812479168304" which represents the local time, and the third argument the value "-300", which represents the five hours that Eastern Standard Time (EST) differs from UTC, the returned value would be "05142781-0500".
+
 @comment *********************************************************************
 @comment ** 8.1.33 FRACTION-PART                                            **
 @comment *********************************************************************
@@ -1446,6 +1460,7 @@ Returned values:
 The returned value is the numeric value represented by @var{string}.
 
 If it contains a @code{CR}, @code{DB}, or the minus sign (@samp{-}), the returned value is negative.
+
 @comment *********************************************************************
 @comment ** 8.1.70 NUMVAL-C                                                 **
 @comment *********************************************************************
