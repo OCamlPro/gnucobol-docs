@@ -40,6 +40,7 @@ The compiler command-line option @option{-D} offers additional control (@pxref{c
 @diagram{CDF >>CALL-CONVENTION,CDF-CALL,CDF-CALL,None}
 This directive instructs the compiler how to treat references to program names and may be used to determine other details for interacting with a function or program. There are four options with COBOL being the default.
 @table @code
+
 @item COBOL
 The program name is treated as a COBOL word that maps to the externalised name program to be called, cancelled or referenced in the program-address-identifier, applying the same mapping rules as for a program name for which no @code{AS} phrase is specified.
 (The is the default.)
@@ -48,10 +49,11 @@ The program name is treated as a COBOL word that maps to the externalised name p
 The program name is treated as an external reference.
 
 @item STDCALL
-[more info needed]
+Allows system standard calling conventions (as opposed to GnuCOBOL calling conventions) to be used when calling a subroutine.  The definition of what constitutes ``system standard'' may vary from operating system to operating system.  Use of this requires special knowledge about the linkage requirements of subroutines you are intending to @code{CALL}.  Subroutines written in GnuCOBOL do not need this option.
 
 @item STATIC
-The program name is called as a included element and not dynamically which is the normal default.
+Causes the linkage to the subroutine to be performed in such a way as to require the subroutine to be statically-linked with the calling program.  Note that this enables static-linking to be used on a subroutine-by-subroutine selective basis. Or in other words - The program name is called as a included element and not dynamically which is the normal default.
+
 @end table
 @comment *********************************************************************
 @comment ** 3.2 COPY                                                        **
