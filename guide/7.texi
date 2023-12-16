@@ -132,7 +132,7 @@ This behaviour when the argument is defined as @code{PIC 9} may be unacceptable,
 @page
 @newsection{7.3,PROCEDURE DIVISION RETURNING}
 @diagram{PROCEDURE DIVISION RETURNING,PD-RETURNING,PD-RETURNING,None}
-The RETURNING clause on the PROCEDURE DIVISION header documents that the subprogram in which the clause appears will be returning a numeric value back to the program that called it.
+The RETURNING clause on the PROCEDURE DIVISION header documents that the subprogram in which the clause appears will be returning a numeric value back to the program that called it. This is only available for functions as it does not work for programs and has issues depending on the platform (operating system) in use - You must test for this for the specific platform.
 @comment Semantic Specifications:
 @enumerate
 @item
@@ -3169,7 +3169,7 @@ When both @code{REPLACING} and @code{TALLYING} are specified:
 The @code{INSPECT} statement will make a single pass through the sequence of characters comprising the inspect subject.  As the pointer to the current inspect target character reaches a point where it falls within the explicit or implicit target ranges specified on the operational instructions of the two clauses, the actions specified by those instructions will become eligible to be taken.  As the character pointer reaches a point where it falls past the end of target ranges, the instructions belonging to those target ranges will become disabled.
 
 @item
-At any point in time, there may well be multiple@code{REPLACING} and/or @code{TALLYING} operational instructions  active.  Only one of the @code{TALLYING} and one of the @code{REPLACING} instructions (if any) can be executed for any one character pointer position.  In each case, it will be the first of the instructions in each category that produces a match with its target string specification.
+At any point in time, there may well be multiple @code{REPLACING} and/or @code{TALLYING} operational instructions  active.  Only one of the @code{TALLYING} and one of the @code{REPLACING} instructions (if any) can be executed for any one character pointer position.  In each case, it will be the first of the instructions in each category that produces a match with its target string specification.
 
 @item
 When both a @code{TALLYING} and a @code{REPLACING} instruction have been selected for execution, the @code{TALLYING} instruction will be executed first.  This guarantees that @code{TALLYING} will compute occurrences based upon the @i{initial} value of the inspect subject before any replacements occur.
