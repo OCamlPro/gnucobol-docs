@@ -38,7 +38,7 @@ pdf: pdf-a4 pdf-letter
 
 pdf-a4: PDFs/gnucobsp-a4.pdf PDFs/gnucobqr-a4.pdf PDFs/gnucobpg-a4.pdf PDFs/gnucobpr-a4.pdf
 
-pdf-letter: PDFs/gnucobsp-letter.pdf PDFs/gnucobqr-letter.pdf PDFs/gnucobpg-letter.pdf PDFs/gnucobpr-letter.texi
+pdf-letter: PDFs/gnucobsp-letter.pdf PDFs/gnucobqr-letter.pdf PDFs/gnucobpg-letter.pdf PDFs/gnucobpr-letter.pdf
 
 PDFs/gnucobpg-a4.pdf: $(SOURCES)
 PDFs/gnucobpr-a4.pdf: $(SOURCES_PR)
