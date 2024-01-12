@@ -30,7 +30,6 @@ The compiler command-line option @option{-D} offers additional control (@pxref{c
 * 3.12: >>LISTING.
 * 3.13: >>LEAP-SECONDS.
 * 3.14: $ Directives.
-* 3.15: Predefined compilation variables.
 @end menu
 @comment *********************************************************************
 @comment ** 3.1 >>CALL-CONVENTION                                           **
@@ -339,7 +338,7 @@ The remaining options of the @directive{>>SET} provide equivalent functionality 
 @code{>>SOURCE FORMAT IS FREE}
 
 @item >>SET SOURCEFORMAT AS VARIABLE
-@code{>>SOURCE FORMAT IS }
+@code{>>SOURCE FORMAT IS VARIABLE}
 
 @item >>SET SOURCEFORMAT AS XOPEN
 @code{>>SOURCE FORMAT IS XOPEN}
@@ -475,101 +474,6 @@ Allows for more than 60 seconds per minute.
 @newsection{3.14,$ Directives}
 @diagram{CDF $ Directive,CDF-DOLLAR,CDF-DOLLAR,None}
 Offers support for MF Compiler Directives.
-@comment ********************************************************************
-@comment ** 3.15 Predefined Compilation Variables (taken from grammar doc) **
-@comment ********************************************************************
-@page
-@newsection{3.15,Predefined compilation variables}
-GnuCOBOL defines @dfn{compilation variables} when various conditions are true.
-If the condition associated with a variable is false, the variable is not defined.
-@table @code
-@item DEBUG
-The -d debug flag is specified.
-
-@item EXECUTABLE
-Module being compiled contains the main program.
-
-@item GCCOMP
-The size of a @code{COMP} @var{item} is determined according to the GnuCOBOL scheme where for a picture of length:
-@table @asis
-@item 1 - 2
-@var{item} = 1 byte
-
-@item 3 - 4
-@var{item} = 2 bytes
-
-@item 5 - 9
-@var{item} = 4 bytes
-
-@item 10 - 18
-@var{item} = 8 bytes
-@end table
-
-@item GNUCOBOL
-GnuCOBOL is compiling the source unit.
-
-@item HOSTSIGNS
-A signed packed decimal item's value may be considered @code{NUMERIC} if sign = @code{X"F"}.
-
-@item IBMCOMP
-The size of a COMP @var{item} is determined according to the IBM scheme, where for a @code{PICTURE} of length:
-@table @asis
-@item 1 - 4
-@var{item} = 2 bytes
-
-@item 5 - 9
-@var{item} = 4 bytes
-
-@item 10 - 18
-@var{item} = 8 bytes
-@end table
-
-@item MODULE
-The element being compiled does not contain the main program.
-
-@item NOHOSTSIGNS
-A signed packed decimal item's value may @i{not} be considered @code{NUMERIC} if sign = @code{X"F"}.
-
-@item NOIBMCOMP
-The size of a @code{COMP} item is @i{not} determined according to the IBM scheme.
-
-@item NOSTICKY-LINKAGE
-Sticky linkage (linkage section items remaining allocated between invocations) is @i{not} active.
-
-@item NOTRUNC
-Numeric data items are truncated according to their internal representation.
-
-@item P64
-Pointers are greater than 32 bits.
-
-@item STICKY-LINKAGE
-Sticky linkage (linkage section items remaining allocated between invocations) is active.
-
-@item TRUNC
-Numeric data items are truncated according to their @code{PICTURE} clauses.
-
-While still supported, this may well be removed in the future and should not be
-used. See @code{GCCOMP} and @code{GNUCOBOL} instead:
-
-@item OCCOMP
-The size of a @code{COMP} @var{item} is determined according to the GnuCOBOL scheme, where for a @code{PICTURE} of length:
-@table @asis
-@item 1 - 2
-@var{item} = 1 byte
-
-@item 3 - 4
-@var{item} = 2 bytes
-
-@item 5 - 9
-@var{item} = 4 bytes
-
-@item 10 - 18
-@var{item} = 8 bytes
-@end table
-
-@item OPENCOBOL
-GnuCOBOL is compiling the source unit.
-@end table
 @iftex
 @sp 3
 @center ------------------------------------------------------------
