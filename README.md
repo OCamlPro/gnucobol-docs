@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/ocamlpro/gnucobol-docs/workflows/Ubuntu%20Workflow/badge.svg)](https://github.com/ocamlpro/gnucobol-docs/actions/workflows/ubuntu.yml)
+
 # External Documentation of the GnuCOBOL Project
 
 This repository is a GIT version hosted on Github of the

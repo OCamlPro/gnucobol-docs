@@ -85,8 +85,8 @@ HTML/gnucobpr/index.html: $(SOURCES_PR)
 	makeinfo -v -o $(dir $@) $(WARNING) \
 		--html            $(HTML_OPT) gnucobpr.texi
 
-info: info/gnucobsp.info info/gnucobqr.info info/gnucobpg.info /
-	info/gnucobpr.info
+info: info/gnucobsp.info info/gnucobqr.info info/gnucobpg.info 
+#	info/gnucobpr.info
 
 #
 # Rules
@@ -125,23 +125,23 @@ info-clean:
 	@rm -rvf info/gnucob*.info
 
 
-publish: HTML/gnucobpg.html $(CSS)
+publish:: HTML/gnucobpg.html $(CSS)
 	test "$(WWW)"
 	scp HTML/gnucobpg.html $(WWW)
 	scp css/gnucobpg.css   $(WWW)/css/
 	scp js/tree.js         $(WWW)/js/
 
-publish-css: HTML/gnucobpg.html $(CSS)
+publish-css:: HTML/gnucobpg.html $(CSS)
 	test "$(WWW)"
 	scp css/gnucobpg.css    $(WWW)/css/
 	scp js/tree.js          $(WWW)/js/
 
-publish-css: HTML/gnucobpr.html $(CSS)
+publish-css:: HTML/gnucobpr.html $(CSS)
 	test "$(WWW)"
 	scp css/gnucobpr.css    $(WWW)/css/
 	scp js/tree.js          $(WWW)/js/
 
-publish: HTML/gnucobpr.html $(CSS)
+publish:: HTML/gnucobpr.html $(CSS)
 	test "$(WWW)"
 	scp HTML/gnucobpr.html $(WWW)
 	scp css/gnucobpr.css   $(WWW)/css/

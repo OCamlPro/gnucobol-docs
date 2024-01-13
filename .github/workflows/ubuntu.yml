@@ -1,0 +1,69 @@
+name: Ubuntu Workflow
+
+on:
+  pull_request:
+    branches: [ master-with-README ]
+  push:
+  # manual run in actions tab - for all branches
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build, test and provide nightly
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        include:
+          - os: ubuntu-latest
+            skip_test: true
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install texlive texlive-latex-extra texlive-plain-generic
+
+      - name: Set git user
+        run: |
+          git config --global user.name github-actions
+          git config --global user.email github-actions-bot@users.noreply.github.com
+
+      - name: Generate PDFs
+        run: |
+          cd guide
+          make pdf
+
+      - name: Generate HTML
+        run: |
+          cd guide
+          make html
+
+      - name: Generate INFO
+        run: |
+          cd guide
+          rm -rf info
+          make info
+
+      - name: Upload all pdfs
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: gnucobol-docs-all-pdfs
+          path: guide/PDFs/*.pdf
+          if-no-files-found: error
+          retention-days: 0
+
+      - name: Upload HTML
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: gnucobol-docs-html
+          path: guide/HTML
+          if-no-files-found: error
+          retention-days: 0
