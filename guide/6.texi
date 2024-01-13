@@ -1,7 +1,7 @@
 @comment *********************************************************************
 @comment ** 6. DATA DIVISION                                                **
 @comment *********************************************************************
-@newchapter{6,DATA DIVISION}
+@newchapter{DATA DIVISION}
 @diagram{DATA DIVISION,DD-Overview-Info,DD-Overview-TeX,None}
 
 All data used by any COBOL program must be defined in one of the six sections of the data division, depending upon the purpose of the data.
@@ -16,35 +16,35 @@ If no data division sections are needed, the @code{DATA DIVISION.} header itself
 If more than one section is needed in the data division (a common situation), the sections must be coded in the sequence they are presented above.
 @end enumerate
 @menu
-* 6.1: Data Definition Principles.
-* 6.2: FILE SECTION.
+* Data Definition Principles.
+* FILE SECTION.
 @detailmenu
-*   6.2.1: File/Sort-Description.
-*   6.2.2: FILE-SECTION-Data-Item.
+* File/Sort-Description.
+* FILE-SECTION-Data-Item.
 @end detailmenu
-* 6.3: WORKING-STORAGE SECTION.
-* 6.4: LOCAL-STORAGE SECTION.
-* 6.5: LINKAGE SECTION.
-* 6.6: REPORT SECTION.
+* WORKING-STORAGE SECTION.
+* LOCAL-STORAGE SECTION.
+* LINKAGE SECTION.
+* REPORT SECTION.
 @detailmenu
-*   6.6.1: Report Group Definitions.
-*   6.6.2: REPORT SECTION Data Items.
+* Report Group Definitions.
+* REPORT SECTION Data Items.
 @end detailmenu
-* 6.7: SCREEN SECTION.
-* 6.8: Special Data Items.
+* SCREEN SECTION.
+* Special Data Items.
 @detailmenu
-*   6.8.1: 01-Level Constants.
-*   6.8.2: 66-Level Data Items.
-*   6.8.3: 77-Level Data Items.
-*   6.8.4: 78-Level Data Items.
-*   6.8.5: 88-Level Data Items.
+* 01-Level Constants.
+* 66-Level Data Items.
+* 77-Level Data Items.
+* 78-Level Data Items.
+* 88-Level Data Items.
 @end detailmenu
-* 6.9: Data Description Clauses.
+* Data Description Clauses.
 @end menu
 @comment *********************************************************************
 @comment ** 6.1 Data Definition Principles                                  **
 @comment *********************************************************************
-@newsection{6.1,Data Definition Principles}
+@newsection{Data Definition Principles}
 GnuCOBOL data items, like those of other COBOL implementations, are described in a hierarchical manner.  This accommodates the fact that data items frequently need to be able to be broken up into subordinate items.  Take for example, the following logical layout of a portion of a data item named @code{Employee}:
 
 @iftex
@@ -116,21 +116,21 @@ When group items are being defined, subordinate items may be assigned the ``name
 @comment ** 6.2 FILE SECTION                                                **
 @comment *********************************************************************
 @page
-@newsection{6.2,FILE SECTION}
+@newsection{FILE SECTION}
 @diagram{FILE SECTION,DD-FILE-SECTION,DD-FILE-SECTION,None}
 
 Every file that has been referenced by a @statementref{SELECT} must also be described in the file section of the data division.
 
 Files destined for use as sort/merge work files must be described with a Sort/Merge File Description (@code{SD}) while every other file is described with a File Description (@code{FD}).  Each of these descriptions will almost always be followed with at least one record description.
 @menu
-* 6.2.1: File/Sort-Description.
-* 6.2.2: FILE-SECTION-Data-Item.
+* File/Sort-Description.
+* FILE-SECTION-Data-Item.
 @end menu
 @comment *********************************************************************
 @comment ** 6.2.1 File/Sort-Description                                     **
 @comment *********************************************************************
 @page
-@newsubsection{6.2.1,File/Sort-Description}
+@newsubsection{File/Sort-Description}
 @diagram{File/Sort-Description,DD-FD-SD,DD-FD-SD,DD-FD-SD}
 @enumerate
 @item
@@ -238,7 +238,7 @@ If you specify a specific filename in the sort/merge work file's @code{SELECT}, 
 @comment ** 6.2.2 FILE-SECTION-Data-Item                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.2.2,FILE-SECTION-Data-Item}
+@newsubsection{FILE-SECTION-Data-Item}
 @diagram{FILE-SECTION-Data-Item,DD-FS-Data-Item,DD-FS-Data-Item,DD-SYNC-LEFT-RIGHT}
 
 Every sort file description (@code{SD} or @code{FD}) must be followed by at least one 01-level data item, except for file descriptions containing the @code{REPORT IS} clause.  These 01-level data items, in turn, may be broken down into subordinate group and elementary items.  An 01-level data item defined here in the file section is also known as a
@@ -295,7 +295,7 @@ File section data buffers (and therefore all 01-level record layouts defined in 
 @comment ** 6.3 WORKING-STORAGE SECTION                                     **
 @comment *********************************************************************
 @page
-@newsection{6.3,WORKING-STORAGE SECTION}
+@newsection{WORKING-STORAGE SECTION}
 @diagram{WORKING-STORAGE-SECTION-Data-Item,DD-WSS-Data-Item,DD-WSS-Data-Item,DD-SYNC-LEFT-RIGHT}
 
 The working-storage section is used to describe data items that are not part of files, screens or reports and whose data values persist throughout the execution of the program.
@@ -347,7 +347,7 @@ Data items defined within the working-storage section are automatically initiali
 @comment ** 6.4 LOCAL-STORAGE SECTION                                       **
 @comment *********************************************************************
 @page
-@newsection{6.4,LOCAL-STORAGE SECTION}
+@newsection{LOCAL-STORAGE SECTION}
 @diagram{LOCAL-STORAGE-SECTION-Data-Item,DD-LSS-Data-Item,DD-LSS-Data-Item,DD-SYNC-LEFT-RIGHT}
 
 The local-storage section is similar to working-storage, but describes data within a subprogram that will be dynamically allocated and initialized (automatically) each time the subprogram is executed.  @xref{Data Initialization}, for the rules of data initialization.
@@ -396,7 +396,7 @@ Local-storage cannot be used in nested subprograms.
 @comment ** 6.5 LINKAGE SECTION                                             **
 @comment *********************************************************************
 @page
-@newsection{6.5,LINKAGE SECTION}
+@newsection{LINKAGE SECTION}
 @diagram{LINKAGE-SECTION-Data-Item,DD-LS-Data-Item,DD-LS-Data-Item,DD-SYNC-LEFT-RIGHT}
 
 The linkage section describes data within a subprogram that serves as either input arguments to or output results from the subprogram.
@@ -459,7 +459,7 @@ No storage is allocated for data defined in the linkage section; the data descri
 @comment ** 6.6 REPORT SECTION                                              **
 @comment *********************************************************************
 @page
-@newsection{6.6,REPORT SECTION}
+@newsection{REPORT SECTION}
 @diagram{REPORT SECTION,DD-REPORT-SECTION,DD-REPORT-SECTION,None}
 @diagram{Report-Description (RD),DD-RS-RD,DD-RS-RD,None}
 
@@ -623,14 +623,14 @@ References to @code{PAGE-COUNTER} in the procedure division must be qualified wi
 @item The @code{RD} must be followed by at least one 01-level report group definition.
 @end enumerate
 @menu
-* 6.6.1: Report Group Definitions.
-* 6.6.2: REPORT SECTION Data Items.
+* Report Group Definitions.
+* REPORT SECTION Data Items.
 @end menu
 @comment *********************************************************************
 @comment ** 6.6.1 Report Group Definitions                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.6.1,Report Group Definitions}
+@newsubsection{Report Group Definitions}
 @diagram{Report-Group-Definition,DD-RS-Report-Group,DD-RS-Report-Group,None}
 
 The syntax shown here documents how a report group is defined to a report.  This syntax is valid only in the report section, and only then after an @code{RD}.
@@ -669,7 +669,7 @@ Report group declarations must be followed by at least one @code{@var{REPORT-SEC
 @comment ** 6.6.2 REPORT SECTION Data Items                                 **
 @comment *********************************************************************
 @page
-@newsubsection{6.6.2,REPORT SECTION Data Items}
+@newsubsection{REPORT SECTION Data Items}
 @diagram{REPORT-SECTION-Data-Item,DD-RS-Data-Item-Info,DD-RS-Data-Item-TeX,None}
 
 Data item descriptions describing the report lines and fields that make up the substance of a report group immediately follow the definition of that group.
@@ -700,7 +700,7 @@ Group items (those without
 @comment ** 6.7 SCREEN SECTION                                              **
 @comment *********************************************************************
 @page
-@newsection{6.7,SCREEN SECTION}
+@newsection{SCREEN SECTION}
 @diagram{SCREEN-SECTION-Data-Item,DD-SS-Data-Item,DD-SS-Data-Item,None}
 
 The screen section describes the screens to be displayed during terminal/console I-O.
@@ -765,18 +765,18 @@ The @key{Tab} and @key{Back-Tab} (@key{Shift}-@key{Tab} on most keyboards) keys 
 @comment ** 6.8 Special Data Items                                          **
 @comment *********************************************************************
 @page
-@newsection{6.8,Special Data Items}
+@newsection{Special Data Items}
 @menu
-* 6.8.1: 01-Level Constants.
-* 6.8.2: 66-Level Data Items.
-* 6.8.3: 77-Level Data Items.
-* 6.8.4: 78-Level Data Items.
-* 6.8.5: 88-Level Data Items.
+* 01-Level Constants.
+* 66-Level Data Items.
+* 77-Level Data Items.
+* 78-Level Data Items.
+* 88-Level Data Items.
 @end menu
 @comment *********************************************************************
 @comment ** 6.8.1 01-Level Constants                                        **
 @comment *********************************************************************
-@newsubsection{6.8.1,01-Level Constants}
+@newsubsection{01-Level Constants}
 @diagram{01-Level-Constant,DD-01-Constant,DD-01-Constant,None}
 
 This syntax is valid in the following sections:
@@ -937,7 +937,7 @@ Spot the differences between 32 and 64 bit.
 @comment ** 6.8.2 66-Level Data Items                                       **
 @comment *********************************************************************
 @page
-@newsubsection{6.8.2,66-Level Data Items}
+@newsubsection{66-Level Data Items}
 @diagram{66-Level-Data-Item,DD-66-Data-Item,DD-66-Data-Item,None}
 
 This syntax is valid in the following sections:
@@ -961,7 +961,7 @@ All @code{RENAMES} entries associated with one logical record must immediately f
 @comment ** 6.8.3 77-Level Data Items                                       **
 @comment *********************************************************************
 @page
-@newsubsection{6.8.3,77-Level Data Items}
+@newsubsection{77-Level Data Items}
 @diagram{77-Level-Data-Item,DD-77-Data-Item,DD-77-Data-Item,DD-SYNC-LEFT-RIGHT}
 This syntax is valid in the following sections:
 @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
@@ -984,7 +984,7 @@ New programs requiring a stand-alone elementary item should be coded to use a le
 @comment ** 6.8.4 78-Level Data Items                                       **
 @comment *********************************************************************
 @page
-@newsubsection{6.8.4,78-Level Data Items}
+@newsubsection{78-Level Data Items}
 @diagram{78-Level-Constant,DD-78-Constant,DD-78-Constant,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{SCREEN}
@@ -1014,7 +1014,7 @@ Constants defined in this way become undefined once an @code{END PROGRAM} or @co
 @comment ** 6.8.5 88-Level Data Items                                       **
 @comment *********************************************************************
 @page
-@newsubsection{6.8.5,88-Level Data Items}
+@newsubsection{88-Level Data Items}
 @idx{Condition Names}
 @diagram{88-Level-Data-Item,DD-88-Data-Item,DD-88-Data-Item,None}
 This syntax is valid in the following sections:
@@ -1053,77 +1053,77 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 @comment ** 6.9 Data Description Clauses                                    **
 @comment *********************************************************************
 @page
-@newsection{6.9,Data Description Clauses}
+@newsection{Data Description Clauses}
 @menu
-* 6.9.1:  ANY LENGTH.
-* 6.9.1B: ANY NUMERIC
-* 6.9.2:  AUTO.
-* 6.9.3:  AUTO-SKIP.
-* 6.9.4:  AUTOTERMINATE.
-* 6.9.5:  BACKGROUND-COLOR.
-* 6.9.5B: BEFORE TIME.
-* 6.9.6:  BASED.
-* 6.9.7:  BEEP.
-* 6.9.8:  BELL.
-* 6.9.9:  BLANK.
-* 6.9.10: BLANK WHEN ZERO.
-* 6.9.11: BLINK.
-* 6.9.12: COLUMN.
-* 6.9.13: CONSTANT.
-* 6.9.14: EMPTY-CHECK.
-* 6.9.15: ERASE.
-* 6.9.16: EXTERNAL.
-* 6.9.17: FALSE.
-* 6.9.18: FOREGROUND-COLOR.
-* 6.9.19: FROM.
-* 6.9.20: FULL.
-* 6.9.21: GLOBAL.
-* 6.9.22: GROUP INDICATE.
-* 6.9.23: HIGHLIGHT.
-* 6.9.24: JUSTIFIED.
-* 6.9.25: LEFTLINE.
-* 6.9.26: LENGTH-CHECK.
-* 6.9.27: LINE.
-* 6.9.27B: LOWER.
-* 6.9.28: LOWLIGHT.
-* 6.9.29: NEXT GROUP.
-* 6.9.30: NO-ECHO.
-* 6.9.30B: NO UPDATE.
-* 6.9.31: OCCURS.
-* 6.9.32: OVERLINE.
-* 6.9.33: PICTURE.
-* 6.9.34: PRESENT WHEN.
-* 6.9.35: PROMPT.
-* 6.9.36: PROTECTED.
-* 6.9.37: REDEFINES.
-* 6.9.38: RENAMES.
-* 6.9.39: REQUIRED.
-* 6.9.40: REVERSE-VIDEO.
-* 6.9.41: SAME.
-* 6.9.41B: SCROLL DOWN.
-* 6.9.41C: SCROLL UP.
-* 6.9.42: SECURE.
-* 6.9.43: SIGN.
-* 6.9.43B: SIZE.
-* 6.9.44: SOURCE.
-* 6.9.45: SUM.
-* 6.9.46: SYNCHRONIZED.
-* 6.9.46B: TIME OUT
-* 6.9.47: TO.
-* 6.9.48: TYPE.
-* 6.9.49: TYPEDEF.
-* 6.9.50: UNDERLINE.
-* 6.9.50B: UPDATE.
-* 6.9.50C: UPPER.
-* 6.9.51: USAGE.
-* 6.9.52: USING.
-* 6.9.53: VALUE.
+* ANY LENGTH.
+* ANY NUMERIC
+* AUTO.
+* AUTO-SKIP.
+* AUTOTERMINATE.
+* BACKGROUND-COLOR.
+* BEFORE TIME.
+* BASED.
+* BEEP.
+* BELL.
+* BLANK.
+* BLANK WHEN ZERO.
+* BLINK.
+* COLUMN.
+* CONSTANT.
+* EMPTY-CHECK.
+* ERASE.
+* EXTERNAL.
+* FALSE.
+* FOREGROUND-COLOR.
+* FROM.
+* FULL.
+* GLOBAL.
+* GROUP INDICATE.
+* HIGHLIGHT.
+* JUSTIFIED.
+* LEFTLINE.
+* LENGTH-CHECK.
+* LINE.
+* LOWER.
+* LOWLIGHT.
+* NEXT GROUP.
+* NO-ECHO.
+* NO UPDATE.
+* OCCURS.
+* OVERLINE.
+* PICTURE.
+* PRESENT WHEN.
+* PROMPT.
+* PROTECTED.
+* REDEFINES.
+* RENAMES.
+* REQUIRED.
+* REVERSE-VIDEO.
+* SAME AS.
+* SCROLL DOWN.
+* SCROLL UP.
+* SECURE.
+* SIGN.
+* SIZE.
+* SOURCE.
+* SUM.
+* SYNCHRONIZED.
+* TIME OUT
+* TO.
+* TYPE.
+* TYPEDEF.
+* UNDERLINE.
+* UPDATE.
+* UPPER.
+* USAGE.
+* USING.
+* VALUE.
 
 @end menu
 @comment *********************************************************************
 @comment ** 6.9.1 ANY LENGTH                                                **
 @comment *********************************************************************
-@newsubsection{6.9.1,ANY LENGTH}
+@newsubsection{ANY LENGTH}
 @diagram{ANY LENGTH Attribute,DD-ANY-LENGTH,DD-ANY-LENGTH,None}
 This syntax is valid in the following sections:
 @code{LINKAGE}
@@ -1140,7 +1140,7 @@ They are determined by checking the caller's definition, which therefore MUST be
 @comment ** 6.9.1B ANY NUMERIC                                              **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.1B,ANY NUMERIC}
+@newsubsection{ANY NUMERIC}
 @diagram{ANY NUMERIC Attribute,DD-ANY-NUMERIC,DD-ANY-NUMERIC,None}
 This syntax is valid in the following sections:
 @code{LINKAGE}
@@ -1159,7 +1159,7 @@ The @code{ANY NUMERIC} and @syntaxref{BASED} clauses cannot be used together in 
 @comment ** 6.9.2 AUTO                                                      **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.2,AUTO}
+@newsubsection{AUTO}
 @diagram{AUTO Attribute,DD-AUTO,DD-AUTO,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1173,7 +1173,7 @@ The @code{AUTO}, @syntaxref{AUTO-SKIP} and @syntaxref{AUTOTERMINATE} clauses are
 @comment ** 6.9.3 AUTO-SKIP                                                 **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.3,AUTO-SKIP}
+@newsubsection{AUTO-SKIP}
 @diagram{AUTO-SKIP Attribute,DD-AUTO-SKIP,DD-AUTO-SKIP,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1187,7 +1187,7 @@ The @syntaxref{AUTO}, @code{AUTO-SKIP} and @syntaxref{AUTOTERMINATE} clauses are
 @comment ** 6.9.4 AUTOTERMINATE                                             **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.4,AUTOTERMINATE}
+@newsubsection{AUTOTERMINATE}
 @diagram{AUTOTERMINATE Attribute,DD-AUTOTERMINATE,DD-AUTOTERMINATE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1201,7 +1201,7 @@ The @syntaxref{AUTO}, @syntaxref{AUTO-SKIP} and @code{AUTOTERMINATE} clauses are
 @comment ** 6.9.5 BACKGROUND-COLOR                                          **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.5,BACKGROUND-COLOR}
+@newsubsection{BACKGROUND-COLOR}
 @diagram{BACKGROUND-COLOR Attribute,DD-BACKGROUND-COLOR,DD-BACKGROUND-COLOR,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1235,7 +1235,7 @@ END-DISPLAY
 @comment ** 6.9.5B BEFORE TIME                                              **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.5B,BEFORE TIME}
+@newsubsection{BEFORE TIME}
 @diagram{BEFORE TIME Attribute,DD-BEFORE-TIME,DD-BEFORE-TIME,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1246,7 +1246,7 @@ This clause is used to specify time sequence etc, etc, etc. NEEDS CONTENT HERE.
 @comment ** 6.9.6 BASED                                                     **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.6,BASED}
+@newsubsection{BASED}
 @diagram{BASED Attribute,DD-BASED,DD-BASED,None}
 This syntax is valid in the following sections:
 @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
@@ -1263,7 +1263,7 @@ The @code{BASED} clause may only be used on level 01 and level 77 data items.
 @comment ** 6.9.7 BEEP                                                      **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.7,BEEP}
+@newsubsection{BEEP}
 @diagram{BEEP Attribute,DD-BEEP,DD-BEEP,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1279,7 +1279,7 @@ Use this clause to cause an audible tone to occur when the screen item is @code{
 @comment ** 6.9.8 BELL                                                      **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.8,BELL}
+@newsubsection{BELL}
 @diagram{BELL Attribute,DD-BELL,DD-BELL,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1294,7 +1294,7 @@ Use this clause to cause an audible tone to occur when the screen item is @code{
 @comment ** 6.9.9 BLANK                                                     **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.9,BLANK}
+@newsubsection{BLANK}
 @diagram{BLANK Attribute,DD-BLANK,DD-BLANK,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1311,7 +1311,7 @@ This clause is useful when one screen section item is being displayed over the t
 @comment ** 6.9.10 BLANK WHEN ZERO                                          **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.10,BLANK WHEN ZERO}
+@newsubsection{BLANK WHEN ZERO}
 @diagram{BLANK-WHEN-ZERO Attribute,DD-BLANK-WHEN-ZERO,DD-BLANK-WHEN-ZERO,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
@@ -1328,7 +1328,7 @@ This clause may only be used on a @code{PIC 9} data item with a @syntaxref{USAGE
 @comment ** 6.9.11 BLINK                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.11,BLINK}
+@newsubsection{BLINK}
 @diagram{BLINK Attribute,DD-BLINK,DD-BLINK,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1342,7 +1342,7 @@ The @code{BLINK} clause modifies the visual appearance of the displayed field by
 @comment ** 6.9.12 COLUMN                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.12,COLUMN}
+@newsubsection{COLUMN}
 @diagram{COLUMN (REPORT SECTION) Clause,DD-COLUMN-1,DD-COLUMN-1,None}
 @diagram{COLUMN (SCREEN SECTION) Clause,DD-COLUMN-2,DD-COLUMN-2,None}
 This syntax is valid in the following sections:
@@ -1389,7 +1389,7 @@ If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO
 @comment ** 6.9.13 CONSTANT                                                 **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.13,CONSTANT}
+@newsubsection{CONSTANT}
 @diagram{CONSTANT Attribute,DD-CONSTANT,DD-CONSTANT,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{SCREEN}
@@ -1406,7 +1406,7 @@ The value of a data item defined as a constant cannot be changed at run-time.  I
 @comment ** 6.9.14 EMPTY-CHECK                                              **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.14,EMPTY-CHECK}
+@newsubsection{EMPTY-CHECK}
 @diagram{EMPTY-CHECK Attribute,DD-EMPTY-CHECK,DD-EMPTY-CHECK,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1429,7 +1429,7 @@ In order to be functional, this attribute must be supported by the underlying ``
 @comment ** 6.9.15 ERASE                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.15,ERASE}
+@newsubsection{ERASE}
 @diagram{ERASE Clause,DD-ERASE,DD-ERASE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1450,7 +1450,7 @@ This clause is useful when one screen section item is being displayed over the t
 @comment ** 6.9.16 EXTERNAL                                                 **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.16,EXTERNAL}
+@newsubsection{EXTERNAL}
 @diagram{EXTERNAL Attribute,DD-EXTERNAL,DD-EXTERNAL,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}
@@ -1480,7 +1480,7 @@ An @code{EXTERNAL} item must have a data name and that name cannot be @code{FILL
 @comment ** 6.9.17 FALSE                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.17,FALSE}
+@newsubsection{FALSE}
 @diagram{FALSE Clause,DD-FALSE,DD-FALSE,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
@@ -1497,7 +1497,7 @@ The reserved words @code{IS}, @code{SET}, @code{TO} and @code{WHEN} are optional
 @comment ** 6.9.18 FOREGROUND-COLOR                                         **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.18,FOREGROUND-COLOR}
+@newsubsection{FOREGROUND-COLOR}
 @diagram{FOREGROUND-COLOR Attribute,DD-FOREGROUND-COLOR,DD-FOREGROUND-COLOR,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1522,7 +1522,7 @@ Colors may also be specified using a numeric non-edited identifier whose value i
 @comment ** 6.9.19 FROM                                                     **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.19,FROM}
+@newsubsection{FROM}
 @diagram{FROM Clause,DD-FROM,DD-FROM,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1535,7 +1535,7 @@ This clause is used to specify either the data item a screen section field is to
 @comment ** 6.9.20 FULL                                                     **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.20,FULL}
+@newsubsection{FULL}
 @diagram{FULL Attribute,DD-FULL,DD-FULL,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1558,7 +1558,7 @@ In order to be functional, this attribute must be supported by the underlying ``
 @comment ** 6.9.21 GLOBAL                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.21,GLOBAL}
+@newsubsection{GLOBAL}
 @diagram{GLOBAL Attribute,DD-GLOBAL,DD-GLOBAL,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{REPORT}
@@ -1588,7 +1588,7 @@ A @code{GLOBAL} item must have a data name and that name cannot be @code{FILLER}
 @comment ** 6.9.22 GROUP INDICATE                                           **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.22,GROUP INDICATE}
+@newsubsection{GROUP INDICATE}
 @diagram{GROUP-INDICATE Attribute,DD-GROUP-INDICATE,DD-GROUP-INDICATE,None}
 This syntax is valid in the following sections:
 @code{REPORT}
@@ -1615,7 +1615,7 @@ On the first presentation of the detail group after any control break occurs.
 @comment ** 6.9.23 HIGHLIGHT                                                **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.23,HIGHLIGHT}
+@newsubsection{HIGHLIGHT}
 @diagram{HIGHLIGHT Attribute,DD-HIGHLIGHT,DD-HIGHLIGHT,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1631,7 +1631,7 @@ This clause, along with @syntaxref{LOWLIGHT}, are intended to provide a three-le
 @comment ** 6.9.24 JUSTIFIED                                                **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.24,JUSTIFIED}
+@newsubsection{JUSTIFIED}
 @diagram{JUSTIFIED Attribute,DD-JUSTIFIED,DD-JUSTIFIED,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
@@ -1714,7 +1714,7 @@ MOVE 'ABCDEFGHI' TO A
 @comment ** 6.9.25 LEFTLINE                                                 **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.25,LEFTLINE}
+@newsubsection{LEFTLINE}
 @diagram{LEFTLINE Attribute,DD-LEFTLINE,DD-LEFTLINE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1736,7 +1736,7 @@ Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will dep
 @comment ** 6.9.26 LENGTH-CHECK                                             **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.26,LENGTH-CHECK}
+@newsubsection{LENGTH-CHECK}
 @diagram{LENGTH-CHECK Attribute,DD-LENGTH-CHECK,DD-LENGTH-CHECK,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1759,7 +1759,7 @@ In order to be functional, this attribute must be supported by the underlying ``
 @comment ** 6.9.27 LINE                                                     **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.27,LINE}
+@newsubsection{LINE}
 @diagram{LINE (REPORT SECTION) Clause,DD-LINE-1,DD-LINE-1,None}
 @diagram{LINE (SCREEN SECTION) Clause,DD-LINE-2,DD-LINE-2,None}
 This syntax is valid in the following sections:
@@ -1814,7 +1814,7 @@ If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO
 @comment ** 6.9.27B LOWER                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.27B,LOWER}
+@newsubsection{LOWER}
 @diagram{LOWER Attribute,DD-LOWER,DD-LOWER,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1825,7 +1825,7 @@ This clause provides a means of explicitly stating that accepted data will be in
 @comment ** 6.9.28 LOWLIGHT                                                 **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.28,LOWLIGHT}
+@newsubsection{LOWLIGHT}
 @diagram{LOWLIGHT Attribute,DD-LOWLIGHT,DD-LOWLIGHT,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1841,7 +1841,7 @@ This clause, along with @syntaxref{HIGHLIGHT}, are intended to provide a three-l
 @comment ** 6.9.29 NEXT GROUP                                               **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.29,NEXT GROUP}
+@newsubsection{NEXT GROUP}
 @diagram{NEXT-GROUP Clause,DD-NEXT-GROUP,DD-NEXT-GROUP,None}
 This syntax is valid in the following sections:
 @code{REPORT}
@@ -1876,7 +1876,7 @@ The effects of @code{NEXT GROUP} will be in addition to any line spacing defined
 @comment ** 6.9.30 NO ECHO                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.30,NO-ECHO}
+@newsubsection{NO-ECHO}
 @diagram{NO-ECHO Attribute,DD-NO-ECHO,DD-NO-ECHO,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1895,7 +1895,7 @@ This clause may only be used on a field allowing data entry (a field containing 
 @comment ** 6.9.30B NO UPDATE                                               **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.30B,NO UPDATE}
+@newsubsection{NO UPDATE}
 @diagram{NO-UPDATE Attribute,DD-NO-UPDATE,DD-NO-UPDATE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1906,7 +1906,7 @@ The @code{NO UPDATE} clause forces the field to which this is applied will not b
 @comment ** 6.9.31 OCCURS                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.31,OCCURS}
+@newsubsection{OCCURS}
 @diagram{OCCURS Clause,DD-OCCURS-1,DD-OCCURS-1,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
@@ -2018,7 +2018,7 @@ And then using @code{STEP} and @code{VARYING}:
 @comment ** 6.9.32 OVERLINE                                                 **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.32,OVERLINE}
+@newsubsection{OVERLINE}
 @diagram{OVERLINE Attribute,DD-OVERLINE,DD-OVERLINE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2040,7 +2040,7 @@ Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will dep
 @comment ** 6.9.33 PICTURE                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.33,PICTURE}
+@newsubsection{PICTURE}
 @diagram{PICTURE Clause,DD-PICTURE,DD-PICTURE,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
@@ -2323,7 +2323,7 @@ Most other COBOL implementations reject the use of multiple occurrences of multi
 @comment ** 6.9.34 PRESENT WHEN                                             **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.34,PRESENT WHEN}
+@newsubsection{PRESENT WHEN}
 @diagram{PRESENT-WHEN Clause,DD-PRESENT-WHEN,DD-PRESENT-WHEN,None}
 This syntax is valid in the following sections:
 @code{REPORT}
@@ -2343,7 +2343,7 @@ If the condition-name has a value of @code{TRUE}, the group will be presented.
 @comment ** 6.9.35 PROMPT                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.35,PROMPT}
+@newsubsection{PROMPT}
 @diagram{PROMPT Clause,DD-PROMPT,DD-PROMPT,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2365,7 +2365,7 @@ Prompt characters will be automatically transformed into spaces upon input.
 @comment ** 6.9.36 PROTECTED                                                **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.36,PROTECTED}
+@newsubsection{PROTECTED}
 @diagram{PROTECTED Attribute,DD-PROTECTED,DD-PROTECTED,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2402,7 +2402,7 @@ Note that you cannot supply the @code{CONVERT} phrase in the Screen Section. Thu
 @comment ** 6.9.37 REDEFINES                                                **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.37,REDEFINES}
+@newsubsection{REDEFINES}
 @diagram{REDEFINES Clause,DD-REDEFINES,DD-REDEFINES,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
@@ -2438,7 +2438,7 @@ No @syntaxref{VALUE} clause may be defined on the object data item, and no data 
 @comment ** 6.9.38 RENAMES                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.38,RENAMES}
+@newsubsection{RENAMES}
 @diagram{RENAMES Clause,DD-RENAMES,DD-RENAMES,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
@@ -2461,7 +2461,7 @@ The @var{identifier-1} and @var{identifier-2} data items, along with all data it
 @comment ** 6.9.39 REQUIRED                                                 **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.39,REQUIRED}
+@newsubsection{REQUIRED}
 @diagram{REQUIRED Attribute,DD-REQUIRED,DD-REQUIRED,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2484,7 +2484,7 @@ In order to be functional, this attribute must be supported by the underlying ``
 @comment ** 6.9.40 REVERSE-VIDEO                                            **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.40,REVERSE-VIDEO}
+@newsubsection{REVERSE-VIDEO}
 @diagram{REVERSE-VIDEO Attribute,DD-REVERSE-VIDEO,DD-REVERSE-VIDEO,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2497,7 +2497,7 @@ The @code{REVERSE-VIDEO} attribute swaps the specified or implied @syntaxref{FOR
 @comment ** 6.9.41 SAME AS                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.41,SAME AS}
+@newsubsection{SAME AS}
 @diagram{SAME-AS Clause,DD-SAME-AS,DD-SAME-AS,None}
 The syntax is valid in the following sections:
 @code{WORKING-STORAGE}
@@ -2564,7 +2564,7 @@ the subject of the entry is a group whose subordinate elements have the same nam
 @comment ** 6.9.41B SCROLL DOWN                                             **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.41B,SCROLL DOWN}
+@newsubsection{SCROLL DOWN}
 @diagram{SCROLL-DOWN Attribute,DD-SCROLL-DOWN,DD-SCROLL-DOWN,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2574,7 +2574,7 @@ This clause will cause downward scrolling.
 @comment ** 6.9.41C SCROLL UP                                               **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.41C,SCROLL UP}
+@newsubsection{SCROLL UP}
 @diagram{SCROLL-UP Attribute,DD-SCROLL-UP,DD-SCROLL-UP,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2585,7 +2585,7 @@ This clause will cause upward scrolling.  MORE HERE ??
 @comment ** 6.9.42 SECURE                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.42,SECURE}
+@newsubsection{SECURE}
 @diagram{SECURE Attribute,DD-SECURE,DD-SECURE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2604,7 +2604,7 @@ This clause may only be used on a field allowing data entry (a field containing 
 @comment ** 6.9.43 SIGN IS                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.43,SIGN IS}
+@newsubsection{SIGN IS}
 @diagram{SIGN-IS Clause,DD-SIGN-IS,DD-SIGN-IS,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
@@ -2647,7 +2647,7 @@ Neither the presence of an encoded digit (see above) nor an actual @samp{+} or @
 @comment ** 6.9.43B SIZE                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.43B,SIZE}
+@newsubsection{SIZE}
 @diagram{SIZE Clause,DD-SIZE,DD-SIZE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2658,7 +2658,7 @@ This clause does WHAT EXACTLY ??????
 @comment ** 6.9.44 SOURCE                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.44,SOURCE}
+@newsubsection{SOURCE}
 @diagram{SOURCE Clause,DD-SOURCE,DD-SOURCE,None}
 This syntax is valid in the following sections:
 @code{REPORT}
@@ -2686,7 +2686,7 @@ The @code{ROUNDED} option comes into play should the number of digits to the rig
 @comment ** 6.9.45 SUM OF                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.45,SUM OF}
+@newsubsection{SUM OF}
 @diagram{SUM-OF Clause,DD-SUM-OF-Info,DD-SUM-OF-TeX,None}
 This syntax is valid in the following sections:
 @code{REPORT}
@@ -2748,7 +2748,7 @@ If, however, you want to reset the @code{SUM} counter only when the control foot
 @comment ** 6.9.46 SYNCHRONIZED                                              **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.46,SYNCHRONIZED}
+@newsubsection{SYNCHRONIZED}
 @diagram{SYNCHRONIZED,DD-SYNCHRONIZED,DD-SYNCHRONIZED,DD-SYNC-LEFT-RIGHT}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}
@@ -2786,7 +2786,7 @@ The following illustrates the allocation of a group of data items both without a
 @comment ** 6.9.46B TIME OUT                                                **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.46B,TIME OUT}
+@newsubsection{TIME OUT}
 @diagram{TIME-OUT Clause,DD-TIME-OUT,DD-TIME-OUT,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2798,7 +2798,7 @@ This clause will force a specific time for the data tp be entered.
 @comment ** 6.9.47 TO                                                       **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.47,TO}
+@newsubsection{TO}
 @diagram{TO Clause,DD-TO,DD-TO,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2815,7 +2815,7 @@ The @syntaxref{FROM}, @code{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses
 @comment ** 6.9.48 TYPE                                                     **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.48,TYPE}
+@newsubsection{TYPE}
 @diagram{TYPE Clause,DD-TYPE,DD-TYPE,None}
 The syntax is valid in all other sections than:
 @code{REPORT}
@@ -2993,7 +2993,7 @@ The various report groups that constitute a report may be defined in any order.
 @comment ** 6.9.49 TYPEDEF                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.49,TYPEDEF}
+@newsubsection{TYPEDEF}
 @diagram{TYPEDEF Clause,DD-TYPEDEF,DD-TYPEDEF,None}
 This syntax is valid in the following sections FILE, WORKING-STORAGE, LOCAL-STORAGE and LINKAGE
 @enumerate
@@ -3029,7 +3029,7 @@ In FILE SECTION, a data description entry declared at level number 1 that includ
 @comment ** 6.9.50 UNDERLINE                                                **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.50,UNDERLINE}
+@newsubsection{UNDERLINE}
 @diagram{UNDERLINE Attribute,DD-UNDERLINE,DD-UNDERLINE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -3051,7 +3051,7 @@ Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will dep
 @comment ** 6.9.50B UPDATE                                                  **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.50B,UPDATE}
+@newsubsection{UPDATE}
 @diagram{UPDATE Clause,DD-UPDATE,DD-UPDATE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -3062,7 +3062,7 @@ The @code{UPDATE} clause will display the existing data before allowing user to 
 @comment ** 6.9.50C UPPER                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.50C,UPPER}
+@newsubsection{UPPER}
 @diagram{UPPER Clause,DD-UPPER,DD-UPPER,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -3073,7 +3073,7 @@ The @code{UPPER} clause force the accepted data to be in Upper Case.
 @comment ** 6.9.51 USAGE                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.51,USAGE}
+@newsubsection{USAGE}
 @diagram{USAGE Clause,DD-USAGE,DD-USAGE,None}
 This syntax is valid in the following sections:
 @code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}
@@ -3683,7 +3683,7 @@ The only @code{USAGE} that is allowed in the report section is @code{USAGE DISPL
 @comment ** 6.9.52 USING                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.52,USING}
+@newsubsection{USING}
 @diagram{USING Clause,DD-USING,DD-USING,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -3703,7 +3703,7 @@ The @syntaxref{FROM}, @syntaxref{TO}, @code{USING} and @syntaxref{VALUE} clauses
 @comment ** 6.9.53 VALUE                                                    **
 @comment *********************************************************************
 @page
-@newsubsection{6.9.53,VALUE}
+@newsubsection{VALUE}
 @diagram{VALUE (Condition Names) Clause,DD-VALUE-1,DD-VALUE-1,None}
 @diagram{VALUE (Other Data Items),DD-VALUE-2,DD-VALUE-2,None}
 @diagram{VALUE (For Tables),DD-VALUE-3,DD-VALUE-3,None}

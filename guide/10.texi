@@ -1,11 +1,11 @@
 @comment *********************************************************************
 @comment ** 10. Interfacing With The OS                                      **
 @comment *********************************************************************
-@newchapter{10,Interfacing With The OS}
+@newchapter{Interfacing With The OS}
 @comment *********************************************************************
 @comment ** 10.1 Compiling Programs                                          **
 @comment *********************************************************************
-@newsection{10.1,Compiling Programs}
+@newsection{Compiling Programs}
 Program source files should have by convention, extensions of @file{.cob} or @file{.cbl}.
 
 Program file names should match exactly the specification of @code{PROGRAM-ID} (including case).
@@ -26,7 +26,7 @@ These are dynamically-loadable object code files ready to be invoked from other 
 @comment *********************************************************************
 @comment ** 10.1.1 cobc - The GnuCOBOL Compiler - runtime options           **
 @comment *********************************************************************
-@newsubsection{10.1.1,cobc - The GnuCOBOL Compiler - Runtime options}
+@newsubsection{cobc - The GnuCOBOL Compiler}
 The GnuCOBOL compiler is named @command{cobc} (@command{cobc.exe} on a Windows system).
 
 The following describes the syntax and option switches of the cobc command.  This information may be displayed by entering the command @command{cobc --help} or @command{cobc -h}.
@@ -576,7 +576,7 @@ Later, when you wish to compile a calling program and combine any needed assembl
 @comment *********************************************************************
 @comment ** 10.1.1.1 -X GnuCOBOL Compiler option -Xref                      **
 @comment *********************************************************************
-@newsubsection{10.1.1.1,cobc option -Xref an example}
+@newsubsection{cobc option -Xref an example}
 The following shows the output from using -Xref.
 @verbatim
 
@@ -652,7 +652,7 @@ E prog                         27
 @comment *********************************************************************
 @comment ** 10.1.1.2 Cross reference using cobxref                          **
 @comment *********************************************************************
-@newsubsection{10.1.1.2, Cross Reference listing using cobxref}
+@newsubsection{ Cross Reference listing using cobxref}
 This program is found in the contrib area or by itself in Sourceforge under its own name
 (@code{cobxref}).
 
@@ -740,7 +740,7 @@ None
 @comment *********************************************************************
 @comment ** 10.1.2 Compilation Time Environment Variables                    **
 @comment *********************************************************************
-@newsubsection{10.1.2,Compilation Time Environment Variables}
+@newsubsection{Compilation Time Environment Variables}
 @anchoridx{Environment Variables: Compilation-Time}
 
 The following are the various environment variables that can play a role in the compilation of GnuCOBOL programs.
@@ -795,7 +795,7 @@ cobc -i
 @comment *********************************************************************
 @comment ** 10.1.3 Predefined Compilation Variables                          **
 @comment *********************************************************************
-@newsubsection{10.1.3,Predefined Compilation Variables}
+@newsubsection{Predefined Compilation Variables}
 GnuCOBOL defines compilation variables when certain conditions are true.
 
 If the condition associated with a variable is false, the variable is not defined during compilations.
@@ -895,7 +895,7 @@ GnuCOBOL is compiling the source unit.
 @comment ** 10.1.4 Locating Copybooks                                        **
 @comment *********************************************************************
 @page
-@newsubsection{10.1.4,Locating Copybooks}
+@newsubsection{Locating Copybooks}
 The GnuCOBOL compiler will attempt to locate copybooks by searching for them in the following folders.  The search will occur in the sequence shown below, and will terminate once a copybook is found.
 @enumerate
 @item
@@ -959,7 +959,7 @@ Case-folding may also be turned on and off within the program source code using 
 @comment *********************************************************************
 @comment ** 10.1.5 Compiler Configuration Files                              **
 @comment *********************************************************************
-@newsubsection{10.1.5,Compiler Configuration Files}
+@newsubsection{Compiler Configuration Files}
 GnuCOBOL uses compiler configuration files to define various options that will control the compilation process.  These configuration files are specified using the
 @switchidx{-conf} compilation switch and are found in the folder defined by the @envvarcompile{COB_CONFIG_DIR}.
 
@@ -1275,12 +1275,12 @@ reserved:	ZEROS=ZERO
 @comment ** 10.2 Running Programs                                            **
 @comment *********************************************************************
 @page
-@newsection{10.2,Running Programs}
+@newsection{Running Programs}
 Once GnuCOBOL programs have been compiled into either directly-executable programs (created via the @switch{-x}) or dynamically-loadable libraries (created via the @switch{-m}), those programs may be executed from any shell environment.  The exact manner in which the two are executed will differ, as described in the upcoming sections.
 @comment *********************************************************************
 @comment ** 10.2.1 Direct Execution                                          **
 @comment *********************************************************************
-@newsubsection{10.2.1,Direct Execution}
+@newsubsection{Direct Execution}
 GnuCOBOL programs compiled with the
 @switchidx{-x} will be generated as directly-executable programs.  For example, a native Windows or Windows/MinGW build of GnuCOBOL will generate an @file{.exe} file when the @switch{-x} switch is specified to the compiler.
 
@@ -1308,12 +1308,12 @@ C:\\Users\\Me\\Documents\\Programs\\printaccount.exe ACCT=6625378
 @comment *********************************************************************
 @comment ** 10.2.2 Executing Dynamically-Loadable Libraries                  **
 @comment *********************************************************************
-@newsubsection{10.2.2,Executing Dynamically-Loadable Libraries}
+@newsubsection{Executing Dynamically-Loadable Libraries}
 As discussed previously, dynamically-loadable libraries are created via the compiler's @switch{-m}.  Once so created, the program(s) in these libraries are executed from the command line (via the GnuCOBOL @code{cobcrun} utility), or as dynamically-loadable subprograms.
 @comment *********************************************************************
 @comment ** 10.2.2.1 cobcrun - Command-line Execution                        **
 @comment *********************************************************************
-@newunit{10.2.2.1,cobcrun - Command-line Execution}
+@newsubsubsection{cobcrun - Command-line Execution}
 It is possible to generate executable modules for all GnuCOBOL programs, not just subprograms, by choosing to use the
 @switchidx{-m} option to specify the loader output format, even for main programs.
 
@@ -1364,7 +1364,7 @@ cobcrun printaccount.exe acct=6625378
 @comment *********************************************************************
 @comment ** 10.2.2.2 Dynamically Loaded Subprograms                          **
 @comment *********************************************************************
-@newunit{10.2.2.2,Dynamically Loaded Subprograms}
+@newsubsubsection{Dynamically Loaded Subprograms}
 Dynamically-loaded subprograms are executed (from a COBOL syntax point of view) just like any other subprograms.  What makes them unique, however, is that they are loaded into memory only when they are actually used the first time during the execution of a program.
 
 When a dynamically-loadable module needs to be loaded (because it is not already in memory from a previous subprogram execution), the dynamically-loadable library will be sought by libcob in each directory named in the library specified by the
@@ -1381,7 +1381,7 @@ It is possible, however, to automatically cause all library names to 'fold' to u
 @comment *********************************************************************
 @comment ** 10.2.3 Run Time Environment Variables                            **
 @comment *********************************************************************
-@newsubsection{10.2.3,Run Time Environment Variables}
+@newsubsection{Run Time Environment Variables}
 @anchoridx{Environment Variables: Run-Time}
 
 The following is a list of the various environment variables that can play a role in the execution of GnuCOBOL programs.
@@ -1430,7 +1430,7 @@ One of these environment variables must be set to a directory/folder appropriate
 Also used during execution of programs is runtime.cfg also found in @code{/usr/local/share/gnucobol/config}
 for *nix and this file can also be changed to match your environment if needed.
 When viewing, note the Default settings.
-@newunit{10.2.3.1,General instructions}
+@newsubsubsection{General instructions}
 
 @verbatim
  The initial runtime.cfg file is found in the  $COB_CONFIG_DIR/config
@@ -1484,7 +1484,7 @@ When viewing, note the Default settings.
        of the comments from the actual real configuration file that is processed
 @end verbatim
 
-@newunit{10.2.3.2,General Environment}
+@newsubsubsection{General Environment}
 @verbatim
 
  Environment name:  COB_DISABLE_WARNINGS
@@ -1591,7 +1591,7 @@ For v4.0+
           Example:  COB_CURRENT_DATE "2016/03/16 16:40:52"
                     current_date YYYYMMDDHHMMSS+01:00
 @end verbatim
-@newunit{10.2.3.3,Call Environment}
+@newsubsubsection{Call Environment}
 @verbatim
 
  Environment name:  COB_LIBRARY_PATH
@@ -1632,7 +1632,7 @@ For v4.0+
           Example:  PHYSICAL_CANCEL  TRUE
 
 @end verbatim
-@newunit{10.2.3.4,File I/O}
+@newsubsubsection{File I/O}
 @verbatim
 
  Environment name:  COB_VARSEQ_FORMAT
@@ -1878,7 +1878,7 @@ For v4.0+
           Example:  SORT_CHUNK 1M
 
 @end verbatim
-@newunit{10.2.3.5,Screen I/O}
+@newsubsubsection{Screen I/O}
 @verbatim
 
  Environment name:  COB_BELL
@@ -2011,7 +2011,7 @@ For v4.0+
           Example:  COB_EXIT_MSG '@w{}'
 
 @end verbatim
-@newunit{10.2.3.6,Report I/O}
+@newsubsubsection{Report I/O}
 @verbatim
 
  Environment name:  COB_COL_JUST_LRC
@@ -2024,7 +2024,7 @@ For v4.0+
           Example:  col_just_lrc True
 
 @end verbatim
-@newunit{10.2.3.7,File I/O Environment Variables and/or dictionary file}
+@newsubsubsection{File I/O Environment Variables and/or dictionary file}
 @verbatim
 
 GnuCOBOL 4.+ only!
@@ -2094,7 +2094,7 @@ little_endian    Set internal 'int' byte order to LITTLE ENDIAN
 @comment *********************************************************************
 @comment ** 10.2.4 Program Arguments                                         **
 @comment *********************************************************************
-@newsubsection{10.2.4,Program Arguments}
+@newsubsection{Program Arguments}
 Regardless of the manner in which a main program is executed (i.e. directly or via @code{cobcrun}), any arguments specified to the program may be retrieved via any of the following:
 @itemize @bullet
 @item
@@ -2105,7 +2105,7 @@ Regardless of the manner in which a main program is executed (i.e. directly or v
 @comment *********************************************************************
 @comment ** 10.3 Binary Truncation                                           **
 @comment *********************************************************************
-@newsection{10.3,Binary Truncation}
+@newsection{Binary Truncation}
 By default, the GnuCOBOL compiler will truncate binary data items to the precision indicated by their @syntaxref{PICTURE} clause, if they have one. This applies to COMP, BINARY and COMP-4 items Only.
 @* The fact is, however, that binary truncation has a significant effect on the performance of GnuCOBOL programs.  When binary truncation is in effect, arithmetic operations performed against all types of numeric data items (even @code{USAGE DISPLAY}) are slowed down.
 
