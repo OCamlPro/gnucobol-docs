@@ -1,4 +1,4 @@
-       >>SOURCE FORMAT IS FIXED
+       >>SOURCE FORMAT IS variable
        IDENTIFICATION DIVISION.
        PROGRAM-ID.   COBDUMP.
       *>***************************************************************
@@ -53,6 +53,8 @@
       *> VC0322 Moved lines only with . to end of previous statement **
       *>        Fix for bug #816 by making WS-Buffer-Byte-NUM        **
       *>        UNSIGNED                                             **
+      *> VC0124 Replaced usage of signle quote with double, changed  **
+      *>        Source from FIXED to VARIABLE.                       **
       *>***************************************************************
        ENVIRONMENT DIVISION.
        CONFIGURATION SECTION.
@@ -76,7 +78,7 @@
 
        01  WS-Buffer-SUB                         PIC 9(4) COMP-5.
 
-       01  WS-Hex-Digit-TXT VALUE '0123456789ABCDEF'.
+       01  WS-Hex-Digit-TXT VALUE "0123456789ABCDEF".
            05 WS-Hex-Digit-CHR                   OCCURS 16 TIMES
                                                  PIC X(1).
 
@@ -101,15 +103,13 @@
                                                  PIC X.
        01  WS-Output-SUB                         PIC 9(2) COMP-5.
 
-       >>SOURCE FORMAT IS FREE
        01  WS-Output-Header-1-TXT.
-           05 VALUE '<-Addr-> Byte <---------------- Hexadecimal ''----------------> <---
-- Char ---->' PIC X(80).
+           05 VALUE "<-Addr-> Byte <---------------- Hexadecimal '----------------> <---- Char ---->"
+                                                PIC X(80).
 
        01  WS-Output-Header-2-TXT.
-           05 VALUE '======== ==== =============================================== ======
-==========' PIC X(80).
-       >>SOURCE FORMAT IS FIXED
+           05 VALUE "======== ==== =============================================== ================"
+                                                PIC X(80).
 
        LINKAGE SECTION.
        01  L-Buffer-TXT                          PIC X ANY LENGTH.
@@ -175,5 +175,4 @@
                MOVE WS-Hex-Digit-CHR (WS-Nibble-SUB)
                  TO WS-OD-Addr-Hex-CHR (WS-Addr-SUB)
                SUBTRACT 1 FROM WS-Addr-SUB
-           END-PERFORM
-           .
+           END-PERFORM.

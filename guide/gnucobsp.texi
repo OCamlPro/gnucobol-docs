@@ -19,7 +19,7 @@
 @finalout
 @include Macros.texi
 @paragraphindent 0
-@set BUILD 12 January 2024 at 21:35 GMT.
+@set BUILD 14 January 2024 at 15:30 GMT.
 @set VERSION 3.2 - Final
 @comment %**end of header
 @setchapternewpage odd
@@ -105,7 +105,7 @@ COPY FileStat-Msgs
               MSG    BY error-message-data-item-name
 @end example
 
-Here's the FileStat-Msgs.cpy copybook:
+Here's the current FileStat-Msgs.cpy copybook:
 
 @example
 EVALUATE STATUS
@@ -113,12 +113,14 @@ EVALUATE STATUS
      WHEN 02 MOVE 'SUCCESS DUPLICATE        ' TO MSG
      WHEN 04 MOVE 'SUCCESS INCOMPLETE       ' TO MSG
      WHEN 05 MOVE 'SUCCESS OPTIONAL         ' TO MSG
+     WHEN 06 MOVE 'LS Multiple records      ' TO MSG
      WHEN 07 MOVE 'SUCCESS NO UNIT          ' TO MSG
      WHEN 10 MOVE 'END OF FILE              ' TO MSG
      WHEN 14 MOVE 'OUT OF KEY RANGE         ' TO MSG
      WHEN 21 MOVE 'KEY INVALID              ' TO MSG
      WHEN 22 MOVE 'KEY EXISTS               ' TO MSG
      WHEN 23 MOVE 'KEY NOT EXISTS           ' TO MSG
+     WHEN 24 MOVE 'KEY BOUNDARY VIOLATION   ' TO MSG
      WHEN 30 MOVE 'PERMANENT ERROR          ' TO MSG
      WHEN 31 MOVE 'INCONSISTENT FILENAME    ' TO MSG
      WHEN 34 MOVE 'BOUNDARY VIOLATION       ' TO MSG
@@ -138,7 +140,9 @@ EVALUATE STATUS
      WHEN 52 MOVE 'END-OF-PAGE              ' TO MSG
      WHEN 57 MOVE 'I/O LINAGE               ' TO MSG
      WHEN 61 MOVE 'FILE SHARING FAILURE     ' TO MSG
+     WHEN 71 MOVE 'BAD CHARACTER            ' TO MSG
      WHEN 91 MOVE 'FILE NOT AVAILABLE       ' TO MSG
+     WHEN OTHER MOVE 'UNKNOWN ERROR         ' TO MSG
 END-EVALUATE.
 @end example
 @comment *********************************************************************
