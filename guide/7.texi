@@ -896,7 +896,7 @@ A simpler approach to retrieving an environment variables value is to use the
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to an attempt to retrieve the value of a non-existent environment variable or the successful retrieval of an environment variable's value, respectively.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
 @end enumerate
 @comment ********************************************************************
-@comment ** 7.8.1.4 ACCEPT data-item                                **
+@comment ** 7.8.1.4 ACCEPT data-item                           ,  ,,       **
 @comment ********************************************************************
 @page
 @newsubsubsection{ACCEPT data-item}
@@ -1009,6 +1009,9 @@ The following @var{Attribute-Specification} clauses are allowed on the @code{ACC
 @item
 @syntaxref{UNDERLINE}
 @end itemize
+
+@item
+@syntaxref{CONTROL}
 
 @item
 The
@@ -1206,6 +1209,94 @@ Numeric keypad keys are not recognizable on Windows MinGW/PDCurses builds of Gnu
 
 @item
 The optional @code{EXCEPTION-STATUS} clause may be used to detect exceptions from a prior arithmetic verb such as COMPUTE to recover any errors produced. These are recovered using the function @code{EXCEPTION-STATUS}.
+
+@item
+@syntaxidx{CONTROL} The value of literal-8 and identifier-8 in the CONTROL phrase is used to specify a dynamic option list.
+The value must be a character-string consisting of a series of keywords delimited by commas;
+Some keywords allow assignment of a value by following the keyword with an equal sign and the value.
+Blanks are ignored in the character-string. Lowercase letters are treated as uppercase letters within keywords.
+Keywords specified override corresponding static options specified as phrases for the same identifier-1.
+Keywords may be specified in any order. Keywords, which specify options that do not apply to the statement, are ignored.
+
+The keywords that affect an ACCEPT statement are
+BEEP,    BLINK,   ECHO,     PROMPT,    REVERSE,    TAB,     UNDERLINE,    UPDATE,    ERASE, ERASE EOL, ERASE EOS, HIGH, LOW, UPPER, NO BEEP, NO BLINK,NO ECHO,  NO PROMPT, NO REVERSE, NO TAB,  NO UNDERLINE, NO UPDATE, NO ERASE,
+
+The meanings of these keywords when they appear in the value of the CONTROL phrase operand are the same as the corresponding phrases which may be written as static options of the ACCEPT statement, with the addition of the negative forms to allow suppression of statically declared options.
+The keywords UNDERLINE and UPPER are not available as static options of the ACCEPT statement.
+When specified, UPPER causes all lowercase alphabetic characters contained in the screen field to be changed to uppercase alphabetic characters before input data conversion and storing in the receiving field.
+When specified, UNDERLINE causes the field on the screen to be shown in underlined mode, provided the terminal supports that mode.
+
+GnuCOBOL provides two additional keywords in the CONTROL phrase that affect an ACCEPT field.
+1. FCOLOR = color-name
+When FCOLOR is present, color-name specifies the foreground color of the ACCEPT field. This name is then used as the default value for subsequent ACCEPT statements in the program. The initial default for color-name is white.
+2. BCOLOR = color-name
+When BCOLOR is present, color-name specifies the background color of the DISPLAY field. This value is then used as the default value for subsequent ACCEPT statements in the program. The initial default for color-name is black.
+Following table contains a list of all the possible names for color-name.
+The left column contains the valid color name.
+The right column shows the color that appears when high intensity is specified (the default intensity).
+
+@verbatim
+
+	+--------------------------------------------------------------+
+	|                 Valid COBOL Color Names                      |
+	+-------------------+------------------------------------------+
+	|Valid Color Names  |  High-Intensity Color Values (Defaults)  |
+	+-------------------+------------------------------------------+
+	|Black              |  Gray                                    |
+	|Blue               |  Light Blue                              |
+	|Green              |  Light Green                             |
+	|Cyan               |  Light Cyan                              |
+	|Red                |  Light Red                               |
+	|Magenta            |  Light Magenta                           |
+	|Brown              |  Yellow                                  |
+	|White              |  High-Intensity White                    |
+	+-------------------+------------------------------------------+
+
+@end verbatim
+@item
+COLOR Phrase
+
+The COLOR phrase provides an alternate method for setting video attributes.
+Integer-9 must be a numeric literal. Identifier-9 must be a numeric data item.
+It also allows the specification of colors for screen fields and controls.
+They can be set to different numeric values to express various combinations of colors and video attributes.
+You may make combinations by adding the appropriate values together.  The following color values are accepted:
+
+@verbatim
+
+	+--------+--------------+-------------+
+	|Color   |  Foreground  | Background  |
+	+--------+--------------+-------------+
+	|Black   |      1       |     32      |
+	|Blue    |      2       |     64      |
+	|Green   |      3       |     96      |
+	|Cyan    |      4       |    128      |
+	|Red     |      5       |    160      |
+	|Magenta |      6       |    192      |
+	|Brown   |      7       |    224      |
+	|White   |      8       |    256      |
+	+--------+--------------+-------------+
+
+@end verbatim
+@item
+You may specify other video attributes by adding the following values:
+@verbatim
+
+    +-------------------------+--------+
+    |Reverse video            |   1024 |
+    |Low intensity            |   2048 |
+    |High intensity           |   4096 |
+    |Underline                |   8192 |
+    |Blink                    |  16384 |
+    |Protected                |  32768 |
+    |Background low-intensity |  65536 |
+    |Background high-intensity| 131072 |
+    +-------------------------+--------+
+
+@end verbatim
+@item
+You may also specify high intensity by adding "8" to the foreground color value.
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.1.5 ACCEPT FROM DATE/TIME                                  **
@@ -1961,7 +2052,248 @@ The following @var{Attribute-Specification} clauses are allowed on the @code{DIS
 
 @item
 @syntaxref{UNDERLINE}
+
 @end itemize
+
+@item
+@syntaxidx{CONTROL} The CONTROL phrase allow dynamic (runtime as opposed to compile time) specification of characteristics.
+Literal-7 must be a nonnumeric literal. Identifier-7 must be a nonnumeric data item.
+The value of identifier-7 or literal-7 in the CONTROL phrase must be a character-string consisting of a series of keywords delimited by commas; some keywords allow assignment of a value by following the keyword with an equal sign and the value.
+Blanks are ignored in the character-string.
+Lowercase letters are treated as uppercase letters within keywords.
+Keywords specified override corresponding static options specified as phrases.
+Keywords may be specified in any order.
+Keywords, which specify options that do not apply to the statement, are ignored.
+
+@item
+The keywords that affect a DISPLAY statement are
+BEEP,    BLINK,    CONVERT,     REVERSE,    UNDERLINE,   ERASE, ERASE EOL, ERASE EOS, HIGH, LOW,
+NO BEEP, NO BLINK, NO CONVERT,  NO REVERSE, NO UNDERLINE NO ERASE.
+The meanings of these keywords when they appear in the value of the CONTROL phrase operand are the same as the corresponding phrases which may be written as static options of the DISPLAY statement, with the addition of the negative forms to allow suppression of statically declared options.
+
+@item
+GnuCOBOL provides three additional keywords in the CONTROL phrase that affect a DISPLAY field.
+1. FCOLOR = color-name
+When FCOLOR is present, color-name specifies the foreground color of the DISPLAY field.
+This name is then used as the default value for subsequent DISPLAY statements in the program.
+The initial default for color-name is white.
+2. BCOLOR = color-name
+When BCOLOR is present, color-name specifies the background color of the DISPLAY field.
+This value is then used as the default value for subsequent DISPLAY statements in the program.
+The initial default for color-name is black.
+Following table contains a list of all the possible names for color-name.
+The left column contains the valid color name.
+The right column shows the color that appears when high intensity is specified (the default intensity).
+
+@verbatim
+
+	+--------------------------------------------------------------+
+	|                 Valid COBOL Color Names                      |
+	+-------------------+------------------------------------------+
+	|Valid Color Names  |  High-Intensity Color Values (Defaults)  |
+	+-------------------+------------------------------------------+
+	|Black              |  Gray                                    |
+	|Blue               |  Light Blue                              |
+	|Green              |  Light Green                             |
+	|Cyan               |  Light Cyan                              |
+	|Red                |  Light Red                               |
+	|Magenta            |  Light Magenta                           |
+	|Brown              |  Yellow                                  |
+	|White              |  High-Intensity White                    |
+	+-------------------+------------------------------------------+
+
+@end verbatim
+@item
+@syntaxidx{GRAPHICS} The GRAPHICS keyword causes the characters in following table to be translated to line draw characters.
+Characters that are not listed in the following table are output unchanged.
+
+@verbatim
+
+	+-------------------------------------------------------------------+
+	|                       Line Draw Characters                        |
+	+-------------------+-----------------------+-----------------------+
+	|Description        | Single-Line Character | Double-Line Character |
+	|lower-right corner |        j(+)           |        J(+)           |
+	|upper-right corner |        k(+)           |        K(+)           |
+	|upper-left corner  |        l(+)           |        L(+)           |
+	|lower-left corner  |        m(+)           |        M(+)           |
+	|plus               |        n(+)           |        N(+)           |
+	|horizontal line    |        q(-)           |        Q(-)           |
+	|left tee           |        t(+)           |        T(Š)           |
+	|right tee          |        u(Š)           |        U(Š)           |
+	|bottom tee         |        v(-)           |        V(-)           |
+	|top tee            |        w(-)           |        W(-)           |
+	|vertical line      |        x(Š)           |        X(Š)           |
+	+-------------------+-----------------------+-----------------------+
+
+@end verbatim
+@item
+If the requested line draw characters are not available, the runtime system uses the best available characters.
+If double-line characters are requested and only single-line characters are available, they are used.
+If no line draw characters are available, then plus-characters, vertical bars, and dashes are used.
+
+@verbatim
+
+Sample program that demonstrates how boxes are drawn:
+
+        >>SOURCE FREE
+        IDENTIFICATION   DIVISION.
+        PROGRAM-ID.      CONTROL1.
+        DATA             DIVISION.
+        WORKING-STORAGE  SECTION.
+        01  success-flag PIC X VALUE 'Y'.
+            88  success  VALUE 'Y', 'y'.
+        77  LIN-START    PIC 99    COMP-5.
+        77  LIN          PIC 99    COMP-5.
+        01  scr1 PIC X(75)
+                VALUE 'Enter "y" if you see line draw characters. '
+                & 'The first set (single/double)'.
+        01  scr2 PIC X(75)
+                VALUE 'uses HIGHLIGHT, the second uses '
+                & 'LOWLIGHT, BLINK and MAGENTA.'.
+        01  graphcontrol PIC X(50) VALUE 'HIGH, GRAPHICS'.
+        PROCEDURE DIVISION.
+            MOVE 2 TO LIN
+            DISPLAY scr1 AT LINE LIN COL 2
+            ADD  1 TO LIN
+            DISPLAY scr2 AT LINE LIN COL 2
+            MOVE 5 TO LIN-START
+            PERFORM DSPCOL
+            MOVE 12 TO LIN-START
+            MOVE "LOW BLINK FCOLOR=MAGENTA GRAPHICS" TO graphcontrol
+            PERFORM DSPCOL
+            ACCEPT success-flag AT 1801 UPDATE REQUIRED
+            IF success AND COB-CRT-STATUS = 0
+                GOBACK RETURNING 0
+            ELSE
+                GOBACK RETURNING 1.
+        DSPCOL.
+       *>   Single-line graphics
+            MOVE LIN-START TO LIN
+            DISPLAY "lqqqqwqqqqk" LINE LIN COL 05, CONTROL graphcontrol.
+            ADD  1 TO LIN
+            DISPLAY "x    x    x" LINE LIN COL 05, CONTROL graphcontrol.
+            ADD  1 TO LIN
+            DISPLAY "tqqqqnqqqqu" LINE LIN COL 05, CONTROL graphcontrol.
+            ADD  1 TO LIN
+            DISPLAY "x    x    x" LINE LIN COL 05, CONTROL graphcontrol.
+            ADD  1 TO LIN
+            DISPLAY "mqqqqvqqqqj" LINE LIN COL 05, CONTROL graphcontrol.
+       *>   Double-line graphics
+            MOVE LIN-START TO LIN
+            DISPLAY "LQQQQWQQQQK" LINE LIN COL 20, CONTROL graphcontrol.
+            ADD  1 TO LIN
+            DISPLAY "X    X    X" LINE LIN COL 20, CONTROL graphcontrol.
+            ADD  1 TO LIN
+            DISPLAY "TQQQQNQQQQU" LINE LIN COL 20, CONTROL graphcontrol.
+            ADD  1 TO LIN
+            DISPLAY "X    X    X" LINE LIN COL 20, CONTROL graphcontrol.
+            ADD  1 TO LIN
+            DISPLAY "MQQQQVQQQQJ" LINE LIN COL 20, CONTROL graphcontrol.
+
+@end verbatim
+
+@syntaxidx{COLOUR} The COLOR phrase provides an alternate method for setting video attributes.
+Integer-8 must be a numeric literal. Identifier-8 must be a numeric data item.
+It also allows the specification of colors for screen fields and controls.
+They can be set to different numeric values to express various combinations of colors and video attributes.
+You may make combinations by adding the appropriate values together.
+The following color values are accepted:
+
+@verbatim
+
+	+--------+--------------+-------------+
+	|Color   |  Foreground  | Background  |
+	+--------+--------------+-------------+
+	|Black   |      1       |     32      |
+	|Blue    |      2       |     64      |
+	|Green   |      3       |     96      |
+	|Cyan    |      4       |    128      |
+	|Red     |      5       |    160      |
+	|Magenta |      6       |    192      |
+	|Brown   |      7       |    224      |
+	|White   |      8       |    256      |
+	+--------+--------------+-------------+
+
+@end verbatim
+@item
+You may specify other video attributes by adding the following values:
+
+@verbatim
+
+    +-------------------------+--------+
+    |Reverse video            |   1024 |
+    |Low intensity            |   2048 |
+    |High intensity           |   4096 |
+    |Underline                |   8192 |
+    |Blink                    |  16384 |
+    |Protected                |  32768 |
+    |Background low-intensity |  65536 |
+    |Background high-intensity| 131072 |
+    +-------------------------+--------+
+
+@end verbatim
+@item
+You may also specify high intensity by adding "8" to the foreground color value.
+
+@verbatim
+
+Sample program that demonstrates how COLOR is used.
+
+        >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. COLOR1.
+*> Sample for using "COLOR" clause
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 wLIN            PIC     99 value zero.
+01 wCOLOR          PIC 999999 value zero.
+01 wBlack-Fore     PIC 999 value   1.
+01 wBlack-Back     PIC 999 value  32.
+01 wBlue-Fore      PIC 999 value   2.
+01 wBlue-Back      PIC 999 value  64.
+01 wGreen-Fore     PIC 999 value   3.
+01 wGreen-Back     PIC 999 value  96.
+01 wCyan-Fore      PIC 999 value   4.
+01 wCyan-Back      PIC 999 value 128.
+01 wRed-Fore       PIC 999 value   5.
+01 wRed-Back       PIC 999 value 160.
+01 wMagenta-Fore   PIC 999 value   6.
+01 wMagenta-Back   PIC 999 value 192.
+01 wBrown-Fore     PIC 999 value   7.
+01 wBrown-Back     PIC 999 value 224.
+01 wWhite-Fore     PIC 999 value   8.
+01 wWhite-Back     PIC 999 value 256.
+01 wReverseVideo              PIC 999999 value   1024.
+01 wLowIntensity              PIC 999999 value   2048.
+01 wHighIntensity             PIC 999999 value   4096.
+01 wUnderline                 PIC 999999 value   8192.
+01 wBlink                     PIC 999999 value  16384.
+01 wProtected                 PIC 999999 value  32768.
+01 wBackground-low-intensity  PIC 999999 value  65536.
+01 wBackground-high-intensity PIC 999999 value 131072.
+
+ PROCEDURE DIVISION.
+  ADD 1 to WLIN
+  compute wCOLOR = wCyan-Fore + wWhite-Back + wUnderline
+  DISPLAY FUNCTION CONCATENATE ("XXX COLOR=" wCOLOR " XXXXXXXXX ")
+                    AT LINE wLIN COL 001 COLOR wCOLOR.
+  ADD 1 to WLIN
+  compute wCOLOR = wBrown-Fore + wRed-Back + wHighIntensity
+  DISPLAY FUNCTION CONCATENATE ("XXX COLOR=" wCOLOR " XXXXXXXXX ")
+                    AT LINE wLIN COL 001 COLOR wCOLOR.
+  ADD 1 to WLIN
+  compute wCOLOR = wBrown-Fore + wRed-Back + wHighIntensity + wReverseVideo
+  DISPLAY FUNCTION CONCATENATE ("XXX COLOR=" wCOLOR " XXXXXXXXX ")
+                    AT LINE wLIN COL 001 COLOR wCOLOR.
+  ADD 1 to WLIN
+  compute wCOLOR = wWhite-Fore + wGreen-Back + wBlink
+  DISPLAY FUNCTION CONCATENATE ("XXX COLOR="  wCOLOR " XXXXXXXXX ")
+                    AT LINE wLIN COL 001 COLOR wCOLOR.
+  STOP RUN.
+
+@end verbatim
+
 
 @item
 @xref{ACCEPT data-item}, for additional information on the other @code{WITH} clause options.
