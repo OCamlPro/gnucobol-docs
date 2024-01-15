@@ -1881,10 +1881,17 @@ The effects of @code{NEXT GROUP} will be in addition to any line spacing defined
 This syntax is valid in the following sections:
 @code{SCREEN}
 
-The @code{NO-ECHO} clause will cause all data entered into the field to appear on the screen as asterisks.
+The @code{NO-ECHO} clause will cause all data entered into the field to appear on the screen as spaces.
 @enumerate
+
 @item
-The @code{NO-ECHO} and @syntaxref{SECURE} clauses are interchangeable, and may not be used together in the same data item description.
+If @code{NO-ECHO} is present then the @code{PROMPT} clause is ignored.
+
+@item
+If the dialect configuration -fno-echo-means-secure is active all data entered into the field will appear on the screen as asterisks. In this case the @code{NO-ECHO} and @code{SECURE} clauses are interchangeable.
+
+@item
+The @code{NO-ECHO} and @syntaxref{SECURE} clauses may not be used together in the same data item description.
 
 @item
 This clause may only be used on a field allowing data entry (a field containing either the @syntaxref{USING} or @syntaxref{TO} clause).
@@ -1900,7 +1907,7 @@ This clause may only be used on a field allowing data entry (a field containing 
 This syntax is valid in the following sections:
 @code{SCREEN}
 
-The @code{NO UPDATE} clause forces the field to which this is applied will not be updated MORE??.
+The @code{NO UPDATE} clause forces the field to which this is applied will not be updated. ?? MORE ??.
 
 @comment *********************************************************************
 @comment ** 6.9.31 OCCURS                                                   **
@@ -2593,7 +2600,10 @@ This syntax is valid in the following sections:
 This clause will cause all data entered into the field to appear on the screen as asterisks.
 @enumerate
 @item
-The @syntaxref{NO-ECHO} and @code{SECURE} clauses are interchangeable, and may not be used together in the same data item description.
+The @code{NO-ECHO} and @code{SECURE} clauses are interchangeable if If the dialect configuration -fno-echo-means-secure is active.
+
+@item
+The @code{NO-ECHO} and @code{SECURE} clauses may not be used together in the same data item description.
 
 @item
 This clause may only be used on a field allowing data entry (a field containing either the @syntaxref{USING} or @syntaxref{TO} clause).
