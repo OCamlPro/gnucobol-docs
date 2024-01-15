@@ -363,6 +363,58 @@ This function returns a numeric value approximating the ratio of an annuity paid
 Multiply the result of this function times the desired principal amount to determine the amount of each period's payment.
 
 A note for the financially challenged: an annuity is basically a reverse loan; an accountant would take the result of this function multiplied by -1 times the principal amount to compute a loan payment you are making.
+@enumerate
+
+@item
+Here is an example of a program using this function. Given a total amount of 100,000 USD and an annual interest of 5% the program calculates the monthly payment for the duration of one year, two years ... up to 10 years.
+@verbatim
+
+         >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. PANNUITY.
+*> Given a total amount of 100,000 USD and an annual interest of 5%
+*> the program calculates monthly payment for a duration of 1 year,2 years
+*> ...up to 10 years.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 Total-Loan       Pic 9(9)V99 value 100000.
+01 Interest-Rate    Pic 999V99  value 0.05.
+01 Interest-RateP   Pic 999V99  value zero.
+01 Months           Pic 999     value zero.
+01 Years            Pic 999     value zero.
+01 Monthly-Payment  Pic 9(9)V99.
+01 Total-Payments   Pic 9(9)V99.
+
+PROCEDURE DIVISION.
+DISPLAY SPACE
+COMPUTE Interest-RateP = Interest-Rate * 100
+DISPLAY 'Total Loan: ' Total-Loan ' USD - Interest Rate: ' Interest-RateP '%'
+DISPLAY SPACE
+DISPLAY ' Y   M  Monthly Amount    Total Payments'
+DISPLAY '--- ---  -------------    --------------'
+PERFORM 10 TIMES
+  ADD 12 to Months
+  COMPUTE Monthly-Payment = Total-Loan * FUNCTION ANNUITY ((Interest-Rate / 12),
+                 Months)
+  COMPUTE Total-Payments = Monthly-payment * Months
+  COMPUTE Years = Months / 12
+  DISPLAY Years ' ' Months '   ' Monthly-Payment ' USD  ' Total-Payments
+END-PERFORM
+ACCEPT omitted
+GOBACK.
+
+@end verbatim
+@item
+Other additional documentation:
+
+@item
+When the value of Interest-Rate is zero, the value returned by the function is the
+approximation of:
+(1 / Number-Periods)
+When the value of Interest-Rate is not zero, the value of the function is the approximation of:
+(Interest-Rate / (1 - (1 + Interest-Rate) ** (- (Number-Periods))))
+
+@end enumerate
 
 @comment *********************************************************************
 @comment ** 8.1.4 ASIN                                                      **
@@ -1622,6 +1674,66 @@ $$ presentvalue = \sum_{i=1}^N
 \over (1+rate)^i\right) $$
 @end tex
 @end iftex
+@enumerate
+
+@item
+Example of function in use :
+
+@verbatim
+
+         >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. PPresValue.
+*> The sample: you pay for a machine 1500 USD
+*> You rent the machine at 350 USD per year per 5 years (= 1750)
+*> the program calculates (NET)PRESENT VALUE of 1750
+*> when the discount rate is 1%, 2% up to 10%.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01  PaymentsNum      constant as   5.
+01  PaymentsAmount   constant as 350.
+01  Expenditure      PIC 999999V99 value 1500.
+01  TOTAL-CASH-FLOW  PIC 999999V99 value zero.
+01  DiscountRate     PIC S99V99 VALUE 0.00.
+77  DiscountRateP    PIC S99V99 VALUE 0.00.
+01  filler.
+    05 PaymentAmount PIC S9999V99 OCCURS PaymentsNum TIMES VALUE PaymentsAmount.
+01  PresValue        PIC  9(6)V99  value zero.
+01  NET-PresValue    PIC S9(6)V99  value zero.
+
+PROCEDURE DIVISION.
+COMPUTE TOTAL-CASH-FLOW =
+    FUNCTION SUM (PaymentAmount(1) PaymentAmount(2) PaymentAmount(3)
+                  PaymentAmount(4) PaymentAmount(5))
+DISPLAY SPACE
+DISPLAY   'Expenditure: ' Expenditure ' Total Cashflow: ' TOTAL-CASH-FLOW
+DISPLAY SPACE
+
+PERFORM 10 TIMES
+  COMPUTE DiscountRate  = DiscountRate + 0.01
+  COMPUTE DiscountRateP = DiscountRate * 100
+  COMPUTE PresValue ROUNDED =
+      FUNCTION PRESENT-VALUE (DiscountRate PaymentAmount(1) PaymentAmount(2)
+                          PaymentAmount(3) PaymentAmount(4) PaymentAmount(5))
+  COMPUTE NET-PresValue = - Expenditure + PresValue
+  DISPLAY 'DiscountRate: ' DiscountRateP '%   PresValue: ' PresValue
+          ' NET-PresValue: ' NET-PresValue
+END-PERFORM
+ACCEPT omitted
+GOBACK.
+
+@end verbatim
+
+@item
+This is a case where passing parameters to the intrinsic function PRESENT-VALUE would need the ability to indicate "ALL" and then write the statement as:
+
+@item
+
+FUNCTION PRESENT-VALUE (DiscountRate PaymentAmount(ALL) )
+
+@item
+GnuCOBOL does not have this feature (ALL parameter) which has NOT YET been implemented.
+@end enumerate
 @comment *********************************************************************
 @comment ** 8.1.77 RANDOM                                                   **
 @comment *********************************************************************
