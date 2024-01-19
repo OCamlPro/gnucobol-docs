@@ -1,18 +1,18 @@
-PADBOL=$(HOME)/GIT/COBOL/padbol/superbol
+PADBOL=superbol-free
 
 .PHONY: all html rst
 
-all: html
+all: rst html
 
 rst: _rst/$(MANUAL)/index.rst
 
-_rst/$(MANUAL)/index.rst: $(PADBOL) ../*.texi $(MANUAL).anchors
+_rst/$(MANUAL)/index.rst: ../*.texi $(MANUAL).anchors
 	rm -rf _rst/$(MANUAL)/
 	mkdir -p _rst/$(MANUAL)/
-	padbol texi2rst ../$(MANUAL).texi -o _rst/$(MANUAL)/
+	$(PADBOL) texi2rst ../$(MANUAL).texi -o _rst/$(MANUAL)/
 
 html: _html/$(MANUAL)/index.html
 
-_html/$(MANUAL)/index.html: $(PADBOL) _rst/$(MANUAL)/*.rst _rst/$(MANUAL)/index.rst  _templates/layout.html
+_html/$(MANUAL)/index.html: _rst/$(MANUAL)/index.rst  _templates/layout.html
 	cp -dpR conf.py _static _templates _rst/$(MANUAL)/
 	sphinx-build _rst/$(MANUAL) _html/$(MANUAL)/
