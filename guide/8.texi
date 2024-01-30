@@ -3670,7 +3670,7 @@ The exit status of the executed command will be available in the @code{RETURN-CO
 @page
 @newsubsection{X"91"}
 @diagram{X"91" Built-In Subroutine,SS-X91,SS-X91,None}
-The original Micro Focus version of this routine is capable of providing a wide variety of functions.  GnuCOBOL supports just three of them:
+The original Micro Focus version of this routine is capable of providing a wide variety of functions.  GnuCOBOL supports just three of them but more on the way subject to version of compiler (see file NEWS):
 @itemize @bullet
 @item
 Turning runtime switches (@code{SWITCH-1}, @dots{} , @code{SWITCH-8}) on.
@@ -3690,7 +3690,7 @@ The third argument --- @var{variable-arg} --- is defined differently depending u
 @table @asis
 
 @item 11
-Sets and/or clears all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}).  @xref{SPECIAL-NAMES}, for an explanation of those switches.
+Sets and/or clears all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}).  @xref{SPECIAL-NAMES}, for an explanation of those switches. Also referred to as programmable 0 - 7.
 
 The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR}.
 
@@ -3699,14 +3699,31 @@ Each occurrence that is set to a value of zero prior to the @code{CALL X"91"} wi
 Values other than 0 or 1 will be ignored.
 
 @item 12
-Reads all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8})
+Reads all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}) and debug switches as prorammable 0 - 7.
 
 The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR}.
 
 Each of the 1@sup{st} eight occurrences of the array will be set to either 0 or 1 --- 1 if the corresponding switch is set, 0 otherwise.
 
+@item 13 + 14
+Allow access to runtime switches 1 - 26 as A-Z. In case of A.N.T: set related runtime setting.
+
+@item 15
+Prepare for program lookup.
+
 @item 16
 Retrieves the number of arguments passed to the program executing the @code{CALL X"91"}, saving that number into the @var{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).
+
+@item 35
+Prepare for DOS EXEC call.
+
+@item 46-49
+Prepared for file specific settings LS_NULLS/LS_TABS
+
+@item 69
+Prepared for directory search.
+
+
 @end table
 @comment *********************************************************************
 @comment ** 8.2.55 X"E4"                                                    **
