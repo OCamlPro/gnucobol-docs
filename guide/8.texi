@@ -3252,6 +3252,26 @@ Those characters that are deemed printable (as defined by the character set used
 
 If no @var{char} argument is provided, a period (@samp{.}) will be used.
 @comment *********************************************************************
+@comment ** 8.2.32B CBL_GC_SET_SCR_SIZE                                         **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_GC_SET_SCR_SIZE}
+@diagram{CBL_GC_SET_SCR_SIZE Built-In Subroutine,SS-CBL_GC_SET_SCR_SIZE,SS-CBL_GC_SET_SCR_SIZE,None}
+Use this subroutine to set the current console screen size.
+
+When the system is running in a windowed environment, this will be the sizing of the console window in which the program is executing.  When the system is not running a windowing environment, the physical console screen attributes will be set.  In environments such as a Windows console window, where the logical size of the window may far exceed that of the physical console window, the size set will be that for the physical console window.
+
+The size data must be in binary form or any other numeric forms to be accepted.
+
+The following are possibly typical @var{no-of-lines} and @var{no-of-columns} definitions:
+
+@example
+01  NO-OF-LINES             USAGE BINARY-CHAR.
+01  NO-OF-COLUMNS           USAGE BINARY-CHAR.
+@end example
+
+This system call will only work if the terminal program used is compatible for such operations and not all are.
+@comment *********************************************************************
 @comment ** 8.2.33 CBL_GC_WAITPID                                          **
 @comment *********************************************************************
 @page
@@ -3333,26 +3353,6 @@ The following are typical @var{no-of-lines} and @var{no-of-columns} definitions:
 GnuCOBOL run-time screen management must have been initialized prior to CALLing this routine in order to receive meaningful values.  This means that a @statementref{DISPLAY data-item} or a @statementref{ACCEPT data-item} must have been executed prior to executing the @statement{CALL}.
 
 Zero values will be returned if the screen has not been initialized and values of 24 (lines) and 80 (columns) will be returned if GnuCOBOL was not generated to include screen I/O.
-@comment *********************************************************************
-@comment ** 8.2.36B CBL_SET_SCR_SIZE                                         **
-@comment *********************************************************************
-@page
-@newsubsection{CBL_SET_SCR_SIZE}
-@diagram{CBL_SET_SCR_SIZE Built-In Subroutine,SS-CBL_SET_SCR_SIZE,SS-CBL_SET_SCR_SIZE,None}
-Use this subroutine to set the current console screen size.
-
-When the system is running in a windowed environment, this will be the sizing of the console window in which the program is executing.  When the system is not running a windowing environment, the physical console screen attributes will be set.  In environments such as a Windows console window, where the logical size of the window may far exceed that of the physical console window, the size set will be that for the physical console window.
-
-The size data must be in binary form or any other numeric forms to be accepted.
-
-The following are possibly typical @var{no-of-lines} and @var{no-of-columns} definitions:
-
-@example
-01  NO-OF-LINES             USAGE BINARY-CHAR.
-01  NO-OF-COLUMNS           USAGE BINARY-CHAR.
-@end example
-
-This system call will only work if the terminal program used is compatible for such operations and not all are.
 @comment *********************************************************************
 @comment ** 8.2.37 CBL_IMP                                                  **
 @comment *********************************************************************
@@ -3575,29 +3575,6 @@ The following is a typical @var{cursor-locn-buffer} definition:
     05 CURSOR-LINE          USAGE BINARY-CHAR.
     05 CURSOR-COLUMN        USAGE BINARY-CHAR.
 @end example
-@comment *********************************************************************
-@comment ** 8.2.48 CBL_SET_SCR_SIZE                                         **
-@comment *********************************************************************
-@page
-@newsubsection{CBL_SET_SCR_SIZE}
-@diagram{CBL_SET_SRC_SIZE Built-In Subroutine,SS-CBL_SET_SCR_SIZE,SS-CBL_SET_SCR_SIZE,None}
-Use this subroutine to set the current console screen size.
-
-WARNING: This function may well not be created so this text is really a place holder as no information about its use is currently available - at least as of v3.2 final although it is in one of the compiler source files.
-
-This also means that the definition of this function has NOT been passed to the manual maintainer, i.e., Vincent Coen.
-If you know exactly where this is correctly defined, may be in another compiler manual please pass link  of it, or better still the exact definition, thanks.
-
-The following are typical @var{no-of-lines} and @var{no-of-columns} definitions:
-
-@example
-01  NO-OF-LINES             USAGE BINARY-CHAR.
-01  NO-OF-COLUMNS           USAGE BINARY-CHAR.
-@end example
-
-GnuCOBOL run-time screen management must have been initialized prior to CALLing this routine in order to set meaningful values.  This means that a @statementref{DISPLAY data-item} or a @statementref{ACCEPT data-item} must have been executed prior to executing the @statement{CALL}.
-
-Zero values will be returned if the screen has not been initialized and values of 24 (lines) and 80 (columns) will be returned if GnuCOBOL was not generated to include screen I/O.
 
 @comment *********************************************************************
 @comment ** 8.2.49 CBL_TOLOWER                                              **
