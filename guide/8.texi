@@ -2342,7 +2342,7 @@ Early versions of Micro Focus COBOL allowed programmers to access various runtim
 
 Most of the call-by-number routines have evolved into even more powerful call-by-name routines, many of which are supported by GnuCOBOL.
 
-Some of the original call-by-number routines never evolved call-by-name equivalents; GnuCOBOL supports some of these routines.
+Some of the original call-by-number routines never evolved call-by-name equivalents; GnuCOBOL supports some of these routines. See all currently used in Appendix's C and D. (Items marked as **).
 
 The following sections describe the various built-in subroutines.  @i{All subroutine arguments are mandatory except where explicitly noted to the contrary}.  Any subroutine returning a value to the
 @registerref{RETURN-CODE} could utilize the @code{RETURNING} clause on the
@@ -2362,7 +2362,9 @@ The following sections describe the various built-in subroutines.  @i{All subrou
 * C$SLEEP.
 * C$TOLOWER.
 * C$TOUPPER.
+* CBL_ALARM_SOUND.**
 * CBL_AND.
+* CBL_BELL_SOUND.**
 * CBL_CHANGE_DIR.
 * CBL_CHECK_FILE_EXIST.
 * CBL_CLOSE_FILE.
@@ -2380,6 +2382,7 @@ The following sections describe the various built-in subroutines.  @i{All subrou
 * CBL_GC_HOSTED.
 * CBL_GC_NANOSLEEP.
 * CBL_GC_PRINTABLE.
+* CBL_GC_SET_SCR_SIZE.
 * CBL_GC_WAITPID.
 * CBL_GET_CSR_POS.
 * CBL_GET_CURRENT_DIR.
@@ -2388,17 +2391,21 @@ The following sections describe the various built-in subroutines.  @i{All subrou
 * CBL_NIMP.
 * CBL_NOR.
 * CBL_NOT.
+* CBL_OC_GETOPT.
+* CBL_OC_HOSTED.
+* CBL_OC_NANOSLEEP.
 * CBL_OPEN_FILE.
 * CBL_OR.
 * CBL_READ_FILE.
 * CBL_READ_KBD_CHAR.
 * CBL_RENAME_FILE.
+* CBL_RUNTIME_ERROR.**
 * CBL_SET_CSR_POS.
-* CBL_SET_SCR_SIZE.
 * CBL_TOLOWER.
 * CBL_TOUPPER.
 * CBL_WRITE_FILE.
 * CBL_XOR.
+* EXTFH.**
 * SYSTEM.
 * X"91".
 * X"E4".
@@ -2600,6 +2607,14 @@ Any characters in @var{data-item} after the @var{convert-length} point will rema
 
 If @var{convert-length} is negative or zero, no conversion will be performed.
 @comment *********************************************************************
+@comment ** 8.2.14B CBL_ALARM_SOUND                                         **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_ALARM_SOUND}
+@diagram{CBL_ALARM_SOUND Built-In Subroutine,SS-CBL_ALARM_SOUND,SS-CBL_ALARM_SOUND,None}
+This routine will create a noise (a beep) using the internal speaker if present. [ Place Holder ].
+
+@comment *********************************************************************
 @comment ** 8.2.15 CBL_AND                                                  **
 @comment *********************************************************************
 @page
@@ -2627,6 +2642,16 @@ Any bits in @var{item-2} after the 8*@var{byte-length} point will be unaffected.
 
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
+
+@comment *********************************************************************
+@comment ** 8.2.14B CBL_BELL_SOUND                                          **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_BELL_SOUND}
+@diagram{CBL_BELL_SOUND Built-In Subroutine,SS-CBL_BELL_SOUND,SS-CBL_BELL_SOUND,None}
+This routine will create a noise (a beep) using the internal speaker if present. [ Place Holder ].
+Works the same as function CBL_ALARM_SOUND, so there.
+
 @comment *********************************************************************
 @comment ** 8.2.16 CBL_CHANGE_DIR                                           **
 @comment *********************************************************************
@@ -3454,6 +3479,30 @@ Any bits in @var{item-1} after the 8*@var{byte-length} point will be unaffected.
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
 @comment *********************************************************************
+@comment ** 8.2.40B CBL_OC_GETOPT                                           **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_OC_GETOPT}
+@diagram{CBL_GC_GETOPT Built-In Subroutine,SS-CBL_GC_GETOPT,SS-CBL_GC_GETOPT,None}
+Use function CBL_GC_GETOPT instead as redundant and will be removed.
+
+@comment *********************************************************************
+@comment ** 8.2.40C CBL_OC_HOSTED                                           **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_OC_HOSTED}
+@diagram{CBL_GC_HOSTED Built-In Subroutine,SS-CBL_GC_HOSTED,SS-CBL_GC_HOSTED,None}
+Use function CBL_GC_HOSTED instead as redundant and will be removed.
+
+@comment *********************************************************************
+@comment ** 8.2.40D CBL_OC_NANOSLEEP                                        **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_OC_NANOSLEEP}
+@diagram{CBL_GC_NANOSLEEP Built-In Subroutine,SS-CBL_GC_NANOSLEEP,SS-CBL_GC_NANOSLEEP,None}
+Use function CBL_GC_NANOSLEEP instead as redundant and will be removed.
+
+@comment *********************************************************************
 @comment ** 8.2.42 CBL_OPEN_FILE                                            **
 @comment *********************************************************************
 @page
@@ -3556,6 +3605,15 @@ Despite what the name of this routine might make you believe, this routine is mo
 
 If the attempt to move the file fails (for example, it doesn't exist), the
 @registerref{RETURN-CODE} will be set to 128; on successful completion it will be set to 0.
+
+@comment *********************************************************************
+@comment ** 8.2.46B CBL_RUNTIME_ERROR                                       **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_RUNTIME_ERROR}
+@diagram{CBL_RUNTIME_ERROR Built-In Subroutine,SS-CBL_RUNTIME_ERROR,SS-CBL_RUNTIME_ERROR,None}
+Text to be added...
+
 @comment *********************************************************************
 @comment ** 8.2.47 CBL_SET_CSR_POS                                          **
 @comment *********************************************************************
@@ -3642,6 +3700,23 @@ Any bits in @var{item-2} after the 8*@var{byte-length} point will be unaffected.
 
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
+
+@comment *********************************************************************
+@comment ** 8.2.53 EXTFH                                                    **
+@comment *********************************************************************
+@page
+@newsubsection{EXTFH}
+@diagram{EXTFH Built-In Subroutine,SS-EXTFH,SS-EXTFH,None}
+File handling: include support for a callable EXTFH interface also provided by several compilers including Micro Focus.
+This allows users to insert an external file handler while retaining all of the normal COBOL I/O functions with a possible callback to libcob.
+To have the compiled program call `yourfh()` for file I/O use:
+ `cobc -fcallfh=yourfh`
+In turn `yourfh()` may call `EXTFH()` to use I/O functions from GnuCOBOL.
+The external file handler can also be directly invoked from COBOL, too, using `CALL "EXTFH"`.
+** Note: Not all flags contained in the FCD3 are handled currently. **
+
+See the file NEWS for more details as implementation varies between compiler versions.
+
 @comment *********************************************************************
 @comment ** 8.2.53 SYSTEM                                                   **
 @comment *********************************************************************
@@ -3661,6 +3736,7 @@ With native Windows Windows/MinGW builds, the shell environment will be the Wind
 To trap output from the executed command and process it within the GnuCOBOL program, use a redirection (@samp{>}) to send the command output to a temporary file which you read from within the program once control returns.
 
 The exit status of the executed command will be available in the @code{RETURN-CODE} special-register.
+
 @comment *********************************************************************
 @comment ** 8.2.54 X"91"                                                    **
 @comment *********************************************************************
@@ -3703,10 +3779,10 @@ The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @cod
 Each of the 1@sup{st} eight occurrences of the array will be set to either 0 or 1 --- 1 if the corresponding switch is set, 0 otherwise.
 
 @item 13 + 14
-Allow access to runtime switches 1 - 26 as A-Z. In case of A.N.T: set related runtime setting.
+Allow access to runtime switches 1 - 26 as A-Z. In case of A.N.T: set related runtime setting. Option 13 read them and option 14 sets them.
 
 @item 15
-Prepare for program lookup.
+Prepare for program lookup. Checks to see if a program exists. You pass the program name and its length in parameter. When routine exits, result is zero if found and non-zero if not. Parameter is a group item consisting of two data items: a PIC X COMP-X specifyinh length in bytes of data item containing the file name and PIC X data item of varaiable length containing the file name.
 
 @item 16
 Retrieves the number of arguments passed to the program executing the @code{CALL X"91"}, saving that number into the @var{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).
@@ -3715,11 +3791,10 @@ Retrieves the number of arguments passed to the program executing the @code{CALL
 Prepare for DOS EXEC call.
 
 @item 46-49
-Prepared for file specific settings LS_NULLS/LS_TABS
+Prepare for file specific settings LS_NULLS/LS_TABS.
 
 @item 69
-Prepared for directory search.
-
+Prepare for directory search.
 
 @end table
 @comment *********************************************************************
