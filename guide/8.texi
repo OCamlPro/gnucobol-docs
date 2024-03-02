@@ -1738,11 +1738,11 @@ GnuCOBOL does not have this feature (ALL parameter) i.,e has NOT YET been implem
 @page
 @newsubsection{RANDOM}
 @diagram{RANDOM Function,FN-RANDOM,FN-RANDOM,None}
-This function returns a pseudo-random non-integer value in the range 0 to 1 (for example, 0.123456789).
+This function returns a pseudo-random non-integer value in the range 0>= to <1 (for example, 0.123456789).
 
 The purpose of the optional @var{seed} argument, is to initialize the chain of pseudo-random numbers that will be returned by the function.  Not only will calls to this function using the same @var{seed} value return the same pseudo-random number, but so will all subsequent executions of the function without a @var{seed}.  This is actually a good thing when you are testing your program because you can rely on always receiving the same sequence of ``random'' numbers if you always start using the same @var{seed}.
 
-The @var{seed} may be any form of literal or data item.  If @var{seed} is numeric, its numeric value will serve as the seed value.  If @var{seed} is alphanumeric, a value for it will be determined as if it were used as an argument to @syntaxref{NUMVAL}.
+The @var{seed} may be any form of literal or data item or arithmetic expression. If @var{seed} is numeric, its numeric value will serve as the seed value.  If @var{seed} is alphanumeric, a value for it will be determined as if it were used as an argument to @syntaxref{NUMVAL}.
 
 Take, for example, the following sample program:
 @verbatim
@@ -1765,14 +1765,14 @@ Take, for example, the following sample program:
 
 Every time this program is executed, it will produce the same output, because the same sequence of pseudo-random numbers will be generated:
 @verbatim
-    0.41
-    0.18467
-    0.63340002
-    0.26499999
-    0.19169
-@end verbatim
 
-It is worth mentioning that if the @i{first} execution of @code{RANDOM} in your program lacks a @var{seed} argument, the result will be exactly as if that execution were coded with a @var{seed} argument value of 1.
+0.5441364
+0.047651578
+0.77186662
+0.056523036
+0.63045478
+
+@end verbatim
 
 Once your program has been thoroughly tested, you'll want different sequences to be generated each time the program runs.  One possible way to accomplish this is to use a @var{seed} that is likely to be different every time the program is executed, as is likely to be the case if the first @code{MOVE} statement in the previous example were replaced by this:
 
@@ -1782,6 +1782,36 @@ Once your program has been thoroughly tested, you'll want different sequences to
 @end verbatim
 
 The first 16 characters returned by the @syntaxref{CURRENT-DATE} function will be a number in the format @code{@var{YYYYMMDDhhmmssnn}}, where @code{@var{YYYYMMDD}} is the current calendar date and @code{@var{hhmmssnn}} is the current time of day to the one one-hundredth of a second.  Since two different executions of the program will never get identical @code{CURRENT-DATE} values (unless they are executed in extremely close time frames to one another), using those first sixteen characters as the @code{RANDOM} seed will guarantee that receiving a duplicate sequence of pseudo-random numbers in two different executions of the program will be @i{highly} unlikely.
+
+If you do not use a seed then the RANDOM function will automatically determine an internal different seed at each execution.
+
+Often you need to generate a random number between two numbers.
+Following example shows how to do it.
+
+@verbatim
+
+        >>source free
+ IDENTIFICATION DIVISION.
+ PROGRAM-ID. RANDOM-RANGE.
+*> Generate random number from 25 and 70
+ DATA DIVISION.
+ WORKING-STORAGE SECTION.
+ 01  RANDOM-NUMBER PIC 9999 value zero.
+ PROCEDURE DIVISION.
+ perform 10 times
+     compute  RANDOM-NUMBER = 25 + (70 - 25) * (FUNCTION RANDOM)
+     display  RANDOM-NUMBER
+ end-perform
+ display      space
+*> or, to include the upper value 60 as possible choice
+ perform 10 times
+     compute  RANDOM-NUMBER = 25 + (70 - 25 + 1) * (FUNCTION RANDOM)
+     display  RANDOM-NUMBER
+ end-perform
+ STOP RUN.
+
+@end verbatim
+
 @comment *********************************************************************
 @comment ** 8.1.78 RANGE                                                    **
 @comment *********************************************************************
