@@ -2435,7 +2435,7 @@ The following sections describe the various built-in subroutines.  @i{All subrou
 * CBL_TOUPPER.
 * CBL_WRITE_FILE.
 * CBL_XOR.
-* EXTFH.**
+* EXTFH.
 * SYSTEM.
 * X"91".
 * X"E4".
@@ -2733,6 +2733,8 @@ If the file defined by the @var{file-handle} argument (a @code{PIC X(4) USAGE CO
 If the subroutine is successful, a value of 0 will be returned in the
 @registerref{RETURN-CODE}.  Failure will cause a
 @register{RETURN-CODE} value of -1 to be passed back.
+
+An example of the use of OPEN, CLOSE, READ etc., can be found in Contribs program printcbl.cbl which is basically also in cobxref.cbl as program 3.
 @comment *********************************************************************
 @comment ** 8.2.19 CBL_COPY_FILE                                            **
 @comment *********************************************************************
@@ -3561,6 +3563,9 @@ The final argument (@var{handle}) is a @code{PIC X(4) USAGE COMP-X} item that wi
 
 A
 @registerref{RETURN-CODE} value of -1 indicates an invalid argument, while a value of 0 indicates success.  A value of 35 means the file does not exist.
+
+An example of the use of OPEN, CLOSE, READ etc., can be found in Contribs program printcbl.cbl which is basically also in cobxref.cbl as program 3.
+
 @comment *********************************************************************
 @comment ** 8.2.43 CBL_OR                                                   **
 @comment *********************************************************************
@@ -3737,7 +3742,39 @@ A result of zero will be passed back in the
 @page
 @newsubsection{EXTFH}
 @diagram{EXTFH Built-In Subroutine,SS-EXTFH,SS-EXTFH,None}
-File handling: include support for a callable EXTFH interface also provided by several compilers including Micro Focus.
+The use of the EXTFH function is summarized very briefly.
+The detail of its use is too complex to be described in this document and is described in a dedicated document.
+
+@verbatim
+
+opcode
+Use a 2-character operation code to specify an exact operation
+(OPEN, READ, WRITE, CLOSE etc ...).
+
+fcd
+Use this area for:
+Input fields: to be set before calling.
+Output fields: values of fields set by EXTFH after the call.
+xfhfcd3.cpy is in the "copy" folder of the GnuCOBOL installation.
+
+Example:
+
+ IDENTIFICATION DIVISION.
+ PROGRAM-ID. PGMEXTFH.
+ DATA DIVISION.
+ LINKAGE SECTION.
+ 01  OPCODE PIC XX.
+ 01  FCD.
+     COPY "xfhfcd3.cpy".
+ PROCEDURE DIVISION USING OPCODE FCD.
+*> move ... to OPCODE  <*
+*> move ... to FCD parameters  <*
+      CALL     "EXTFH" USING OPCODE FCD.
+      GOBACK.
+
+@end verbatim
+
+The includes support for a callable EXTFH interface also provided by several compilers including Micro Focus.
 This allows users to insert an external file handler while retaining all of the normal COBOL I/O functions with a possible callback to libcob.
 To have the compiled program call `yourfh()` for file I/O use:
  `cobc -fcallfh=yourfh`

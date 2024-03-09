@@ -3591,9 +3591,9 @@ Example 1:
     05  part-1  pic x(20).
     05  part-2  pic x(10).
 01  a.
-    05  b  USAGE struct-1.
-    05  x  USAGE USHORT.
-01 USHORT      pic 9(04) comp-5 typedef.
+    05  b       USAGE struct-1.
+    05  x       USAGE USHORT.
+01 USHORT       pic 9(04) comp-5 typedef.
 
 Which would be interpreted as if it had been coded as:
 
@@ -3610,17 +3610,17 @@ Example 2:
    DATA             DIVISION.
    WORKING-STORAGE  SECTION.
    01 MAIN-FILE-NAME-T     PIC X(50) IS TYPEDEF.
-   01 DETAIL-NO-T             PIC 9999  IS TYPEDEF.
+   01 DETAIL-NO-T          PIC 9999  IS TYPEDEF.
    01 MAIN-FILE-NAME-2T              IS TYPEDEF.
-      05 FILLER               PIC 9999.
-      05 DETAIL-NO            USAGE DETAIL-NO-T.
+      05 FILLER            PIC 9999.
+      05 DETAIL-NO             USAGE DETAIL-NO-T.
 
-   01  MESSAGE-TEXT-2T        IS TYPEDEF.
-     02 MAIN-FILE-NAME     USAGE MAIN-FILE-NAME-T.
-     02 FILLER                REDEFINES MAIN-FILE-NAME.
-         05 FILLER            PIC 9999.
-     02 MAIN-FILE-NAME-2   USAGE MAIN-FILE-NAME-2T.
-     02 FILLER                USAGE MAIN-FILE-NAME-T.
+   01  MESSAGE-TEXT-2T               IS TYPEDEF.
+     02 MAIN-FILE-NAME         USAGE MAIN-FILE-NAME-T.
+     02 FILLER            REDEFINES MAIN-FILE-NAME.
+         05 FILLER         PIC 9999.
+     02 MAIN-FILE-NAME-2       USAGE MAIN-FILE-NAME-2T.
+     02 FILLER                 USAGE MAIN-FILE-NAME-T.
 
    01  MESSAGE-TEXT-2 EXTERNAL USAGE MESSAGE-TEXT-2T.
 
@@ -3640,15 +3640,15 @@ Example 2:
 
 Example 3:
 
-   77  INT                     PIC S9(09)COMP-5 IS TYPEDEF.
+   77  INT                     PIC S9(09) COMP-5 IS TYPEDEF.
    01  Z-RETURNCODE            USAGE INT VALUE 0.
-   01  MESSAGE-TEXT-2                           IS TYPEDEF.
-       02 MAIN-FILE-NAME    PIC X(50).
+   01  MESSAGE-TEXT-2                      IS TYPEDEF.
+       02 MAIN-FILE-NAME       PIC X(50).
        02 FILLER               PIC X(79).
    01 Z-MESSAGE-T2 USAGE MESSAGE-TEXT-2.
    77 VIRMSG-TEXT              PIC  X(129) IS TYPEDEF.
-   01  MESSAGE-TEXT-2                       IS TYPEDEF.
-       02 MAIN-FILE-NAME    PIC X(50).
+   01  MESSAGE-TEXT-2                      IS TYPEDEF.
+       02 MAIN-FILE-NAME       PIC X(50).
        02 FILLER               PIC X(79).
    01 Z-MESSAGE-TEXT           USAGE VIRMSG-TEXT.
    01 Z-MESSAGE-T2 REDEFINES Z-MESSAGE-TEXT USAGE MESSAGE-TEXT-2.
