@@ -1420,6 +1420,56 @@ Here are some examples of how the precedence of operations affects the results o
 @end multitable
 
 Of course, arithmetic expression operands may be numeric data items (any USAGE except POINTER or PROGRAM POINTER) as well as numeric literals.
+
+@comment *********************************************************************
+@comment ** 2.2.4B Boolean Expression                                       **
+@comment *********************************************************************
+@page
+@newsubsection{Boolean Expressions}
+@diagram{Boolean-Expression, FN-BOOLEAN-EXPRESSIONS, FN-BOOLEAN-EXPRESSIONS, None}
+@diagram{B-SHIFT-L Function,  FN-B-SHIFT-L,  FN-B-SHIFT-L,  None}
+@diagram{B-SHIFT-LC Function, FN-B-SHIFT-LC, FN-B-SHIFT-LC, None}
+@diagram{B-SHIFT-R Function,  FN-B-SHIFT-R,  FN-B-SHIFT-R,  None}
+@diagram{B-SHIFT-RC Function, FN-B-SHIFT-RC, FN-B-SHIFT-RC, None}
+A boolean operator specifies the type of boolean operation to be performed on one or two operands, for a unary operator or binary operator, respectively. The following are the boolean operators:
+
+@verbatim
+Binary boolean operators  Meaning
+B-AND                     AND operation (boolean conjunction)
+B-OR                      Inclusive OR operation (boolean inclusive disjunction)
+B-XOR                     Exclusive OR operation (boolean exclusive disjunction)
+
+Unary boolean operator   Meaning
+B-NOT                    Negation operation
+
+Boolean shift operators  Meaning
+B-SHIFT-L                Shift Left operation
+B-SHIFT-LC               Circular Shift Left operation
+B-SHIFT-R                Shift Right operation
+B-SHIFT-RC               Circular Shift Right operation
+
+@end verbatim
+The shift operators existed in other dialects before they were added to the standard, B-SHIFT-L-> B-LEFT + B-SHIFT-R-> B-RIGHT; which is also supported by GnuCOBOL (if you don't use a strict dialect that does not have these reserved words). They operate on the binary value (no packing/unpacking done).
+
+The binary operators can be used in computations or expressions. Both sides can be a numeric item or literal (including the special hex notations;
+@verbatim
+
+Evaluation of a boolean expression shall proceed as follows:
+a)  [... parentheses ...]
+b)  The precedence of operations at the same level of inclusiveness, is:
+1st — Negation (B-NOT)
+2nd — Conjunction (B-AND)
+3rd — Exclusive disjunction (B-XOR)
+4th — Inclusive disjunction (B-OR)
+
+@end verbatim
+The precedence of boolean shift operations (B-SHIFT-L, B-SHIFT-R, B-SHIFT-LC and B-SHIFT-RC) is the same as that of the preceding operation, if any. If the boolean shift operation is not preceded by another operation, the precedence of that operation is the same as B-AND.
+
+c) When the sequence of evaluation is not specified by parentheses, the evaluation of operations with the same precedence shall proceed from left to right.
+
+>> MORE text needed here ? - [PLACE HOLDER] <<
+
+
 @comment *********************************************************************
 @comment ** 2.2.5 Conditional Expressions                                   **
 @comment *********************************************************************
