@@ -444,7 +444,9 @@ SYMBOLIC CHARACTERS NUL SOH BEL DC1 DC2
 @page
 @newsubsection{REPOSITORY}
 @diagram{REPOSITORY,ED-REPOSITORY,ED-REPOSITORY,None}
-The REPOSITORY paragraph provides a way to control access to the various built-in intrinsic functions and any user defined functions that your program will be using.
+The REPOSITORY paragraph allows specification of program and function prototype names.
+It also allows declaration of intrinsic-function-names that may be used without specifying the word FUNCTION.
+
 @enumerate
 @item
 The @code{REPOSITORY} paragraph is not allowed in a nested subprogram. A nested program inherits the @code{REPOSITORY} settings of its parent program.
@@ -482,6 +484,56 @@ REPOSITORY.
     FUNCTION MY-FUNCTION-1
     FUNCTION MY-FUNCTION-2 AS "MF2"
     FUNCTION STANDARD-DEVIATION AS "SIGMA".
+@end example
+
+@example
+Another more full example taken from the FAQs:
+
+       >>SOURCE FREE
+ IDENTIFICATION  DIVISION.
+ PROGRAM-ID.     prog.
+ ENVIRONMENT     DIVISION.
+ CONFIGURATION   SECTION.
+ REPOSITORY.
+     PROGRAM recursion-test
+     PROGRAM cancel-test.
+ DATA            DIVISION.
+ WORKING-STORAGE SECTION.
+ 01  num         PIC 9 VALUE 0.
+ PROCEDURE       DIVISION.
+     CALL     recursion-test USING num
+     DISPLAY  "<"
+     CALL     cancel-test
+     CALL     cancel-test
+     CANCEL   cancel-test
+     CALL     cancel-test
+     DISPLAY  "<" .
+END PROGRAM   prog.
+
+ IDENTIFICATION  DIVISION.
+ PROGRAM-ID.     recursion-test RECURSIVE.
+ DATA            DIVISION.
+ LINKAGE         SECTION.
+ 01  x           PIC 9.
+ PROCEDURE       DIVISION USING x.
+     ADD      1 TO x
+     DISPLAY  x NO ADVANCING
+     IF       x = 1
+              CALL 'recursion-test' USING x
+     END-IF.
+END PROGRAM   recursion-test.
+
+
+ IDENTIFICATION  DIVISION.
+ PROGRAM-ID.     cancel-test.
+ DATA            DIVISION.
+ WORKING-STORAGE SECTION.
+ 01  x           PIC 9 VALUE 1.
+ PROCEDURE       DIVISION.
+     DISPLAY  x NO ADVANCING
+     ADD      1 TO x.
+END PROGRAM   cancel-test.
+
 @end example
 @end enumerate
 

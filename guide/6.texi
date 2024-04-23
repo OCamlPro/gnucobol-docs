@@ -464,6 +464,19 @@ Not specifying an @var{identifier-1} or @code{FILLER} immediately after the leve
 No storage is allocated for data defined in the linkage section; the data descriptions there are merely defining storage areas that will be passed to the subprogram by a calling program.  Therefore, any discussion of the default initialization of such data is irrelevant.  It @i{is} possible, however, to manually allocate linkage section data items that aren't subprogram arguments via the @statementref{ALLOCATE} statement.  In such cases, initialization will take place as per the documentation of that statement.
 
 @item
+The reserved word @code{UNBOUNDED} can be used to specify an unbounded table (a table with an unbounded maximum number of occurrences), and can be referenced anywhere that a table can be referenced.
+
+@item
+An unbounded group is a group that contains at least one unbounded table. It can be specified ONLY in the Linkage Section, and must be of type alphanumeric or national.
+
+@item
+You can reference unbounded groups in COBOL syntax anywhere that an alphanumeric or national group can be referenced, with the following exceptions:
+
+You cannot specify unbounded groups as a BY CONTENT argument in a CALL statement.
+You cannot specify unbounded groups as data-name-2 on the Procedure Division RETURNING phrase.
+You cannot specify unbounded groups as arguments to intrinsic functions, except as an argument to the LENGTH intrinsic function.
+
+@item
 @xref{Data Description Clauses}, for information on the usage of the various data description clauses.
 @end enumerate
 @comment *********************************************************************
@@ -1927,12 +1940,25 @@ The @code{NO UPDATE} clause forces the field to which this is applied will not b
 @newsubsection{OCCURS}
 @diagram{OCCURS Clause,DD-OCCURS-1,DD-OCCURS-1,None}
 This syntax is valid in the following sections:
-@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN}
+@code{FILE}, @code{WORKING-STORAGE}, @code{LOCAL-STORAGE}, @code{LINKAGE}, @code{REPORT}, @code{SCREEN} but UNBOUNDED is ONLY for @code{LINKAGE}.
 
 The @code{OCCURS} clause is used to create a data structure called a table, where entries in that structure repeat multiple times.
 @enumerate
 @item
 The reserved words @code{BY} (INDEXED), @code{IS}, @code{KEY}, @code{ON} and @code{TIMES} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
+
+@item
+The reserved word @code{UNBOUNDED} can be used to specify an unbounded table (a table with an unbounded maximum number of occurrences), and can be referenced anywhere that a table can be referenced.
+
+@item
+An unbounded group is a group that contains at least one unbounded table. It can be specified ONLY in the Linkage Section, and must be of type alphanumeric or national.
+
+@item
+You can reference unbounded groups in COBOL syntax anywhere that an alphanumeric or national group can be referenced, with the following exceptions:
+
+You cannot specify unbounded groups as a BY CONTENT argument in a CALL statement.
+You cannot specify unbounded groups as data-name-2 on the Procedure Division RETURNING phrase.
+You cannot specify unbounded groups as arguments to intrinsic functions, except as an argument to the LENGTH intrinsic function.
 
 @item
 The value of @var{integer-2} specifies how many entries will be allocated in the table.
