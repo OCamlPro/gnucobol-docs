@@ -1,0 +1,48 @@
+XML GENERATE identifier-1 FROM identifier-2
+~~~ ~~~~~~~~              ~~~~
+     [COUNT IN identifier-3]
+      ~~~~~
+    [ WITH ENCODING codepage ]
+           ~~~~~~~~
+    [ WITH  XML-DECLARATION ]
+            ~~~~~~~~~~~~~~~
+    [ WITH ATTRIBUTES ]
+           ~~~~~~~~~~
+    [NAMESPACE IS {identifier-4 }[ NAMESPACE-PREFIX IS {identifier-5 }]
+     ~~~~~~~~~    {literal-4    }  ~~~~~~~~~~~~~~~~    {literal-5    }]]
+
+    [NAME OF   {identifier-6 IS literal-6 } ... ]
+     ~~~~
+    [TYPE OF   {identifier-7 IS {ATTRIBUTE|ELEMENT|CONTENT}} ... ]
+     ~~~~                        ~~~~~~~~~ ~~~~~~~ ~~~~~~~
+
+    [SUPPRESS  {identifier-8 [when-phrase] }  ... ]
+     ~~~~~~~~  {generic-suppression-phrase }
+
+    [ ON EXCEPTION imperative-statement-1 ]
+         ~~~~~~~~~
+    [ NOT ON EXCEPTION imperative-statement-2 ]
+      ~~~    ~~~~~~~~~
+[ END-XML ]
+  ~~~~~~~
+
+when-phrase Format
+
+   WHEN   {     ZERO    }   [ [ OR ] {     ZERO    }  ] ...
+   ~~~~   {    ZEROES   }            {    ZEROES   }
+          {     ZEROS   }            {     ZEROS   }
+          {     SPACE   }            {     SPACE   }
+          {    SPACES   }            {    SPACES   }
+          {  LOW-VALUE  }            {  LOW-VALUE  }
+          {  LOW-VALUES }            {  LOW-VALUES }
+          {  HIGH-VALUE }            {  HIGH-VALUE }
+          { HIGH-VALUES }            { HIGH-VALUES }
+
+Generic-suppression-phrase Format
+
+   [[EVERY  {NUMERIC    [ATTRIBUTE|ELEMENT|CONTENT] } ]  when-phrase  ]
+            {NONNUMERIC [ATTRIBUTE|ELEMENT|CONTENT] }
+            {ATTRIBUTE                              }
+            {CONTENT                                }
+            {ELEMENT                                }
+
