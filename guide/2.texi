@@ -1455,14 +1455,14 @@ c) When the sequence of evaluation is not specified by parentheses, the evaluati
 @comment ** 2.2.5 Conditional Expressions                                   **
 @comment *********************************************************************
 @page
-@newsection{Conditional Expressions}
+@newsubsection{Conditional Expressions}
 Conditional expressions are expressions which identify the circumstances under which a program may take an action or cease taking an action.  As such, conditional expressions produce a value of @code{TRUE} or @code{FALSE}.
 
 There are seven types of conditional expressions, as discussed in the following sections.
 @comment *********************************************************************
 @comment ** 2.2.5.1 Condition Names                                         **
 @comment *********************************************************************
-@newsubsection{Condition Names}
+@newsubsubsection{Condition Names}
 These are the simplest of all conditions.  Observe the following code:
 
 @example
@@ -1499,7 +1499,7 @@ IF XL
 @comment ** 2.2.5.2 Class Conditions                                        **
 @comment *********************************************************************
 @page
-@newsubsection{Class Conditions}
+@newsubsubsection{Class Conditions}
 @diagram{Class-Condition,PD-Class-Cond,PD-Class-Cond,None}
 
 Class conditions evaluate the type of data that is currently stored in a data item.
@@ -1547,7 +1547,7 @@ Now observe the following code, which will execute the @code{150-Process-Hex-Val
 @comment ** 2.2.5.3 Sign Conditions                                         **
 @comment *********************************************************************
 @page
-@newsubsection{Sign Conditions}
+@newsubsubsection{Sign Conditions}
 @diagram{Sign-Condition,PD-Sign-Cond,PD-Sign-Cond,None}
 
 Sign conditions evaluate the numeric state of a data item defined with a @syntaxref{PICTURE} and/or @syntaxref{USAGE} that supports numeric values.
@@ -1565,7 +1565,7 @@ The @code{NOT} option reverses the @code{TRUE}/@code{FALSE} value of the conditi
 @comment ** 2.2.5.4 Switch-Status Conditions                                **
 @comment *********************************************************************
 @page
-@newsubsection{Switch-Status Conditions}
+@newsubsubsection{Switch-Status Conditions}
 In the @code{SPECIAL-NAMES} paragraph, an external switch name can be associated with one or more condition names.  These condition names may then be used to test the ON/OFF status of the external switch.
 
 Here are the relevant sections of code in a program named @file{testprog}, which is designed to simply announce if @code{SWITCH-1} is on:
@@ -1597,7 +1597,7 @@ $
 @comment ** 2.2.5.5 Relation Conditions                                     **
 @comment *********************************************************************
 @page
-@newsubsection{Relation Conditions}
+@newsubsubsection{Relation Conditions}
 @diagram{Relation-Condition,PD-Rel-Cond,PD-Rel-Cond,None}
 @diagram{RelOp,PD-RelOp,PD-RelOp,None}
 
@@ -1629,7 +1629,7 @@ if AAA not <> 0 is the same as if AAA = 0 - (although meaning a bit obscure).
 @comment ** 2.2.5.6 Combined Conditions                                     **
 @comment *********************************************************************
 @page
-@newsubsection{Combined Conditions}
+@newsubsubsection{Combined Conditions}
 @diagram{Combined Condition,PD-Comb-Cond,PD-Comb-Cond,None}
 
 A combined condition is one that computes a @code{TRUE}/@code{FALSE} value from the @code{TRUE}/@code{FALSE} values of two other conditions (which could themselves be combined conditions).
@@ -1670,7 +1670,7 @@ Evaluates to @code{FALSE}
 @comment ** 2.2.5.7 Negated Conditions                                      **
 @comment *********************************************************************
 @page
-@newsubsection{Negated Conditions}
+@newsubsubsection{Negated Conditions}
 @diagram{Negated Condition,PD-Neg-Cond,PD-Neg-Cond,None}
 
 A condition may be negated by prefixing it with the
@@ -1696,7 +1696,7 @@ Evaluates to @code{FALSE AND (FALSE AND TRUE)} which evaluates to @code{FALSE}
 @comment ** 2.2.6 Use of Periods                                            **
 @comment *********************************************************************
 @page
-@newsection{Use of Periods}
+@newsubsection{Use of Periods}
 All COBOL implementations distinguish between sentences and statements in the procedure division.  A
 @define{Statement} is a single executable COBOL instruction.  For example, these are all statements:
 
@@ -1747,7 +1747,7 @@ See the period at the end of the second @syntaxref{MULTIPLY}?  That is what term
 @comment ** 2.2.7 Use of VERB/END-VERB Constructs                           **
 @comment *********************************************************************
 @page
-@newsection{Use of VERB/END-VERB Constructs}
+@newsubsection{Use of VERB/END-VERB Constructs}
 Prior to the 1985 COBOL standard, using a period character was the only way to signal the end of a statement's scope.
 
 Unfortunately, this caused some problems.  Take a look at this code:
@@ -1822,14 +1822,14 @@ If you will be porting existing code over to GnuCOBOL, you'll find it an accommo
 @comment ** 2.2.8 Concurrent Access to Files                                **
 @comment *********************************************************************
 @page
-@newsection{Concurrent Access to Files}
+@newsubsection{Concurrent Access to Files}
 The manipulation of data files is one of the COBOL language's great strengths.  There are features built into COBOL to deal with the possibility that multiple programs may be attempting to access the same file concurrently.  Multiple program concurrent access is dealt with in two ways --- file sharing and record locking.
 
 Not all GnuCOBOL implementations support file sharing and record-locking options.  Whether they do or not depends upon the operating system they were built for and the build options that were used when the specific GnuCOBOL implementation was generated.
 @comment *********************************************************************
 @comment ** 2.2.8.1 File Sharing                                            **
 @comment *********************************************************************
-@newsubsection{File Sharing}
+@newsubsubsection{File Sharing}
 GnuCOBOL controls concurrent-file access at the highest level through the concept of file sharing, enforced when a program attempts to open a file.  This is accomplished via a UNIX operating-system routine called @code{fcntl}.  That module is not currently supported by Windows and is not present in the MinGW Unix-emulation package.  GnuCOBOL builds created using a MinGW environment will be incapable of supporting file-sharing controls --- files will always be shared in such environments.  A GnuCOBOL build created using the Cygwin environment on Windows @i{would} have access to @code{fcntl} and therefore @i{will} support file sharing.  Of course, actual Unix builds of GnuCOBOL, as well as OSX builds, should have no issues because @code{fcntl} should be available.
 
 Any limitations imposed on a successful @syntaxref{OPEN} will remain in place until your program either issues a @syntaxref{CLOSE} against the file or the program terminates.
@@ -1863,7 +1863,7 @@ If the @code{SELECT} of a file is coded with a @code{FILE STATUS} clause, @code{
 @comment ** 2.2.8.2 Record Locking                                          **
 @comment *********************************************************************
 @page
-@newsubsection{Record Locking}
+@newsubsubsection{Record Locking}
 Record-locking is supported by advanced file-management software built-in to the GnuCOBOL implementation you are using.  This software provides a single point-of-control for access to files --- usually @code{ORGANIZATION INDEXED} files.  One such runtime package capable of doing this is the Berkeley Database (BDB) package --- a package frequently used in GnuCOBOL builds to support indexed files.
 
 The various I/O statements your program can execute are capable of imposing limitations on access by other concurrently-executing programs to the file record they just accessed.  These limitations are syntactically imposed by placing a lock on the record using a @code{LOCK} clause.  Other records in the file remain available, assuming that file-sharing limitations imposed at the time the file was opened didn't prevent access to the entire file.
