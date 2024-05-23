@@ -1383,7 +1383,12 @@ See the documentation on the @subpgmref{CBL_GET_SCR_SIZE} for another way to ret
 
 @item
 The
-@syntaxidx{ESCAPE KEY} option may be used after the @statementref{ACCEPT FROM Screen-Info} has executed.  The result returned will be the four-digit @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} identifier value.  @xref{CRT STATUS Codes}, for the specific code values.
+@syntaxidx{ESCAPE KEY} option may be used after an ACCEPT data-item has been used to retrieve data off a formatted screen. The result returned, will be the four-digit key id of the special key that was pressed to terminate the ACCEPT data-item (a 0000 is returned for the Enter key).
+
+This value will be the same as that returned into the CRT STATUS IS identifier-1 defined in the SPECIAL-NAMES paragraph or into the COB-CRT-STATUS identifier if no CRT STATUS IS identifier-1 is specified.
+Consult chapter 'ACCEPT data-item' for a list of CRT STATUS possible values.
+
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.1.7 ACCEPT FROM Runtime-Info                               **
@@ -5461,6 +5466,482 @@ The @code{AT END-OF-PAGE} clause will be triggered, thus executing @var{imperati
 @diagram{XML GENERATE,PD-XML-GENERATE,PD-XML-GENERATE,None}
 The @statement{XML GENERATE} creates an XML document based on the structure and content of the input data item. It takes as input a source data item to generate and store the corresponding XML document in a target data item.
 Both the source and receive data items must be declared in program's Data Division. The XML generated document follows syntax rules described at http://www.w3.org/TR/xml.
+@enumerate
+@comment Syntactical Specifications:
+
+GENERATE.
+@item
+Identifier-1 is an alphanumeric data item, it will contain the generated XML document output.
+It must be large enough to contain the generated XML document.
+Typically, it should be from five to ten times the size of identifier-2, depending on the length of the data-name or data-names within identifier-2. If identifier-1 is not large enough, an error condition exists at the  end of the XML GENERATE statement (see XML-CODE).
+@item
+If identifier-1 is longer than the generated XML document, only the initial part  of identifier-1 changes. The rest of identifier-1 will contain the data that was present before this execution of the XML GENERATE statement. To avoid referring to that data, either initialize identifier-1 to spaces before the XML GENERATE statement or specify the COUNT IN phrase.
+@item
+The element tag names in the XML documents generated from identifier-2 are derived from the name of the data item specified by identifier-2 and from any eligible data-names that are subordinate to identifier-2. The following rules apply:
+@enumerate a
+@item
+The exact mixed-case spelling of data-names from the data description entry is retained. The spellings from 	any references to that data item (for example, in an OCCURS DEPENDING ON clause) are not used.
+@item
+Data-names beginning with a digit are prefixed by an underscore. For example, the data-name 	4C becomes XML tag name _4C.
+
+@item
+Names of data items that contain characters that are illegal in XML version 1.0 are prefixed by hex., and the content itself is expressed in hexadecimal.
+@item
+The XML declaration (header) is not generated. No extra white space, new line, etc. is inserted to make the generated XML more readable.
+@end enumerate
+
+FROM.
+
+@item
+The group or elementary data item identifier-2 is to be converted to the XML document.
+identifier-2 must not be described with the RENAMES clause.
+The following data items specified by identifier-2 are ignored by the XML GENERATE statement:
+@enumerate a
+
+@item
+Any unnamed or FILLER data item with its subordinates.
+@item
+Any elementary data item that assumes a pointer, e.g. USAGE POINTER.
+@item
+Any data item (with its subordinates) subordinate to identifier-2 that is described with the REDEFINES clause.
+@item
+Any group item (with its subordinates) subordinate to identifier-2 that contains a non-unique name within the same level.
+@item
+Any group item that does not contain at least one elementary data item of category alphabetic, alphanumeric, numeric, or index.
+@item
+The content of each elementary data item within identifier-2 is converted to character format.
+@item
+Alphabetic, alphanumeric, alphanumeric-edited, external floating-point, and numeric-edited items are not converted.
+@end enumerate
+@item
+Fixed-point numeric data items are converted as if they were moved to a numeric-edited item that has:
+@enumerate a
+@item
+An explicit decimal point, if the numeric item has at least one decimal position.
+@item
+The same number of decimal positions as the numeric item.
+@item
+A leading '-' picture symbol if the data item is signed and has an S in its PICTURE clause.
+@end enumerate
+@item
+For COMPUTATIONAL-5 (COMP-5) binary data items, the number of integer positions depends on the number of '9' symbols in the picture character string. If the data item has one to four '9' picture symbols, the number of integer positions is five minus the number of decimal places. If the data item has five to nine '9' picture symbols, the number of integer positions is ten minus the number of decimal places. If the data item has 10 to 18 '9' picture symbols, the number of integer positions is 20 minus the number of decimal places.
+@item
+All other fixed-point numeric data items will have as many integer positions as the numeric item, but with at least one integer position.
+@item
+Internal floating-point data items are converted as if they were moved to a data item as follows:
+@enumerate a
+@item
+For COMP-1: an external floating-point data item with PICTURE -9.9(8)E+99.
+@item
+For COMP-2: an external floating-point data item with PICTURE -9.9(17)E+99 (illegal because of the number of  digit positions).
+@end enumerate
+@item
+Index data items are converted as if they were declared USAGE COMP-5 PICTURE S9(9). After conversion, leading and trailing spaces and leading zeroes are removed, as described under Data trimming.
+@item
+After conversion, if a data item contains characters that are illegal in XML, the value in the data item before conversion or trimming is represented in hexadecimal, and an element tag name with the prefix "hex." is substituted for the regular tag name. For example, if data item Customer-Name is found at run time to contain LOW-VALUES, the XML element tag name 'hex.Customer-Name' is used instead of the normal 'Customer-Name', and the content is represented as a string of pairs of zero digits.
+@item
+Any remaining instances of the five special characters & (ampersand), (apostrophe), > (greater-than sign), < (less-than sign), and (quotation mark) are converted into the equivalent XML references: &amp;, &apos;, &gt;, &lt;, and &quot;, respectively.
+@item
+Trailing spaces and leading zeroes are eliminated. Values converted from signed numeric values have their leading space removed if the value is positive. Values converted from numeric items have leading zeroes eliminated (after any initial minus sign). This is up to but not including the digit immediately before the actual or implied decimal point. Trailing zeroes after a decimal point are retained. For example: 012.340 becomes -12.340; 0000.45 becomes 0.45 ; 0013 becomes 13 ;  0000 becomes 0.
+Character values from alphabetic, alphanumeric data items have either trailing or leading spaces removed, depending on whether the corresponding data items have left or right justification, respectively left being the default. Trailing spaces are removed from values whose corresponding data items do not specify the JUSTIFIED clause. Leading spaces are removed from values whose data items do specify the JUSTIFIED clause. If a character value consists solely of spaces, all spaces are removed but one.
+
+COUNT IN.
+@item
+Identifier-3 contains the count of generated XML characters. It must be an integer data item and normally contains a length of the generated XML document in bytes.
+@item
+Use the COUNT IN phrase to determine the total number of character positions, in bytes, that were generated. identifier-3 will then contain this information after XML GENERATE executes. You can use identifier-3 as a reference modification length field to refer to the part of identifier-2 that contains the generated XML document.
+@item
+Identifier-1, identifier-2, identifier-3 must not overlap each other.
+
+XML-CODE.
+@item
+After execution of the XML GENERATE statement, the special register XML-CODE contains either zero, which indicates successful completion, or a non-zero exception code.
+
+@verbatim
+
+----------|-------------------------------------------------------------------------+
+Exception
+code      Description
+(decimal)
+----------|-------------------------------------------------------------------------+
+0          The receiver contains the successfully generated XML document. The COUNT
+           [IN] data item contains the count of character positions in the generated
+           XML document.
+400        The receiver was too small to contain the generated XML document. The COUNT
+           IN data item, if specified, contains the count of character positions that
+           were actually generated.
+401        A DBCS data-name contained a character that, when converted to Unicode, was
+           not valid in an XML element or attribute name.
+402        The first character of a DBCS data-name, when converted to Unicode, was not
+           valid as the first character of an XML element or attribute name.
+403        The value of an OCCURS DEPENDING ON variable exceeded 16,777,215.
+410        The CCSID (coded character set identifier) page specified by the CODEPAGE
+           compiler option is not supported for conversion to Unicode.
+411        The CCSID (coded character set identifier) specified by the CODEPAGE
+           compiler option is not a supported single-byte CCSID.
+414        The CCSID (coded character set identifier) specified for the XML document
+           was invalid or was not supported.
+415        The receiver was national, but the encoding specified for the document was
+           not UTF-16.
+416        The XML name space identifier contained invalid XML characters.
+417        Element character content or an attribute value contained characters that
+           are illegal in XML content. XML generation has continued, with the element
+           tag name or the attribute name prefixed with 'hex.' and the original data
+           value represented in the document in hexadecimal.
+418        Substitution characters were generated by encoding conversion.
+419        The XML name space prefix was invalid.
+420        The receiver was alphanumeric and the input included national or DBCS data
+           or names, but the encoding specified for the document was not 1208.
+600 - 699  Internal error. Report the error to your service representative.
+
+@end verbatim
+@item
+The XML-CODE special register has the implicit definition
+@verbatim
+01 XML-CODE PICTURE S9(9)USAGE BINARY VALUE 0.
+@end verbatim
+
+@item
+If an error (XML-CODE NOT = 0) occurs during generation of the XML document, control is passed to the conditional statement imperative-statement-1. If ON EXCEPTION is not specified control is passed to the end of the XML GENERATE statement.
+@item
+If no error (XML-CODE = 0) occurs during generation of the XML document, control is passed to the conditional statement imperative-statement-2. If NOT ON EXCEPTION is not specified, control is passed to the end of the XML GENERATE statement.
+
+@item
+Example of the above :
+@verbatim
+
+01  wXML-DOCUMENT pic x(512).
+01  wCHAR-COUNT   pic 9(9) binary.
+01  wSOURCE.
+    05  wA     pic x(10) value "aaa".
+    05  wB.
+        10  wC pic x(10) value "ccc".
+        10  wD pic x(10) value "ddd".
+    05  wE     pic x(10) value "eee".
+    . . .
+
+XML GENERATE wXML-DOCUMENT
+    FROM     wSOURCE
+    COUNT IN wCHAR-COUNT
+ ON EXCEPTION
+     DISPLAY 'XML generation error ' XML-CODE
+     STOP RUN
+ NOT ON EXCEPTION
+     DISPLAY 'XML document generated.' wXML-DOCUMENT(1:wCHAR-COUNT)
+ END-XML
+
+The code generates the following XML document:
+
+<wSOURCE><wA>aaa</wA><wB><wC>ccc</wC><wD>ddd</wD></wB><wE>eee</wE></wSOURCE>
+
+@end verbatim
+
+ENCODING, XML-DECLARATION
+@item
+You can code the ENCODING phrase of the XML GENERATE statement to specify the coded character set identifier CCSID of the generated XML document. If you do not use the ENCODING phrase, the document encoding is determined by the category of the receiving data item and by the CODEPAGE compiler option.
+The XML-DECLARATION phrase causes the generated XML document to have an XML declaration that includes version information and an encoding declaration.
+@verbatim
+
+  01  MESSAGE.
+      05  MSG PIC X(80) VALUE 'Hello COBOL!'
+
+      XML GENERATE OUTPUT FROM MESSAGE
+          WITH ENCODING 1208
+          WITH XML-DECLARATION
+
+@end verbatim
+The code above generates the following XML document:
+
+@verbatim
+
+<?XML VERSION=1.0" ENCODING=UTF-8"?><MESSAGE><MSG>Hello COBOL!</MSG></MESSAGE>
+
+@end verbatim
+
+If you do not code the XML-DECLARATION phrase, an XML declaration is not generated.
+
+@verbatim
+
+CCSID	    Description
+-----     -----------
+
+1208	     UTF-8
+1047	     Latin 1 / Open Systems
+1140, 37	 USA, Canada, . . . Euro Country Extended Code Page (ECECP),
+                             Country Extended Code Page (CECP)
+1141, 273	Austria, Germany ECECP, CECP
+1142, 277	Denmark, Norway ECECP, CECP
+1143, 278	Finland, Sweden ECECP, CECP
+1144, 280	Italy ECECP, CECP
+1145, 284	Spain, Latin America (Spanish) ECECP, CECP
+1146, 285	UK ECECP, CECP
+1147, 297	France ECECP, CECP
+1148, 500	International ECECP, CECP
+1149, 871	Iceland ECECP, CECP
+
+@end verbatim
+
+ATTRIBUTES.
+@item
+You can use the ATTRIBUTES phrase of the XML GENERATE statement to have each elementary data item included in the generated XML document to be expressed as an attribute of the XML element that corresponds to its immediately superordinate data item, rather than as a child element.
+
+@verbatim
+
+ 01  wXML-INPUT.
+     05  wNAME      PIC X(10) VALUE "PETER".
+     05  wSALARY.
+         10 wBASIC  PIC X(05) VALUE "20000".
+         10 wHRA    PIC X(03) VALUE "3000".
+     05  wDEPT      PIC X(03) VALUE "TRADE".
+
+ XML   GENERATE XML-OUT FROM wXML-INPUT
+                        WITH ATTRIBUTE.
+
+@end verbatim
+@item
+The code would then generate the following XML document, in which wNAME and wDEPT are expressed as attributes of element XML-INPUT and wBASIC and wHRA become attributes of element wSALARY
+
+@verbatim
+
+<wXML-INPUT wNAME=PETER wDEPT=TRADE>
+<wSALARY wBASIC=20000" wHRA=3000"></wSALARY>
+</wXML-INPUT>
+
+@end verbatim
+NAMESPACE and NAMESPACE-PREFIX
+@item
+Use the NAMESPACE phrase to identify a namespace for the generated XML document. If the NAMESPACE phrase is not specified, or if identifier-4 has length zero or contains all spaces, the element names of XML documents produced by the XML GENERATE statement are not in any namespace.
+@item
+Use the NAMESPACE-PREFIX phrase to qualify the start and end tag of each element in the generated XML document with a prefix.
+@item
+If the NAMESPACE-PREFIX phrase is not specified, or if identifier-5 is of length zero or contains all spaces, the namespace specified by the NAMESPACE phrase specifies the default namespace for the document. In this case, the namespace declared on the root element applies by default to each element name in the document, including that of the root element. (Default namespace declarations do not apply directly to attribute names).
+@item
+If the NAMESPACE-PREFIX phrase is specified, and identifier-5 is not of length zero and does not contain all spaces, then the start and end tag of each element in the generated document is qualified with the specified prefix. The prefix should therefore preferably be short. When the XML GENERATE statement is executed, the prefix must be a valid XML name, but without the colon ( : ), as defined in Namespaces in XML 1.0. at http://www.w3.org/TR/xml-names/#ns-decl. The prefix can have trailing spaces, which are removed before use.
+
+Identifier-4, literal-4; identifier-5, literal-5
+
+@item
+Identifier-4, literal-4: The namespace identifier, which must be a valid Uniform Resource Identifier (URI) as defined in Uniform Resource Identifier (URI): Generic Syntax at http://www.rfc-editor.org/rfc/rfc3986.txt.
+@item
+Identifier-5,literal-5: The namespace prefix, which serves as an alias for the namespace identifier.
+@item
+Identifier-4 and identifier-5 must reference data items of category alphanumeric.
+@item
+Identifier-4 and identifier-5 must not overlap identifier-1 or identifier-3.
+@item
+Literal-4 and literal-5 must be of category alphanumeric  and must not be figurative constants.
+@item
+For full details about namespaces, see Namespaces in XML 1.0  at http://www.w3.org/TR/xml-names/#ns-decl.
+@verbatim
+
+     01 MESSAGE.
+        05 MSG PIC X(80) VALUE 'Hello COBOL!'.
+     01 NAME-SPACE PIC X(10) VALUE "HTTP://GNUCOBOL.COM".
+
+     XML GENERATE OUTPUT FROM MESSAGE
+         WITH ENCODING 1208
+         WITH XML-DECLARATION
+
+@end verbatim
+
+The code above generates the following XML document:
+@verbatim
+
+<MESSAGE XMLNS=HTTP://GNUCOBOL><MSG>Hello COBOL!</MSG></MESSAGE>
+
+@end verbatim
+
+If you do not specify a namespace, the element names in the generated XML document are not in any namespace.
+
+@verbatim
+
+     01  wRegards.
+         05  msg  pic x(80)  value 'Hello,COBOL!'.
+     01  NS       pic x(20)  value 'http://sample'.
+     01  NP       pic x(5)   value 'pfx'.
+     ...
+
+     XML Generate Doc from Greeting
+         namespace        is NS
+         namespace-prefix is NP
+
+     <pfx:wRegards xmlns:pfx="http://sample"><pfx:msg>Hello,COBOL!</pfx:msg></pfx:wRegards>
+
+@end verbatim
+
+NAME.
+@item
+Allows you to supply element and attribute names.
+@item
+Identifier-6 must reference identifier-2 or one of its subordinate data items. It cannot be a function identifier and cannot be reference modified or subscripted. It must not specify any data item which is ignored by the XML GENERATE statement. For more information about identifier-2, see the description of identifier-2. If identifier-6 is specified more than once in the NAME phrase, the last specification is used.
+@item
+Literal-6 must be an alphanumeric literal containing the attribute or element name to be generated in the XML document corresponding to identifier-6. It must be a valid XML local name.
+
+TYPE.
+@item
+Allows you to control attribute and element generation.
+@item
+Identifier-7 must reference an elementary data item that is subordinate to identifier-2. It cannot be a function identifier and cannot be reference modified or subscripted. It must not specify any data item which is ignored by the XML GENERATE statement. For more information about identifier-2, see the description of identifier-2. If identifier-7 is specified more than once in the TYPE phrase, the last specification is used.
+@enumerate
+@item
+If the XML GENERATE statement also includes a WITH ATTRIBUTES phrase, the TYPE phrase has precedence for identifier-7.
+@item
+When ATTRIBUTE is specified, identifier-7 must be eligible to be an XML attribute. identifier-7 is expressed in the generated XML as an attribute of the XML element immediately superordinate to identifier-7 rather than as a child element.
+@item
+When ELEMENT is specified, identifier-7 is expressed in the generated XML as an element. The XML element name is derived from identifier-7 and the element character content is derived from the converted content of identifier-7 as described in Operation of XML GENERATE.
+@item
+When CONTENT is specified, identifier-7 is expressed in the generated XML as element character content of the XML element that corresponds to the data item immediately superordinate to identifier-7. The value of the element character content is derived from the converted content of identifier-7 as described in Operation of XML GENERATE. When CONTENT is specified for multiple identifiers all corresponding to the same superordinate identifier, the multiple contributions to the element character content are concatenated.
+@end enumerate
+@item
+The exact mixed-case spelling of data-names from the data description entry is retained.
+@item
+You likely want to change the COBOL variable names to all lower case or use the NAME phrase for all data 	entries (at least if you expect it to be all in lower case as in your "target sample").
+@verbatim
+
+     IDENTIFICATION DIVISION.
+     PROGRAM-ID. XMLPROG.
+     DATA DIVISION.
+     WORKING-STORAGE SECTION.
+     01 TOTAL-CHAR PIC 9(05) VALUE 0.
+     01 x PIC X(200).
+     01 y.
+        03 z PIC X(15) VALUE "hello,COBOL!".
+        03 az PIC X(15) VALUE "goodbye, COBOL!".
+        03 ab.
+           05 abc PIC x(03) value spaces.
+
+     PROCEDURE DIVISION.
+     XML GENERATE x FROM y
+         COUNT IN TOTAL-CHAR
+         WITH XML-DECLARATION
+         NAME OF abc IS "ABCDEF",
+                   z IS "zeta"
+         TYPE OF   z IS ATTRIBUTE
+         SUPPRESS WHEN SPACES
+     END-XML
+
+     DISPLAY "0. [" TOTAL-CHAR "] COUNT"
+     DISPLAY "1. [" FUNCTION TRIM(x) "]"
+
+     XML GENERATE x FROM abc,
+         NAME OF abc IS "sfdasd"
+     DISPLAY "0. [" TOTAL-CHAR "] COUNT"
+     DISPLAY "2. [" FUNCTION TRIM(x) "]"
+
+     XML GENERATE x FROM ab,
+         WITH ATTRIBUTES.
+     DISPLAY "0. [" TOTAL-CHAR "] COUNT"
+     DISPLAY "3. [" FUNCTION TRIM(x) "]"
+     DISPLAY "4. [" x(1:TOTAL-CHAR)  "]".
+
+@end verbatim
+SUPPRESS
+@item
+Optionally, you can code the SUPPRESS phrase to specify whether individual data items are generated based on whether or not they meet certain criteria.
+If the SUPPRESS phrase is specified, identifier-1 must be large enough to contain the generated XML document before any suppression.
+@item
+With the generic-suppression-phrase, elementary items subordinate to identifier-2 that are not otherwise ignored by XML GENERATE operations are identified generically for potential suppression.
+@item
+Either items of class numeric, if the NUMERIC keyword is specified, or items that are not of class numeric, if the NONNUMERIC keyword is specified, or both, might be suppressed.
+
+@item
+If the ATTRIBUTE keyword is specified, only items that would be expressed in the generated XML document as an XML attribute are identified for potential suppression.
+@item
+If the ELEMENT keyword is specified, only items that would be expressed in the generated XML document as an XML element are identified for potential suppression.
+@item
+If the CONTENT keyword is specified, only items that would be expressed in the generated XML document as element character content of the XML element corresponding to the data item superordinate to the CONTENT data item are identified for potential suppression.
+@item
+If multiple generic-suppression-phrase are specified, the effect is cumulative.
+@item
+Identifier-8 explicitly identifies items for potential suppression.
+@item
+If the WHEN phrase is specified, identifier-8 must reference an elementary data item that is subordinate to identifier-2 and that is not otherwise ignored by the XML GENERATE operations. identifier-8 cannot be a function identifier and cannot be reference modified or subscripted.
+@item
+If the WHEN phrase is omitted, identifier-8 can reference not only an elementary data item but also a group data item. That group data item and all data items that are subordinate to the group item are suppressed. If identifier-8 is specified more than once in the SUPPRESS phrase, the last specification is used. The explicit suppression specification for identifier-8 overrides the suppression specification that is implied by any generic-suppression-phrase, if identifier-8 is also one of the identifiers generically identified.
+@item
+If identifier-8 is specified, the following rules apply to it:
+@enumerate A
+@item
+If ZERO, ZEROES, or ZEROS is specified in the WHEN phrase, identifier-8 must not be of USAGE DISPLAY
+@item
+If SPACE or SPACES is specified in the WHEN phrase, identifier-8 must be of USAGE DISPLAY, DISPLAY-1, or NATIONAL. If identifier-8 is a zoned or national decimal item, it must be an integer.
+@item
+If LOW-VALUE, LOW-VALUES, HIGH-VALUE, or HIGH-VALUES is specified in the WHEN phrase, identifier-8 must be of USAGE DISPLAY. If identifier-8 is a zoned decimal item, it must be an integer.
+@end enumerate
+@item
+If the generic-suppression-phrase is specified, data items are selected for potential suppression according to the following rules:
+@enumerate A
+@item
+If ZERO, ZEROES, or ZEROS is specified in the WHEN phrase, all data items except those that are defined with USAGE DISPLAY-1 are selected.
+@item
+If SPACE or SPACES is specified in the WHEN phrase, data items of USAGE DISPLAY, DISPLAY-1, or NATIONAL are selected. For zoned or national decimal items, only integers are selected.
+@item
+If LOW-VALUE, LOW-VALUES, HIGH-VALUE, or HIGH-VALUES is specified in the WHEN phrase, data items of USAGE DISPLAY are selected. For zoned  decimal items, only integers are selected.
+@end enumerate
+@item
+When the SUPPRESS phrase is specified, a group item subordinate to identifier-2 is suppressed in the generated XML document if all the eligible items subordinate to the group item are suppressed or if, after suppressing any subordinate items, the XML corresponding to the group item would be an empty element with no attributes. The root element is always generated, even if all the items subordinate to identifier-2 are suppressed.
+@verbatim
+
+     01 wG.
+        02 HiddenInfo.
+           03 SSN pic x(11) value '123-45-6789'.
+           03 HomeAddress pic x(50) value '123 Main St, Anytown, USA'.
+        02 Atable value spaces.
+           03 wA pic AAA occurs 5.
+        02 Btable value spaces.
+           03 wB pic XXX occurs 5.
+        02 Ctable value zeros.
+           03 wC pic 999 occurs 5.
+
+    Move 'abc' to wA(1)
+    Move 123   to wC(3)
+    XML GENERATE wDoc from wG
+        suppress HiddenInfo
+                 every nonnumeric element when space
+                 every numeric    element when zero
+    END-XML
+
+Generated document:
+
+   <wG>
+      <Atable><A>abc</A></Atable>
+      <Ctable><C>123</C></Ctable>
+   </wG>
+
+@end verbatim
+
+ON EXCEPTION and NOT ON EXCEPTION.
+@item
+When an error occurs during XML document generation, an exception condition exists. An example of this is when identifier-1 is not large enough to contain the generated XML document. In this case, XML generation stops and the content of the receiver, identifier-1, is undefined. If the COUNT IN phrase was specified, identifier-3 contains the number of character positions that were generated. This can range from zero to the length of identifier-1.
+@item
+If the ON EXCEPTION phrase is specified, control is transferred to imperative-statement-1. If it is not specified, NOT ON EXCEPTION phrases are ignored, and control is transferred to the end of the XML GENERATE statement.
+@item
+At termination of an XML GENERATE statement, special register XML-CODE contains either 0, indicating successful completion of XML generation, or a non-zero error code, indicating that an exception occurred during XML generation.
+@item
+If no exception conditions arise during generation of the XML document, control is passed to imperative-statement-2, if specified, or to the end of the XML GENERATE statement. If an ON EXCEPTION phrase is specified, it is ignored. Special register XML-CODE contains a zero after the XML GENERATE statement has finished executing.
+
+END-XML
+
+@item
+Is an explicit scope terminator that delimits the scope of XML GENERATE statement. With END-XML, conditional XML GENERATE  statements can be nested in other conditional statements. Conditional XML GENERATE statements specify the ON EXCEPTION or NOT ON EXCEPTION phrase.
+@item
+The scope of a conditional XML GENERATE or XML PARSE statement is terminated by:
+@enumerate a
+@item
+An END-XML phrase at the same level of nesting
+@item
+A separator period
+@end enumerate
+
+NESTED XML GENERATE STATEMENTS.
+@item
+When a given XML GENERATE statement appears as imperative-statement-1 or
+imperative-statement-2, or as part of imperative-statement-1 or
+imperative-statement-2 of another XML GENERATE statement, that given XML GENERATE statement is a nested XML GENERATE statement.
+@item
+Nested XML GENERATE statements are considered to be matched XML GENERATE and END-XML combinations 	proceeding from left to right. For this reason, when END-XML phrases are encountered, they are matched with 	the nearest preceding XML GENERATE statements that have not already been terminated.
+
+@end enumerate
 
 @comment *********************************************************************
 @comment ** 7.8.XML PARSE                                                   **
