@@ -726,6 +726,8 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 * INITIALIZE
 * INITIATE
 * INSPECT
+* JSON GENERATE
+* JSON PARSE
 * MERGE
 * MOVE
 @detailmenu
@@ -788,6 +790,8 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 * UNLOCK
 * UNSTRING
 * WRITE
+* XML GENERATE
+* XML PARSE
 @end menu
 @end iftex
 @comment *********************************************************************
@@ -1212,7 +1216,7 @@ Numeric keypad keys are not recognizable on Windows MinGW/PDCurses builds of Gnu
 The optional @code{EXCEPTION-STATUS} clause may be used to detect exceptions from a prior arithmetic verb such as COMPUTE to recover any errors produced. These are recovered using the function @code{EXCEPTION-STATUS}.
 
 @item
-@syntaxidx{CONTROL} The value of literal-8 and identifier-8 in the CONTROL phrase is used to specify a dynamic option list.
+The use of @syntaxidx{CONTROL} The value of literal-8 and identifier-8 in the CONTROL phrase is used to specify a dynamic option list.
 The value must be a character-string consisting of a series of keywords delimited by commas;
 Some keywords allow assignment of a value by following the keyword with an equal sign and the value.
 Blanks are ignored in the character-string. Lowercase letters are treated as uppercase letters within keywords.
@@ -1221,8 +1225,8 @@ Keywords may be specified in any order. Keywords, which specify options that do 
 
 The keywords that affect an ACCEPT statement are
 BEEP, BLINK, ECHO, PROMPT, REVERSE, TAB, UNDERLINE, UPDATE, ERASE, ERASE EOL, ERASE EOS,
-HIGH, LOW, UPPER, NO BEEP, NO BLINK,NO ECHO, NO PROMPT, NO REVERSE, NO TAB, NO UNDERLINE,
-NO UPDATE, NO ERASE,
+HIGH, LOW, UPPER, NO BEEP, NO BLINK, NO ECHO, NO PROMPT, NO REVERSE, NO TAB, NO UNDERLINE,
+NO UPDATE, NO ERASE.
 
 The meanings of these keywords when they appear in the value of the CONTROL phrase operand are the same as the corresponding phrases which may be written as static options of the ACCEPT statement, with the addition of the negative forms to allow suppression of statically declared options.
 
@@ -1244,7 +1248,7 @@ When BCOLOR is present, color-name specifies the background color of the DISPLAY
 Following table contains a list of all the possible names for color-name.
 The left column contains the valid color name.
 The right column shows the color that appears when high intensity is specified (the default intensity).
-
+@page
 @verbatim
 
 	+--------------------------------------------------------------+
@@ -1293,16 +1297,16 @@ You may make combinations by adding the appropriate values together.  The follow
 You may specify other video attributes by adding the following values:
 @verbatim
 
-    +-------------------------+--------+
-    |Reverse video            |   1024 |
-    |Low intensity            |   2048 |
-    |High intensity           |   4096 |
-    |Underline                |   8192 |
-    |Blink                    |  16384 |
-    |Protected                |  32768 |
-    |Background low-intensity |  65536 |
-    |Background high-intensity| 131072 |
-    +-------------------------+--------+
+	+-------------------------+--------+
+	|Reverse video            |   1024 |
+	|Low intensity            |   2048 |
+	|High intensity           |   4096 |
+	|Underline                |   8192 |
+	|Blink                    |  16384 |
+	|Protected                |  32768 |
+	|Background low-intensity |  65536 |
+	|Background high-intensity| 131072 |
+	+-------------------------+--------+
 
 @end verbatim
 @item
@@ -1331,6 +1335,7 @@ The data retrieved from the system and the format in which it is structured will
 @item @code{DAY-OF-WEEK} @tab Current day within a week where 1 = Monday.., 7 = Sunday @tab d
 @item @code{TIME} @tab Time, including hundredths of a second (n) @tab hhmmssnn
 @item @code{MICROSECOND-TIME} @tab Time, including micro seconds (u) @tab hhmmssuuuuuu
+
 @end multitable
 
 @item When using one of @option{--std=acu} or @option{--std=acu-strict},
@@ -1385,9 +1390,16 @@ See the documentation on the @subpgmref{CBL_GET_SCR_SIZE} for another way to ret
 The
 @syntaxidx{ESCAPE KEY} option may be used after an ACCEPT data-item has been used to retrieve data off a formatted screen. The result returned, will be the four-digit key id of the special key that was pressed to terminate the ACCEPT data-item (a 0000 is returned for the Enter key).
 
-This value will be the same as that returned into the CRT STATUS IS identifier-1 defined in the SPECIAL-NAMES paragraph or into the COB-CRT-STATUS identifier if no CRT STATUS IS identifier-1 is specified.
-Consult chapter 'ACCEPT data-item' for a list of CRT STATUS possible values.
+If you specify the CRT STATUS is Identifier-1 clause in SPECIAL NAMES, then for an ACCEPT data-item, the system sets a code in the identifier-1 field that indicates which key ended the ACCEPT data-item.
 
+If the CRT STATUS clause IS identifier-1 is not specified in SPECIAL NAMES. then within the program, you can write two consecutive ACCEPTs:
+@example
+
+ACCEPT data-item
+ACCEPT identifier-1 FROM ESCAPE KEY
+@end example
+
+In this way in the identifier-1 field you will have the return code which indicates which key completed the ACCEPT data-item.
 
 @end enumerate
 @comment *********************************************************************
@@ -3558,7 +3570,7 @@ The @statement{JSON GENERATE} converts a JSON record based on the structure and 
 
 
 @comment *********************************************************************
-@comment ** 7.8.JSON GENERATE                                               **
+@comment ** 7.8.JSON PARSE                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{JSON PARSE}
