@@ -3324,8 +3324,8 @@ The size data must be in binary form or any other numeric forms to be accepted.
 The following are possibly typical @var{no-of-lines} and @var{no-of-columns} definitions:
 
 @example
-01  NO-OF-LINES             USAGE BINARY-CHAR.
-01  NO-OF-COLUMNS           USAGE BINARY-CHAR.
+01  NO-OF-LINES             USAGE BINARY-CHAR UNSIGNED.
+01  NO-OF-COLUMNS           USAGE BINARY-CHAR UNSIGNED.
 @end example
 
 This system call will only work if the terminal program used is compatible for such operations and not all are.
@@ -3365,8 +3365,8 @@ The following is a typical @var{cursor-locn-buffer} definition:
 
 @example
 01  CURSOR-LOCN-BUFFER.
-    05 CURSOR-LINE          USAGE BINARY-CHAR.
-    05 CURSOR-COLUMN        USAGE BINARY-CHAR.
+    05 CURSOR-LINE          USAGE BINARY-CHAR UNSIGNED.
+    05 CURSOR-COLUMN        USAGE BINARY-CHAR UNSIGNED.
 @end example
 
 Values of 1 (Line) and 1 (column) will be returned if GnuCOBOL was not generated to include screen I/O.
@@ -3404,13 +3404,15 @@ The returned size data will be in binary form.
 The following are typical @var{no-of-lines} and @var{no-of-columns} definitions:
 
 @example
-01  NO-OF-LINES             USAGE BINARY-CHAR.
-01  NO-OF-COLUMNS           USAGE BINARY-CHAR.
+01  NO-OF-LINES             USAGE BINARY-CHAR UNSIGNED.
+01  NO-OF-COLUMNS           USAGE BINARY-CHAR UNSIGNED.
 @end example
 
 GnuCOBOL run-time screen management must have been initialized prior to CALLing this routine in order to receive meaningful values.  This means that a @statementref{DISPLAY data-item} or a @statementref{ACCEPT data-item} must have been executed prior to executing the @statement{CALL}.
 
 Zero values will be returned if the screen has not been initialized and values of 24 (lines) and 80 (columns) will be returned if GnuCOBOL was not generated to include screen I/O.
+
+Maximum values for BINARY-CHAR is 255 and any excess to this will be wrong so if lines or columns exceed 255, results will not be valid.
 @comment *********************************************************************
 @comment ** 8.2.37 CBL_IMP                                                  **
 @comment *********************************************************************
@@ -3666,8 +3668,8 @@ The following is a typical @var{cursor-locn-buffer} definition:
 
 @example
 01  CURSOR-LOCN-BUFFER.
-    05 CURSOR-LINE          USAGE BINARY-CHAR.
-    05 CURSOR-COLUMN        USAGE BINARY-CHAR.
+    05 CURSOR-LINE          USAGE BINARY-CHAR UNSIGNED.
+    05 CURSOR-COLUMN        USAGE BINARY-CHAR UNSIGNED.
 @end example
 
 @comment *********************************************************************
