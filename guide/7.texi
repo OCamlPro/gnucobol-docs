@@ -1860,6 +1860,87 @@ The optional @syntaxref{ROUNDED} clause available to each @var{identifier-1} wil
 
 @item
 The optional @code{ON SIZE ERROR} and @code{NOT ON SIZE ERROR} clauses may be used to detect and react to the failure or success, respectively, of an attempt to perform a calculation.  In this case, failure is defined either as having an @var{identifier-3} with an insufficient number of digit positions available to the left of any implied decimal point or attempting to divide by zero.  @xref{ON SIZE ERROR + NOT ON SIZE ERROR}, for additional information.
+
+@item
+The COMPUTE verb can also be used to evaluate boolean expressions. See the  following example:
+
+@verbatim
+
+       >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTBOOLEAN.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 A pic 9 comp-x value B'00000101'.
+01 B pic 9 comp-x value B'00000011'.
+01 c pic 9        value LOW-VALUE.
+
+PROCEDURE DIVISION.
+  display space
+  display '   a          b     c        a                 b          c    '
+  display '  --- ------ ---   ---    -------- -------- --------   --------'
+  display '   '  a  '  initial ' b '     ' c '     ' FUNCTION BIT-Of(a) ' initial
+          ' FUNCTION BIT-Of(b) '   ' FUNCTION BIT-OF(c)
+  display space   display space
+  display '   a operator b     c        a     operator    b          c    '
+  display '  --- ------ ---   ---    -------- -------- --------   --------'
+  compute c = a B-AND b
+  display '   '  a  '   AND    ' b '  =  ' c '     '  FUNCTION BIT-Of(a)  '
+          AND    ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
+  compute c = a B-OR b
+  display '   '  a  '   OR     ' b '  =  ' c '     '  FUNCTION BIT-Of(a)  '
+          OR     ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
+  compute c = a B-XOR b
+  display '   '  a  '   XOR    ' b '  =  ' c '     '  FUNCTION BIT-Of(a)  '
+          XOR    ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
+  compute c = B-NOT b
+  display '   -'    '   NOT    ' b '  =  ' c '         -   '              '
+          NOT    ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
+  accept omitted
+  STOP RUN.
+
+@end verbatim
+
+@item
+and in particular with the boolean shift operators, see the following example:
+
+@verbatim
+
+         >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTBOOLEANSHIFT.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 A pic 9 comp-x value B'00000001'.
+01 B pic 9 comp-x value B'00000101'.
+01 c pic 9        value LOW-VALUE.
+
+PROCEDURE DIVISION.
+  display space
+  display '   a            b     c        a                   b          c    '
+  display '  --- ------   ---   ---    -------- ---------- --------   --------'
+  display '   '  a  '  initial   ' b '     ' c '     ' FUNCTION BIT-Of(a)   '
+            initial    ' FUNCTION BIT-Of(b) '   ' FUNCTION BIT-OF(c)
+  display space   display space
+  display '   a operator   b     c        a     operator      b          c    '
+  display '  --- ------   ---   ---    -------- ---------- --------   --------'
+  compute c = a B-SHIFT-L  b
+  display '   '  a  ' B-SHIFT-L  ' b '  =  ' c '     '  FUNCTION BIT-Of(a)  '
+          B-SHIFT-L  ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
+  compute c = a B-SHIFT-LC b
+  display '   '  a  ' B-SHIFT-LC ' b '  =  ' c '     '  FUNCTION BIT-Of(a)  '
+          B-SHIFT-LC ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
+  compute c = a B-SHIFT-R  b
+  display '   '  a  ' B-SHIFT-R  ' b '  =  ' c '     '  FUNCTION BIT-Of(a)  '
+          B-SHIFT-R  ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
+  compute c = a B-SHIFT-RC b
+  display '   '  a  ' B-SHIFT-RC ' b '  =  ' c '     '  FUNCTION BIT-Of(a)  '
+          B-SHIFT-RC ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
+  accept omitted
+  STOP RUN.
+
+@end verbatim
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.10 CONTINUE                                                **
