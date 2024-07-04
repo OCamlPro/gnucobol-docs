@@ -2169,7 +2169,7 @@ If you wanted to store the value 128 million into that field, you would do so as
 MOVE 128000000 TO Gross-Revenue
 @end example
 
-A @syntaxref{DISPLAY} of a data item containing @samp{P} symbols is a little strange.  The value displayed will be what is actually in storage, but the total size of the displayed value will be as if the @samp{P} symbols had been @samp{9}s.  Thus, after the above statement established a value for Gross-Revenue, a @code{DISPLAY Gross-Revenue} would produce output of @samp{000000128}.
+A @syntaxref{DISPLAY} of a data item containing @samp{P} symbols is a little strange.  The value displayed will be what is actually in storage, but the total size of the displayed value will be as if the @samp{P} symbols had been @samp{9}s.  Thus, after the above statement established a value for Gross-Revenue, a @code{DISPLAY Gross-Revenue} would produce output of @samp{128000000}. This is the actual three characters stored with six zeros appended.
 
 @item @samp{S}
 This symbol, if used, must be the very first symbol in the @code{PICTURE} value.  A @samp{S} indicates that the data item is @code{Signed}, meaning that negative values are possible for this data item.  Without an @samp{S}, any negative values stored into this data item via a @code{MOVE} or arithmetic statement will have the negative sign stripped from it (in effect becoming the absolute value).
@@ -2270,7 +2270,7 @@ The example will display three results --- @samp{34567.89}, @samp{00019.00} and 
 Both data item definitions @i{appear} to have @i{two} decimal points in their picture clauses.  They actually don't, because the last character of every data item definition is always a period --- the period that ends the definition.
 
 @item @samp{,}
-The @samp{,} symbol serves as a thousands separator.  Many times, you'll see large numbers formatted with these symbols --- for example, 123,456,789.  This can be accomplished easily by adding thousands separator symbols to a picture string.  Thousands separator symbols that aren't needed will behave as if they were @samp{9}s.
+The @samp{,} symbol serves as a thousands separator.  Many times, you'll see large numbers formatted with these symbols --- for example, 123,456,789.  This can be accomplished easily by adding thousands separator symbols to a picture string.  Thousands separator symbols that aren't needed will be ignored, i.e., not used.
 
 The @samp{,} symbol is not allowed in conjunction with @samp{N}.
 
@@ -2281,12 +2281,28 @@ Here's an example:
     ...
     MOVE 12345 TO My-Lottery-Winnings
     DISPLAY My-Lottery-Winnings
+
+    This produces 012,345
+
 @end verbatim
 
-The value @samp{0000012,345} (a very disappointing one for my retirement plans, but a good thousands separator demo) will be displayed.  Notice how, since the first comma wasn't needed due to the meagre amount I won, it behaved like another @samp{9}.
+The value @samp{12,345} (a very disappointing one for my retirement plans, but a good thousands separator demo) will be displayed.  Notice how, since the first comma wasn't needed due to the meagre amount I won, it is ignored.
 @end table
 
 If desired, you may reverse the roles of the @samp{.} and @samp{,} editing symbols by specifying @code{DECIMAL POINT IS COMMA} in the @syntaxref{SPECIAL-NAMES} paragraph.
+
+@verbatim
+    ...
+        05  My-Lottery-Winnings   PIC zzz,zzz,zz9.
+    ...
+    MOVE 12345 TO My-Lottery-Winnings
+    DISPLAY My-Lottery-Winnings
+
+    This produces 12,345
+
+    Notice that there is no leading zeros when using the picture Z.
+
+@end verbatim
 
 @item
 The following are insertion symbols.  They are used to insert an extra character (two in the case of @code{CR} and @code{DB}) to signify the sign (positive or negative) of the numeric value that is moved into the field whose picture string contains one of these symbols, or the fact that the data item represents a currency (money) amount.  Only one of the @samp{+}, @samp{-}, @code{CR} or @code{DB} symbols may be used in a picture clause. In this context, when any of these symbols are used in a @var{picture-string}, they must be at the end.  The @samp{+}, @samp{-} and/or currency symbols may also be used as floating editing symbols at the @i{beginning} of the @var{picture-string} --- a subject that will be covered in the next numbered paragraph.
@@ -2360,9 +2376,8 @@ Any zero-suppression symbol coded to the right of a @samp{.} will be treated exa
 
 @samp{+} and @samp{-} should not be coded in the same @var{picture-string}
 
-When multiple floating symbols are coded, even if there is only one of them used they will all be considered floating and will all be able to assume each other's properties.  For example, if a data item has a @code{PIC +$ZZZZ9.99} @var{picture-string}, and a value of 1 is moved to that field at run-time, the resulting value will be (the @i{b} symbol represents a space) @code{@i{bbbb}+$1.00}.  This is not consistent with many other COBOL implementations, where the result would have been @code{+$@i{bbbb}1.00}.
+When multiple floating symbols are coded, even if there is only one of them used, only the last coded one will be considered floating. The leading floating symbols we be treated as fixed and will appear in the output in the position coded. For example, if a data item has a PIC +$ZZZZ9.99 picture-string, and a value of 1 is moved to that field at run-time, the resulting value will be (the b symbol represents a space) +$bbbb1.00. This is consistent with many other COBOL implementations, where the result would also have been +$bbbb1.00.
 
-Most other COBOL implementations reject the use of multiple occurrences of multiple floating editing symbols.  For example, they would reject @var{picture-string}s such as @code{+++$$$9.99}, @code{$$$ZZZ9.99} and so on.  GnuCOBOL accepts these.  Programmers creating GnuCOBOL programs should avoid such @var{picture-string}s if there is any likelihood that those programs may be used with other COBOL implementations.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.34 PRESENT WHEN                                             **
@@ -2839,7 +2854,7 @@ The following illustrates the allocation of a group of data items both without a
 This syntax is valid in the following sections:
 @code{SCREEN}
 
-This clause will force a specific time for the data tp be entered.
+This clause will force a specific time for the data to be entered.
 
 
 @comment *********************************************************************
