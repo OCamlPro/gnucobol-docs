@@ -2602,9 +2602,9 @@ If no @var{char} argument is provided, a period (@samp{.}) will be used.
 @diagram{C$SLEEP Built-In Subroutine,SS-C$SLEEP,SS-C$SLEEP,None}
 @code{C$SLEEP} puts the program to sleep for the specified number of seconds and/or fractions of a second.  The @var{seconds-to-sleep} argument may be a numeric literal or data item.
 
-Sleep times less than 1 will be interpreted as 0, subject to the speed of the CPU and the O/S (Operating System) used, as well as the timing of the generated C code, which can immediately returns control to the calling program without any sleep delay.
+Sleep times less than 1 will be interpreted as 0, subject to the speed of the CPU and the O/S (Operating System) used, as well as the timing of the generated C code, which will immediately returns control to the calling program without any sleep delay.
 
-When using a variable argument defined as 9(n)v9(m) where n is maximum seconds in 7 days, i.e., (60 x 60 x 24 x 7) = 604,800 (seconds)  and m is at a point too fast for the CPU and O/S. In practice m should be 2 for a hundredth of a second but actual testing against the target CPU would be need.
+When using a variable argument defined as 9(n)v9(m) where n is maximum seconds in 7 days, i.e., (60 x 60 x 24 x 7) = 604,800 (seconds)  and m is at a point too fast for the CPU and O/S. In practice m should be 2 for a hundredth of a second but actual testing against the target CPU would be needed.
 
 The maximum time can be adjusted by the define MAX_SLEEP_TIME during compilation of the compiler [and no I do not know where it is in the codebase] e.g.:
 @verbatim
@@ -2612,7 +2612,82 @@ The maximum time can be adjusted by the define MAX_SLEEP_TIME during compilation
 /* maximum sleep time in seconds, currently 7 days */
 #define MAX_SLEEP_TIME 3600*24*7
 
+Extract from a working program :-
+
+This routine completes a process on newly arrived files at 30 minutes past each hour
+When complete sleeps for 60 minutes - time past nn:30:..
+
+*>  In WS ---
+*> Computed last finished, based on Sleep secs
+*>    changes depend on UPDATE run & finished time.
+*>
+ 01  WS-Cycle-Process-Data.
+     03  WS-Sleep-Minutes    pic 9(5)        value 60.   *>Default 60 = 1 hour
+     03  WS-Sleep-Seconds    pic 9(5)        value zeros.
+     03  WS-Cycle-Start      pic 99          value 30.  *> time to run past the hour
+     03  WS-Cycle-Secs       pic s9(6)       value zeros.
+     03  WS-Tmp-Secs1        pic s9(6)       value zero.
+     03  WS-Rerun-Cycles-No  pic s999        value -1.
+     03  WS-Tmp-Sleep        pic 9(6)        value zero.
+*>
+ 01  Current-Date-And-Time.
+     03  CDT-DateTime.                        *> 16
+         05  CDT-Year        pic 9(4).
+         05  CDT-Month       pic 9(2). *> 01-12
+         05  CDT-Day         pic 9(2). *> 01-31
+         05  CDT-Hour        pic 9(2). *> 00-23
+         05  CDT-Minutes     pic 9(2). *> 00-59
+         05  CDT-Seconds     pic 9(2). *> 00-59
+         05  CDT-Huns-Of-Secs pic 9(2). *> 00-99
+     03  filler redefines CDT-DateTime.
+         05  CDT-DDT         pic 9(8).
+         05  filler          pic x(8).
+     03  filler.
+         05 CDT-GMT-Diff-HH  pic S9(2)  sign leading separate.
+         05 CDT-GMT-Diff-MMM pic 9(2). *> 00 or 30
+
+In PD ---
+
+*>
+*> Now if set to sleep do so,
+*>  for normal processing multi (24) times per day
+*>
+*> First use minutes & at end convert to secs
+*>
+              move     FUNCTION Current-Date to Current-Date-And-Time
+              compute  WS-Tmp-Secs1 = WS-Cycle-Secs - ((CDT-Minutes * 60) + CDT-Seconds)
+              if       WS-Tmp-Secs1 is negative
+                   or  WS-Tmp-Secs1 = zero
+                       add       WS-Sleep-Seconds to WS-Tmp-Secs1
+              end-if
+              move     WS-Tmp-Secs1 to WS-Tmp-Sleep
+*>
+              move     spaces to Log-Msg
+              string   "Time Now "
+                       CDT-Hour
+                       ":"
+                       CDT-Minutes
+                       ":"
+                       CDT-Seconds
+                       space
+                       "Sleep time "
+                       WS-Tmp-Sleep
+                                     into Log-Msg
+              display  FUNCTION TRIM (Log-Msg) at 1601 with erase eol
+  *> Code skipped
+*>
+*> Allow ESCape to terminate after NEXT update cycle but time will be out 1 sec
+*>
+              accept   Accept-Reply at line WS-Lines col 42 TIME-OUT 1
+              if       Cob-Crt-Status = Cob-Scr-Esc
+                       go to AA040-EOJ
+              end-if
+              call     "C$SLEEP" using WS-Tmp-Sleep
+              go to    AA032-Test-Update
+     end-if
+
 @end verbatim
+
 @comment *********************************************************************
 @comment ** 8.2.13 C$TOLOWER                                                **
 @comment *********************************************************************
