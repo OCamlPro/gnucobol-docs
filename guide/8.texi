@@ -2413,6 +2413,8 @@ The following sections describe the various built-in subroutines.  @i{All subrou
 * CBL_GC_HOSTED.
 * CBL_GC_NANOSLEEP.
 * CBL_GC_PRINTABLE.
+* CBL_GC_SCR_DUMP.
+* CBL_GC_SCR_RESTORE.
 * CBL_GC_SET_SCR_SIZE.
 * CBL_GC_WAITPID.
 * CBL_GET_CSR_POS.
@@ -3384,8 +3386,106 @@ The @code{CBL_GC_PRINTABLE} subroutine converts the contents of the data-item sp
 Those characters that are deemed printable (as defined by the character set used by @var{data-item}) will remain unchanged, while those that are @i{not} printable will be converted to the character specified as the second argument.
 
 If no @var{char} argument is provided, a period (@samp{.}) will be used.
+
 @comment *********************************************************************
-@comment ** 8.2.32B CBL_GC_SET_SCR_SIZE                                         **
+@comment ** 8.2.xx CBL_GC_SCR_DUMP                                          **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_GC_SCR_DUMP}
+@diagram{CBL_GC_SCR_DUMP Built-In Subroutine,SS-CBL_GC_SCR_DUMP,SS-CBL_GC_SCR_DUMP,None}
+Use this subroutine to writes the current contents of the screen to the file named by file-name.
+This function prepares the file that will be used with the CBL_GC_SCR_RESTORE function.
+
+The following is a sample GnuCOBOL program that shows how to use the DUMP and RESTORE routines.
+
+@example
+        >>SOURCE FORMAT IS FREE
+REPLACE ==:BCOL:== BY ==with BACKGROUND-COLOR==
+        ==:FCOL:== BY ==FOREGROUND-COLOR==.
+IDENTIFICATION DIVISION.
+program-id. SCRDUMPRESTORE.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 Black constant as 00.
+01 Green constant as 02.
+01 wBco        pic 9(02) value Green.
+01 wFco        pic 9(02) value Black.
+01 wLin        pic 99 value 05.
+01 wCol        pic 99 value 10.
+01 wScreenName PIC X(256) value space.
+01 wScrOk      BINARY-LONG value zero.
+01 wScrOk9     pic 99.
+01 .
+   03 Bmess pic x(30) occurs 20 value space.
+
+PROCEDURE DIVISION.
+   *> D I S P L A Y 1st S C R E E N
+   move Green to wBco move Black to wFco
+   move '111111111111111111111111111111' to Bmess(1)
+   move '>>>>>>>>>> MESSAGE 1 <<<<<<<<<' to Bmess(2)
+   move '111111111111111111111111111111' to Bmess(3)
+   move '111111111111111111111111111111' to Bmess(4)
+   move '111111111111111111111111111111' to Bmess(5)
+   move '111111111111111111111111111111' to Bmess(6)
+   move '------------------------------' to Bmess(7)
+   perform DisplayMessage thru DisplayMessageEx
+   display 'PRESS ENTER TO DUMP 1st SCREEN ' at line 01 col 01 :BCOL: 07 :FCOL: black
+   accept omitted
+   *> save 1st screen
+   move 'DUMPSCREEN.TMP' & x'00' to wScreenName
+   call 'CBL_GC_SCR_DUMP' using by reference wScreenName returning wScrOk end-call
+   display '1st SCREEN DUMPED - RETURN CODE IS: ' at line 01 col 01 :BCOL: 07 :FCOL: black
+   move wScrOk to wScrOk9
+   display wScrOk9 at line 01 col 41 :BCOL: 07 :FCOL: black
+   accept omitted
+   display 'PRESS ENTER TO DISPLAY 2nd SCREEN          ' at line 01 col 01 :BCOL: 07 :FCOL: black
+   accept omitted
+   *> D I S P L A Y 2nd S C R E E N
+   DISPLAY ' ' AT 0101 WITH ERASE EOS
+   move 12 to wLin move 20 to wCol
+   move 04 to wBco move Black to wFco
+   move '+----------------------------+' to Bmess(1)
+   move '|2222222222222222222222222222|' to Bmess(2)
+   move '|2222222222222222222222222222|' to Bmess(3)
+   move '| MESSAGE 2 |' to Bmess(4)
+   move '|2222222222222222222222222222|' to Bmess(5)
+   move '|2222222222222222222222222222|' to Bmess(6)
+   move '+----------------------------+' to Bmess(7)
+   perform DisplayMessage thru DisplayMessageEx
+   display 'PRESS ENTER TO RESTORE 1st SCREEN          ' at line 01 col 01 :BCOL: 07 :FCOL: black
+   accept omitted
+   *> restore 1st screen
+   call 'CBL_GC_SCR_RESTORE' using by reference wScreenName returning wScrOk end-call
+   CALL 'CBL_DELETE_FILE' USING wScreenName
+   display '1st SCREEN RESTORED - RETURN CODE IS: ' at line 01 col 01 :BCOL: 07 :FCOL: black
+   move wScrOk to wScrOk9
+   display wScrOk9 at line 01 col 41 :BCOL: 07 :FCOL: black
+   accept omitted
+   STOP RUN.
+
+DisplayMessage.
+   display Bmess(1) at line wLin + 1 col wCol :BCOL: wBco :FCOL: wFco
+   display Bmess(2) at line wLin + 2 col wCol :BCOL: wBco :FCOL: wFco
+   display Bmess(3) at line wLin + 3 col wCol :BCOL: wBco :FCOL: wFco
+   display Bmess(4) at line wLin + 4 col wCol :BCOL: wBco :FCOL: wFco
+   display Bmess(5) at line wLin + 5 col wCol :BCOL: wBco :FCOL: wFco
+   display Bmess(6) at line wLin + 6 col wCol :BCOL: wBco :FCOL: wFco
+   display Bmess(7) at line wLin + 7 col wCol :BCOL: wBco :FCOL: wFco
+   continue.
+DisplayMessageEx. exit.
+@end example
+
+@comment *********************************************************************
+@comment ** 8.2.xx CBL_GC_SCR_RESTORE                                       **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_GC_SCR_RESTORE}
+@diagram{CBL_GC_SCR_RESTORE Built-In Subroutine,SS-CBL_GC_SCR_RESTORE,SS-CBL_GC_SCR_RESTORE,None}
+
+Use this subroutine to restore the screen to the way it looked in the dump file which must have been created using the CBL_GC_SCR_DUMP function.
+
+@comment *********************************************************************
+@comment ** 8.2.32B CBL_GC_SET_SCR_SIZE                                     **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_SET_SCR_SIZE}
