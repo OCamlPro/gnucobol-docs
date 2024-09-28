@@ -1832,27 +1832,27 @@ For v4.0+
 
 For v4.0+
  Environment name:  COB_RETRY_TIMES
-  Parameter name:  retry_times
-         Purpose:  Defines how many times I/O should be retried
-            Type:  integer
-         Default:  0
-         Example:  retry_times = 10
+  Parameter name:   retry_times
+         Purpose:   Defines how many times I/O should be retried
+            Type:   integer
+         Default:   0
+         Example:   retry_times = 10
 
 For v4.0+
  Environment name:  COB_RETRY_SECONDS
-  Parameter name:  retry_seconds
-         Purpose:  Defines how many seconds I/O should be retried
-            Type:  integer
-         Default:  0
-         Example:  retry_seconds = 6
+  Parameter name:   retry_seconds
+         Purpose:   Defines how many seconds I/O should be retried
+            Type:   integer
+         Default:   0
+         Example:   retry_seconds = 6
 
 For v4.0+
  Environment name:  COB_KEYCHECK
-  Parameter name:  keycheck
-         Purpose:  Must INDEXED file keys match COBOL SELECT exactly
-            Type:  boolean
-         Default:  true
-         Example:  keycheck = off
+  Parameter name:   keycheck
+         Purpose:   Must INDEXED file keys match COBOL SELECT exactly
+            Type:   boolean
+         Default:   true
+         Example:   keycheck = off
 
  Environment name:  COB_SYNC
    Parameter name:  sync
@@ -1887,6 +1887,13 @@ For v4.0+
              Type:  FLASH, SPEAKER, FALSE, BEEP
           Default:  BEEP
           Example:  BELL SPEAKER
+
+ Environment name:  COB_HIDE_CURSOR
+   Parameter name:  hide_cursor
+          Purpose:  hide the cursor; 0=visible, 1=hidden
+             Type:  boolean
+          Default:  false
+          Example:  hide_cursor Y
 
  Environment name:  COB_REDIRECT_DISPLAY
    Parameter name:  redirect_display
@@ -1929,62 +1936,63 @@ For v4.0+
           Example:  insert_mode Y
 
  Environment name:  COB_MOUSE_FLAGS
-  Parameter name:  mouse_flags
-         Purpose:  specify which mouse events will be sent as function key
-                   to the application during ACCEPT and how they will be
-                   handled
-            Type:  int (by bits)
-         Default:  1
-            Note:  0 disables the mouse cursor, any other value enables it,
-                   any value containing 1 will enable internal handling (click
-                   to position, double-click to enter).
-                   See copy/screenio.cpy for list of events and their values.
-           Alias:  MOUSE_FLAGS
-         Example:  11 (enable internal handling => 1, left press => 2,
-                       double-click => 8; 1+2+8=11)
+  Parameter name:   mouse_flags
+         Purpose:   specify which mouse events will be sent as function key
+                    to the application during ACCEPT and how they will be
+                    handled
+            Type:   int (by bits)
+         Default:   1
+            Note:   0 disables the mouse cursor, any other value enables it,
+                    any value containing 1 will enable internal handling (click
+                    to position, double-click to enter).
+                    See copy/screenio.cpy for list of events and their values.
+           Alias:   MOUSE_FLAGS
+         Example:   11 (enable internal handling => 1, left press => 2,
+                        double-click => 8; 1+2+8=11)
+
  Environment name:  COB_MOUSE_INTERVAL
-  Parameter name:  mouse_interval
-         Purpose:  specifies the maximum time (in thousands of a second)
-                   that can elapse between press and release events for them
-                   to be recognized as a click.
-            Type:  int (0 - 166)
-         Default:  100
-            Note:  0 disables the click resolution (instead press + release
-                   are recognized), also disables positioning by mouse click
+  Parameter name:   mouse_interval
+         Purpose:   specifies the maximum time (in thousands of a second)
+                    that can elapse between press and release events for them
+                    to be recognized as a click.
+            Type:   int (0 - 166)
+         Default:   100
+            Note:   0 disables the click resolution (instead press + release
+                    are recognized), also disables positioning by mouse click
 
  Environment name:  COB_DISPLAY_PRINT_PIPE
-  Parameter name:  display_print_pipe
-         Purpose:  Defines command line used for sending output of
-                   DISPLAY UPON PRINTER to (via pipe)
-                   This is very similar to Micro Focus COBPRINTER
-            Note:  Each executed DISPLAY UPON PRINTER statement causes a
-                   new invocation of command-line (= new process start).
-                   Each invocation receives the data referenced in
-                   the DISPLAY statement and is followed by an
-                   end-of-file condition.
-                   COB_DISPLAY_PRINT_FILE, if set, takes precedence
-                   over COB_DISPLAY_PRINT_PIPE.
-           Alias:  COBPRINTER
-            Type:  string
-         Default:  not set
-         Example:  print 'cat >>/tmp/myprt.log'
+  Parameter name:   display_print_pipe
+         Purpose:   Defines command line used for sending output of
+                    DISPLAY UPON PRINTER to (via pipe)
+                    This is very similar to Micro Focus COBPRINTER
+            Note:   Each executed DISPLAY UPON PRINTER statement causes a
+                    new invocation of command-line (= new process start).
+                    Each invocation receives the data referenced in
+                    the DISPLAY statement and is followed by an
+                    end-of-file condition.
+                    COB_DISPLAY_PRINT_FILE, if set, takes precedence
+                    over COB_DISPLAY_PRINT_PIPE.
+           Alias:   COBPRINTER
+            Type:   string
+         Default:   not set
+         Example:   print 'cat >>/tmp/myprt.log'
 
  Environment name:  COB_DISPLAY_PRINT_FILE
-  Parameter name:  display_print_file
-         Purpose:  Defines file to be appended to by DISPLAY UPON PRINTER
-            Note:  Each DISPLAY UPON PRINTER opens, appends and closes the file.
-            Type:  string       : $$ is replaced by process id
-         Default:  not set
-         Example:  display_printer '/tmp/myprt.log'
+  Parameter name:   display_print_file
+         Purpose:   Defines file to be appended to by DISPLAY UPON PRINTER
+            Note:   Each DISPLAY UPON PRINTER opens, appends and closes the file.
+            Type:   string       : $$ is replaced by process id
+         Default:   not set
+         Example:   display_printer '/tmp/myprt.log'
 
  Environment name:  COB_DISPLAY_PUNCH_FILE
-  Parameter name:  display_punch_file
-         Purpose:  Defines file to be created on first
-                   DISPLAY UPON SYSPUNCH/SYSPCH
-            Note:  The file will be only be closed on runtime exit.
-            Type:  string       : $$ is replaced by process id
-         Default:  not set
-         Example:  display_punch './punch_$$.out'
+  Parameter name:   display_punch_file
+         Purpose:   Defines file to be created on first
+                    DISPLAY UPON SYSPUNCH/SYSPCH
+            Note:   The file will be only be closed on runtime exit.
+            Type:   string       : $$ is replaced by process id
+         Default:   not set
+         Example:   display_punch './punch_$$.out'
 
  Environment name:  COB_LEGACY
    Parameter name:  legacy

@@ -897,6 +897,10 @@ A simpler approach to retrieving an environment variables value is to use the
 @syntaxidx{ENVIRONMENT} option, where you specify the environment variable whose value is to be retrieved right on the @code{ACCEPT} statement itself.
 
 @item
+With the option ACCEPT "var" FROM ENVIRONMENT runtime-config-option you can receive the value set in one of the runtime-configuration-options listed in chapter 10.2.3 Run Time Environment Variables.
+As an example: ACCEPT identifier-1 FROM ENVIRONMENT 'COB_INSERT_MODE' returns whether insert mode is active ( = 'true' or 1 ) or inactive ( = 'false' or 0 ).
+
+@item
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to an attempt to retrieve the value of a non-existent environment variable or the successful retrieval of an environment variable's value, respectively.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
 @end enumerate
 @comment ********************************************************************
@@ -4598,6 +4602,12 @@ DISPLAY "VALUE" UPON ENVIRONMENT-VALUE
 
 SET ENVIRONMENT "VARNAME" TO "VALUE"
 @end example
+
+@item
+SET ENVIRONMENT is especially useful for managing the configuration variables listed in chapter 10.2.3 Run Time Environment Variables and in particular the variables in chapter 10.2.3.5 Screen I/O.
+@item
+As an example, use SET ENVIRONMENT 'COB_HIDE_CURSOR' TO 'TRUE' to make the cursor invisible when doing a DISPLAY or an ACCEPT.
+
 @comment *********************************************************************
 @comment ** 7.8.40.2 SET Program-Pointer                                    **
 @comment *********************************************************************
