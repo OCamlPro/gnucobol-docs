@@ -1,14 +1,40 @@
-   CALL [ { STDCALL         } ] { literal-1    }
-   ~~~~   { ~~~~~~~         }   { identifier-1 }
-          { STATIC          }
-          { ~~~~~~          }
-          { mnemonic-name-1 }
+   CALL [ {STDCALL        } ]  [ WITH {STDCALL} LINKAGE ]   {literal-1   }
+   ~~~~ [ {~~~~~~~        } ]  [ ~~~~ {~~~~~~~} ~~~~~~~ ]   {identifier-1}
+        [ {STATIC         } ]  [      {C      }         ]
+        [ {~~~~~~         } ]  [      {~      }         ]
+        [ {C              } ]  [      {PASCAL }         ]
+        [ {~              } ]  [      {~~~~~~ }         ]
+        [ {EXTERN         } ]
+        [ {~~~~~~         } ]
+        [ {PASCAL         } ]
+        [ {~~~~~~         } ]
+        [ {mnemonic-name-1} ]
 
-        [ USING CALL-Argument... ]
-          ~~~~~
-        [ RETURNING|GIVING identifier-2 ]
-          ~~~~~~~~~ ~~~~~~
-        [ ON OVERFLOW|EXCEPTION imperative-statement-1 ]
+        [USING{[BY{REFERENCE}] {[{         SIZE IS AUTO     }] literal-2   }}...]
+        [~~~~~{[  {~~~~~~~~~}] {[{         ~~~~    ~~~~     }] identifier-2}}   ]
+        [     {[  { CONTENT }] {[{         SIZE IS DEFAULT  }]             }}   ]
+        [     {[  { ~~~~~~~ }] {[{         ~~~~    ~~~~~~~  }]             }}   ]
+        [     {[  { VALUE   }] {[{         SIZE IS integer-1}]             }}   ]
+        [     {[  { ~~~~~   }] {[{         ~~~~             }]             }}   ]
+        [     {                {[{UNSIGNED SIZE IS AUTO     }]             }}   ]
+        [     {                {[{~~~~~~~~ ~~~~    ~~~~     }]             }}   ]
+        [     {                {[{UNSIGNED SIZE IS integer-2}]             }}   ]
+        [     {                {[{~~~~~~~~ ~~~~    ~~~~     }]             }}   ]
+        [     {                {                                OMITTED    }}   ]
+        [     {                {                                ~~~~~~~    }}   ]
+
+        [ RETURNING|GIVING { INTO identifier-3      } ]
+        [ ~~~~~~~~~ ~~~~~~ { ADDRESS OF identifier-4} ]
+        [                  { ~~~~~~~                } ]
+        [                  { NOTHING                } ]
+        [                  { ~~~~~~~                } ]
+        [                  { NULL                   } ]
+        [                  { ~~~~                   } ]
+        [                  { OMITTED                } ]
+        [                  { ~~~~~~~                } ]
+
+
+        [ ON OVERFLOW|EXCEPTION     imperative-statement-1 ]
              ~~~~~~~~ ~~~~~~~~~
         [ NOT ON OVERFLOW|EXCEPTION imperative-statement-2 ]
           ~~~    ~~~~~~~~ ~~~~~~~~~
