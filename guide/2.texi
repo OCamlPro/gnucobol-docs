@@ -835,7 +835,7 @@ The ... meta character sequence signifies that the syntax element immediately pr
 @item @{ @}
 The braces (@samp{@{} and @samp{@}}) meta characters may be used to group a sequence of syntax elements together so that they may be treated as a single entity.  The @code{@{@}} characters themselves should not be coded.  These are typically used in combination with the @samp{|} or @samp{...} meta characters.
 
-@item $*^()-+=:"'<,>./
+@item $*()-+=:"'<,>./
 Any of these characters appearing within a syntax diagram are to be interpreted literally, and are characters that must be coded --- where allowed --- in the statement whose format is being described.  Note that a @samp{.} character is a literal character that must be coded on a statement whereas a @samp{...} symbol is the meta character sequence described above.
 @end table
 @comment *********************************************************************
@@ -1346,10 +1346,10 @@ In highest to lowest order of precedence, here is a discussion of each category 
 The unary ``minus'' (-) operator returns the arithmetic negation of its single argument, effectively returning as its value the product of its argument and -1.
 
 The unary ``plus'' (+) operator returns the value of its single argument, effectively returning as its value the product of its argument and +1.
-@item Level 2 --- Exponentiation (@code{**}
+@item Level 2 --- Exponentiation (@code{**})
 @cindex ** (Exponentiation)
 
-The value of the left argument is raised to the power indicated by the right argument.  Non-integer powers are allowed.  The @code{^} and @code{**} operators are both supported to provide compatibility with programs written for other COBOL implementations.
+The value of the left argument is raised to the power indicated by the right argument.  Non-integer powers are allowed.
 @item Level 3 --- Multiplication (@code{*}) and division (@code{/})
 @cindex * (Multiplication)
 @cindex / (Division)
@@ -1405,13 +1405,13 @@ Here are some examples of how the precedence of operations affects the results o
 @tab 13
 @tab * has precedence over +
 
-@item 4 * 2 ^ 3  - 10
+@item 4 * 2 ** 3  - 10
 @tab 22
-@tab 2^3 is 8 (^ has precedence over *), times 4 is 32, minus 10 is 22.
+@tab 2**3 is 8 (** has precedence over *), times 4 is 32, minus 10 is 22.
 
-@item (4 * 2) ^ 3  - 10
+@item (4 * 2) ** 3  - 10
 @tab 502
-@tab Parenthesis provide for a recursive application of the arithmetic expression rules, effectively allowing you to alter the precedence of operations.  4 times 2 is 8 (the use of parenthesis ``trumps'' the exponentiation operator, so the multiplication happens first); 8 ^ 3 is 512, minus 10 is 502.
+@tab Parenthesis provide for a recursive application of the arithmetic expression rules, effectively allowing you to alter the precedence of operations.  4 times 2 is 8 (the use of parenthesis ``trumps'' the exponentiation operator, so the multiplication happens first); 8 ** 3 is 512, minus 10 is 502.
 
 @item 5 / 2.5 + 7 * 2 - 1.15
 @tab 14.85
