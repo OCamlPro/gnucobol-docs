@@ -2,7 +2,7 @@
 @comment ** 6. DATA DIVISION                                                **
 @comment *********************************************************************
 @newchapter{DATA DIVISION}
-@diagram{DATA DIVISION,DD-Overview-Info,DD-Overview-TeX,None}
+@diagram{DATA DIVISION,DD-Overview-Info,DD-Overview-Info,None}
 
 All data used by any COBOL program must be defined in one of the six sections of the data division, depending upon the purpose of the data.
 @enumerate
@@ -1139,6 +1139,7 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 * SIGN.
 * SIZE.
 * SOURCE.
+* SPECIAL-NAMES.
 * SUM.
 * SYNCHRONIZED.
 * TIME OUT
@@ -2765,6 +2766,31 @@ The @syntaxref{PICTURE} of the report data item must be such that it would be le
 
 @item
 The @code{ROUNDED} option comes into play should the number of digits to the right of an actual or assumed decimal point be different between the specified literal or identifier value (the ``source value'') and the @code{PICTURE} specified for the field in whose definition the @code{SOURCE} clause appears (the ``target field'').  @i{Without} @code{ROUNDED}, excess digits in the source value will simply be truncated to fit the target field.  @i{With} @code{ROUNDED}, the source value will be arithmetically rounded to fit the target field.  @xref{ROUNDED}, for information on the @code{NEAREST-AWAY-FROM-ZERO} rounding rule, which is the one that will apply.
+@end enumerate
+
+@comment *********************************************************************
+@comment ** 6.9.?? SPECIAL-NAMES                                            **
+@comment *********************************************************************
+@page
+@newsubsection{SPECIAL-NAMES}
+@diagram{SPECIAL-NAMES Clause,DD-SPECIAL-NAMES,DD-SPECIAL-NAMES,None}
+This syntax is valid in the following sections:
+@code{DATA DIVISION}
+
+The SPECIAL-NAMES clause allows you to identify commonly used Special-Names items directly in the Data Division. Sample of use:
+@enumerate
+@item
+The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
+Next an example of usage.
+
+@example
+
+01  wCURPOS IS SPECIAL-NAMES CURSOR.
+    03 wCURSOR-ROW PIC 999.
+    03 wCURSOR-COL PIC 999.
+01  wCRTSTAT IS SPECIAL-NAMES CRT STATUS PIC 9(5).
+
+@end example
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.45 SUM OF                                                   **
