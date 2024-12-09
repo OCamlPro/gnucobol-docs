@@ -1,15 +1,17 @@
-   WRITE record-name-1
-   ~~~~~
-      [ FROM { literal-1    } ]
-        ~~~~ { identifier-1 }
+   WRITE { record-name-1   [ FROM { identifier-1 } ] }
+   ~~~~~ {                 [ ~~~~ { literal-1    } ] }
+         {                                           }
+         { FILE file-name-1  FROM { identifier-1 }   }
+         { ~~~~              ~~~~ { literal-1    }   }
+
+      [ { BEFORE } ADVANCING { { literal-2    } LINE|LINES } ]
+      [ { ~~~~~~ }           { { identifier-2              } ]
+      [ { AFTER  }           { PAGE                        } ]
+      [   ~~~~~              { ~~~~                        } ]
+                             { mnemonic-name-1             } ]
 
       [ WITH [ NO ] LOCK ]
                ~~   ~~~~
-      [ { BEFORE } ADVANCING { { literal-2    } LINE|LINES } ]
-        { ~~~~~~ }           { { identifier-2              }
-        { AFTER  }           { PAGE                        }
-          ~~~~~              { ~~~~                        }
-                             { mnemonic-name-1             }
 
       [ AT END-OF-PAGE|EOP imperative-statement-1 ]
            ~~~~~~~~~~~ ~~~
