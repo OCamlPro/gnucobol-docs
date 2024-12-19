@@ -1042,6 +1042,44 @@ Constants defined in this way become undefined once an @code{END PROGRAM} or @co
 @item
  See in 6.8.1 for examples of using the option arithmetic-expression.
 
+@item
+NEXT gives the integer value representing the offset at which the next byte of storage hat follows the previous data declaration.
+
+@example
+Following sample program shows some definitions -
+
+ID DIVISION.
+PROGRAM-ID. TEST78.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+78 AAA VALUE (100 -1) + 100.
+01 K          PIC X(19).
+01 A EXTERNAL PIC X(05) VALUE SPACE.
+01 R EXTERNAL PIC X(08) VALUE SPACE.
+78 BBB VALUE LENGTH OF A.
+78 CCC VALUE LENGTH OF '1234'.
+78 DDD VALUE LENGTH OF '1234567890' / LENGTH OF A.
+78 EEE VALUE LENGTH OF '123'  * 3.
+78 FFF VALUE START OF R.
+01 B EXTERNAL.
+   05 C   PIC X(26) VALUE 'A'.
+   05 D   PIC X(21) VALUE 'A'.
+   78 GGG           VALUE NEXT.
+   78 HHH           VALUE START OF A.
+   05 M   PIC X(23) VALUE 'B'.
+PROCEDURE DIVISION.
+    DISPLAY 'AAA= ' AAA
+    DISPLAY 'BBB= ' BBB
+    DISPLAY 'CCC= ' CCC
+    DISPLAY 'DDD= ' DDD
+    DISPLAY 'EEE= ' EEE
+    DISPLAY 'FFF= ' FFF
+    DISPLAY 'GGG= ' GGG
+    DISPLAY 'HHH= ' HHH
+    STOP RUN.
+
+@end example
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.8.5 88-Level Data Items                                       **
