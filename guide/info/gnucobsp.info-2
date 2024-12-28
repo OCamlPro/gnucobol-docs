@@ -1,0 +1,1465 @@
+This is gnucobsp.info, produced by makeinfo version 7.2 from
+gnucobsp.texi.
+
+This manual documents GnuCOBOL 3.2 - Final, 13 December 2024 at 13:35
+GMT.  build.
+
+Document  Copyright 2009-2014 Gary L. Cutler, FSF (Free Software Foundation).
+Updates:  Copyright 2014-2025 Vincent B. Coen, Gary L. Cutler & FSF.
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License
+     [FDL], Version 1.3 or any later version published by the Free
+     Software Foundation; with no Invariant Sections, no Front-Cover
+     Texts, and no Back-Cover Texts.  A copy of the license is included
+     in the section entitled "GNU Free Documentation License".
+
+     Permission is granted to make and distribute verbatim copies of
+     this manual provided the copyright notice and this permission
+     notice are preserved on all copies.
+
+     Permission is granted to copy and distribute modified versions of
+     this manual under the conditions for verbatim copying, provided
+     that the entire resulting derived work is distributed under the
+     terms of a permission notice identical to this one.
+
+     Permission is granted to copy and distribute translations of this
+     manual into another language, under the above conditions for
+     modified versions, except that this permission notice may be stated
+     in a translation approved by the Free Software Foundation.
+
+INFO-DIR-SECTION GnuCOBOL
+START-INFO-DIR-ENTRY
+* GnuCOBOL: (gnucobsp)        GnuCOBOL Sample Programs
+END-INFO-DIR-ENTRY
+
+
+File: gnucobsp.info,  Node: STREAMIO,  Next: GNU Free Documentation License,  Prev: GCic,  Up: Top
+
+6 STREAMIO
+**********
+
+STREAMIO is a utility I created to assist with handling stream I/O
+functions.  I've used it to construct a number of useful little
+command-line utilities.
+
+Usage of this subroutine is completely documented in the program
+comments.  The program COPY's a copybook named STREAMIOcb, the format of
+which is described in the program comments.
+
+Both STREAMIO.cbl and STREAMIOcb.cpy are included in the "samples"
+directory of any pre-built distributions of GnuCOBOL that I have
+created.
+
+In addition to general GnuCOBOL concepts, this program provides a useful
+demonstration of the following:
+   • Coding a GnuCOBOL subroutine
+
+   • Using the ‘REPLACING’ clause on a CDF ‘COPY’ statement
+
+   • Using hexadecimal alphanumeric literals
+
+   • Using the following statements:
+        o ‘ACCEPT FROM ENVIRONMENT’ statement
+
+        o ‘INSPECT’ statement
+
+        o ‘STRING’ statement
+
+   • Using the following built-in subroutines:
+        o ‘C$PARAMSIZE’ built-in system subroutine
+
+        o ‘CBL_CLOSE_FILE’ built-in system subroutine
+
+        o ‘CBL_DELETE_FILE’ built-in system subroutine
+
+        o ‘CBL_EXIT_PROC’ built-in system subroutine
+
+        o ‘CBL_OPEN_FILE’ built-in system subroutine
+
+        o ‘CBL_READ_FILE’ built-in system subroutine
+
+        o ‘CBL_WRITE_FILE’ built-in system subroutine
+
+   • Using the following intrinsic functions:
+        o ‘RANDOM’ intrinsic function
+
+        o ‘TRIM’ intrinsic function
+
+First, here is the STREAMIOcb.cpy copybook:
+
+           05 SCB-Handle-NUM                    PIC X(4) COMP-X.
+           05 SCB-Mode-CD                       PIC X(1).
+              88 SCB-MODE-Input-BOOL            VALUE 'I', 'i'.
+              88 SCB-MODE-Output-BOOL           VALUE 'O', 'o'.
+              88 SCB-MODE-Both-BOOL             VALUE 'B', 'b'.
+           05 SCB-Function-CD                   PIC X(2).
+              88 SCB-Func-CLOSE-BOOL            VALUE 'C ', 'c '.
+              88 SCB-Func-DELETE-BOOL           VALUE 'D ', 'd '.
+              88 SCB-Func-OPEN-BOOL             VALUE 'O ', 'o '.
+              88 SCB-Func-READ-BOOL             VALUE 'R ', 'r '.
+              88 SCB-Func-READ-Delim-BOOL       VALUE 'RD', 'rd',
+                                                      'rD', 'Rd'.
+              88 SCB-Func-WRITE-BOOL            VALUE 'W ', 'w '.
+              88 SCB-Func-WRITE-Delim-BOOL      VALUE 'WD', 'wd',
+                                                      'wD', 'Wd'.
+           05 SCB-Delimiter-Mode-CD             PIC X(1).
+              88 SCB-DELIM-Unix-BOOL            VALUE 'U', 'u'.
+              88 SCB-DELIM-Windows-BOOL         VALUE 'W', 'w'.
+           05 SCB-Offset-NUM                    PIC X(8) COMP-X.
+           05 SCB-Error-Routine-PTR             USAGE PROGRAM-POINTER.
+           05 SCB-Error-Routine-NUM REDEFINES SCB-Error-Routine-PTR
+                                                USAGE BINARY-LONG.
+           05 SCB-Return-CD                     USAGE BINARY-LONG.
+           05 SCB-Filename-TXT                  PIC X(256).
+
+The program source and cross-reference listing, produced using the
+GnuCOBOL Interactive Compiler front-end (GCic.cbl, one of the sample
+programs included here), begins on the next page.
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 1
+====== =========================================================================================
+     1        >>SOURCE FORMAT IS FIXED
+     2        IDENTIFICATION DIVISION.
+     3        PROGRAM-ID. STREAMIO.
+     4       *>****************************************************************
+     5       *> Author: Gary L. Cutler                                       **
+     6       *>                                                              **
+     7       *> This routine centralizes all bytestream file I/O  functions  **
+     8       *> into one routine.  The manner in which this routine is       **
+     9       *> CALLed is as follows:                                        **
+    10       *>                                                              **
+    11       *>           CALL "STREAMIO" USING control-block [ , arg2 ]     **
+    12       *>                                                              **
+    13       *> where 'control-block' is defined by the "STREAMIOcb.cpy"     **
+    14       *> copybook and 'arg2' will vary, depending upon the function   **
+    15       *> specified in the control block.                              **
+    16       *>                                                              **
+    17       *> The STREAMIO routine has an advantage over the various       **
+    18       *> "CBL_xxxxxx_FILE" routines in that:                          **
+    19       *>                                                              **
+    20       *> 1. It automates the establishment and on-going adjustment of **
+    21       *>    the file-offset value in such a way as to simplify the    **
+    22       *>    sequential processing of a bytestream file (you may still **
+    23       *>    specify a file-offset manually on each read or write, if  **
+    24       *>    you wish)                                                 **
+    25       *>                                                              **
+    26       *> 2. It auto-detects the size of the I/O buffer you supply to  **
+    27       *>    STREAMIO, using that as the byte-count of all read and    **
+    28       *>    write operations.                                         **
+    29       *>                                                              **
+    30       *> 3. Not only does it support the raw input and output of data **
+    31       *>    that the CBL_READ_FILE and CBL_WRITE_FILE routines do,    **
+    32       *>    but on input it is also capable of delivering just a      **
+    33       *>    single newline-delimited or carriage-return/newline de-   **
+    34       *>    limited record to the caller.                             **
+    35       *>                                                              **
+    36       *> 4. On output, STREAMIO can optionally append either a new-   **
+    37       *>    line or carriage-return/newline sequence (your choice) to **
+    38       *>    the end of every record it writes.                        **
+    39       *>                                                              **
+    40       *> 5. STREAMIO can automatically generate filenames for output  **
+    41       *>    files if you wish, simplifying the process of creating    **
+    42       *>    scratch or work files.                                    **
+    43       *>                                                              **
+    44       *> 6. The STREAMIO routine also allows you to (optionally) re-  **
+    45       *>    gister a general error-handling routine to be given con-  **
+    46       *>    trol should a fatal error be detected with STREAMIO.      **
+    47       *>                                                              **
+    48       *>    This routine can be "turned on" and "turned off" at will. **
+    49       *>                                                              **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 1
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 2
+====== =========================================================================================
+    50       *> The control block format is as follows.  This structure must **
+    51       *> be defined under an 01-level data item of your creation and  **
+    52       *> should be INITIALIZEd before any items within it are used.   **
+    53       *>                                                              **
+    54       *> 05 SCB-Handle-NUM                   PIC X(4) COMP-X.         **
+    55       *> 05 SCB-Mode-CD                      PIC X(1).                **
+    56       *>    88 SCB-Mode-Input-BOOL           VALUE 'I', 'i'.          **
+    57       *>    88 SCB-Mode-Output-BOOL          VALUE 'O', 'o'.          **
+    58       *>    88 SCB-Mode-Both-BOOL            VALUE 'B', 'b'.          **
+    59       *> 05 SCB-Function-CD                  PIC X(2).                **
+    60       *>    88 SCB-Func-CLOSE-BOOL           VALUE 'C ', 'c '.        **
+    61       *>    88 SCB-Func-DELETE-BOOL          VALUE 'D ', 'd '.        **
+    62       *>    88 SCB-Func-OPEN-BOOL            VALUE 'O ', 'o '.        **
+    63       *>    88 SCB-Func-READ-BOOL            VALUE 'R ', 'r '.        **
+    64       *>    88 SCB-Func-READ-Delim-BOOL      VALUE 'RD', 'rd',        **
+    65       *>                                           'rD', 'Rd'.        **
+    66       *>    88 SCB-Func-WRITE-BOOL           VALUE 'W ', 'w '.        **
+    67       *>    88 SCB-Func-WRITE-Delim-BOOL     VALUE 'WD', 'wd',        **
+    68       *>                                           'wD', 'Wd'.        **
+    69       *> 05 SCB-Delimiter-Mode-CD            PIC X(1).                **
+    70       *>    88 SCB-Delim-Unix-BOOL           VALUE 'U', 'u'.          **
+    71       *>    88 SCB-Delim-Windows-BOOL        VALUE 'W', 'w'.          **
+    72       *> 05 SCB-Offset-NUM                   PIC X(8) COMP-X.         **
+    73       *> 05 SCB-Error-Routine-PTR            USAGE PROGRAM-POINTER.   **
+    74       *> 05 SCB-Error-Routine-NUM REDEFINES SCB-Error-Routine-PTR     **
+    75       *>                                     USAGE BINARY-LONG.       **
+    76       *> 05 SCB-Return-CD                    USAGE BINARY-LONG.       **
+    77       *> 05 SCB-Filename-TXT                 PIC X(256).              **
+    78       *>                                                              **
+    79       *> Such a structure is defined for your use using the copybook  **
+    80       *> "STREAMIOcb.cpy" (you may also define your own, provided it  **
+    81       *> conforms to the above layout).                               **
+    82       *>--------------------------------------------------------------**
+    83       *> SCB-Handle-NUM                                               **
+    84       *>--------------------------------------------------------------**
+    85       *>                                                              **
+    86       *> Serves as a file handle to the file once it has been opened  **
+    87       *> (via the "SCB-Func-OPEN-BOOL" function).                     **
+    88       *>                                                              **
+    89       *>--------------------------------------------------------------**
+    90       *> SCB-Mode-CD                                                  **
+    91       *>--------------------------------------------------------------**
+    92       *>                                                              **
+    93       *> Prior to calling "STREAMIO" for the first time for a file,   **
+    94       *> the appropriate subordinate level-88 must be set to TRUE to  **
+    95       *> select an I/O mode.  You may also simply move one of the     **
+    96       *> string values listed on the level-88 items to "SCB-Mode-CD". **
+    97       *>                                                              **
+    98       *>--------------------------------------------------------------**
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 2
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 3
+====== =========================================================================================
+    99       *> SCB-Function-CD                                              **
+   100       *>--------------------------------------------------------------**
+   101       *>                                                              **
+   102       *> The appropriate subordinate level-88 must be set to TRUE to  **
+   103       *> select a function you'd like to execute against a file.  You **
+   104       *> may also simply move one of the string values listed on the  **
+   105       *> level-88 items to "SCB-Function-CD".                         **
+   106       *>                                                              **
+   107       *> Available functions are as follows:                          **
+   108       *>                                                              **
+   109       *> SCB-Func-OPEN-BOOL                                           **
+   110       *>                                                              **
+   111       *>      This must be the function specified the first time you  **
+   112       *>      call STREAMIO for any given file.  It opens the file &  **
+   113       *>      makes it available for use according to the             **
+   114       *>      "SCB-Mode-CD" specification.                            **
+   115       *>                                                              **
+   116       *>      The filename being opened must be specified in the      **
+   117       *>      "SCB-Filename-TXT" field.                               **
+   118       *>                                                              **
+   119       *>      The SCB-Offset-NUM field will be initialized to ZERO.   **
+   120       *>                                                              **
+   121       *>      If "arg2" is specified in conjunction with this funct-  **
+   122       *>      ion, it will be ignored.                                **
+   123       *>                                                              **
+   124       *> SCB-Func-CLOSE-BOOL                                          **
+   125       *>                                                              **
+   126       *>      This function should be the one specified the LAST time **
+   127       *>      you call STREAMIO against a specific file.  After this  **
+   128       *>      function has been executed, you'll have to re-open the  **
+   129       *>      file if you wish to use it with STREAMIO again.         **
+   130       *>                                                              **
+   131       *>      The SCB-Handle-NUM item will be reset to ZERO.          **
+   132       *>                                                              **
+   133       *>      If "arg2" is specified in conjunction with this funct-  **
+   134       *>      ion, it will be ignored.                                **
+   135       *>                                                              **
+   136       *> SCB-Func-DELETE-BOOL                                         **
+   137       *>                                                              **
+   138       *>      This function will delete the file specified in the     **
+   139       *>      control block (see SCB-Filename-TXT).                   **
+   140       *>                                                              **
+   141       *>      This function should not be performed against a file    **
+   142       *>      that is open.                                           **
+   143       *>                                                              **
+   144       *>      If "arg2" is specified in conjunction with this funct-  **
+   145       *>      ion, it will be ignored.                                **
+   146       *>                                                              **
+   147       *> SCB-Func-READ-BOOL                                           **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 3
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 4
+====== =========================================================================================
+   148       *>                                                              **
+   149       *>      This function invokes a standard CBL_READ_FILE against  **
+   150       *>      the file specified in the control block (see            **
+   151       *>      SCB-Filename-TXT).                                      **
+   152       *>                                                              **
+   153       *>      The buffer into which you wish to read data must be     **
+   154       *>      supplied as "arg2".  The size of that buffer, in bytes, **
+   155       *>      will define the "byte-count" value supplied to the      **
+   156       *>      CBL_READ_FILE subroutine.  The buffer data item will be **
+   157       *>      set to SPACES before the read takes place.              **
+   158       *>                                                              **
+   159       *>      If the file-offset value (SCB-Offset-NUM) is greater    **
+   160       *>      than the size of the file, a "no more data" return code **
+   161       *>      (01) will be passed back in SCB-Return-CD and the       **
+   162       *>      buffer will have been set to SPACES.                    **
+   163       *>                                                              **
+   164       *>      At the conclusion of a successful SCB-Func-READ-BOOL,   **
+   165       *>      the value of SCB-Offset-NUM will have been automati-    **
+   166       *>      cally incremented by the byte-count size of "arg2".     **
+   167       *>                                                              **
+   168       *> SCB-Func-WRITE-BOOL                                          **
+   169       *>                                                              **
+   170       *>      This function invokes a standard CBL_WRITE_FILE against **
+   171       *>      the file specified in the control block (see            **
+   172       *>      SCB-Filename-TXT).                                      **
+   173       *>                                                              **
+   174       *>      The buffer from which data will be written to the file  **
+   175       *>      must be supplied as "arg2".  The size of that buffer,   **
+   176       *>      in bytes, will define the "byte-count" value supplied   **
+   177       *>      CBL_WRITE_FILE subroutine.  The buffer data will be     **
+   178       *>      written to the file-offset position defined by the      **
+   179       *>      SCB-Offset-NUM value.  You may specify "arg2" either    **
+   180       *>      as an actual alphanumeric data item or as an alpha-     **
+   181       *>      numeric literal.                                        **
+   182       *>                                                              **
+   183       *>      If the file-offset value (SCB-Offset-NUM) is greater    **
+   184       *>      than the size of the file, a "no more data" return code **
+   185       *>      will be passed back in SCB-Return-CD and the buffer     **
+   186       *>      will have been set to SPACES.                           **
+   187       *>                                                              **
+   188       *>      At the conclusion of a successful SCB-Func-WRITE-BOOL   **
+   189       *>      operation, the value of SCB-Offset-NUM will have been   **
+   190       *>      automatically incremented by the byte-count size of     **
+   191       *>      "arg2".                                                 **
+   192       *>                                                              **
+   193       *> SCB-Func-READ-Delim-BOOL                                     **
+   194       *>                                                              **
+   195       *>      SCB-Func-READ-Delim-BOOL bahaves like the SCB-FUNC-     **
+   196       *>      READ function, with the following behavioral dif-       **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 4
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 5
+====== =========================================================================================
+   197       *>      ferences:                                               **
+   198       *>                                                              **
+   199       *>      1. When data is read from the file, only that data read **
+   200       *>         up to BUT NOT INCLUDING an end-of-line delimiter     **
+   201       *>         sequence (either a LF or CRLF) will be retained in   **
+   202       *>         the buffer - the remainder of the buffer from the    **
+   203       *>         end-of-line sequence onward will be reset to SPACES. **
+   204       *>         The file-offset value (SCB-Offset-NUM) will be in-   **
+   205       *>         cremented ONLY by the amount of data transferred up  **
+   206       *>         to AND INCLUDING the end-of-line sequence.           **
+   207       *>                                                              **
+   208       *>      2. When data is read from the file and an end-of-line   **
+   209       *>         delimiter sequence (either a LF or a CRLF) cannot be **
+   210       *>         found within the buffer, the assumption is made that **
+   211       *>         the record is too long to fit within the buffer.  In **
+   212       *>         these instances, an SCB-Return-CD value of 02 will   **
+   213       *>         be returned and the SCB-Offset-NUM value will be     **
+   214       *>         incremented past the next end-of-line sequence in    **
+   215       *>         the file (this will involve at least one additional  **
+   216       *>         call to CBL_READ_FILE to locate that eol sequence,   **
+   217       *>         but any additional such reads will be done internal- **
+   218       *>         ly to STREAMIO and will be entirely transparent to   **
+   219       *>         the caller of STREAMIO.                              **
+   220       *>                                                              **
+   221       *>      DO NOT USE the Streamio-READ-Delim function if the      **
+   222       *>      possibility exists that linefeed (X"0A") or carriage-   **
+   223       *>      return (X"0D") characters could exist as actual data    **
+   224       *>      characters in the file.                                 **
+   225       *>                                                              **
+   226       *> SCB-Func-WRITE-Delim-BOOL                                    **
+   227       *>                                                              **
+   228       *>      SCB-Func-WRITE-Delim-BOOL acts like the Streamio-       **
+   229       *>      FUNC-WRITE function, with the following difference:     **
+   230       *>                                                              **
+   231       *>      After the specified data is written to the file, an     **
+   232       *>      end-of-line sequence will also be written to the file.  **
+   233       *>      The file-offset value (SCB-Value) will be incremented   **
+   234       *>      by the byte-count size of the data PLUS the size of the **
+   235       *>      end-of-line sequence.  One of two possible end-of-line  **
+   236       *>      sequences must be specified using the value of SCB-     **
+   237       *>      Delimter-Mode.                                          **
+   238       *>                                                              **
+   239       *>--------------------------------------------------------------**
+   240       *> SCB-Delimiter-Mode-CD                                        **
+   241       *>--------------------------------------------------------------**
+   242       *>                                                              **
+   243       *> This data item is needed only when issuing the Streamio-     **
+   244       *> FUNC-WRITE-Delim function.  In those circumstances, this     **
+   245       *> item defines what end-of-line delimiter sequence is to be    **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 5
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 6
+====== =========================================================================================
+   246       *> written:                                                     **
+   247       *>                                                              **
+   248       *> If SCB-Delim-Unix-BOOL is true, a linefeed character will    **
+   249       *> be written.                                                  **
+   250       *>                                                              **
+   251       *> If SCB-Delim-Windows-BOOL is true, a carriage-return and     **
+   252       *> linefeed sequence will be written.                           **
+   253       *>                                                              **
+   254       *>--------------------------------------------------------------**
+   255       *> SCB-Offset-NUM                                               **
+   256       *>--------------------------------------------------------------**
+   257       *>                                                              **
+   258       *> This data item specifies the next relative byte number with- **
+   259       *> in the file where the next read or write will start.         **
+   260       *>                                                              **
+   261       *> SCB-Offset-NUM is automatically set to 0 (the first byte)    **
+   262       *> when the file is opened, and is automatically incremented as **
+   263       *> the file is read or written via STREAMIO.                    **
+   264       *>                                                              **
+   265       *> You may also manually set this value as desired before any   **
+   266       *> call to STREAMIO.                                            **
+   267       *>                                                              **
+   268       *>--------------------------------------------------------------**
+   269       *> SCB-Error-Routine-PTR                                        **
+   270       *>--------------------------------------------------------------**
+   271       *>                                                              **
+   272       *> To specify a general error-handling routine for handling     **
+   273       *> STREAMIO failures, Create the routine and define an entry-   **
+   274       *> name for it via the ENTRY statement.  Then use the following **
+   275       *> to set that routine up as the error handler:                 **
+   276       *>                                                              **
+   277       *>    SET SCB-Error-Routine-PTR TO ENTRY "entry-name"           **
+   278       *>                                                              **
+   279       *> To "turn off" the error-routine:                             **
+   280       *>                                                              **
+   281       *>    SET SCB-Error-Routine-PTR TO NULL                         **
+   282       *>                                                              **
+   283       *> If a fatal error occurs (any error not marked with a ">" in  **
+   284       *> the SCB-Return-CD discussion), the error routine you spe-    **
+   285       *> cified (if any) will be set up as an exit routine via the    **
+   286       *> CBL_EXIT_PROC subroutine; the STREAMIO routine will then is- **
+   287       *> sue a STOP RUN to intentionally trigger your error routine.  **
+   288       *> You will not be able to recover your program once your error **
+   289       *> routine triggers.  If you wish to be able to recover from    **
+   290       *> fatal STREAMIO errors, you should NOT use the SCB-Error-     **
+   291       *> Routine feature but instead you should explicitly test the   **
+   292       *> SCB-Return-CD value after every call to STREAMIO.            **
+   293       *>                                                              **
+   294       *> A default error routine is defined by the "STREAMIOError.cpy"**
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 6
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 7
+====== =========================================================================================
+   295       *> copybook.                                                    **
+   296       *>                                                              **
+   297       *>--------------------------------------------------------------**
+   298       *> SCB-Return-CD                                                **
+   299       *>--------------------------------------------------------------**
+   300       *>                                                              **
+   301       *> The following are the possible SCB-Return-CD values.  The    **
+   302       *> ones marked with a ">" will NOT trigger an error-routine, if **
+   303       *> one is currently registered via SCB-Error-Routine-PTR.       **
+   304       *>                                                              **
+   305       *>   12 I/O error writing to file                               **
+   306       *>   11 File does not exist                                     **
+   307       *>   10 File already OPEN or already CLOSEd                     **
+   308       *> > 02 READ-Delim was truncated                                **
+   309       *> > 01 No more data is available from the current              **
+   310       *>      SCB-Offset-NUM                                          **
+   311       *> > 00 OK - the operation was successful                       **
+   312       *>   -1 Invalid SCB-Function-CD                                 **
+   313       *>   -2 Invalid SCB-Mode-CD                                     **
+   314       *>   -3 CBL_xxxxx_FILE routine rejected operation               **
+   315       *>   -4 Invalid delimiter mode specified (Not U/W)              **
+   316       *>                                                              **
+   317       *>--------------------------------------------------------------**
+   318       *> SCB-Filename-TXT                                             **
+   319       *>--------------------------------------------------------------**
+   320       *>                                                              **
+   321       *> This is the name of the file you wish to access.             **
+   322       *>                                                              **
+   323       *> If you are planning on reading the file, the file MUST exist **
+   324       *> at the time the SCB-Func-OPEN-BOOL is executed.              **
+   325       *>                                                              **
+   326       *> If you are planning on writing to the file, the file need    **
+   327       *> exist when the SCB-Func-OPEN-BOOL is issued.                 **
+   328       *>                                                              **
+   329       *> In general, the contents of SCB-Filename-TXT should re-      **
+   330       *> flect the complete path to the file as well as the name of   **
+   331       *> the file itself, unless the file is contained in whatever    **
+   332       *> directory is current at the time the SCB-Func-OPEN-BOOL is   **
+   333       *> executed.                                                    **
+   334       *>                                                              **
+   335       *> The following special values may be used for                 **
+   336       *> SCB-Filename-TXT:                                            **
+   337       *>                                                              **
+   338       *> SPACES If the filename is SPACES, a filename will be created **
+   339       *>        automatically for you in whatever directory is de-    **
+   340       *>        fined by the TEMP environment variable.  If there IS  **
+   341       *>        no TEMP variable defined, the "/tmp" folder will be   **
+   342       *>        assumed.  The filename will be STREAMIO-nnnnnnnn.dat  **
+   343       *>        where "nnnnnnnn" is a random number.                  **
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 7
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 8
+====== =========================================================================================
+   344       *>                                                              **
+   345       *> .      If you specify only a dot (period) as the filename,   **
+   346       *>        the behavior will be the same as with a value of      **
+   347       *>        SPACES except there will be no ".dat" at the end of   **
+   348       *>        the generated filename.                               **
+   349       *>                                                              **
+   350       *> .ext   If you specify a filename extension prefixed with a   **
+   351       *>        dot (period), the behavior will be the same as if a   **
+   352       *>        value of SPACES were specified, except that the given **
+   353       *>        extension will be used instead of ".dat".  Note that  **
+   354       *>        if you are using a Unix/Cygwin implementation of      **
+   355       *>        OpenCOBOL and you'd like to specify a hidden file in  **
+   356       *>        the current directory as the SCB-Filename-TXT, you    **
+   357       *>        MUST code the filename as "./.xxxxx" to avoid having  **
+   358       *>        it treated as this special name.                      **
+   359       *>                                                              **
+   360       *>****************************************************************
+   361        ENVIRONMENT DIVISION.
+   362        CONFIGURATION SECTION.
+   363        REPOSITORY.
+   364            FUNCTION ALL INTRINSIC.
+   365        DATA DIVISION.
+   366        WORKING-STORAGE SECTION.
+   367        01  WS-Access-Mode-CD                     PIC X(1) COMP-X.
+   368        01  WS-Arg-Length-NUM                     PIC X(4) COMP-X.
+   369        01  WS-Buffer-TXT                         PIC X(256).
+   370        01  WS-Delim-Buffer-TXT                   PIC X(2).
+   371        01  WS-Env-Temp-TXT                       PIC X(256).
+   372        01  WS-Slash-CHR                          PIC X(1).
+   373        01  WS-Tally-NUM                          USAGE BINARY-LONG.
+   374        01  WS-8-Digit-NUM                        PIC 9(8).
+   375        01  WS-256-Byte-TXT                       PIC X(256).
+   376        LINKAGE SECTION.
+   377        01  L-StreamIO-Control-Block-TXT.
+   378            COPY STREAMIOcb
+   379                REPLACING LEADING ==SCB-== BY ==L-SCB-==.
+        05 L-SCB-Handle-NUM PIC X(4) COMP-X.
+        05 L-SCB-Mode-CD PIC X(1).
+        88 L-SCB-MODE-Input-BOOL VALUE 'I' 'i'.
+        88 L-SCB-MODE-Output-BOOL VALUE 'O' 'o'.
+        88 L-SCB-MODE-Both-BOOL VALUE 'B' 'b'.
+        05 L-SCB-Function-CD PIC X(2).
+        88 L-SCB-Func-CLOSE-BOOL VALUE 'C ' 'c '.
+        88 L-SCB-Func-DELETE-BOOL VALUE 'D ' 'd '.
+        88 L-SCB-Func-OPEN-BOOL VALUE 'O ' 'o '.
+        88 L-SCB-Func-READ-BOOL VALUE 'R ' 'r '.
+        88 L-SCB-Func-READ-Delim-BOOL VALUE 'RD' 'rd'
+        'rD' 'Rd'.
+        88 L-SCB-Func-WRITE-BOOL VALUE 'W ' 'w '.
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 8
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                         Page: 9
+====== =========================================================================================
+        88 L-SCB-Func-WRITE-Delim-BOOL VALUE 'WD' 'wd'
+        'wD' 'Wd'.
+        05 L-SCB-Delimiter-Mode-CD PIC X(1).
+        88 L-SCB-DELIM-Unix-BOOL VALUE 'U' 'u'.
+        88 L-SCB-DELIM-Windows-BOOL VALUE 'W' 'w'.
+        05 L-SCB-Offset-NUM PIC X(8) COMP-X.
+        05 L-SCB-Error-Routine-PTR USAGE PROGRAM-POINTER.
+        05 L-SCB-Error-Routine-NUM REDEFINES L-SCB-Error-Routine-PTR
+        USAGE BINARY-LONG.
+        05 L-SCB-Return-CD USAGE BINARY-LONG.
+        05 L-SCB-Filename-TXT PIC X(256).
+   380        01  L-Arg2-TXT                            PIC X ANY LENGTH.
+   381        PROCEDURE DIVISION USING L-StreamIO-Control-Block-TXT,
+   382                                 L-Arg2-TXT.
+   383        000-Main SECTION.
+   384            MOVE 00 TO L-SCB-Return-CD
+   385            EVALUATE TRUE
+   386                WHEN L-SCB-Func-CLOSE-BOOL
+   387                    PERFORM 030-Validate-Handle-NonZero
+   388                    PERFORM 200-CLOSE
+   389                WHEN L-SCB-Func-DELETE-BOOL
+   390                    CALL "CBL_DELETE_FILE" USING L-SCB-Filename-TXT
+   391                WHEN L-SCB-Func-OPEN-BOOL
+   392                    PERFORM 020-Validate-Handle-Zero
+   393                    PERFORM 100-OPEN
+   394                WHEN L-SCB-Func-READ-BOOL
+   395                    PERFORM 030-Validate-Handle-NonZero
+   396                    PERFORM 400-READ
+   397                WHEN L-SCB-Func-READ-Delim-BOOL
+   398                    PERFORM 030-Validate-Handle-NonZero
+   399                    PERFORM 500-READ-Delim
+   400                WHEN L-SCB-Func-WRITE-BOOL
+   401                    PERFORM 030-Validate-Handle-NonZero
+   402                    PERFORM 300-WRITE
+   403                WHEN L-SCB-Func-WRITE-Delim-BOOL
+   404                    EVALUATE TRUE
+   405                        WHEN L-SCB-Delim-Unix-BOOL
+   406                            PERFORM 030-Validate-Handle-NonZero
+   407                            PERFORM 300-WRITE
+   408                            MOVE 1 TO WS-Arg-Length-NUM
+   409                            MOVE X"0A" TO WS-Delim-Buffer-TXT
+   410                        WHEN L-SCB-Delim-Windows-BOOL
+   411                            PERFORM 030-Validate-Handle-NonZero
+   412                            PERFORM 300-WRITE
+   413                            MOVE 2 TO WS-Arg-Length-NUM
+   414                            MOVE X"0D0A" TO WS-Delim-Buffer-TXT
+   415                       WHEN OTHER
+   416                            MOVE -4 TO L-SCB-Return-CD
+   417                            PERFORM 099-ERROR-Return
+
+================================================================================================
+GCic for OSX Copyright (C) 2009-2014, Gary L. Cutler, GPL                                Page: 9
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 10
+====== =========================================================================================
+   418                    END-EVALUATE
+   419                    CALL "CBL_WRITE_FILE" USING L-SCB-Handle-NUM
+   420                                                L-SCB-Offset-NUM
+   421                                                WS-Arg-Length-NUM
+   422                                                0
+   423                                                WS-Delim-Buffer-TXT
+   424                    PERFORM 040-Check-WRITE-SCB-Return-CD
+   425                    ADD WS-Arg-Length-NUM TO L-SCB-Offset-NUM
+   426                WHEN OTHER
+   427                    MOVE -1 TO L-SCB-Return-CD
+   428                    PERFORM 099-ERROR-Return
+   429            END-EVALUATE
+   430            GOBACK
+   431            .
+   432        020-Validate-Handle-Zero SECTION.
+   433            IF L-SCB-Handle-NUM NOT = ZERO
+   434                MOVE 10 TO L-SCB-Return-CD
+   435                PERFORM 099-ERROR-Return
+   436            END-IF
+   437            .
+   438        030-Validate-Handle-NonZero SECTION.
+   439            IF L-SCB-Handle-NUM = ZERO
+   440                MOVE 10 TO L-SCB-Return-CD
+   441                PERFORM 099-ERROR-Return
+   442            END-IF
+   443            .
+   444        040-Check-WRITE-SCB-Return-CD SECTION.
+   445            IF RETURN-CODE < 0
+   446                MOVE -3 TO L-SCB-Return-CD
+   447                PERFORM 099-ERROR-Return
+   448            END-IF
+   449            IF RETURN-CODE = 30
+   450                MOVE 12 TO L-SCB-Return-CD
+   451                PERFORM 099-ERROR-Return
+   452            END-IF
+   453            MOVE 00 TO L-SCB-Return-CD
+   454            .
+   455        050-Check-READ-SCB-Return-CD SECTION.
+   456            IF RETURN-CODE < 0
+   457                MOVE -3 TO L-SCB-Return-CD
+   458                PERFORM 099-ERROR-Return
+   459            END-IF
+   460            IF RETURN-CODE = 10
+   461                MOVE 01 TO L-SCB-Return-CD
+   462                GOBACK
+   463            END-IF
+   464            MOVE 00 TO L-SCB-Return-CD
+   465            .
+   466        060-Identify-TEMP SECTION.
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 10
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 11
+====== =========================================================================================
+   467            ACCEPT WS-Env-Temp-TXT FROM ENVIRONMENT "TEMP"
+   468            EVALUATE TRUE
+   469                WHEN WS-Env-Temp-TXT (1:1) = "/"
+   470                    MOVE "/"    TO WS-Slash-CHR
+   471                WHEN WS-Env-Temp-TXT (2:1) = ":"
+   472                    MOVE "\"    TO WS-Slash-CHR
+   473                WHEN OTHER
+   474                    MOVE "/tmp" TO WS-Env-Temp-TXT
+   475                    MOVE "/"    TO WS-Slash-CHR
+   476            END-EVALUATE
+   477            .
+   478        099-ERROR-Return SECTION.
+   479            IF L-SCB-Error-Routine-NUM NOT = 0
+   480                CALL "CBL_EXIT_PROC" USING 0, L-SCB-Error-Routine-PTR
+   481                STOP RUN
+   482            END-IF
+   483            GOBACK
+   484            .
+   485        100-OPEN SECTION.
+   486            IF  (L-SCB-Mode-Input-BOOL OR L-SCB-Mode-Both-BOOL)
+   487            AND (L-SCB-Filename-TXT = SPACES OR LOW-VALUES)
+   488                MOVE 11 TO L-SCB-Return-CD
+   489                PERFORM 099-ERROR-Return
+   490            END-IF
+   491            EVALUATE TRUE
+   492                WHEN L-SCB-Filename-TXT = SPACES OR LOW-VALUES
+   493                    PERFORM 060-Identify-TEMP
+   494                    MOVE SPACES TO L-SCB-Filename-TXT
+   495                    COMPUTE
+   496                        WS-8-Digit-NUM =
+   497                        RANDOM(SECONDS-PAST-MIDNIGHT) * 100000000
+   498                    END-COMPUTE
+   499                    STRING
+   500                        TRIM(WS-Env-Temp-TXT,TRAILING)
+   501                        WS-Slash-CHR
+   502                        "STREAMIO-"
+   503                        WS-8-Digit-NUM
+   504                        ".dat"
+   505                        DELIMITED BY SIZE
+   506                        INTO L-SCB-Filename-TXT
+   507                WHEN L-SCB-Filename-TXT(1:1) = "."
+   508                    PERFORM 060-Identify-TEMP
+   509                    IF L-SCB-Filename-TXT(2:1) = SPACE
+   510                        MOVE SPACES TO WS-256-Byte-TXT
+   511                    ELSE
+   512                        MOVE L-SCB-Filename-TXT TO WS-256-Byte-TXT
+   513                    END-IF
+   514                    MOVE SPACES TO L-SCB-Filename-TXT
+   515                    COMPUTE WS-8-Digit-NUM =
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 11
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 12
+====== =========================================================================================
+   516                        RANDOM(SECONDS-PAST-MIDNIGHT) * 100000000
+   517                    STRING
+   518                        TRIM(WS-Env-Temp-TXT,TRAILING)
+   519                        WS-Slash-CHR
+   520                        "STREAMIO-"
+   521                        WS-8-Digit-NUM
+   522                        TRIM(WS-256-Byte-TXT,TRAILING)
+   523                        DELIMITED BY SIZE
+   524                        INTO L-SCB-Filename-TXT
+   525            END-EVALUATE
+   526            EVALUATE TRUE
+   527                WHEN L-SCB-Mode-Input-BOOL
+   528                    MOVE 1 TO WS-Access-Mode-CD
+   529                WHEN L-SCB-Mode-Output-BOOL
+   530                    MOVE 2 TO WS-Access-Mode-CD
+   531                WHEN L-SCB-Mode-Both-BOOL
+   532                    MOVE 3 TO WS-Access-Mode-CD
+   533                WHEN OTHER
+   534                    MOVE -2 TO L-SCB-Return-CD
+   535                    PERFORM 099-ERROR-Return
+   536            END-EVALUATE
+   537            CALL "CBL_OPEN_FILE" USING TRIM(L-SCB-Filename-TXT,TRAILING)
+   538                                       WS-Access-Mode-CD
+   539                                       0
+   540                                       0
+   541                                       L-SCB-Handle-NUM
+   542            IF RETURN-CODE = 35
+   543                MOVE 11 TO L-SCB-Return-CD
+   544                PERFORM 099-ERROR-Return
+   545            END-IF
+   546            IF RETURN-CODE < 0
+   547                MOVE -2 TO L-SCB-Return-CD
+   548                PERFORM 099-ERROR-Return
+   549            END-IF
+   550            MOVE 00 TO L-SCB-Return-CD
+   551            MOVE 0 TO L-SCB-Offset-NUM
+   552            .
+   553        200-CLOSE SECTION.
+   554            CALL "CBL_CLOSE_FILE" USING L-SCB-Handle-NUM
+   555            IF RETURN-CODE < 0
+   556                MOVE -2 TO L-SCB-Return-CD
+   557                PERFORM 099-ERROR-Return
+   558            END-IF
+   559            MOVE 00 TO L-SCB-Return-CD
+   560            MOVE 0 TO L-SCB-Handle-NUM
+   561            .
+   562        300-WRITE SECTION.
+   563            CALL "C$PARAMSIZE" USING 2
+   564            MOVE RETURN-CODE TO WS-Arg-Length-NUM
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 12
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 13
+====== =========================================================================================
+   565            CALL "CBL_WRITE_FILE" USING L-SCB-Handle-NUM
+   566                                        L-SCB-Offset-NUM
+   567                                        WS-Arg-Length-NUM
+   568                                        0
+   569                                        L-Arg2-TXT
+   570            PERFORM 040-Check-WRITE-SCB-Return-CD
+   571            ADD WS-Arg-Length-NUM TO L-SCB-Offset-NUM
+   572            .
+   573        400-READ SECTION.
+   574            CALL "C$PARAMSIZE" USING 2
+   575            MOVE RETURN-CODE TO WS-Arg-Length-NUM
+   576            MOVE SPACES TO L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   577            CALL "CBL_READ_FILE" USING L-SCB-Handle-NUM
+   578                                       L-SCB-Offset-NUM
+   579                                       WS-Arg-Length-NUM
+   580                                       0
+   581                                       L-Arg2-TXT
+   582            PERFORM 050-Check-READ-SCB-Return-CD
+   583            ADD WS-Arg-Length-NUM TO L-SCB-Offset-NUM
+   584            .
+   585        500-READ-Delim SECTION.
+   586            CALL "C$PARAMSIZE" USING 2
+   587            MOVE RETURN-CODE TO WS-Arg-Length-NUM
+   588            MOVE SPACES TO L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   589            CALL "CBL_READ_FILE" USING L-SCB-Handle-NUM
+   590                                       L-SCB-Offset-NUM
+   591                                       WS-Arg-Length-NUM
+   592                                       0
+   593                                       L-Arg2-TXT
+   594            PERFORM 050-Check-READ-SCB-Return-CD
+   595            MOVE 0 TO WS-Tally-NUM
+   596            INSPECT L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   597                TALLYING WS-Tally-NUM FOR ALL X"0A"
+   598            IF WS-Tally-NUM = 0 *> No LF found - return truncated data and position past n
+       ext LF (if any)
+   599                IF L-Arg2-TXT(WS-Arg-Length-NUM:1) = X"0D"
+   600                    MOVE SPACE TO L-Arg2-TXT(WS-Arg-Length-NUM:1)
+   601                END-IF
+   602                ADD WS-Arg-Length-NUM TO L-SCB-Offset-NUM
+   603                MOVE 02 TO L-SCB-Return-CD
+   604                MOVE 256 TO WS-Arg-Length-NUM
+   605                PERFORM UNTIL 0 = 1
+   606                    MOVE SPACES TO WS-Buffer-TXT
+   607                    CALL "CBL_READ_FILE" USING L-SCB-Handle-NUM
+   608                                               L-SCB-Offset-NUM
+   609                                               WS-Arg-Length-NUM
+   610                                               0
+   611                                               WS-Buffer-TXT
+   612                    IF RETURN-CODE < 0
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 13
+GNU COBOL 2.1 23NOV2013 Source Listing                                                2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+Line   Statement                                                                        Page: 14
+====== =========================================================================================
+   613                        MOVE -3 TO L-SCB-Return-CD
+   614                        PERFORM 099-ERROR-Return
+   615                    END-IF
+   616                    IF RETURN-CODE = 10
+   617                        GOBACK
+   618                    END-IF
+   619                    MOVE 0 TO WS-Tally-NUM
+   620                    INSPECT WS-Buffer-TXT
+   621                        TALLYING WS-Tally-NUM FOR ALL X"0A"
+   622                    IF WS-Tally-NUM = 0
+   623                        ADD 256 TO L-SCB-Offset-NUM
+   624                    ELSE
+   625                        MOVE 0 TO WS-Tally-NUM
+   626                        INSPECT WS-Buffer-TXT
+   627                            TALLYING WS-Tally-NUM
+   628                            FOR CHARACTERS BEFORE INITIAL X"0A"
+   629                        ADD WS-Tally-NUM, 1 TO L-SCB-Offset-NUM
+   630                        GOBACK
+   631                    END-IF
+   632                END-PERFORM
+   633            ELSE         *> There is (at least) one LF in the buffer
+   634                MOVE 0 TO WS-Tally-NUM
+   635                INSPECT L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   636                    TALLYING WS-Tally-NUM
+   637                    FOR CHARACTERS BEFORE INITIAL X"0A"
+   638                ADD WS-Tally-NUM, 1 TO L-SCB-Offset-NUM
+   639                IF WS-Tally-NUM > 1
+   640                    IF L-Arg2-TXT(WS-Tally-NUM:1) = X"0D"
+   641                        COMPUTE WS-Arg-Length-NUM =
+   642                                  WS-Arg-Length-NUM
+   643                                - WS-Tally-NUM
+   644                                + 1
+   645                    ELSE
+   646                        COMPUTE WS-Arg-Length-NUM =
+   647                                  WS-Arg-Length-NUM
+   648                                - WS-Tally-NUM
+   649                        ADD 1 TO WS-Tally-NUM
+   650                    END-IF
+   651                    MOVE SPACES
+   652                      TO L-Arg2-TXT(WS-Tally-NUM:WS-Arg-Length-NUM)
+   653                ELSE
+   654                    MOVE SPACES
+   655                      TO L-Arg2-TXT(1:WS-Arg-Length-NUM)
+   656                END-IF
+   657            END-IF
+   658            .
+
+
+
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 14
+GNU COBOL 2.1 23NOV2013 Cross-Reference Listing                                       2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+PROGRAM-ID      Identifier/Register/Function     Defn   Where Defined   References      Page: 15
+=============== ================================ ====== =============== ========================
+STREAMIO        000-Main                            383 PROCEDURE
+STREAMIO        020-Validate-Handle-Zero            432 PROCEDURE          392
+STREAMIO        030-Validate-Handle-NonZero         438 PROCEDURE          387     395     398
+                                                                           401     406     411
+STREAMIO        040-Check-WRITE-SCB-Return-CD       444 PROCEDURE          424     570
+STREAMIO        050-Check-READ-SCB-Return-CD        455 PROCEDURE          582     594
+STREAMIO        060-Identify-TEMP                   466 PROCEDURE          493     508
+STREAMIO        099-ERROR-Return                    478 PROCEDURE          417     428     435
+                                                                           441     447     451
+                                                                           458     489     535
+                                                                           544     548     557
+                                                                           614
+STREAMIO        100-OPEN                            485 PROCEDURE          393
+STREAMIO        200-CLOSE                           553 PROCEDURE          388
+STREAMIO        300-WRITE                           562 PROCEDURE          402     407     412
+STREAMIO        400-READ                            573 PROCEDURE          396
+STREAMIO        500-READ-Delim                      585 PROCEDURE          399
+STREAMIO        L-Arg2-TXT                          380 LINKAGE            382     569C    576*
+                                                                           581C    588*    593C
+                                                                           599     600*    640
+                                                                           652*    655*
+STREAMIO        L-SCB-DELIM-Unix-BOOL               379 [STREAMIOcb   ]    405
+STREAMIO        L-SCB-DELIM-Windows-BOOL            379 [STREAMIOcb   ]    410
+STREAMIO        L-SCB-Delimiter-Mode-CD             379 [STREAMIOcb   ]
+STREAMIO        L-SCB-Error-Routine-NUM             379 [STREAMIOcb   ]    479
+STREAMIO        L-SCB-Error-Routine-PTR             379 [STREAMIOcb   ]    379     480C
+STREAMIO        L-SCB-Filename-TXT                  379 [STREAMIOcb   ]    390C    487     492
+                                                                           494*    506*    507
+                                                                           509     512     514*
+                                                                           524*    537C
+STREAMIO        L-SCB-Func-CLOSE-BOOL               379 [STREAMIOcb   ]    386
+STREAMIO        L-SCB-Func-DELETE-BOOL              379 [STREAMIOcb   ]    389
+STREAMIO        L-SCB-Func-OPEN-BOOL                379 [STREAMIOcb   ]    391
+STREAMIO        L-SCB-Func-READ-BOOL                379 [STREAMIOcb   ]    394
+STREAMIO        L-SCB-Func-READ-Delim-BOOL          379 [STREAMIOcb   ]    397
+STREAMIO        L-SCB-Func-WRITE-BOOL               379 [STREAMIOcb   ]    400
+STREAMIO        L-SCB-Func-WRITE-Delim-BOOL         379 [STREAMIOcb   ]    403
+STREAMIO        L-SCB-Function-CD                   379 [STREAMIOcb   ]
+STREAMIO        L-SCB-Handle-NUM                    379 [STREAMIOcb   ]    419C    433     439
+                                                                           541C    554C    560*
+                                                                           565C    577C    589C
+                                                                           607C
+STREAMIO        L-SCB-MODE-Both-BOOL                379 [STREAMIOcb   ]    486     531
+STREAMIO        L-SCB-Mode-CD                       379 [STREAMIOcb   ]
+STREAMIO        L-SCB-MODE-Input-BOOL               379 [STREAMIOcb   ]    486     527
+STREAMIO        L-SCB-MODE-Output-BOOL              379 [STREAMIOcb   ]    529
+STREAMIO        L-SCB-Offset-NUM                    379 [STREAMIOcb   ]    420C    425*    551*
+                                                                           566C    571*    578C
+                                                                           583*    590C    602*
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 15
+GNU COBOL 2.1 23NOV2013 Cross-Reference Listing                                       2014/03/27
+                                         C:/Users/tda010/Documents/Programs/Samples/STREAMIO.cbl
+PROGRAM-ID      Identifier/Register/Function     Defn   Where Defined   References      Page: 16
+=============== ================================ ====== =============== ========================
+                                                                           608C    623*    629*
+                                                                           638*
+STREAMIO        L-SCB-Return-CD                     379 [STREAMIOcb   ]    384*    416*    427*
+                                                                           434*    440*    446*
+                                                                           450*    453*    457*
+                                                                           461*    464*    488*
+                                                                           534*    543*    547*
+                                                                           550*    556*    559*
+                                                                           603*    613*
+STREAMIO        L-StreamIO-Control-Block-TXT        377 LINKAGE            381
+STREAMIO        RETURN-CODE                             PROCEDURE          445     449     456
+                                                                           460     542     546
+                                                                           555     564     575
+                                                                           587     612     616
+STREAMIO        WS-256-Byte-TXT                     375 WORKING-STORAGE    510*    512*    522
+STREAMIO        WS-8-Digit-NUM                      374 WORKING-STORAGE    496*    503     515*
+                                                                           521
+STREAMIO        WS-Access-Mode-CD                   367 WORKING-STORAGE    528*    530*    532*
+                                                                           538C
+STREAMIO        WS-Arg-Length-NUM                   368 WORKING-STORAGE    408*    413*    421C
+                                                                           425     564*    567C
+                                                                           571     575*    576
+                                                                           579C    583     587*
+                                                                           588     591C    596
+                                                                           599     600     602
+                                                                           604*    609C    635
+                                                                           641*    642     646*
+                                                                           647     652     655
+STREAMIO        WS-Buffer-TXT                       369 WORKING-STORAGE    606*    611C
+STREAMIO        WS-Delim-Buffer-TXT                 370 WORKING-STORAGE    409*    414*    423C
+STREAMIO        WS-Env-Temp-TXT                     371 WORKING-STORAGE    467*    469     471
+                                                                           474*    500     518
+STREAMIO        WS-Slash-CHR                        372 WORKING-STORAGE    470*    472*    475*
+                                                                           501     519
+STREAMIO        WS-Tally-NUM                        373 WORKING-STORAGE    595*    597*    598
+                                                                           619*    621*    622
+                                                                           625*    627*    629
+                                                                           634*    636*    638
+                                                                           639     640     643
+                                                                           648     649*    652
+
+
+
+
+
+
+
+
+
+
+================================================================================================
+GCic for Windows/MinGW Copyright (C) 2009-2014, Gary L. Cutler, GPL                     Page: 16
+
+
+File: gnucobsp.info,  Node: GNU Free Documentation License,  Prev: STREAMIO,  Up: Top
+
+7 GNU Free Documentation License
+********************************
+
+                     Version 1.3, 3 November 2008
+
+     Copyright © 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
+     <https://fsf.org/>
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document “free” in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.  We
+     recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it can
+     be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You accept
+     the license if you copy, modify or distribute the work in a way
+     requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in the
+     notice that says that the Document is released under this License.
+     If a section does not fit the above definition of Secondary then it
+     is not allowed to be designated as Invariant.  The Document may
+     contain zero Invariant Sections.  If the Document does not identify
+     any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images composed
+     of pixels) generic paint programs or (for drawings) some widely
+     available drawing editor, and that is suitable for input to text
+     formatters or for automatic translation to a variety of formats
+     suitable for input to text formatters.  A copy made in an otherwise
+     Transparent file format whose markup, or absence of markup, has
+     been arranged to thwart or discourage subsequent modification by
+     readers is not Transparent.  An image format is not Transparent if
+     used for any substantial amount of text.  A copy that is not
+     "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and standard-conforming
+     simple HTML, PostScript or PDF designed for human modification.
+     Examples of transparent image formats include PNG, XCF and JPG.
+     Opaque formats include proprietary formats that can be read and
+     edited only by proprietary word processors, SGML or XML for which
+     the DTD and/or processing tools are not generally available, and
+     the machine-generated HTML, PostScript or PDF produced by some word
+     processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     The "publisher" means any person or entity that distributes copies
+     of the Document to the public.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow the
+     conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the title
+     equally prominent and visible.  You may add other material on the
+     covers in addition.  Copying with changes limited to the covers, as
+     long as they preserve the title of the Document and satisfy these
+     conditions, can be treated as verbatim copying in other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a machine-readable
+     Transparent copy along with each Opaque copy, or state in or with
+     each Opaque copy a computer-network location from which the general
+     network-using public has access to download using public-standard
+     network protocols a complete Transparent copy of the Document, free
+     of added material.  If you use the latter option, you must take
+     reasonably prudent steps, when you begin distribution of Opaque
+     copies in quantity, to ensure that this Transparent copy will
+     remain thus accessible at the stated location until at least one
+     year after the last time you distribute an Opaque copy (directly or
+     through your agents or retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of copies,
+     to give them a chance to provide you with an updated version of the
+     Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with the
+     Modified Version filling the role of the Document, thus licensing
+     distribution and modification of the Modified Version to whoever
+     possesses a copy of it.  In addition, you must do these things in
+     the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of previous
+          versions (which should, if there were any, be listed in the
+          History section of the Document).  You may use the same title
+          as a previous version if the original publisher of that
+          version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on the
+          Title Page.  If there is no section Entitled "History" in the
+          Document, create one stating the title, year, authors, and
+          publisher of the Document as given on its Title Page, then add
+          an item describing the Modified Version as stated in the
+          previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in the
+          "History" section.  You may omit a network location for a work
+          that was published at least four years before the Document
+          itself, or if the original publisher of the version it refers
+          to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the section
+          all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document, unaltered
+          in their text and in their titles.  Section numbers or the
+          equivalent are not considered part of the section titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option designate
+     some or all of these sections as invariant.  To do this, add their
+     titles to the list of Invariant Sections in the Modified Version's
+     license notice.  These titles must be distinct from any other
+     section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end of
+     the list of Cover Texts in the Modified Version.  Only one passage
+     of Front-Cover Text and one of Back-Cover Text may be added by (or
+     through arrangements made by) any one entity.  If the Document
+     already includes a cover text for the same cover, previously added
+     by you or by arrangement made by the same entity you are acting on
+     behalf of, you may not add another; but you may replace the old
+     one, on explicit permission from the previous publisher that added
+     the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination all
+     of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the documents
+     in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow this
+     License in all other respects regarding verbatim copying of that
+     document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of a
+     storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included in an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warranty Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided under this License.  Any attempt
+     otherwise to copy, modify, sublicense, or distribute it is void,
+     and will automatically terminate your rights under this License.
+
+     However, if you cease all violation of this License, then your
+     license from a particular copyright holder is reinstated (a)
+     provisionally, unless and until the copyright holder explicitly and
+     finally terminates your license, and (b) permanently, if the
+     copyright holder fails to notify you of the violation by some
+     reasonable means prior to 60 days after the cessation.
+
+     Moreover, your license from a particular copyright holder is
+     reinstated permanently if the copyright holder notifies you of the
+     violation by some reasonable means, this is the first time you have
+     received notice of violation of this License (for any work) from
+     that copyright holder, and you cure the violation prior to 30 days
+     after your receipt of the notice.
+
+     Termination of your rights under this section does not terminate
+     the licenses of parties who have received copies or rights from you
+     under this License.  If your rights have been terminated and not
+     permanently reinstated, receipt of a copy of some or all of the
+     same material does not give you any rights to use it.
+
+  10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     <https://www.gnu.org/licenses/>.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If the
+     Document does not specify a version number of this License, you may
+     choose any version ever published (not as a draft) by the Free
+     Software Foundation.  If the Document specifies that a proxy can
+     decide which future versions of this License can be used, that
+     proxy's public statement of acceptance of a version permanently
+     authorizes you to choose that version for the Document.
+
+  11. RELICENSING
+
+     "Massive Multiauthor Collaboration Site" (or "MMC Site") means any
+     World Wide Web server that publishes copyrightable works and also
+     provides prominent facilities for anybody to edit those works.  A
+     public wiki that anybody can edit is an example of such a server.
+     A "Massive Multiauthor Collaboration" (or "MMC") contained in the
+     site means any set of copyrightable works thus published on the MMC
+     site.
+
+     "CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
+     license published by Creative Commons Corporation, a not-for-profit
+     corporation with a principal place of business in San Francisco,
+     California, as well as future copyleft versions of that license
+     published by that same organization.
+
+     "Incorporate" means to publish or republish a Document, in whole or
+     in part, as part of another Document.
+
+     An MMC is "eligible for relicensing" if it is licensed under this
+     License, and if all works that were first published under this
+     License somewhere other than this MMC, and subsequently
+     incorporated in whole or in part into the MMC, (1) had no cover
+     texts or invariant sections, and (2) were thus incorporated prior
+     to November 1, 2008.
+
+     The operator of an MMC Site may republish an MMC contained in the
+     site under CC-BY-SA on the same site at any time before August 1,
+     2009, provided the MMC is eligible for relicensing.
+

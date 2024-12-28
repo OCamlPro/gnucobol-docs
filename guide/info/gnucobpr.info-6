@@ -1,0 +1,2157 @@
+This is gnucobpr.info, produced by makeinfo version 7.2 from
+gnucobpr.texi.
+
+This manual documents GnuCOBOL 3.2 - Final, 1 January 2025 at 00:01 GMT.
+build.
+
+
+   Document Copyright 2009-2014 Gary L. Cutler & FSF (Free Software
+Foundation).
+Updates: Copyright 2014-2025 Vincent B. Coen, Gary L. Cutler & FSF.
+
+     The authors and copyright holders of the COBOL programming language
+     itself used herein:
+
+     FLOW-MATIC (trademark for Sperry Rand Corporation) Programming for
+     the Univac(R) I & II. Data Automation Systems copyrighted 1958,
+     1959, by Sperry Rand Corporation; IBM commercial translator form
+     F28-8013, copyrighted 1959 by IBM; FACT DSI27A5260-2760,
+     copyrighted 1960 by Minneapolis-Honeywell, have specifically
+     authorised the use of this material in whole or in part of the
+     COBOL specifications.  Such authorisation extends to the
+     reproduction & use of COBOL specifications in programming manuals
+     or similar publications.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License
+     [FDL], Version 1.3 or any later version published by the Free
+     Software Foundation; with Invariant Section "Introduction", no
+     Front-Cover Texts, and no Back-Cover Texts.  A copy of the license
+     is included in the section entitled "GNU Free Documentation
+     License".
+
+     Permission is granted to make and distribute verbatim copies of
+     this manual provided the copyright notice and this permission
+     notice are preserved on all copies.
+
+     Permission is granted to copy and distribute modified versions of
+     this manual under the conditions for verbatim copying, provided
+     that the entire resulting derived work is distributed under the
+     terms of a permission notice identical to this one.
+
+     Permission is granted to copy and distribute translations of this
+     manual into another language, under the above conditions for
+     modified versions, except that this permission notice may be stated
+     in a translation approved by the Free Software Foundation.
+
+INFO-DIR-SECTION GNU-COBOL
+START-INFO-DIR-ENTRY
+* GNU-COBOL: (gnucobpr)        GnuCOBOL Programmer's Reference
+END-INFO-DIR-ENTRY
+
+
+File: gnucobpr.info,  Node: Summary of Document Changes,  Next: INDEX,  Prev: GNU Free Documentation License,  Up: Top
+
+Appendix I Summary of Document Changes
+**************************************
+
+GnuCOBOL is an ever-evolving tool.  While all reasonable attempts will
+be made to maintain the currency of the information in this document,
+neither the author of this document nor the authors of the GnuCOBOL
+software extend any warranties of any kind for this document or for the
+information contained therein.
+
+   8th Edition on release of v3.2 with some updates for 4.0+.
+
+  1. 2021.
+
+     25/01 Updated version to v3.1.2 with date 25 Jan 21.
+
+  2. 29/01 Updated formats for OCCURS and now only using one file.
+     Ditto for Quick Reference.
+
+  3. 7/02 Added procedure statement EXHIBIT, updated reserved words in
+     Appendix C and removed same in Appendix B.
+
+  4. 4/03 Modified Exhibit points 1/2 to loose the blank lines.
+
+  5. 12/04 Updated text for CBL_SET_CSR_POS, repos EXHIBIT to 15B.
+
+  6. 13/05 Updated USAGE for BINARY=C-LONG. Updated version to v3.2 with
+     date 13 May 2021.
+
+  7. 15/05 Updated EXHIBIT and renumbered paragraphs.
+
+  8. 24/08 Added detail for ACCEPT DAY-OF-WEEK. Changed descriptive for
+     Display screen-data-name removing screen and adding position specs
+     see bug #743 now cleared.
+
+  9. 30/08 Change Appendix F to separate sections F1 through F4 adding
+     changes for v3.1.1 and v4.  Added updates.texi after E.texi for
+     latest document updates.
+
+  10. 5/09 Added Intrinsic functions BIT-OF, BIT-TO-CHAR, HEX-OF,
+     HEX-TO-CHAR as 8.1.105 thru 108.but needs resorting of # in 8.1.
+     Updated definition for C$SLEEP.
+
+  11. 12.09 Multi typo's in sections 2, 3.5, .14, 6.9.51, 8.1.64B (chgd
+     2 to V2, 12.2, spotted by Patrik - Thank you for the updates.
+
+  12. 17/10 Extra information regarding LINE SEQUENTIAL file processing
+     in 2.1.8 which refers to 10.2.3.4 and 10.2.3.7.
+
+  13. 17/10 CDF PAGE directive changes to details.  Likewise to the
+     Quick Reference manual.
+
+  14. 21/11 DIVIDE statement minor changes (#786).
+
+  15. 23/11 DIVIDE changed as 7.8.13.1 INTO and 13.3 BY, must have been
+     asleep.
+
+  16. 25/11 Updated example listings in 10.1.1.  updated to current
+     default.conf in 10.1.5 as out of date.
+
+  17. 23/12 Update to START verb to make KEY compulsory for ISAM.
+
+  18. 24/12 Update to START added missing sub clauses [WITH SIZE] |
+     [WITH LENGTH].
+
+  19. 25/12 Update to sections 10.2.2 and 10.2.3 to clarify where
+     program modules are loaded from i.e., directories pointed to by
+     COB_LIBRARY-PATH and only if not found in PATH. Update to syntax
+     diagran for START to clarify that SIZE and LENGTH keywords are
+     mandatory words even if obvious.  Updated description for
+     COMBINED-DATETIME
+
+  20. 31/12 Update to section 6.8.1 change program names to
+     Usage-Lengths and replace the source listing to be correct
+     positioned on cc8 as well as giving o/p for 64bit Linux.  Bug #799.
+
+  21. 2022.
+
+  22. 07/01 Remove references to PATH in 10.2.2 &.3 wrong.
+
+  23. 16/01 In 2.2.5 near bottom example of compute 5 / 2.5 + 7 * 2 -
+     1.15 had wrong result, should be 14.85.  Clean up descriptions for
+     USAGE COMP[UTATIONAL] & COMP etc in 6.9.49 and 7.8.1.2 accept from
+     command-line.
+
+  24. 24/01 In 7.8.23 type fixed of elementary - remove '3' no vers
+     change.
+
+  25. 17/02 In DISPLAY type 4 added OMITTED in place of identifier-1 to
+     stop any screen content to change.
+
+  26. 07/03 IN 7.8.1.9, Accept EXCEPTION-STATUS these are two words
+     i.e., EXCEPTION STATUS not one.
+
+  27. 27/03 In 3.6 A comment included to advise that >>DEFINE should be
+     used for new programs, over >>SET as it is not in the Cobol
+     Standards.  Included in 10.1 -Wno-terminator to stop warnings when
+     not using END-XXX (Also see -Wterminator).
+
+  28. 07/04 IN section 3 CDF commands I have changed starting point from
+     CC8 to cc7 as highlighted by Chris Gabel.
+
+  29. 21/04 In section 8.1 updated BYTE-LENGTH amd LENGTH-AN where
+     referencing 16 bit characters to use N(4) instead of X(4).
+
+  30. 23/04 In section 11.6.1.1, for Definitions of 'By Reference' and
+     'By Content' added missing 'by'.  Spotted by Michael F Gleason, bug
+     828.
+
+  31. 03/05 In 8.1.82 & 83 for SUBSTITUTE and SUBSTITUE-CASE text on
+     usage of variables, the need to use function TRIM is needed to
+     remove leading and trailing spaces must be considered with example
+     code block.
+
+  32. 15/05 In section 7.8.48 TRANSFORM added 'CHARACTERS' to the format
+     it has no effect with or without.
+
+  33. 1/06 In section 5.1.3 Show example of REPOSITORY has only the last
+     entry with a period.  In keeping with SPECIAL-NAMES etc that only
+     the last entry has the period / full stop terminator.  Use extra
+     space in 6.9.49 to show that the TO value in the FROM / TO values
+     is NOT negative as only the From value is usually is.
+
+  34. 26/06 In 2.2.4 (+) should have been (-).  Added Type (format 1)
+     TYPEDEF, SAME AS in 6.9 and shifted down section numbers.
+
+  35. 29/06 Minor corrections to text for TYPEDEF, SAME AS & missing
+     page reference.  USAGE text addition.
+
+  36. 1/07 Adding XDF chapter 13.  Early days - needs tidying up.
+
+  37. 6/07 In 6.9.53 added WHEN SET TO FALSE sub-clause in
+     SYN-DD-VALUE-1.
+  38. 9/07 In 6.9.49 typo date should be data.
+  39. 10/07 Added functions CONCAT, CONTENT-LENGTH and CONTENT-OF.
+  40. 11/07 Adjusted and sorted functions at 8.1.
+  41. 12/07 In 2.1.2 added details regardingsize of a user defined word
+     i.e., from 31 chars to 63 using the right -std.  In 7.8.17 EXIT
+     statement RETURNING|GIVING missing from EXIT PROGRAM and
+     description details.
+  42. 13/07 For ENTRY added missing GO TO and other content.
+  43. 16/07 For GO TO ENTRY entry-name added.
+  44. 27/08 Updated context for >>SOURCE in section 3.7 for FIXED, FREE,
+     VARIABLE and others, likewise for >>SET. Updated copyright for FSF.
+  45. 05/09 Added new clauses in 6.9 - Data Description Clauses for PG
+     and QR.
+
+  46. 11/09 Added PICTURE option 1 bit or boolean in 6.9.33 with a
+     warning about compiler version implementation from v3.1-rc1.  In
+     6.9.46 last sentence changed 'four' to 'eight' for a double word
+     binary number.
+
+  47. 26/09 Added Standard 85 EXAMINE verb at 7.8.15B.
+
+  48. 29/09 Added extra notes for CODE-SET referring to compiler version
+     and the NEWS file.
+
+  49. 06/12 At 8.2.44 for offset addition to "The first byte of a file
+     is byte offset 0" is "and MUST be preset to zero for first use".
+
+  50. 2023.
+
+  51. 02/01 At 7.8.1.5 Added ACCEPT from MICROSECOND-TIME (ACU. New
+     commit [r4908] by sf-mensch.
+
+  52. 03/01 At 7.8.1.5 Added more information regarding TIME and
+     MICROSECONDS-TIME and update for FORMATTED-CURRENT-DATE in 8.1.29.
+
+  53. 04/01 7.8.1.5 Diagram had missing TIME and text had 2 copies of
+     it.
+
+  54. 06/01 6.8.1 01-Level Constants, added arithmetic-expression-1.
+     Re-introduced Updates from ed.  8.
+
+  55. 15/01 8.1.33 FRACTION-PART Included text to specify picture must
+     include preceding 'V' and provide better example.
+
+  56. 25/01 8.1.94 TEST-FORMATTED-DATETIME - Improved the text and
+     provide an example of usage.  Added extra info regarding Date/Time
+     formats but may not apply to specific compiler version.
+
+  57. 22/02 6.8.1 Changed order for literal-1 and arthmetic-expression &
+     4 added arthmetic-expression.  In 7.8.9 Cleaned up COMPUTE (=|) to
+     (= | ).  Correct spelling of expression in various places in
+     section 6.
+
+  58. 20/05 6.9.53 VALUE for tables new sub extry, 8.1.6 & 6 examples
+     provided.
+
+  59. 9/06 10.1.4 Minor order change + text for copy order.
+
+  60. 12/06 2:1.12.2 Added extra item for Extended colours thanks to
+     Eugenio.
+
+  61. 06/07 6.9.24 Additional notes regarding JUSTIFIED right.
+
+  62. 28/07 Issued for gnucobol release v3.2.
+
+  63. 09/08 Updated 5.2.1 with extra exception code.
+
+  64. 05/09 Removed UPPER & LOWER from Screen set attributes at 6.7 as
+     not available.
+
+  65. 13/10 In 6.9.33 missing 'P'.
+
+  66. 30/10 In 8.1.94 Replaced slanted quote with regular one as it is
+     not appearing on screens.  2.1.12.2 refresh text regarding
+     COB_LEGACY and color codes 8 - 15.
+
+  67. 02/12 IN 6.9.1 [ANY LENGTH] Changed text detail and added [ANY
+     NUMERIC] with similar text.  Ditto updated Programmers amd Quick
+     References for same.  Add new page for 8.2.49 as it was on same
+     page as 8.2.48.
+
+  68. 03/11 Added 8.2.48 CBL_GC_SET_SCR_SIZE and increased by one all
+     further references in this section.  It serves as a place holder
+     only as the details will NOT be correct when this function is
+     supported in GC in PG, Pr and QR.
+
+  69. 05/12 Provide examples for 8.1.30 - 32 FORMATTED DATE and TIME
+     etc.  Spelling for 8.2.48, CBL_SET_SCR_SIZE as used GET instead of
+     SET.
+
+  70. 11/12 Updated file status codes and included example snipit code
+     for using them.
+
+  71. 13/12 In 5.2.1 fix coding bug in example that was using wrong CC
+     for input of return key - new manual created.  Additional text for
+     CALL convention in 3.1.
+
+  72. 16/12 Updated 7.3 to advise that PROCEDURE DIVISION RETURNING is
+     only for functions as there are issues regarding platform in use.
+
+  73. 2024
+
+  74. 12/01 Updated by lefessan, for mis-spelled SYNCHRONISED /
+     SYNCHRONIZED in various places and other stuff not recorded by him.
+     Added NEW file SYN-DD-SYNCHRONIZED.texi and removed
+     SYN-DD-SYNCRONIZED.texi that he missed.
+
+  75. 15/01 Updated 6.9.30 No-ECHO and 6.9.42 for error in descriptions
+     and text.  15/01 Updated 7.8.1.4, 7.8.12.4 for CONTROL, COLOUR,
+     COLOUR & GRAPHICS. 15/01 Updated with examples for ANNUITY and
+     PRESENT-VALUE.
+
+  76. 30/01 More details for VALUE OF FILE-ID. Update to function x"91"
+     and added options 11-12, 13-14, 15, 35, 46-49, 69.
+
+  77. 03/02 In 2.2.9 Relation Conditions added extra text for <>.
+
+  78. 06/02 Spurious item for Accept 7/8/1/4 CONTROL (8) removed.
+
+  79. 08/02 Description for OCCURS clause details for 01, 66, 77, 88
+     changed.
+
+  80. 25/02 7.8.1.4 ACCEPT -added CURSOR description, misspelling for
+     storage, under SPECIAL-NAMES added extra sentence for CURSOR.
+
+  81. 26/02 Added CBL_GC_SET_SCR_SIZE under supported function and added
+     it into System functions list file cbsyst.tex.
+
+  82. 27/02 Additions to Appendix C and D and 8.2 for missing functions
+     but a few have no info as nothing is in NEWS worth speaking of as
+     well as the Quick Ref doc.
+
+  83. 02/03 Text for Function Random updated plus an example demo of
+     usage.
+
+  84. 03/03 In 6.9.61 USAGE layout, tidied up examples using typedef.
+
+  85. 09/03 In 8.2.58 EXTFH update syntax with minor description.  Minor
+     update to CBL_OPEN_FILE, CBL_CLOSE_FILE referencing where an
+     example of use can be found in the Contribs folder.
+
+  86. 14/03 Updated descriptions for functions HIGHEST-ALGEBRAIC,
+     LOWEST-ALGEBRAIC, B-SHIFT-R, B-SHIFT-RC, B-SHIFT-L and B-SHIFT-LC
+     ditto in Quick Reference.
+
+  87. 15/03 Move all B-SHIFT to section 2 (as PD's) from Functions -
+     they are not so.  Ditto in QR.
+
+  88. 16/03 For B-NOT use operand-3 shown separately.
+
+  89. 16/04 Tidy up 7.8.1.4 Color and Control phrases a bit.
+
+  90. 23/04 Changed details for UNBOUNDED to only apply to LINKAGE
+     SECTION.  Updated diagrams for REPOSITORY. Added example for
+     respository from FAQs.
+
+  91. 16/05 More chgs for REPOSITORY and prototypes -missed out 23/04.
+
+  92. 18/05 Reverted chg on SYN-ED-REPOSITORY.texi back to function and
+     not prototype.  Chg sub & section in 2.2 et al #943.  Added JSON
+     GENERATE, PARSE, XML GENERATE and PARSE. MORE TEXT REQUIRED <<<<<.
+
+  93. 20/05 Sub and sub section changes for 2.1.27 onwards.
+
+  94. 23/05 Updated text for ACCEPT ident.  from LINE or COLUMN.
+
+  95. 26/05 Again updated text in .6 ACCEPT.
+
+  96. 27/05 In 5.2.1 SELECT option b should refer to IBM not mf, thanks
+     Mark (Ruthe).
+
+  97. 03/06 Added note in Appendix A regarding user defined names
+     allowed to be as long as 63 characters.  Inline perform - remove
+     optional tags [] as it is required.
+
+  98. 05/06 Correct CBL GET SCR SIZE to use BINARY-CHAR UNSIGNED same
+     for all others and they are also changed namely
+     CBL_GC_SET_SCR_SIZE, CBL GET SCR SIZE, CBL_GET_CSR_POS,
+     CBL_SET_CSR_POS.
+
+  99. 12/06 at 7.8.8 COMPUTE added for boolean expression and updated
+     text #974.
+
+  100. 29/06 Removed B-SHIFT from intrinstic lists.  Clean up prime
+     texi'files i.e., gnucobpg,pr,qr,sp) removing Appendixes E & F)
+
+  101. 04/07 Updated Occurs depending on formats 2 & 3.  VERB/END VERB
+     update to last example.  TIMEOUT typo, 'tp' should be to.  Example
+     of picture P value should be 128000000 and not 000000128.  Extra
+     example for comma's showing usage of PICTURE Z. plus correction for
+     first one.  Corrected text regarding multiple floating symbols as
+     gnucobol behaviour same as many other compilers.  Corrections all
+     thanks to Michael F Gleason.
+
+  102. 11/08 Typo's in section 6, 7 & 8 fixed thanks to Michael F
+     Gleason.
+
+  103. 06/09 C$SLEEP change + example 2 and removed if/but type grammar
+     as ambiguous.  6.9.50 SIZE add some text :)
+
+  104. 13/09 In section 4 for PROGRAM-ID and FUNCTION-ID extra text to
+     warn NOT to use same names as in clib but to change case to upper
+     ONLY, if really needed.
+
+  105. 28/09 In 10.2.3.5 Added COB_HIDE_CURSOR, In 7.8.43.1 SET
+     ENVIRONMENT and 7.8.1.3 ACCEPT FROM ENVIRONMENT added extra texts.
+     FR #479.  Added routines CBL_GC_SCR_DUMP & CBL_GC_SCR_RESTORE to
+     8.2.FR #473.
+
+  106. 02/11 In appendix C remove reference to 1.3.15 - no longer
+     exists.
+
+  107. 05/11 In Ch 10 for cobc help for -list-reserved, added 'and
+     internal registers'
+
+  108. 11/11 In Identification Division within the OPTIONS text there
+     were missing 2 periods and therefore Square braces missing.
+
+  109. 16/11 Updated layout for EXAMINE, covering optional elements more
+     clearly.
+
+  110. 17/11 Updated Declaratives texts for readability etc.
+
+  111. 01/12 Changes for NO-ECHO and BEFORE-TIME clauses in sect 6.
+
+  112. 03/12 ACCEPT data-name & DISPLAY data-name, added
+     EXCEPTION|ESCAPE for option 4.  Changes to CALL so ALL variants are
+     within one texi file deleting SYN-PD-CALL-arg.texi.  For ENTRY
+     ditto for ENTRY-Arg.texi.  Text in 7.texi changed accordingly.  In
+     7.4 INPUT used twice for SORT instead of 2nd as OUTPUT.
+
+  113. 07/12 Changes to SS-Data-Item, DD-Column-1/2, DD-Line-1/2,
+     DD-TYPE diagrams.  New: SPECIAL-NAMES in Data Division with
+     SYN-DD-SPECIAL-NAMES.texi added & SYN-DD-Overview-Tex.texi deleted
+     having changed 6.texi.
+
+  114. 09/12 Changes to SYN-PD-OPEN.texi, REWRITE and WRITE adding new
+     text.
+
+  115. 13/12 Additions to SYN-DD-SS-Data-Item.texi - missing sub
+     clauses, update to SYN-PD-ACCEPT-4.texi missing clauses.  bugs
+     1033/35 - comment regarding DEFAULT is ignored as not true -
+     default is overwrite.  DD-DEFAULT added.  Updated
+     SYN-PD-DISPLAY-4.texi.
+
+  116. 12/24 INCLUDE added to CDF COPY clause.  78 NEXT added + example
+     program.
+
+
+File: gnucobpr.info,  Node: INDEX,  Prev: Summary of Document Changes,  Up: Top
+
+Index
+*****
+
+ [index ]
+* Menu:
+
+* _ (Character in user-defined words):   User-Defined Words.  (line  15)
+* - (Character in Words/Names):          User-Defined Words.  (line  14)
+* - (Subtraction):                       Arithmetic Expressions.
+                                                              (line  69)
+* - (Unary Sign Reversal):               Arithmetic Expressions.
+                                                              (line  44)
+* - In Column 7 (Continuation):          Alphanumeric Literals.
+                                                              (line  34)
+* -b Compiler Switch:                    Dynamic vs Static Subprograms.
+                                                              (line  53)
+* -conf Compiler Switch:                 Compiler Configuration Files.
+                                                              (line   8)
+* -debug Compiler Switch:                DECLARATIVES.        (line  98)
+* -debug Compiler Switch <1>:            EXCEPTION-LOCATION.  (line  30)
+* -debug Compiler Switch <2>:            EXCEPTION-STATEMENT. (line  20)
+* -debug Compiler Switch <3>:            EXCEPTION-LOCATION-N.
+                                                              (line  33)
+* -fdebugging-line Compiler Switch:      SOURCE-COMPUTER.     (line  38)
+* -fdebugging-line Compiler Switch <1>:  DECLARATIVES.        (line  98)
+* -ffold-call Compiler Switch:           Dynamically Loaded Subprograms.
+                                                              (line  32)
+* -ffold-copy Compiler Switch:           >>SET.               (line  22)
+* -ffold-copy Compiler Switch <1>:       Locating Copybooks.  (line  69)
+* -fintrinsics Compiler Switch:          Intrinsic Functions. (line  17)
+* -fintrinsics=ALL Compiler Switch:      REPOSITORY.          (line  36)
+* -fixed Compiler Switch:                Format of Program Source Lines.
+                                                              (line  29)
+* -fixed Compiler Switch <1>:            >>SET.               (line  22)
+* -fixed Compiler Switch <2>:            >>SOURCE.            (line  16)
+* -foptional-file Compiler Switch:       SELECT.              (line  77)
+* -free Compiler Switch:                 Format of Program Source Lines.
+                                                              (line  30)
+* -free Compiler Switch <1>:             >>SET.               (line  22)
+* -free Compiler Switch <2>:             >>SOURCE.            (line  16)
+* -fsyntax-extension Compiler Switch:    Switch-Definition-Clause.
+                                                              (line  27)
+* -ftrace Compiler Switch:               READY TRACE.         (line  18)
+* -ftrace Compiler Switch <1>:           RESET TRACE.         (line  22)
+* -ftrace Compiler Switch <2>:           Run Time Environment Variables.
+                                                              (line  43)
+* -ftraceall Compiler Switch:            RESET TRACE.         (line  23)
+* -ftraceall Compiler Switch <1>:        EXCEPTION-LOCATION.  (line  30)
+* -ftraceall Compiler Switch <2>:        EXCEPTION-STATEMENT. (line  20)
+* -ftraceall Compiler Switch <3>:        EXCEPTION-LOCATION-N.
+                                                              (line  33)
+* -ftraceall Compiler Switch <4>:        Run Time Environment Variables.
+                                                              (line  43)
+* -g Compiler Switch:                    EXCEPTION-LOCATION.  (line  31)
+* -g Compiler Switch <1>:                EXCEPTION-STATEMENT. (line  21)
+* -g Compiler Switch <2>:                EXCEPTION-LOCATION-N.
+                                                              (line  34)
+* -I Compiler Switch:                    Locating Copybooks.  (line  14)
+* -m Compiler Switch:                    cobc - The GnuCOBOL Compiler.
+                                                              (line 574)
+* -m Compiler Switch <1>:                cobcrun - Command-line Execution.
+                                                              (line   7)
+* -m Compiler Switch <2>:                Dynamic vs Static Subprograms.
+                                                              (line  50)
+* -o Compiler Switch:                    cobc - The GnuCOBOL Compiler.
+                                                              (line 564)
+* -o Compiler Switch <1>:                Direct Execution.    (line  13)
+* -O Compiler Switch:                    Binary Truncation.   (line 145)
+* -O2 Compiler Switch:                   Binary Truncation.   (line 145)
+* -Os Compiler Switch:                   Binary Truncation.   (line 146)
+* -Wobsolete Compiler Switch:            IDENTIFICATION DIVISION.
+                                                              (line  99)
+* -x Compiler Switch:                    cobc - The GnuCOBOL Compiler.
+                                                              (line 553)
+* -x Compiler Switch <1>:                Direct Execution.    (line   6)
+* -x Compiler Switch <2>:                Dynamic vs Static Subprograms.
+                                                              (line  40)
+* -x Compiler Switch <3>:                Glossary of Terms.   (line 156)
+* , (Punctuation):                       Punctuation.         (line   6)
+* ; (Punctuation):                       Punctuation.         (line   6)
+* . (Punctuation):                       Punctuation.         (line  21)
+* ' (Apostrophe):                        Alphanumeric Literals.
+                                                              (line  16)
+* " (Quote):                             Alphanumeric Literals.
+                                                              (line  16)
+* * (Multiplication):                    Arithmetic Expressions.
+                                                              (line  57)
+* * In Column 7 (Comment):               Comments.            (line  17)
+* ** (Exponentiation):                   Arithmetic Expressions.
+                                                              (line  53)
+* *> (Comment):                          Comments.            (line  22)
+* / (Division):                          Arithmetic Expressions.
+                                                              (line  57)
+* / In Column 7 (Comment):               Comments.            (line  36)
+* & (Literal Concatenation):             Alphanumeric Literals.
+                                                              (line  46)
+* + (Addition):                          Arithmetic Expressions.
+                                                              (line  69)
+* + (Unary Sign Retention):              Arithmetic Expressions.
+                                                              (line  44)
+* >>CALL-CONVENTION:                     CDF - Compiler Directing Facility.
+                                                              (line  51)
+* >>D:                                   >>TURN.              (line  20)
+* >>D (Debugging Line):                  Comments.            (line  53)
+* >>DEFINE:                              REPLACE.             (line 131)
+* >>DISPLAY:                             >>D.                 (line  17)
+* >>ELIF:                                >>IF.                (line  64)
+* >>ELSE:                                >>IF.                (line  67)
+* >>END-IF:                              >>IF.                (line  61)
+* >>IF:                                  >>DEFINE.            (line  57)
+* >>LEAP-SECONDS:                        >>LISTING.           (line  16)
+* >>LISTING:                             >>PAGE.              (line  25)
+* >>PAGE:                                >>DISPLAY.           (line  17)
+* >>SET:                                 >>IF.                (line 121)
+* >>SOURCE:                              >>SET.               (line  89)
+* >>TURN:                                >>SOURCE.            (line  67)
+* $ Directives:                          >>LEAP-SECONDS.      (line  18)
+* 01-Level Constants:                    Special Data Items.  (line  14)
+* 66-Level Data Items:                   01-Level Constants.  (line 184)
+* 77-Level Data Items:                   66-Level Data Items. (line  31)
+* 78-Level Data Items:                   77-Level Data Items. (line  54)
+* 88-Level Data Items:                   78-Level Data Items. (line  90)
+* A Sample Screen:                       Screen Formatting Features.
+                                                              (line  30)
+* ABS:                                   Intrinsic Functions. (line 342)
+* ACCEPT:                                GnuCOBOL Statements. (line   7)
+* ACCEPT data-item:                      ACCEPT FROM ENVIRONMENT.
+                                                              (line  55)
+* ACCEPT FROM COMMAND-LINE:              ACCEPT FROM CONSOLE. (line  40)
+* ACCEPT FROM CONSOLE:                   ACCEPT.              (line  18)
+* ACCEPT FROM DATE/TIME:                 ACCEPT data-item.    (line 549)
+* ACCEPT FROM ENVIRONMENT:               ACCEPT FROM COMMAND-LINE.
+                                                              (line  77)
+* ACCEPT FROM EXCEPTION STATUS:          ACCEPT OMITTED.      (line  38)
+* ACCEPT FROM Runtime-Info:              ACCEPT FROM Screen-Info.
+                                                              (line  71)
+* ACCEPT FROM Screen-Info:               ACCEPT FROM DATE/TIME.
+                                                              (line  53)
+* ACCEPT OMITTED:                        ACCEPT FROM Runtime-Info.
+                                                              (line  51)
+* ACCESS MODE DYNAMIC:                   ORGANIZATION RELATIVE.
+                                                              (line  61)
+* ACCESS MODE DYNAMIC <1>:               ORGANIZATION INDEXED.
+                                                              (line  71)
+* ACCESS MODE RANDOM:                    ORGANIZATION RELATIVE.
+                                                              (line  57)
+* ACCESS MODE RANDOM <1>:                ORGANIZATION INDEXED.
+                                                              (line  67)
+* ACCESS MODE SEQUENTIAL:                ORGANIZATION SEQUENTIAL.
+                                                              (line  49)
+* ACCESS MODE SEQUENTIAL <1>:            ORGANIZATION LINE SEQUENTIAL.
+                                                              (line  59)
+* ACCESS MODE SEQUENTIAL <2>:            ORGANIZATION INDEXED.
+                                                              (line  61)
+* ACOS:                                  ABS.                 (line  19)
+* ADD:                                   ACCEPT FROM EXCEPTION STATUS.
+                                                              (line  32)
+* ADD CORRESPONDING:                     ADD GIVING.          (line  75)
+* ADD GIVING:                            ADD TO.              (line  69)
+* ADD TO:                                ADD.                 (line  12)
+* Additional Reference Sources:          Introduction.        (line  50)
+* ADDRESS OF:                            SET ADDRESS.         (line  20)
+* ADVANCING PAGE:                        WRITE.               (line 108)
+* AFTER:                                 Procedural PERFORM.  (line  88)
+* AFTER ADVANCING:                       WRITE.               (line  97)
+* AFTER EXCEPTION CONDITION:             DECLARATIVES.        (line  51)
+* ALL:                                   REPOSITORY.          (line  31)
+* ALL <1>:                               VALUE.               (line  75)
+* ALL <2>:                               UNSTRING.            (line  65)
+* ALL INTRINSIC:                         REPOSITORY.          (line  35)
+* ALL OTHER:                             SELECT.              (line  52)
+* ALLOCATE:                              ADD CORRESPONDING.   (line  62)
+* ALPHABET:                              Alphabet-Name-Clause.
+                                                              (line  33)
+* Alphabet-Name-Clause:                  SPECIAL-NAMES.       (line 272)
+* ALPHABETIC:                            INITIALIZE.          (line  44)
+* Alphabetic Data Item:                  Glossary of Terms.   (line   7)
+* Alphabetic Data Items:                 PICTURE.             (line  74)
+* ALPHANUMERIC:                          INITIALIZE.          (line  48)
+* Alphanumeric Data Item:                Glossary of Terms.   (line  11)
+* Alphanumeric Data Items:               PICTURE.             (line  77)
+* Alphanumeric Literal:                  Glossary of Terms.   (line  17)
+* Alphanumeric Literal (Hexadecimal):    Alphanumeric Literals.
+                                                              (line  25)
+* Alphanumeric Literal (Zero-Delimited): Alphanumeric Literals.
+                                                              (line  23)
+* Alphanumeric Literals:                 Numeric Literals.    (line  41)
+* ALPHANUMERIC-EDITED:                   INITIALIZE.          (line  52)
+* ALSO:                                  REPLACE.             (line  95)
+* ALSO <1>:                              EVALUATE.            (line  63)
+* ALTER:                                 ALLOCATE.            (line 102)
+* Alternate Entry Points:                Independent vs Contained vs Nested Subprograms.
+                                                              (line  85)
+* ALTERNATE RECORD KEY:                  ORGANIZATION INDEXED.
+                                                              (line  81)
+* An Example:                            Control Hierarchy.   (line 123)
+* ANNUITY:                               ACOS.                (line  23)
+* ANY:                                   EVALUATE.            (line 124)
+* ANY LENGTH:                            Data Description Clauses.
+                                                              (line  75)
+* ANY NUMERIC:                           ANY LENGTH.          (line  32)
+* Area A (Columns 8-11):                 Format of Program Source Lines.
+                                                              (line 111)
+* Area B (Columns 12-72):                Format of Program Source Lines.
+                                                              (line 119)
+* ARGUMENT-NUMBER:                       ACCEPT FROM COMMAND-LINE.
+                                                              (line  47)
+* ARGUMENT-NUMBER <1>:                   DISPLAY UPON COMMAND-LINE.
+                                                              (line  30)
+* ARGUMENT-VALUE:                        ACCEPT FROM COMMAND-LINE.
+                                                              (line  65)
+* Arithmetic Expressions:                Reference Modifiers. (line  66)
+* ASCENDING KEY:                         SEARCH ALL.          (line  34)
+* ASCII:                                 Alphabet-Name-Clause.
+                                                              (line  41)
+* ASIN:                                  ANNUITY.             (line  79)
+* AT END:                                SEARCH.              (line  63)
+* AT END + NOT AT END:                   Common Clauses on Executable Statements.
+                                                              (line  16)
+* ATAN:                                  ASIN.                (line  23)
+* AUTHOR:                                IDENTIFICATION DIVISION.
+                                                              (line  52)
+* AUTO:                                  ANY NUMERIC.         (line  32)
+* AUTO-SKIP:                             AUTO.                (line  23)
+* AUTOTERMINATE:                         AUTO-SKIP.           (line  23)
+* BACKGROUND-COLOR:                      AUTOTERMINATE.       (line  23)
+* BASED:                                 BEFORE TIME.         (line  22)
+* BEEP:                                  BASED.               (line  27)
+* BEFORE ADVANCING:                      WRITE.               (line  93)
+* BEFORE TIME:                           BACKGROUND-COLOR.    (line  44)
+* BELL:                                  BEEP.                (line  22)
+* Binary Truncation:                     Program Arguments.   (line  12)
+* BIT-OF:                                ATAN.                (line  23)
+* BIT-TO-CHAR:                           BIT-OF.              (line  60)
+* BLANK:                                 BELL.                (line  21)
+* BLANK WHEN ZERO:                       BLANK.               (line  25)
+* BLINK:                                 BLANK WHEN ZERO.     (line  25)
+* BLOCK CONTAINS:                        File/Sort-Description.
+                                                              (line  48)
+* Boolean Expressions:                   Arithmetic Expressions.
+                                                              (line 147)
+* BOOLEAN-OF-INTEGER:                    YEAR-TO-YYYY.        (line  29)
+* Built-In System Subroutines:           STANDARD-COMPARE.    (line  80)
+* BY CONTENT:                            CALL.                (line 200)
+* BY CONTENT <1>:                        Calling Program Considerations.
+                                                              (line  58)
+* BY CONTENT <2>:                        Called Program Considerations.
+                                                              (line  17)
+* BY REFERENCE:                          PROCEDURE DIVISION USING.
+                                                              (line  55)
+* BY REFERENCE <1>:                      CALL.                (line 195)
+* BY REFERENCE <2>:                      Calling Program Considerations.
+                                                              (line  47)
+* BY REFERENCE <3>:                      Called Program Considerations.
+                                                              (line  17)
+* BY VALUE:                              PROCEDURE DIVISION USING.
+                                                              (line  56)
+* BY VALUE <1>:                          CALL.                (line 206)
+* BY VALUE <2>:                          Calling Program Considerations.
+                                                              (line  70)
+* BY VALUE <3>:                          Called Program Considerations.
+                                                              (line  17)
+* BYTE-LENGTH:                           01-Level Constants.  (line  47)
+* BYTE-LENGTH <1>:                       BIT-TO-CHAR.         (line  58)
+* C Main Programs Calling GnuCOBOL Subprograms: GnuCOBOL Main Programs CALLing C Subprograms.
+                                                              (line  81)
+* C$CALLEDBY:                            Built-In System Subroutines.
+                                                              (line 157)
+* C$CHDIR:                               C$CALLEDBY.          (line  30)
+* C$COPY:                                C$CHDIR.             (line  28)
+* C$DELETE:                              C$COPY.              (line  26)
+* C$FILEINFO:                            C$DELETE.            (line  24)
+* C$GETPID:                              C$FILEINFO.          (line  36)
+* C$JUSTIFY:                             C$GETPID.            (line  20)
+* C$MAKEDIR:                             C$JUSTIFY.           (line  30)
+* C$NARG:                                C$MAKEDIR.           (line  26)
+* C$PARAMSIZE:                           C$NARG.              (line  22)
+* C$PRINTABLE:                           C$PARAMSIZE.         (line  24)
+* C$SLEEP:                               C$PRINTABLE.         (line  26)
+* C$TOLOWER:                             C$SLEEP.             (line 111)
+* C$TOUPPER:                             C$TOLOWER.           (line  25)
+* CALL:                                  ALTER.               (line  43)
+* Call Environment:                      General Environment. (line 111)
+* CALL-CONVENTION:                       SPECIAL-NAMES.       (line  65)
+* Called Program:                        Subprogram Types.    (line  24)
+* Called Program <1>:                    Glossary of Terms.   (line  21)
+* Called Program Considerations:         Calling Program Considerations.
+                                                              (line  86)
+* Calling Program:                       Subprogram Types.    (line  23)
+* Calling Program <1>:                   Glossary of Terms.   (line  25)
+* Calling Program Considerations:        Subprogram Arguments.
+                                                              (line  11)
+* CANCEL:                                CALL.                (line 254)
+* Case Insensitivity:                    User-Defined Words.  (line  60)
+* CBL_ALARM_SOUND:                       C$TOUPPER.           (line  25)
+* CBL_AND:                               CBL_ALARM_SOUND.     (line  20)
+* CBL_BELL_SOUND:                        CBL_AND.             (line  35)
+* CBL_CHANGE_DIR:                        CBL_BELL_SOUND.      (line  21)
+* CBL_CHECK_FILE_EXIST:                  CBL_CHANGE_DIR.      (line  27)
+* CBL_CLOSE_FILE:                        CBL_CHECK_FILE_EXIST.
+                                                              (line  39)
+* CBL_COPY_FILE:                         CBL_CLOSE_FILE.      (line  33)
+* CBL_CREATE_DIR:                        CBL_COPY_FILE.       (line  24)
+* CBL_CREATE_FILE:                       CBL_CREATE_DIR.      (line  26)
+* CBL_DELETE_DIR:                        CBL_CREATE_FILE.     (line  34)
+* CBL_DELETE_FILE:                       CBL_DELETE_DIR.      (line  26)
+* CBL_EQ:                                CBL_DELETE_FILE.     (line  22)
+* CBL_ERROR_PROC:                        CBL_EQ.              (line  34)
+* CBL_EXIT_PROC:                         CBL_ERROR_PROC.      (line 104)
+* CBL_FLUSH_FILE:                        CBL_EXIT_PROC.       (line  83)
+* CBL_GC_FORK:                           CBL_FLUSH_FILE.      (line  22)
+* CBL_GC_GETOPT:                         CBL_GC_FORK.         (line  88)
+* CBL_GC_HOSTED:                         CBL_GC_GETOPT.       (line 131)
+* CBL_GC_NANOSLEEP:                      CBL_GC_HOSTED.       (line 131)
+* CBL_GC_PRINTABLE:                      CBL_GC_NANOSLEEP.    (line  38)
+* CBL_GC_SCR_DUMP:                       CBL_GC_PRINTABLE.    (line  27)
+* CBL_GC_SCR_RESTORE:                    CBL_GC_SCR_DUMP.     (line  97)
+* CBL_GC_SET_SCR_SIZE:                   CBL_GC_SCR_RESTORE.  (line  20)
+* CBL_GC_WAITPID:                        CBL_GC_SET_SCR_SIZE. (line  36)
+* CBL_GET_CSR_POS:                       CBL_GC_WAITPID.      (line  33)
+* CBL_GET_CURRENT_DIR:                   CBL_GET_CSR_POS.     (line  33)
+* CBL_GET_SCR_SIZE:                      CBL_GET_CURRENT_DIR. (line  42)
+* CBL_IMP:                               CBL_GET_SCR_SIZE.    (line  46)
+* CBL_NIMP:                              CBL_IMP.             (line  34)
+* CBL_NOR:                               CBL_NIMP.            (line  34)
+* CBL_NOT:                               CBL_NOR.             (line  34)
+* CBL_OC_GETOPT:                         CBL_NOT.             (line  29)
+* CBL_OC_HOSTED:                         CBL_OC_GETOPT.       (line  19)
+* CBL_OC_NANOSLEEP:                      CBL_OC_HOSTED.       (line  19)
+* CBL_OPEN_FILE:                         CBL_OC_NANOSLEEP.    (line  20)
+* CBL_OR:                                CBL_OPEN_FILE.       (line  49)
+* CBL_READ_FILE:                         CBL_OR.              (line  34)
+* CBL_READ_KBD_CHAR:                     CBL_READ_FILE.       (line  39)
+* CBL_RENAME_FILE:                       CBL_READ_KBD_CHAR.   (line  27)
+* CBL_RUNTIME_ERROR:                     CBL_RENAME_FILE.     (line  32)
+* CBL_SET_CSR_POS:                       CBL_RUNTIME_ERROR.   (line  19)
+* CBL_TOLOWER:                           CBL_SET_CSR_POS.     (line  32)
+* CBL_TOUPPER:                           CBL_TOLOWER.         (line  25)
+* CBL_WRITE_FILE:                        CBL_TOUPPER.         (line  25)
+* CBL_XOR:                               CBL_WRITE_FILE.      (line  34)
+* CDF - Compiler Directing Facility:     CDF - Compiler Directing Facility.
+                                                              (line   6)
+* CHAR:                                  BYTE-LENGTH.         (line  30)
+* CHAR-NATIONAL:                         BOOLEAN-OF-INTEGER.  (line  32)
+* Class Conditions:                      Condition Names.     (line  38)
+* Class-Definition-Clause:               Alphabet-Name-Clause.
+                                                              (line  70)
+* CLASSIFICATION:                        OBJECT-COMPUTER.     (line  63)
+* CLOSE:                                 CANCEL.              (line  26)
+* COB_CC *:                              Compilation Time Environment Variables.
+                                                              (line   9)
+* COB_CFLAGS *:                          Compilation Time Environment Variables.
+                                                              (line  15)
+* COB_CONFIG_DIR *:                      Compilation Time Environment Variables.
+                                                              (line  20)
+* COB_CONFIG_DIR Environment Variable:   Compiler Configuration Files.
+                                                              (line  10)
+* COB_COPY_DIR *:                        Compilation Time Environment Variables.
+                                                              (line  23)
+* COB_CPY_DIR Environment Variable:      Locating Copybooks.  (line  17)
+* COB_DISPLAY_WARNINGS:                  Run Time Environment Variables.
+                                                              (line   9)
+* COB_LDADD:                             Compilation Time Environment Variables.
+                                                              (line  29)
+* COB_LDFLAGS:                           Compilation Time Environment Variables.
+                                                              (line  34)
+* COB_LIBRARY_PATH:                      Run Time Environment Variables.
+                                                              (line  16)
+* COB_LIBRARY_PATH Environment Variable: Dynamically Loaded Subprograms.
+                                                              (line  14)
+* COB_LIBRARY_PATH Environment Variable <1>: Dynamically Loaded Subprograms.
+                                                              (line  19)
+* COB_LIBRARY_PATH Environment Variable <2>: Dynamic vs Static Subprograms.
+                                                              (line  86)
+* COB_LIBS *:                            Compilation Time Environment Variables.
+                                                              (line  39)
+* COB_LOAD_CASE:                         Run Time Environment Variables.
+                                                              (line  21)
+* COB_LOAD_CASE Environment Variable:    Dynamic vs Static Subprograms.
+                                                              (line 106)
+* COB_PHYSICAL_CANCEL:                   Run Time Environment Variables.
+                                                              (line  27)
+* COB_PHYSICAL_CANCEL Environment Variable: CANCEL.           (line  23)
+* COB_PHYSICAL_CANCEL Environment Variable <1>: Dynamic vs Static Subprograms.
+                                                              (line 106)
+* COB_PRE_LOAD:                          Run Time Environment Variables.
+                                                              (line  34)
+* COB_PRE_LOAD Environment Variable:     CALL.                (line 172)
+* COB_PRE_LOAD Environment Variable <1>: Dynamic vs Static Subprograms.
+                                                              (line 105)
+* COB_SCREEN_ESC:                        Run Time Environment Variables.
+                                                              (line  56)
+* COB_SCREEN_ESC Environment Variable:   ACCEPT data-item.    (line 231)
+* COB_SCREEN_EXCEPTIONS:                 Run Time Environment Variables.
+                                                              (line  60)
+* COB_SCREEN_EXCEPTIONS Environment Variable: ACCEPT data-item.
+                                                              (line 226)
+* COB_SCREEN_EXCEPTIONS Environment Variable <1>: ACCEPT data-item.
+                                                              (line 232)
+* COB_SET_DEBUG:                         Run Time Environment Variables.
+                                                              (line  39)
+* COB_SET_DEBUG Environment Variable:    DECLARATIVES.        (line 102)
+* COB_SET_TRACE:                         Run Time Environment Variables.
+                                                              (line  43)
+* COB_SET_TRACE Environment Variable:    READY TRACE.         (line  25)
+* COB_SET_TRACE Environment Variable <1>: RESET TRACE.        (line  26)
+* COB_SORT_MEMORY:                       Run Time Environment Variables.
+                                                              (line  64)
+* COB_SORT_MEMORY Environment Variable:  File-Based SORT.     (line 119)
+* COB_SWITCH_n:                          Run Time Environment Variables.
+                                                              (line  71)
+* COB_SWITCH_n Environment Variable:     Switch-Definition-Clause.
+                                                              (line  33)
+* COB_SYNC:                              Run Time Environment Variables.
+                                                              (line  76)
+* COB_TRACE_FILE:                        Run Time Environment Variables.
+                                                              (line  83)
+* COB-CRT-STATUS:                        SPECIAL-NAMES.       (line  78)
+* cobc - The GnuCOBOL Compiler:          Compiling Programs.  (line  38)
+* cobc option -Xref an example:          cobc - The GnuCOBOL Compiler.
+                                                              (line 603)
+* COBCPY:                                Compilation Time Environment Variables.
+                                                              (line  43)
+* COBCPY Environment Variable:           Locating Copybooks.  (line  21)
+* cobcrun - Command-line Execution:      Executing Dynamically-Loadable Libraries.
+                                                              (line  11)
+* COBOL Fundamentals:                    COBOL Fundamentals.  (line   6)
+* CODE-SET:                              File/Sort-Description.
+                                                              (line  74)
+* COLLATING SEQUENCE:                    OBJECT-COMPUTER.     (line  50)
+* COLLATING SEQUENCE <1>:                SELECT.              (line  52)
+* COLLATING SEQUENCE <2>:                MERGE.               (line 100)
+* Collating Sequence:                    Glossary of Terms.   (line  29)
+* Color Palette and Video Attributes:    A Sample Screen.     (line  43)
+* COLOUR:                                DISPLAY data-item.   (line 271)
+* COLUMN:                                BLINK.               (line  22)
+* Column 7 (Indicator Area):             Format of Program Source Lines.
+                                                              (line  82)
+* COLUMNS:                               ACCEPT FROM Screen-Info.
+                                                              (line  29)
+* COLUMNS <1>:                           ACCEPT FROM Screen-Info.
+                                                              (line  31)
+* Columns 1-6 (Sequence Number Area):    Format of Program Source Lines.
+                                                              (line  66)
+* Columns 12-72 (Area B):                Format of Program Source Lines.
+                                                              (line 119)
+* Columns 73-80 (Program Name Area):     Format of Program Source Lines.
+                                                              (line 125)
+* Columns 8-11 (Area A):                 Format of Program Source Lines.
+                                                              (line 111)
+* Combined Conditions:                   Relation Conditions. (line  74)
+* COMBINED-DATETIME:                     CHAR.                (line  40)
+* Combining GnuCOBOL and C Programs:     Recursive Subprograms.
+                                                              (line 139)
+* COMMAND-LINE:                          ACCEPT FROM COMMAND-LINE.
+                                                              (line  32)
+* Comments:                              Program Structure.   (line 141)
+* COMMIT:                                CLOSE.               (line  47)
+* COMMON:                                IDENTIFICATION DIVISION.
+                                                              (line 117)
+* Common Clauses on Executable Statements: DECLARATIVES.      (line 167)
+* Compilation Group:                     cobc - The GnuCOBOL Compiler.
+                                                              (line 533)
+* Compilation Group <1>:                 Glossary of Terms.   (line  38)
+* Compilation Time Environment Variables: Cross Reference listing using cobxref.
+                                                              (line  90)
+* Compilation Unit:                      cobc - The GnuCOBOL Compiler.
+                                                              (line 505)
+* Compilation Unit <1>:                  Glossary of Terms.   (line  42)
+* Compiler Configuration Files:          Locating Copybooks.  (line  81)
+* Compiler Switches, -b:                 Dynamic vs Static Subprograms.
+                                                              (line  53)
+* Compiler Switches, -conf:              Compiler Configuration Files.
+                                                              (line   8)
+* Compiler Switches, -debug:             DECLARATIVES.        (line  98)
+* Compiler Switches, -debug <1>:         EXCEPTION-LOCATION.  (line  30)
+* Compiler Switches, -debug <2>:         EXCEPTION-STATEMENT. (line  20)
+* Compiler Switches, -debug <3>:         EXCEPTION-LOCATION-N.
+                                                              (line  33)
+* Compiler Switches, -fdebugging-line:   SOURCE-COMPUTER.     (line  38)
+* Compiler Switches, -fdebugging-line <1>: DECLARATIVES.      (line  98)
+* Compiler Switches, -ffold-call:        Dynamically Loaded Subprograms.
+                                                              (line  32)
+* Compiler Switches, -ffold-copy:        >>SET.               (line  22)
+* Compiler Switches, -ffold-copy <1>:    Locating Copybooks.  (line  69)
+* Compiler Switches, -fintrinsics:       Intrinsic Functions. (line  17)
+* Compiler Switches, -fintrinsics=ALL:   REPOSITORY.          (line  36)
+* Compiler Switches, -fixed:             Format of Program Source Lines.
+                                                              (line  29)
+* Compiler Switches, -fixed <1>:         >>SET.               (line  22)
+* Compiler Switches, -fixed <2>:         >>SOURCE.            (line  16)
+* Compiler Switches, -foptional-file:    SELECT.              (line  77)
+* Compiler Switches, -free:              Format of Program Source Lines.
+                                                              (line  30)
+* Compiler Switches, -free <1>:          >>SET.               (line  22)
+* Compiler Switches, -free <2>:          >>SOURCE.            (line  16)
+* Compiler Switches, -fsyntax-extension: Switch-Definition-Clause.
+                                                              (line  27)
+* Compiler Switches, -ftrace:            READY TRACE.         (line  18)
+* Compiler Switches, -ftrace <1>:        RESET TRACE.         (line  22)
+* Compiler Switches, -ftrace <2>:        Run Time Environment Variables.
+                                                              (line  43)
+* Compiler Switches, -ftraceall:         RESET TRACE.         (line  23)
+* Compiler Switches, -ftraceall <1>:     EXCEPTION-LOCATION.  (line  30)
+* Compiler Switches, -ftraceall <2>:     EXCEPTION-STATEMENT. (line  20)
+* Compiler Switches, -ftraceall <3>:     EXCEPTION-LOCATION-N.
+                                                              (line  33)
+* Compiler Switches, -ftraceall <4>:     Run Time Environment Variables.
+                                                              (line  43)
+* Compiler Switches, -g:                 EXCEPTION-LOCATION.  (line  31)
+* Compiler Switches, -g <1>:             EXCEPTION-STATEMENT. (line  21)
+* Compiler Switches, -g <2>:             EXCEPTION-LOCATION-N.
+                                                              (line  34)
+* Compiler Switches, -I:                 Locating Copybooks.  (line  14)
+* Compiler Switches, -m:                 cobc - The GnuCOBOL Compiler.
+                                                              (line 574)
+* Compiler Switches, -m <1>:             cobcrun - Command-line Execution.
+                                                              (line   7)
+* Compiler Switches, -m <2>:             Dynamic vs Static Subprograms.
+                                                              (line  50)
+* Compiler Switches, -o:                 cobc - The GnuCOBOL Compiler.
+                                                              (line 564)
+* Compiler Switches, -o <1>:             Direct Execution.    (line  13)
+* Compiler Switches, -O:                 Binary Truncation.   (line 145)
+* Compiler Switches, -O2:                Binary Truncation.   (line 145)
+* Compiler Switches, -Os:                Binary Truncation.   (line 146)
+* Compiler Switches, -Wobsolete:         IDENTIFICATION DIVISION.
+                                                              (line  99)
+* Compiler Switches, -x:                 cobc - The GnuCOBOL Compiler.
+                                                              (line 553)
+* Compiler Switches, -x <1>:             Direct Execution.    (line   6)
+* Compiler Switches, -x <2>:             Dynamic vs Static Subprograms.
+                                                              (line  40)
+* Compiler Switches, -x <3>:             Glossary of Terms.   (line 156)
+* Compiling Programs:                    Interfacing With The OS.
+                                                              (line   7)
+* COMPUTE:                               COMMIT.              (line  18)
+* COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE: PROCEDURE DIVISION Sections Versus Paragraphs.
+                                                              (line  73)
+* CONCAT:                                COMBINED-DATETIME.   (line  44)
+* CONCATENATE:                           CONCAT.              (line  26)
+* Concurrent Access to Files:            Use of VERB/END-VERB Constructs.
+                                                              (line  94)
+* Condition:                             GnuCobol use SQL for files.
+                                                              (line 198)
+* Condition Names:                       Conditional Expressions.
+                                                              (line  13)
+* Condition Names <1>:                   88-Level Data Items. (line   6)
+* Conditional Expressions:               Boolean Expressions. (line  66)
+* CONFIGURATION SECTION:                 ENVIRONMENT DIVISION.
+                                                              (line  53)
+* CONSOLE:                               SPECIAL-NAMES.       (line 223)
+* CONSOLE IS CRT:                        SPECIAL-NAMES.       (line  72)
+* CONSTANT:                              >>DEFINE.            (line  36)
+* CONSTANT <1>:                          >>SET.               (line  41)
+* CONSTANT <2>:                          FILE-SECTION-Data-Item.
+                                                              (line  46)
+* CONSTANT <3>:                          COLUMN.              (line  93)
+* Contained Subprograms:                 Independent vs Contained vs Nested Subprograms.
+                                                              (line  14)
+* CONTENT:                               ENTRY.               (line  66)
+* CONTENT-LENGTH:                        CONCATENATE.         (line  29)
+* CONTENT-OF:                            CONTENT-LENGTH.      (line  32)
+* Continuation (- in Column 7):          Alphanumeric Literals.
+                                                              (line  34)
+* CONTINUE:                              COMPUTE.             (line 143)
+* CONTROL:                               REPORT SECTION.      (line 145)
+* CONTROL <1>:                           ACCEPT data-item.    (line 436)
+* CONTROL <2>:                           DISPLAY data-item.   (line 127)
+* Control Break:                         Control Hierarchy.   (line  88)
+* Control Break <1>:                     Glossary of Terms.   (line  46)
+* Control Field:                         Glossary of Terms.   (line  52)
+* Control Footing:                       Glossary of Terms.   (line  65)
+* Control Heading:                       Glossary of Terms.   (line  76)
+* Control Hierarchy:                     How RWCS Builds Report Pages.
+                                                              (line  82)
+* Control Hierarchy <1>:                 Glossary of Terms.   (line  87)
+* Control Hierarchy (Revisited):         Generated Report Pages.
+                                                              (line 311)
+* CONVERSION:                            ACCEPT data-item.    (line  87)
+* CONVERSION <1>:                        DISPLAY data-item.   (line  62)
+* CONVERTING:                            INSPECT.             (line  45)
+* COPY:                                  >>CALL-CONVENTION.   (line  49)
+* Copybook:                              Copybooks.           (line   6)
+* Copybook <1>:                          Glossary of Terms.   (line  92)
+* Copybook Naming Conventions and Usage: Table Subscripting versus Table Indexing.
+                                                              (line 112)
+* Copybooks:                             Divisions Organize Programs.
+                                                              (line  19)
+* CORRESPONDING:                         AT END + NOT AT END. (line  47)
+* COS:                                   CONTENT-OF.          (line  33)
+* COUNT:                                 UNSTRING.            (line  91)
+* Cross Reference listing using cobxref: cobc option -Xref an example.
+                                                              (line  77)
+* CRT STATUS:                            SPECIAL-NAMES.       (line  78)
+* CRT STATUS Codes:                      ACCEPT data-item.    (line 293)
+* CURRENCY SIGN:                         SPECIAL-NAMES.       (line  84)
+* CURRENCY-SYMBOL:                       COS.                 (line  23)
+* current character pointer:             STRING.              (line  45)
+* CURRENT-DATE:                          CURRENCY-SYMBOL.     (line  25)
+* CURSOR:                                ACCEPT data-item.    (line 187)
+* CURSOR IS:                             SPECIAL-NAMES.       (line  90)
+* D In Column 7 (Debugging Line):        Comments.            (line  48)
+* Data:                                  An Example.          (line  20)
+* Data Definition Principles:            DATA DIVISION.       (line  81)
+* Data Description Clauses:              88-Level Data Items. (line  58)
+* DATA DIVISION:                         DATA DIVISION.       (line   6)
+* Data Initialization:                   Report Writer Features.
+                                                              (line  73)
+* Data Item:                             Structured Data.     (line   7)
+* Data Item <1>:                         Glossary of Terms.   (line 101)
+* Data Item Coding and Naming Conventions: Marking Changes in Programs.
+                                                              (line  57)
+* DATA RECORD:                           File/Sort-Description.
+                                                              (line  48)
+* DataTypes:                             GnuCobol use SQL for files.
+                                                              (line 254)
+* Date Format:                           GnuCobol use SQL for files.
+                                                              (line 209)
+* DATE-COMPILED:                         IDENTIFICATION DIVISION.
+                                                              (line  52)
+* DATE-MODIFIED:                         IDENTIFICATION DIVISION.
+                                                              (line  52)
+* DATE-OF-INTEGER:                       CURRENT-DATE.        (line  32)
+* DATE-TO-YYYYMMDD:                      DATE-OF-INTEGER.     (line  23)
+* DATE-WRITTEN:                          IDENTIFICATION DIVISION.
+                                                              (line  52)
+* DAY-OF-INTEGER:                        DATE-TO-YYYYMMDD.    (line  30)
+* DAY-TO-YYYYDDD:                        DAY-OF-INTEGER.      (line  23)
+* DB_HOME:                               Run Time Environment Variables.
+                                                              (line  90)
+* DB_HOME Environment Variable:          Record Locking.      (line  22)
+* DEBUG-ITEM Special Register:           DECLARATIVES.        (line 107)
+* DEBUGGING MODE:                        SOURCE-COMPUTER.     (line  30)
+* DECIMAL POINT IS COMMA:                SPECIAL-NAMES.       (line 105)
+* DECLARATIVES:                          PROCEDURE DIVISION Sections and Paragraphs.
+                                                              (line  41)
+* DEFAULT:                               CONSTANT.            (line  29)
+* DEFAULT <1>:                           INITIALIZE.          (line  99)
+* DEFINED:                               >>IF.                (line 102)
+* DELETE:                                CONTINUE.            (line  33)
+* DELIMITED BY:                          STRING.              (line  59)
+* DELIMITED BY <1>:                      UNSTRING.            (line  62)
+* DELIMITER:                             UNSTRING.            (line  83)
+* DEPENDING ON:                          OCCURS.              (line 121)
+* DESCENDING KEY:                        SEARCH ALL.          (line  34)
+* Detail Group:                          Glossary of Terms.   (line 107)
+* detail report:                         GENERATE.            (line  35)
+* detail report <1>:                     GENERATE.            (line  63)
+* Detail Report:                         Glossary of Terms.   (line 111)
+* Direct Execution:                      Running Programs.    (line  13)
+* DISPLAY:                               DELETE.              (line  57)
+* DISPLAY data-item:                     DISPLAY UPON ENVIRONMENT-NAME.
+                                                              (line  49)
+* DISPLAY data-item (Microsoft v1-v2):   DISPLAY data-item.   (line 388)
+* DISPLAY UPON COMMAND-LINE:             DISPLAY UPON device. (line  65)
+* DISPLAY UPON device:                   DISPLAY.             (line  14)
+* DISPLAY UPON ENVIRONMENT-NAME:         DISPLAY UPON COMMAND-LINE.
+                                                              (line  45)
+* DISPLAY-OF:                            CHAR-NATIONAL.       (line  25)
+* DIVIDE:                                DISPLAY data-item (Microsoft v1-v2).
+                                                              (line  40)
+* DIVIDE BY GIVING:                      DIVIDE INTO GIVING.  (line  80)
+* DIVIDE INTO:                           DIVIDE.              (line  12)
+* DIVIDE INTO GIVING:                    DIVIDE INTO.         (line  85)
+* Division:                              Glossary of Terms.   (line 115)
+* Divisions:                             Program Structure.   (line  63)
+* Divisions Organize Programs:           Readability of Programs.
+                                                              (line 158)
+* DUPLICATES:                            MERGE.               (line  28)
+* DUPLICATES <1>:                        File-Based SORT.     (line  33)
+* DUPLICATES <2>:                        Table SORT.          (line  20)
+* Dynamic Subprogram:                    Dynamic vs Static Subprograms.
+                                                              (line  16)
+* Dynamic Subprogram <1>:                Glossary of Terms.   (line 123)
+* Dynamic vs Static Subprograms:         Alternate Entry Points.
+                                                              (line  39)
+* Dynamically Loaded Subprograms:        cobcrun - Command-line Execution.
+                                                              (line  61)
+* E:                                     DAY-TO-YYYYDDD.      (line  30)
+* Elementary Item:                       Structured Data.     (line  20)
+* Elementary Item <1>:                   Glossary of Terms.   (line 128)
+* ELSE:                                  IF.                  (line  35)
+* EMPTY-CHECK:                           DEFAULT.             (line  21)
+* END-OF-PAGE:                           WRITE.               (line 136)
+* ENTRY:                                 DIVIDE BY GIVING.    (line  80)
+* Entry-point:                           Glossary of Terms.   (line 132)
+* Entry-point Name:                      Glossary of Terms.   (line 144)
+* ENVIRONMENT:                           ACCEPT FROM ENVIRONMENT.
+                                                              (line  38)
+* ENVIRONMENT DIVISION:                  ENVIRONMENT DIVISION.
+                                                              (line   6)
+* Environment Variables, COB_CONFIG_DIR: Compiler Configuration Files.
+                                                              (line  10)
+* Environment Variables, COB_CPY_DIR:    Locating Copybooks.  (line  17)
+* Environment Variables, COB_LIBRARY_PATH: Dynamically Loaded Subprograms.
+                                                              (line  14)
+* Environment Variables, COB_LIBRARY_PATH <1>: Dynamically Loaded Subprograms.
+                                                              (line  19)
+* Environment Variables, COB_LIBRARY_PATH <2>: Dynamic vs Static Subprograms.
+                                                              (line  86)
+* Environment Variables, COB_LOAD_CASE:  Dynamic vs Static Subprograms.
+                                                              (line 106)
+* Environment Variables, COB_PHYSICAL_CANCEL: CANCEL.         (line  23)
+* Environment Variables, COB_PHYSICAL_CANCEL <1>: Dynamic vs Static Subprograms.
+                                                              (line 106)
+* Environment Variables, COB_PRE_LOAD:   CALL.                (line 172)
+* Environment Variables, COB_PRE_LOAD <1>: Dynamic vs Static Subprograms.
+                                                              (line 105)
+* Environment Variables, COB_SCREEN_ESC: ACCEPT data-item.    (line 231)
+* Environment Variables, COB_SCREEN_EXCEPTIONS: ACCEPT data-item.
+                                                              (line 226)
+* Environment Variables, COB_SCREEN_EXCEPTIONS <1>: ACCEPT data-item.
+                                                              (line 232)
+* Environment Variables, COB_SET_DEBUG:  DECLARATIVES.        (line 102)
+* Environment Variables, COB_SET_TRACE:  READY TRACE.         (line  25)
+* Environment Variables, COB_SET_TRACE <1>: RESET TRACE.      (line  26)
+* Environment Variables, COB_SORT_MEMORY: File-Based SORT.    (line 119)
+* Environment Variables, COB_SWITCH_n:   Switch-Definition-Clause.
+                                                              (line  33)
+* Environment Variables, COBCPY:         Locating Copybooks.  (line  21)
+* Environment Variables, DB_HOME:        Record Locking.      (line  22)
+* Environment Variables, LANG:           CURRENCY-SYMBOL.     (line  16)
+* Environment Variables, LANG <1>:       MONETARY-DECIMAL-POINT.
+                                                              (line  20)
+* Environment Variables, LANG <2>:       MONETARY-THOUSANDS-SEPARATOR.
+                                                              (line  19)
+* Environment Variables, LANG <3>:       NUMERIC-DECIMAL-POINT.
+                                                              (line  20)
+* Environment Variables, LANG <4>:       NUMERIC-THOUSANDS-SEPARATOR.
+                                                              (line  19)
+* Environment Variables, LD_LIBRARY_PATH: cobc - The GnuCOBOL Compiler.
+                                                              (line 528)
+* Environment Variables, PATH:           Dynamic vs Static Subprograms.
+                                                              (line  83)
+* Environment Variables, TEMP:           File/Sort-Description.
+                                                              (line 155)
+* Environment Variables, TEMP <1>:       File-Based SORT.     (line 160)
+* Environment Variables, TMP:            File/Sort-Description.
+                                                              (line 153)
+* Environment Variables, TMP <1>:        File-Based SORT.     (line 160)
+* Environment Variables, TMPDIR:         File/Sort-Description.
+                                                              (line 150)
+* Environment Variables, TMPDIR <1>:     File-Based SORT.     (line 159)
+* Environment Variables: Compilation-Time: Compilation Time Environment Variables.
+                                                              (line   6)
+* Environment Variables: Run-Time:       Run Time Environment Variables.
+                                                              (line   6)
+* ENVIRONMENT-NAME:                      ACCEPT FROM ENVIRONMENT.
+                                                              (line  32)
+* ENVIRONMENT-VALUE:                     ACCEPT FROM ENVIRONMENT.
+                                                              (line  30)
+* EOL:                                   ERASE.               (line  18)
+* EOS:                                   ERASE.               (line  18)
+* ERASE:                                 EMPTY-CHECK.         (line  37)
+* ERROR:                                 STOP.                (line  51)
+* Error Exception Codes:                 EXCEPTION-STATUS.    (line  26)
+* Error Type Strings:                    EXCEPTION-STATUS.    (line  26)
+* ESCAPE KEY:                            ACCEPT FROM Screen-Info.
+                                                              (line  49)
+* EVALUATE:                              ENTRY.               (line  79)
+* EXAMINE:                               EVALUATE.            (line 203)
+* EXCEPTION STATUS:                      ACCEPT FROM Runtime-Info.
+                                                              (line  23)
+* EXCEPTION-FILE:                        E.                   (line  21)
+* EXCEPTION-FILE-N:                      DISPLAY-OF.          (line  46)
+* EXCEPTION-LOCATION:                    EXCEPTION-FILE.      (line  31)
+* EXCEPTION-LOCATION-N:                  EXCEPTION-FILE-N.    (line  47)
+* EXCEPTION-STATEMENT:                   EXCEPTION-LOCATION.  (line  38)
+* EXCEPTION-STATUS:                      EXCEPTION-STATEMENT. (line  28)
+* Exceptions:                            Exceptions.          (line   6)
+* Executable File:                       Glossary of Terms.   (line 152)
+* Executing Dynamically-Loadable Libraries: Direct Execution. (line  36)
+* Execution Thread:                      Glossary of Terms.   (line 160)
+* EXHIBIT:                               EXAMINE.             (line  91)
+* EXIT:                                  EXHIBIT.             (line 109)
+* EXP:                                   EXCEPTION-STATUS.    (line  92)
+* EXP10:                                 EXP.                 (line  17)
+* EXTEND:                                OPEN.                (line  84)
+* EXTERNAL:                              ERASE.               (line  28)
+* EXTERNAL Data Items:                   GLOBAL Data Items.   (line  42)
+* EXTFH:                                 CBL_XOR.             (line  35)
+* FACTORIAL:                             EXP10.               (line  17)
+* FALSE:                                 EXTERNAL.            (line  45)
+* Figurative Constants:                  Alphanumeric Literals.
+                                                              (line  66)
+* Figurative Constants <1>:              Glossary of Terms.   (line 166)
+* File I/O:                              Call Environment.    (line  45)
+* File I/O Environment Variables and/or dictionary file: Report I/O.
+                                                              (line  17)
+* File OPEN Modes:                       OPEN.                (line  84)
+* FILE SECTION:                          Data Definition Principles.
+                                                              (line 115)
+* File Sharing:                          Concurrent Access to Files.
+                                                              (line  17)
+* FILE STATUS:                           SELECT.              (line 229)
+* File Status Codes:                     SELECT.              (line 239)
+* File-Based SORT:                       SORT.                (line  11)
+* FILE-SECTION-Data-Item:                File/Sort-Description.
+                                                              (line 179)
+* File/Sort-Description:                 FILE SECTION.        (line  33)
+* Files:                                 Structured Data.     (line  23)
+* FILLER:                                Data Definition Principles.
+                                                              (line 108)
+* FINAL:                                 REPORT SECTION.      (line 151)
+* FIRST DETAIL:                          REPORT SECTION.      (line 101)
+* Fixed Format Mode:                     Format of Program Source Lines.
+                                                              (line  20)
+* Fixed Format Mode <1>:                 >>SOURCE.            (line  17)
+* Fixed Format Mode <2>:                 Glossary of Terms.   (line 172)
+* FOLDCOPYNAME:                          >>SET.               (line  33)
+* FOOTING:                               REPORT SECTION.      (line 110)
+* FOOTING AT:                            File/Sort-Description.
+                                                              (line 100)
+* FOREGROUND-COLOR:                      FALSE.               (line  28)
+* FOREVER:                               Procedural PERFORM.  (line  53)
+* Format of Program Source Lines:        Syntax Diagram Conventions.
+                                                              (line  92)
+* FORMATTED-CURRENT-DATE:                FACTORIAL.           (line  17)
+* FORMATTED-DATE:                        FORMATTED-CURRENT-DATE.
+                                                              (line  28)
+* FORMATTED-DATETIME:                    FORMATTED-DATE.      (line  27)
+* FORMATTED-TIME:                        FORMATTED-DATETIME.  (line  52)
+* FRACTION-PART:                         FORMATTED-TIME.      (line  51)
+* FREE:                                  EXIT.                (line 159)
+* Free Format Mode:                      Format of Program Source Lines.
+                                                              (line  20)
+* Free Format Mode <1>:                  >>SOURCE.            (line  17)
+* Free Format Mode <2>:                  Glossary of Terms.   (line 179)
+* FROM:                                  FOREGROUND-COLOR.    (line  35)
+* FROM <1>:                              RELEASE.             (line  23)
+* FROM <2>:                              REWRITE.             (line  36)
+* FROM <3>:                              WRITE.               (line  49)
+* FROM CRT:                              ACCEPT data-item.    (line  87)
+* FULL:                                  FROM.                (line  23)
+* FUNCTION:                              REPOSITORY.          (line  33)
+* FUNCTION-ID:                           IDENTIFICATION DIVISION.
+                                                              (line  83)
+* Functions:                             Functions.           (line   6)
+* General Environment:                   General instructions.
+                                                              (line  57)
+* General instructions:                  Run Time Environment Variables.
+                                                              (line 122)
+* GENERATE:                              FREE.                (line  37)
+* Generated Report Pages:                Program.             (line 218)
+* GIVING:                                MERGE.               (line 111)
+* GIVING <1>:                            File-Based SORT.     (line 169)
+* GIVING <2>:                            STOP.                (line  27)
+* GIVING <3>:                            SUBTRACT GIVING.     (line  42)
+* GLOBAL:                                FULL.                (line  39)
+* GLOBAL Data Items:                     Called Program Considerations.
+                                                              (line  31)
+* Glossary of Terms:                     Glossary of Terms.   (line   6)
+* GNU Free Documentation License:        GNU Free Documentation License.
+                                                              (line   6)
+* GnuCOBOL Compile time Options:         GnuCobol use SQL for files.
+                                                              (line 106)
+* GnuCOBOL Main Programs CALLing C Subprograms: Matching C Data Types with GnuCOBOL USAGE's.
+                                                              (line  42)
+* GnuCOBOL Run-Time Library Requirements: Combining GnuCOBOL and C Programs.
+                                                              (line  18)
+* GnuCOBOL Statements:                   Special Registers.   (line 116)
+* GnuCobol use SQL for files:            Programming for XFD. (line  16)
+* GO TO:                                 GOBACK.              (line  32)
+* GO TO DEPENDING ON:                    Simple GO TO.        (line  50)
+* GOBACK:                                GENERATE.            (line  76)
+* Goto:                                  GnuCobol use SQL for files.
+                                                              (line 193)
+* GRAPHICS:                              DISPLAY data-item.   (line 182)
+* GROUP INDICATE:                        GLOBAL.              (line  50)
+* Group Item:                            Structured Data.     (line  14)
+* Group Item <1>:                        Glossary of Terms.   (line 186)
+* Grouped Word Lists by feature and function: Grouped Word Lists by feature and function.
+                                                              (line   6)
+* Header line:                           GnuCobol use SQL for files.
+                                                              (line 178)
+* HEADING:                               REPORT SECTION.      (line  98)
+* HEX-OF:                                FRACTION-PART.       (line  29)
+* HEX-TO-CHAR:                           HEX-OF.              (line  27)
+* Hexadecimal Alphanumeric Literal:      Alphanumeric Literals.
+                                                              (line  25)
+* Hexadecimal Alphanumeric Literal <1>:  Glossary of Terms.   (line 194)
+* Hexadecimal Numeric Literal:           Numeric Literals.    (line  21)
+* Hexadecimal Numeric Literal <1>:       Glossary of Terms.   (line 204)
+* HIGHEST-ALGEBRAIC:                     HEX-TO-CHAR.         (line  30)
+* HIGHLIGHT:                             GROUP INDICATE.      (line  33)
+* How RWCS Builds Report Pages:          The Anatomy of a Report Page.
+                                                              (line  71)
+* I-O:                                   OPEN.                (line  84)
+* IDENTIFICATION DIVISION:               IDENTIFICATION DIVISION.
+                                                              (line   6)
+* Identifiers:                           Glossary of Terms.   (line 212)
+* IF:                                    GO TO DEPENDING ON.  (line  88)
+* Imperative Statement:                  Glossary of Terms.   (line 220)
+* Independent Subprograms:               Independent vs Contained vs Nested Subprograms.
+                                                              (line  10)
+* Independent vs Contained vs Nested Subprograms: Subprogram Types.
+                                                              (line  40)
+* INDEXED BY:                            OCCURS.              (line 131)
+* INDEXED BY <1>:                        SEARCH ALL.          (line  31)
+* Indexing:                              Table Subscripting versus Table Indexing.
+                                                              (line  19)
+* Indicator Area (Column 7):             Format of Program Source Lines.
+                                                              (line  82)
+* INITIAL:                               IDENTIFICATION DIVISION.
+                                                              (line 130)
+* INITIAL <1>:                           Subroutine Execution Flow.
+                                                              (line  28)
+* INITIALIZE:                            IF.                  (line  67)
+* INITIALIZED:                           ALLOCATE.            (line  60)
+* INITIATE:                              INITIALIZE.          (line 225)
+* Inline PERFORM:                        Procedural PERFORM.  (line 102)
+* INPUT:                                 OPEN.                (line  84)
+* INPUT PROCEDURE:                       File-Based SORT.     (line  89)
+* INPUT-OUTPUT SECTION:                  REPOSITORY.          (line 115)
+* INSPECT:                               INITIATE.            (line  38)
+* INSTALLATION:                          IDENTIFICATION DIVISION.
+                                                              (line  52)
+* INTEGER:                               HIGHEST-ALGEBRAIC.   (line  22)
+* INTEGER-OF-BOOLEAN:                    EXCEPTION-LOCATION-N.
+                                                              (line  41)
+* INTEGER-OF-DATE:                       INTEGER.             (line  17)
+* INTEGER-OF-DAY:                        INTEGER-OF-DATE.     (line  24)
+* INTEGER-OF-FORMATTED-DATE:             INTEGER-OF-DAY.      (line  24)
+* INTEGER-PART:                          INTEGER-OF-FORMATTED-DATE.
+                                                              (line  28)
+* Interfacing to Other Environments:     Punctuation.         (line  27)
+* Interfacing With The OS:               Interfacing With The OS.
+                                                              (line   6)
+* INTO:                                  Sequential READ.     (line  81)
+* INTO <1>:                              Random READ.         (line  96)
+* INTO <2>:                              RETURN.              (line  38)
+* INTRINSIC:                             REPOSITORY.          (line  31)
+* Intrinsic Function:                    Glossary of Terms.   (line 227)
+* Intrinsic Functions:                   Functions.           (line  11)
+* Introducing COBOL:                     Additional Reference Sources.
+                                                              (line  38)
+* Introduction:                          Introduction.        (line   6)
+* INVALID KEY + NOT INVALID KEY:         CORRESPONDING.       (line 101)
+* JSON GENERATE:                         INSPECT.             (line 319)
+* JSON PARSE:                            JSON GENERATE.       (line  30)
+* JUSTIFIED:                             HIGHLIGHT.           (line  26)
+* KEY:                                   OCCURS.              (line 131)
+* KEY <1>:                               MERGE.               (line  86)
+* KEY <2>:                               Random READ.         (line  65)
+* Key definition:                        GnuCobol use SQL for files.
+                                                              (line 288)
+* Label:                                 GnuCobol use SQL for files.
+                                                              (line 188)
+* LABEL RECORD:                          File/Sort-Description.
+                                                              (line  48)
+* LANG Environment Variable:             CURRENCY-SYMBOL.     (line  16)
+* LANG Environment Variable <1>:         MONETARY-DECIMAL-POINT.
+                                                              (line  20)
+* LANG Environment Variable <2>:         MONETARY-THOUSANDS-SEPARATOR.
+                                                              (line  19)
+* LANG Environment Variable <3>:         NUMERIC-DECIMAL-POINT.
+                                                              (line  20)
+* LANG Environment Variable <4>:         NUMERIC-THOUSANDS-SEPARATOR.
+                                                              (line  19)
+* Language Reserved Words:               The COBOL Language - The Basics.
+                                                              (line   7)
+* LAST CONTROL:                          REPORT SECTION.      (line 104)
+* LAST DETAIL:                           REPORT SECTION.      (line 107)
+* LD_LIBRARY_PATH:                       Compilation Time Environment Variables.
+                                                              (line  48)
+* LD_LIBRARY_PATH Environment Variable:  cobc - The GnuCOBOL Compiler.
+                                                              (line 528)
+* LEADING:                               COPY.                (line 107)
+* LEADING <1>:                           REPLACE.             (line  76)
+* LEADING <2>:                           SIGN IS.             (line  26)
+* LEADING <3>:                           TRIM.                (line  14)
+* LEFTLINE:                              JUSTIFIED.           (line  70)
+* LENGTH:                                01-Level Constants.  (line  47)
+* LENGTH <1>:                            INTEGER-PART.        (line  17)
+* LENGTH-AN:                             LENGTH.              (line  30)
+* LENGTH-CHECK:                          LEFTLINE.            (line  34)
+* Level Number:                          Glossary of Terms.   (line 233)
+* LINAGE IS n LINES:                     File/Sort-Description.
+                                                              (line  95)
+* LINAGE-COUNTER Special Register:       File/Sort-Description.
+                                                              (line 109)
+* LINAGE-COUNTER Special Register <1>:   WRITE.               (line 134)
+* LINE:                                  LENGTH-CHECK.        (line  39)
+* LINE ADVANCING:                        Files.               (line  62)
+* LINE-COUNTER:                          SOURCE.              (line  27)
+* LINE-COUNTER Special Register:         REPORT SECTION.      (line 208)
+* LINE-COUNTER Special Register <1>:     INITIATE.            (line  28)
+* LINE-COUNTER Special Register <2>:     SUPPRESS.            (line  38)
+* LINE-COUNTER Special Register <3>:     How RWCS Builds Report Pages.
+                                                              (line  18)
+* LINES:                                 ACCEPT FROM Screen-Info.
+                                                              (line  29)
+* LINES <1>:                             ACCEPT FROM Screen-Info.
+                                                              (line  31)
+* LINES AT BOTTOM:                       File/Sort-Description.
+                                                              (line  91)
+* LINES AT TOP:                          File/Sort-Description.
+                                                              (line  87)
+* LINKAGE SECTION:                       LOCAL-STORAGE SECTION.
+                                                              (line  99)
+* List of Intrinsic Functions:           List of Intrinsic Functions.
+                                                              (line   6)
+* Literal:                               Glossary of Terms.   (line 246)
+* Literal Concatenation (&):             Alphanumeric Literals.
+                                                              (line  46)
+* Literals:                              Comments.            (line  63)
+* Literals (Alphanumeric):               Alphanumeric Literals.
+                                                              (line   6)
+* Literals (Numeric):                    Numeric Literals.    (line   6)
+* LOCAL-STORAGE SECTION:                 WORKING-STORAGE SECTION.
+                                                              (line 109)
+* LOCALE:                                SPECIAL-NAMES.       (line 110)
+* LOCALE Names:                          SPECIAL-NAMES.       (line 119)
+* LOCALE-COMPARE:                        LENGTH-AN.           (line  31)
+* LOCALE-DATE:                           LOCALE-COMPARE.      (line  39)
+* LOCALE-TIME:                           LOCALE-DATE.         (line  24)
+* LOCALE-TIME-FROM-SECONDS:              LOCALE-TIME.         (line  24)
+* Locating Copybooks:                    Predefined Compilation Variables.
+                                                              (line 104)
+* LOCK:                                  SELECT.              (line 452)
+* LOCK <1>:                              CLOSE.               (line  16)
+* LOCK ON:                               Record Locking.      (line  59)
+* LOG:                                   LOCALE-TIME-FROM-SECONDS.
+                                                              (line  26)
+* LOG10:                                 LOG.                 (line  17)
+* LOWER:                                 >>SET.               (line  35)
+* LOWER <1>:                             LINE.                (line  96)
+* LOWER-CASE:                            LOG10.               (line  17)
+* LOWEST-ALGEBRAIC:                      LOWER-CASE.          (line  22)
+* LOWLIGHT:                              LOWER.               (line  20)
+* Main Program:                          Subprogram Types.    (line  31)
+* Main program:                          Glossary of Terms.   (line 250)
+* Marking Changes in Programs:           Programming Style Suggestions.
+                                                              (line  24)
+* Matching C Data Types with GnuCOBOL USAGE's: String Allocation Differences Between GnuCOBOL and C.
+                                                              (line  64)
+* MAX:                                   LOWEST-ALGEBRAIC.    (line  22)
+* MEAN:                                  MAX.                 (line  17)
+* MEDIAN:                                MEAN.                (line  18)
+* MEMORY SIZE:                           OBJECT-COMPUTER.     (line  26)
+* MERGE:                                 JSON PARSE.          (line  31)
+* MIDRANGE:                              MEDIAN.              (line  18)
+* MIN:                                   MIDRANGE.            (line  19)
+* MOD:                                   MIN.                 (line  17)
+* MODE IS BLOCK:                         ACCEPT data-item.    (line  87)
+* MODULE-CALLER-ID:                      MOD.                 (line  19)
+* MODULE-DATE:                           MODULE-CALLER-ID.    (line  24)
+* MODULE-FORMATTED-DATE:                 MODULE-DATE.         (line  23)
+* MODULE-ID:                             MODULE-FORMATTED-DATE.
+                                                              (line  25)
+* MODULE-PATH:                           MODULE-ID.           (line  24)
+* MODULE-SOURCE:                         MODULE-PATH.         (line  25)
+* MODULE-TIME:                           MODULE-SOURCE.       (line  24)
+* MONETARY-DECIMAL-POINT:                MODULE-TIME.         (line  50)
+* MONETARY-THOUSANDS-SEPARATOR:          MONETARY-DECIMAL-POINT.
+                                                              (line  31)
+* MOVE:                                  MERGE.               (line 154)
+* MOVE CORRESPONDING:                    Simple MOVE.         (line  30)
+* MULTIPLE FILE:                         SAME RECORD AREA.    (line  41)
+* multiple record locking:               Record Locking.      (line  42)
+* MULTIPLY:                              MOVE CORRESPONDING.  (line  27)
+* MULTIPLY BY:                           MULTIPLY.            (line  11)
+* MULTIPLY GIVING:                       MULTIPLY BY.         (line  64)
+* NATIONAL:                              INITIALIZE.          (line  67)
+* National Character set:                PICTURE.             (line  55)
+* National Character set <1>:            Glossary of Terms.   (line 255)
+* NATIONAL-EDITED:                       INITIALIZE.          (line  70)
+* NATIONAL-OF:                           INTEGER-OF-BOOLEAN.  (line  30)
+* NATIVE:                                Alphabet-Name-Clause.
+                                                              (line  44)
+* Negated Conditions:                    Combined Conditions. (line  53)
+* Nested Subprograms:                    Independent vs Contained vs Nested Subprograms.
+                                                              (line  44)
+* NEXT:                                  NEXT GROUP.          (line  24)
+* NEXT <1>:                              Sequential READ.     (line  55)
+* NEXT GROUP:                            LOWLIGHT.            (line  28)
+* NEXT PAGE:                             LINE.                (line  57)
+* NEXT PAGE <1>:                         NEXT GROUP.          (line  24)
+* NEXT SENTENCE:                         IF.                  (line  47)
+* NO ADVANCING:                          DISPLAY UPON device. (line  56)
+* NO REWIND:                             CLOSE.               (line  16)
+* NO REWIND <1>:                         OPEN.                (line  43)
+* NO UPDATE:                             NO-ECHO.             (line  37)
+* NO-ECHO:                               NEXT GROUP.          (line  41)
+* NOFOLDCOPYNAME:                        >>SET.               (line  37)
+* NORMAL:                                STOP.                (line  50)
+* NOT:                                   Negated Conditions.  (line  15)
+* NOT INVALID KEY:                       INVALID KEY + NOT INVALID KEY.
+                                                              (line  26)
+* NOT ON EXCEPTION:                      ON EXCEPTION + NOT ON EXCEPTION.
+                                                              (line  27)
+* NOT ON OVERFLOW:                       ON OVERFLOW + NOT ON OVERFLOW.
+                                                              (line  27)
+* NOT ON SIZE ERROR:                     ON SIZE ERROR + NOT ON SIZE ERROR.
+                                                              (line  32)
+* Null Terminated Literals:              Numeric Literals.    (line  23)
+* NUMERIC:                               INITIALIZE.          (line  57)
+* Numeric Data Item:                     Glossary of Terms.   (line 269)
+* Numeric Data Items:                    PICTURE.             (line  76)
+* Numeric Edited:                        PICTURE.             (line 189)
+* Numeric Edited Data Item:              Glossary of Terms.   (line 279)
+* Numeric Literal:                       Glossary of Terms.   (line 286)
+* Numeric Literal (Hexadecimal):         Numeric Literals.    (line  21)
+* Numeric Literals:                      Literals.            (line  10)
+* NUMERIC SIGN TRAILING SEPARATE:        SPECIAL-NAMES.       (line 212)
+* NUMERIC-DECIMAL-POINT:                 MONETARY-THOUSANDS-SEPARATOR.
+                                                              (line  30)
+* NUMERIC-EDITED:                        INITIALIZE.          (line  62)
+* NUMERIC-THOUSANDS-SEPARATOR:           NUMERIC-DECIMAL-POINT.
+                                                              (line  31)
+* NUMVAL:                                NUMERIC-THOUSANDS-SEPARATOR.
+                                                              (line  30)
+* NUMVAL-C:                              NUMVAL.              (line  51)
+* NUMVAL-C-2:                            NUMVAL-C.            (line  76)
+* NUMVAL-F:                              NUMVAL-C-2.          (line  69)
+* OBJECT-COMPUTER:                       SOURCE-COMPUTER.     (line  40)
+* OCCURS:                                NO UPDATE.           (line  20)
+* OFF:                                   >>DEFINE.            (line  43)
+* OFF STATUS:                            Switch-Definition-Clause.
+                                                              (line  50)
+* OMITTED:                               PROCEDURE DIVISION USING.
+                                                              (line  89)
+* ON EXCEPTION + NOT ON EXCEPTION:       INVALID KEY + NOT INVALID KEY.
+                                                              (line  30)
+* ON OVERFLOW + NOT ON OVERFLOW:         ON EXCEPTION + NOT ON EXCEPTION.
+                                                              (line  31)
+* ON SIZE ERROR + NOT ON SIZE ERROR:     ON OVERFLOW + NOT ON OVERFLOW.
+                                                              (line  31)
+* ON STATUS:                             Switch-Definition-Clause.
+                                                              (line  50)
+* OPEN:                                  MULTIPLY GIVING.     (line  64)
+* OPTIONAL:                              SELECT.              (line  68)
+* OPTIONAL <1>:                          PROCEDURE DIVISION USING.
+                                                              (line  88)
+* ORD:                                   NUMVAL-F.            (line  32)
+* ORD-MAX:                               ORD.                 (line  34)
+* ORD-MIN:                               ORD-MAX.             (line  25)
+* ORGANISATION INDEXED:                  Files.               (line 200)
+* ORGANISATION LINE SEQUENTIAL:          Files.               (line  13)
+* ORGANISATION RELATIVE:                 Files.               (line 154)
+* ORGANISATION SEQUENTIAL:               Files.               (line  82)
+* ORGANIZATION INDEXED:                  ORGANIZATION RELATIVE.
+                                                              (line  97)
+* ORGANIZATION LINE SEQUENTIAL:          ORGANIZATION SEQUENTIAL.
+                                                              (line  76)
+* ORGANIZATION RELATIVE:                 ORGANIZATION LINE SEQUENTIAL.
+                                                              (line  91)
+* ORGANIZATION SEQUENTIAL:               SELECT.              (line 467)
+* OUTPUT:                                OPEN.                (line  84)
+* OUTPUT PROCEDURE:                      MERGE.               (line 112)
+* OUTPUT PROCEDURE <1>:                  File-Based SORT.     (line 174)
+* overflow condition:                    STRING.              (line  83)
+* OVERLINE:                              OCCURS.              (line 179)
+* OVERRIDE:                              >>DEFINE.            (line  51)
+* PAGE:                                  NEXT GROUP.          (line  24)
+* Page Footing:                          Glossary of Terms.   (line 289)
+* Page Heading:                          Glossary of Terms.   (line 297)
+* PAGE LIMITS:                           REPORT SECTION.      (line  77)
+* PAGE-COUNTER:                          SOURCE.              (line  27)
+* PAGE-COUNTER Special Register:         REPORT SECTION.      (line 192)
+* PAGE-COUNTER Special Register <1>:     INITIATE.            (line  31)
+* PAGE-COUNTER Special Register <2>:     SUPPRESS.            (line  41)
+* PARAMETER:                             >>DEFINE.            (line  46)
+* PATH:                                  Run Time Environment Variables.
+                                                              (line 107)
+* PATH Environment Variable:             Dynamic vs Static Subprograms.
+                                                              (line  83)
+* PERFORM:                               OPEN.                (line 123)
+* perform scope:                         Procedural PERFORM.  (line  41)
+* PI:                                    ORD-MIN.             (line  25)
+* PICTURE:                               REPORT SECTION Data Items.
+                                                              (line  69)
+* PICTURE <1>:                           OVERLINE.            (line  34)
+* POINTER:                               STRING.              (line  38)
+* Predefined Compilation Variables:      Compilation Time Environment Variables.
+                                                              (line  72)
+* PRESENT WHEN:                          PICTURE.             (line 471)
+* PRESENT-VALUE:                         PI.                  (line  21)
+* PREVIOUS:                              Sequential READ.     (line  55)
+* Primary Entry-Point:                   Glossary of Terms.   (line 308)
+* PRINTER:                               SPECIAL-NAMES.       (line 236)
+* PRINTING:                              COPY.                (line  48)
+* Procedural PERFORM:                    PERFORM.             (line  12)
+* Procedure:                             Glossary of Terms.   (line 311)
+* PROCEDURE DIVISION:                    PROCEDURE DIVISION.  (line   6)
+* PROCEDURE DIVISION CHAINING:           PROCEDURE DIVISION USING.
+                                                              (line  93)
+* PROCEDURE DIVISION RETURNING:          PROCEDURE DIVISION CHAINING.
+                                                              (line  87)
+* PROCEDURE DIVISION Sections and Paragraphs: PROCEDURE DIVISION RETURNING.
+                                                              (line  54)
+* PROCEDURE DIVISION Sections Versus Paragraphs: Copybook Naming Conventions and Usage.
+                                                              (line  30)
+* PROCEDURE DIVISION USING:              PROCEDURE DIVISION.  (line  49)
+* Procedure name:                        Glossary of Terms.   (line 315)
+* Procedure Names:                       PROCEDURE DIVISION Sections and Paragraphs.
+                                                              (line   9)
+* Procedures:                            PROCEDURE DIVISION Sections and Paragraphs.
+                                                              (line   8)
+* Program:                               Data.                (line 116)
+* Program <1>:                           Glossary of Terms.   (line 321)
+* Program Arguments:                     File I/O Environment Variables and/or dictionary file.
+                                                              (line  71)
+* Program Name Area (Columns 73-80):     Format of Program Source Lines.
+                                                              (line 125)
+* Program Structure:                     Format of Program Source Lines.
+                                                              (line 140)
+* PROGRAM-ID:                            IDENTIFICATION DIVISION.
+                                                              (line  78)
+* Programmer Productivity:               Why YOU Should Learn COBOL.
+                                                              (line 127)
+* Programming for XFD:                   Programming for XFD. (line   6)
+* Programming Style Suggestions:         Programming Style Suggestions.
+                                                              (line   6)
+* PROMPT:                                PRESENT WHEN.        (line  28)
+* PROTECTED:                             PROMPT.              (line  31)
+* Punctuation:                           Figurative Constants.
+                                                              (line  66)
+* Qualification:                         Glossary of Terms.   (line 324)
+* Qualification of Data Names:           Table References.    (line  45)
+* RANDOM:                                PRESENT-VALUE.       (line  75)
+* Random READ:                           Sequential READ.     (line 103)
+* RANGE:                                 RANDOM.              (line 104)
+* READ:                                  VARYING.             (line 140)
+* Readability of Programs:               Case Insensitivity.  (line  23)
+* READY TRACE:                           Random READ.         (line 116)
+* Record:                                FILE-SECTION-Data-Item.
+                                                              (line  44)
+* Record <1>:                            Glossary of Terms.   (line 331)
+* RECORD CONTAINS:                       File/Sort-Description.
+                                                              (line 115)
+* RECORD DELIMITER:                      SELECT.              (line  52)
+* RECORD IS VARYING:                     File/Sort-Description.
+                                                              (line 115)
+* RECORD KEY:                            ORGANIZATION INDEXED.
+                                                              (line  76)
+* RECORD KEY <1>:                        DELETE.              (line  46)
+* Record Locking:                        File Sharing.        (line  66)
+* RECORDING MODE:                        File/Sort-Description.
+                                                              (line  48)
+* RECURSIVE:                             IDENTIFICATION DIVISION.
+                                                              (line 122)
+* Recursive Subprogram:                  Recursive Subprograms.
+                                                              (line   9)
+* Recursive Subprograms:                 EXTERNAL Data Items. (line  46)
+* REDEFINES:                             PROTECTED.           (line  58)
+* REEL:                                  CLOSE.               (line  16)
+* REFERENCE:                             ENTRY.               (line  66)
+* Reference Modifiers:                   Qualification of Data Names.
+                                                              (line  44)
+* Relation Conditions:                   Switch-Status Conditions.
+                                                              (line  37)
+* RELATIVE KEY:                          ORGANIZATION RELATIVE.
+                                                              (line  43)
+* RELATIVE KEY <1>:                      ORGANIZATION RELATIVE.
+                                                              (line  67)
+* RELATIVE KEY <2>:                      DELETE.              (line  40)
+* RELEASE:                               READY TRACE.         (line  32)
+* REM:                                   RANGE.               (line  21)
+* REMAINDER:                             DIVIDE INTO GIVING.  (line  55)
+* REMAINDER <1>:                         DIVIDE BY GIVING.    (line  55)
+* REMARKS:                               IDENTIFICATION DIVISION.
+                                                              (line  53)
+* RENAMES:                               REDEFINES.           (line  51)
+* REPLACE:                               COPY.                (line 113)
+* REPLACING:                             COPY.                (line  76)
+* REPLACING <1>:                         REPLACE.             (line  50)
+* REPLACING <2>:                         INITIALIZE.          (line  99)
+* REPLACING <3>:                         INSPECT.             (line  45)
+* Report Footing:                        Glossary of Terms.   (line 338)
+* Report Group:                          Glossary of Terms.   (line 343)
+* Report Group Definitions:              REPORT SECTION.      (line 217)
+* Report Heading:                        Glossary of Terms.   (line 349)
+* Report I/O:                            Screen I/O.          (line 145)
+* REPORT IS:                             File/Sort-Description.
+                                                              (line 122)
+* REPORT SECTION:                        LINKAGE SECTION.     (line 142)
+* REPORT SECTION Data Items:             Report Group Definitions.
+                                                              (line  79)
+* Report Writer Features:                Color Palette and Video Attributes.
+                                                              (line 182)
+* Report Writer Usage:                   Report Writer Usage. (line   6)
+* REPOSITORY:                            Symbolic-Characters-Clause.
+                                                              (line  55)
+* REQUIRED:                              RENAMES.             (line  31)
+* RESERVE:                               SELECT.              (line  52)
+* Reserved Word:                         Glossary of Terms.   (line 354)
+* Reserved Word List:                    Reserved Word List.  (line   6)
+* Reserved Words:                        Language Reserved Words.
+                                                              (line  12)
+* Reserved Words <1>:                    Grouped Word Lists by feature and function.
+                                                              (line   6)
+* RESET:                                 SUM OF.              (line  64)
+* RESET TRACE:                           RELEASE.             (line  30)
+* RETURN:                                RESET TRACE.         (line  34)
+* RETURN-CODE Special Register:          CALL.                (line 117)
+* RETURN-CODE Special Register <1>:      STOP.                (line  55)
+* RETURN-CODE Special Register <2>:      Built-In System Subroutines.
+                                                              (line  84)
+* RETURN-CODE Special Register <3>:      C$CALLEDBY.          (line  21)
+* RETURN-CODE Special Register <4>:      C$CHDIR.             (line  18)
+* RETURN-CODE Special Register <5>:      C$COPY.              (line  22)
+* RETURN-CODE Special Register <6>:      C$DELETE.            (line  21)
+* RETURN-CODE Special Register <7>:      C$FILEINFO.          (line  31)
+* RETURN-CODE Special Register <8>:      C$FILEINFO.          (line  32)
+* RETURN-CODE Special Register <9>:      C$FILEINFO.          (line  34)
+* RETURN-CODE Special Register <10>:     C$GETPID.            (line  15)
+* RETURN-CODE Special Register <11>:     C$MAKEDIR.           (line  22)
+* RETURN-CODE Special Register <12>:     C$PARAMSIZE.         (line  18)
+* RETURN-CODE Special Register <13>:     CBL_AND.             (line  31)
+* RETURN-CODE Special Register <14>:     CBL_CHANGE_DIR.      (line  18)
+* RETURN-CODE Special Register <15>:     CBL_CHECK_FILE_EXIST.
+                                                              (line  34)
+* RETURN-CODE Special Register <16>:     CBL_CHECK_FILE_EXIST.
+                                                              (line  35)
+* RETURN-CODE Special Register <17>:     CBL_CHECK_FILE_EXIST.
+                                                              (line  37)
+* RETURN-CODE Special Register <18>:     CBL_CLOSE_FILE.      (line  25)
+* RETURN-CODE Special Register <19>:     CBL_CLOSE_FILE.      (line  26)
+* RETURN-CODE Special Register <20>:     CBL_COPY_FILE.       (line  20)
+* RETURN-CODE Special Register <21>:     CBL_CREATE_DIR.      (line  22)
+* RETURN-CODE Special Register <22>:     CBL_CREATE_FILE.     (line  30)
+* RETURN-CODE Special Register <23>:     CBL_DELETE_DIR.      (line  22)
+* RETURN-CODE Special Register <24>:     CBL_DELETE_FILE.     (line  19)
+* RETURN-CODE Special Register <25>:     CBL_EQ.              (line  31)
+* RETURN-CODE Special Register <26>:     CBL_ERROR_PROC.      (line  29)
+* RETURN-CODE Special Register <27>:     CBL_EXIT_PROC.       (line  26)
+* RETURN-CODE Special Register <28>:     CBL_GET_CURRENT_DIR. (line  35)
+* RETURN-CODE Special Register <29>:     CBL_IMP.             (line  31)
+* RETURN-CODE Special Register <30>:     CBL_NIMP.            (line  31)
+* RETURN-CODE Special Register <31>:     CBL_NOR.             (line  31)
+* RETURN-CODE Special Register <32>:     CBL_NOT.             (line  26)
+* RETURN-CODE Special Register <33>:     CBL_OPEN_FILE.       (line  40)
+* RETURN-CODE Special Register <34>:     CBL_OR.              (line  31)
+* RETURN-CODE Special Register <35>:     CBL_READ_FILE.       (line  34)
+* RETURN-CODE Special Register <36>:     CBL_RENAME_FILE.     (line  28)
+* RETURN-CODE Special Register <37>:     CBL_WRITE_FILE.      (line  29)
+* RETURN-CODE Special Register <38>:     CBL_XOR.             (line  31)
+* RETURN-CODE Special Register <39>:     Subprogram Types.    (line  35)
+* RETURN-CODE Special Register <40>:     Subroutine Execution Flow.
+                                                              (line  58)
+* RETURN-CODE Special Register <41>:     Subroutine Execution Flow.
+                                                              (line  69)
+* RETURN-CODE Special Register <42>:     User-Defined Function Execution Flow.
+                                                              (line  43)
+* RETURN-CODE Special Register <43>:     User-Defined Function Execution Flow.
+                                                              (line  50)
+* RETURNING:                             ALLOCATE.            (line  53)
+* RETURNING <1>:                         CALL.                (line 227)
+* RETURNING <2>:                         STOP.                (line  27)
+* RETURNING <3>:                         Subroutine Execution Flow.
+                                                              (line  57)
+* REVERSE:                               REM.                 (line  18)
+* REVERSE-VIDEO:                         REQUIRED.            (line  37)
+* REVERSED:                              OPEN.                (line  43)
+* REWRITE:                               RETURN.              (line  49)
+* ROLLBACK:                              REWRITE.             (line  86)
+* ROUNDED:                               ON SIZE ERROR + NOT ON SIZE ERROR.
+                                                              (line  36)
+* RUN:                                   STOP.                (line  29)
+* Run Time Environment Variables:        Dynamically Loaded Subprograms.
+                                                              (line  43)
+* Running Programs:                      Compiler Configuration Files.
+                                                              (line 322)
+* RWCS Lexicon:                          Report Writer Usage. (line  20)
+* SAME AS:                               REVERSE-VIDEO.       (line  26)
+* SAME RECORD AREA:                      ORGANIZATION INDEXED.
+                                                              (line 117)
+* SAME SORT:                             SAME RECORD AREA.    (line  16)
+* SAME SORT-MERGE:                       SAME RECORD AREA.    (line  16)
+* Screen Formatting Features:            String Manipulation. (line 120)
+* Screen I/O:                            File I/O.            (line 250)
+* SCREEN SECTION:                        REPORT SECTION Data Items.
+                                                              (line  80)
+* SCROLL:                                ACCEPT data-item.    (line 192)
+* SCROLL DOWN:                           SAME AS.             (line  82)
+* SCROLL UP:                             SCROLL DOWN.         (line  18)
+* SEARCH:                                ROLLBACK.            (line  23)
+* SEARCH ALL:                            SEARCH.              (line  71)
+* Search Index:                          SEARCH.              (line  29)
+* SECONDS-FROM-FORMATTED-TIME:           REVERSE.             (line  17)
+* SECONDS-PAST-MIDNIGHT:                 SECONDS-FROM-FORMATTED-TIME.
+                                                              (line  33)
+* SECURE:                                SCROLL UP.           (line  19)
+* SECURITY:                              IDENTIFICATION DIVISION.
+                                                              (line  53)
+* SEGMENT-LIMIT:                         OBJECT-COMPUTER.     (line  26)
+* SELECT:                                INPUT-OUTPUT SECTION.
+                                                              (line  43)
+* Sentence:                              Use of Periods.      (line  50)
+* Sentence <1>:                          Glossary of Terms.   (line 362)
+* SEPARATE CHARACTER:                    SIGN IS.             (line  24)
+* Sequence Number Area (Columns 1-6):    Format of Program Source Lines.
+                                                              (line  66)
+* Sequential READ:                       READ.                (line  11)
+* SET:                                   >>IF.                (line 107)
+* SET <1>:                               SEARCH ALL.          (line 136)
+* SET ADDRESS:                           SET Program-Pointer. (line  35)
+* SET ATTRIBUTE:                         SET Switch.          (line  25)
+* SET Condition Name:                    SET UP/DOWN.         (line  27)
+* SET ENVIRONMENT:                       SET.                 (line  18)
+* SET Index:                             SET ADDRESS.         (line  33)
+* SET LAST EXCEPTION:                    SET ATTRIBUTE.       (line  41)
+* SET Program-Pointer:                   SET ENVIRONMENT.     (line  45)
+* SET Switch:                            SET Condition Name.  (line  34)
+* SET UP/DOWN:                           SET Index.           (line  20)
+* SHARING:                               SELECT.              (line 447)
+* SHARING <1>:                           OPEN.                (line 113)
+* Sharing Data Between Calling and Called Programs: User-Defined Function Execution Flow.
+                                                              (line  53)
+* SIGN:                                  SECONDS-PAST-MIDNIGHT.
+                                                              (line  20)
+* Sign Conditions:                       Class Conditions.    (line  79)
+* SIGN IS:                               SECURE.              (line  31)
+* Simple GO TO:                          GO TO.               (line  11)
+* Simple MOVE:                           MOVE.                (line  11)
+* SIN:                                   SIGN.                (line  18)
+* single record locking:                 Record Locking.      (line  61)
+* SIZE:                                  SIGN IS.             (line  58)
+* So What is GnuCOBOL?:                  Programmer Productivity.
+                                                              (line  88)
+* SORT:                                  SET LAST EXCEPTION.  (line  25)
+* SORT STATUS:                           SELECT.              (line 229)
+* Sorting and Merging Data:              Table Handling.      (line  31)
+* SOURCE:                                SIZE.                (line  26)
+* SOURCE IS:                             ORGANIZATION INDEXED.
+                                                              (line  79)
+* Source Line Format, Fixed:             Format of Program Source Lines.
+                                                              (line  20)
+* Source Line Format, Fixed <1>:         >>SOURCE.            (line  17)
+* Source Line Format, Free:              Format of Program Source Lines.
+                                                              (line  20)
+* Source Line Format, Free <1>:          >>SOURCE.            (line  17)
+* SOURCE-COMPUTER:                       CONFIGURATION SECTION.
+                                                              (line  36)
+* Sparse Keys:                           ORGANIZATION INDEXED.
+                                                              (line  91)
+* Special Data Items:                    SCREEN SECTION.      (line 148)
+* Special Registers:                     ROUNDED.             (line 118)
+* Special Registers <1>:                 Glossary of Terms.   (line 365)
+* Special Registers, DEBUG-ITEM:         DECLARATIVES.        (line 107)
+* Special Registers, LINAGE-COUNTER:     File/Sort-Description.
+                                                              (line 109)
+* Special Registers, LINAGE-COUNTER <1>: WRITE.               (line 134)
+* Special Registers, LINE-COUNTER:       REPORT SECTION.      (line 208)
+* Special Registers, LINE-COUNTER <1>:   INITIATE.            (line  28)
+* Special Registers, LINE-COUNTER <2>:   SUPPRESS.            (line  38)
+* Special Registers, LINE-COUNTER <3>:   How RWCS Builds Report Pages.
+                                                              (line  18)
+* Special Registers, PAGE-COUNTER:       REPORT SECTION.      (line 192)
+* Special Registers, PAGE-COUNTER <1>:   INITIATE.            (line  31)
+* Special Registers, PAGE-COUNTER <2>:   SUPPRESS.            (line  41)
+* Special Registers, RETURN-CODE:        CALL.                (line 117)
+* Special Registers, RETURN-CODE <1>:    STOP.                (line  55)
+* Special Registers, RETURN-CODE <2>:    Built-In System Subroutines.
+                                                              (line  84)
+* Special Registers, RETURN-CODE <3>:    C$CALLEDBY.          (line  21)
+* Special Registers, RETURN-CODE <4>:    C$CHDIR.             (line  18)
+* Special Registers, RETURN-CODE <5>:    C$COPY.              (line  22)
+* Special Registers, RETURN-CODE <6>:    C$DELETE.            (line  21)
+* Special Registers, RETURN-CODE <7>:    C$FILEINFO.          (line  31)
+* Special Registers, RETURN-CODE <8>:    C$FILEINFO.          (line  32)
+* Special Registers, RETURN-CODE <9>:    C$FILEINFO.          (line  34)
+* Special Registers, RETURN-CODE <10>:   C$GETPID.            (line  15)
+* Special Registers, RETURN-CODE <11>:   C$MAKEDIR.           (line  22)
+* Special Registers, RETURN-CODE <12>:   C$PARAMSIZE.         (line  18)
+* Special Registers, RETURN-CODE <13>:   CBL_AND.             (line  31)
+* Special Registers, RETURN-CODE <14>:   CBL_CHANGE_DIR.      (line  18)
+* Special Registers, RETURN-CODE <15>:   CBL_CHECK_FILE_EXIST.
+                                                              (line  34)
+* Special Registers, RETURN-CODE <16>:   CBL_CHECK_FILE_EXIST.
+                                                              (line  35)
+* Special Registers, RETURN-CODE <17>:   CBL_CHECK_FILE_EXIST.
+                                                              (line  37)
+* Special Registers, RETURN-CODE <18>:   CBL_CLOSE_FILE.      (line  25)
+* Special Registers, RETURN-CODE <19>:   CBL_CLOSE_FILE.      (line  26)
+* Special Registers, RETURN-CODE <20>:   CBL_COPY_FILE.       (line  20)
+* Special Registers, RETURN-CODE <21>:   CBL_CREATE_DIR.      (line  22)
+* Special Registers, RETURN-CODE <22>:   CBL_CREATE_FILE.     (line  30)
+* Special Registers, RETURN-CODE <23>:   CBL_DELETE_DIR.      (line  22)
+* Special Registers, RETURN-CODE <24>:   CBL_DELETE_FILE.     (line  19)
+* Special Registers, RETURN-CODE <25>:   CBL_EQ.              (line  31)
+* Special Registers, RETURN-CODE <26>:   CBL_ERROR_PROC.      (line  29)
+* Special Registers, RETURN-CODE <27>:   CBL_EXIT_PROC.       (line  26)
+* Special Registers, RETURN-CODE <28>:   CBL_GET_CURRENT_DIR. (line  35)
+* Special Registers, RETURN-CODE <29>:   CBL_IMP.             (line  31)
+* Special Registers, RETURN-CODE <30>:   CBL_NIMP.            (line  31)
+* Special Registers, RETURN-CODE <31>:   CBL_NOR.             (line  31)
+* Special Registers, RETURN-CODE <32>:   CBL_NOT.             (line  26)
+* Special Registers, RETURN-CODE <33>:   CBL_OPEN_FILE.       (line  40)
+* Special Registers, RETURN-CODE <34>:   CBL_OR.              (line  31)
+* Special Registers, RETURN-CODE <35>:   CBL_READ_FILE.       (line  34)
+* Special Registers, RETURN-CODE <36>:   CBL_RENAME_FILE.     (line  28)
+* Special Registers, RETURN-CODE <37>:   CBL_WRITE_FILE.      (line  29)
+* Special Registers, RETURN-CODE <38>:   CBL_XOR.             (line  31)
+* Special Registers, RETURN-CODE <39>:   Subprogram Types.    (line  35)
+* Special Registers, RETURN-CODE <40>:   Subroutine Execution Flow.
+                                                              (line  58)
+* Special Registers, RETURN-CODE <41>:   Subroutine Execution Flow.
+                                                              (line  69)
+* Special Registers, RETURN-CODE <42>:   User-Defined Function Execution Flow.
+                                                              (line  43)
+* Special Registers, RETURN-CODE <43>:   User-Defined Function Execution Flow.
+                                                              (line  50)
+* SPECIAL-NAMES:                         OBJECT-COMPUTER.     (line  91)
+* SPECIAL-NAMES.:                        SOURCE.              (line  45)
+* Split Keys:                            ORGANIZATION INDEXED.
+                                                              (line  79)
+* SQRT:                                  SIN.                 (line  23)
+* STANDARD-1:                            Alphabet-Name-Clause.
+                                                              (line  41)
+* STANDARD-2:                            Alphabet-Name-Clause.
+                                                              (line  41)
+* STANDARD-COMPARE:                      NATIONAL-OF.         (line  39)
+* STANDARD-DEVIATION:                    SQRT.                (line  25)
+* START:                                 Table SORT.          (line  68)
+* Statement:                             Use of Periods.      (line   7)
+* Statement <1>:                         Glossary of Terms.   (line 370)
+* STATIC:                                CALL.                (line  73)
+* Static Subprogram:                     Dynamic vs Static Subprograms.
+                                                              (line   9)
+* Static Subprogram <1>:                 Glossary of Terms.   (line 376)
+* STATUS:                                STOP.                (line  45)
+* STDCALL:                               CALL.                (line  73)
+* STDERR:                                SPECIAL-NAMES.       (line 248)
+* STDIN:                                 SPECIAL-NAMES.       (line 226)
+* STDOUT:                                SPECIAL-NAMES.       (line 237)
+* STEP:                                  OCCURS.              (line 144)
+* STOP:                                  START.               (line 127)
+* STORED-CHAR-LENGTH:                    STANDARD-DEVIATION.  (line  17)
+* STRING:                                STOP.                (line  77)
+* String Allocation Differences Between GnuCOBOL and C: GnuCOBOL Run-Time Library Requirements.
+                                                              (line  16)
+* String Manipulation:                   Sorting and Merging Data.
+                                                              (line  25)
+* Structured Data:                       Copybooks.           (line  20)
+* Sub-Programming:                       Sub-Programming.     (line   6)
+* Subprogram:                            Subprogram Types.    (line   6)
+* Subprogram <1>:                        Glossary of Terms.   (line 381)
+* Subprogram Arguments:                  Sharing Data Between Calling and Called Programs.
+                                                              (line  14)
+* Subprogram Execution Flow:             Dynamic vs Static Subprograms.
+                                                              (line 111)
+* Subprogram Types:                      Sub-Programming.     (line  29)
+* Subroutine:                            Subprogram Types.    (line  14)
+* Subroutine <1>:                        Glossary of Terms.   (line 386)
+* Subroutine Execution Flow:             Subprogram Execution Flow.
+                                                              (line  14)
+* Subscripting:                          Table Subscripting versus Table Indexing.
+                                                              (line  18)
+* SUBSTITUTE:                            STORED-CHAR-LENGTH.  (line  18)
+* SUBSTITUTE-CASE:                       SUBSTITUTE.          (line  38)
+* SUBTRACT:                              STRING.              (line  98)
+* SUBTRACT CORRESPONDING:                SUBTRACT GIVING.     (line  66)
+* SUBTRACT FROM:                         SUBTRACT.            (line  12)
+* SUBTRACT GIVING:                       SUBTRACT FROM.       (line  60)
+* SUM:                                   SUBSTITUTE-CASE.     (line  32)
+* SUM OF:                                SPECIAL-NAMES..      (line  31)
+* Summary of Document Changes:           Summary of Document Changes.
+                                                              (line   6)
+* summary report:                        GENERATE.            (line  37)
+* summary report <1>:                    GENERATE.            (line  62)
+* Summary Report:                        Glossary of Terms.   (line 391)
+* SUPPRESS:                              COPY.                (line  48)
+* SUPPRESS <1>:                          SUBTRACT CORRESPONDING.
+                                                              (line  59)
+* SUPPRESS WHEN:                         ORGANIZATION INDEXED.
+                                                              (line  91)
+* Switch-Definition-Clause:              Class-Definition-Clause.
+                                                              (line  40)
+* SWITCH-n:                              Switch-Definition-Clause.
+                                                              (line  25)
+* Switch-Status Conditions:              Sign Conditions.     (line  32)
+* SWn:                                   Switch-Definition-Clause.
+                                                              (line  28)
+* Symbolic-Characters-Clause:            Switch-Definition-Clause.
+                                                              (line  55)
+* SYNCHRONIZED:                          SUM OF.              (line  79)
+* Syntax Diagram Conventions:            Data Initialization. (line  39)
+* SYSERR:                                SPECIAL-NAMES.       (line 249)
+* SYSIN:                                 SPECIAL-NAMES.       (line 227)
+* SYSIPT:                                SPECIAL-NAMES.       (line 228)
+* SYSLIST:                               SPECIAL-NAMES.       (line 238)
+* SYSLST:                                SPECIAL-NAMES.       (line 239)
+* SYSOUT:                                SPECIAL-NAMES.       (line 240)
+* SYSTEM:                                EXTFH.               (line  58)
+* System names:                          System names.        (line   6)
+* System routines:                       System routines.     (line   6)
+* Table Handling:                        Files.               (line 265)
+* Table References:                      Interfacing to Other Environments.
+                                                              (line  21)
+* Table SORT:                            File-Based SORT.     (line 199)
+* Table Subscripting versus Table Indexing: Data Item Coding and Naming Conventions.
+                                                              (line 144)
+* TALLYING:                              INSPECT.             (line  45)
+* TAN:                                   SUM.                 (line  17)
+* TEMP:                                  Run Time Environment Variables.
+                                                              (line 111)
+* TEMP Environment Variable:             File/Sort-Description.
+                                                              (line 155)
+* TEMP Environment Variable <1>:         File-Based SORT.     (line 160)
+* TERMINATE:                             SUPPRESS.            (line  43)
+* TEST-DATE-YYYYMMDD:                    TAN.                 (line  23)
+* TEST-DAY-YYYYDDD:                      TEST-DATE-YYYYMMDD.  (line  25)
+* TEST-FORMATTED-DATETIME:               TEST-DAY-YYYYDDD.    (line  25)
+* TEST-NUMVAL:                           TEST-FORMATTED-DATETIME.
+                                                              (line  40)
+* TEST-NUMVAL-C:                         TEST-NUMVAL.         (line  26)
+* TEST-NUMVAL-F:                         TEST-NUMVAL-C.       (line  30)
+* The Anatomy of a Report:               RWCS Lexicon.        (line  86)
+* The Anatomy of a Report Page:          The Anatomy of a Report.
+                                                              (line  28)
+* The COBOL Language - The Basics:       COBOL Fundamentals.  (line  30)
+* THRU:                                  EVALUATE.            (line  70)
+* TIME OUT:                              SYNCHRONIZED.        (line  42)
+* TIMEOUT:                               ACCEPT data-item.    (line 200)
+* TIMES:                                 Procedural PERFORM.  (line  52)
+* TMP:                                   Compilation Time Environment Variables.
+                                                              (line  54)
+* TMP <1>:                               Run Time Environment Variables.
+                                                              (line 110)
+* TMP Environment Variable:              File/Sort-Description.
+                                                              (line 153)
+* TMP Environment Variable <1>:          File-Based SORT.     (line 160)
+* TMPDIR:                                Compilation Time Environment Variables.
+                                                              (line  53)
+* TMPDIR <1>:                            Run Time Environment Variables.
+                                                              (line 109)
+* TMPDIR Environment Variable:           File/Sort-Description.
+                                                              (line 150)
+* TMPDIR Environment Variable <1>:       File-Based SORT.     (line 159)
+* TO:                                    TIME OUT.            (line  19)
+* TRAILING:                              COPY.                (line 107)
+* TRAILING <1>:                          REPLACE.             (line  76)
+* TRAILING <2>:                          SIGN IS.             (line  25)
+* TRAILING <3>:                          TRIM.                (line  14)
+* TRANSFORM:                             TERMINATE.           (line  41)
+* TRIM:                                  TEST-NUMVAL-F.       (line  26)
+* Turning PHYSICAL Page Formatting Into LOGICAL Formatting: Control Hierarchy (Revisited).
+                                                              (line 103)
+* TYPE:                                  TO.                  (line  26)
+* TYPEDEF:                               TYPE.                (line 221)
+* UNDERLINE:                             TYPEDEF.             (line  61)
+* UNLOCK:                                TRANSFORM.           (line  39)
+* UNSIGNED:                              USAGE.               (line 494)
+* UNSTRING:                              UNLOCK.              (line  48)
+* UNTIL:                                 Procedural PERFORM.  (line  52)
+* UNTIL EXIT:                            Procedural PERFORM.  (line  52)
+* UPDATE:                                UNDERLINE.           (line  34)
+* UPDATE <1>:                            ACCEPT data-item.    (line 205)
+* UPON:                                  SUM OF.              (line  47)
+* UPON <1>:                              DISPLAY UPON device. (line  32)
+* UPON CRT:                              DISPLAY data-item.   (line  62)
+* UPON CRT-UNDER:                        DISPLAY data-item.   (line  62)
+* UPPER:                                 >>SET.               (line  34)
+* UPPER <1>:                             UPDATE.              (line  21)
+* UPPER-CASE:                            TRIM.                (line  22)
+* USAGE:                                 UPPER.               (line  19)
+* USE AFTER STANDARD ERROR PROCEDURE:    DECLARATIVES.        (line 156)
+* USE BEFORE REPORTING:                  DECLARATIVES.        (line  71)
+* USE FOR DEBUGGING:                     DECLARATIVES.        (line  87)
+* Use of Periods:                        Negated Conditions.  (line  34)
+* Use of VERB/END-VERB Constructs:       Use of Periods.      (line  66)
+* USER NAME:                             ACCEPT FROM Runtime-Info.
+                                                              (line  34)
+* User-Defined Function:                 Subprogram Types.    (line  19)
+* User-Defined Function <1>:             Glossary of Terms.   (line 394)
+* User-Defined Function Execution Flow:  Subroutine Execution Flow.
+                                                              (line  76)
+* User-Defined Names:                    Glossary of Terms.   (line 399)
+* User-Defined Words:                    Language Reserved Words.
+                                                              (line  49)
+* USING:                                 USAGE.               (line 576)
+* USING <1>:                             PROCEDURE DIVISION USING.
+                                                              (line  25)
+* USING <2>:                             CALL.                (line 189)
+* USING <3>:                             ENTRY.               (line  52)
+* USING <4>:                             MERGE.               (line  95)
+* USING <5>:                             File-Based SORT.     (line  85)
+* VALUE:                                 USING.               (line  31)
+* VALUE <1>:                             ENTRY.               (line  66)
+* VALUE <2>:                             INITIALIZE.          (line  99)
+* VALUE OF:                              File/Sort-Description.
+                                                              (line  49)
+* VARIANCE:                              UPPER-CASE.          (line  22)
+* VARYING:                               OCCURS.              (line 149)
+* VARYING <1>:                           Inline PERFORM.      (line  33)
+* VARYING <2>:                           SEARCH.              (line  32)
+* Verb:                                  Use of VERB/END-VERB Constructs.
+                                                              (line  46)
+* Verb <1>:                              Glossary of Terms.   (line 415)
+* WHEN:                                  EVALUATE.            (line  58)
+* WHEN <1>:                              SEARCH ALL.          (line  58)
+* WHEN OTHER:                            EVALUATE.            (line  58)
+* WHEN OTHER <1>:                        EVALUATE.            (line  66)
+* WHEN-COMPILED:                         VARIANCE.            (line  18)
+* Why YOU Should Learn COBOL:            Introducing COBOL.   (line  30)
+* WITH FILLER:                           INITIALIZE.          (line  86)
+* WITH IGNORE LOCK:                      Record Locking.      (line  84)
+* WITH LOCK:                             OPEN.                (line 118)
+* WITH TEST:                             Procedural PERFORM.  (line  84)
+* WORKING-STORAGE SECTION:               FILE-SECTION-Data-Item.
+                                                              (line 115)
+* WRITE:                                 UNSTRING.            (line 205)
+* X"91":                                 SYSTEM.              (line  41)
+* X"E4":                                 X"91".               (line  88)
+* X"E5":                                 X"E4".               (line  17)
+* X"F4":                                 X"E5".               (line  17)
+* X"F5":                                 X"F4".               (line  29)
+* XFD Directives:                        GnuCobol use SQL for files.
+                                                              (line  58)
+* XML GENERATE:                          WRITE.               (line 149)
+* XML PARSE:                             XML GENERATE.        (line 649)
+* YEAR-TO-YYYY:                          WHEN-COMPILED.       (line  37)
+* Zero-Delimited Alphanumeric Literals:  Alphanumeric Literals.
+                                                              (line  22)
+* Zero-Delimited Alphanumeric Literals <1>: Glossary of Terms.
+                                                              (line 418)
+
