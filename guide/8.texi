@@ -3922,9 +3922,6 @@ A result of zero will be passed back in the
 @diagram{EXTFH Built-In Subroutine,SS-EXTFH,SS-EXTFH,None}
 The use of the EXTFH function is summarized as follows.
 
-WARNING - THIS BLOCK NEEDS DETAILED EDITING and I do not have the time now ....
-
-
 The Callable File Handler (EXTFH), is primarily an API for file I-O and a kind of an industry standard.
 It can be used to access to GnuCOBOL files by some other programming languages  (like C, Visual Basic, Python ...) on several platforms.
 It also allows to use GnuCOBOL LIBCOB's fileio routines from other compilers (AcuCobol, MicroFocus, IBM Cobol ...) and vice versa (which of course needs a license). This can also help during migration phases.
@@ -3945,35 +3942,77 @@ To have the compiled program call yourfh() for file I/O use: cobc -fcallfh=yourf
 In turn yourfh() may call EXTFH() to use I/O functions from GnuCOBOL.
 Support for the EXTFH includes support for FH--FCD and FH--KEYDEF, fixed use of different attributes and changing pointers and now supports - for 32-bit builds - an internal conversion between FCD2 and FCD3 for cases where existing programs are coded with FCD2
 
+@verbatim
 Some sample use of EXTFH.
-a. Write a GnuCOBOL program that accepts as parameters: file type (sequential, relative indexed etc ...), number and length of keys, both the primary and any alternative keys.
-This GnuCOBOL program, always the same, will be able to create various types of files (sequential, relative, indexed ) with a primary key that can be 5 bytes or 20 or 30 bytes long, with a record length of 100 bytes or 1000 bytes etc etc .. simply by accepting parameters with one or many ACCEPT statements ... with as an example an open output and a close.
-b. Allow a Microfocus COBOL (or AcuCOBOL or RM Cobol or Realia COBOL ...) program to read an indexed file that was created with a GnuCOBOL program that used BDB or VB-ISAM.
-Conversely, read from a GnuCOBOL program an indexed file created by a Microfocus COBOL program with its proprietary system for example IDX4.
+a. Write a GnuCOBOL program that accepts as parameters: file type (sequential,
+   relative indexed etc ...), number and length of keys, both the primary and any
+   alternative keys.
+   This GnuCOBOL program, always the same, will be able to create various types of
+   files (sequential, relative, indexed ) with a primary key that can be 5 bytes or
+   20 or 30 bytes long, with a record length of 100 bytes or 1000 bytes etc, etc, ..
+   simply by accepting parameters with one or many ACCEPT statements ... with as
+   an example an open output and a close.
+b. Allow a Microfocus COBOL (or AcuCOBOL or RM Cobol or Realia COBOL ...) program
+   to read an indexed file that was created with a GnuCOBOL program that used BDB
+   or VB-ISAM.
+Conversely, read from a GnuCOBOL program an indexed file created by a Microfocus
+COBOL program with its proprietary system for example IDX4.
 This would require that EXTFH be available in the non GnuCOBOL environment.
-c. Generate file io statistics. Each I-O operation can record the number of times a read, write, delete, open - any file I-O statement.
-You could record the start of the call to EXTFH, the return from EXTFH - even the before and after image of the record processed.
-You can implement recording stats from the file activity in your EXTFH services. The intent to provide operation reporting performance / consumption.
-Each I-O operation can record the number of times a read, write, delete, open - any file I-O statement. You could record the start of the call to EXTFH, the return from EXTFH - even the before and after image of the record processed.  If you use EXTFH you can gather the statistics and only need to recompile the program - no change in them needed at all.
-You can create a new EXTFH module named "myiostats.cbl" that uses the "xfhfcd3.cpy" for its LINKAGE and to get the 78 values, which only counts the statistics and possibly write them out when a CLOSE was requested; filter in that program as you like (for example for the filename, filetype, ...) before adding to the statistics; end with CALL "EXTFH" USING fcd-record to let libcob do the actual file io; compile with with cobc -c myiostats.cbl.
-compile your programs with an additional -fcallfh=myiostats myiostats.o to route all io through them
+c. Generate file io statistics. Each I-O operation can record the number of times a
+read, write, delete, open - any file I-O statement.
+You could record the start of the call to EXTFH, the return from EXTFH - even the
+before and after image of the record processed.
+You can implement recording stats from the file activity in your EXTFH services.
+The intent to provide operation reporting performance / consumption.
+Each I-O operation can record the number of times a read, write, delete, open - any
+file I-O statement. You could record the start of the call to EXTFH, the return
+from EXTFH - even the before and after image of the record processed.
+If you use EXTFH you can gather the statistics and only need to recompile the
+program - no change in them needed at all.
+You can create a new EXTFH module named "myiostats.cbl" that uses the "xfhfcd3.cpy"
+for its LINKAGE and to get the 78 values, which only counts the statistics and
+possibly write them out when a CLOSE was requested; filter in that program as
+you like (for example for the filename, filetype, ...) before adding to the
+statistics; end with CALL "EXTFH" USING fcd-record to let libcob do the actual
+file io; compile with with cobc -c myiostats.cbl.
+
+Compile your programs with an additional -fcallfh=myiostats myiostats.o to route
+all io through them
 Consequently it does not affect the GnuCOBOL's EXTFH.
-To use EXTFH in any COBOL environment that needs to provide an option like GnuCOBOL has with -fcallfh or MF with its CALLFH directive (GnuCOBOL supports that when included in source files as well).
-To be able to call another COBOL's EXTFH entry point from a GnuCOBOL module to allow the io be routed to that, this environment also needs this entry point and a way to call it directly or via a "to GnuCOBOL foreign" COBOL module that calls into that. So this part means that you can only use it from a GnuCOBOL module if there's some way to access it.
-d. You could read from a Python or Visual Basic program etc etc ... an indexed file written with the GnuCOBOL program using BDB or VB-ISAM as along as you use the applicable structure to call into EXTFH (the C structure is part of libcob / common.h).
+To use EXTFH in any COBOL environment that needs to provide an option like GnuCOBOL
+has with -fcallfh or MF with its CALLFH directive (GnuCOBOL supports that when
+included in source files as well).
+To be able to call another COBOL's EXTFH entry point from a GnuCOBOL module to
+allow the io be routed to that, this environment also needs this entry point and
+a way to call it directly or via a "to GnuCOBOL foreign" COBOL module that calls
+into that. So this part means that you can only use it from a GnuCOBOL module if
+there's some way to access it.
+d. You could read from a Python or Visual Basic program etc etc ... an indexed
+file written with the GnuCOBOL program using BDB or VB-ISAM as along as you use
+the applicable structure to call into EXTFH (the C structure is part of
+libcob / common.h).
 
+The COBOL syntax defining a file (the SELECT and the FD statement) cause the
+compiler to create the data areas needed to define the file and to hold the file
+records.
+EXTFH uses 4 data areas during file operations: File Control Description (FCD),
+Record Area, Filename Area, Key Definition Area.
 
-The COBOL syntax defining a file (the SELECT and the FD statement) cause the compiler to create the data areas needed to define the file and to hold the file records.
-EXTFH uses 4 data areas during file operations: File Control Description (FCD), Record Area, Filename Area, Key Definition Area.
 To use the EXTFH you must follow these steps:
-a. Allocate data areas for the File Control Description (FCD), Record Area, Filename Area and Key Definition Area (indexed files only).
-b. Initialize all the data areas to binary zeros to ensure that EXTFH does not receive invalid values.
-c. Fill in the fields in the Record Area, Filename Area, and Key Definition Area that are needed for the selected Operation Code.
-d. Set the pointers in the File Control Description to point at Record Area, Filename Area and Key Definition Area (indexed files only)
+a. Allocate data areas for the File Control Description (FCD), Record Area,
+   Filename Area and Key Definition Area (indexed files only).
+b. Initialize all the data areas to binary zeros to ensure that EXTFH does
+   not receive invalid values.
+c. Fill in the fields in the Record Area, Filename Area, and Key Definition
+   Area that are needed for the selected Operation Code.
+d. Set the pointers in the File Control Description to point at Record Area,
+   Filename Area and Key Definition Area (indexed files only)
 e. Select the Operation Code to decide which file operation to be performed
-f. Fill in the fields in the FCD that are needed for the selected Operation Code.
+f. Fill in the fields in the FCD that are needed for the selected Operation
+   Code.
 g. Call the File Handler.
-h. Determine the success of the file I/O operation by checking the returned File Status
+h. Determine the success of the file I/O operation by checking the returned
+   File Status
 i. Process any data in the the Record Area and the FCD output fields
 
 Use the following syntax to call the File Handler from COBOL:
@@ -3984,41 +4023,55 @@ where opcode is a PIC X(2) COMP-X field specifying the operation code.
 FILE CONTROL DESCRIPTION (FCD).
 ==============================
 
-The FCD  area contains information about the file in use, set the appropriate fields in the FCD before calling EXTFH.
-After performing the specified operation, EXTFH completes the appropriate fields in the FCD before passing control back to the calling program.
+The FCD  area contains information about the file in use, set the appropriate
+fields in the FCD before calling EXTFH.
+After performing the specified operation, EXTFH completes the appropriate
+fields in the FCD before passing control back to the calling program.
 All unused or reserved areas of the FCD must be set to binary zeros.
 
-The FCD used on the call to open a file must be the one used on all subsequent calls to that file.
-The supplied GnuCOBOL copyfile xfhfcd3.cpy contains a COBOL definition of the FCD.
+The FCD used on the call to open a file must be the one used on all subsequent
+calls to that file.
+The supplied GnuCOBOL copyfile xfhfcd3.cpy contains a COBOL definition of
+the FCD.
+
 01 FCD-AREA.
    COPY 'xfhfcd3.cpy'.
 
 The structure of the FCD is defined below, bit 7 is always the leftmost bit.
-When using COBOL, this and the following pointers are USAGE POINTER items, set using a statement of the form:
-set pointer to address of data item where: pointer is one of these fields, data item is the relevant data area.
+When using COBOL, this and the following pointers are USAGE POINTER items,
+set using a statement of the form:
+set pointer to address of data item where: pointer is one of these fields,
+data item is the relevant data area.
 Offset and size are in bytes.
 
 OFFSET SIZE DESCRIPTION
------- ---- ----------------------------------------------------------------------------------------
+------ ---- --------------------------------------------------------------
  0     2    File Status Code. See also offsets 6 and 33.
-            After every operation except a COMMIT or ROLLBACK operation, this field is updated with
-            a standard file status value telling you the status of the operation.
+            After every operation except a COMMIT or ROLLBACK operation,
+            this field is updated with a standard file status value telling
+            you the status of the operation.
  2     3    Reserved. Must be set to binary zeros.
- 5     1    File organization: 0 Line sequential, 1 Sequential, 2 Indexed, 3 Relative
+ 5     1    File organization: 0 Line sequential, 1 Sequential, 2 Indexed,
+            3 Relative
  6     1    User Status and Access Mode indicators.
-            User Status is indicated by bit 7. The bit is set if you have defined a file status.
-            Defining a file status can affect how some operations (such as RETRYLOCK) are performed.
+            User Status is indicated by bit 7. The bit is set if you have
+            defined a file status.
+            Defining a file status can affect how some operations (such as
+            RETRYLOCK) are performed.
             When calling EXTFH directly, this bit should be set.
             however, file status is obtained directly from offset 0.
             Access mode is indicated by bits 6-0:
-            0 - Sequential access mode, 4 - Random access mode,8 - Dynamic access mode.
+            0 - Sequential access mode, 4 - Random access mode,8 - Dynamic
+            access mode.
  7     1    Open mode: you must set this field to 128 before opening a file.
-            This field is written to by the Callable File Handler so that, on return, it indicates
-            the open mode of the file: 0 INPUT, 1 OUTPUT, 2 I/O, 3 EXTEND, 128 File is closed.
+            This field is written to by the Callable File Handler so that,
+            on return, it indicates the open mode of the file: 0 INPUT,
+            1 OUTPUT, 2 I/O, 3 EXTEND, 128 File is closed.
  8     3    Reserved. Must be set to binary zeros.
 11     2    Length of filename.
 13     8    Relative byte address.
-            This field is used instead of the 4 byte field at offset 72 if bit 4 of byte 93 is set.
+            This field is used instead of the 4 byte field at offset 72 if
+            bit 4 of byte 93 is set.
 21     3    Reserved. Must be set to binary zeros.
 24     1    Lock mode flags for shareable files:
             Bit 7 - Lock on multiple records
@@ -4042,14 +4095,16 @@ OFFSET SIZE DESCRIPTION
 28      4   File handle
 32      1   Reserved. Must be set to binary zeros.
 33      1   File status type. See also offsets 0 and 6:
-            Bit 7 Set for ANSI'85 COBOL file status by default, otherwise ANSI'74 COBOL file status
+            Bit 7 Set for ANSI'85 COBOL file status by default, otherwise
+            ANSI'74 COBOL file status
             Bits 6-3 Reserved
             Bit 2 Enables tab insertion for line sequential files
             Bit 1 Enables null insertion for line sequential files
             Bit 0 Reserved.
             Bits 1 and 2 are set/unset by EXTFH at open time,
-            depending on the settings of the N and T RTS switches. These bits can be set/unset
-            after an OPEN operation to override the N and T RTS switches.
+            depending on the settings of the N and T RTS switches. These
+            bits can be set/unset after an OPEN operation to override the
+            N and T RTS switches.
 34      1   File format:
             0 - Operating system default. C-ISAM on UNIX,
                 same as specifying a value of 3 on DOS, Windows and OS/2.
@@ -4068,25 +4123,29 @@ OFFSET SIZE DESCRIPTION
 38      2   Maximum record length (in bytes).
 40      3   Reserved. Must be set to binary zeros.
             32-bit:
-42      1   File descriptor. Returned for line sequential fixed length sequential
-            and relative files and C-ISAM files on UNIX.
+42      1   File descriptor. Returned for line sequential fixed length
+            sequential and relative files and C-ISAM files on UNIX.
 43      4   Relative record number.
 47      1   Recording mode: Bits 7-1 Reserved,Bit 0: 0 - Fixed, 1 - Variable
 48      2   Current record length (in bytes).
 50      2   Minimum record length (in bytes).
 52      2   Key-of-Reference (indexed files).
-            This field identifies the Key-of-Reference, used for random READ operations.
+            This field identifies the Key-of-Reference, used for random READ
+            operations.
             To specify the prime key, set this field to zero.
-            For example, to specify the first alternate key defined, use a value 1;
-            the second alternate key defined use value 2.
+            For example, to specify the first alternate key defined, use a
+            value 1; the second alternate key defined use value 2.
             Or:
             Line count (Line Sequential files).
-            This field specifies the number of lines to skip when writing a file. For example:
+            This field specifies the number of lines to skip when writing a
+            file. For example:
             WRITE AFTER ADVANCING line-count LINES
 54      2   Effective key length.
-            When using a START operation on indexed files, you can specify only the leading part of
-            a key instead of the whole key. You should set this field to the number of bytes to be
-            used in the comparison.It must be > than zero and no bigger than the key being used.
+            When using a START operation on indexed files, you can specify
+            only the leading part of a key instead of the whole key. You
+            should set this field to the number of bytes to be used in the
+            comparison.It must be > than zero and no bigger than the key
+            being used.
 56      4   Pointer to the record area.
 60      4   Pointer to the filename area.
 64      4   Pointer to key definition block.
@@ -4097,17 +4156,20 @@ OFFSET SIZE DESCRIPTION
 78      1   Data compression routine indicator:
             0 = No compression
             1-127 = Micro Focus data compression routine number (1=CBLDC001)
-            128-255 = User-defined data compression routine number (128=USRDC128)
+            128-255 = User-defined data compression routine number
+            (128=USRDC128)
 79      4   Fileshare V2 session-id.
 83      2   Fileshare V2 file-id.
 85      6   Reserved. Must be set to binary zeros.
 91      1   Bit 7- Interlanguage locking (LOCKTYPE 1), Bits 6-0- Reserved.
-92      1   Fileshare V2 flags: Bit 7 - Transaction logging; Bits 6-0 - Reserved.
+92      1   Fileshare V2 flags: Bit 7 - Transaction logging; Bits 6-0 -
+            Reserved.
 93      1   Configuration flags:
             Bit 7  - WRITETHRU
             Bit 6  - Use Relative Byte Address
             Bit 5  - Update current record pointer
-            Bit 4  -Use offset 13 for relative byte address, instead of offset 72
+            Bit 4  - Use offset 13 for relative byte address, instead of
+                     offset 72
             Bits 3-2  - Reserved
             Bit 1  - Check COBFSTATCONV
             Bit 0  - Set if IGNORELOCK required.
@@ -4122,14 +4184,18 @@ OFFSET SIZE DESCRIPTION
 97      1   Index cache area.
 98      2   Reserved.
 
-
 RECORD AREA
 ===========
-The record area is an area into which records are read, and from which records are (re)written.
-The size of the record area must be four bytes larger than the largest record in the file.
-The record length fields in the FCD always contain true record lengths, not the length of the record area.
+
+The record area is an area into which records are read, and from which records
+are (re)written.
+The size of the record area must be four bytes larger than the largest record in
+the file. The record length fields in the FCD always contain true record lengths,
+not the length of the record area.
 (See offsets 38, 48 and 50 in the FCD.)
-The following GnuCOBOL sample code shows how the FCD is set up to point to the record area:
+The following GnuCOBOL sample code shows how the FCD is set up to point to the
+record area:
+
 01 wRECORD-AREA      PIC X(90).
    ...
    SET FCD-RECORD-ADDRESS TO ADDRESS OF wRECORD-AREA
@@ -4137,52 +4203,69 @@ The following GnuCOBOL sample code shows how the FCD is set up to point to the r
 
 FILENAME AREA
 =============
-The filename area contains the name of the file in use. It can contain drive and/or path information as well as the actual name of the file.
-If the actual name is shorter than the length of the buffer specified in the FCD, it must be terminated by a space.
+
+The filename area contains the name of the file in use. It can contain drive
+and/or path information as well as the actual name of the file.
+If the actual name is shorter than the length of the buffer specified in the FCD,
+it must be terminated by a space.
 This data area must be filled before the first operation on the file.
-The following GnuCOBOL sample code shows how the FCD is set up to point to the filename area:
+The following GnuCOBOL sample code shows how the FCD is set up to point to the
+filename area:
+
 01 wFILENAME-AREA    PIC X(60) VALUE "file001.dat".
    ...
    MOVE LENGTH OF wFILENAME-AREA  TO FCD-NAME-LENGTH
    SET FCD-FILENAME-ADDRESS TO ADDRESS OF wFILENAME-AREA
    ...
 
-
 KEY DEFINITION AREA
 ===================
-The Key Definition Area is used to hold index key information during operations on indexed files.
-It consists of three data areas: Global Information area, Key Definition area, Component Definition area.
 
-Global Information area.
+The Key Definition Area is used to hold index key information during operations
+on indexed files. It consists of three data areas: Global Information area, Key
+Definition area, Component Definition area.
+
+Global Information Area.
+
 It tells the size of the Key Definition Area and how many keys are in the file.
-All unused or reserved areas must be initialized to binary zeros. The structure is shown below.
+All unused or reserved areas must be initialized to binary zeros. The structure
+is shown below.
 
 OFFSET SIZE DESCRIPTION
------- ---- ----------------------------------------------------------------------------------------
+------ ---- -------------------------------------
 0      2    Length of the Key Definition Block
 2      4    Reserved. Must be set to binary zeros
 6      2    Number of keys
 8      6    Reserved. Must be set to binary zeros.
 
-
 Key Definition Area Parameter Block.
-It describes the keys used in the indexed file and consists of one Key Definition for each key in the file. You must define all keys before their components. The order of defining the keys is important. The ordinal position of the key is used to identify it.
-For example, if you have an indexed file with a prime key and two alternate keys, the Key Definition area would contain three key definitions.
-The prime key is key 0, the first alternate is key 1, and the second alternate is key 2.
-All unused or reserved areas must be initialized to binary zeros. The structure is shown below.
+
+It describes the keys used in the indexed file and consists of one Key Definition
+for each key in the file. You must define all keys before their components. The
+order of defining the keys is important. The ordinal position of the key is used
+to identify it.
+For example, if you have an indexed file with a prime key and two alternate keys,
+the Key Definition area would contain three key definitions.
+The prime key is key 0, the first alternate is key 1, and the second alternate
+is key 2.
+All unused or reserved areas must be initialized to binary zeros. The structure
+is shown below.
 
 OFFSET SIZE DESCRIPTION
------- ---- ----------------------------------------------------------------------------------------
+------ ---- --------------------------------------------------------------
 0      2    Component count. For ordinary keys, the component count is 1.
-            For split keys, the component count is the number of components making up the split key.
+            For split keys, the component count is the number of components
+            making up the split key.
 2      2    Offset to first Component Definition area for this key.
-            This offset is relative to the start of the Global Information area, starting at 0.
+            This offset is relative to the start of the Global Information
+            area, starting at 0.
 4      1    Key flags:
             Bit 7 - Reserved. Must be set to binary zeros
             Bit 6 - Duplicates allowed
             Bit 5 - Reserved. Must be set to binary zeros
-            Bit 4 - Set to indicate that this is the prime key. If this is not set for any key,
-                    the file handler assumes that the first key is the prime key.
+            Bit 4 - Set to indicate that this is the prime key. If this is
+            not set for any key, the file handler assumes that the first
+            key is the prime key.
             Bit 3 - Reserved. Must be set to binary zeros
             Bit 2 - Reserved. Must be set to binary zeros
             Bit 1 - Sparse key. See offset 6
@@ -4196,38 +4279,49 @@ OFFSET SIZE DESCRIPTION
             the key is suppressed if it is entirely made up of this character.
 7      8    Reserved. Must be set to binary zeros.
 
-
 Component Definition Area.
-It follows the Key Definition area and contains one component definition for each key component.
-Each key consists of one component, unless defined as a split key, when each component of the key requires its own Component Definition.
-The Component Definitions define the location in the record and length of the key component.
-All unused or reserved areas must be initialized to binary zeros. The structure of a Component Definition is shown below.
+
+It follows the Key Definition area and contains one component definition for each
+key component.
+Each key consists of one component, unless defined as a split key, when each
+component of the key requires its own Component Definition.
+The Component Definitions define the location in the record and length of the key
+component. All unused or reserved areas must be initialized to binary zeros.
+The structure of a Component Definition is shown below.
 
 OFFSET SIZE DESCRIPTION
------- ---- ----------------------------------------------------------------------------------------
+------ ---- --------------------------------------------------------------
 0      2    Reserved. Must be set to binary zeros.
 2      4    Offset of component in the record (starting at 0).
 6      4    Length of the component (in bytes).
 
-
-
 OPERATION CODES
 ===============
+
 There are two types of operation codes:
-Standard: the code contain x"FA" in the leftmost byte; the least significant byte indicates the specific operation
-Special:  the codes contain x"00" in the leftmost significant byte; the least significant byte indicates the specific operation
+Standard:     The code contain x"FA" in the leftmost byte; the least significant byte
+              indicates the specific operation
+Special:      The codes contain x"00" in the leftmost significant byte; the least
+              significant byte indicates the specific operation
 
 Opcode        A 2-character operation code specifying an exact operation.
 Operation     The operation performed by the chosen opcode.
-File Type     L Line Sequential, S Record Sequential(including vS), R Relative(including vR), I Indexed
-              vS Variable format Sequential only, vR Variable format Relative only
-Input fields  The offset values of fields in the FCD to be set before calling.
+File Type     L Line Sequential, S Record Sequential(including vS),
+              R Relative(including vR), I Indexed
+              vS Variable format Sequential only,
+              vR Variable format Relative only
+
+Input fields  The offset values of fields in the FCD to be set before
+              calling.
+
 Output fields The offset values of fields set by EXTFH during the call.
 
 STANDARD OPERATION CODES
 ------------------------
-They  are identified by x"FA" in the leftmost significant byte of the operation code.
-The least significant byte indicates the specific operation, as shown in the following sections.
+
+They  are identified by x"FA" in the leftmost significant byte of the operation
+code. The least significant byte indicates the specific operation, as shown in
+the following sections.
 
 OPEN
 Initiates the processing of files.
@@ -4244,9 +4338,9 @@ CODE OPERATION                       TYPE
 08   OPEN INPUT REVERSED             L S
 
 Input Fields:
-Offset 5 File organization
-Offset 6 Access mode
-Offset 7 Open mode. Must be set to 128 before opening a file.
+Offset 5  File organization
+Offset 6  Access mode
+Offset 7  Open mode. Must be set to 128 before opening a file.
 Offset 11 Length of filename
 Offset 24 Lock mode flags
 Offset 25 Other flags
@@ -4261,15 +4355,18 @@ Offset 91 Interlanguage locking
 
 Filename area
 Key Definition Area (only for Indexed Files)
+
 Output Fields:
-Offset 0 User file status
-Offset 7 Open mode
+Offset 0  User file status
+Offset 7  Open mode
 FCD Use for all subsequent accesses to this file
 
 Opening a File More Than Once.
-With EXTFH you can assign several FCDs to the same physical file and have them all open at the same time.
+With EXTFH you can assign several FCDs to the same physical file and have them
+all open at the same time.
 The operating system counts it as just one open file.
-The physical file is not closed until every logical file assigned to it has been closed.
+The physical file is not closed until every logical file assigned to it has been
+closed.
 
 CLOSE
 Terminates the processing of files.
@@ -4288,7 +4385,8 @@ Input Fields: None
 Output Fields: Offset 0 - User file status
 
 READ
-Makes available a specified record (random access) or the next or previous logical record (sequential access).
+Makes available a specified record (random access) or the next or previous
+logical record (sequential access).
 
 OP                                    FILE
 CODE OPERATION                        TYPE
@@ -4315,15 +4413,19 @@ Input Fields:
 Offset 43 Relative record number (R) if READ random or direct
 Offset 52 Key identifier (I)
 Offset 56 Pointer to the record area
+
 Output Fields:
-Offset 0 User file status
+Offset  0 User file status
 Offset 48 Current record length
 Offset 72 Relative byte address
+
 Record Area
 
 WRITE/REWRITE
 Releases a logical record for an output or input-output file.
-For sequential files, it can also be used for vertical positioning of lines in a logical page.
+For sequential files, it can also be used for vertical positioning of lines
+in a logical page.
+
 The REWRITE operation logically replaces a record existing in a disk file.
 The WRITE operation releases record locks and writes records.
 
@@ -4346,12 +4448,14 @@ Offset 43 Relative record number (R)
 Offset 48 Current record length
 Offset 52 Line count (WRITE only)
 Offset 56 Pointer to the record area
+
 Output Fields:
-Offset 0 User file status
+Offset  0 User file status
 Offset 72 Relative byte address
 
 START
-Provides a basis for logical positioning in a relative or indexed file, for subsequent retrieval of records.
+Provides a basis for logical positioning in a relative or indexed file, for
+subsequent retrieval of records.
 
 OP                                          FILE
 CODE OPERATION                              TYPE
@@ -4368,11 +4472,13 @@ Offset 43 Relative record number (R)
 Offset 52 Key identifier (I)
 Offset 54 Effective key length (I)
 Offset 56 Pointer to the record area
+
 Output Fields:
-Offset 0 User file status
+Offset  0 User file status
 
 STEP
-Steps to the next physical record, this operation enables very fast access to a record.
+Steps to the next physical record, this operation enables very fast access
+to a record.
 
 OP                                          FILE
 CODE OPERATION                              TYPE
@@ -4387,7 +4493,10 @@ D1   STEP FIRST WITH KEPT LOCK              L S R I
 CC   STEP FIRST                             L S R I
 
 Input Fields: Offset 56 Pointer to the record area
+
 Output Fields: Offset 0 User file status
+
+@end verbatim
 
 STEP operations are a method of sequentially retrieving records in a relative or indexed file without having to read via a key or relative record number.
 Generally, this is a faster method of accessing data in the file.
@@ -4401,6 +4510,8 @@ The relative byte address is returned on every STEP operation, so if you need to
 just retrieved, you can use the READ (direct) operation using the address returned.
 The current record pointer is not affected by STEP operations.
 
+@verbatim
+
 DELETE
 Logically removes a record from a disk file.
 
@@ -4412,11 +4523,13 @@ F7   DELETE                          vS R I
 Input Fields
 Offset 43 Non-sequential access to relative record number (R)
 Offset 56 Non-sequential access to record pointer (I)
+
 Output Fields:
-Offset 0 User file status
+Offset  0 User file status
 
 DELETE FILE
-Physically removes the specified file from the physical devices on which it resides.
+Physically removes the specified file from the physical devices on which it
+resides.
 
 OP                                   FILE
 CODE OPERATION                       TYPE
@@ -4424,17 +4537,18 @@ CODE OPERATION                       TYPE
 F8   DELETE FILE                     L S R I
 
 Input Fields:
-Offset 5 File organization
+Offset  5 File organization
 Offset 11 Filename length
 Offset 34 File format
 Offset 60 Pointer to the filename area
 
 Filename Area
 Output Fields:
-Offset 0 User file status
+Offset  0 User file status
 
 COMMIT
-Releases all record locks in all files held by this run unit. This operation code always requires use of the FCD.
+Releases all record locks in all files held by this run unit. This operation
+code always requires use of the FCD.
 
 OP                                   FILE
 CODE OPERATION                       TYPE
@@ -4464,15 +4578,21 @@ CODE OPERATION                        TYPE
 0E   UNLOCK                           L S R I
 
 Input Fields: None
+
 Output Fields: Offset 0 User file status
 
 SPECIAL OPERATION CODES
 -----------------------
-They must be identified by the hexadecimal code x"00" in the most significant byte of the operation code.
-The least significant byte indicates the operation, as shown in the following sections.
+
+They must be identified by the hexadecimal code x"00" in the most significant
+byte of the operation code.
+The least significant byte indicates the operation, as shown in the following
+sections.
 
 GET FILE INFO
-Returns information on keys for the specified file in the format of the Key Definition Block for index files and general file information for all file types supported.
+Returns information on keys for the specified file in the format of the Key
+Definition Block for index files and general file information for all file
+types supported.
 
 OP                                    FILE
 CODE OPERATION                        TYPE
@@ -4480,14 +4600,14 @@ CODE OPERATION                        TYPE
 06   Return file information          vS vR I
 
 Input Fields:
-Offset 5 File organization (can be x"FF")
+Offset  5 File organization (can be x"FF")
 Offset 11 Length of filename
 Offset 60 Pointer to the filename area
 Offset 64 Pointer to the key definition area (I)
 
 Output Fields:
-Offset 0 User file status
-Offset 5 File organization
+Offset  0 User file status
+Offset  5 File organization
 
 Key definition Area (I)
 Offset 34 File format
@@ -4497,16 +4617,23 @@ Offset 50 Minimum record length
 Offset 72 File size
 Offset 78 Data compression routine
 
-It is your responsibility to ensure that you have enough space allocated for the key definition block to hold all the information returned.
+
+It is your responsibility to ensure that you have enough space allocated for the
+key definition block to hold all the information returned.
 Failure to allocate enough space causes corruption of some data areas.
-For variable-length sequential files and variable-length relative files, no key definition information exists.
-If the organization byte of the FCD is set to x"FF", this tries to determine the file type and return with the relevant information set.
-This mode of operation is not recommended if fixed-length sequential files are involved as it might be impossible to determine
-the difference between the first record of a fixed-length sequential file and the header of a variable-length sequential file.
+For variable-length sequential files and variable-length relative files, no key
+definition information exists.
+If the organization byte of the FCD is set to x"FF", this tries to determine the
+file type and return with the relevant information set.
+This mode of operation is not recommended if fixed-length sequential files are
+involved as it might be impossible to determine
+the difference between the first record of a fixed-length sequential file and the
+header of a variable-length sequential file.
 When the file type is determined as incompatible, the error code 9/161 is returned.
 
 CREATE NEW INEDX
-Creates a new .idx file, containing only header information for the file to allow new indexes to be added.
+Creates a new .idx file, containing only header information for the file to
+allow new indexes to be added.
 
 OP                                    FILE
 CODE OPERATION                        TYPE
@@ -4525,8 +4652,9 @@ CODE OPERATION                        TYPE
 08   Get next record                        I
 
 Input fields: offset 56 pointer to record area
+
 Output fields:
-offset 0 user file status
+offset  0 user file status
 offset 48 current record length
 offset 72 relative byte offset
 
@@ -4541,6 +4669,7 @@ CODE OPERATION                        TYPE
 Input fields:
 offset 52 key identifier
 offset 56 pointer to record area
+
 Output fields: offset 0 user file status
 
 FLUSH FILE
@@ -4563,18 +4692,25 @@ CODE OPERATION                        TYPE
 0F   Unlock record                          I
 
 Input Fields: Offset 56  Pointer to the record area
+
 Output Fields: None
-
-
 
 SAMPLE PROGRAM
 ==============
-EXTFH is very powerful, it requires many parameters to work and provides many return data.
+
+EXTFH is very powerful, it requires many parameters to work and provides many
+return data.
 An example is very useful to better clarify all these aspects.
-The following example also shows the COBOL structure of the FCD area and the Key Definition Area
-The following is a single EXTFH02.COB source to be compiled with a single command but which includes two programs EXTFH02A and EXTFH02B.
-The first program creates an indexed file with 10 records with the normal I-O statements and calls the second program.
-The second program instead uses EXTFH for OPEN, READ REWRITE START READ PREVIUOIS and CLOSE operations.
+The following example also shows the COBOL structure of the FCD area and the Key
+Definition Area
+The following is a single EXTFH02.COB source to be compiled with a single command
+but which includes two programs EXTFH02A and EXTFH02B.
+The first program creates an indexed file with 10 records with the normal I-O
+statements and calls the second program.
+The second program instead uses EXTFH for OPEN, READ REWRITE START READ PREVIOUS
+and CLOSE operations.
+
+@end verbatim
 
 @example
         >>SOURCE FREE
@@ -4686,8 +4822,8 @@ The second program instead uses EXTFH for OPEN, READ REWRITE START READ PREVIUOI
           78  Unlock-Current              value x'0E'.
           78  Commit-All                  value x'DC'.
           78  Rollback-All                value x'DD'.
-          *> Special codes  (Type is x'00')
-          78  Get-File-Info               value x'06'. *> not available for BDB files
+*> Special codes  (Type is x'00')
+          78  Get-File-Info               value x'06'. *> not avail. for BDB files
           78  Open-New-Index              value x'07'.
           78  Get-Next-Record             value x'08'.
           78  Add-Key-Value               value x'09'.
@@ -4886,7 +5022,8 @@ The second program instead uses EXTFH for OPEN, READ REWRITE START READ PREVIUOI
       10 FCD-LINE-COUNT        pic xx comp-x. *> Line count (seq files)
       10 FCD-USE-FILES         pic x  comp-x.
       10 FCD-GIVE-FILES        pic x  comp-x.
-      10 FCD-KEY-LENGTH        pic xx comp-x. *> Effective key length (START KEY LENGTH IS n)
+      10 FCD-KEY-LENGTH        pic xx comp-x. *> Effective key length
+                                              *>  (START KEY LENGTH IS n)
       10                       pic x comp-x occurs 20.
       10 FCD-CURRENT-REC-LEN   pic x(4) comp-x. *> Current record length
       10 FCD-MIN-REC-LENGTH    pic x(4) comp-x. *> Minimum record length
@@ -4905,7 +5042,7 @@ The second program instead uses EXTFH for OPEN, READ REWRITE START READ PREVIUOI
       10 FCD-RECORD-ADDRESS    redefines FCD-PTR-FILLER2 usage pointer.
       10 FCD-PTR-FILLER3       pic x(8) comp-x.   *> Pointer to file name
       10 FCD-FILENAME-ADDRESS  redefines FCD-PTR-FILLER3 usage pointer.
-      *> Pointer to index name (applies only if separate index file exists)
+*> Pointer to index name (applies only if separate index file exists)
       10 FCD-PTR-FILLER4       pic x(8) comp-x.
       10 FCD-IDXNAME-ADDRESS   redefines FCD-PTR-FILLER4 usage pointer.
       10 FCD-INDEX-NAME        redefines FCD-PTR-FILLER4 usage pointer.
@@ -4931,10 +5068,11 @@ The second program instead uses EXTFH for OPEN, READ REWRITE START READ PREVIUOI
         49 filler                      pic 9(06) comp-x. *> reserved
         49 NUMBER-OF-KEYS              pic 9(04) comp-x.
         49 filler                      pic 9(13) comp-x. *> reserved
-     *> key-definition-area is repeated for the number of keys defined by NUMBER-OF-KEYS
+*> key-definition-area is repeated for the number of keys defined by
+*>                                                    NUMBER-OF-KEYS
      47 KEY-DEF-AREA-PARAM-BLOCK.
         49 component-count             pic 9(4) comp-x.
-        *> The offset for the component-specification for this key
+*> The offset for the component-specification for this key
         49 component-defs              pic 9(4) comp-x.
         49 key-flags                   pic 9(2) comp-x.
            78 KEY2KEYFLAG-DUPS-IN-ORDER    value h"40".
@@ -4949,8 +5087,8 @@ The second program instead uses EXTFH for OPEN, READ REWRITE START READ PREVIUOI
            78 KEY2COMPRESS-DEFAULT value KEY2COMPRESS-NO-COMPRESSION.
         49 sparse-characters           pic x(2).
         49 filler                      pic x(8). *> reserved
-        *> component-specifications for all keys follows after the key definition area
-        *> for all the keys.
+*> component-specifications for all keys follows after the key definition area
+*> for all the keys.
      47 COMPONENT-DEF-AREA.
         49 component-flags             pic 9(2) comp-x.
         49 component-type              pic 9(2) comp-x.
@@ -5059,9 +5197,11 @@ The second program instead uses EXTFH for OPEN, READ REWRITE START READ PREVIUOI
       IF FCD-FILE-STATUS NOT = '00'
           MOVE wOperationCode TO OP-X
           IF FCD-STATUS-KEY-1 = '9'
-              DISPLAY 'FILE ERROR, STATUS: 9/' FCD-BINARY '      wOperationCode: ' OP-N
+              DISPLAY 'FILE ERROR, STATUS: 9/' FCD-BINARY '
+                        wOperationCode: ' OP-N
           ELSE
-              DISPLAY 'FILE ERROR, STATUS:   ' FCD-FILE-STATUS ' wOperationCode: ' OP-N
+              DISPLAY 'FILE ERROR, STATUS:   ' FCD-FILE-STATUS '
+                                               wOperationCode: ' OP-N
           END-IF
           STOP RUN
       END-IF.
@@ -5077,56 +5217,93 @@ The second program instead uses EXTFH for OPEN, READ REWRITE START READ PREVIUOI
 
 @end example
 
-REALTIVE BYTE ADDRESSING
+@verbatim
+
+RELATIVE BYTE ADDRESSING
 ========================
 
 When you read or write a record, you obtain its relative byte address.
-Using this address, you can re-read, re-write or delete the record without using keys and indexes.
+Using this address, you can re-read, re-write or delete the record without using
+keys and indexes.
 This is a fast method of accessing records, but has following limitations :
-- A normal relative byte address operation does not affect the current record pointer.
-  Therefore, a READ (sequential) after a relative byte addressing operation returns the record after the last one accessed using normal access methods.
-  It does not return the record after the one you accessed using relative byte addressing.
-- It is possible, however, to update the file position indicator so it points to the record you accessed using relative byte addressing.
-  A subsequent READ returns you to the record after the one you accessed using the relative byte address operation.
-- To update the file position indicator, you should set Bit 5 of the configuration-flags (offset 93) in the FCD before calling
-  the Callable File Handler to perform the relative byte address operation.
+- A normal relative byte address operation does not affect the current record
+  pointer.
+  Therefore, a READ (sequential) after a relative byte addressing operation
+  returns the record after the last one accessed using normal access methods.
+  It does not return the record after the one you accessed using relative byte
+  addressing.
+- It is possible, however, to update the file position indicator so it points
+  to the record you accessed using relative byte addressing.
+  A subsequent READ returns you to the record after the one you accessed using
+  the relative byte address operation.
+- To update the file position indicator, you should set Bit 5 of the configuration
+  flags (offset 93) in the FCD before calling the Callable File Handler to perform
+  the relative byte address operation.
 - Relative byte operations update the index when a record is re-written or deleted.
-- If the record has been deleted since the relative byte address for it was obtained, a read or write using its relative byte address usually fails.
-- However, you should be aware that it is possible for the record to have been replaced by a different record.
+- If the record has been deleted since the relative byte address for it was
+  obtained, a read or write using its relative byte address usually fails.
+- However, you should be aware that it is possible for the record to have been
+  replaced by a different record.
+
 Record locking is supported by relative byte addressing.
-The relative byte address of a record is returned in offset 72 of the FCD (or offset 13, if bit 4 of offset 93 is set) on all operations that involve specific records.
-To use this address, simply save the contents of this field after a READ operation. Note that if the operation is unsuccessful, the value in the relative byte address is undefined.
-Once you have obtained the relative byte address of a record, you can perform a number of operations.
+The relative byte address of a record is returned in offset 72 of the FCD (or
+offset 13, if bit 4 of offset 93 is set) on all operations that involve specific
+records.
+To use this address, simply save the contents of this field after a READ operation.
+Note that if the operation is unsuccessful, the value in the relative byte address
+is undefined.
+Once you have obtained the relative byte address of a record, you can perform a
+number of operations.
 These are outlined in the following sections.
 You can read a specific record from a file in two ways using the relative address:
 
-Put the relative address in the relative byte address field of the FCD and set bit 6 of the configuration flags in the FCD (offset 93).
-If you want to update the file position indicator to this record, set bit 5 of the configuration flags (offset 93).
-Perform a READ (random) WITH NO LOCK, READ (random) WITH LOCK, READ (random) WITH KEPT LOCK or READ (random) operation on the file.
+Put the relative address in the relative byte address field of the FCD and set
+bit 6 of the configuration flags in the FCD (offset 93).
+If you want to update the file position indicator to this record, set bit 5 of
+the configuration flags (offset 93).
+Perform a READ (random) WITH NO LOCK, READ (random) WITH LOCK, READ (random)
+WITH KEPT LOCK or READ (random) operation on the file.
 
-The READ (direct) operations work the same as described above, but do not require certain bits in the FCD to be set.
-The READ (direct) operations always return the record at the address given in the relative byte address field of the FCD and update the file position indicator.
+The READ (direct) operations work the same as described above, but do not require
+certain bits in the FCD to be set.
+The READ (direct) operations always return the record at the address given in the
+relative byte address field of the FCD and update the file position indicator.
 
-Both of the above methods provide a way of switching the current key-of-reference to a different key. For example,
-if READ (sequential) operations are performed via the primary key, you can start reading via the first alternate key from the current record using the following steps:
-a. Read the next record in the file (the address of this record is in the FCD relative byte address field).
-b. Put the new key-of-reference in the key-of-reference field in the FCD (offset 52).
-c. Perform a READ (direct) operation to return the record at this address. The key-of-reference is changed to the new one.
-d. Read the next record in the file. This is the next record in the new key-of-reference index.
-You can re-write a record to a specific address by specifying that address in the relative byte address field of the FCD
+Both of the above methods provide a way of switching the current key-of-reference
+to a different key. For example,
+if READ (sequential) operations are performed via the primary key, you can start
+reading via the first alternate key from the current record using the following
+steps:
+a. Read the next record in the file (the address of this record is in the FCD
+   relative byte address field).
+b. Put the new key-of-reference in the key-of-reference field in the FCD
+   (offset 52).
+c. Perform a READ (direct) operation to return the record at this address. The
+   key-of-reference is changed to the new one.
+d. Read the next record in the file. This is the next record in the
+   new key-of-reference index.
+
+You can re-write a record to a specific address by specifying that address in the
+relative byte address field of the FCD
 and setting bit 6 of the configuration flags in the FCD (offset 93).
-If you want to update the file position indicator, set bit 5 of the configuration flags in the FCD (offset 93).
-You can delete a record at a specific address by specifying that address in the relative byte address field of the FCD
-and setting bit 6 of the configuration flags in the FCD (offset 93).
+If you want to update the file position indicator, set bit 5 of the configuration
+flags in the FCD (offset 93).
+You can delete a record at a specific address by specifying that address in the
+relative byte address field of the FCD and setting bit 6 of the configuration
+flags in the FCD (offset 93).
 
 CREATING A NEW INDEX
 ====================
 
-That enables you to recreate an index file using only the information in the data file.
+That enables you to recreate an index file using only the information in the
+data file.
 To recreate an index file, your program must:
 a. Open the file using the open-new-index operation code.
 b. Read records from the file using the get-next-rec operation code.
-c. Create an index from each separate record, using the add-index operation code.
+c. Create an index from each separate record, using the add-index operation
+   code.
+
+@end verbatim
 
 @example
 GnuCOBOL Example:
@@ -5140,7 +5317,8 @@ GnuCOBOL Example:
   move get-next-rec   to opcode
   perform EXTFH-op
   perform until fcd-status(1:1) not = "0"
-     perform varying fcd-key-id from 0 by 1 until fcd-key-id = key-count or fcd-status(1:1) not = "0"
+     perform varying fcd-key-id from 0 by 1 until fcd-key-id = key-count
+             or fcd-status(1:1) not = "0"
          move add-key-value to opcode
          perform EXTFH-op
      end-perform
@@ -5159,30 +5337,40 @@ EXTFH-op.
 
 @end example
 
+@verbatim
+
 ACCESSING A COMPILER GENERATED FCD
 ==================================
 
-When normal I/O operations (OPEN, READ ...)  in a GnuCOBOL program, an FCD is created for each file.
-To access this FCD, set up a FCD definition in the Linkage Section of your program.
-An example FCD definition is supplied in a file called xfhfcd3.cpy.
+When normal I/O operations (OPEN, READ ...)  in a GnuCOBOL program, an FCD is
+created for each file.
+To access this FCD, set up a FCD definition in the Linkage Section of your
+program. An example FCD definition is supplied in a file called xfhfcd3.cpy.
 
-This definition (that takes up no physical memory) can then be mapped onto the FCD you want to read or alter using the following SET statement in your program:
-set address of fcd to address of fh--fcd of indexedfile
+This definition (that takes up no physical memory) can then be mapped onto the
+FCD you want to read or alter using the following SET statement in your program:
+Set address of fcd to address of fh--fcd of indexedfile
 where the parameters are:
 fcd The name of the FCD definition in the Linkage Section of your program;
 fh--fcd of indexedfile (note the double hyphen).
-The pointer special register automatically allocated to the file with FD-name: indexedfile.
-Following this SET operation, the data items defined in the Linkage Section group item fcd become the fields of the FCD of the file referenced in the SET statement.
+The pointer special register automatically allocated to the file with FD-name:
+indexedfile.
+Following this SET operation, the data items defined in the Linkage Section group
+item fcd become the fields of the FCD of the file referenced in the SET statement.
 Similarly, you can access the Key Definition Area by:
-set address of kda to address of fh--keydef of indexedfile
-where the parameters are:
+Set address of kda to address of fh--keydef of indexedfile where the parameters
+are:
 kda the name of the key definition area in the Linkage Section of your program;
-fh--keydef of indexedfile the pointer special register automatically allocated to the file with FD-name indexfile to point to its Key Definition Area.
-
+fh--keydef of indexedfile the pointer special register automatically allocated
+    to the file with FD-name indexfile to point to its Key Definition Area.
 
 TURN ON KEY COMPRESSION IN A FILE
 =================================
-Following program turns on key compression in a file by setting bits in the file's Key Definition Area.
+
+Following program turns on key compression in a file by setting bits in the
+file's Key Definition Area.
+
+@end verbatim
 
 @example
     select MASTERFILE
@@ -5211,15 +5399,16 @@ Following program turns on key compression in a file by setting bits in the file
    ...
 
  PROCEDURE DIVISION.
-* set appropriate key compressions:
-*          +-- trailing space compression
-*          |+-- leading character compression
-*          ||+-- duplicate key compression
-*          |||
-* 7 = 00000111 - all compressions
-* 6 = 00000110 - leading character & trailing space
-* 2 = 00000010 - leading character compression
-* 1 = 00000001 - duplicate key compression
+*>
+*> set appropriate key compressions:
+*>          +-- trailing space compression
+*>          |+-- leading character compression
+*>          ||+-- duplicate key compression
+*>          |||
+*> 7 = 00000111 - all compressions
+*> 6 = 00000110 - leading character & trailing space
+*> 2 = 00000010 - leading character compression
+*> 1 = 00000001 - duplicate key compression
 
   set address of KeyDefinitionArea to address of fh--keydef of MASTERFILE
   move 4 to KeyCount
@@ -5238,6 +5427,8 @@ Following program turns on key compression in a file by setting bits in the file
 @end example
 
 See the file NEWS for more details as implementation varies between compiler versions.
+
+Any variantion to these details should be reported as a Software Bug.
 
 @comment *********************************************************************
 @comment ** 8.2.53 SYSTEM                                                   **

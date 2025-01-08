@@ -1,13 +1,14 @@
 This is gnucobpg.info, produced by makeinfo version 7.2 from
 gnucobpg.texi.
 
-This manual documents GnuCOBOL 3.2 - Final, 1 January 2025 at 00:01 GMT.
+This manual documents GnuCOBOL 3.2 - Final, 8 January 2025 at 19:00 GMT.
 build.
 
 
-   Document Copyright 2009-2014 Gary L. Cutler & FSF (Free Software
+   Document: Copyright 2009-2014 Gary L. Cutler & FSF (Free Software
 Foundation).
-Updates: Copyright 2014-2025 Vincent B. Coen, Gary L. Cutler & FSF.
+Updates : Copyright 2014-2025 Vincent B. Coen & FSF.
+Contributions: Eugenio Di Lorenzo 2024 - 2025.
 
      The authors and copyright holders of the COBOL programming language
      itself used herein:
@@ -48,6 +49,1407 @@ INFO-DIR-SECTION GNU-COBOL
 START-INFO-DIR-ENTRY
 * GNU-COBOL: (gnucobpg)        GnuCOBOL Programmer's Guide
 END-INFO-DIR-ENTRY
+
+
+File: gnucobpg.info,  Node: SYSTEM,  Next: X"91",  Prev: EXTFH,  Up: Built-In System Subroutines
+
+8.2.61 SYSTEM
+-------------
+
+                   SYSTEM Built-In Subroutine Syntax
+=======================================================================
+
+ CALL "SYSTEM" USING command
+ ~~~~          ~~~~~
+
+
+=======================================================================
+   This subroutine submits COMMAND (an alphanumeric literal or data
+item) to a command shell for execution as if it were typed into a
+console/terminal window.
+
+   A shell will be opened subordinate to the GnuCOBOL program issuing
+the call to ‘SYSTEM’.
+
+   Output from the command (if any) will appear in the command window in
+which the GnuCOBOL program was executed.
+
+   On a Unix system, the shell environment will be established using the
+default shell program.  This is also true when using a GnuCOBOL build
+created with and for OSX or the Cygwin Unix emulator.
+
+   With native Windows Windows/MinGW builds, the shell environment will
+be the Windows console window command processor (usually ‘cmd.exe’)
+appropriate for the version of Windows you're using.
+
+   To trap output from the executed command and process it within the
+GnuCOBOL program, use a redirection (‘>’) to send the command output to
+a temporary file which you read from within the program once control
+returns.
+
+   The exit status of the executed command will be available in the
+‘RETURN-CODE’ special-register.
+
+
+
+File: gnucobpg.info,  Node: X"91",  Next: X"E4",  Prev: SYSTEM,  Up: Built-In System Subroutines
+
+8.2.62 X"91"
+------------
+
+                   X"91" Built-In Subroutine Syntax
+=======================================================================
+
+ CALL X"91" USING return-code, function-code, binary-variable-arg
+ ~~~~       ~~~~~
+
+
+=======================================================================
+   The original Micro Focus version of this routine is capable of
+providing a wide variety of functions.  GnuCOBOL supports just three of
+them but more on the way subject to version of compiler (see file NEWS):
+   • Turning runtime switches (‘SWITCH-1’, ... , ‘SWITCH-8’) on.
+
+   • Turning runtime switches (‘SWITCH-1’, ... , ‘SWITCH-8’) off.
+
+   • Retrieving the number of arguments passed to a subroutine.
+
+   The RETURN-CODE argument must be a one-byte binary numeric data item
+(‘USAGE BINARY-CHAR’ is recommended).  It will receive a value of 0 if
+the operation was successful, 1 otherwise.
+
+   The FUNCTION-CODE argument must be either a numeric literal or a
+one-byte binary numeric data item (‘USAGE BINARY-CHAR’ is recommended).
+
+   The third argument -- VARIABLE-ARG -- is defined differently
+depending upon the FUNCTION-CODE value, as follows:
+
+11
+     Sets and/or clears all eight of the COBOL switches (‘SWITCH-1’
+     through ‘SWITCH-8’).  *Note SPECIAL-NAMES::, for an explanation of
+     those switches.  Also referred to as programmable 0 - 7.
+
+     The VARIABLE-ARG argument should be an ‘OCCURS 8 TIMES’ table of
+     ‘USAGE BINARY-CHAR’.
+
+     Each occurrence that is set to a value of zero prior to the ‘CALL
+     X"91"’ will cause the corresponding switch to be cleared.  Each
+     occurrence set to 1 prior to the ‘CALL X"91"’ will cause the
+     corresponding switch to be set.
+
+     Values other than 0 or 1 will be ignored.
+
+12
+     Reads all eight of the COBOL switches (‘SWITCH-1’ through
+     ‘SWITCH-8’) and debug switches as prorammable 0 - 7.
+
+     The VARIABLE-ARG argument should be an ‘OCCURS 8 TIMES’ table of
+     ‘USAGE BINARY-CHAR’.
+
+     Each of the 1^{st} eight occurrences of the array will be set to
+     either 0 or 1 -- 1 if the corresponding switch is set, 0 otherwise.
+
+13 + 14
+     Allow access to runtime switches 1 - 26 as A-Z. In case of A.N.T:
+     set related runtime setting.  Option 13 read them and option 14
+     sets them.
+
+15
+     Prepare for program lookup.  Checks to see if a program exists.
+     You pass the program name and its length in parameter.  When
+     routine exits, result is zero if found and non-zero if not.
+     Parameter is a group item consisting of two data items: a PIC X
+     COMP-X specifyinh length in bytes of data item containing the file
+     name and PIC X data item of varaiable length containing the file
+     name.
+
+16
+     Retrieves the number of arguments passed to the program executing
+     the ‘CALL X"91"’, saving that number into the VARIABLE-ARG
+     argument.  That should be a binary numeric data item (‘USAGE
+     BINARY-CHAR’ is recommended).
+
+35
+     Prepare for DOS EXEC call.
+
+46-49
+     Prepare for file specific settings LS_NULLS/LS_TABS.
+
+69
+     Prepare for directory search.
+
+
+
+File: gnucobpg.info,  Node: X"E4",  Next: X"E5",  Prev: X"91",  Up: Built-In System Subroutines
+
+8.2.63 X"E4"
+------------
+
+                   X"E4" Built-In Subroutine Syntax
+=======================================================================
+
+ CALL X"E4"
+ ~~~~
+
+
+=======================================================================
+   Use ‘X"E4"’ to clear the screen.  There are no arguments and no
+returned value.
+
+
+File: gnucobpg.info,  Node: X"E5",  Next: X"F4",  Prev: X"E4",  Up: Built-In System Subroutines
+
+8.2.64 X"E5"
+------------
+
+                   X"E5" Built-In Subroutine Syntax
+=======================================================================
+
+ CALL X"E5"
+ ~~~~
+
+
+=======================================================================
+   The ‘X"E5"’ routine will sound the PC "bell".  There are no arguments
+and no returned value.
+
+
+File: gnucobpg.info,  Node: X"F4",  Next: X"F5",  Prev: X"E5",  Up: Built-In System Subroutines
+
+8.2.65 X"F4"
+------------
+
+                   X"F4" Built-In Subroutine Syntax
+=======================================================================
+
+ CALL X"F4" USING byte, table
+ ~~~~       ~~~~~
+
+
+=======================================================================
+   This routine packs the low-order (rightmost) bit from each of the
+eight 1-byte items in TABLE into the corresponding bit positions of the
+single-byte data item BYTE.
+
+   The BYTE data item need be only a single byte in size.  If it is
+longer, the excess will be unaffected by this subroutine.
+
+   The TABLE data item must be at least 8 bytes long.  If it is longer,
+the excess will be ignored by this subroutine.
+
+   Typically, table is defined similarly to the following:
+
+     01  Table-Arg.
+         05 Each-Byte OCCURS 8 TIMES USAGE BINARY-CHAR.
+
+
+File: gnucobpg.info,  Node: X"F5",  Prev: X"F4",  Up: Built-In System Subroutines
+
+8.2.66 X"F5"
+------------
+
+                   X"F5" Built-In Subroutine Syntax
+=======================================================================
+
+ CALL X"F5" USING byte, table
+ ~~~~       ~~~~~
+
+
+=======================================================================
+   This routine unpacks each bit of the single-byte data item BYTE into
+the low-order (rightmost) bit of each of the corresponding eight 1-byte
+items in TABLE.  The other seven bit positions of each of the first
+eight entries in TABLE will be set to zero.
+
+   The BYTE data item need be only a single byte in size.  If it is
+longer, the excess will be unaffected by this subroutine.
+
+   The TABLE data item must be at least 8 bytes long.  If it is longer,
+the excess will be ignored by this subroutine.
+
+   Typically, table is defined similarly to the following:
+
+     01  Table-Arg.
+         05 Each-Byte OCCURS 8 TIMES USAGE BINARY-CHAR.
+
+
+
+File: gnucobpg.info,  Node: Report Writer Usage,  Next: Interfacing With The OS,  Prev: Functions,  Up: Top
+
+9 Report Writer Usage
+*********************
+
+* Menu:
+
+* RWCS Lexicon.
+* The Anatomy of a Report.
+* The Anatomy of a Report Page.
+* How RWCS Builds Report Pages.
+* Control Hierarchy.
+* An Example.
+* Data.
+* Program.
+* Generated Report Pages.
+* Control Hierarchy (Revisited).
+* Turning PHYSICAL Page Formatting Into LOGICAL Formatting.
+
+
+File: gnucobpg.info,  Node: RWCS Lexicon,  Next: The Anatomy of a Report,  Up: Report Writer Usage
+
+9.1 RWCS Lexicon
+================
+
+There are a number of terms that describe various aspects of the
+operation of the Report Writer Control System (RWCS). Understanding the
+meanings of these terms is vital to developing an understanding of the
+subject.
+Control Break
+     An event that is triggered when a control field on an
+     RWCS-generated report changes value.  It is these events that
+     trigger the generation of control heading and control footing
+     groups.
+
+Control Field
+     A field of data being presented within a detail group; as the
+     various detail groups that comprise the report are presented, they
+     are presumed to appear in sorted sequence of the control fields
+     contained within them.  As an example, a department-by-department
+     sales report for a chain of stores would probably be sorted by
+     store number and - within like store numbers - be further sorted by
+     department number.  The store number will undoubtedly serve as a
+     control field for the report, allowing control heading groups to be
+     presented before each sequence of detail groups for the same store
+     and control footing groups to be presented after each such
+     sequence.
+
+Control Footing
+     A report group that appears immediately after one or more detail
+     groups of an RWCS-generated report.  Such are produced
+     automatically as a result of a control break.  This type of group
+     typically serves as a summary of the detail group(s) that precede
+     it, as might be the case on a sales report for a chain of stores,
+     where the detail groups documenting sales for each department (one
+     department per detail group) from the same store might be followed
+     by a control footing that provides a summation of the
+     department-by-department sales for that store.
+
+Control Heading
+     A report group that appears immediately before one or more detail
+     groups of an RWCS-generated report.  Such are produced
+     automatically as a result of a control break.  This type of group
+     typically serves as an introduction to the detail group(s) that
+     follow, as might be the case on a sales report for a chain of
+     stores, where the detail groups documenting sales for each
+     department (one department per detail group) from the same store
+     might be preceded by a control heading that states the full name
+     and location of the store.
+
+Detail Group
+     A report group that contains the detailed data being presented for
+     the report.
+
+Page Footing
+     A report group that appears at the bottom of every page of an
+     RWCS-generated report.  Information typically found within such a
+     report group might be:
+        • The date the report was generated
+        • The current page number of the report
+Page Heading
+     A report group that appears at the top of every page of an
+     RWCS-generated report.  Information typically found within such a
+     report group might be:
+        • A title for the report
+        • The date the report was generated
+        • The current page number of the report
+        • Column headings describing the fields within the detail
+          group(s)
+Report Footing
+     A report group that occurs only once in an RWCS-generated report --
+     as the very last presented report group of the report.  These
+     typically serve as a visual indication that the report is finished.
+
+Report Group
+     One or more consecutive lines on a report that serve a common
+     informational purpose or function.  For example, lines of text that
+     are displayed at the top or bottom of every printed page of a
+     report.
+
+Report Heading
+     A report group that occurs only once in an RWCS-generated report --
+     as the very first presented report group of the report.  These
+     typically serve as an introduction to the report.
+
+
+File: gnucobpg.info,  Node: The Anatomy of a Report,  Next: The Anatomy of a Report Page,  Prev: RWCS Lexicon,  Up: Report Writer Usage
+
+9.2 The Anatomy of a Report
+===========================
+
+Every report has the same basic structure, as shown here, even though
+not all reports will have all of the groups shown.  In fact, it is a
+very unusual report indeed that actually has every one of these groups:
+   • REPORT HEADING
+   • PAGE HEADING [1]
+   • CONTROL HEADING(S) [2]
+   • DETAIL GROUP(S) [2]
+   • CONTROL FOOTING(S) [2]
+   • FINAL CONTROL FOOTING
+   • PAGE FOOTING [1]
+   • REPORT FOOTING
+[1]  Presented throughout the report, as needed
+[2]  Repeated, as needed
+
+   These groups will be presented (printed) across however many
+formatted pages are necessary to hold them.  No single report group will
+be allowed to cross page boundaries.
+
+   The management of paging, enforcement of the groups cannot span pages
+rule and almost every aspect of report generation are handled entirely
+by the Report Writer Control System.
+
+
+File: gnucobpg.info,  Node: The Anatomy of a Report Page,  Next: How RWCS Builds Report Pages,  Prev: The Anatomy of a Report,  Up: Report Writer Usage
+
+9.3 The Anatomy of a Report Page
+================================
+
+Each page of a report is divided into as many as five (5) areas, as
+shown in the following diagram.
+
+  _______________________________
+ |                               |
+ | Top-of-page Unusable Area     |--# Lines: LINES AT TOP (LINAGE)
+ |_______________________________|
+ |                               |--Line #: HEADING (RD)
+ | Heading Area                  |
+ |_______________________________|--Line #: FIRST DETAIL (RD) - 1
+ |                               |--Line #: FIRST DETAIL (RD)
+ |                               |
+ | Body Area                     |--Line #: LAST CONTROL HEADING (RD)
+ |                               |--Line #: LAST DETAIL (RD)
+ |_______________________________|--Line #: FOOTING (RD)
+ |                               |--Line #: FOOTING (RD) + 1
+ | Footing Area                  |
+ |_______________________________|
+ |                               |
+ | Bottom-of-page Unusable Area  |--# Lines: LINES AT BOTTOM (LINAGE)
+ |_______________________________|
+
+   When describing a report via the ‘RD’ (*note REPORT SECTION::)
+clause, the total number of usable lines are specified as the ‘PAGE
+LIMIT’ value; this value is the sum of the number of lines contained in
+the Heading, Body and Footing Areas.
+
+   The unusable areas of a page (if any) will appear above and below
+that usable area.  You don't specify the unusable area in the ‘RD’, but
+rather using a ‘LINAGE’ (*note File/Sort-Description::) clause in the
+‘FD’ of the file the report is "attached" to.
+
+   The various report groups will be presentable in the various areas of
+a page, as follows:
+‘REPORT HEADING’
+     Heading Area -- An exception to this is the situation where the
+     report heading report group contains the ‘NEXT GROUP NEXT PAGE’
+     (*note NEXT GROUP::) option; in those cases, the report heading
+     will be presented on a page by itself (anywhere on that page) at
+     the beginning of the report.
+
+‘PAGE HEADING’
+     Heading Area
+
+‘CONTROL HEADING’
+     Body Area, but no line of a control heading is allowed past the
+     line number specified by ‘LAST CONTROL HEADING’
+
+‘DETAIL’
+     Body Area, but no line of a detail report group is allowed past the
+     line number specified by ‘LAST DETAIL’
+
+‘CONTROL FOOTING’
+     Body Area, but no line of a control footing report group is allowed
+     past the line number specified by ‘FOOTING’
+
+‘PAGE FOOTING’
+     Footing Area
+
+‘REPORT FOOTING’
+     Footing Area -- An exception to this is the situation where the
+     report footing report group contains the ‘NEXT PAGE’ option in its
+     ‘LINE’ (*note LINE::) clause; in those cases, the report footing
+     will be presented on a page by itself at the end of the report.
+
+
+File: gnucobpg.info,  Node: How RWCS Builds Report Pages,  Next: Control Hierarchy,  Prev: The Anatomy of a Report Page,  Up: Report Writer Usage
+
+9.4 How RWCS Builds Report Pages
+================================
+
+A report created via a ‘WRITE’ statement (*note WRITE::) will contain
+carriage-control information.  Most notably, ASCII form-feed characters
+(X'0C') will be written to the report file to support the statement's
+‘ADVANCING PAGE’ option.  Whether the data for a report line created via
+‘ADVANCING PAGE’ occurs before or after the form-feed character depends
+upon whether the programmer coded ‘WRITE RECORD-NAME BEFORE ADVANCING
+PAGE’ or ‘WRITE RECORD-NAME AFTER ADVANCING PAGE’, respectively.
+
+   The GnuCOBOL implementation of RWCS does not issue any
+carriage-control information to the report files it produces -- instead,
+it relies upon the information coded in the ‘RD’ for the report
+(specifically the ‘PAGE LIMITS’ and related options) and its
+internally-generated and managed ‘LINE-COUNTER’ special register (*note
+Special Registers::) for the report to know when to issue any blank
+lines to the file to fill-out the end of a printed page.
+
+   Because this is the way the GnuCOBOL RWCS works, in order to design
+an RWCS-generated report you'll need to know answers to the following
+questions:
+  1. What printer(s) will the report be printed on?
+
+  2. What paper orientation will you use, -- Landscape (long edge of the
+     paper at the top and bottom of page), or Portrait (long edge of the
+     paper at the left and right of page)?
+
+  3. What tool will be used to print the report (direct printing to the
+     device, notepad.exe, MS-Word, ...)?
+
+  4. What font and font size will be used for the report when it is
+     printed?  RWCS-generated reports will assume that a fixed-width
+     font such as "Courier", "Lucida Console", "Consolas" and the like
+     will be used to print, as variable-pitch fonts would make the
+     proper alignment of columns of data on reports virtually
+     impossible.
+
+  5. When unprintable area exists at all four margins of the paper?
+     These are generally caused by the printer itself or by its software
+     driver.
+
+  6. What is the maximum number of lines per page that may be printed on
+     a single sheet of paper?
+
+  7. What is the maximum number of characters that may be printed on one
+     line?
+
+   Once you know the answer to questions 1-4, you may easily determine
+the answers to the remaining questions as follows:
+  1. Prepare a text file containing 100 or so records, each consisting
+     of a numeric scale (‘123456789012345678901234’...).
+
+  2. Print the file in a manner consistent with your answers to
+     questions 1-4.
+
+  3. Add any necessary additional digits to each record in your test
+     file (if lines weren't full) or remove characters from the end of
+     each record if lines wrapped.  If you made changes, reprint the
+     file.
+
+  4. Now that you know exactly how long each record may be, add
+     additional records and reprint.  Continue until printing overflows
+     to a second page.
+
+  5. The first page you print is now a perfect template to use when
+     designing reports -- it shows, given the answers to questions 1-4,
+     every available printable character position on a page!  The number
+     of lines printed on that page becomes your ‘PAGE LIMIT’ value for
+     the ‘RD’.
+
+   The remaining ‘PAGE LIMIT’ values can be established as required by
+your report(s).
+
+   Using IDENTIFIER rather than INTEGER specifications in the ‘RD’ will
+give your program the ability -- at run time -- to accommodate multiple
+printers, fonts, font sizes and paper orientation.  Just follow the
+above steps for each combination you wish your program to support.
+
+
+File: gnucobpg.info,  Node: Control Hierarchy,  Next: An Example,  Prev: How RWCS Builds Report Pages,  Up: Report Writer Usage
+
+9.5 Control Hierarchy
+=====================
+
+Every report that employs control breaks has a natural hierarchy of
+those control breaks based upon the manner in which the data the report
+is being generated from is sorted.  This concept is best understood
+using an example which assumes a COBOL program to process sales data
+collected from every computerized cash register across a chain of stores
+having multiple departments is being developed.
+
+   The application that collects data from the various cash registers at
+each store will generate data records that look like this to a COBOL
+program:
+
+     01  Sales-For-Register.
+         05 Sales-Date            PIC 9(8).
+         05 Time-Collected        PIC 9(6).
+         05 Register-Number       PIC 9(7).
+         05 Store-Number          PIC 9(3).
+         05 Department-Number     PIC 9(3).
+         05 Total-Sales           PIC 9(6)V99.
+
+   Your task is to develop a report that shows the sales total from each
+cash register and summarizes those sales by department within each
+store, by store and also generates a total sales figure for the day
+across all stores.
+
+   To accomplish this, you will use a ‘SORT’ statement (*note SORT::) to
+sort the file of cash register sales data into:
+  1. Ascending sequence of store number
+  2. Within each store, data will be sorted into ascending sequence of
+     department number
+  3. If there are multiple cash registers in a particular department of
+     a specific store, the data needs to be further sorted so that the
+     cash registers are ordered in sequence of their register number.
+
+   So, assuming a sort file has been defined and its record layout
+(essentially a mirror of the raw data file) is defined as follows:
+
+     01  Sorted-Sales-For-Register.
+         05 Sorted-Sales-Date            PIC 9(8).
+         05 Sorted-Time-Collected        PIC 9(6).
+         05 Sorted-Register-Number       PIC 9(7).
+         05 Sorted-Store-Number          PIC 9(3).
+         05 Sorted-Department-Number     PIC 9(3).
+         05 Sorted-Total-Sales           PIC 9(6)V99.
+
+   Then the ‘SORT’ statement to accomplish the desired sequencing would
+be:
+
+     SORT SORT-FILE
+         ASCENDING KEY Sorted-Store-Number
+                       Sorted-Department-Number
+                       Sorted-Register-Number
+         USING Input-file
+         OUTPUT PROCEDURE 100-Generate-Report
+
+   As a result of the sort, our program might expect to see data
+somewhat like this (date, time and sales totals are shown as "..."):
+
+        +-------------------- Register Number
+        |      +------------- Store Number
+        |      |  +---------- Department Number
+        |      |  |
+     ...0535240001001...
+     ...0589130001001...
+     ...0625174001001...
+     ...0122234001002...
+     ...0732345001002...
+     ...0003423001003...
+     ...2038774001004...
+     ...0112646002001...
+     ...9963348002002...
+     ...3245677002003...
+     ...4456778002003...
+     ...0002345002004...
+
+   Because of the sort, the most-frequently changing value of the three
+sort keys will be that of ‘Sorted-Register-Number’.  This essentially
+defines the "detail" level of the report.
+
+   The next most-frequently changing value is that of
+‘Sorted-Department-Number’, and the least-frequently changing value is
+that of ‘Sorted-Store-Number’.  remember that the program should be
+generating totals each time one of these two values change, plus a grand
+total of sales at the end of the report.  These three points are the
+“Control Break” points of the report.
+
+   When the report is defined, it's ‘RD’ would contain a ‘CONTROLS ARE’
+clause that lists the control breaks in least- to most-frequent sequence
+of changing.  This would be coded as:
+
+   ‘CONTROLS ARE FINAL, Sorted-Store-Number, Sorted-Department-Number’
+
+   A ‘FINAL’ control break only occurs once, at the very end of the
+report.  The ‘CONTROL FOOTING’ for this break will be the one that
+produces the grand total of sales for all stores.
+
+   The next break listed on the ‘CONTROLS’ clause will be the one that
+occurs next most-frequently (‘Sorted-Store-Number’).  This control break
+will be the one that produces the summation for each entire store, and
+will have its own ‘CONTROL FOOTING’.
+
+   The next (and last, in this case) break listed on the ‘CONTROLS’
+clause will be the one that occurs even more frequently
+(‘Sorted-Department-Number’).  The ‘CONTROL FOOTING’ for this control
+field will be the one that summarizes sales for each department within a
+store.
+
+   This sequence of control breaks from least- to most-frequent (in
+other words, in the order they occur on the ‘CONTROLS ARE’ clause) is
+the 'control hierarchy' of the report; control breaks that occur more
+frequently than others are said to be at a lower level in the control
+hierarchy.
+
+   Defining a control hierarchy (via ‘CONTROLS ARE’) that does not match
+the actual sequence in which data will be processed is a great way to
+guarantee a "broken" report.  I'll show you an example in a later
+section.
+
+
+File: gnucobpg.info,  Node: An Example,  Next: Control Hierarchy (Revisited),  Prev: Control Hierarchy,  Up: Report Writer Usage
+
+9.6 An Example
+==============
+
+This section contains an example of the RWCS at work.  The complete
+program, presented here, is a stripped-down version of a program I have
+used to generate a report for a class I teach on PC hardware.  This
+report will provide benchmark statistics on a variety of popular AMD and
+Intel CPUs.  The data for the report was obtained from the website
+<www.cpubenchmark.net> in December of 2013.  By the time you are reading
+this, that data will most likely have become rather out of date, but it
+illustrates RWCS well enough.
+* Menu:
+
+* Data.
+* Program.
+* Generated Report Pages.
+
+
+File: gnucobpg.info,  Node: Data,  Next: Program,  Up: An Example
+
+9.6.1 Data
+----------
+
+Here is the data that the program will be reading.  Each record reflects
+the aggregated benchmark scoring for one particular CPU, as scores for
+benchmarks against that CPU have been reported to the <cpubenchmark.net>
+website by their PassMark benchmark software.  The data consists of four
+fields.  Fields are separated from one another by a single comma.  The
+descriptions of the fields are as follows:
+Benchmark Score
+     A five-digit number showing the aggregated benchmark scores for the
+     CPU; the higher this number, the better the CPU performed in
+     benchmark testing.
+
+Vendor
+     The name of the vendor who makes the CPU. In this data, that will
+     either be "AMD" (American Micro Devices) or "INTEL".
+
+Family
+     The 7-character family of CPU products the CPU falls into.  This
+     will have values such as "A4", "A10", "Core i5", "Core i7", etc.
+
+Model
+     The specific model of CPU within the family.
+
+   The first record of data shown below shows that the aggregated score
+of all benchmarks reported for the AMD A10-4600M CPU is 3145, as
+compared to the second record which shows that the aggregated score
+reported of all benchmarks reported for the Intel Core-i7-4960X CPU is
+14291.
+
+   The following is the complete set of input data used for this
+example.  This is by no means the complete set of data available at
+<cpubenchmark.net> -- it is just a representative sample used for this
+example.  For my class, I give my students a report showing the results
+for almost a thousand CPUs.
+
+   For the sake of brevity, this document lists the data in three
+columns.
+
+03145,AMD,A10,4600M            05421,AMD,FX,6100              03917,Intel,Core i5,4300U
+14291,Intel,Core i7,4960X      05813,AMD,FX,6120              01743,Intel,Core i5,4300Y
+02505,AMD,A10,4655M            06194,AMD,FX,6200              04804,Intel,Core i5,4330M
+03449,AMD,A10,4657M            06388,AMD,FX,6300              03604,Intel,Core i5,4350U
+04251,AMD,A10,5700             07017,AMD,FX,6350              06282,Intel,Core i5,4430
+02758,AMD,A10,5745M            06163,AMD,FX,8100              05954,Intel,Core i5,4430S
+03332,AMD,A10,5750M            06605,AMD,FX,8120              06517,Intel,Core i5,4440
+03253,AMD,A10,5757M            06845,AMD,FX,8140              07061,Intel,Core i5,4570
+04798,AMD,A10,5800B            07719,AMD,FX,8150              06474,Intel,Core i5,4570R
+04677,AMD,A10,5800K            08131,AMD,FX,8320              06803,Intel,Core i5,4570S
+04767,AMD,A10,6700             09067,AMD,FX,8350              02503,Intel,Core i5,4570T
+05062,AMD,A10,6800K            09807,AMD,FX,9370              07492,Intel,Core i5,4670
+00677,AMD,A4,1200              10479,AMD,FX,9590              07565,Intel,Core i5,4670K
+00559,AMD,A4,1250              03076,Intel,Core i3,3110M      06351,Intel,Core i5,4670T
+01583,AMD,A4,3300              03301,Intel,Core i3,3120M      03701,Intel,Core i7,3517U
+01237,AMD,A4,3300M             03655,Intel,Core i3,3130M      03449,Intel,Core i7,3517UE
+01227,AMD,A4,3305M             03820,Intel,Core i3,3210       04588,Intel,Core i7,3520M
+01263,AMD,A4,3310MX            02266,Intel,Core i3,3217U      03912,Intel,Core i7,3537U
+01193,AMD,A4,3320M             04219,Intel,Core i3,3220       04861,Intel,Core i7,3540M
+01343,AMD,A4,3330MX            03724,Intel,Core i3,3220T      04009,Intel,Core i7,3555LE
+01625,AMD,A4,3400              04407,Intel,Core i3,3225       06144,Intel,Core i7,3610QE
+01768,AMD,A4,3420              02575,Intel,Core i3,3227U      07532,Intel,Core i7,3610QM
+01685,AMD,A4,4300M             01885,Intel,Core i3,3229Y      06988,Intel,Core i7,3612QE
+01169,AMD,A4,4355M             04259,Intel,Core i3,3240       06907,Intel,Core i7,3612QM
+01919,AMD,A4,5000              03793,Intel,Core i3,3240T      05495,Intel,Core i7,3615QE
+01973,AMD,A4,5150M             04414,Intel,Core i3,3245       07310,Intel,Core i7,3615QM
+02078,AMD,A4,5300              04757,Intel,Core i3,3250       07759,Intel,Core i7,3630QM
+01632,AMD,A4,5300B             03443,Intel,Core i3,4000M      07055,Intel,Core i7,3632QM
+02305,AMD,A4,6300              02459,Intel,Core i3,4010U      06516,Intel,Core i7,3635QM
+01634,AMD,A6,1450              02003,Intel,Core i3,4010Y      04032,Intel,Core i7,3667U
+01964,AMD,A6,3400M             04904,Intel,Core i3,4130       04271,Intel,Core i7,3687U
+02101,AMD,A6,3410MX            04041,Intel,Core i3,4130T      03479,Intel,Core i7,3689Y
+02078,AMD,A6,3420M             05115,Intel,Core i3,4330       08347,Intel,Core i7,3720QM
+02277,AMD,A6,3430MX            05117,Intel,Core i3,4340       08512,Intel,Core i7,3740QM
+01995,AMD,A6,3500              03807,Intel,Core i5,3210M      09420,Intel,Core i7,3770
+02798,AMD,A6,3600              03995,Intel,Core i5,3230M      09578,Intel,Core i7,3770K
+02892,AMD,A6,3620              03126,Intel,Core i5,3317U      09074,Intel,Core i7,3770S
+03232,AMD,A6,3650              04101,Intel,Core i5,3320M      08280,Intel,Core i7,3770T
+03327,AMD,A6,3670              05902,Intel,Core i5,3330       08995,Intel,Core i7,3820
+01630,AMD,A6,4400M             05690,Intel,Core i5,3330S      08548,Intel,Core i7,3820QM
+01296,AMD,A6,4455M             05781,Intel,Core i5,3335S      09025,Intel,Core i7,3840QM
+02440,AMD,A6,5200              03280,Intel,Core i5,3337U      09196,Intel,Core i7,3920XM
+01958,AMD,A6,5350M             02252,Intel,Core i5,3339Y      12107,Intel,Core i7,3930K
+01878,AMD,A6,5357M             06282,Intel,Core i5,3340       09052,Intel,Core i7,3940XM
+01906,AMD,A6,5400B             04327,Intel,Core i5,3340M      12718,Intel,Core i7,3960X
+02174,AMD,A6,5400K             05372,Intel,Core i5,3340S      12823,Intel,Core i7,3970X
+02384,AMD,A6,6400K             06199,Intel,Core i5,3350P      03992,Intel,Core i7,4500U
+02050,AMD,A8,3500M             04314,Intel,Core i5,3360M      04507,Intel,Core i7,4558U
+02426,AMD,A8,3510MX            04555,Intel,Core i5,3380M      04892,Intel,Core i7,4600M
+02245,AMD,A8,3520M             03589,Intel,Core i5,3427U      04484,Intel,Core i7,4600U
+02276,AMD,A8,3530MX            03479,Intel,Core i5,3437U      03680,Intel,Core i7,4610Y
+02866,AMD,A8,3550MX            03057,Intel,Core i5,3439Y      04345,Intel,Core i7,4650U
+03215,AMD,A8,3800              06442,Intel,Core i5,3450       07352,Intel,Core i7,4700EQ
+03217,AMD,A8,3820              06071,Intel,Core i5,3450S      08161,Intel,Core i7,4700HQ
+03552,AMD,A8,3850              06576,Intel,Core i5,3470       07946,Intel,Core i7,4700MQ
+03682,AMD,A8,3870K             06077,Intel,Core i5,3470S      08002,Intel,Core i7,4702HQ
+02709,AMD,A8,4500M             04591,Intel,Core i5,3470T      07647,Intel,Core i7,4702MQ
+02193,AMD,A8,4555M             05991,Intel,Core i5,3475S      08066,Intel,Core i7,4750HQ
+04052,AMD,A8,5500              06828,Intel,Core i5,3550       07367,Intel,Core i7,4765T
+03464,AMD,A8,5500B             06631,Intel,Core i5,3550S      09969,Intel,Core i7,4770
+02434,AMD,A8,5545M             06993,Intel,Core i5,3570       10190,Intel,Core i7,4770K
+03052,AMD,A8,5550M             07118,Intel,Core i5,3570K      09803,Intel,Core i7,4770S
+02935,AMD,A8,5557M             06709,Intel,Core i5,3570S      08803,Intel,Core i7,4770T
+04348,AMD,A8,5600K             05414,Intel,Core i5,3570T      10078,Intel,Core i7,4771
+04390,AMD,A8,6500              04333,Intel,Core i5,4200M      08567,Intel,Core i7,4800MQ
+04719,AMD,A8,6600K             03355,Intel,Core i5,4200U      09969,Intel,Core i7,4820K
+04055,AMD,FX,4100              02358,Intel,Core i5,4200Y      09331,Intel,Core i7,4850HQ
+04153,AMD,FX,4130              02382,Intel,Core i5,4210Y      09323,Intel,Core i7,4900MQ
+04094,AMD,FX,4150              03482,Intel,Core i5,4250U      13620,Intel,Core i7,4930K
+04774,AMD,FX,4170              04381,Intel,Core i5,4258U      09754,Intel,Core i7,4930MX
+04711,AMD,FX,4300              04663,Intel,Core i5,4288U      10262,Intel,Core i7,4960HQ
+05247,AMD,FX,4350              04786,Intel,Core i5,4300M
+
+
+File: gnucobpg.info,  Node: Program,  Next: Generated Report Pages,  Prev: Data,  Up: An Example
+
+9.6.2 Program
+-------------
+
+Here is the program that will be producing the report.  Pay attention to
+how the data is sorted and how the control hierarchy (‘CONTROLS ARE’)
+relates to the ‘SORT’.
+
+     IDENTIFICATION DIVISION.
+     PROGRAM-ID. DEMORWCS.
+     ENVIRONMENT DIVISION.
+     CONFIGURATION SECTION.
+     REPOSITORY. FUNCTION ALL INTRINSIC.
+     INPUT-OUTPUT SECTION.
+     FILE-CONTROL.
+         SELECT CPU-FILE             ASSIGN TO "CPUDATA.txt"
+                                     LINE SEQUENTIAL.
+         SELECT REPORT-FILE          ASSIGN TO "CPUREPORT.txt"
+                                     LINE SEQUENTIAL.
+         SELECT SORT-FILE            ASSIGN TO DISK.
+     DATA DIVISION.
+     FILE SECTION.
+     FD  CPU-FILE.
+     01  CPU-REC                     PIC X(26).
+
+     FD  REPORT-FILE
+         REPORT IS CPU-Report.
+
+     SD  SORT-FILE.
+     01  SORT-REC.
+         05 F-SR-Score-NUM           PIC 9(5).
+         05 F-SR-Vendor-TXT          PIC X(5).
+         05 F-SR-Family-TXT          PIC X(7).
+         05 F-SR-Model-TXT           PIC X(6).
+     WORKING-STORAGE SECTION.
+     01  WS-Date                     PIC 9(8).
+
+     01  WS-Family-Counters.
+         05 WS-FC-AVE                PIC 9(5)V99.
+         05 WS-FC-Qty                BINARY-LONG.
+         05 WS-FC-Total-NUM          BINARY-LONG.
+
+     01  WS-Flags.
+         05 WS-F-EOF                 PIC X(1).
+
+     01  WS-One-Const                PIC 9 VALUE 1.
+
+     01  WS-Overall-Counters.
+         05 WS-OC-AVE                PIC 9(5)V99.
+         05 WS-OC-Qty                BINARY-LONG.
+         05 WS-OC-Total-NUM          BINARY-LONG.
+
+     01  WS-Starz                    PIC X(44) VALUE ALL '*'.
+
+     01  WS-Vendor-Counters.
+         05 WS-VC-AVE                PIC 9(5)V99.
+         05 WS-VC-Qty                BINARY-LONG.
+         05 WS-VC-Total-NUM          BINARY-LONG.
+
+     REPORT SECTION.
+     RD  CPU-Report
+         CONTROLS ARE FINAL
+                      F-SR-Vendor-TXT
+                      F-SR-Family-TXT
+
+         PAGE LIMIT IS    36 LINES
+             HEADING      1
+             FIRST DETAIL 5
+             LAST DETAIL  36.
+
+     01  TYPE IS PAGE HEADING.
+         05 LINE NUMBER PLUS 1.
+            10 COL 1  SOURCE WS-Date                PIC 9999/99/99.
+            10 COL 14 VALUE 'CPU Benchmark Scores'.
+            10 COL 37 VALUE 'Page:'.
+            10 COL 43 SOURCE PAGE-COUNTER           PIC Z9.
+         05 LINE NUMBER PLUS 1.
+            10 COL 1  SOURCE WS-Starz               PIC X(44).
+         05 LINE NUMBER PLUS 1.
+            10 COL 1  VALUE '**'.
+            10 COL 6  VALUE 'All CPU Data From cpubenchmark.net'.
+            10 COL 43 VALUE '**'.
+         05 LINE NUMBER PLUS 1.
+            10 COL 1  SOURCE WS-Starz               PIC X(44).
+
+     01  TYPE CONTROL HEADING F-SR-Family-TXT.
+         05 LINE NUMBER PLUS 1.
+            10 COL 1  SOURCE F-SR-Vendor-TXT        PIC X(6).
+            10 COL 8  SOURCE F-SR-Family-TXT        PIC X(7).
+         05 LINE NUMBER PLUS 1.
+            10 COL 1  VALUE 'Family'.
+            10 COL 9  VALUE 'Model'.
+            10 COL 16 VALUE 'Benchmark Score (High to Low)'.
+         05 LINE NUMBER PLUS 1.
+            10 COL 1  VALUE '======'.
+            10 COL 9  VALUE '======'.
+            10 COL 16 VALUE '============================='.
+
+     01  Detail-Line TYPE IS DETAIL.
+         05 LINE NUMBER PLUS 1.
+            10 COL 1  SOURCE F-SR-Family-TXT PIC X(7) GROUP INDICATE.
+            10 COL 9  PIC X(6)       SOURCE F-SR-Model-TXT.
+            10 COL 16 PIC ZZZZ9      SOURCE F-SR-Score-NUM.
+
+     01  End-Family TYPE IS CONTROL FOOTING F-SR-Family-TXT.
+         05 LINE NUMBER PLUS 1.
+            10 COL 9                 VALUE  'Ave...'.
+            10 COL 16 PIC ZZZZ9.99   SOURCE WS-FC-AVE.
+            10 COL 25                VALUE  '('.
+            10 COL 26 PIC ZZ9        SUM    WS-One-Const.
+            10 COL 30                VALUE  'Family CPUs)'.
+
+     01  End-Vendor TYPE IS CONTROL FOOTING F-SR-Vendor-TXT.
+         05 LINE NUMBER PLUS 1.
+            10 COL 9                 VALUE  'Ave...'.
+            10 COL 16 PIC ZZZZ9.99   SOURCE WS-VC-AVE.
+            10 COL 25                VALUE  '('.
+            10 COL 26 PIC ZZ9        SUM    WS-One-Const.
+            10 COL 30                VALUE  'Vendor CPUs)'.
+
+     01  End-Overall TYPE IS CONTROL FOOTING FINAL.
+         05 LINE NUMBER PLUS 1.
+            10 COL 9                 VALUE  'Ave...'.
+            10 COL 16 PIC ZZZZ9.99   SOURCE WS-OC-AVE.
+            10 COL 25                VALUE  '('.
+            10 COL 26 PIC ZZ9        SUM    WS-One-Const.
+            10 COL 30                VALUE  'CPUs)'.
+
+     PROCEDURE DIVISION.
+     DECLARATIVES.
+     000-End-Family SECTION.
+         USE BEFORE REPORTING End-Family.
+     1.  IF WS-FC-Qty > 0
+             COMPUTE WS-FC-AVE = WS-FC-Total-NUM / WS-FC-Qty
+         ELSE
+             MOVE 0 TO WS-FC-AVE
+         END-IF
+         MOVE 0 TO WS-FC-Qty
+                   WS-FC-Total-NUM
+         .
+     000-End-Vendor SECTION.
+         USE BEFORE REPORTING End-Vendor.
+     1.  IF WS-VC-Qty > 0
+             COMPUTE WS-VC-AVE = WS-VC-Total-NUM / WS-VC-Qty
+         ELSE
+             MOVE 0 TO WS-VC-AVE
+         END-IF
+         MOVE 0 TO WS-VC-Qty
+                   WS-VC-Total-NUM
+         .
+     000-End-Overall SECTION.
+         USE BEFORE REPORTING End-Overall.
+     1.  IF WS-OC-Qty > 0
+             COMPUTE WS-OC-AVE = WS-OC-Total-NUM / WS-OC-Qty
+         ELSE
+             MOVE 0 TO WS-OC-AVE
+         END-IF
+         MOVE 0 TO WS-OC-Qty
+                   WS-OC-Total-NUM
+         .
+     END DECLARATIVES.
+
+     010-Main SECTION.
+     1.  ACCEPT WS-Date FROM DATE YYYYMMDD
+         SORT SORT-FILE
+             ASCENDING KEY    F-SR-Vendor-TXT
+                              F-SR-Family-TXT
+             DESCENDING KEY   F-SR-Score-NUM
+             ASCENDING KEY    F-SR-Model-TXT
+             INPUT PROCEDURE  100-Pre-Process-Data
+             OUTPUT PROCEDURE 200-Generate-Report
+         STOP RUN
+         .
+     100-Pre-Process-Data SECTION.
+     1.  OPEN INPUT CPU-FILE
+         PERFORM FOREVER
+             READ CPU-FILE
+             AT END
+                 EXIT PERFORM
+             END-READ
+             MOVE SPACES TO SORT-REC
+             UNSTRING CPU-REC DELIMITED BY ','
+                 INTO F-SR-Score-NUM,
+                      F-SR-Vendor-TXT,
+                      F-SR-Family-TXT,
+                      F-SR-Model-TXT
+             RELEASE SORT-REC
+         END-PERFORM
+         CLOSE CPU-FILE
+         .
+     200-Generate-Report SECTION.
+     1.  INITIALIZE WS-Family-Counters
+                    WS-Flags
+         OPEN OUTPUT REPORT-FILE
+         INITIATE CPU-Report
+         RETURN SORT-FILE
+         AT END
+             MOVE 'Y' TO WS-F-EOF
+         END-RETURN
+         PERFORM UNTIL WS-F-EOF = 'Y'
+             GENERATE Detail-Line
+             ADD 1              TO WS-FC-Qty
+                                   WS-OC-Qty
+                                   WS-VC-Qty
+             ADD F-SR-Score-NUM TO WS-FC-Total-NUM
+                                   WS-OC-Total-NUM
+                                   WS-VC-Total-NUM
+             RETURN SORT-FILE
+             AT END
+                 MOVE 'Y' TO WS-F-EOF
+             END-RETURN
+         END-PERFORM
+         TERMINATE CPU-Report
+         CLOSE REPORT-FILE
+         .
+
+
+File: gnucobpg.info,  Node: Generated Report Pages,  Prev: Program,  Up: An Example
+
+9.6.3 Generated Report Pages
+----------------------------
+
+Finally, here's the report the program generates!
+
+     2013/12/24   CPU Benchmark Scores   Page:  1
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     AMD    A10
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     A10     6800K   5062
+             5800B   4798
+             6700    4767
+             5800K   4677
+             5700    4251
+             4657M   3449
+             5750M   3332
+             5757M   3253
+             4600M   3145
+             5745M   2758
+             4655M   2505
+             Ave...  3817.90 ( 11 Family CPUs)
+     AMD    A4
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     A4      6300    2305
+             5300    2078
+             5150M   1973
+             5000    1919
+             3420    1768
+             4300M   1685
+             5300B   1632
+             3400    1625
+             3300    1583
+             3330MX  1343
+             3310MX  1263
+             3300M   1237
+             3305M   1227
+             3320M   1193
+     ____________________________________________
+
+     2013/12/24   CPU Benchmark Scores   Page:  2
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     A4      4355M   1169
+             1200     677
+             1250     559
+             Ave...  1484.47 ( 17 Family CPUs)
+     AMD    A6
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     A6      3670    3327
+             3650    3232
+             3620    2892
+             3600    2798
+             5200    2440
+             6400K   2384
+             3430MX  2277
+             5400K   2174
+             3410MX  2101
+             3420M   2078
+             3500    1995
+             3400M   1964
+             5350M   1958
+             5400B   1906
+             5357M   1878
+             1450    1634
+             4400M   1630
+             4455M   1296
+             Ave...  2220.22 ( 18 Family CPUs)
+     AMD    A8
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     A8      6600K   4719
+             6500    4390
+             5600K   4348
+     ____________________________________________
+
+     2013/12/24   CPU Benchmark Scores   Page:  3
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     A8      5500    4052
+             3870K   3682
+             3850    3552
+             5500B   3464
+             3820    3217
+             3800    3215
+             5550M   3052
+             5557M   2935
+             3550MX  2866
+             4500M   2709
+             5545M   2434
+             3510MX  2426
+             3530MX  2276
+             3520M   2245
+             4555M   2193
+             3500M   2050
+             Ave...  3148.68 ( 19 Family CPUs)
+     AMD    FX
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     FX      9590   10479
+             9370    9807
+             8350    9067
+             8320    8131
+             8150    7719
+             6350    7017
+             8140    6845
+             8120    6605
+             6300    6388
+             6200    6194
+             8100    6163
+             6120    5813
+     ____________________________________________
+
+     2013/12/24   CPU Benchmark Scores   Page:  4
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     FX      6100    5421
+             4350    5247
+             4170    4774
+             4300    4711
+             4130    4153
+             4150    4094
+             4100    4055
+             Ave...  6457.00 ( 19 Family CPUs)
+             Ave...  3448.86 ( 84 Vendor CPUs)
+     Intel  Core i3
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     Core i3 4340    5117
+             4330    5115
+             4130    4904
+             3250    4757
+             3245    4414
+             3225    4407
+             3240    4259
+             3220    4219
+             4130T   4041
+             3210    3820
+             3240T   3793
+             3220T   3724
+             3130M   3655
+             4000M   3443
+             3120M   3301
+             3110M   3076
+             3227U   2575
+             4010U   2459
+             3217U   2266
+             4010Y   2003
+     ____________________________________________
+
+     2013/12/24   CPU Benchmark Scores   Page:  5
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     Core i3 3229Y   1885
+             Ave...  3677.76 ( 21 Family CPUs)
+     Intel  Core i5
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     Core i5 4670K   7565
+             4670    7492
+             3570K   7118
+             4570    7061
+             3570    6993
+             3550    6828
+             4570S   6803
+             3570S   6709
+             3550S   6631
+             3470    6576
+             4440    6517
+             4570R   6474
+             3450    6442
+             4670T   6351
+             3340    6282
+             4430    6282
+             3350P   6199
+             3470S   6077
+             3450S   6071
+             3475S   5991
+             4430S   5954
+             3330    5902
+             3335S   5781
+             3330S   5690
+             3570T   5414
+             3340S   5372
+             4330M   4804
+     ____________________________________________
+
+     2013/12/24   CPU Benchmark Scores   Page:  6
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     Core i5 4300M   4786
+             4288U   4663
+             3470T   4591
+             3380M   4555
+             4258U   4381
+             4200M   4333
+             3340M   4327
+             3360M   4314
+             3320M   4101
+             3230M   3995
+             4300U   3917
+             3210M   3807
+             4350U   3604
+             3427U   3589
+             4250U   3482
+             3437U   3479
+             4200U   3355
+             3337U   3280
+             3317U   3126
+             3439Y   3057
+             4570T   2503
+             4210Y   2382
+             4200Y   2358
+             3339Y   2252
+             4300Y   1743
+             Ave...  5026.13 ( 52 Family CPUs)
+     Intel  Core i7
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     Core i7 4960X  14291
+             4930K  13620
+             3970X  12823
+     ____________________________________________
+
+     2013/12/24   CPU Benchmark Scores   Page:  7
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     Core i7 3960X  12718
+             3930K  12107
+             4960HQ 10262
+             4770K  10190
+             4771   10078
+             4770    9969
+             4820K   9969
+             4770S   9803
+             4930MX  9754
+             3770K   9578
+             3770    9420
+             4850HQ  9331
+             4900MQ  9323
+             3920XM  9196
+             3770S   9074
+             3940XM  9052
+             3840QM  9025
+             3820    8995
+             4770T   8803
+             4800MQ  8567
+             3820QM  8548
+             3740QM  8512
+             3720QM  8347
+             3770T   8280
+             4700HQ  8161
+             4750HQ  8066
+             4702HQ  8002
+             4700MQ  7946
+             3630QM  7759
+             4702MQ  7647
+             3610QM  7532
+             4765T   7367
+     ____________________________________________
+
+     2013/12/24   CPU Benchmark Scores   Page:  8
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     Core i7 4700EQ  7352
+             3615QM  7310
+             3632QM  7055
+             3612QE  6988
+             3612QM  6907
+             3635QM  6516
+             3610QE  6144
+             3615QE  5495
+             4600M   4892
+             3540M   4861
+             3520M   4588
+             4558U   4507
+             4600U   4484
+             4650U   4345
+             3687U   4271
+             3667U   4032
+             3555LE  4009
+             4500U   3992
+             3537U   3912
+             3517U   3701
+             4610Y   3680
+             3689Y   3479
+             3517UE  3449
+             Ave...  7725.58 ( 58 Family CPUs)
+             Ave...  6005.16 (131 Vendor CPUs)
+             Ave...  5006.42 (215 CPUs)
+
+
+
+
+
+     ____________________________________________
+
+
+File: gnucobpg.info,  Node: Control Hierarchy (Revisited),  Next: Turning PHYSICAL Page Formatting Into LOGICAL Formatting,  Prev: An Example,  Up: Report Writer Usage
+
+9.7 Control Hierarchy (Revisited)
+=================================
+
+The sample program just discussed presents a great opportunity to show
+what can happen if you don't define the control hierarchy of a report
+properly.
+
+   I changed the ‘CONTROLS ARE’ clause on the sample program from this:
+
+     CONTROLS ARE FINAL
+                  F-SR-Vendor-TXT
+                  F-SR-Family-TXT
+
+   To this:
+
+     CONTROLS ARE FINAL
+                  F-SR-Family-TXT
+                  F-SR-Vendor-TXT
+
+   And then ran the report again.  Here are the first two pages of that
+new report.  See what happened to the control breaks?
+
+     2013/12/24   CPU Benchmark Scores   Page:  1
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     AMD    A10
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     A10     6800K   5062
+             5800B   4798
+             6700    4767
+             5800K   4677
+             5700    4251
+             4657M   3449
+             5750M   3332
+             5757M   3253
+             4600M   3145
+             5745M   2758
+             4655M   2505
+             Ave...  3817.90 ( 11 Vendor CPUs)
+             Ave...  3817.90 ( 11 Family CPUs)
+     AMD    A4
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     A4      6300    2305
+             5300    2078
+             5150M   1973
+             5000    1919
+             3420    1768
+             4300M   1685
+             5300B   1632
+             3400    1625
+             3300    1583
+             3330MX  1343
+             3310MX  1263
+             3300M   1237
+             3305M   1227
+     ____________________________________________
+
+     2013/12/24   CPU Benchmark Scores   Page:  2
+     ********************************************
+     **   All CPU Data From cpubenchmark.net   **
+     ********************************************
+     A4      3320M   1193
+             4355M   1169
+             1200     677
+             1250     559
+             Ave...  1484.47 ( 17 Vendor CPUs)
+             Ave...  1484.47 ( 17 Family CPUs)
+     AMD    A6
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     A6      3670    3327
+             3650    3232
+             3620    2892
+             3600    2798
+             5200    2440
+             6400K   2384
+             3430MX  2277
+             5400K   2174
+             3410MX  2101
+             3420M   2078
+             3500    1995
+             3400M   1964
+             5350M   1958
+             5400B   1906
+             5357M   1878
+             1450    1634
+             4400M   1630
+             4455M   1296
+             Ave...  2220.22 ( 18 Vendor CPUs)
+             Ave...  2220.22 ( 18 Family CPUs)
+     AMD    A8
+     Family  Model  Benchmark Score (High to Low)
+     ======  ====== =============================
+     A8      6600K   4719
+
+     ____________________________________________
 
 
 File: gnucobpg.info,  Node: Turning PHYSICAL Page Formatting Into LOGICAL Formatting,  Prev: Control Hierarchy (Revisited),  Up: Report Writer Usage
@@ -5306,8 +6708,8 @@ File: gnucobpg.info,  Node: Grouped Word Lists by feature and function,  Next: L
 Appendix C Grouped Word Lists by feature and function
 *****************************************************
 
-The following is the complete list of ALL reserved words in the 1
-January 2025 at 00:01 GMT. build of GnuCOBOL 3.2 - Final.  Even though
+The following is the complete list of ALL reserved words in the 8
+January 2025 at 19:00 GMT. build of GnuCOBOL 3.2 - Final.  Even though
 the functionality behind some of these words may not be implemented in
 this version of GnuCOBOL, none may be used as any user-defined name.
 This list includes ALL reserved, intrinsics, mnemonics and system and
@@ -6376,890 +7778,5 @@ Register                      Implemented    Definition
                                              BINARY VALUE 0’
 ‘JSON-STATUS’                 Yes            ‘GLOBAL PICTURE S9(9) USAGE
                                              BINARY VALUE 0’
-
-
-
-File: gnucobpg.info,  Node: List of Intrinsic Functions,  Next: System routines,  Prev: Grouped Word Lists by feature and function,  Up: Top
-
-Appendix D List of Intrinsic Functions
-**************************************
-
-The following list of intrinsic functions was extracted from ‘cobc
---list-intrinsics’ and shows the names of the available functions, an
-implementation note and the number of parameters.
-
-Intrinsic Function            Implemented    Parameters
----------------------------------------------------------------------------
-‘ABS’                         Yes            1
-‘ACOS’                        Yes            1
-‘ANNUITY’                     Yes            2
-‘ASIN’                        Yes            1
-‘ATAN’                        Yes            1
-‘BASECONVERT’                 No             3
-‘BIT-OF’                      Yes            1
-‘BIT-TO-CHAR’                 Yes            1
-‘BOOLEAN-OF-INTEGER’          No             2
-‘BYTE-LENGTH’                 Yes            1 - 2
-‘CHAR’                        Yes            1
-‘CHAR-NATIONAL’               No             1
-‘COMBINED-DATETIME’           Yes            2
-‘CONCAT’                      Yes            Unlimited
-‘CONCATENATE’                 Yes            Unlimited
-‘CONTENT-LENGTH’              Yes            1
-‘CONTENT-OF’                  Yes            1 - 2
-‘CONVERT’                     No             3
-‘COS’                         Yes            1
-‘CURRENCY-SYMBOL’             Yes            0
-‘CURRENT-DATE’                Yes            0
-‘DATE-OF-INTEGER’             Yes            1
-‘DATE-TO-YYYYMMDD’            Yes            1 - 3
-‘DAY-OF-INTEGER’              Yes            1
-‘DAY-TO-YYYYDDD’              Yes            1 - 3
-‘DISPLAY-OF’                  No             1 - 2
-‘E’                           Yes            0
-‘EXCEPTION-FILE’              Yes            0
-‘EXCEPTION-FILE-N’            No             0
-‘EXCEPTION-LOCATION’          Yes            0
-‘EXCEPTION-LOCATION-N’        No             0
-‘EXCEPTION-STATEMENT’         Yes            0
-‘EXCEPTION-STATUS’            Yes            0
-‘EXP’                         Yes            1
-‘EXP10’                       Yes            1
-‘FACTORIAL’                   Yes            1
-‘FIND-STRING’                 No             7 - 2
-‘FORMATTED-CURRENT-DATE’      Yes            1
-‘FORMATTED-DATE’              Yes            2
-‘FORMATTED-DATETIME’          Yes            4 - 5
-‘FORMATTED-TIME’              Yes            3 - 4
-‘FRACTION-PART’               Yes            1
-‘HEX-OF’                      Yes            1
-‘HEX-TO-CHAR’                 Yes            1
-‘HIGHEST-ALGEBRAIC’           Yes            1
-‘INTEGER’                     Yes            1
-‘INTEGER-OF-BOOLEAN’          No             1
-‘INTEGER-OF-DATE’             Yes            1
-‘INTEGER-OF-DAY’              Yes            1
-‘INTEGER-OF-FORMATTED-DATE’   Yes            2
-‘INTEGER-PART’                Yes            1
-‘LENGTH’                      Yes            1 - 2
-‘LENGTH-AN’                   Yes            1
-‘LOCALE-COMPARE Yes 2 - 3’
-‘LOCALE-DATE’                 Yes            1 - 2
-‘LOCALE-TIME’                 Yes            1 - 2
-‘LOCALE-TIME-FROM-SECONDS’    Yes            1 - 2
-‘LOG’                         Yes            1
-‘LOG10’                       Yes            1
-‘LOWER-CASE’                  Yes            1
-‘LOWEST-ALGEBRAIC’            Yes            1
-‘MAX’                         Yes            Unlimited
-‘MEAN’                        Yes            Unlimited
-‘MEDIAN’                      Yes            Unlimited
-‘MIDRANGE’                    Yes            Unlimited
-‘MIN’                         Yes            Unlimited
-‘MOD’                         Yes            2
-‘MODULE-CALLER-ID’            Yes            0
-‘MODULE-DATE’                 Yes            0
-‘MODULE-FORMATTED-DATE’       Yes            0
-‘MODULE-ID’                   Yes            0
-‘MODULE-NAME’                 No             1
-‘MODULE-PATH’                 Yes            0
-‘MODULE-SOURCE’               Yes            0
-‘MODULE-TIME’                 Yes            0
-‘MONETARY-DECIMAL-POINT’      Yes            0
-‘MONETARY-THOUSANDS-SEPARATOR’Yes            0
-‘NATIONAL-OF’                 No             1 - 2
-‘NUMERIC-DECIMAL-POINT’       Yes            0
-‘NUMERIC-THOUSANDS-SEPARATOR’ Yes            0
-‘NUMVAL’                      Yes            1
-‘NUMVAL-C’                    Yes            2
-‘NUMVAL-F’                    Yes            1
-‘ORD’                         Yes            1
-‘ORD-MAX’                     Yes            Unlimited
-‘ORD-MIN’                     Yes            Unlimited
-‘PI’                          Yes            0
-‘PRESENT-VALUE’               Yes            Unlimited
-‘RANDOM’                      Yes            0 - 1
-‘RANGE’                       Yes            Unlimited
-‘REM’                         Yes            2
-‘REVERSE’                     Yes            1
-‘SECONDS-FROM-FORMATTED-TIME’ Yes            2
-‘SECONDS-PAST-MIDNIGHT’       Yes            0
-‘SIGN’                        Yes            1
-‘SIN’                         Yes            1
-‘SQRT’                        Yes            1
-‘STANDARD-COMPARE’            No             2 - 4
-‘STANDARD-DEVIATION’          Yes            Unlimited
-‘STORED-CHAR-LENGTH’          Yes            1
-‘SUBSTITUTE’                  Yes            Unlimited
-‘SUBSTITUTE-CASE’             Yes            Unlimited
-‘SUM’                         Yes            Unlimited
-‘TAN’                         Yes            1
-‘TEST-DATE-YYYYMMDD’          Yes            1
-‘TEST-DAY-YYYYDDD’            Yes            1
-‘TEST-FORMATTED-DATETIME’     Yes            2
-‘TEST-NUMVAL’                 Yes            1
-‘TEST-NUMVAL-C’               Yes            2
-‘TEST-NUMVAL-F’               Yes            1
-‘TRIM’                        Yes            1 - 2
-‘UPPER-CASE’                  Yes            1
-‘VARIANCE’                    Yes            Unlimited
-‘WHEN-COMPILED’               Yes            0
-‘YEAR-TO-YYYY’                Yes            1 - 3
-
-
-
-File: gnucobpg.info,  Node: System routines,  Next: System names,  Prev: List of Intrinsic Functions,  Up: Top
-
-Appendix E System routines
-**************************
-
-The following list of system routines was extracted from ‘cobc
---list-system’ and shows the names of the available system routines
-along with the number of parameters.
-
-System routine                Parameters
----------------------------------------------
-‘C$CALLEDBY’                  1
-‘C$CHDIR’                     2
-‘C$COPY’                      3
-‘C$DELETE’                    2
-‘C$FILEINFO’                  2
-‘C$GETPID’                    0
-‘C$JUSTIFY’                   1 - 2
-‘C$MAKEDIR’                   1
-‘C$NARG’                      1
-‘C$PARAMSIZE’                 1
-‘C$PRINTABLE’                 1 - 2
-‘C$SLEEP’                     1
-‘C$TOLOWER’                   2
-‘C$TOUPPER’                   2
-‘CBL_ALARM_SOUND’             0
-‘CBL_AND’                     3
-‘CBL_BELL_SOUND’              0
-‘CBL_CHANGE_DIR’              1
-‘CBL_CHECK_FILE_EXIST’        2
-‘CBL_CLOSE_FILE’              1
-‘CBL_COPY_FILE’               2
-‘CBL_CREATE_DIR’              1
-‘CBL_CREATE_FILE’             5
-‘CBL_DELETE_DIR’              1
-‘CBL_DELETE_FILE’             1
-‘CBL_EQ’                      3
-‘CBL_ERROR_PROC’              2
-‘CBL_EXIT_PROC’               2
-‘CBL_FLUSH_FILE’              1
-‘CBL_GC_FORK’                 0
-‘CBL_GC_GETOPT’               6
-‘CBL_GC_HOSTED’               2
-‘CBL_GC_NANOSLEEP’            1
-‘CBL_GC_PRINTABLE’            1 - 2
-‘CBL_GC_SET_SCR_SIZE’         2
-‘CBL_GC_WAITPID’              1
-‘CBL_GET_CSR_POS’             1
-‘CBL_GET_CURRENT_DIR’         3
-‘CBL_GET_SCR_SIZE’            2
-‘CBL_IMP’                     3
-‘CBL_NIMP’                    3
-‘CBL_NOR’                     3
-‘CBL_NOT’                     2
-‘CBL_OC_GETOPT’               6
-‘CBL_OC_HOSTED’               2
-‘CBL_OC_NANOSLEEP’            1
-‘CBL_OPEN_FILE’               5
-‘CBL_OR’                      3
-‘CBL_READ_FILE’               5
-‘CBL_READ_KBD_CHAR’           1
-‘CBL_RENAME_FILE’             2
-‘CBL_RUNTIME_ERROR’           2
-‘CBL_SET_CSR_POS’             1
-‘CBL_TOLOWER’                 2
-‘CBL_TOUPPER’                 2
-‘CBL_WRITE_FILE’              5
-‘CBL_XOR’                     3
-‘EXTFH’                       2
-‘SYSTEM’                      1
-‘X"91"’                       3
-‘X"E4"’                       0
-‘X"E5"’                       0
-‘X"F4"’                       2
-‘X"F5"’                       2
-
-
-
-File: gnucobpg.info,  Node: System names,  Next: Exceptions,  Prev: System routines,  Up: Top
-
-Appendix F System names
-***********************
-
-The following list of system names was extracted from ‘cobc
---list-mnemonics’ and shows the system names categorized by their type.
-
-F.1 System names: device
-========================
-
-‘SYSIN’, ‘SYSIPT’, ‘STDIN’, ‘SYSOUT’, ‘SYSLIST’, ‘SYSLST’, ‘SYSPCH’,
-‘SYSPUNCH’, ‘STDOUT’, ‘PRINT’, ‘PRINTER’, ‘PRINTER-1’, ‘SYSERR’,
-‘STDERR’, ‘CONSOLE’, ‘ALTERNATE-CONSOLE’, ‘ALTERNATE CONSOLE’
-
-F.2 System names: feature
-=========================
-
-‘C01’, ‘C02’, ‘C03’, ‘C04’, ‘C05’, ‘C06’, ‘C07’, ‘C08’, ‘C09’, ‘C10’,
-‘C11’, ‘C12’, ‘S01’, ‘S02’, ‘S03’, ‘S04’, ‘S05’, ‘CSP’, ‘FORMFEED’,
-‘TOP’, ‘CALL-CONVENTION’
-
-F.3 System names: switch
-========================
-
-‘SWITCH-0’, ‘SWITCH-1’, ‘SWITCH-2’, ‘SWITCH-3’, ‘SWITCH-4’, ‘SWITCH-5’,
-‘SWITCH-6’, ‘SWITCH-7’, ‘SWITCH-8’, ‘SWITCH-9’, ‘SWITCH-10’,
-‘SWITCH-11’, ‘SWITCH-12’, ‘SWITCH-13’, ‘SWITCH-14’, ‘SWITCH-15’,
-‘SWITCH-16’, ‘SWITCH-17’, ‘SWITCH-18’, ‘SWITCH-19’, ‘SWITCH-20’,
-‘SWITCH-21’, ‘SWITCH-22’, ‘SWITCH-23’, ‘SWITCH-24’, ‘SWITCH-25’,
-‘SWITCH-26’, ‘SWITCH-27’, ‘SWITCH-28’, ‘SWITCH-29’, ‘SWITCH-30’,
-‘SWITCH-31’, ‘SWITCH-32’, ‘SWITCH-33’, ‘SWITCH-34’, ‘SWITCH-35’,
-‘SWITCH-36’
-
-
-
-File: gnucobpg.info,  Node: Exceptions,  Next: GNU Free Documentation License,  Prev: System names,  Up: Top
-
-Appendix G Exceptions
-*********************
-
-The following list of exceptions names was extracted from ‘cobc
---list-exceptions’ and shows the names by type.
-
-
-Exception Name
-EC-ALL
-  EC-ARGUMENT
-    EC-ARGUMENT-FUNCTION (f)
-    EC-ARGUMENT-IMP
-  EC-BOUND
-    EC-BOUND-FUNC-RET-VALUE
-    EC-BOUND-IMP
-    EC-BOUND-ODO (f)
-    EC-BOUND-OVERFLOW (f)
-    EC-BOUND-PTR (f)
-    EC-BOUND-REF-MOD (f)
-    EC-BOUND-SET (f)
-    EC-BOUND-SUBSCRIPT (f)
-    EC-BOUND-TABLE-LIMIT (f)
-  EC-CONTINUE
-    EC-CONTINUE-IMP
-    EC-CONTINUE-LESS-THAN-ZERO
-  EC-DATA
-    EC-DATA-CONVERSION
-    EC-DATA-IMP
-    EC-DATA-INCOMPATIBLE (f)
-    EC-DATA-NOT-FINITE (f)
-    EC-DATA-OVERFLOW (f)
-    EC-DATA-PTR-NULL (f)
-  EC-EXTERNAL
-    EC-EXTERNAL-DATA-MISMATCH (f)
-    EC-EXTERNAL-FILE-MISMATCH (f)
-    EC-EXTERNAL-FORMAT-CONFLICT (f)
-    EC-EXTERNAL-IMP
-  EC-FLOW
-    EC-FLOW-APPLY-COMMIT (f)
-    EC-FLOW-COMMIT (f)
-    EC-FLOW-GLOBAL-EXIT (f)
-    EC-FLOW-GLOBAL-GOBACK (f)
-    EC-FLOW-IMP
-    EC-FLOW-RELEASE (f)
-    EC-FLOW-REPORT (f)
-    EC-FLOW-RETURN (f)
-    EC-FLOW-ROLLBACK (f)
-    EC-FLOW-SEARCH (f)
-    EC-FLOW-USE (f)
-  EC-FUNCTION
-    EC-FUNCTION-ARG-OMITTED (f)
-    EC-FUNCTION-IMP
-    EC-FUNCTION-NOT-FOUND (f)
-    EC-FUNCTION-PTR-INVALID (f)
-    EC-FUNCTION-PTR-NULL (f)
-  EC-I-O
-    EC-I-O-AT-END
-    EC-I-O-EOP
-    EC-I-O-EOP-OVERFLOW
-    EC-I-O-FILE-SHARING
-    EC-I-O-IMP
-    EC-I-O-INVALID-KEY
-    EC-I-O-LINAGE (f)
-    EC-I-O-LOGIC-ERROR (f)
-    EC-I-O-PERMANENT-ERROR (f)
-    EC-I-O-RECORD-CONTENT (f)
-    EC-I-O-RECORD-OPERATION
-    EC-I-O-RECORD-WARNING
-  EC-IMP
-    EC-IMP-ACCEPT
-    EC-IMP-DISPLAY
-    EC-IMP-UTC-UNKNOWN (f)
-    EC-IMP-FEATURE-DISABLED
-    EC-IMP-FEATURE-MISSING
-  EC-LOCALE
-    EC-LOCALE-IMP
-    EC-LOCALE-INCOMPATIBLE
-    EC-LOCALE-INVALID (f)
-    EC-LOCALE-INVALID-PTR (f)
-    EC-LOCALE-MISSING (f)
-    EC-LOCALE-SIZE (f)
-  EC-MCS
-    EC-MCS-ABNORMAL-TERMINATION
-    EC-MCS-IMP
-    EC-MCS-INVALID-TAG
-    EC-MCS-MESSAGE-LENGTH
-    EC-MCS-NO-REQUESTER
-    EC-MCS-NO-SERVER
-    EC-MCS-NORMAL-TERMINATION
-    EC-MCS-REQUESTOR-FAILED
-  EC-OO
-    EC-OO-ARG-OMITTED (f)
-    EC-OO-CONFORMANCE (f)
-    EC-OO-EXCEPTION (f)
-    EC-OO-IMP
-    EC-OO-METHOD (f)
-    EC-OO-NULL (f)
-    EC-OO-RESOURCE (f)
-    EC-OO-UNIVERSAL (f)
-  EC-ORDER
-    EC-ORDER-IMP
-    EC-ORDER-NOT-SUPPORTED (f)
-  EC-OVERFLOW
-    EC-OVERFLOW-IMP
-    EC-OVERFLOW-STRING
-    EC-OVERFLOW-UNSTRING
-  EC-PROGRAM
-    EC-PROGRAM-ARG-MISMATCH (f)
-    EC-PROGRAM-ARG-OMITTED (f)
-    EC-PROGRAM-CANCEL-ACTIVE (f)
-    EC-PROGRAM-IMP
-    EC-PROGRAM-NOT-FOUND (f)
-    EC-PROGRAM-PTR-NULL (f)
-    EC-PROGRAM-RECURSIVE-CALL (f)
-    EC-PROGRAM-RESOURCES (f)
-  EC-RAISING
-    EC-RAISING-IMP
-    EC-RAISING-NOT-SPECIFIED (f)
-  EC-RANGE
-    EC-RANGE-IMP
-    EC-RANGE-INDEX (f)
-    EC-RANGE-INSPECT-SIZE (f)
-    EC-RANGE-INVALID
-    EC-RANGE-PERFORM-VARYING (f)
-    EC-RANGE-PTR (f)
-    EC-RANGE-SEARCH-INDEX
-    EC-RANGE-SEARCH-NO-MATCH
-  EC-REPORT
-    EC-REPORT-ACTIVE (f)
-    EC-REPORT-COLUMN-OVERLAP (f)
-    EC-REPORT-FILE-MODE (f)
-    EC-REPORT-IMP
-    EC-REPORT-INACTIVE (f)
-    EC-REPORT-LINE-OVERLAP
-    EC-REPORT-NOT-TERMINATED
-    EC-REPORT-PAGE-LIMIT
-    EC-REPORT-PAGE-WIDTH
-    EC-REPORT-SUM-SIZE (f)
-    EC-REPORT-VARYING (f)
-  EC-SCREEN
-    EC-SCREEN-FIELD-OVERLAP
-    EC-SCREEN-IMP
-    EC-SCREEN-ITEM-TRUNCATED
-    EC-SCREEN-LINE-NUMBER
-    EC-SCREEN-STARTING-COLUMN
-  EC-SIZE
-    EC-SIZE-ADDRESS (f)
-    EC-SIZE-EXPONENTIATION (f)
-    EC-SIZE-IMP
-    EC-SIZE-OVERFLOW (f)
-    EC-SIZE-TRUNCATION (f)
-    EC-SIZE-UNDERFLOW (f)
-    EC-SIZE-ZERO-DIVIDE (f)
-  EC-SORT-MERGE
-    EC-SORT-MERGE-ACTIVE (f)
-    EC-SORT-MERGE-FILE-OPEN (f)
-    EC-SORT-MERGE-IMP
-    EC-SORT-MERGE-RELEASE (f)
-    EC-SORT-MERGE-RETURN (f)
-    EC-SORT-MERGE-SEQUENCE (f)
-  EC-STORAGE
-    EC-STORAGE-IMP
-    EC-STORAGE-NOT-ALLOC
-    EC-STORAGE-NOT-AVAIL
-  EC-USER
-  EC-VALIDATE
-    EC-VALIDATE-CONTENT
-    EC-VALIDATE-FORMAT
-    EC-VALIDATE-IMP
-    EC-VALIDATE-RELATION
-    EC-VALIDATE-VARYING (f)
-  EC-XML
-    EC-XML-CODESET (f)
-    EC-XML-CODESET-CONVERSION (f)
-    EC-XML-COUNT (f)
-    EC-XML-DOCUMENT-TYPE (f)
-    EC-XML-IMPLICIT-CLOSE (f)
-    EC-XML-INVALID (f)
-    EC-XML-NAMESPACE (f)
-    EC-XML-STACKED-OPEN (f)
-    EC-XML-RANGE (f)
-    EC-XML-IMP (f)
-  EC-JSON
-    EC-JSON-IMP (f)
-
-
-
-
-File: gnucobpg.info,  Node: GNU Free Documentation License,  Next: Summary of Document Changes,  Prev: Exceptions,  Up: Top
-
-Appendix H GNU Free Documentation License
-*****************************************
-
-                     Version 1.3, 3 November 2008
-
-     Copyright © 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
-     <https://fsf.org/>
-
-     Everyone is permitted to copy and distribute verbatim copies
-     of this license document, but changing it is not allowed.
-
-  0. PREAMBLE
-
-     The purpose of this License is to make a manual, textbook, or other
-     functional and useful document “free” in the sense of freedom: to
-     assure everyone the effective freedom to copy and redistribute it,
-     with or without modifying it, either commercially or
-     noncommercially.  Secondarily, this License preserves for the
-     author and publisher a way to get credit for their work, while not
-     being considered responsible for modifications made by others.
-
-     This License is a kind of "copyleft", which means that derivative
-     works of the document must themselves be free in the same sense.
-     It complements the GNU General Public License, which is a copyleft
-     license designed for free software.
-
-     We have designed this License in order to use it for manuals for
-     free software, because free software needs free documentation: a
-     free program should come with manuals providing the same freedoms
-     that the software does.  But this License is not limited to
-     software manuals; it can be used for any textual work, regardless
-     of subject matter or whether it is published as a printed book.  We
-     recommend this License principally for works whose purpose is
-     instruction or reference.
-
-  1. APPLICABILITY AND DEFINITIONS
-
-     This License applies to any manual or other work, in any medium,
-     that contains a notice placed by the copyright holder saying it can
-     be distributed under the terms of this License.  Such a notice
-     grants a world-wide, royalty-free license, unlimited in duration,
-     to use that work under the conditions stated herein.  The
-     "Document", below, refers to any such manual or work.  Any member
-     of the public is a licensee, and is addressed as "you".  You accept
-     the license if you copy, modify or distribute the work in a way
-     requiring permission under copyright law.
-
-     A "Modified Version" of the Document means any work containing the
-     Document or a portion of it, either copied verbatim, or with
-     modifications and/or translated into another language.
-
-     A "Secondary Section" is a named appendix or a front-matter section
-     of the Document that deals exclusively with the relationship of the
-     publishers or authors of the Document to the Document's overall
-     subject (or to related matters) and contains nothing that could
-     fall directly within that overall subject.  (Thus, if the Document
-     is in part a textbook of mathematics, a Secondary Section may not
-     explain any mathematics.)  The relationship could be a matter of
-     historical connection with the subject or with related matters, or
-     of legal, commercial, philosophical, ethical or political position
-     regarding them.
-
-     The "Invariant Sections" are certain Secondary Sections whose
-     titles are designated, as being those of Invariant Sections, in the
-     notice that says that the Document is released under this License.
-     If a section does not fit the above definition of Secondary then it
-     is not allowed to be designated as Invariant.  The Document may
-     contain zero Invariant Sections.  If the Document does not identify
-     any Invariant Sections then there are none.
-
-     The "Cover Texts" are certain short passages of text that are
-     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
-     that says that the Document is released under this License.  A
-     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
-     be at most 25 words.
-
-     A "Transparent" copy of the Document means a machine-readable copy,
-     represented in a format whose specification is available to the
-     general public, that is suitable for revising the document
-     straightforwardly with generic text editors or (for images composed
-     of pixels) generic paint programs or (for drawings) some widely
-     available drawing editor, and that is suitable for input to text
-     formatters or for automatic translation to a variety of formats
-     suitable for input to text formatters.  A copy made in an otherwise
-     Transparent file format whose markup, or absence of markup, has
-     been arranged to thwart or discourage subsequent modification by
-     readers is not Transparent.  An image format is not Transparent if
-     used for any substantial amount of text.  A copy that is not
-     "Transparent" is called "Opaque".
-
-     Examples of suitable formats for Transparent copies include plain
-     ASCII without markup, Texinfo input format, LaTeX input format,
-     SGML or XML using a publicly available DTD, and standard-conforming
-     simple HTML, PostScript or PDF designed for human modification.
-     Examples of transparent image formats include PNG, XCF and JPG.
-     Opaque formats include proprietary formats that can be read and
-     edited only by proprietary word processors, SGML or XML for which
-     the DTD and/or processing tools are not generally available, and
-     the machine-generated HTML, PostScript or PDF produced by some word
-     processors for output purposes only.
-
-     The "Title Page" means, for a printed book, the title page itself,
-     plus such following pages as are needed to hold, legibly, the
-     material this License requires to appear in the title page.  For
-     works in formats which do not have any title page as such, "Title
-     Page" means the text near the most prominent appearance of the
-     work's title, preceding the beginning of the body of the text.
-
-     The "publisher" means any person or entity that distributes copies
-     of the Document to the public.
-
-     A section "Entitled XYZ" means a named subunit of the Document
-     whose title either is precisely XYZ or contains XYZ in parentheses
-     following text that translates XYZ in another language.  (Here XYZ
-     stands for a specific section name mentioned below, such as
-     "Acknowledgements", "Dedications", "Endorsements", or "History".)
-     To "Preserve the Title" of such a section when you modify the
-     Document means that it remains a section "Entitled XYZ" according
-     to this definition.
-
-     The Document may include Warranty Disclaimers next to the notice
-     which states that this License applies to the Document.  These
-     Warranty Disclaimers are considered to be included by reference in
-     this License, but only as regards disclaiming warranties: any other
-     implication that these Warranty Disclaimers may have is void and
-     has no effect on the meaning of this License.
-
-  2. VERBATIM COPYING
-
-     You may copy and distribute the Document in any medium, either
-     commercially or noncommercially, provided that this License, the
-     copyright notices, and the license notice saying this License
-     applies to the Document are reproduced in all copies, and that you
-     add no other conditions whatsoever to those of this License.  You
-     may not use technical measures to obstruct or control the reading
-     or further copying of the copies you make or distribute.  However,
-     you may accept compensation in exchange for copies.  If you
-     distribute a large enough number of copies you must also follow the
-     conditions in section 3.
-
-     You may also lend copies, under the same conditions stated above,
-     and you may publicly display copies.
-
-  3. COPYING IN QUANTITY
-
-     If you publish printed copies (or copies in media that commonly
-     have printed covers) of the Document, numbering more than 100, and
-     the Document's license notice requires Cover Texts, you must
-     enclose the copies in covers that carry, clearly and legibly, all
-     these Cover Texts: Front-Cover Texts on the front cover, and
-     Back-Cover Texts on the back cover.  Both covers must also clearly
-     and legibly identify you as the publisher of these copies.  The
-     front cover must present the full title with all words of the title
-     equally prominent and visible.  You may add other material on the
-     covers in addition.  Copying with changes limited to the covers, as
-     long as they preserve the title of the Document and satisfy these
-     conditions, can be treated as verbatim copying in other respects.
-
-     If the required texts for either cover are too voluminous to fit
-     legibly, you should put the first ones listed (as many as fit
-     reasonably) on the actual cover, and continue the rest onto
-     adjacent pages.
-
-     If you publish or distribute Opaque copies of the Document
-     numbering more than 100, you must either include a machine-readable
-     Transparent copy along with each Opaque copy, or state in or with
-     each Opaque copy a computer-network location from which the general
-     network-using public has access to download using public-standard
-     network protocols a complete Transparent copy of the Document, free
-     of added material.  If you use the latter option, you must take
-     reasonably prudent steps, when you begin distribution of Opaque
-     copies in quantity, to ensure that this Transparent copy will
-     remain thus accessible at the stated location until at least one
-     year after the last time you distribute an Opaque copy (directly or
-     through your agents or retailers) of that edition to the public.
-
-     It is requested, but not required, that you contact the authors of
-     the Document well before redistributing any large number of copies,
-     to give them a chance to provide you with an updated version of the
-     Document.
-
-  4. MODIFICATIONS
-
-     You may copy and distribute a Modified Version of the Document
-     under the conditions of sections 2 and 3 above, provided that you
-     release the Modified Version under precisely this License, with the
-     Modified Version filling the role of the Document, thus licensing
-     distribution and modification of the Modified Version to whoever
-     possesses a copy of it.  In addition, you must do these things in
-     the Modified Version:
-
-       A. Use in the Title Page (and on the covers, if any) a title
-          distinct from that of the Document, and from those of previous
-          versions (which should, if there were any, be listed in the
-          History section of the Document).  You may use the same title
-          as a previous version if the original publisher of that
-          version gives permission.
-
-       B. List on the Title Page, as authors, one or more persons or
-          entities responsible for authorship of the modifications in
-          the Modified Version, together with at least five of the
-          principal authors of the Document (all of its principal
-          authors, if it has fewer than five), unless they release you
-          from this requirement.
-
-       C. State on the Title page the name of the publisher of the
-          Modified Version, as the publisher.
-
-       D. Preserve all the copyright notices of the Document.
-
-       E. Add an appropriate copyright notice for your modifications
-          adjacent to the other copyright notices.
-
-       F. Include, immediately after the copyright notices, a license
-          notice giving the public permission to use the Modified
-          Version under the terms of this License, in the form shown in
-          the Addendum below.
-
-       G. Preserve in that license notice the full lists of Invariant
-          Sections and required Cover Texts given in the Document's
-          license notice.
-
-       H. Include an unaltered copy of this License.
-
-       I. Preserve the section Entitled "History", Preserve its Title,
-          and add to it an item stating at least the title, year, new
-          authors, and publisher of the Modified Version as given on the
-          Title Page.  If there is no section Entitled "History" in the
-          Document, create one stating the title, year, authors, and
-          publisher of the Document as given on its Title Page, then add
-          an item describing the Modified Version as stated in the
-          previous sentence.
-
-       J. Preserve the network location, if any, given in the Document
-          for public access to a Transparent copy of the Document, and
-          likewise the network locations given in the Document for
-          previous versions it was based on.  These may be placed in the
-          "History" section.  You may omit a network location for a work
-          that was published at least four years before the Document
-          itself, or if the original publisher of the version it refers
-          to gives permission.
-
-       K. For any section Entitled "Acknowledgements" or "Dedications",
-          Preserve the Title of the section, and preserve in the section
-          all the substance and tone of each of the contributor
-          acknowledgements and/or dedications given therein.
-
-       L. Preserve all the Invariant Sections of the Document, unaltered
-          in their text and in their titles.  Section numbers or the
-          equivalent are not considered part of the section titles.
-
-       M. Delete any section Entitled "Endorsements".  Such a section
-          may not be included in the Modified Version.
-
-       N. Do not retitle any existing section to be Entitled
-          "Endorsements" or to conflict in title with any Invariant
-          Section.
-
-       O. Preserve any Warranty Disclaimers.
-
-     If the Modified Version includes new front-matter sections or
-     appendices that qualify as Secondary Sections and contain no
-     material copied from the Document, you may at your option designate
-     some or all of these sections as invariant.  To do this, add their
-     titles to the list of Invariant Sections in the Modified Version's
-     license notice.  These titles must be distinct from any other
-     section titles.
-
-     You may add a section Entitled "Endorsements", provided it contains
-     nothing but endorsements of your Modified Version by various
-     parties--for example, statements of peer review or that the text
-     has been approved by an organization as the authoritative
-     definition of a standard.
-
-     You may add a passage of up to five words as a Front-Cover Text,
-     and a passage of up to 25 words as a Back-Cover Text, to the end of
-     the list of Cover Texts in the Modified Version.  Only one passage
-     of Front-Cover Text and one of Back-Cover Text may be added by (or
-     through arrangements made by) any one entity.  If the Document
-     already includes a cover text for the same cover, previously added
-     by you or by arrangement made by the same entity you are acting on
-     behalf of, you may not add another; but you may replace the old
-     one, on explicit permission from the previous publisher that added
-     the old one.
-
-     The author(s) and publisher(s) of the Document do not by this
-     License give permission to use their names for publicity for or to
-     assert or imply endorsement of any Modified Version.
-
-  5. COMBINING DOCUMENTS
-
-     You may combine the Document with other documents released under
-     this License, under the terms defined in section 4 above for
-     modified versions, provided that you include in the combination all
-     of the Invariant Sections of all of the original documents,
-     unmodified, and list them all as Invariant Sections of your
-     combined work in its license notice, and that you preserve all
-     their Warranty Disclaimers.
-
-     The combined work need only contain one copy of this License, and
-     multiple identical Invariant Sections may be replaced with a single
-     copy.  If there are multiple Invariant Sections with the same name
-     but different contents, make the title of each such section unique
-     by adding at the end of it, in parentheses, the name of the
-     original author or publisher of that section if known, or else a
-     unique number.  Make the same adjustment to the section titles in
-     the list of Invariant Sections in the license notice of the
-     combined work.
-
-     In the combination, you must combine any sections Entitled
-     "History" in the various original documents, forming one section
-     Entitled "History"; likewise combine any sections Entitled
-     "Acknowledgements", and any sections Entitled "Dedications".  You
-     must delete all sections Entitled "Endorsements."
-
-  6. COLLECTIONS OF DOCUMENTS
-
-     You may make a collection consisting of the Document and other
-     documents released under this License, and replace the individual
-     copies of this License in the various documents with a single copy
-     that is included in the collection, provided that you follow the
-     rules of this License for verbatim copying of each of the documents
-     in all other respects.
-
-     You may extract a single document from such a collection, and
-     distribute it individually under this License, provided you insert
-     a copy of this License into the extracted document, and follow this
-     License in all other respects regarding verbatim copying of that
-     document.
-
-  7. AGGREGATION WITH INDEPENDENT WORKS
-
-     A compilation of the Document or its derivatives with other
-     separate and independent documents or works, in or on a volume of a
-     storage or distribution medium, is called an "aggregate" if the
-     copyright resulting from the compilation is not used to limit the
-     legal rights of the compilation's users beyond what the individual
-     works permit.  When the Document is included in an aggregate, this
-     License does not apply to the other works in the aggregate which
-     are not themselves derivative works of the Document.
-
-     If the Cover Text requirement of section 3 is applicable to these
-     copies of the Document, then if the Document is less than one half
-     of the entire aggregate, the Document's Cover Texts may be placed
-     on covers that bracket the Document within the aggregate, or the
-     electronic equivalent of covers if the Document is in electronic
-     form.  Otherwise they must appear on printed covers that bracket
-     the whole aggregate.
-
-  8. TRANSLATION
-
-     Translation is considered a kind of modification, so you may
-     distribute translations of the Document under the terms of section
-     4.  Replacing Invariant Sections with translations requires special
-     permission from their copyright holders, but you may include
-     translations of some or all Invariant Sections in addition to the
-     original versions of these Invariant Sections.  You may include a
-     translation of this License, and all the license notices in the
-     Document, and any Warranty Disclaimers, provided that you also
-     include the original English version of this License and the
-     original versions of those notices and disclaimers.  In case of a
-     disagreement between the translation and the original version of
-     this License or a notice or disclaimer, the original version will
-     prevail.
-
-     If a section in the Document is Entitled "Acknowledgements",
-     "Dedications", or "History", the requirement (section 4) to
-     Preserve its Title (section 1) will typically require changing the
-     actual title.
-
-  9. TERMINATION
-
-     You may not copy, modify, sublicense, or distribute the Document
-     except as expressly provided under this License.  Any attempt
-     otherwise to copy, modify, sublicense, or distribute it is void,
-     and will automatically terminate your rights under this License.
-
-     However, if you cease all violation of this License, then your
-     license from a particular copyright holder is reinstated (a)
-     provisionally, unless and until the copyright holder explicitly and
-     finally terminates your license, and (b) permanently, if the
-     copyright holder fails to notify you of the violation by some
-     reasonable means prior to 60 days after the cessation.
-
-     Moreover, your license from a particular copyright holder is
-     reinstated permanently if the copyright holder notifies you of the
-     violation by some reasonable means, this is the first time you have
-     received notice of violation of this License (for any work) from
-     that copyright holder, and you cure the violation prior to 30 days
-     after your receipt of the notice.
-
-     Termination of your rights under this section does not terminate
-     the licenses of parties who have received copies or rights from you
-     under this License.  If your rights have been terminated and not
-     permanently reinstated, receipt of a copy of some or all of the
-     same material does not give you any rights to use it.
-
-  10. FUTURE REVISIONS OF THIS LICENSE
-
-     The Free Software Foundation may publish new, revised versions of
-     the GNU Free Documentation License from time to time.  Such new
-     versions will be similar in spirit to the present version, but may
-     differ in detail to address new problems or concerns.  See
-     <https://www.gnu.org/licenses/>.
-
-     Each version of the License is given a distinguishing version
-     number.  If the Document specifies that a particular numbered
-     version of this License "or any later version" applies to it, you
-     have the option of following the terms and conditions either of
-     that specified version or of any later version that has been
-     published (not as a draft) by the Free Software Foundation.  If the
-     Document does not specify a version number of this License, you may
-     choose any version ever published (not as a draft) by the Free
-     Software Foundation.  If the Document specifies that a proxy can
-     decide which future versions of this License can be used, that
-     proxy's public statement of acceptance of a version permanently
-     authorizes you to choose that version for the Document.
-
-  11. RELICENSING
-
-     "Massive Multiauthor Collaboration Site" (or "MMC Site") means any
-     World Wide Web server that publishes copyrightable works and also
-     provides prominent facilities for anybody to edit those works.  A
-     public wiki that anybody can edit is an example of such a server.
-     A "Massive Multiauthor Collaboration" (or "MMC") contained in the
-     site means any set of copyrightable works thus published on the MMC
-     site.
-
-     "CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
-     license published by Creative Commons Corporation, a not-for-profit
-     corporation with a principal place of business in San Francisco,
-     California, as well as future copyleft versions of that license
-     published by that same organization.
-
-     "Incorporate" means to publish or republish a Document, in whole or
-     in part, as part of another Document.
-
-     An MMC is "eligible for relicensing" if it is licensed under this
-     License, and if all works that were first published under this
-     License somewhere other than this MMC, and subsequently
-     incorporated in whole or in part into the MMC, (1) had no cover
-     texts or invariant sections, and (2) were thus incorporated prior
-     to November 1, 2008.
-
-     The operator of an MMC Site may republish an MMC contained in the
-     site under CC-BY-SA on the same site at any time before August 1,
-     2009, provided the MMC is eligible for relicensing.
 
 
