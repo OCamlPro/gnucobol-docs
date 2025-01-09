@@ -591,7 +591,7 @@ File: gnucobpg.info,  Node: SCREEN SECTION,  Next: Special Data Items,  Prev: RE
  [ BLANK { LINE|SCREEN } ]
    ~~~~~   ~~~~ ~~~~~~
  [ ERASE { EOL|EOS                       } ]
- [ ~~~~~ { ~~~ ~~~                       } ]
+   ~~~~~   ~~~ ~~~
  [       { [TO END OF ] {LINE | SCREEN } } ]
                ~~~       ~~~~   ~~~~~~
  [ INITIAL ]
@@ -608,12 +608,12 @@ File: gnucobpg.info,  Node: SCREEN SECTION,  Next: Special Data Items,  Prev: RE
                                      ~~~~~
  [ CURSOR { identifier-10 } ]
    ~~~~~~
- [ { FROM literal-1 | identifier-5 } ]
- [ { ~~~~                          } ]
- [ { TO identifier-5               } ]
- [ { ~~                            } ]
- [ { USING identifier-5            } ]
-     ~~~~~
+ [ FROM literal-1 | identifier-5 ]
+   ~~~~
+ [ TO identifier-5               ]
+   ~~
+ [ USING identifier-5            ]
+   ~~~~~
  [ { VALUE IS [ ALL ] literal-1    } ]
      ~~~~~      ~~~
  [ FULL | LENGTH-CHECK ] [ REQUIRED | EMPTY-CHECK ]
@@ -632,6 +632,8 @@ File: gnucobpg.info,  Node: SCREEN SECTION,  Next: Special Data Items,  Prev: RE
    ~~~
  [ PROMPT [ CHARACTER IS literal-2 | identifier-7 ]
    ~~~~~~   ~~~~~~~~~
+ [ REQUIRED | EMPTY-CHECK ]
+   ~~~~~~~~   ~~~~~~~~~~~
  [ SIGN IS LEADING|TRAILING [ SEPARATE CHARACTER ] ] .
    ~~~~    ~~~~~~~ ~~~~~~~~   ~~~~~~~~
 
@@ -1189,7 +1191,6 @@ File: gnucobpg.info,  Node: Data Description Clauses,  Prev: Special Data Items,
 * LOWLIGHT.
 * NEXT GROUP.
 * NO-ECHO.
-* NO UPDATE.
 * OCCURS.
 * OVERLINE.
 * PICTURE.
@@ -1215,7 +1216,6 @@ File: gnucobpg.info,  Node: Data Description Clauses,  Prev: Special Data Items,
 * TYPE.
 * TYPEDEF.
 * UNDERLINE.
-* UPDATE.
 * UPPER.
 * USAGE.
 * USING.
@@ -2379,7 +2379,7 @@ line of the group in which this clause appears.
      defined by the next-presented group's ‘LINE NUMBER’ clause.
 
 
-File: gnucobpg.info,  Node: NO-ECHO,  Next: NO UPDATE,  Prev: NEXT GROUP,  Up: Data Description Clauses
+File: gnucobpg.info,  Node: NO-ECHO,  Next: OCCURS,  Prev: NEXT GROUP,  Up: Data Description Clauses
 
 6.9.34 NO-ECHO
 --------------
@@ -2416,29 +2416,9 @@ appear on the screen as spaces.  The ‘OFF’ clause is the same as the
 screen colors and video attributes.
 
 
-File: gnucobpg.info,  Node: NO UPDATE,  Next: OCCURS,  Prev: NO-ECHO,  Up: Data Description Clauses
+File: gnucobpg.info,  Node: OCCURS,  Next: OVERLINE,  Prev: NO-ECHO,  Up: Data Description Clauses
 
-6.9.35 NO UPDATE
-----------------
-
-                      NO-UPDATE Attribute Syntax
-=======================================================================
-
-NO UPDATE
-~~ ~~~~~~
-
-
-=======================================================================
-   This syntax is valid in the following sections: ‘SCREEN’
-
-   The ‘NO UPDATE’ clause forces the field to which this is applied will
-not be updated.
-
-
-
-File: gnucobpg.info,  Node: OCCURS,  Next: OVERLINE,  Prev: NO UPDATE,  Up: Data Description Clauses
-
-6.9.36 OCCURS
+6.9.35 OCCURS
 -------------
 
                          OCCURS Clause Syntax
@@ -2617,7 +2597,7 @@ table, where entries in that structure repeat multiple times.
 
 File: gnucobpg.info,  Node: OVERLINE,  Next: PICTURE,  Prev: OCCURS,  Up: Data Description Clauses
 
-6.9.37 OVERLINE
+6.9.36 OVERLINE
 ---------------
 
                        OVERLINE Attribute Syntax
@@ -2651,7 +2631,7 @@ screen colors and video attributes.
 
 File: gnucobpg.info,  Node: PICTURE,  Next: PRESENT WHEN,  Prev: OVERLINE,  Up: Data Description Clauses
 
-6.9.38 PICTURE
+6.9.37 PICTURE
 --------------
 
                          PICTURE Clause Syntax
@@ -3122,7 +3102,7 @@ by that clause.
 
 File: gnucobpg.info,  Node: PRESENT WHEN,  Next: PROMPT,  Prev: PICTURE,  Up: Data Description Clauses
 
-6.9.39 PRESENT WHEN
+6.9.38 PRESENT WHEN
 -------------------
 
                       PRESENT-WHEN Clause Syntax
@@ -3150,7 +3130,7 @@ suppression of a report group.
 
 File: gnucobpg.info,  Node: PROMPT,  Next: PROTECTED,  Prev: PRESENT WHEN,  Up: Data Description Clauses
 
-6.9.40 PROMPT
+6.9.39 PROMPT
 -------------
 
                          PROMPT Clause Syntax
@@ -3181,7 +3161,7 @@ screen colors and video attributes.
 
 File: gnucobpg.info,  Node: PROTECTED,  Next: REDEFINES,  Prev: PROMPT,  Up: Data Description Clauses
 
-6.9.41 PROTECTED
+6.9.40 PROTECTED
 ----------------
 
                       PROTECTED Attribute Syntax
@@ -3243,7 +3223,7 @@ File: gnucobpg.info,  Node: PROTECTED,  Next: REDEFINES,  Prev: PROMPT,  Up: Dat
 
 File: gnucobpg.info,  Node: REDEFINES,  Next: RENAMES,  Prev: PROTECTED,  Up: Data Description Clauses
 
-6.9.42 REDEFINES
+6.9.41 REDEFINES
 ----------------
 
                         REDEFINES Clause Syntax
@@ -3294,7 +3274,7 @@ object) to occupy the same physical storage space as IDENTIFIER-1
 
 File: gnucobpg.info,  Node: RENAMES,  Next: REQUIRED,  Prev: REDEFINES,  Up: Data Description Clauses
 
-6.9.43 RENAMES
+6.9.42 RENAMES
 --------------
 
                          RENAMES Clause Syntax
@@ -3325,7 +3305,7 @@ alternative, possibly overlapping, groupings of elementary data items.
 
 File: gnucobpg.info,  Node: REQUIRED,  Next: REVERSE-VIDEO,  Prev: RENAMES,  Up: Data Description Clauses
 
-6.9.44 REQUIRED
+6.9.43 REQUIRED
 ---------------
 
                        REQUIRED Attribute Syntax
@@ -3362,7 +3342,7 @@ is specified on a group item).
 
 File: gnucobpg.info,  Node: REVERSE-VIDEO,  Next: SAME AS,  Prev: REQUIRED,  Up: Data Description Clauses
 
-6.9.45 REVERSE-VIDEO
+6.9.44 REVERSE-VIDEO
 --------------------
 
                     REVERSE-VIDEO Attribute Syntax
@@ -3388,7 +3368,7 @@ screen colors and video attributes.
 
 File: gnucobpg.info,  Node: SAME AS,  Next: SCROLL DOWN,  Prev: REVERSE-VIDEO,  Up: Data Description Clauses
 
-6.9.46 SAME AS
+6.9.45 SAME AS
 --------------
 
                          SAME-AS Clause Syntax
@@ -3470,7 +3450,7 @@ another data item.
 
 File: gnucobpg.info,  Node: SCROLL DOWN,  Next: SCROLL UP,  Prev: SAME AS,  Up: Data Description Clauses
 
-6.9.47 SCROLL DOWN
+6.9.46 SCROLL DOWN
 ------------------
 
                      SCROLL-DOWN Attribute Syntax
@@ -3488,7 +3468,7 @@ SCROLL DOWN
 
 File: gnucobpg.info,  Node: SCROLL UP,  Next: SECURE,  Prev: SCROLL DOWN,  Up: Data Description Clauses
 
-6.9.48 SCROLL UP
+6.9.47 SCROLL UP
 ----------------
 
                       SCROLL-UP Attribute Syntax
@@ -3507,7 +3487,7 @@ SCROLL UP
 
 File: gnucobpg.info,  Node: SECURE,  Next: SIGN IS,  Prev: SCROLL UP,  Up: Data Description Clauses
 
-6.9.49 SECURE
+6.9.48 SECURE
 -------------
 
                         SECURE Attribute Syntax
@@ -3538,7 +3518,7 @@ screen colors and video attributes.
 
 File: gnucobpg.info,  Node: SIGN IS,  Next: SIZE,  Prev: SECURE,  Up: Data Description Clauses
 
-6.9.50 SIGN IS
+6.9.49 SIGN IS
 --------------
 
                          SIGN-IS Clause Syntax
@@ -3596,7 +3576,7 @@ clause.
 
 File: gnucobpg.info,  Node: SIZE,  Next: SOURCE,  Prev: SIGN IS,  Up: Data Description Clauses
 
-6.9.51 SIZE
+6.9.50 SIZE
 -----------
 
                           SIZE Clause Syntax
@@ -3622,7 +3602,7 @@ specified>' The variable accepts to its field length.
 
 File: gnucobpg.info,  Node: SOURCE,  Next: SPECIAL-NAMES.,  Prev: SIZE,  Up: Data Description Clauses
 
-6.9.52 SOURCE
+6.9.51 SOURCE
 -------------
 
                          SOURCE Clause Syntax
@@ -3667,7 +3647,7 @@ data item defined elsewhere in the data division.
 
 File: gnucobpg.info,  Node: SPECIAL-NAMES.,  Next: SUM OF,  Prev: SOURCE,  Up: Data Description Clauses
 
-6.9.53 SPECIAL-NAMES.
+6.9.52 SPECIAL-NAMES.
 ---------------------
 
                       SPECIAL-NAMES Clause Syntax
@@ -3698,7 +3678,7 @@ Special-Names items directly in the Data Division.  Sample of use:
 
 File: gnucobpg.info,  Node: SUM OF,  Next: SYNCHRONIZED,  Prev: SPECIAL-NAMES.,  Up: Data Description Clauses
 
-6.9.54 SUM OF
+6.9.53 SUM OF
 -------------
 
                          SUM-OF Clause Syntax
@@ -3777,7 +3757,7 @@ arithmetically calculated whenever the field is presented.
 
 File: gnucobpg.info,  Node: SYNCHRONIZED,  Next: TIME OUT,  Prev: SUM OF,  Up: Data Description Clauses
 
-6.9.55 SYNCHRONIZED
+6.9.54 SYNCHRONIZED
 -------------------
 
                           SYNCHRONIZED Syntax
@@ -3819,7 +3799,7 @@ CPU to fetch them.
 
 File: gnucobpg.info,  Node: TIME OUT,  Next: TO,  Prev: SYNCHRONIZED,  Up: Data Description Clauses
 
-6.9.56 TIME OUT
+6.9.55 TIME OUT
 ---------------
 
                         TIME-OUT Clause Syntax
@@ -3838,7 +3818,7 @@ TIME OUT
 
 File: gnucobpg.info,  Node: TO,  Next: TYPE,  Prev: TIME OUT,  Up: Data Description Clauses
 
-6.9.57 TO
+6.9.56 TO
 ---------
 
                            TO Clause Syntax
@@ -3864,7 +3844,7 @@ data item defined elsewhere in the data division.
 
 File: gnucobpg.info,  Node: TYPE,  Next: TYPEDEF,  Prev: TO,  Up: Data Description Clauses
 
-6.9.58 TYPE
+6.9.57 TYPE
 -----------
 
                           TYPE Clause Syntax
@@ -4085,7 +4065,7 @@ File: gnucobpg.info,  Node: TYPE,  Next: TYPEDEF,  Prev: TO,  Up: Data Descripti
 
 File: gnucobpg.info,  Node: TYPEDEF,  Next: UNDERLINE,  Prev: TYPE,  Up: Data Description Clauses
 
-6.9.59 TYPEDEF
+6.9.58 TYPEDEF
 --------------
 
                          TYPEDEF Clause Syntax
@@ -4144,9 +4124,9 @@ LOCAL-STORAGE and LINKAGE
      1 that includes a TYPEDEF clause is not a record description entry.
 
 
-File: gnucobpg.info,  Node: UNDERLINE,  Next: UPDATE,  Prev: TYPEDEF,  Up: Data Description Clauses
+File: gnucobpg.info,  Node: UNDERLINE,  Next: UPPER,  Prev: TYPEDEF,  Up: Data Description Clauses
 
-6.9.60 UNDERLINE
+6.9.59 UNDERLINE
 ----------------
 
                       UNDERLINE Attribute Syntax
@@ -4178,30 +4158,9 @@ edge of a screen field.
 screen colors and video attributes.
 
 
-File: gnucobpg.info,  Node: UPDATE,  Next: UPPER,  Prev: UNDERLINE,  Up: Data Description Clauses
+File: gnucobpg.info,  Node: UPPER,  Next: USAGE,  Prev: UNDERLINE,  Up: Data Description Clauses
 
-6.9.61 UPDATE
--------------
-
-                         UPDATE Clause Syntax
-=======================================================================
-
-UPDATE
-~~~~~~
-
-
-=======================================================================
-   This syntax is valid in the following sections: ‘SCREEN’
-
-   The ‘UPDATE’ clause will display the existing data before allowing
-user to update it.  The ‘DEFAULT’ clause is synonymous with the ‘UPDATE’
-clause.
-
-
-
-File: gnucobpg.info,  Node: UPPER,  Next: USAGE,  Prev: UPDATE,  Up: Data Description Clauses
-
-6.9.62 UPPER
+6.9.60 UPPER
 ------------
 
                           UPPER Clause Syntax
@@ -4220,7 +4179,7 @@ UPPER
 
 File: gnucobpg.info,  Node: USAGE,  Next: USING,  Prev: UPPER,  Up: Data Description Clauses
 
-6.9.63 USAGE
+6.9.61 USAGE
 ------------
 
                           USAGE Clause Syntax
@@ -4796,7 +4755,7 @@ value of a data item.
 
 File: gnucobpg.info,  Node: USING,  Next: VALUE,  Prev: USAGE,  Up: Data Description Clauses
 
-6.9.64 USING
+6.9.62 USING
 ------------
 
                           USING Clause Syntax
@@ -4827,7 +4786,7 @@ data item defined elsewhere in the data division.
 
 File: gnucobpg.info,  Node: VALUE,  Prev: USING,  Up: Data Description Clauses
 
-6.9.65 VALUE
+6.9.63 VALUE
 ------------
 
                  VALUE (Condition Names) Clause Syntax
@@ -6348,10 +6307,8 @@ File: gnucobpg.info,  Node: ACCEPT data-item,  Next: ACCEPT FROM DATE/TIME,  Pre
                             ~~~~
                  [ CONVERSION ]
                    ~~~~~~~~~~
-                 [ [ NO ] { UPDATE  } ]
-                 [   ~~   { ~~~~~~  } ]
-                 [        { DEFAULT } ]
-                            ~~~~~~~
+                 [ { UPDATE | DEFAULT } ]
+                     ~~~~~~~  ~~~~~~~
                  [ CURSOR { identifier-10 } ]
                    ~~~~~~
                  [ PROTECTED SIZE IS  { integer-8     } ]
@@ -6442,8 +6399,6 @@ working storage item or a formatted console window screen.
 
         • ‘LOWLIGHT’ (*note LOWLIGHT::)
 
-        • ‘NO UPDATE’ (*note NO UPDATE::)
-
         • ‘OVERLINE’ (*note OVERLINE::)
 
         • ‘PROMPT’ (*note PROMPT::)
@@ -6465,7 +6420,7 @@ working storage item or a formatted console window screen.
 
         • ‘TIME OUT’ (*note TIME OUT::)
 
-        • ‘UPDATE’ (*note UPDATE::)
+        • UPDATE (See below)
 
         • ‘UPPER’ (*note UPPER::)
 
@@ -6489,9 +6444,15 @@ working storage item or a formatted console window screen.
      specified as a positive integer or a numeric data item with a
      positive value.
 
-  11. The ‘UPDATE’ option will enable the supplied data field to be
-     updated having been displayed on screen prior to data being entered
-     by overwriting, if needed.  When this option is not used the input
+  11. The UPDATE clause will display the existing data before allowing
+     user to update it.  This allows the user to update the field
+     without having to type it all again.  The DEFAULT clause is
+     synonymous with the UPDATE clause.  Without this clause, the ACCEPT
+     field is always blank.
+
+     This clause will enable the supplied data field to be updated
+     having been displayed on screen prior to data being entered by
+     overwriting, if needed.  When this option is not used the input
      field is cleared prior to input and this is the default but can be
      changed by the use of compiler steering command
      -faccept-with-update that can be input when starting the compiler
