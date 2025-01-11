@@ -3,7 +3,7 @@
 <!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<!-- This manual documents GnuCOBOL 3.2 - Final, 8 January 2025 at 19:00 GMT. build.
+<!-- This manual documents GnuCOBOL 3.2 - Final, 11th January 2025 at 17:40 GMT. build.
 
 
 Document: Copyright 2009-2014 Gary L. Cutler & FSF (Free Software Foundation).
@@ -73,7 +73,7 @@ ul.toc-numbered-mark {list-style: none}
 
 <div class="top-level-extent" id="Top">
 <h1 class="top" id="GnuCOBOL-Programmer_0027s-Guide"><span>GnuCOBOL Programmer&rsquo;s Guide<a class="copiable-link" href="#GnuCOBOL-Programmer_0027s-Guide"> &para;</a></span></h1>
-<p>This manual documents the 8 January 2025 at 19:00 GMT. build of GnuCOBOL 3.2 - Final.
+<p>This manual documents the 11th January 2025 at 17:40 GMT. build of GnuCOBOL 3.2 - Final.
 </p><br>
 <div class="region-contents" id="SEC_Contents">
 <h2 class="contents-heading">Table of Contents</h2>
@@ -10719,8 +10719,10 @@ As an example: ACCEPT identifier-1 FROM ENVIRONMENT &rsquo;COB_INSERT_MODE&rsquo
                             ~~~~
                  [ CONVERSION ]
                    ~~~~~~~~~~
-                 [ { UPDATE | DEFAULT } ]
-                     ~~~~~~~  ~~~~~~~
+                 [ [ NO ] { UPDATE  } ]
+                 [   ~~   { ~~~~~~  } ]
+                 [        { DEFAULT } ]
+                            ~~~~~~~
                  [ CURSOR { identifier-10 } ]
                    ~~~~~~
                  [ PROTECTED SIZE IS  { integer-8     } ]
@@ -10832,7 +10834,11 @@ clauses are syntactically recognized but are otherwise non-functional.
 <a class="index-entry-id" id="index-TIMEOUT"></a>
 <code class="code">TIMEOUT</code> option will cause the <code class="code">ACCEPT</code> to wait no more than the specified number of seconds for input.  The wait count may be specified as a positive integer or a numeric data item with a positive value.
 
-</li><li> The UPDATE clause will display the existing data before allowing user to update it. This allows the user to update the field without having to type it all again. The DEFAULT clause is synonymous with the UPDATE clause. Without this clause, the ACCEPT field is always blank.
+</li><li> The
+<a class="index-entry-id" id="index-UPDATE"></a>
+<code class="code">UPDATE</code> option will display the existing data before allowing user to update it. This allows the user to update the field without having to type it all again. The <a class="index-entry-id" id="index-DEFAULT-1"></a>
+<code class="code">DEFAULT</code> clause is synonymous with the <a class="index-entry-id" id="index-UPDATE-1"></a>
+<code class="code">UPDATE</code> clause. Without this clause, the ACCEPT field is always blank (NO UPDATE or NO DEFAULT) is assumed.
 
 <p>This clause will enable the supplied data field to be updated having been displayed on screen prior to data being entered by overwriting, if needed. When this option is <i class="i">not</i> used the input field is cleared prior to input and this is the default but can be changed by the use of compiler steering command -faccept-with-update that can be input when starting the compiler or included in the configuration file e.g., default.conf used when selected by default <samp class="option">-std=default</samp>. For more information see <a class="ref" href="#cobc-_002d-The-GnuCOBOL-Compiler">cobc - The GnuCOBOL Compiler</a> option switches) and <a class="ref" href="#Compiler-Configuration-Files">Compiler Configuration Files</a>.
 </p>
@@ -13531,7 +13537,7 @@ END-EVALUATE.
 <code class="code">VALUE</code>,
 <a class="index-entry-id" id="index-REPLACING-2"></a>
 <code class="code">REPLACING</code> or
-<a class="index-entry-id" id="index-DEFAULT-1"></a>
+<a class="index-entry-id" id="index-DEFAULT-2"></a>
 <code class="code">DEFAULT</code> clauses are coded, each member of the field list will be initialized as if the figurative constant <code class="code">ZERO</code> (if the field list item is numeric or numeric-edited) or <code class="code">SPACES</code> (otherwise) were being moved to it.
 
 </li><li> If a <code class="code">VALUE</code> clause is specified on the <code class="code">INITIALIZE</code> statement, each qualifying member of the field list having a compile-time <code class="code">VALUE</code> (see <a class="pxref" href="#VALUE">VALUE</a>) specified in its definition will be initialized to that value.  Field list members with <code class="code">VALUE</code> clauses will qualify for this treatment as follows:
@@ -28791,7 +28797,7 @@ NOTE: This feature will prevent you ever migrating source code compiled for gnuc
 <a class="index-entry-id" id="index-Grouped-Word-Lists-by-feature-and-function"></a>
 <p>The following is the complete list of ALL reserved words
 <a class="index-entry-id" id="index-Reserved-Words-1"></a>
-in the 8 January 2025 at 19:00 GMT. build of GnuCOBOL 3.2 - Final.  Even though the functionality behind some of these words may not be implemented in this version of GnuCOBOL, none may be used as any user-defined name. This list includes ALL reserved, intrinsics, mnemonics and system and shows some 1100+ words in total. In addition there are the arithmetic and relational symbols as well as extra words that can be added and existing words removed by the use of the &ndash;std file content see the specific one used for each sub-set.
+in the 11th January 2025 at 17:40 GMT. build of GnuCOBOL 3.2 - Final.  Even though the functionality behind some of these words may not be implemented in this version of GnuCOBOL, none may be used as any user-defined name. This list includes ALL reserved, intrinsics, mnemonics and system and shows some 1100+ words in total. In addition there are the arithmetic and relational symbols as well as extra words that can be added and existing words removed by the use of the &ndash;std file content see the specific one used for each sub-set.
 </p>
 <p>The following list of reserved words was extracted from
 <code class="code">cobc --list-reserved</code> and shows the reserved words, an implementation
@@ -30793,6 +30799,8 @@ Removed all update notes for 2021 - 23.
 
 </li><li> 08/01 Removed all update notes for period 2021 to 2023. Removed references in section 6 for NO UPDATE and UPDATE as not used within SCREEN SECTION, ditto files SYN-DD-UPDATE.texi amd -NO-UPDATE.texi. Remove NO UPDATE from ACCEPT data-item (4) also change text for UPDATE as section 6 ref removed. Chg to SYN-DD-SS-Data-Item.texi.
 
+</li><li> 11/01 Minor textual change to ACCEPT Data-Item for UPDATE and DEFAULT - see as on 08/01.
+
 
 </li></ol>
 <hr>
@@ -31400,7 +31408,8 @@ Removed all update notes for 2021 - 23.
 <tr><td></td><td class="printindex-index-entry"><a href="#index-DECIMAL-POINT-IS-COMMA">DECIMAL POINT IS COMMA</a></td><td class="printindex-index-section"><a href="#SPECIAL_002dNAMES">SPECIAL-NAMES</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-DECLARATIVES">DECLARATIVES</a></td><td class="printindex-index-section"><a href="#PROCEDURE-DIVISION-Sections-and-Paragraphs">PROCEDURE DIVISION Sections and Paragraphs</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-DEFAULT">DEFAULT</a></td><td class="printindex-index-section"><a href="#CONSTANT">CONSTANT</a></td></tr>
-<tr><td></td><td class="printindex-index-entry"><a href="#index-DEFAULT-1">DEFAULT</a></td><td class="printindex-index-section"><a href="#INITIALIZE">INITIALIZE</a></td></tr>
+<tr><td></td><td class="printindex-index-entry"><a href="#index-DEFAULT-1">DEFAULT</a></td><td class="printindex-index-section"><a href="#ACCEPT-data_002ditem">ACCEPT data-item</a></td></tr>
+<tr><td></td><td class="printindex-index-entry"><a href="#index-DEFAULT-2">DEFAULT</a></td><td class="printindex-index-section"><a href="#INITIALIZE">INITIALIZE</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-DEFINED">DEFINED</a></td><td class="printindex-index-section"><a href="#g_t_003e_003eIF">&gt;&gt;IF</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-DELETE">DELETE</a></td><td class="printindex-index-section"><a href="#CONTINUE">CONTINUE</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-DELIMITED-BY">DELIMITED BY</a></td><td class="printindex-index-section"><a href="#STRING">STRING</a></td></tr>
@@ -32226,6 +32235,8 @@ Removed all update notes for 2021 - 23.
 <tr><td></td><td class="printindex-index-entry"><a href="#index-UNSTRING">UNSTRING</a></td><td class="printindex-index-section"><a href="#UNLOCK">UNLOCK</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-UNTIL">UNTIL</a></td><td class="printindex-index-section"><a href="#Procedural-PERFORM">Procedural PERFORM</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-UNTIL-EXIT">UNTIL EXIT</a></td><td class="printindex-index-section"><a href="#Procedural-PERFORM">Procedural PERFORM</a></td></tr>
+<tr><td></td><td class="printindex-index-entry"><a href="#index-UPDATE">UPDATE</a></td><td class="printindex-index-section"><a href="#ACCEPT-data_002ditem">ACCEPT data-item</a></td></tr>
+<tr><td></td><td class="printindex-index-entry"><a href="#index-UPDATE-1">UPDATE</a></td><td class="printindex-index-section"><a href="#ACCEPT-data_002ditem">ACCEPT data-item</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-UPON">UPON</a></td><td class="printindex-index-section"><a href="#SUM-OF">SUM OF</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-UPON-1">UPON</a></td><td class="printindex-index-section"><a href="#DISPLAY-UPON-device">DISPLAY UPON device</a></td></tr>
 <tr><td></td><td class="printindex-index-entry"><a href="#index-UPON-CRT">UPON CRT</a></td><td class="printindex-index-section"><a href="#DISPLAY-data_002ditem">DISPLAY data-item</a></td></tr>
