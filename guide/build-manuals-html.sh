@@ -26,25 +26,25 @@ make PDFs/gnucobsp-letter.pdf
 echo
 #
 echo "GC manual build (GNU Info)"
-make info/gnucobpg.info
-make info/gnucobpr.info
+#make info/gnucobpg.info
+#make info/gnucobpr.info
 make info/gnucobqr.info
 make info/gnucobsp.info
 echo
 #
-echo "GC manual build (HTML splitted)"
-make HTML/gnucobpg.html
-make HTML/gnucobpr.html
-make HTML/gnucobqr.html
-make HTML/gnucobsp.html
-echo
+#echo "GC manual build (HTML splitted)"
+#make HTML/gnucobpg.html
+#make HTML/gnucobpr.html
+#make HTML/gnucobqr.html
+#make HTML/gnucobsp.html
+#echo
 
 #echo "GC manual build (HTML monolitic)"
-#make HTML/gnucobpg/index.html
-#make HTML/gnucobpr/index.html
-#make HTML/gnucobqr/index.html
-#make HTML/gnucobsp/index.html
-#echo
+make HTML/gnucobpg/index.html
+make HTML/gnucobpr/index.html
+make HTML/gnucobqr/index.html
+make HTML/gnucobsp/index.html
+echo
 
 echo "GC manual build complete"
 exit 0
