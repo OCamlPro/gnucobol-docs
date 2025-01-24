@@ -40,11 +40,11 @@ echo
 #echo
 
 #echo "GC manual build (HTML monolitic)"
-make HTML/gnucobpg/index.html
-make HTML/gnucobpr/index.html
-make HTML/gnucobqr/index.html
-make HTML/gnucobsp/index.html
-echo
+#make HTML/gnucobpg/index.html
+#make HTML/gnucobpr/index.html
+#make HTML/gnucobqr/index.html
+#make HTML/gnucobsp/index.html
+#echo
 
 echo "GC manual build complete"
 exit 0
