@@ -1657,6 +1657,7 @@ recognized but are otherwise non-functional.
           [    { ~~~~~~   ~~~   ~~~~~~~~   ~~~        { identifier-3 } ]
           [    { { integer-3    }                                    } ]
           [    { { identifier-4 }                                    } ]
+
           [ WITH [ AUTO | AUTO-SKIP | AUTOTERMINATE | TAB ]
             ~~~~   ~~~~   ~~~~~~~~~   ~~~~~~~~~~~~~   ~~~
                  [ [ NO ] { BELL } ]
@@ -1703,8 +1704,10 @@ recognized but are otherwise non-functional.
                    ~~~~~~
                  [ PROTECTED SIZE IS  { integer-8     } ]
                  [           ~~~~     { identifier-11 } ]
+
                  [ CONTROL        { literal-8     } ]
                  [ ~~~~~~~        { identifier-12 } ]
+
                  [ { COLOUR } IS  { integer-9     } ]
                  [ { COLOR  }     { identifier-13 } ]
                     ~~~~~~
@@ -2117,14 +2120,16 @@ statement, which will generate a file status of 07 rather than the usual
                        DISPLAY Data-Item Syntax
 =======================================================================
 
-   DISPLAY  identifier-1 [ UPON CRT|CRT-UNDER ] [ MODE IS BLOCK ]
-   ~~~~~~~  literal-1      ~~~~ ~~~ ~~~~~~~~~     ~~~~    ~~~~~
+   DISPLAY { identifier-1 } [ UPON CRT|CRT-UNDER ] [ MODE IS BLOCK ]
+   ~~~~~~~ { literal-1    }   ~~~~ ~~~ ~~~~~~~~~     ~~~~    ~~~~~
+
           [ AT { LINE                          NUMBER { integer-1    } ]
           [ ~~ { ~~~~                                 { identifier-2 } ]
           [    { COLUMN | COL | POSITION | POS NUMBER { integer-2    } ]
           [    { ~~~~~~   ~~~   ~~~~~~~~   ~~~        { identifier-3 } ]
           [    { { integer-3    }                                    } ]
           [    { { identifier-4 }                                    } ]
+
           [ WITH [ BELL | BEEP ]
             ~~~~   ~~~~   ~~~~
                  [ BLANK { LINE|SCREEN } ]
@@ -2146,7 +2151,7 @@ statement, which will generate a file status of 07 rather than the usual
                  [ OVERLINE ] [ UNDERLINE ]
                    ~~~~~~~~     ~~~~~~~~~
                  [ SCROLL [ UP   ] [ { integer-4    } { LINE|LINES } ] ]
-                 [ ~~~~~~ [ ~~   ] [ { identifier-5 } { ~~~~ ~~~~~ } ] ]
+                 [ ~~~~~~ [ ~~   ] [ { identifier-5 }   ~~~~ ~~~~~   ] ]
                  [        [ DOWN ]                                     ]
                             ~~~~
                  [ CONVERSION ]
@@ -2156,6 +2161,7 @@ statement, which will generate a file status of 07 rather than the usual
 
                  [ CONTROL  { literal-7    } ]
                  [ ~~~~~~~  { identifier-7 } ]
+
                  [ { COLOUR } IS  { integer-8    } ]
                  [ { COLOR  }     { identifier-8 } ]
                      ~~~~~~
@@ -2180,12 +2186,14 @@ COBOL implementations.
      [ WITH [ Attribute-Specification ]...
        ~~~~
             [ ERASE  { SCREEN|LINE }  ]
+
             [ SCROLL { UP   } [ { integer-3    } LINE|LINES ] ]
-              ~~~~~~  { ~~   }   { identifier-3 }
-                                        { DOWN }
-                                          ~~~~
-            [ SIZE { integer-4    }
-              ~~~~ { identifier-4 } ]
+            [ ~~~~~~ { ~~   } [ { identifier-3 }            ] ]
+            [        { DOWN }                                 ]
+                       ~~~~
+            [ SIZE { integer-4    } ]
+            [ ~~~~ { identifier-4 } ]
+
    [ END-DISPLAY ]
      ~~~~~~~~~~~
 
@@ -5318,9 +5326,9 @@ Node: IDENTIFICATION DIVISION Syntax14929
 Node: ENVIRONMENT DIVISION Syntax17718
 Node: DATA DIVISION Syntax30622
 Node: PROCEDURE DIVISION Syntax48201
-Node: Intrinsic Functions Syntax128942
-Node: Built-In Subroutines Syntax155454
-Node: GNU Free Documentation License174049
+Node: Intrinsic Functions Syntax128968
+Node: Built-In Subroutines Syntax155480
+Node: GNU Free Documentation License174075
 
 End Tag Table
 

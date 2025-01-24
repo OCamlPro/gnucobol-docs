@@ -1648,6 +1648,7 @@ Where the USE statement can be one of 4 formats:
           [    { ~~~~~~   ~~~   ~~~~~~~~   ~~~        { identifier-3 } ]
           [    { { integer-3    }                                    } ]
           [    { { identifier-4 }                                    } ]
+
           [ WITH [ AUTO | AUTO-SKIP | AUTOTERMINATE | TAB ]
             ~~~~   ~~~~   ~~~~~~~~~   ~~~~~~~~~~~~~   ~~~
                  [ [ NO ] { BELL } ]
@@ -1694,8 +1695,10 @@ Where the USE statement can be one of 4 formats:
                    ~~~~~~
                  [ PROTECTED SIZE IS  { integer-8     } ]
                  [           ~~~~     { identifier-11 } ]
+
                  [ CONTROL        { literal-8     } ]
                  [ ~~~~~~~        { identifier-12 } ]
+
                  [ { COLOUR } IS  { integer-9     } ]
                  [ { COLOR  }     { identifier-13 } ]
                     ~~~~~~
@@ -2109,14 +2112,16 @@ clauses are syntactically recognized but are otherwise non-functional, except fo
 </div><div class="center">DISPLAY Data-Item Syntax
 </div><div class="center">=======================================================================
 </div><br>
-<pre class="verbatim">   DISPLAY  identifier-1 [ UPON CRT|CRT-UNDER ] [ MODE IS BLOCK ]
-   ~~~~~~~  literal-1      ~~~~ ~~~ ~~~~~~~~~     ~~~~    ~~~~~
+<pre class="verbatim">   DISPLAY { identifier-1 } [ UPON CRT|CRT-UNDER ] [ MODE IS BLOCK ]
+   ~~~~~~~ { literal-1    }   ~~~~ ~~~ ~~~~~~~~~     ~~~~    ~~~~~
+
           [ AT { LINE                          NUMBER { integer-1    } ]
           [ ~~ { ~~~~                                 { identifier-2 } ]
           [    { COLUMN | COL | POSITION | POS NUMBER { integer-2    } ]
           [    { ~~~~~~   ~~~   ~~~~~~~~   ~~~        { identifier-3 } ]
           [    { { integer-3    }                                    } ]
           [    { { identifier-4 }                                    } ]
+
           [ WITH [ BELL | BEEP ]
             ~~~~   ~~~~   ~~~~
                  [ BLANK { LINE|SCREEN } ]
@@ -2138,7 +2143,7 @@ clauses are syntactically recognized but are otherwise non-functional, except fo
                  [ OVERLINE ] [ UNDERLINE ]
                    ~~~~~~~~     ~~~~~~~~~
                  [ SCROLL [ UP   ] [ { integer-4    } { LINE|LINES } ] ]
-                 [ ~~~~~~ [ ~~   ] [ { identifier-5 } { ~~~~ ~~~~~ } ] ]
+                 [ ~~~~~~ [ ~~   ] [ { identifier-5 }   ~~~~ ~~~~~   ] ]
                  [        [ DOWN ]                                     ]
                             ~~~~
                  [ CONVERSION ]
@@ -2148,6 +2153,7 @@ clauses are syntactically recognized but are otherwise non-functional, except fo
 
                  [ CONTROL  { literal-7    } ]
                  [ ~~~~~~~  { identifier-7 } ]
+
                  [ { COLOUR } IS  { integer-8    } ]
                  [ { COLOR  }     { identifier-8 } ]
                      ~~~~~~
@@ -2176,12 +2182,14 @@ clauses are syntactically recognized but are otherwise non-functional.  They are
      [ WITH [ Attribute-Specification ]...
        ~~~~
             [ ERASE  { SCREEN|LINE }  ]
+
             [ SCROLL { UP   } [ { integer-3    } LINE|LINES ] ]
-              ~~~~~~  { ~~   }   { identifier-3 }
-                                        { DOWN }
-                                          ~~~~
-            [ SIZE { integer-4    }
-              ~~~~ { identifier-4 } ]
+            [ ~~~~~~ { ~~   } [ { identifier-3 }            ] ]
+            [        { DOWN }                                 ]
+                       ~~~~
+            [ SIZE { integer-4    } ]
+            [ ~~~~ { identifier-4 } ]
+
    [ END-DISPLAY ]
      ~~~~~~~~~~~
 
