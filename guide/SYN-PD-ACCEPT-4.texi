@@ -1,41 +1,34 @@
-   ACCEPT { identifier-1 }
-   ~~~~~~ { OMITTED      }
+   ACCEPT { identifier-1 } [{ FROM EXCEPTION-STATUS }] [FROM CRT] [ MODE IS BLOCK ]
+   ~~~~~~ { OMITTED      }    ~~~~ ~~~~~~~~~~~~~~~~     ~~~~ ~~~    ~~~~    ~~~~~
             ~~~~~~~
-          [ { FROM EXCEPTION-STATUS } ]
-             ~~~~ ~~~~~~~~~~~~~~~~
-          [ FROM CRT ] [ MODE IS BLOCK ]
-            ~~~~ ~~~     ~~~~    ~~~~~
-          [ AT { LINE                          NUMBER { integer-1    } ]
-          [ ~~ { ~~~~                                 { identifier-2 } ]
-          [    { COLUMN | COL | POSITION | POS NUMBER { integer-2    } ]
-          [    { ~~~~~~   ~~~   ~~~~~~~~   ~~~        { identifier-3 } ]
-          [    { { integer-3    }                                    } ]
-          [    { { identifier-4 }                                    } ]
+
+          [ AT { LINE            NUMBER { integer-1               } ]
+          [ ~~ { ~~~~                   { identifier-2            } ]
+          [    {                        { arithmetic-expression-1 } ]
+          [    { COLUMN|POSITION NUMBER { integer-2               } ]
+          [    { ~~~    ~~~             { identifier-3            } ]
+          [    {                        { arithmetic-expression-2 } ]
+          [    { { integer-3    }                                 } ]
+          [    { { identifier-4 }                                 } ]
 
           [ WITH [ AUTO | AUTO-SKIP | AUTOTERMINATE | TAB ]
             ~~~~   ~~~~   ~~~~~~~~~   ~~~~~~~~~~~~~   ~~~
-                 [ [ NO ] { BELL } ]
-                     ~~     ~~~~
-                 [        { BEEP } ]
-                            ~~~~
+                 [ [ NO ] { BELL | BEEP } ]
+                     ~~     ~~~~   ~~~~
                  [ PROMPT [ CHARACTER IS literal-2 | identifier-5 ]
                    ~~~~~~   ~~~~~~~~~
-                 [ BACKGROUND-COLOR|BACKGROUND-COLOUR IS integer-4|identifier-6]
+                 [ BACKGROUND-COLOR|BACKGROUND-COLOUR IS integer-4|identifier-6 ]
                    ~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~
-                 [ FOREGROUND-COLOR|FOREGROUND-COLOUR IS integer-5|identifier-7]
+                 [ FOREGROUND-COLOR|FOREGROUND-COLOUR IS integer-5|identifier-7 ]
                    ~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~
-                 [ HIGHLIGHT | LOWLIGHT ]
-                   ~~~~~~~~~   ~~~~~~~~
-                 [ BLINK ]
-                   ~~~~~
+                 [ HIGHLIGHT | LOWLIGHT ] [ BLINK ]
+                   ~~~~~~~~~   ~~~~~~~~     ~~~~~
                  [ REVERSE-VIDEO | REVERSE | REVERSED ]
                    ~~~~~~~~~~~~~   ~~~~~~~   ~~~~~~~~
                  [ LEFTLINE ] [ OVERLINE ] [ UNDERLINE ]
                    ~~~~~~~~     ~~~~~~~~     ~~~~~~~~~
-                 [ REQUIRED | EMPTY-CHECK ]
-                   ~~~~~~~~   ~~~~~~~~~~~
-                 [ FULL | LENGTH-CHECK ]
-                   ~~~~   ~~~~~~~~~~~~
+                 [ REQUIRED | EMPTY-CHECK ] [ FULL | LENGTH-CHECK ]
+                   ~~~~~~~~   ~~~~~~~~~~~     ~~~~   ~~~~~~~~~~~~
                  [ NO ECHO | NO-ECHO | OFF | SECURE ]
                    ~~~~~~~   ~~~~~~~   ~~~   ~~~~~~
                  [ LOWER | UPPER ]
@@ -48,12 +41,8 @@
                  [ { ~~~~~~~ ~~~~~~~~       } { identifier-9 } ]
                  [ { BEFORE TIME            }                  ]
                             ~~~~
-                 [ CONVERSION ]
-                   ~~~~~~~~~~
-                 [ [ NO ] { UPDATE  } ]
-                     ~~     ~~~~~~
-                 [        { DEFAULT } ]
-                            ~~~~~~~
+                 [ [ NO ] { UPDATE | DEFAULT } ]  [ CONVERSION ]
+                     ~~     ~~~~~~   ~~~~~~~        ~~~~~~~~~~
                  [ CURSOR { identifier-10 } ]
                    ~~~~~~
                  [ PROTECTED SIZE IS  { integer-8     } ]
@@ -62,9 +51,9 @@
                  [ CONTROL        { literal-8     } ]
                  [ ~~~~~~~        { identifier-12 } ]
 
-                 [ { COLOUR } IS  { integer-9     } ]
-                 [ { COLOR  }     { identifier-13 } ]
-                    ~~~~~~
+                 [ { COLOUR | COLOR } IS { integer-9     } ]
+                 [   ~~~~~~   ~~~~~      { identifier-13 } ]
+
          [ ON EXCEPTION|ESCAPE     imperative-statement-1 ]
               ~~~~~~~~~ ~~~~~~
          [ NOT ON EXCEPTION|ESCAPE imperative-statement-2 ]
