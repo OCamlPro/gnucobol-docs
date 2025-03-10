@@ -21,6 +21,7 @@ The compiler command-line option @option{-D} offers additional control (@pxref{c
 * REPLACE.
 * >>DEFINE.
 * >>IF.
+* >>REF-MOD-ZERO-LENGTH.
 * >>SET.
 * >>SOURCE.
 * >>TURN.
@@ -287,6 +288,25 @@ Two CDF variables, two literals or a single CDF variable and a single literal ma
 The @code{<>} symbol stands for @code{NOT EQUAL TO}.
 @end enumerate
 @end enumerate
+
+@comment *********************************************************************
+@comment ** 3.5.1 >>REF-MOD-ZERO-LENGTH Directive                           **
+@comment *********************************************************************
+@page
+@newsection{>>REF-MOD-ZERO-LENGTH}
+@diagram{CDF >>REF-MOD-ZERO-LENGTH Directive,CDF-REF-MOD-ZERO-LENGTH,CDF-REF-MOD-ZERO-LENGTH,None}
+The @directive{>>REF-MOD-ZERO-LENGTH} specifies whether resultant data items may have zero-length or not.
+@enumerate
+@item
+When this directive is omitted or is specified as off, then when reference-modification results in a zero-length data item, the exception condition EC-BOUND-REF-MOD is raised.
+The resultant data item may now have a length of zero, when the REF-MOD-ZERO-LENGTH compiler directive is in effect to allow it, otherwise the EC-BOUND-REF-MOD exception is raised.
+
+@item
+Previously, the consequence of this result was undefined, though it had been the intention that a zero-length result would always raise the EC-BOUND-REF-MOD exception.
+
+In most cases programmers intend that reference-modification does not result in a zero-length item and expect an exception when this is not the case. In cases where this is not true the REF-MOD-ZERO-LENGTH compiler directive may be specified.
+@end enumerate
+
 @comment *********************************************************************
 @comment ** 3.6 >>SET Directive                                             **
 @comment *********************************************************************
