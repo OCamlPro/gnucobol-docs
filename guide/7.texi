@@ -3970,7 +3970,6 @@ The @statement{MULTIPLY BY} computes the product of one or more data items (@var
 @comment Syntactical Specifications:
 @item
 The reserved words @code{IS} and @code{ON} are optional and may be omitted.  The presence or absence of these words has no effect upon the program.
-@comment Semantic Specifications:
 
 @item
 Both @var{identifier-1} and @var{identifier-2} must be numeric un-edited data items; @var{literal-1} must be a numeric literal.
@@ -4015,8 +4014,44 @@ The optional @syntaxref{ROUNDED} clause available to each @var{identifier-2} wil
 @item
 The optional @code{ON SIZE ERROR} and @code{NOT ON SIZE ERROR} clauses may be used to detect and react to the failure or success, respectively, of an attempt to perform a calculation.  In this case, failure is defined as being an @var{identifier-2} with an insufficient number of digit positions available to the left of any implied decimal point.  @xref{ON SIZE ERROR + NOT ON SIZE ERROR}, for additional information.
 @end enumerate
+
 @comment *********************************************************************
-@comment ** 7.8.29 OPEN                                                    **
+@comment ** 7.8.29 NEXT SENTENCE                                           **
+@comment *********************************************************************
+@page
+@newsubsection{NEXT SENTENCE}
+@diagram{OPEN,PD-NEXT-SENTENCE,PD-NEXT-SENTENCE,none}
+The @statement{NEXT SENTENCE} transfers execution to the first statement following the current sentence, in other words NEXT SENTENCE transfers control to the first statement following the closest separator period. See Appendix A glossary of Terms for "sentence" definition.
+
+It must be noted that when NEXT SENTENCE is specified with END-IF, control does not pass to the statement following the END-IF. Instead, control passes to the statement after the closest following period.
+
+Another equivalent definition is the following: when NEXT SENTENCE is specified, control passes to an implicit CONTINUE statement immediately preceding the next separator period.
+This clause is classed as archaic" and in any event there a better ways of logically doing the same function.
+
+@example
+
+Sample program.
+
+ID DIVISION.
+PROGRAM-ID. TESTNS.
+PROCEDURE DIVISION.
+  display 'Starting ...........'
+  NEXT SENTENCE
+*> acts as a go to to "the first statement after the next separating period"
+  display 'skipped 1 ..........' .
+  display '1st new sentence ...'
+  display '2nd new sentence ...'
+  NEXT SENTENCE
+*> acts as a go to to "the first statement after the next separating period"
+  display 'skipped 2 ..........'
+  display 'skipped 3 ..........' .
+  display 'Ending .............'
+  stop run.
+
+@end example
+
+@comment *********************************************************************
+@comment ** 7.8.29 OPEN                                                     **
 @comment *********************************************************************
 @page
 @newsubsection{OPEN}
