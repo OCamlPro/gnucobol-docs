@@ -770,6 +770,8 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 * SET Switch
 * SET ATTRIBUTE
 * SET LAST EXCEPTION
+* SET identifier
+* SET FCD and KEY DEFINITION BLOCK
 @end detailmenu
 * SORT
 @detailmenu
@@ -4763,6 +4765,8 @@ With a binary search, express the number of entries as a binary number (1,000 = 
 * SET Switch
 * SET ATTRIBUTE
 * SET LAST EXCEPTION
+* SET identifier
+* SET FCD and KEY DEFINITION BLOCK
 @end menu
 @comment *********************************************************************
 @comment ** 7.8.40.1 SET ENVIRONMENT                                        **
@@ -4941,6 +4945,73 @@ The predefined object reference EXCEPTION-OBJECT is set to null, and the last ex
 @item
 This action resets the global exception object completely (FUNCTION EXCEPTION-@{FILE, LOCATION, STATEMENT, STATUS @} ), and will not show anything afterwards), no matter what the last exception was (such as a divide by zero). Use with care.
 @end enumerate
+
+@comment *********************************************************************
+@comment ** 7.8.40.10 SET Identifier                                         **
+@comment *********************************************************************
+@page
+@newsubsubsection{SET Indentifier}
+@diagram{SET Indentifier,PD-SET-10,PD-SET-10,None}
+The @statement{SET Identifier} will set the the specified identifier.
+
+@example
+
+Example of use:
+
+IDENTIFICATION DIVISION.
+PROGRAM-ID. SETSAMPLE.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 BLACK    PIC 99 VALUE 00.
+01 GREEN    PIC 99 VALUE 02.
+01 BG-COLOR PIC 99.
+01 FG-COLOR PIC 99.
+01 wABC     PIC XXX.
+PROCEDURE DIVISION.
+    SET BG-COLOR FG-COLOR TO GREEN
+    SET wABC              TO 'ABC'
+    STOP RUN.
+@end example
+
+@comment *********************************************************************
+@comment ** 7.8.40.11 SET FCD and KEY DEFINITION BLOCK                       **
+@comment *********************************************************************
+@page
+@newsubsubsection{SET FCD and KEY DEFINITION BLOCK}
+@diagram{SET FCD and KEY DEFINITION BLOCK,PD-SET-11,PD-SET-11,None}
+When normal I/O operations (OPEN, READ ...) in a GnuCOBOL program, a FILE CONTROL DESCRIPTION (FCD) is created for each file.
+To access this FCD, set up a FCD definition in the Linkage Section of your program.
+An example FCD COBOL definition is supplied in a file called xfhfcd3.cpy.
+This definition (that takes up no physical memory) can then be mapped onto the FCD you want to read or alter using the following SET statement in your program:
+
+@example
+
+SET ADDRESS OF { identifier-1 } TO ADDRESS OF FH--FCD OF indexedfile
+
+Where the parameters are:
+a. identifier-1 The name of the FCD definition in the Linkage Section of your
+   program;
+b. FH--FCD OF namefile (note the double hyphen). The pointer special register
+automatically allocated to the file with FD-name: indexedfile.
+Following this SET operation, the data items defined in the Linkage Section
+group item identifier-1 become the fields of the FCD of the file referenced
+in the SET statement.
+
+Similarly, you can access the Key Definition Block by:
+
+SET ADDRESS OF { identifier-2 } TO ADDRESS OF FH--KEYDEF OF indexedfile
+
+Where the parameters are:
+a. identifier-2  the name of the key definition Block in the Linkage Section
+of your program;
+b. FH–-KEYDEF of indexedfile (note the double hyphen) the pointer special
+register automatically allocated to the file with FD-name indexfile to point
+to its Key Definition Block.
+
+See also EXTFH  in this document and FH--FCD and FH--KEYDEF into the NEWS
+file.
+@end example
+
 @comment *********************************************************************
 @comment ** 7.8.41 SORT                                                     **
 @comment *********************************************************************
