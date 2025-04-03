@@ -6,16 +6,17 @@
 SOURCES_COMMON = Macros.texi fdl.texi $(wildcard [LNS]*-*.texi)
 
 SOURCES = gnucobpg.texi \
-	1.texi 1-1.texi 2.texi 2-1A.texi 3.texi 4.texi 5.texi 6.texi \
-	7.texi 8.texi 9.texi 10.texi 11.texi 12.texi 13.texi \
+	1.texi 1-1.texi 2.texi 2-1A.texi 3.texi 4.texi \
+	5.texi 6.texi 7.texi 8.texi 9.texi 10.texi \
+	11.texi 12.texi 13.texi \
 	A.texi B.texi C.texi D.texi \
 	cbintr.tex cbmnem.tex cbrese.tex cbsyst.tex updates.texi \
 	$(SOURCES_COMMON)
 
 SOURCES_PR = gnucobpr.texi \
 	1.texi 2.texi 3.texi 4.texi 5.texi 6.texi \
-	7.texi 8.texi 9.texi 10.texi 11.texi 12.texi 13.text \
-	A.texi B.texi C.texi D.texi \
+	7.texi 8.texi 9.texi 10.texi 11.texi 12.texi \
+	13.texi A.texi B.texi C.texi D.texi \
 	cbintr.tex cbmnem.tex cbrese.tex cbsyst.tex updates.texi \
 	$(SOURCES_COMMON)
 
@@ -69,8 +70,9 @@ HTML_OPT = --css-ref=$(CSS) --no-headers \
 INFO_OPT =
 
 html: HTML/gnucobsp.html HTML/gnucobqr.html HTML/gnucobpg.html \
-		HTML/gnucobpg/index.html HTML/gnucobpr.html \
-		HTML/gnucobpr/index.html
+	HTML/gnucobpr.html \
+	HTML/gnucobpg/index.html \
+	HTML/gnucobpr/index.html
 
 # FIXME index.html overlaps with INDEX.html created by the INDEX note
 # FIX:  Who cares about split HTML anyway? Just drop it.

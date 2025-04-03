@@ -290,6 +290,57 @@ The @code{<>} symbol stands for @code{NOT EQUAL TO}.
 @end enumerate
 
 @comment *********************************************************************
+@comment ** Pre defined symbols                                             **
+@comment *********************************************************************
+@page
+@newsubsection{Predefined symbols}
+@verbatim
+
+The GnuCOBOL compiler, predefines a set of compile time option tests.
+
+  NAME                     RETURN VALUE IF TRUE
+-------------------------- ------------------------
+ "OPENCOBOL",              1U)
+ "GNUCOBOL",               1U)
+ "P64",                    sizeof (void *) > 4U)
+ "EXECUTABLE",             cb_flag_main != 0)
+ "MODULE",                 cb_flag_main == 0)
+ "TRUNC",                  cb_binary_truncate != 0)
+ "NOTRUNC",                cb_binary_truncate == 0)
+ "DEBUG",                  cobc_wants_debug != 0)
+ "STICKY-LINKAGE",         cb_sticky_linkage != 0)
+ "NOSTICKY-LINKAGE",       cb_sticky_linkage == 0)
+ "HOSTSIGNS",              cb_host_sign != 0)
+ "NOHOSTSIGNS",            cb_host_sign == 0)
+ "IBMCOMP",                cb_binary_size == CB_BINARY_SIZE_2_4_8)
+ "OCCOMP",                 cb_binary_size == CB_BINARY_SIZE_1_2_4_8)
+ "NOIBMCOMP",              cb_binary_size != CB_BINARY_SIZE_2_4_8)
+
+This can be used for handy things like bit size assumptions (with the
+given cobc configuration, at time of the preprocessing phase of a COBOL
+compile sequence;  that means these are compile time values).
+
+>>IF P64 IS SET
+    display "binary built assuming 8 byte pointers"
+>>END-IF
+
+>>IF GNUCOBOL IS SET
+   display "free COBOL is pretty cool"
+>>END-IF
+
+There are also some testable values for native endian byte order, and
+character set:
+
+>>IF ENDIAN = "BIG" ...
+>>IF ENDIAN = "LITTLE" ...
+
+>>IF CHARSET = "ASCII" ...
+>>IF CHARSET = "EBCDIC" ...
+>>IF CHARSET = "UNKNOWN" ...
+
+@end verbatim
+
+@comment *********************************************************************
 @comment ** 3.5.1 >>REF-MOD-ZERO-LENGTH Directive                           **
 @comment *********************************************************************
 @page
@@ -448,6 +499,20 @@ The directive will (de-)activate exception checks.
 @newsection{>>D}
 @diagram{CDF >>D Directive,CDF-DEBUG,CDF-DEBUG,None}
 The directive removes all floating debug lines if debug mode not active. Otherwise will ignore the directive part of the line.
+These debug lines will only be compiled if the  compiler switch -fdebugging-line is used:
+ `cobc yourprogram.cob  -x  -fdebugging-line `
+
+Note that it will also be compiled if WITH DEBUGGING MODE is coded.
+
+These debug lines will be compiled with at least one of the following ways:
+
+if the  compiler switch -fdebugging-line is used as following sample:
+`cobc yourprogram.cob  -x  -fdebugging-line `
+ by adding the WITH DEBUGGING MODE clause to the SOURCE-COMPUTER paragraph.
+if you set the  run-time environment variable   COB_SET_DEBUG.
+
+A handy trick for those that like to write code that be compiled in both FIXED and FREE forms, is to place the directive in column 5, 6 and 7 meaning you write DEBUG line compiler directives with the >>D starting in column 5 (so the D ends up in column 7 useful for FIXED mode):
+
 @comment ********************************************************************
 @comment ** 3.10 >>>DISPLAY Directive                                      **
 @comment ********************************************************************
