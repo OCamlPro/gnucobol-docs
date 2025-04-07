@@ -1963,7 +1963,7 @@ The optional extension of (AFTER) when used with the @code{CONTINUE} statement p
 @page
 @newsubsection{DELETE}
 @diagram{DELETE,PD-DELETE,PD-DELETE,None}
-The @statement{DELETE} logically deletes a record from a COBOL file.
+The @statement{DELETE} logically deletes a record from a COBOL file and the following pertains to such.
 @enumerate
 @comment Syntactical Specifications:
 @item
@@ -1993,6 +1993,12 @@ The optional @code{INVALID KEY} and @code{NOT INVALID KEY} clauses may be used t
 
 @item
 No @code{INVALID KEY} or @code{NOT INVALID KEY} clause may be specified for a file who's @code{ACCESS MODE IS SEQUENTIAL}.
+
+@item
+For DELETE FILE  takes from 1 to n "ASSIGN" names, sets and return the FILE-STATUS (like ex. 35 FILE not found), has ON EXCEPTION and NOT ON EXCEPTION routines and always deletes all parts belonging to a multi-part ISAM file (the index file or files and the data file).
+
+@item
+Instead CBL_DELETE_FILE takes any "filename string" and only deletes exactly that, while C$DELETE can (depending on the file-type parameter) delete multiple files (like isam.1, isam.2, ...) and also takes a "filename string".
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.12 DISPLAY                                                 **
