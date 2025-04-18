@@ -793,6 +793,32 @@ Use of the TAB phrase forces the user to finish the ACCEPT verb with a terminati
 This is the standard mode for GnuCOBOL and other compilers but not for RM COBOL.
 TAB cannot be used together with the AUTO / AUTO-SKIP and AUTOTERMINATE clauses.
 
+@item
+The @code{INITIAL} clause indicates that at the time of ACCEPT of the SCREEN, the cursor will be positioned on this field.
+
+@verbatim
+Example:
+       >>source free
+ IDENTIFICATION  DIVISION.
+ PROGRAM-ID. TESTINITIAL.
+ DATA DIVISION.
+ WORKING-STORAGE SECTION.
+ 01  dummy-1     PIC X(10).
+ 01  dummy-2     PIC X(10).
+ 01  dummy-3     PIC X(10).
+ SCREEN SECTION.
+ 01  scr.
+     03  LINE + 1, PIC X(80) VALUE 'field.'.
+     03  LINE + 2, PIC X(10) TO dummy-1.
+     03  COL  + 2, PIC X(10) TO dummy-2.
+     03  COL  + 2, PIC X(10) TO dummy-3 INITIAL.
+ PROCEDURE DIVISION.
+     DISPLAY scr
+     ACCEPT  scr *> cursor is on field with INITIAL clause
+     STOP RUN.
+
+@end verbatim
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.8 Special Data Items                                          **
@@ -944,7 +970,8 @@ The output of this program, on a Windows 7 system with a 32-bit MinGW build of G
     POINTER:          4
     PROGRAM-POINTER:  4
 
-The output of this program, on a Linux X64 system running cobc (GnuCOBOL) 3.1.2.0 is:
+The output of this program, on a Linux X64 system running cobc (GnuCOBOL)
+3.1.2.0 is:
 
 On this system, with this build of GnuCOBOL, the
 PICTURE-less USAGE's have these lengths (in bytes):
