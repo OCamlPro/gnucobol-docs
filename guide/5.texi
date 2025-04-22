@@ -282,6 +282,42 @@ The @code{@var{feature-name-1} IS @var{mnemonic-name-3}} clause allow for mnemon
 Printers supporting channel positioning are generally mainframe-type line printers.  When writing to printers that do not support channel positioning, a formfeed will be issued to the printer.
 
 The @code{CSP} positioning option stands for ``No Spacing''.  Testing on a MinGW build of GnuCOBOL shows that this too results in a formfeed being issued.
+
+@item
+The @code{SCREEN CONTROL} IS identifier-4 must refer to a Working-Storage field defined as follows:
+
+@example
+
+01 identifier-4.
+    03 ACCEPT-CONTROL PIC 9.
+    03 CONTROL-VALUE  PIC 999.
+    03 CONTROL-HANDLE USAGE HANDLE.
+    03 CONTROL-ID     PIC X(2) COMP-X.
+
+@end example
+
+The @code{SCREEN CONTROL} clause is supported only as a definition but its use is currently incomplete.
+It will be fully usable when the "embedded-procedures" at the SCREEN SECTION entry level will be implemented.
+
+@item
+The @code{EVENT-STATUS} is used to identify which data item is to receive information about screen events, identifier-3 must refer to a Working-Storage field defined as follows:
+
+@example
+
+01 identifier-3.
+   03 EVENT-TYPE           PIC X(4) COMP-X.
+   03 EVENT-WINDOW-HANDLE  USAGE HANDLE OF WINDOW.
+   03 EVENT-CONTROL-HANDLE USAGE HANDLE.
+   03 EVENT-CONTROL-ID     PIC X(2) COMP-X.
+   03 EVENT-DATA-1         USAGE SIGNED-SHORT.
+   03 EVENT-DATA-2         USAGE SIGNED-LONG.
+   03 EVENT-ACTION         PIC X COMP-X.
+
+@end example
+
+The @code{EVENT STATUS} clause is supported only as a definition but its use is currently incomplete.
+It will be fully usable when the "embedded-procedures" at the SCREEN SECTION entry level will be implemented.
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.3.1 Alphabet-Name-Clause                                    **
