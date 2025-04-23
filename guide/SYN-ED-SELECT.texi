@@ -1,42 +1,84 @@
  SELECT [ [ NOT ] OPTIONAL ] file-name-1
  ~~~~~~     ~~~   ~~~~~~~~
- [ ASSIGN { TO    } [{ EXTERNAL }] [{ DISC|DISK      }] [{ identifier-1 }] ]
-   ~~~~~~ { USING }  { ~~~~~~~~ }   { ~~~~ ~~~~      }   { word-1       }
-                     { DYNAMIC  }   { DISPLAY        }   { literal-1    }
-                       ~~~~~~~      { ~~~~~~~        }
-                                    { KEYBOARD       }
-                                    { ~~~~~~~~       }
-                                    { LINE ADVANCING }
-                                    { ~~~~ ~~~~~~~~~ }
-                                    { PRINTER        }
-                                    { ~~~~~~~        }
-                                    { RANDOM         }
-                                    { ~~~~~~         }
-                                    { TAPE           }
-                                      ~~~~
- [ COLLATING SEQUENCE IS alphabet-name-1 ]
-   ~~~~~~~~~
- [ FILE|SORT ] STATUS IS identifier-2 [ identifier-3 ] ]
-   ~~~~ ~~~~   ~~~~~~
- [ LOCK MODE IS { MANUAL|AUTOMATIC                                } ]
-   ~~~~         { ~~~~~~ ~~~~~~~~~                                }
-                { EXCLUSIVE [ WITH { LOCK ON MULTIPLE RECORDS } ] }
-                  ~~~~~~~~~        { ~~~~ ~~ ~~~~~~~~ ~~~~~~~ }
-                                   { LOCK ON RECORD           }
-                                   { ~~~~ ~~ ~~~~~~           }
-                                   { ROLLBACK                 }
-                                   { ~~~~~~~~                 }
- [ ORGANIZATION Clause ]
-   ~~~~~~~~~~~~
- [ ORGANISATION Clause ]
-   ~~~~~~~~~~~~
- [ RECORD DELIMITER IS STANDARD-1 ]
-   ~~~~~~ ~~~~~~~~~    ~~~~~~~~~~
- [ RESERVE integer-1 AREAS ]
-   ~~~~~~~
- [ SHARING WITH { ALL OTHER } ]
-   ~~~~~~~      { ~~~       }
-                { NO OTHER  }
-                { ~~        }
-                { READ ONLY }
-                  ~~~~ ~~~~
+  [ ASSIGN TO { [ device-1 ] { literal-1 | identifier-1 }  }
+    ~~~~~~        ~~~~~~~~
+              { [ EXTERNAL ] { device-1 } { identifier-1 } }
+              { [ ~~~~~~~~ ] { ~~~~~~~~ } { word-1       } }
+              { [ DYNAMIC  ]                               }
+                  ~~~~~~~
+              { [ device-1 ] { USING   } { identifier-1  } }
+              { [ ~~~~~~~~ ] { ~~~~~   } { word-1        } }
+              {              { VARYING }                   }
+                              ~~~~~~~~
+              { DISK FROM identifier-1                     }
+                ~~~~ ~~~~
+
+  [ ORGANIZATION | ORGANISATION Clause ]
+    ~~~~~~~~~~~~   ~~~~~~~~~~~~
+
+  [ [ FILE | SORT ] STATUS IS identifier-2 [ identifier-3 ] ]
+      ~~~~   ~~~~   ~~~~~~
+  [ LOCK MODE IS { MANUAL    } [ WITH { LOCK ON [ MULTIPLE ] RECORDS } ] ]
+    ~~~~         { ~~~~~~    }   ~~~~ {      ~~   ~~~~~~~~   ~~~~~~  }
+                 { AUTOMATIC }        { ROLLBACK                     }
+                   ~~~~~~~~~            ~~~~~~~~
+                 { EXCLUSIVE } [ WITH MASS-UPDATE ]
+                   ~~~~~~~~~
+
+  [ RECORD DELIMITER IS { STANDARD-1        } ]
+    ~~~~~~ ~~~~~~~~~    { ~~~~~~~~~~        }
+                        { LINE-SEQUENTIAL   }
+                        { ~~~~~~~~~~~~~~~   }
+                        { BINARY-SEQUENTIAL }
+                        { ~~~~~~~~~~~~~~~~~ }
+                        { identifier-4      }
+
+  [ RESERVE { NO | integer-1 } [ AREA | AREAS ] ]
+    ~~~~~~~   ~~                 ~~~~   ~~~~~
+  [ SHARING WITH { ALL OTHER } ]
+    ~~~~~~~      { ~~~       }
+                 { NO OTHER  }
+                 { ~~        }
+                 { READ ONLY }
+                   ~~~~ ~~~~
+
+  [ COLLATING SEQUENCE IS alphabet-name-1 ]
+    ~~~~~~~~~
+  [ PADDING CHARACTER IS { identifier-6 | literal-6 } ]
+    ~~~~~~~
+  [ NOMINAL KEY IS identifier-7 ]
+    ~~~~~~~
+  [ FILE-LIMITS { IS  } { { identifier-8 } { THROUGH } { identifier-9 } }... ]
+    ~~~~~~~~~~  { ~~~ } { { literal-8    } { ~~~~~~~ } { literal-9    } }
+                { ARE } {                  { THRU    }                  }
+                  ~~~                        ~~~~
+  [ TRACK-AREA IS { identifier-10 | literal-10 } CHARACTERS ]
+    ~~~~~~~~~~
+  [ TRACK-LIMIT IS { integer-1 } TRACKS ]
+    ~~~~~~~~~~~                  ~~~~~
+
+
+ Where device-1 is:
+
+                { CARD-PUNCH | CARD-READER    }
+                { ~~~~~~~~~~   ~~~~~~~~~~~    }
+                { DISC | DISK                 }
+                { ~~~~   ~~~~                 }
+                { INPUT | INPUT-OUTPUT        }
+                { ~~~~~   ~~~~~~~~~~~~        }
+                { DISPLAY                     }
+                { ~~~~~~~                     }
+                { MAGNETIC-TAPE | CASSETTE    }
+                { ~~~~~~~~~~~~~   ~~~~~~~~    }
+                { KEYBOARD                    }
+                { ~~~~~~~~                    }
+                { OUTPUT                      }
+                { ~~~~~~                      }
+                { PRINT | PRINTER | PRINTER-1 }
+                { ~~~~~   ~~~~~~~   ~~~~~~~~~ }
+                { RANDOM                      }
+                { ~~~~~~                      }
+                { LINE ADVANCING FILE         }
+                { ~~~~ ~~~~~~~~~              }
+                { TAPE                        }
+                  ~~~~
