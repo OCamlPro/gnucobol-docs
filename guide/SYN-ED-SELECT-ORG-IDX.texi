@@ -1,24 +1,26 @@
- [ ORGANIZATION|ORGANISATION IS ] INDEXED
-   ~~~~~~~~~~~~ ~~~~~~~~~~~~      ~~~~~~~
+ [ ORGANIZATION | ORGANISATION IS ] INDEXED
+   ~~~~~~~~~~~~   ~~~~~~~~~~~~      ~~~~~~~
     [ ACCESS MODE IS { SEQUENTIAL } ]
       ~~~~~~         { ~~~~~~~~~  }
                      { DYNAMIC    }
                      { ~~~~~~~    }
                      { RANDOM     }
                        ~~~~~~
-    [ RECORD KEY IS { [ data-name-1       ]
-      ~~~~~~
-                    { [ record-key-name-1 ]
-                      [ =|{SOURCE IS} data-name-2 ] ... ] }
-                           ~~~~~~
-    [ ALTERNATE RECORD KEY IS { [ data-name-3       ]
-      ~~~~~~~~~ ~~~~~~
-                              { [ record-key-name-2 ]
-                                [ =|{SOURCE IS} data-name-4 ] ... ] }
-                                     ~~~~~~
-                              [ WITH DUPLICATES ] ]...
-                                     ~~~~~~~~~~
-                              [ SUPPRESS WHEN ALL literal     ]
-                                ~~~~~~~~~~~~~~~~~
+
+      RECORD KEY IS { data-name-1                                    }
+      ~~~~~~        { record-key-name-1 { =       } {data-name-2}... }
+                                        {SOURCE IS}
+                                         ~~~~~~
+                    [ WITH [ NO ] DUPLICATES ]
+                             ~~   ~~~~~~~~~~
+
+    [ ALTERNATE RECORD KEY IS { data-name-3                                   } ]...
+      ~~~~~~~~~ ~~~~~~        { record-key-name-2 { =       } {data-name-4}...}
+                                                  {SOURCE IS}
+                                                   ~~~~~~
+                              [ WITH [ NO ] DUPLICATES        ]
+                                       ~~   ~~~~~~~~~~
+                              [ SUPPRESS WHEN ALL literal-1   ]
+                                ~~~~~~~~ ~~~~ ~~~
                               [ SUPPRESS WHEN SPACES | ZEROES ]
-                                ~~~~~~~~~~~~~~~~~~~~   ~~~~~~
+                                ~~~~~~~~ ~~~~ ~~~~~~   ~~~~~~
