@@ -6,7 +6,7 @@
 SOURCES_COMMON = Macros.texi fdl.texi $(wildcard [LNS]*-*.texi)
 
 SOURCES = gnucobpg.texi \
-	1.texi 1-1.texi 2.texi 2-1A.texi 3.texi 4.texi \
+	1.texi 2.texi 2-1A.texi 3.texi 4.texi \
 	5.texi 6.texi 7.texi 8.texi 9.texi 10.texi \
 	11.texi 12.texi 13.texi \
 	A.texi B.texi C.texi D.texi \

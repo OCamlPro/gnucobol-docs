@@ -5669,16 +5669,114 @@ The exit status of the executed command will be available in the @code{RETURN-CO
 @page
 @newsubsection{X"91"}
 @diagram{X"91" Built-In Subroutine,SS-X91,SS-X91,None}
-The original Micro Focus version of this routine is capable of providing a wide variety of functions.  GnuCOBOL supports just three of them but more on the way subject to version of compiler (see file NEWS):
+The original Micro Focus version of this routine is capable of providing a wide variety of functions.  GnuCOBOL supports just three of them namely 11, 12 and 16, but may be more on the way subject to version of compiler (see file NEWS):
 @itemize @bullet
-@item
-Turning runtime switches (@code{SWITCH-1}, @dots{} , @code{SWITCH-8}) on.
+@item 11
+Sets and/or clears all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}).  @xref{SPECIAL-NAMES}, for an explanation of those switches. Also referred to as programmable 0 - 7.
 
-@item
-Turning runtime switches (@code{SWITCH-1}, @dots{} , @code{SWITCH-8}) off.
+The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR} or {USAGE COMP-X}.
 
-@item
-Retrieving the number of arguments passed to a subroutine.
+Each occurrence that is set to a value of zero prior to the @code{CALL X"91"} will cause the corresponding switch to be cleared.  Each occurrence set to 1 prior to the @code{CALL X"91"} will cause the corresponding switch to be set.
+
+Values other than 0 or 1 will be ignored.
+
+@example
+
+Syntax:
+
+FN-Status          set to 0 if the function is successful, else 1.
+X91-function       set to 11.
+Group-item         group-item with -
+Switch-flags       values ( 0 or 1 ) for each of the 8 switches.
+
+Parameters:
+
+01  FN-Return-Code   pic x comp-x.
+01  x91-function     pic x comp-x.
+01  Group-item.
+01  Switch-Flags     pic x comp-x occurs 8
+
+Code example:
+
+77 fn-Return-Code pic x comp-x.
+77 x91-function   pic x comp-x value 11.
+01 Group-item.
+05 switch-flags   pic x comp-x occurs 8.
+...
+move 1 to switch-flags(1).
+call x"91" using fn-Return-Code, x91-Function, Group-item
+...
+
+@end example
+
+@item 12
+Reads all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}) and debug switches as prorammable 0 - 7.
+
+The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR} or {USAGE COMP-X}.
+
+Each of the 1@sup{st} eight occurrences of the array will be set to either 0 or 1 --- 1 if the corresponding switch is set, 0 otherwise.
+
+
+@example
+
+Syntax:
+
+FN-Status          set to 0 if the function is successful, else 1.
+X91-function       set to 12.
+Group-item         group-item to receive -
+Switch-flags       value of each of the switches set.
+
+Parameters:
+
+01  FN-Return-Code   pic x comp-x.
+01  x91-function     pic x comp-x.
+01  Group-item.
+01  Switch-Flags     pic x comp-x occurs 8
+
+Code example:
+
+...
+special-names.
+switch 1 is switch-1.
+...
+
+
+77 fn-Return-Code pic x comp-x.
+77 x91-function   pic x comp-x value 12.
+01 group-item.
+05 switch-flags   pic x comp-x occurs 8.
+...
+set switch-1 to on
+call x"91" using fn-Return-Code, x91-function, Group-item.
+...
+
+@end example
+
+@item 16
+Retrieves the number of arguments passed to the program executing the @code{CALL X"91"}, saving that number into the @var{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} or {USAGE COMP-X} is recommended).
+
+@example
+Usage:
+
+call x"91" using fn-status, x91-function, num-params.
+
+Parameters:
+
+01  Fn-status        pic x comp-x
+01  x91-function     pic x comp-x
+01  num-params       pic x comp-x
+
+Syntax:
+Fn-status       Set to 0 if the function is successful, else 1.
+X91-function    Set to 16.
+num-params      Receives the number of parameters on the Procedure Division USING / CHAINING statement.
+
+@end example
+
+@example
+
+@end example
+
 @end itemize
 
 The @var{return-code} argument must be a one-byte binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).  It will receive a value of 0 if the operation was successful, 1 otherwise.
@@ -5688,30 +5786,12 @@ The @var{function-code} argument must be either a numeric literal or a one-byte 
 The third argument --- @var{variable-arg} --- is defined differently depending upon the @var{function-code} value, as follows:
 @table @asis
 
-@item 11
-Sets and/or clears all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}).  @xref{SPECIAL-NAMES}, for an explanation of those switches. Also referred to as programmable 0 - 7.
-
-The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR}.
-
-Each occurrence that is set to a value of zero prior to the @code{CALL X"91"} will cause the corresponding switch to be cleared.  Each occurrence set to 1 prior to the @code{CALL X"91"} will cause the corresponding switch to be set.
-
-Values other than 0 or 1 will be ignored.
-
-@item 12
-Reads all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}) and debug switches as prorammable 0 - 7.
-
-The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR}.
-
-Each of the 1@sup{st} eight occurrences of the array will be set to either 0 or 1 --- 1 if the corresponding switch is set, 0 otherwise.
 
 @item 13 + 14
 Allow access to runtime switches 1 - 26 as A-Z. In case of A.N.T: set related runtime setting. Option 13 read them and option 14 sets them.
 
 @item 15
 Prepare for program lookup. Checks to see if a program exists. You pass the program name and its length in parameter. When routine exits, result is zero if found and non-zero if not. Parameter is a group item consisting of two data items: a PIC X COMP-X specifyinh length in bytes of data item containing the file name and PIC X data item of varaiable length containing the file name.
-
-@item 16
-Retrieves the number of arguments passed to the program executing the @code{CALL X"91"}, saving that number into the @var{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} is recommended).
 
 @item 35
 Prepare for DOS EXEC call.
