@@ -675,6 +675,7 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 * ACCEPT FROM COMMAND-LINE
 * ACCEPT FROM ENVIRONMENT
 * ACCEPT Data-Item
+* ACCEPT Data-item (Microsoft v1-v2)
 * ACCEPT FROM DATE/TIME
 * ACCEPT FROM Screen-Info
 * ACCEPT FROM Runtime-Info
@@ -798,14 +799,15 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 @end menu
 @end iftex
 @comment *********************************************************************
-@comment ** 7.8.1 ACCEPT                                                   **
+@comment ** 7.8.1 ACCEPT                                                    **
 @comment *********************************************************************
 @newsubsection{ACCEPT}
 @menu
 * ACCEPT FROM CONSOLE
 * ACCEPT FROM COMMAND-LINE
 * ACCEPT FROM ENVIRONMENT
-* ACCEPT data-item
+* ACCEPT Data-item
+* ACCEPT Data-item (Microsoft v1-v2)
 * ACCEPT FROM DATE/TIME
 * ACCEPT FROM Screen-Info
 * ACCEPT FROM Runtime-Info
@@ -813,7 +815,7 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 * ACCEPT FROM EXCEPTION STATUS
 @end menu
 @comment *********************************************************************
-@comment ** 7.8.1.1 ACCEPT FROM CONSOLE                                    **
+@comment ** 7.8.1.1 ACCEPT FROM CONSOLE                                     **
 @comment *********************************************************************
 @newsubsubsection{ACCEPT FROM CONSOLE}
 @diagram{ACCEPT FROM CONSOLE,PD-ACCEPT-1,PD-ACCEPT-1,None}
@@ -835,7 +837,7 @@ Input will be read either from the console window (@code{CONSOLE}) or from the s
 If @var{identifier-1} is a numeric data item, the character value read from the console or standard-input device will be parsed according to the rules for input to the @intrinsicref{NUMVAL}, except that none of the trailing sign formats are honoured.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.1.2 ACCEPT FROM COMMAND-LINE                               **
+@comment ** 7.8.1.2 ACCEPT FROM COMMAND-LINE                                **
 @comment *********************************************************************
 @page
 @newsubsubsection{ACCEPT FROM COMMAND-LINE}
@@ -877,7 +879,7 @@ By accepting from
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to the failure or success, respectively, of an attempt to retrieve an @code{ARGUMENT-VALUE}.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.1.3 ACCEPT FROM ENVIRONMENT                                **
+@comment ** 7.8.1.3 ACCEPT FROM ENVIRONMENT                                 **
 @comment *********************************************************************
 @page
 @newsubsubsection{ACCEPT FROM ENVIRONMENT}
@@ -907,7 +909,7 @@ As an example: ACCEPT identifier-1 FROM ENVIRONMENT 'COB_INSERT_MODE' returns wh
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to an attempt to retrieve the value of a non-existent environment variable or the successful retrieval of an environment variable's value, respectively.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
 @end enumerate
 @comment ********************************************************************
-@comment ** 7.8.1.4 ACCEPT data-item                           ,  ,,       **
+@comment ** 7.8.1.4 ACCEPT data-item                                       **
 @comment ********************************************************************
 @page
 @newsubsubsection{ACCEPT data-item}
@@ -982,7 +984,7 @@ The following @var{Attribute-Specification} clauses are allowed on the @code{ACC
 @syntaxref{PROMPT}
 
 @item
-@syntaxref{PROTECTED}
+@syntaxidx{PROTECTED}
 
 @item
 @syntaxref{REQUIRED}, @syntaxref{EMPTY-CHECK}
@@ -1312,6 +1314,15 @@ You may specify other video attributes by adding the following values:
 You may also specify high intensity by adding "8" to the foreground color value.
 
 @end enumerate
+
+@comment *************************************************************
+@comment ** 7.8.12.5 ACCEPT data-item (Microsoft)                   **
+@comment *************************************************************
+@page
+@newsubsubsection{ACCEPT data-item (Microsoft v1-v2)}
+@diagram{ACCEPT data-item,PD-ACCEPT-4-Microsoft,PD-ACCEPT-4-Microsoft,None}
+This format of the @statement{ACCEPT} is used to retrieve data from a working storage item using the Microsoft format from v1 and v2 compilers (MsDos). See previous ACCEPT data-Item for detailed information.
+
 @comment *********************************************************************
 @comment ** 7.8.1.5 ACCEPT FROM DATE/TIME                                  **
 @comment *********************************************************************
@@ -1402,7 +1413,7 @@ In this way in the identifier-1 field you will have the return code which indica
 
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.1.7 ACCEPT FROM Runtime-Info                               **
+@comment ** 7.8.1.7 ACCEPT FROM Runtime-Info                                **
 @comment *********************************************************************
 @page
 @newsubsubsection{ACCEPT FROM Runtime-Info}
@@ -1442,7 +1453,7 @@ If excess space is allocated, the returned value will be padded with spaces (to 
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.1.8 ACCEPT OMITTED                                         **
+@comment ** 7.8.1.8 ACCEPT OMITTED                                          **
 @comment *********************************************************************
 @page
 @newsubsubsection{ACCEPT OMITTED}
@@ -1465,7 +1476,7 @@ COB-SCR-KEY-END
 You can use extended attributes, useful for setting timeouts or positioning.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.1.9 ACCEPT FROM EXCEPTION STATUS                           **
+@comment ** 7.8.1.9 ACCEPT FROM EXCEPTION STATUS                            **
 @comment *********************************************************************
 @page
 @newsubsubsection{ACCEPT FROM EXCEPTION STATUS}
@@ -1490,7 +1501,7 @@ The following is an example of usage:
 @end verbatim
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.2 ADD                                                      **
+@comment ** 7.8.2 ADD                                                       **
 @comment *********************************************************************
 @page
 @newsubsection{ADD}
@@ -1500,7 +1511,7 @@ The following is an example of usage:
 * ADD CORRESPONDING
 @end menu
 @comment *********************************************************************
-@comment ** 7.8.2.1 ADD TO                                                 **
+@comment ** 7.8.2.1 ADD TO                                                  **
 @comment *********************************************************************
 @newsubsubsection{ADD TO}
 @diagram{ADD TO,PD-ADD-1,PD-ADD-1,None}
@@ -1528,7 +1539,7 @@ The optional @syntaxref{ROUNDED} clause available to each @var{identifier-2} wil
 The optional @code{ON SIZE ERROR} and @code{NOT ON SIZE ERROR} clauses may be used to detect and react to the failure or success, respectively, of an attempt to perform a calculation.  In this case, failure is defined as being an @var{identifier-2} with an insufficient number of digit positions available to the left of any implied decimal point.  @xref{ON SIZE ERROR + NOT ON SIZE ERROR}, for additional information.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.2.2 ADD GIVING                                             **
+@comment ** 7.8.2.2 ADD GIVING                                              **
 @comment *********************************************************************
 @page
 @newsubsubsection{ADD GIVING}
@@ -1560,7 +1571,7 @@ The optional @syntaxref{ROUNDED} clause available to each @var{identifier-3} wil
 The optional @code{ON SIZE ERROR} and @code{NOT ON SIZE ERROR} clauses may be used to detect and react to the failure or success, respectively, of an attempt to perform a calculation.  In this case, failure is defined as being an @var{identifier-3} with an insufficient number of digit positions available to the left of any implied decimal point.  @xref{ON SIZE ERROR + NOT ON SIZE ERROR}, for additional information.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.2.3 ADD CORRESPONDING                                      **
+@comment ** 7.8.2.3 ADD CORRESPONDING                                       **
 @comment *********************************************************************
 @page
 @newsubsubsection{ADD CORRESPONDING}
@@ -1585,7 +1596,7 @@ The optional @syntaxref{ROUNDED} clause available to each @var{identifier-3} wil
 The optional @code{ON SIZE ERROR} and @code{NOT ON SIZE ERROR} clauses may be used to detect and react to the failure or success, respectively, of an attempt to perform a calculation.  In this case, failure is defined as being an @var{identifier-3} with an insufficient number of digit positions available to the left of any implied decimal point.  @xref{ON SIZE ERROR + NOT ON SIZE ERROR}, for additional information.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.3 ALLOCATE                                                 **
+@comment ** 7.8.3 ALLOCATE                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{ALLOCATE}
@@ -1645,7 +1656,7 @@ Instead of LENGTH OF My-01-Item you may also use a size smaller to the maximum f
 Referencing a @code{BASED} data item either before its storage has been allocated or after its storage has been released (via the @statement{FREE}) will lead to ``unpredictable results''.  That's how reference manuals and standards specifications talk about this situation.  In the author's experience, the results are all too predictable: the program aborts from an attempt to reference an unallocated area of memory.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.4 ALTER                                                    **
+@comment ** 7.8.4 ALTER                                                     **
 @comment *********************************************************************
 @page
 @newsubsection{ALTER}
@@ -1671,7 +1682,7 @@ Support for the @code{ALTER} verb has been added to GnuCOBOL for the purpose of 
 Because of the catastrophic effect this statement has on program readability and therefore the programmer's ability to debug problems with program logic, the use of @code{ALTER} in new programs is @strong{STRONGLY} discouraged.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.5 CALL                                                     **
+@comment ** 7.8.5 CALL                                                      **
 @comment *********************************************************************
 @page
 @newsubsection{CALL}
@@ -1782,7 +1793,7 @@ Call also supports using an entry point stored in a @code{PROGRAM-POINTER}, avoi
 An extension of @code{CALL} allows a call to a @var{Program-Pointer-1} which is preset using @code{SET @var{program-pointer-1} TO ENTRY @var{x}}. Additional the @code{RETURNING} clause may return a data pointer or a @code{PROGRAM-POINTER}
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.6 CANCEL                                                   **
+@comment ** 7.8.6 CANCEL                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{CANCEL}
@@ -1798,7 +1809,7 @@ Whether the
 @envvarruntimeref{COB_PHYSICAL_CANCEL}.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.7 CLOSE                                                    **
+@comment ** 7.8.7 CLOSE                                                     **
 @comment *********************************************************************
 @page
 @newsubsection{CLOSE}
@@ -2470,7 +2481,7 @@ The optional @syntaxref{ROUNDED} clause available to each @var{identifier-2} wil
 The optional @code{ON SIZE ERROR} and @code{NOT ON SIZE ERROR} clauses may be used to detect and react to the failure or success, respectively, of an attempt to perform a calculation.  In this case, failure is defined as being numeric truncation caused by an @var{identifier-2} with an insufficient number of digit positions available to the left of any implied decimal point, or an attempt to divide by zero.  @xref{ON SIZE ERROR + NOT ON SIZE ERROR}, for additional information.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.13.2 DIVIDE INTO GIVING                                    **
+@comment ** 7.8.13.2 DIVIDE INTO GIVING                                     **
 @comment *********************************************************************
 @page
 @newsubsubsection{DIVIDE INTO GIVING}

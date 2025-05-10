@@ -1191,7 +1191,6 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 * PICTURE.
 * PRESENT WHEN.
 * PROMPT.
-* PROTECTED.
 * REDEFINES.
 * RENAMES.
 * REQUIRED.
@@ -2483,43 +2482,6 @@ Prompt characters will be automatically transformed into spaces upon input.
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
-@comment ** 6.9.36 PROTECTED                                                **
-@comment *********************************************************************
-@page
-@newsubsection{PROTECTED}
-@diagram{PROTECTED Attribute,DD-PROTECTED,DD-PROTECTED,None}
-This syntax is valid in the following sections:
-@code{SCREEN}
-@enumerate
-
-The @code{PROTECTED} extended clause will effect the specified field to be limited in size, regardless of the picture size.@footnote{OR DOES IT? @i{author uncertain}}
-
-@item
-The SIZE phrase specifies the size (length) of the field. After the @code{ACCEPT} or @code{DISPLAY} is finished, the cursor is placed immediately after the field defined by this clause, unless this would place the cursor outside of the current terminal window. In this case, the cursor is wrapped around to the beginning of the next line (scrolling the window if necessary).
-
-@item
-If the @code{SIZE} phrase is not used, then the field length defaults to the size of the item being accepted or displayed. If the @code{CONVERT} phrase is used, however, then the size of the field depends on the data type of the item and the verb being used.
-@enumerate A
-@item
-If the @code{DISPLAY} verb is executing, then the size is the same as if the @code{CONVERT} phrase were not specified except for numeric items. For numeric items, the size is the number of digits in the item, plus one if it is not an integer, plus one if it is signed. The remaining cases cover the size when an @code{ACCEPT} statement is used.
-
-@item
-If the item is numeric or numeric edited, then the size is the number of digits in the item, plus one if it is not an integer, plus one if it is signed.
-
-@item
-If the item is alphanumeric edited, then the size is set to the number of @samp{A} or @samp{X} positions specified in its @code{PICTURE} clause.
-
-@item
-For all other data types, the field size is set to the size of the item (same as if @code{CONVERT} were not specified).
-@end enumerate
-
-@item
-Note that the @code{OUTPUT} phrase changes the way in which the default field size is computed. See that heading above for details. Also note that the @code{OUTPUT} phrase affects only the way items are displayed on the screen; the internal format of accepted data is not affected.
-
-@item
-Note that you cannot supply the @code{CONVERT} phrase in the Screen Section. Thus the size of a Screen Section field is always the size of its screen entry unless the @code{SIZE} phrase is specified.
-@end enumerate
-@comment *********************************************************************
 @comment ** 6.9.37 REDEFINES                                                **
 @comment *********************************************************************
 @page
@@ -2766,6 +2728,8 @@ The size of Variable to accept from the screen.
 'SIZE ZERO'
 '<SIZE option not specified>'
      The variable accepts to its field length.
+
+As of v3.4 this option is NOT Implemented.
 
 @comment *********************************************************************
 @comment ** 6.9.44 SOURCE                                                   **
