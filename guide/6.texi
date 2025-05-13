@@ -3167,6 +3167,186 @@ The reserved word @code{IS} is optional and may be omitted.  The presence or abs
 @item
 The following table summarizes the various USAGE specifications available in GnuCOBOL.
 
+
+@item
+The following tables summarize the USAGE specifications available in GnuCOBOL.
+
+@verbatim
+
+TABLE 1
++----------------------+--------------------------------+----------+---------+-------+
+| USAGE                |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
+|                      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
++----------------------+--------------------------------+----------+---------+-------+
+|[DISPLAY]             | Depends on PICTURE. One char.  |Characters|if       | Yes   |
+| ~~~~~~~              | per X,A,9, period, $,Z,0,*, S  |          |PICTURE  |       |
+|                      | if SEPARATE CHARACTER specified|          |contains |       |
+|                      | +, - or B symbol in PICTURE;   |          |'S'      |       |
+|                      | Add 2 more bytes if DB or CR   |          |         |       |
+|                      | editing symbol is used         |          |         |       |
+|                      | Max picture is 9(38).          |          |         |       |
+|                      | or Picture X(2147483646)       |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|COMP                  | Defined by the quantity of     |Compatible|if       | Yes   |
+|COMPUTATIONAL         | '9's  and the presence/absence |Binary    |PICTURE  |       |
+|BINARY                | of an 'S' in the PICTURE       |Integer   |contains |       |
+|~~~~~~                | pic 9(01) to 9(04) size=2 bytes|          |'S'      |       |
+|                      | pic 9(05) to 9(09) size=4 bytes|          |         |       |
+|                      | pic 9(10) to 9(18) size=8 bytes|          |         |       |
+|                      | Negative number are represented|          |         |       |
+|                      | as the two's complement of the |          |         |       |
+|                      | positive number with the same  |          |         |       |
+|                      | absolute value.                |          |         |       |
+|                      | Max picture is 9(18)           |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|COMP-1                | Approximately                  | Native   | Yes     | No    |
+|COMPUTATIONAL-1       |   -3.4028235 * 10**38          | IEEE 754 |         |       |
+|FLOAT-SHORT           | to 3.4028235 * 10**38          | Binary32 |         |       |
+|~~~~~~~~~~~           | size = 4 bytes = 32bits:       |          |         |       |
+|COMP-9                | 1 sign; 8 exponent; 23 fraction|          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|COMP-2                | Approximately                  | Native   | Yes     | No    |
+|COMPUTATIONAL-2       |   -1.797693134862316 * 10**308 | IEEE 754 |         |       |
+|FLOAT-LONG            | to 1.797693134862316 * 10**308 | Binary64 |         |       |
+|~~~~~~~~~~            |                                | Floating |         |       |
+|COMP-10               | size = 8 bytes = 64 bits:      | -point   |         |       |
+|COMP-15               | 1 sign; 1 exponent; 62 fraction|          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|COMP-3                | Defined by the quantity of '9's| Signed   |if       | Yes   |
+|COMPUTATIONAL-3       | and the presence or absence of | Packed   |PICTURE  |       |
+|PACKED-DECIMAL        | an 'S' in the PICTURE          | Decimal  |contains |       |
+|~~~~~~~~~~~~~~        | Max picture is 9(38)           |          |'S'      |       |
++----------------------+--------------------------------+----------+---------+-------+
+|COMP-4                | same as COMP                   |          |         |       |
+|COMPUTATIONAL-4       |                                |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|COMP-5                | Depends on number of '9's in   | Native   |if       | Yes   |
+|COMPUTATIONAL-5       | the PICTURE and the binary-size| Binary   |PICTURE  |       |
+|                      | setting of the configuration   | Integer  |contains |       |
+|                      | file used to compile theprogram|          |'S'      |       |
+!                      | Max picture is 9(18)           |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|COMP-6                | Defined by the quantity of '9's| Unsigned | No      | Yes   |
+|COMPUTATIONAL-6       |                                | Packed   |         |       |
+|                      |                                | Decimal  |         |       |
+|                      | Max picture is 9(38)           |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|COMP-X                | If used with PIC X, allocates  | Native   |if       | Yes   |
+|COMPUTATIONAL-X       | one byte of storage per 'X';   | unsigned |PICTURE 9|       |
+|                      | range of values is 0 to max    | PIC (X)  |contains |       |
+|                      | storable in that many bytes.   | or signed|'S'      |       |
+|                      | If used with PIC 9, range of   | PIC (9)  |         |       |
+|                      | values depends on number of    | Binary   |         |       |
+|                      | '9's in PICTURE                |          |         |       |
+|                      | Max picture is PIC 9(38)       |          |         |       |
+|                      | or PIC X(9999999999)           |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+
+
+TABLE 2
++----------------------+--------------------------------+----------+---------+-------+
+| NUMERIC USAGE        |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
+| WITHOUT PICTURE      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-CHAR [SIGNED]  | -128 (-2**7) to 127 (2**7)-1   | Native   | Yes     | No    |
+|~~~~~~~~~~~           |                                | Binary   |         |       |
+|                      | same as S9(2) COMP-5           | Integer  |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-CHAR UNSIGNED  |    0 to 255                    | Native   | No      | No    |
+|~~~~~~~~~~~ ~~~~~~~~  |                                | Binary   |         |       |
+|                      |(8 bit= from 0 to ((2**8)-1)    | Integer  |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-SHORT [SIGNED] |   -32,768 (-2**15)             | Native   | Yes     | No    |
+|~~~~~~~~~~~~          | to 32,767  (2**15)             | Binary   |         |       |
+|SIGNED-SHORT          |                                | Integer  |         |       |
+|~~~~~~~~~~~~          | same as S9(4) COMP-5           |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-SHORT UNSIGNED | 0 to 65,535                    | Native   | No      | No    |
+|~~~~~~~~~~~~ ~~~~~~~~ |                                | Binary   |         |       |
+|UNSIGNED-SHORT        |                                | Integer  |         |       |
+|~~~~~~~~~~~~~~        |(16 bit= from 0 to ((2**16)-1)  |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-LONG [SIGNED]  |   -2,147,483,648 (-2**31)      | Native   | Yes     | No    |
+|~~~~~~~~~~~           | to 2,147,483,648  (2**31)      | Binary   |         |       |
+|BINARY-INT [SIGNED]   |                                | Integer  |         |       |
+|~~~~~~~~~~            |                                |          |         |       |
+|SIGNED-INT            | same as S9(9) COMP-5           |          |         |       |
+|~~~~~~~~~~            |                                |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-LONG UNSIGNED  | 0 to  4,294,967,295            | Native   | No      | No    |
+|~~~~~~~~~~~ ~~~~~~~~  |                                | Binary   |         |       |
+|BINARY-INT UNSIGNED   |                                | Integer  |         |       |
+|~~~~~~~~~~ ~~~~~~~~   |                                |          |         |       |
+|UNSIGNED-INT          |(32bit= from 0 to ((2**32)-1)   |          |         |       |
+|~~~~~~~~~~~~          |                                |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-DOUBLE [SIGNED]|   -9,223,372,036,854,775,808   | Native   | Yes     | No    |
+|~~~~~~~~~~~~~         |    (-2**63)                    | Binary   |         |       |
+|BINARY-LONG-LONG      | to 9,223,372,036,854,775,808   | Integer  |         |       |
+|~~~~~~~~~~~~~~~~      |    (2**63)                     |          |         |       |
+|SIGNED-LONG           |                                |          |         |       |
+|~~~~~~~~~~~           | same as S9(18) COMP-5          |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-DOUBLE UNSIGNED| 0 to 18,446,744,073,709,551,615| Native   | No      | No    |
+|~~~~~~~~~~~~~ ~~~~~~~~|      (2**64)                   | Binary   |         |       |
+|UNSIGNED-LONG         |                                | Integer  |         |       |
+|~~~~~~~~~~~~~         |                                |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-C-LONG [SIGNED]| Depending on the system HW the |          | YES     | No    |
+|~~~~~~~~~~~~~         | range is either                |          |         |       |
+|                      | 0 to 2**31 or 0 to 2**63       |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|BINARY-C-LONG UNSIGNED| Depending on the system HW the |          | No      | No    |
+|~~~~~~~~~~~~~ ~~~~~~~~| range is either                |          |         |       |
+|                      | 0 to 2**32 or 0 to 2**64       |          |         |       |
+|                      | This USAGE should only be used |          |         |       |
+|                      | for direct CALLs into C and    |          |         |       |
+|                      | otherwise should not be used   |          |         |       |
+|                      | (it won't compile with any     |          |         |       |
+|                      | strict -std as it is a         |          |         |       |
+|                      | GnuCOBOL-only extension)       |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|FLOAT-DECIMAL-16      |   -9.999999999999999 * 10**384 | Native   | Yes     | No    |
+|~~~~~~~~~~~~~~~~      | to 9.999999999999999 * 10**384 | IEEE 754 |         |       |
+|                      |                                | Decimal64|         |       |
+|                      |                                | Floating |         |       |
+|                      |                                | -point   |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|FLOAT-DECIMAL-34      |   -9.99999... * 10**6144       |Native    | Yes     | No    |
+|~~~~~~~~~~~~~~~~      | to 9.99999... * 10**6144       |IEEE 754  |         |       |
+|                      |                                |Decimal128|         |       |
+|                      | (n.33 9s after decimal point)  | Floating |         |       |
+|                      |  size=16 bytes                 | -point   |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+
+
+TABLE 3
++----------------------+--------------------------------+----------+---------+-------+
+| OTHER USAGE          |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
+|                      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
++----------------------+--------------------------------+----------+---------+-------+
+|INDEX                 | 0 to maximum address possible  | Native   | No      | No    |
+|~~~~~                 | (32 or 64 bits)                | Binary   |         |       |
+|                      |                                | Integer  |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|POINTER               | 0 to maximum address possible  | Native   | No      | No    |
+|~~~~~~~               | (32 or 64 bits)                | Binary   |         |       |
+|                      |                                | Integer  |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|PROGRAM-POINTER       | 0 to maximum address possible  | Native   | No      | No    |
+|~~~~~~~~~~~~~~~       | (32 or 64 bits)                | Binary   |         |       |
+|PROCEDURE-POINTER     |                                | Integer  |         |       |
+|~~~~~~~~~~~~~~~~~     |                                |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|NATIONAL              | while syntactically recognized |    --    |   --    |  --   |
+|~~~~~~~~              | is not supported by GnuCOBOL   |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+@end verbatim
+
+
+@item
+Old format ::--
+
 @t{BINARY}@*@t{~~~~~~}
 @multitable @columnfractions 0.05 0.4 0.55
 
