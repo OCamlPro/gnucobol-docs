@@ -1148,6 +1148,35 @@ Once in that form, mathematical operations may be performed against the internal
 This function converts @var{date} (a numeric integer data item or literal) --- presumed to be a Julian calendar form standard date (YYYYDDD) --- to internal date form (the number of days that have transpired since 1600/12/31).
 
 Once in that form, mathematical operations may be performed against the internal date before it is transformed back into a date using the @syntaxref{DATE-OF-INTEGER} or @syntaxref{DAY-OF-INTEGER} function.
+
+A particular use of this function could also to find the day of the week for a date.
+See the following example.
+
+@example
+
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTINTEGEROFDATE.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 wDATE  PIC 9(08) value zero.
+01 wDOFW  PIC X(10) value space.
+PROCEDURE DIVISION.
+  move FUNCTION CURRENT-DATE(1:8) to wDATE
+  evaluate FUNCTION MOD(FUNCTION INTEGER-OF-DATE(wDATE), 7)
+      when 0 move 'SUNDAY'    to wDOFW
+      when 1 move 'MONDAY'    to wDOFW
+      when 2 move 'TUESDAY'   to wDOFW
+      when 3 move 'WEDNESDAY' to wDOFW
+      when 4 move 'THURSDAY'  to wDOFW
+      when 5 move 'FRIDAY'    to wDOFW
+      when 6 move 'SATURDAY'  to wDOFW
+  end-evaluate
+  display 'Today ' wDATE ' IS ' wDOFW
+  STOP RUN.
+
+
+@end example
+
 @comment *********************************************************************
 @comment ** 8.1.40 INTEGER-OF-FORMATTED-DATE                                **
 @comment *********************************************************************
