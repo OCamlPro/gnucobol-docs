@@ -360,6 +360,55 @@ Character positions in this list do not affect the actual binary storage values 
 You may specify any of the figurative constants @code{SPACE}, @code{SPACES}, @code{ZERO}, @code{ZEROS}, @code{ZEROES}, @code{QUOTE}, @code{QUOTES}, @code{HIGH-VALUE}, @code{HIGH-VALUES}, @code{LOW-VALUE} or @code{LOW-VALUES} for any of the @var{literal-1}, @var{literal-2} or @var{literal-3} specifications.
 @end enumerate
 @item Once you have defined an alphabet name, that alphabet name may be used on specifications in @code{CODE-SET}, @code{COLLATING SEQUENCE}, or @code{SYMBOLIC CHARACTERS} clauses elsewhere in the program.
+Here an example to show this in operation:
+
+@example
+
+      >>SOURCE FREE
+ identification division.
+ program-id. TESTALPHABET.
+ environment division.
+ configuration section.
+*> ASCII collating sequence is:   numeric  < upper-case < lower-case
+*> but new ALPHABET is        : lower-case < upper-case < numeric
+ special-names.
+     alphabet NEWSEQ for alphanumeric is "a" THRU "z"
+                                         "A" THRU "Z"
+                                         "0" THRU "9".
+ input-output section.
+ file-control.
+     select SORTFILE assign to SORTWORKFILE.
+ data division.
+ file section.
+ SD  SORTFILE.
+ 01  SORTRECORD.
+     02  SORTDATA PIC X(20).
+ PROCEDURE DIVISION.
+     sort     SORTFILE on ascending key SORTDATA
+              collating sequence is NEWSEQ
+              input    procedure is InputProc
+              output   procedure is OutputProc.
+     display "** END OF SORTED DATA **"
+     stop run.
+ InputProc.
+     perform  until SORTDATA = space
+     display  "Type your data (max 20 CHARS, SPACE to SORT): "
+               WITH NO ADVANCING
+     accept   SORTDATA
+     release  SORTRECORD
+  end-perform.
+OutputProc.
+     display  SPACE
+     display  "** SORTED DATA **".
+     perform  with test after until exit
+              return   SORTFILE at end
+                       exit perform
+               end-return
+     display SORTDATA
+     end-perform.
+
+@end example
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.3.2 Class-Definition-Clause                                 **
