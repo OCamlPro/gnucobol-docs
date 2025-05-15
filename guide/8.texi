@@ -2405,6 +2405,129 @@ Most of the call-by-number routines have evolved into even more powerful call-by
 
 Some of the original call-by-number routines never evolved call-by-name equivalents; GnuCOBOL supports some of these routines. See all currently used in Appendix's C and D. (Items marked as **).
 
+GnuCOBOL provides and supports built-in system subroutines of following categories:
+@page
+@smallexample
++-------------------------------------------------------------------------------------+
+| Directory Routines                                                                  |
++-------------------------------------------------------------------------------------+
+|CBL_GET_CURRENT_DIR  | Retrieves the fully-qualified pathname of current directory   |
+|CBL_CREATE_DIR       | With this routine you may create a new directory              |
+|C$MAKEDIR            | Same as CBL_CREATE_DIR                                        |
+|CBL_CHANGE_DIR       | Makes a directory-path the current directory                  |
+|C$CHDIR              | Same as CBL_CHANGE_DIR                                        |
+|CBL_DELETE_DIR       | This subroutine deletes an empty directory                    |
++-------------------------------------------------------------------------------------+
+| File Routines                                                                       |
++-------------------------------------------------------------------------------------+
+| CBL_CHECK_FILE_EXIST| Retrieve the size, date, time modified of a file              |
+| C$FILEINFO          | Same as CBL_CHECK_FILE_EXIST                                  |
+| CBL_COPY_FILE       | Copy source file to destination file                          |
+| C$COPY              | Same as CBL_COPY_FILE                                         |
+| CBL_RENAME_FILE     | Use this subroutine to rename a file                          |
+| CBL_DELETE_FILE     | Deletes the file specified                                    |
+| C$DELETE            | Same as CBL_DELETE_FILE                                       |
+| CBL_FLUSH_FILE      | This routine is non-functional in GnuCOBOL                    |
++-------------------------------------------------------------------------------------+
+| Byte-stream File Routines                                                           |
++-------------------------------------------------------------------------------------+
+| CBL_OPEN_FILE       | Opens an existing file for use as a byte-stream file          |
+| CBL_CREATE_FILE     | Creates new file & opens it for output as a byte-stream file  |
+| CBL_READ FILE       | Reads n bytes from the byte-stream file                       |
+| CBL_WRITE_FILE      | Writes n bytes of data to the byte-stream file                |
+| CBL_CLOSE_FILE      | Closes a byte stream file previously opened                   |
++-------------------------------------------------------------------------------------+
+| Text Routines                                                                       |
++-------------------------------------------------------------------------------------+
+| CBL_TOLOWER         | Convert the first "n" characters of a data-item to lower-case |
+| C$TOLOWER           | Same as CBL_TOLOWER                                           |
+| CBL_TOUPPER         | Convert the first "n" characters of a data-item to upper-case |
+| C$TOUPPER           | Same as CBL_TOUPPER                                           |
+| C$JUSTIFY           | Use to left, right or center justify a data-item              |
++-------------------------------------------------------------------------------------+
+| Logic Operator Routines                                                             |
++-------------------------------------------------------------------------------------+
+| CBL_AND             | Performs a bit-by-bit logical AND between 2 data items        |
+| CBL_OR              | Performs a bit-by-bit logical OR between 2 data items         |
+| CBL_NOR             | Performs the NEGATION of a bit-by-bit logical OR b/data items |
+| CBL_XOR             | Performs a bit-by-bit logical XOR between 2 data items        |
+| CBL_EQ              | Performs a bit-by-bit logical comparison between 2 data items |
+| CBL_NOT             | "Flips" the bits of item changing 0 bits to 1, & 1 bits to 0  |
+| CBL_IMP             | Performs a bit-by-bit logical IMPLIES between 2 data items    |
+| CBL_NIMP            | Performs the NEGATION of a bit-by-bit logical IMPLIES         |
++-------------------------------------------------------------------------------------+
+| Screen Routines                                                                     |
++-------------------------------------------------------------------------------------+
+| CBL_GET_SCR_SIZE    | Retrieve the current console screen size                      |
+| CBL_GC_SET_SCR_SIZE | Set the current console screen size                           |
+| CBL_ALARM_SOUND     | Create a noise (a beep) using the internal speaker            |
+| CBL_BELL_SOUND      | Same as CBL_ALARM_SOUND                                       |
+| X"E5"               | Same as CBL_ALARM_SOUND                                       |
+| CBL_GC_SCR_DUMP     | Writes the current contents of the screen to a dump file      |
+| CBL_GC_SCR_RESTORE  | Restore the screen from a dump file                           |
+| CBL_GET_CSR_POS     | Retrieve the current cursor location on the screen            |
+| CBL_SET_CSR_POS     | Set the current cursor position on the screen                 |
+| X"E4"               | Use X"E4" to clear the screen                                 |
++-------------------------------------------------------------------------------------+
+@end smallexample
+@page
+@smallexample
++-------------------------------------------------------------------------------------+
+| Keyboard Routines                                                                   |
++-------------------------------------------------------------------------------------+
+| CBL_READ_KBD_CHAR   | Waits until a character is typed from the terminal and then   |
+|                     | read it with no echo                                          |
++-------------------------------------------------------------------------------------+
+| Bit-packing Routines                                                                |
++-------------------------------------------------------------------------------------+
+| X"F4"               | Packs rightmost bit from eight 1-byte items into              |
+|                     | corresponding bit positions of a single-byte data item        |
+| X"F5"               | Unpacks bit of the single-byte data item into the rightmost   |
+|                     | bit of corresponding eight 1-byte items                       |
++-------------------------------------------------------------------------------------+
+| Run-unit Handling Routines                                                          |
++-------------------------------------------------------------------------------------+
+| C$CALLEDBY          | Returns the program name that called the executing program    |
+| C$NARG              | Returns the numb.of parameters passed to the current program  |
+| C$PARAMSIZE         | Returns the numb.of bytes passed by caller for a parameter    |
+| CBL_GC_GETOPT       | Adapts the option parser "getopt" to GnuCOBOL                 |
+| CBL_ERROR_PROC      | Registers a general error-handling routine                    |
+| CBL_EXIT_PROC       | Registers a general exit-handling routine                     |
+| CBL_GC_HOSTED       | Provides access to some C hosted variables                    |
+| CBL_GC_NANOSLEEP    | Puts the program to sleep for specified number of nanoseconds |
+| C$SLEEP             | Puts the program to sleep for specified number of seconds     |
+| CBL_GC_PRINTABLE    | Converts the contents of a data-item to printable characters  |
+| C$PRINTABLE         | Same as CBL_GC_PRINTABLE                                      |
+| CBL_GC_WAITPID      | Allows you to wait until another system process ended         |
+| C$GETPID            | Return the PID (process ID) of the executing GnuCOBOL program |
+| CBL_GC_FORK         | Allows you to fork the current COBOL process to a new one     |
+| CBL_RUNTIME_ERROR   ! >>> MORE INFORMATION REQUIRED FROM COMPILER PROGRAMMERS.  <<< !
+|                     !  Do not hold your breath on this one                          !
++-------------------------------------------------------------------------------------+
+| Operating System Routines                                                           |
++-------------------------------------------------------------------------------------+
+| SYSTEM              | Submits command to a command shell for execution              |
++-------------------------------------------------------------------------------------+
+| Miscellaneous Routines                                                              |
++------------------------- -----------------------------------------------------------+
+| EXTFH               | Callable File Handler, is primarily an API for file I-O       |
+
+| X"91"               | Routine capable of providing a wide variety of functions      |
+|  Function code 11   | Sets and/or clears all eight of the COBOL switches            |
+|  Function code 12   | Reads all eight of the COBOL switches                         |
+|  Function code 16   | Retrieves the number of arguments passed to the program       |
+
+>> The following are NOT supported within GnuCobol:
+
+|  Function code 13-14| Allow access to runtime switches 1 - 26. 13 Read, 14 set      |
+|  Function code 15   | Checks to see if a program exists                             |
+|  Function code 35   | Prepare for DOS EXEC call                                     |
+|  Function code 46-49| Prepare for file specific settings LS NULLS/LS TABS           |
+|  Function code 69   | Prepare for directory search                                  |
++-------------------------------------------------------------------------------------+
+
+@end smallexample
+
 The following sections describe the various built-in subroutines.  @i{All subroutine arguments are mandatory except where explicitly noted to the contrary}.  Any subroutine returning a value to the
 @registerref{RETURN-CODE} could utilize the @code{RETURNING} clause on the
 @statement{CALL} to return the result back to the full-word binary data item of your choice.
