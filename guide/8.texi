@@ -41,15 +41,15 @@ Date and Time Formats
 
 @end verbatim
 
-For functions @code{FORMATTED-CURRENT-DATE}, @code{FORMATTED-DATE}, @code{FORMATTED-TIME}, and @code{FORMATTED-DATETIME}, the format literal argument indicates the format of the date or time value that is the result of the function. The result of the function will have the same type as its format literal, which can be alphanumeric, national or UTF-8.
+For functions @code{FORMATTED-CURRENT-DATE}, @code{FORMATTED-DATE}, @code{FORMATTED-TIME} and @code{FORMATTED-DATETIME}, the format literal argument indicates the format of the date or time value that is the result of the function. The result of the function will have the same type as its format literal, which can be alphanumeric, national or UTF-8.
 
-For functions @code{INTEGER-OF-FORMATTED-DATE}, @code{SECONDS-FROM-FORMATTED-TIME}, and @code{TEST-FORMATTED-DATETIME}, the format literal indicates the format of the date or time value specified as the second argument of the function.
+For functions @code{INTEGER-OF-FORMATTED-DATE}, @code{SECONDS-FROM-FORMATTED-TIME} and @code{TEST-FORMATTED-DATETIME}, the format literal indicates the format of the date or time value specified as the second argument of the function.
 
 The permissible format strings are listed as follows. For a full description of each subfield in the format literals, including a range of permissible values in data associated with the formats, see the Value meanings and limits section.
 
 @verbatim
 
-Integer date form:
+Integer Date Form:
 ~~~~~~~~~~~~~~~~~
 
 @end verbatim
@@ -60,7 +60,7 @@ It must be greater than zero and less than or equal to the value of FUNCTION INT
 
 @verbatim
 
-Standard date form:
+Standard Date Form:
 ~~~~~~~~~~~~~~~~~~
 
 @end verbatim
@@ -75,7 +75,7 @@ DD represents a day and must be an integer in the range [01, 31], valid for the 
 
 @verbatim
 
-Julian date form:
+Julian Date Form:
 ~~~~~~~~~~~~~~~~
 
 @end verbatim
@@ -88,7 +88,7 @@ DDD represents the day of the year. It must be a positive integer in the range [
 
 @verbatim
 
-UTC offset value:
+UTC Offset Value:
 ~~~~~~~~~~~~~~~~
 
 @end verbatim
@@ -96,24 +96,31 @@ UTC offset value:
 A UTC offset value is an integer representation of offset from UTC (Coordinated Universal Time) expressed in minutes. The value must be greater than or equal to -1439 and less than or equal to 1439.
 
 Note: The offset value 1439 represents 23 hours 59 minutes, which is one minute less than a day.
+
 Standard numeric time form
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A value in standard numeric time form is a numeric value representing seconds past midnight. The value must be greater than or equal to zero and less than 86,400
 
 @verbatim
 
-Date and time formats:
+Date and Time Formats:
 ~~~~~~~~~~~~~~~~~~~~~
 
 @end verbatim
 
-For functions @code{FORMATTED-CURRENT-DATE}, @code{FORMATTED-DATE}, @code{FORMATTED-TIME}, and @code{FORMATTED-DATETIME}, the format literal argument indicates the format of the date or time value that is the result of the function. The result of the function will have the same type as its format literal, which can be alphanumeric, national or UTF-8.
+For functions @code{FORMATTED-CURRENT-DATE}, @code{FORMATTED-DATE}, @code{FORMATTED-TIME} and @code{FORMATTED-DATETIME}, the format literal argument indicates the format of the date or time value that is the result of the function. The result of the function will have the same type as its format literal, which can be alphanumeric, national or UTF-8.
 
-For functions @code{INTEGER-OF-FORMATTED-DATE}, @code{SECONDS-FROM-FORMATTED-TIME}, and @code{TEST-FORMATTED-DATETIME}, the format literal indicates the format of the date or time value specified as the second argument of the function.
+For functions @code{INTEGER-OF-FORMATTED-DATE}, @code{SECONDS-FROM-FORMATTED-TIME} and @code{TEST-FORMATTED-DATETIME}, the format literal indicates the format of the date or time value specified as the second argument of the function.
 
 The permissible format strings are listed as follows. For a full description of each subfield in the format literals, including a range of permissible values in data associated with the formats, see Value meanings and limits.
 
 @verbatim
+
+Field Sizes
+~~~~~~~~~~~
+
+Caution must be applied when using the above processes in that the data size used for days, MUST be in excess of any requirements in the future but in particular for the years 2038 onwards so that dates expressed as days from 1601 are not exceeded by the field format, i.e., 32 bit fields or larger must be used. e.g., 2038 - 1600 = 438 years, x 365.25 = 159,980 days, requires 4 bytes minimum as only 2 bytes provide for 64k only - far too small.  Always assume that any application will be in use far beyond your expectations as proven by the year 2000 millennium bug that caused a lot of issues in 1999. Not that I can complain as I made a lot of money fixing such issues for various sites :)
 
 Date formats            Format literals
 ~~~~~~~~~~~~            ~~~~~~~~~~~~~~~
@@ -154,7 +161,7 @@ Note: The period is used as the decimal separator, and four "s" characters after
 
 @verbatim
 
-Value meanings and limits:
+Value Meanings and Limits:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The permissible date and time formats have the following meanings and limits:
@@ -182,12 +189,12 @@ Z         UTC time indicator
 
 @verbatim
 
-Value meanings and limits:
+Value Meanings and Limits:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The permissible date and time formats have the following meanings and limits:
 
-Format 	Meaning and limits:
+Format 	Meaning and Limits:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 YYYY      Year, 1601-9999
@@ -210,6 +217,155 @@ ss        Seconds, 00-59
 Z 	       UTC time indicator
 
 @end verbatim
+@page
+The GnuCOBOL intrinsic functions can be grouped into following categories:
+@smallexample
+
++-------------------------------------------------------------------------------------+
+| MATHEMATICAL FUNCTIONS                                                              |
++-------------------------------------------------------------------------------------+
+| ABS(argument-1)            | Returns the absolute value of argument-1               |
+| ABSOLUTE-VALUE(argument-1) | Same as ABS(argument-1)                                |
+| E                          | Returns the constant E                                 |
+| EXP(argument-1)            | Returns e raised to the power of argument-1            |
+| EXP10(argument-1)          | Returns 10 raised to the power of argument-1           |
+| FACTORIAL(argument-1)      | Returns the factorial value of argument-1              |
+| FRACTION-PART(number)      | Returns number from the right of decimal point         |
+| INTEGER-PART(number)       | Returns the integer portion of number                  |
+| LOG(number)                | Returns the natural logarithm (base e) of number       |
+| LOG10(number)              | Returns the base 10 logarithm of number                |
+| MOD(value,modulus)         | Returns the value of remainder from value / modulus    |
+| PI                         | Returns the constant PI                                |
+| REM(number,divisor)        | Returns the remainder of number divided by divisor     |
+| SIGN(number)               | Returns -1 if number <0, 0 if number =0, 1 if number >0|
+| SQRT(argument-1)           | Returns the square root of argument-1                  |
+| SUM(number-1[,number-2]...)| Returns the sum of number-n arguments                  |
+| ACOS(argument-1)           | Returns the arccosine of argument-1 (cosine value)     |
+| ASIN(argument-1)           | Returns the arcsine of argument-1 (sine value)         |
+| ATAN(argument-1)           | Returns the arctangent of argument-1 (tangent value)   |
+| COS(argument-1)            | Returns the cosine of argument-1 (in radians)          |
+| SIN(argument-1)            | Returns the sine of argument-1 (in radians)            |
+| TAN(argument-1)            | Returns the tangent of argument-1 (in radians)         |
++-------------------------------------------------------------------------------------+
+| STATISTICAL FUNCTIONS                                                               |
++-------------------------------------------------------------------------------------+
+| MAX(num-1[,num-2]...)      | Returns the maximum value from the list of numbers     |
+| MEAN(num-1[,num-2]...)     | Returns the mean value of the list of numbers          |
+| MEDIAN(num-1[,num-2]...)   | Returns the median value of the list of numbers        |
+| MIDRANGE(num-1[,num-2]...) | Returns the mean of minimum and maximum from list      |
+| MIN(num-1[,num-2]...)      | Returns the minimum from the list of numbers           |
+| RANDOM[(seed)]             | Returns a pseudo-random value in range 0 >= to < 1     |
+| RANGE(num-1[,num-2 ]...)   | Returns maximum number in the list minus the minimum   |
+| STANDARD-DEVIATION(num-1[,num-2]...)                                                |
+|                            | Returns the standard deviation of the list             |
+| VARIANCE(num-1[,num-2]...) | Returns the variance of the list of numbers            |
++-------------------------------------------------------------------------------------+
+| DATE / TIME FUNCTIONS                                                               |
++-------------------------------------------------------------------------------------+
+| COMBINED-DATETIME(days,seconds) Returns 7 dig.as value of days, 5 digits as seconds |
+| CURRENT-DATE               | Returns the current date and time                      |
+| DATE-OF-INTEGER(argument-1)| Returns a numeric calendar date in YYYYMMDD format     |
+| DATE-TO-YYYYMMDD(...)      | Convert 6-digit date yymmdd to an 8-digit date yyymmdd |
+| DAY-OF-INTEGER(argument-1) | Returns a calendar date in YYYYDDD format              |
+| DAY-TO-YYYYDDD(...)        | Convert 5-digit date yyddd  to a  7-digit date yyyyddd |
+| FORMATTED-CURRENT-DATE(arg-1)Returns current date/time from the system at runtime   |
+| FORMATTED-DATE(arg-1,arg-2)| Convert an integer date form to a date in the req.fmt  |
+| FORMATTED-DATETIME(arg-n..)| Uses a timedate form to convert in integer and num.time|
+| FORMATTED-TIME (arg-n,...) | Converts seconds past midnight with optional offset    |
+| INTEGER-OF-DATE(date)      | Convert from YYYYMMDD to the num.of days since 16001231|
+| INTEGER-OF-DAY(date)       | Convert from YYYYDDD  to the num.of days since 16001231|
+| INTEGER-OF-FORMATTED-DATE(args..)Converts a date to integer date form               |
+| SECONDS-FROM-FORMATTED-TIME( Format,time) decodes the string,ret.the number of secs |
+| SECONDS-PAST-MIDNIGHT      | Returns curr.time of day as num.seconds since midnight |
+| TEST-DATE-YYYYMMDD(date)   | Determines if supplied date argument is a valid date   |
+| TEST-DAY-YYYYDDD(date)     | Determines if the supplied date is a valid date        |
+| TEST-FORMATTED-DATETIME(arg-1,arg-2) Tests if literal is valid according to spec.fmt|
+| YEAR-TO-YYYY(yy ...)       | Converts yy to a four-digit format yyyy                |
++-------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------+
+| FINANCIAL FUNCTIONS                                                                 |
++-------------------------------------------------------------------------------------+
+| ANNUITY(interest-rate, number-of-periods)                                           |
+| returns the ratio of an annuity paid at interest-rate for each of number-of-periods |
+| PRESENT-VALUE(rate,value-1[,value-2]...)                                            |
+| returns pres.value of series of future periodend amounts at disc.rate by rate argumt|
++-------------------------------------------------------------------------------------+
+| STRING AND CHARACTER HANDLING FUNCTIONS                                             |
++-------------------------------------------------------------------------------------+
+| BIT-OF(arg-1)           | Returns string of 1&0 repres.bin.value of bytes in arg-1  |
+| BIT-TO-CHAR(arg-1)      | Returns a string that represents a bit pattern of arg-1   |
+| BYTE-LENGHT(string)     | Same as LENGHT-AN                                         |
+| CHAR(arg-1)             | Returns char.in the ordinal position specified by arg-1   |
+| CONCAT(arg-1,arg-2 ...) | Concatenates arg-1,arg-2, .. into a single string result  |
+| CONCATENATE             | Same as CONCAT                                            |
+| CONTENT-LENGHT(arg-1)   | Scans for a NUL byte delimiter and returns the length     |
+| CONTENT-OF ptr{length}  | Returns a char.field of data addressed by pointer         |
+| HEX-OF(arg-1)           | Returns a string of hexadecimal representation of arg-1   |
+| HEX-TO-CHAR(arg-1)      | Returns a string of characters representation from arg-1  |
+| HIGHEST-ALGEBRAIC(num-id) Returns highest value could possibly be stored in num-id  |
+| INTEGER(number)         | Returns the greatest integer value < or = equal to number |
+| LOWER-CASE(string)      | Returns the value of string converted to lower case       |
+| LOWEST-ALGEBRAIC(num-id)| Returns the lowest value could possibly stored in num-id  |
+| LENGTH(string)          | Returns the length in characters of string                |
+| LENGTH-AN(string)       | Returns the length in bytes of storage of string          |
+| ORD(char)               | Returns the ordinal position corr.to the 1st char.of char |
+| ORD-MAX(char-n...)      | Returns ordinal pos.corr.to the char-n whose 1st character|
+|                         | Has highest position in the program collating sequence    |
+| ORD-MIN(char-n...)      | Returns ordinal pos.corr.to the char-n whose 1st character|
+|                         | Has lowest position in the program collating sequence     |
+| REVERSE(string)         | Returns the byte-by-byte reversed value of string         |
+| SUBSTITUTE(string,...)  | Replace all occurrences with the corresponding to strings |
+| SUBSTITUTE-CASE         | Same as SUBSTITUTE but without regard to case             |
+| STORED-CHAR-LENGTH(strg)| Returns num.bytes of string minus num.of trailing spaces  |
+| TRIM(string[...])       | Removes LEADING or TRAILING spaces from string            |
+| UPPER-CASE(string)      | Returns the value of string converted to upper case       |
++-------------------------------------------------------------------------------------+
+| GENERAL FUNCTIONS                                                                   |
++-------------------------------------------------------------------------------------+
+| CURRENCY-SYMBOL         | Returns the currency symbol currently in effect           |
+| MONETARY-DECIMAL-POINT  | Returns char.separate integer from frac.part of curr.value|
+| MONETARY-THOUSANDS-SEPARATOR Returns char.separate thousands of monetary curr.values|
+| NUMERIC-DECIMAL-POINT   | Returns character separate integer from fractional part   |
+| NUMERIC-THOUSANDS-SEPARATOR Returns char.separate thousands of numeric values       |
+| NUMVAL(string)          | Converts a string to its corresponding numeric value      |
+| NUMVAL-C(string...      | Converts a string representing a currency to its num.value|
+| NUMVAL-C-2(...)         | Returns the num.value represented by the character string |
+| NUMVAL-F(char)          | Converts a string repr.a floating-point value to num.value|
+| TEST-NUMVAL(string)     | Evaluates string for being appropriate for NUMVAL function|
+| TEST-NUMVAL-C(string...)| Evaluates string for being appropriate for NUMVAL-C funct.|
+| TEST-NUMVAL-F (string)  | Evaluates string for being appropriate for NUMVAL-F funct.|
++-------------------------------------------------------------------------------------+
+| FROM ROUTINE "CBL_ERROR_PROC"                                                       |
++-------------------------------------------------------------------------------------+
+|EXCEPTION-FILE     | Returns exc.information from most recently executed I/O statemt |
+|EXCEPTION-LOCATION | Returns exc.information from most recently failing statement    |
+|EXCEPTION-STATEMENT| Returns most recent COBOL statement that generated exc.condition|
+|EXCEPTION-STATUS   | Returns error type from most recent COBOL statement gen.exc.cond|
++-------------------------------------------------------------------------------------+
+@end smallexample
+@page
+@smallexample
++-------------------------------------------------------------------------------------+
+| LOCALE FUNCTIONS                                                                    |
++-------------------------------------------------------------------------------------+
+|LOCALE-COMPARE(...)| Returns a character indicating result of comparing              |
+|LOCALE-DATE(...)   | Converts date from yyyymmdd format to the current locale format |
+|LOCALE-TIME(...)   | Converts hhmm or hmmss time to a current locale format          |
+|LOCALE-TIME-FROM-SECONDS(...) Converts num.of seconds since midnight to a locale fmt |
++-------------------------------------------------------------------------------------+
+| MODULE FUNCTIONS                                                                    |
++-------------------------------------------------------------------------------------+
+|MODULE-CALLER-ID   | Returns the entry-point name of program that called subprogram  |
+|MODULE-DATE        | Returns date the program was compiled, in the form yyyymmdd     |
+|MODULE-FORMATTED-DATE Returns date & time when the program was compiled              |
+|MODULE-ID          | Returns the name (in PROGRAM-ID) of the program                 |
+|MODULE-PATH        | Returns the path to the executable version of the program       |
+|MODULE-SOURCE      | Returns the filename of the source code of the program          |
+|MODULE-TIME        | Returns the time the program was compiled in the form hhmmss    |
+|WHEN-COMPILED      | Returns the date and time the program was compiled              |
++-------------------------------------------------------------------------------------+
+
+@end smallexample
 
 The supported intrinsic functions are listed in the following sections, along with their syntax and usage notes.
 @menu
