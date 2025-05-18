@@ -92,14 +92,30 @@ Options:
   -O0                    disable optimization
   -P[=<dir or file>]     generate preprocessed program listing (.lst)
   -Q <options>           add <options> to the C link phase
-  -std=<dialect>         warnings/features for a specific dialect
+  -std=<dialect>         warnings/features for a specific Cobol dialect
                          <dialect> can be one of:
-                         default, cobol2014, cobol2002, cobol85, xopen,
-                         ibm-strict, ibm, mvs-strict, mvs,
-                         mf-strict, mf, bs2000-strict, bs2000,
-                         acu-strict, acu, rm-strict, rm, gcos-strict,
-                         gcos;
-                         see configuration files in directory config
+                         default
+                         acu             ACUCOBOL-GT compatibility
+                         acu-strict      ACUCOBOL-GT compatibility         - strict
+                         bs2000          BS2000 COBOL compatibility (back again)
+                         bs2000-strict   BS2000 COBOL compatibility        - strict
+                         cobol85         COBOL (19) 85 Standard
+                         cobol2002       COBOL 2002 Standard
+                         cobol2014       COBOL 2014 Standard
+                         gcos-strict     GCOS  COBOL compatibility         - strict
+                         gcos            GCOS  COBOL compatibility
+                         ibm             IBM COBOL compatibility
+                         ibm-strict      IBM COBOL compatibility           - strict
+                         mf              Micro Focus COBOL compatibility
+                         mf-strict       Micro Focus COBOL compatibility   - strict
+                         mvs             MVS/VM COBOL compatibility
+                         mvs-strict      MVS/VM COBOL compatibility        - strict
+                         rm              RM-COBOL compatibility
+                         rm-strict       RM-COBOL compatibility            - strict
+                         xopen           X/Open COBOL Standard
+
+                         See configuration files in directory config and more detail
+                         at below.
   -S                     compile only; output assembly file
   --save-temps[=<dir>]   save intermediate files
                          * default: current directory
@@ -526,6 +542,52 @@ Compiler dialect configuration options:
 
 
 @end verbatim
+
+For -std= option and others, more details.
+
+Note:
+The GnuCOBOL compiler tries to limit both the feature-set and reserved words to the specified compiler when the "strict" dialects are used.
+COBOL sources compiled with these dialects are therefore likely to compile with the specified compiler and vice versa: sources that were compiled on the specified compiler should compile without any issues with GnuCOBOL.
+
+With the "non-strict" dialects GnuCOBOL will activate the complete feature-set where it doesn't directly conflict with the specified dialect, including reserved words and GnuCOBOL specific extensions.
+COBOL sources compiled with these dialects therefore may work only with GnuCOBOL. COBOL sources may need a change because of rich feature-set and reserved words in GnuCOBOL, otherwise offending words may be removed by `-fno-reserved=word`.
+COBOL-85, X/Open COBOL, COBOL 2002 and COBOL 2014 are always "strict".
+
+The intrinsic functions that are actually available as intrinsic functions depend on the -std used. Function names that aren't marked as intrinsic functions by the current -std can be used freely as user defined words or even as user defined functions.
+
+-fformat dialect option, and extended SOURCE FORMAT directives, with the following newly supported reference-formats (in addition to FIXED/FREE):
+@verbatim
+
+   COBOL85      Fixed-form format with enforcement of Area A
+   COBOLX       GCOS 7 extended format
+   CRT          ICOBOL Free-form format
+   TERMINAL     ACUCOBOL-GT Terminal format
+   VARIABLE     Micro Focus Variable Fixed-form format
+   XCARD        ICOBOL xCard (extended card) format
+   XOPEN        X/Open Free-form format
+
+@end verbatim
+
+These formats come with Area A enforcement (except for XOPEN), that checks whether division, section, and paragraph names start in Area A (i.e, before margin B), and so do level indicators FD, SD, RD, and CD, and level numbers 01, and 77.  The underlying checks are enabled or disabled by default using dialect option `areacheck`, and then with `$SET AREACHECK` and `$SET NOAREACHECK` compiler directives.
+
+As a result of reference format being a dialect option, Area A enforcement is available and enabled by default for dialects BS2000 COBOL, CA Realia II, COBOL85, GCOS COBOL, IBM COBOL, MVS/VM COBOL, RM-COBOL, and X/Open COBOL.
+
+Area A enforcement additionally enables detection of missing periods before level numbers that lie in Area A in the DATA DIVISION, and before paragraph and section names in the PROCEDURE DIVISION.  More generally, some, but not all, missing periods can be reported and recovered from.  This is configurable with option `missing-period`.
+
+ and others, that discuss dialect options:
+
+The most important part is:
+* if you use a -strict option, then the behaviour is according to that dialect and features are limited to what the dialect supports, that's especially true for reserved words (which are not unlikely to create problems in case of same user-defined names [for example NOTHING]), intrinsic functions and registers; if a feature does not conflict at all with a dialect it may still be available; we definitely don't drop any CBL routines, for example (you could create those in other compilers as well, after all)
+* non-strict are "identical behaviour" (for example initialization and soon possibly also runtime checks) but with all features (and reserved words) enabled that don't directly conflict with that dialect
+
+If you start a migration and/or need to "still compile and run" on the other compiler: use the strict one; if you then want to use GnuCOBOL's features because that is already done, then use the non-strict one, possible unreserving single words that conflict with your code.
+If you want to be portable between compilers use xopen/cobol85 (because that's widely supported) or the newer COBOL standards (but many features of that aren't available in other compilers).
+If you start with a new COBOL project and want to stick to GnuCOBOL in the future: just use the default.
+
+And in any case there's the option to manually override any dialect option on the command line or write your own conf file that includes a dialect, then overrides what you want different and only reference that by --conf.
+
+To learn more about the dialect options: check cobc --help (or directly cobc/config.def) and the config files itself.
+To see what reserved words / intrinsics / registers are active: use cobc's --list options after using -std/-conf (and maybe -f[not-]reserved).
 
 @anchor{Compilation Unit}
 Each file specified on the @code{cobc} command constitutes a
