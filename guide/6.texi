@@ -3214,6 +3214,9 @@ TABLE 1
 @smallexample
 TABLE 1 - Continued
 +----------------------+--------------------------------+----------+---------+-------+
+| USAGE                |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
+|                      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
++----------------------+--------------------------------+----------+---------+-------+
 |COMP-3                | Defined by the quantity of '9's| Signed   |if       | Yes   |
 |COMPUTATIONAL-3       | and the presence or absence of | Packed   |PICTURE  |       |
 |PACKED-DECIMAL        | an 'S' in the PICTURE          | Decimal  |contains |       |
@@ -3243,8 +3246,18 @@ TABLE 1 - Continued
 |                      | Max picture is PIC 9(38)       |          |         |       |
 |                      | or PIC X(9999999999)           |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-
-
+|COMP-N                | PICTURE can only be all 9's or |          | No      | Yes   |
+|COMPUTATIONAL-N       | all X's                        |          |         |       |
+|                      | A COMP-N data item is identical|          |         |       |
+|                      | to a COMP-X data item, except  |          |         |       |
+|                      | that the data is stored in the |          |         |       |
+|                      | host machine's native format,  |          |         |       |
+|                      | instead of machine-independent |          |         |       |
+|                      | format.                        |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+@end smallexample
+@page
+@smallexample
 TABLE 2
 +----------------------+--------------------------------+----------+---------+-------+
 | NUMERIC USAGE        |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
@@ -3275,11 +3288,6 @@ TABLE 2
 |SIGNED-INT            | same as S9(9) COMP-5           |          |         |       |
 |~~~~~~~~~~            |                                |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-
-
-TABLE 2 - Continued
-
-+----------------------+--------------------------------+----------+---------+-------+
 |BINARY-LONG UNSIGNED  | 0 to  4,294,967,295            | Native   | No      | No    |
 |~~~~~~~~~~~ ~~~~~~~~  |                                | Binary   |         |       |
 |BINARY-INT UNSIGNED   |                                | Integer  |         |       |
@@ -3298,6 +3306,14 @@ TABLE 2 - Continued
 |~~~~~~~~~~~~~ ~~~~~~~~|      (2**64)                   | Binary   |         |       |
 |UNSIGNED-LONG         |                                | Integer  |         |       |
 |~~~~~~~~~~~~~         |                                |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+@end smallexample
+@page
+@smallexample
+TABLE 2 - Continued
++----------------------+--------------------------------+----------+---------+-------+
+| USAGE                |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
+|                      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
 +----------------------+--------------------------------+----------+---------+-------+
 |BINARY-C-LONG [SIGNED]| Depending on the system HW the |          | YES     | No    |
 |~~~~~~~~~~~~~         | range is either                |          |         |       |
@@ -3325,9 +3341,7 @@ TABLE 2 - Continued
 |                      | (n.33 9s after decimal point)  | Floating |         |       |
 |                      |  size=16 bytes                 | -point   |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-@end smallexample
-@page
-@smallexample
+
 TABLE 3
 +----------------------+--------------------------------+----------+---------+-------+
 | OTHER USAGE          |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
