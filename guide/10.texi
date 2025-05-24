@@ -1030,26 +1030,6 @@ If this is not defined under *nix it will default to @file{/usr/local/share/gnuc
 
 The following is a verbatim listing of the default configuration file (the one used if you don't specify the @switch{-conf}), just to show you the types of settings that may appear and taken from v3.1.2 :
 @verbatim
-# GnuCOBOL compiler configuration
-#
-# Copyright (C) 2001-2012, 2014-2025 Free Software Foundation, Inc.
-# Written by Keisuke Nishida, Roger While, Simon Sobisch, Edward Hart,
-# Ron Norman
-#
-# This file is part of GnuCOBOL.
-#
-# The GnuCOBOL compiler is free software: you can redistribute it
-# and/or modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-#
-# GnuCOBOL is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with GnuCOBOL.  If not, see <https://www.gnu.org/licenses/>.
 
 
 # Value: any string
@@ -1057,6 +1037,7 @@ name: "GnuCOBOL"
 
 # Value: enum
 standard-define			0
+# NOTE: see enum cb_std_def, defined in cobc/cobc.h.
 #        CB_STD_GC = 0,
 #        CB_STD_MF,
 #        CB_STD_IBM,
@@ -1256,7 +1237,7 @@ stop-literal-statement:			obsolete
 stop-identifier-statement:		obsolete
 same-as-clause:				ok
 type-to-clause:				ok
-usage-type:					ok
+usage-type:				ok
 synchronized-clause:			ok
 special-names-clause:			ok
 top-level-occurs-clause:		ok
@@ -1266,7 +1247,7 @@ hexadecimal-boolean:			ok
 national-literals:			ok
 hexadecimal-national-literals:		ok
 national-character-literals:		warning
-# TO-DO: Add separate config option for H"..." to be unsupported,numeric,non-numeric(acu)
+
 acu-literals:				unconformable
 hp-octal-literals:			unconformable
 word-continuation:			warning
@@ -1285,11 +1266,12 @@ numeric-value-for-edited-item:		ok
 incorrect-conf-sec-order:		ok
 define-constant-directive:		archaic
 free-redefines-position:		warning
-records-mismatch-record-clause	warning
+records-mismatch-record-clause          warning
 record-delimiter:			ok
 sequential-delimiters:			ok
 record-delim-with-fixed-recs:		ok
 missing-statement:			warning
+missing-period:                         warning  ( when format not in {fixed, free} )
 zero-length-literals:			ok
 xml-generate-extra-phrases:		ok
 continue-after:				ok
@@ -1299,9 +1281,15 @@ assign-using-variable:			ok
 assign-ext-dyn:				ok
 assign-disk-from:			ok
 vsam-status:				ignore
+self-call-recursive:                    warning
+record-contains-depending-clause:       unconformable
+picture-l:                              ok
+defaultbyte:                            init
+# GC inits as INITIALIZE ALL TO VALUE THEN TO DEFAULT,
+# with INDEXED BY variables initialized to 1
 
 # use complete word list; synonyms and exceptions are specified below
-reserved-words:		default
+reserved-words:                         default
 
 # not-reserved:
 # Value: Word to be taken out of the reserved words list
