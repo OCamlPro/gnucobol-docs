@@ -3172,22 +3172,22 @@ The following tables summarize the USAGE specifications available in GnuCOBOL.
 
 TABLE 1
 +----------------------+--------------------------------+----------+---------+-------+
-| USAGE                |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
-|                      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
+| USAGE                |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
+|                      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
 +----------------------+--------------------------------+----------+---------+-------+
-|[DISPLAY]             | Depends on PICTURE. One char.  |Characters|if       | Yes   |
-| ~~~~~~~              | per X,A,9, period, $,Z,0,*, S  |          |PICTURE  |       |
-|                      | if SEPARATE CHARACTER specified|          |contains |       |
-|                      | +, - or B symbol in PICTURE;   |          |'S'      |       |
+|[DISPLAY]             | Depends on PICTURE. One char.  |Characters|if PIC   | Yes   |
+| ~~~~~~~              | per X,A,9, period, $,Z,0,*, S  |          |contains |       |
+|                      | if SEPARATE CHARACTER specified|          |'S'      |       |
+|                      | +, - or B symbol in PICTURE;   |          |         |       |
 |                      | Add 2 more bytes if DB or CR   |          |         |       |
 |                      | editing symbol is used         |          |         |       |
 |                      | Max picture is 9(38).          |          |         |       |
 |                      | or Picture X(2147483646)       |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-|COMP                  | Defined by the quantity of     |Compatible|if       | Yes   |
-|COMPUTATIONAL         | '9's  and the presence/absence |Binary    |PICTURE  |       |
-|BINARY                | of an 'S' in the PICTURE       |Integer   |contains |       |
-|~~~~~~                | pic 9(01) to 9(04) size=2 bytes|          |'S'      |       |
+|COMP                  | Defined by the quantity of     |Compatible|if PIC 9 | Yes   |
+|COMPUTATIONAL         | '9's  and the presence/absence |Binary    |contains |       |
+|BINARY                | of an 'S' in the PICTURE       |Integer   |'S'      |       |
+|~~~~~~                | pic 9(01) to 9(04) size=2 bytes|          |         |       |
 |                      | pic 9(05) to 9(09) size=4 bytes|          |         |       |
 |                      | pic 9(10) to 9(18) size=8 bytes|          |         |       |
 |                      | Negative number are represented|          |         |       |
@@ -3214,21 +3214,21 @@ TABLE 1
 @smallexample
 TABLE 1 - Continued
 +----------------------+--------------------------------+----------+---------+-------+
-| USAGE                |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
-|                      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
+| USAGE                |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
+|                      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
 +----------------------+--------------------------------+----------+---------+-------+
-|COMP-3                | Defined by the quantity of '9's| Signed   |if       | Yes   |
-|COMPUTATIONAL-3       | and the presence or absence of | Packed   |PICTURE  |       |
-|PACKED-DECIMAL        | an 'S' in the PICTURE          | Decimal  |contains |       |
-|~~~~~~~~~~~~~~        | Max picture is 9(38)           |          |'S'      |       |
+|COMP-3                | Defined by the quantity of '9's| Signed   |if PIC 9 | Yes   |
+|COMPUTATIONAL-3       | and the presence or absence of | Packed   |contains |       |
+|PACKED-DECIMAL        | an 'S' in the PICTURE          | Decimal  |'S'      |       |
+|~~~~~~~~~~~~~~        | Max picture is 9(38)           |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
 |COMP-4                | same as COMP                   |          |         |       |
 |COMPUTATIONAL-4       |                                |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-|COMP-5                | Depends on number of '9's in   | Native   |if       | Yes   |
-|COMPUTATIONAL-5       | the PICTURE and the binary-size| Binary   |PICTURE  |       |
-|                      | setting of the configuration   | Integer  |contains |       |
-|                      | file used to compile theprogram|          |'S'      |       |
+|COMP-5                | Depends on number of '9's in   | Native   |if PIC 9 | Yes   |
+|COMPUTATIONAL-5       | the PICTURE and the binary-size| Binary   |contains |       |
+|                      | setting of the configuration   | Integer  |'S'      |       |
+|                      | file used to compile theprogram|          |         |       |
 !                      | Max picture is 9(18)           |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
 |COMP-6                | Defined by the quantity of '9's| Unsigned | No      | Yes   |
@@ -3236,20 +3236,20 @@ TABLE 1 - Continued
 |                      |                                | Decimal  |         |       |
 |                      | Max picture is 9(38)           |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-|COMP-X                | If used with PIC X, allocates  | Native   |if       | Yes   |
-|COMPUTATIONAL-X       | one byte of storage per 'X';   | unsigned |PICTURE 9|       |
-|                      | range of values is 0 to max    | PIC (X)  |contains |       |
-|                      | storable in that many bytes.   | or signed|'S'      |       |
+|COMP-X                | If used with PIC X, allocates  | Native   |if PIC 9 | Yes   |
+|COMPUTATIONAL-X       | one byte of storage per 'X';   | unsigned |contains |       |
+|                      | range of values is 0 to max    | PIC (X)  |'S'      |       |
+|                      | storable in that many bytes.   | or signed|         |       |
 |                      | If used with PIC 9, range of   | PIC (9)  |         |       |
 |                      | values depends on number of    | Binary   |         |       |
 |                      | '9's in PICTURE                |          |         |       |
 |                      | Max picture is PIC 9(38)       |          |         |       |
 |                      | or PIC X(9999999999)           |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-|COMP-N                | PICTURE can only be all 9's or |          |if       | Yes   |
-|COMPUTATIONAL-N       | all X's                        |          |PICTURE 9|       |
-|                      | A COMP-N data item is identical|          |contains |       |
-|                      | to a COMP-X data item, except  |          |'S'      |       |
+|COMP-N                | PICTURE can only be all 9's or |          |if PIC 9 | Yes   |
+|COMPUTATIONAL-N       | all X's                        |          |contains |       |
+|                      | A COMP-N data item is identical|          |'S'      |       |
+|                      | to a COMP-X data item, except  |          |         |       |
 |                      | that the data is stored in the |          |         |       |
 |                      | host machine's native format,  |          |         |       |
 |                      | instead of machine-independent |          |         |       |
@@ -3260,8 +3260,8 @@ TABLE 1 - Continued
 @smallexample
 TABLE 2
 +----------------------+--------------------------------+----------+---------+-------+
-| NUMERIC USAGE        |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
-| WITHOUT PICTURE      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
+| NUMERIC USAGE        |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
+| WITHOUT PICTURE      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
 +----------------------+--------------------------------+----------+---------+-------+
 |BINARY-CHAR [SIGNED]  | -128 (-2**7) to 127 (2**7)-1   | Native   | Yes     | No    |
 |~~~~~~~~~~~           |                                | Binary   |         |       |
@@ -3312,8 +3312,8 @@ TABLE 2
 @smallexample
 TABLE 2 - Continued
 +----------------------+--------------------------------+----------+---------+-------+
-| USAGE                |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
-|                      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
+| USAGE                |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
+|                      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
 +----------------------+--------------------------------+----------+---------+-------+
 |BINARY-C-LONG [SIGNED]| Depending on the system HW the |          | YES     | No    |
 |~~~~~~~~~~~~~         | range is either                |          |         |       |
@@ -3344,8 +3344,8 @@ TABLE 2 - Continued
 
 TABLE 3
 +----------------------+--------------------------------+----------+---------+-------+
-| OTHER USAGE          |  RANGE                         | STORAGE  |NEGATIVE |PICTURE|
-|                      |  OF VALUES                     | FORMAT   |ALLOWED ?|USED ? |
+| OTHER USAGE          |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
+|                      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
 +----------------------+--------------------------------+----------+---------+-------+
 |HANDLE OF [VARIANT]   |                                | Native   | Yes     | No    |
 |~~~~~~    [WINDOW]    | Size is 4 bytes                | Binary   |         |       |
@@ -3365,7 +3365,7 @@ TABLE 3
 |PROCEDURE-POINTER     |                                | Integer  |         |       |
 |~~~~~~~~~~~~~~~~~     |                                |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-|NATIONAL              | While syntactically recognized |    --    |   --    |  --   |
+|NATIONAL              | While syntactically recognized |    --    |   --    | --    |
 |~~~~~~~~              | it is not supported by GnuCOBOL|          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
 @end smallexample
