@@ -1012,8 +1012,40 @@ The
 The
 @syntaxidx{SCROLL} option will cause the entire contents of the screen to be scrolled @code{UP} or @code{DOWN} by the specified number of lines before any value is displayed on the screen.  It is syntactically allowable to specify a @code{SCROLL UP} clause as well as a @code{SCROLL DOWN} clause.  In such an instance, it is the last one specified that will be honoured.  If no @code{LINES} specification is made, @code{1 LINE} will be assumed. These two options cannot be used in Screen Section.
 
+@comment @item
+@comment The @code{SIZE} specifies size of Variable to accept from the screen. identifier-11 or integer-8 must be numeric. 'SIZE <greater than="" zero="">' If identifier-11 or integer-8 is less than the length of the variable then only the 'SIZE' number of characters accept into the field. Variable pads with spaces after 'SIZE' to the end of the field. If integer-11 or integer-8 is greater than the variable, then the screen pads with spaces after variable to the 'SIZE' length 'SIZE ZERO' is '<size option="" not="" specified="">'. The variable accepts to its field length </size></greater>
+
+@comment @item
+@comment The size of @var{identifier-1} to accept from the screen.
+
+@comment @var{identifier-11} or @var{integer-8} must be numeric.
+
 @item
-The @code{SIZE} specifies size of Variable to accept from the screen. identifier-11 or integer-8 must be numeric. 'SIZE <greater than="" zero="">' If identifier-11 or integer-8 is less than the length of the variable then only the 'SIZE' number of characters accept into the field. Variable pads with spaces after 'SIZE' to the end of the field. If integer-11 or integer-8 is greater than the variable, then the screen pads with spaces after variable to the 'SIZE' length 'SIZE ZERO' is '<size option="" not="" specified="">'. The variable accepts to its field length </size></greater>
+The @code{SIZE} specifies size of Variable to accept from the screen. identifier-11 or integer-8 must be numeric.
+
+@comment @vtable @option
+
+@item @code{SIZE} <greater than zero>
+
+If @var{identifier-11} or @var{integer-8} is less than the length of
+@var{identifier-1} then only the @code{SIZE} number of characters accept
+into the field.
+@var{identifier-1} pads with spaces after @code{SIZE} to the end of the field.
+
+If @var{identifier-11} or @var{integer-8} is greater than @var{identifier-1},
+then the screen pads with spaces after @var{identifier-1} to the @code{SIZE} length.
+
+@item
+@code{SIZE ZERO} or @code{SIZE} <option not specified>
+
+The @var{identifier-1} accepts to its field length.
+
+@comment @var{identifier-11} or @var{integer-8} must be numeric.
+
+@comment @end vtable
+
+
+
 
 @item
 The
@@ -2180,6 +2212,22 @@ The following @var{Attribute-Specification} clauses are allowed on the @code{DIS
 @end itemize
 
 @item
+@code{SIZE} @var{positive-integer}
+
+If @code{SIZE} is less than the length of @var{identifier-1}
+then only the @code{SIZE} number of characters display.
+
+If @code{SIZE} is greater than the length of @var{identifier-1},
+then the screen pads with spaces after the field to the @code{SIZE} length.
+
+Figurative constants display repeatedly the number of times in @code{SIZE}.
+Except that @code{LOW-VALUES} always positions the cursor (see @code{SIZE} ZERO below).
+
+@item @code{SIZE ZERO} or @code{SIZE} option not specified>
+
+@var{identifier-1} displays with the field length.
+
+@item
 @syntaxidx{CONTROL} The CONTROL phrase allow dynamic (runtime as opposed to compile time) specification of characteristics.
 Literal-7 must be a nonnumeric literal. Identifier-7 must be a nonnumeric data item.
 The value of identifier-7 or literal-7 in the CONTROL phrase must be a character-string consisting of a series of keywords delimited by commas; some keywords allow assignment of a value by following the keyword with an equal sign and the value.
@@ -2191,8 +2239,8 @@ Keywords, which specify options that do not apply to the statement, are ignored.
 
 @item
 The keywords that affect a DISPLAY statement are
-BEEP,    BLINK,    CONVERT,     REVERSE,    UNDERLINE,   ERASE, ERASE EOL, ERASE EOS, HIGH, LOW,
-NO BEEP, NO BLINK, NO CONVERT,  NO REVERSE, NO UNDERLINE NO ERASE.
+BEEP, BLINK, HIGH, LOW, CONVERT, REVERSE, UNDERLINE, ERASE, ERASE EOL, ERASE EOS,
+NO ERASE, NO BEEP, NO BLINK, NO CONVERT, NO REVERSE, NO UNDERLINE.
 The meanings of these keywords when they appear in the value of the CONTROL phrase operand are the same as the corresponding phrases which may be written as static options of the DISPLAY statement, with the addition of the negative forms to allow suppression of statically declared options.
 
 @item
@@ -2418,9 +2466,8 @@ WORKING-STORAGE SECTION.
 
 @end verbatim
 
-
 @item
-@xref{ACCEPT data-item}, for additional information on the other @code{WITH} clause options.
+See @xref{ACCEPT data-item}, for additional information on the other @code{WITH} clause options.
 @end enumerate
 
 @item
