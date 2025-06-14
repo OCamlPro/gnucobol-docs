@@ -3104,7 +3104,7 @@ The directory change remains in effect until the program terminates (in which th
 @page
 @newsubsection{CBL_CHECK_FILE_EXIST}
 @diagram{CBL_CHECK_FILE_EXIST Built-In Subroutine,SS-CBL_CHK_FILE_EX,SS-CBL_CHK_FILE_EX,None}
-With this routine you may retrieve the size of the file specified as the @var{file-path} argument (an alphanumeric literal or identifier) and the date/time that file was last modified.  File size information may not be available in the particular GnuCOBOL build / Operating System combination you are using and may therefore always be returned as zero.
+With this routine you may retrieve the size of the file specified as the @var{file-path} argument (an alphanumeric literal or identifier) and the date/time that file was last MODIFIED.  File size information may not be available in the particular GnuCOBOL build / Operating System combination you are using and may therefore always be returned as zero.
 
 The information is returned to the @var{file-info} argument, which is defined as the following 16-byte area:
 
@@ -3120,10 +3120,8 @@ The information is returned to the @var{file-info} argument, which is defined as
     05 FILLER              PIC 9(2)   COMP.  *> Always 00
 @end example
 
-If the subroutine is successful, a value of 0 will be returned in the
-@registerref{RETURN-CODE}.  Failure to retrieve the needed statistics on the file will cause a
-@register{RETURN-CODE} value of 35 to be passed back.  Supplying less than two arguments will generate a 128
-@register{RETURN-CODE} value.
+If the subroutine is successful, a value of 0 will be returned in the @registerref{RETURN-CODE}. Failure  to retrieve the needed statistics on the file will cause a @register{RETURN-CODE} value of 35 to be passed back.  Supplying less than two arguments will generate a 128 @register{RETURN-CODE} value.
+
 @comment *********************************************************************
 @comment ** 8.2.18 CBL_CLOSE_FILE                                           **
 @comment *********************************************************************
@@ -3161,8 +3159,8 @@ With this routine you may create a new directory --- the name of which is suppli
 
 Only the lowest-level directory (last) in the specified path can be created --- all others must already exist.  This subroutine will @i{not} behave as a @code{mkdir -p} (Unix) or @code{mkdir /p} (Windows).
 
-The
-@registerref{RETURN-CODE} will be set to the return code of the operation; the value will be either 0=Success or 128=failure.
+The @registerref{RETURN-CODE} will be set to the return code of the operation;
+The value will be either 0 = Success or 128 = failure.
 @comment *********************************************************************
 @comment ** 8.2.21 CBL_CREATE_FILE                                          **
 @comment *********************************************************************

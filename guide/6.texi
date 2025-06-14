@@ -3173,7 +3173,7 @@ The following tables summarize the USAGE specifications available in GnuCOBOL.
 TABLE 1
 +----------------------+--------------------------------+----------+---------+-------+
 | USAGE                |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
-|                      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
+|                      |  OF VALUES                     | FORMAT   |ALLOWED? | USED? |
 +----------------------+--------------------------------+----------+---------+-------+
 |[DISPLAY]             | Depends on PICTURE. One char.  |Characters|if PIC   | Yes   |
 | ~~~~~~~              | per X,A,9, period, $,Z,0,*, S  |          |contains |       |
@@ -3215,7 +3215,7 @@ TABLE 1
 TABLE 1 - Continued
 +----------------------+--------------------------------+----------+---------+-------+
 | USAGE                |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
-|                      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
+|                      |  OF VALUES                     | FORMAT   |ALLOWED? | USED? |
 +----------------------+--------------------------------+----------+---------+-------+
 |COMP-3                | Defined by the quantity of '9's| Signed   |if PIC 9 | Yes   |
 |COMPUTATIONAL-3       | and the presence or absence of | Packed   |contains |       |
@@ -3259,61 +3259,63 @@ TABLE 1 - Continued
 @page
 @smallexample
 TABLE 2
-+----------------------+--------------------------------+----------+---------+-------+
-| NUMERIC USAGE        |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
-| WITHOUT PICTURE      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
-+----------------------+--------------------------------+----------+---------+-------+
-|BINARY-CHAR [SIGNED]  | -128 (-2**7) to 127 (2**7)-1   | Native   | Yes     | No    |
-|~~~~~~~~~~~           |                                | Binary   |         |       |
-|                      | same as S9(2) COMP-5           | Integer  |         |       |
-+----------------------+--------------------------------+----------+---------+-------+
-|BINARY-CHAR UNSIGNED  |    0 to 255                    | Native   | No      | No    |
-|~~~~~~~~~~~ ~~~~~~~~  |                                | Binary   |         |       |
-|                      |(8 bit= from 0 to ((2**8)-1)    | Integer  |         |       |
-+----------------------+--------------------------------+----------+---------+-------+
-|BINARY-SHORT [SIGNED] |   -32,768 (-2**15)             | Native   | Yes     | No    |
-|~~~~~~~~~~~~          | to 32,767  (2**15)             | Binary   |         |       |
-|SIGNED-SHORT          |                                | Integer  |         |       |
-|~~~~~~~~~~~~          | same as S9(4) COMP-5           |          |         |       |
-+----------------------+--------------------------------+----------+---------+-------+
-|BINARY-SHORT UNSIGNED | 0 to 65,535                    | Native   | No      | No    |
-|~~~~~~~~~~~~ ~~~~~~~~ |                                | Binary   |         |       |
-|UNSIGNED-SHORT        |                                | Integer  |         |       |
-|~~~~~~~~~~~~~~        |(16 bit= from 0 to ((2**16)-1)  |          |         |       |
-+----------------------+--------------------------------+----------+---------+-------+
-|BINARY-LONG [SIGNED]  |   -2,147,483,648 (-2**31)      | Native   | Yes     | No    |
-|~~~~~~~~~~~           | to 2,147,483,648  (2**31)      | Binary   |         |       |
-|BINARY-INT [SIGNED]   |                                | Integer  |         |       |
-|~~~~~~~~~~            |                                |          |         |       |
-|SIGNED-INT            | same as S9(9) COMP-5           |          |         |       |
-|~~~~~~~~~~            |                                |          |         |       |
-+----------------------+--------------------------------+----------+---------+-------+
-|BINARY-LONG UNSIGNED  | 0 to  4,294,967,295            | Native   | No      | No    |
-|~~~~~~~~~~~ ~~~~~~~~  |                                | Binary   |         |       |
-|BINARY-INT UNSIGNED   |                                | Integer  |         |       |
-|~~~~~~~~~~ ~~~~~~~~   |                                |          |         |       |
-|UNSIGNED-INT          |(32bit= from 0 to ((2**32)-1)   |          |         |       |
-|~~~~~~~~~~~~          |                                |          |         |       |
-+----------------------+--------------------------------+----------+---------+-------+
-|BINARY-DOUBLE [SIGNED]|   -9,223,372,036,854,775,808   | Native   | Yes     | No    |
-|~~~~~~~~~~~~~         |    (-2**63)                    | Binary   |         |       |
-|BINARY-LONG-LONG      | to 9,223,372,036,854,775,808   | Integer  |         |       |
-|~~~~~~~~~~~~~~~~      |    (2**63)                     |          |         |       |
-|SIGNED-LONG           |                                |          |         |       |
-|~~~~~~~~~~~           | same as S9(18) COMP-5          |          |         |       |
-+----------------------+--------------------------------+----------+---------+-------+
-|BINARY-DOUBLE UNSIGNED| 0 to 18,446,744,073,709,551,615| Native   | No      | No    |
-|~~~~~~~~~~~~~ ~~~~~~~~|      (2**64)                   | Binary   |         |       |
-|UNSIGNED-LONG         |                                | Integer  |         |       |
-|~~~~~~~~~~~~~         |                                |          |         |       |
-+----------------------+--------------------------------+----------+---------+-------+
++-------------------------+-----------------------------+----------+---------+-------+
+| NUMERIC USAGE           |  RANGE                      | STORAGE  |NEGATIVE | PIC   |
+| WITHOUT PICTURE         |  OF VALUES                  | FORMAT   |ALLOWED? | USED? |
++-------------------------+-----------------------------+----------+---------+-------+
+|BINARY-CHAR [SIGNED]     | -128 (-2**7) to 127 (2**7)-1| Native   | Yes     | No    |
+|~~~~~~~~~~~              |                             | Binary   |         |       |
+|                         | same as S9(2) COMP-5        | Integer  |         |       |
++-------------------------+-----------------------------+----------+---------+-------+
+|BINARY-CHAR UNSIGNED     |    0 to 255                 | Native   | No      | No    |
+|~~~~~~~~~~~ ~~~~~~~~     |                             | Binary   |         |       |
+|                         |(8 bit= from 0 to ((2**8)-1) | Integer  |         |       |
++-------------------------+-----------------------------+----------+---------+-------+
+|BINARY-SHORT [SIGNED]    |   -32,768 (-2**15)          | Native   | Yes     | No    |
+|~~~~~~~~~~~~             | to 32,767  (2**15)          | Binary   |         |       |
+|SIGNED-SHORT             |                             | Integer  |         |       |
+|~~~~~~~~~~~~             | same as S9(4) COMP-5        |          |         |       |
++-------------------------+-----------------------------+----------+---------+-------+
+|BINARY-SHORT UNSIGNED    | 0 to 65,535                 | Native   | No      | No    |
+|~~~~~~~~~~~~ ~~~~~~~~    |                             | Binary   |         |       |
+|UNSIGNED-SHORT           |                             | Integer  |         |       |
+|~~~~~~~~~~~~~~           |16 bit= from 0 to ((2**16)-1)|          |         |       |
++-------------------------+-----------------------------+----------+---------+-------+
+|BINARY-LONG [SIGNED]     |   -2,147,483,648 (-2**31)   | Native   | Yes     | No    |
+|~~~~~~~~~~~              | to 2,147,483,648  (2**31)   | Binary   |         |       |
+|BINARY-INT [SIGNED]      |                             | Integer  |         |       |
+|~~~~~~~~~~               |                             |          |         |       |
+|SIGNED-INT               | same as S9(9) COMP-5        |          |         |       |
+|~~~~~~~~~~               |                             |          |         |       |
++-------------------------+-----------------------------+----------+---------+-------+
+|BINARY-LONG UNSIGNED     | 0 to  4,294,967,295         | Native   | No      | No    |
+|~~~~~~~~~~~ ~~~~~~~~     |                             | Binary   |         |       |
+|BINARY-INT UNSIGNED      |                             | Integer  |         |       |
+|~~~~~~~~~~ ~~~~~~~~      |                             |          |         |       |
+|UNSIGNED-INT             |32 bit= from 0 to ((2**32)-1)|          |         |       |
+|~~~~~~~~~~~~             |                             |          |         |       |
++-------------------------+-----------------------------+----------+---------+-------+
+|BINARY-LONG-LONG [SIGNED]| -9,223,372,036,854,775,808  | Native   | Yes     | No    |
+|~~~~~~~~~~~~~~~~         |    (-2**63)                 | Binary   |         |       |
+|BINARY-DOUBLE [SIGNED]   | to 9,223,372,036,854,775,808| Integer  |         |       |
+|~~~~~~~~~~~~~            |    (2**63)                  |          |         |       |
+|SIGNED-LONG              |                             |          |         |       |
+|~~~~~~~~~~~              | same as S9(18) COMP-5       |          |         |       |
++-------------------------+-----------------------------+----------+---------+-------+
+|BINARY-LONG-LONG UNSIGNED| 0 to                        | Native   |         |       |
+|~~~~~~~~~~~~~~~~ ~~~~~~~~|  18,446,744,073,709,551,615 | Binary   |         |       |
+|BINARY-DOUBLE UNSIGNED   |  (2**64)                    | Integer  | No      | No    |
+|~~~~~~~~~~~~~ ~~~~~~~~   |                             |          |         |       |
+|UNSIGNED-LONG            |                             |          |         |       |
+|~~~~~~~~~~~~~            |                             |          |         |       |
++-------------------------+-----------------------------+----------+---------+-------+
 @end smallexample
 @page
 @smallexample
 TABLE 2 - Continued
 +----------------------+--------------------------------+----------+---------+-------+
 | USAGE                |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
-|                      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
+|                      |  OF VALUES                     | FORMAT   |ALLOWED? | USED? |
 +----------------------+--------------------------------+----------+---------+-------+
 |BINARY-C-LONG [SIGNED]| Depending on the system HW the |          | YES     | No    |
 |~~~~~~~~~~~~~         | range is either                |          |         |       |
@@ -3345,7 +3347,7 @@ TABLE 2 - Continued
 TABLE 3
 +----------------------+--------------------------------+----------+---------+-------+
 | OTHER USAGE          |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
-|                      |  OF VALUES                     | FORMAT   |ALLOWED? |USED?  |
+|                      |  OF VALUES                     | FORMAT   |ALLOWED? | USED? |
 +----------------------+--------------------------------+----------+---------+-------+
 |HANDLE OF [VARIANT]   |                                | Native   | Yes     | No    |
 |~~~~~~    [WINDOW]    | Size is 4 bytes                | Binary   |         |       |
