@@ -426,6 +426,10 @@ The remaining options of the @directive{>>SET} provide equivalent functionality 
 @item >>SET SOURCEFORMAT AS COBOLX
 @code{>>SOURCE FORMAT IS COBOLX}
 
+@item
+Note that only FIXED and FREE are standard ISO Cobol options, all the others are GnuCOBOL vendor extensions.
+That means that moving to another compiler may well involve chages to your source code format wise.
+
 @item >>SET XFD literal-1
 [See chapter 13]
 
@@ -551,8 +555,20 @@ The directive allows the program listing to be de-(activated).
 @page
 @newsection{>>COBOL-WORDS}
 @diagram{CDF >>COBOL-WORDS Directive,CDF-COBOL-WORDS,CDF-COBOL-WORDS,None}
-The directive allows a new word to be recognised by the Cobol compiler.
-
+The directive allows a new word to be recognised by the Cobol compiler and can be used multiple times.
+@enumerate
+@item
+COBOL-WORDS EQUATE keyword WITH alias makes alias a synonym for keyword.
+@item
+COBOL-WORDS UNDEFINE keyword
+keyword is removed from the COBOL grammar (can then be a user-defined word). Use of it in a program as normal keyword will provoke a syntax error from the compiler, which may be used to enforce not using its syntax.
+@item
+COBOL-WORDS SUBSTITUTE keyword BY new-word
+keyword is deleted as a keyword from the grammar, replaced by new-word. keyword may thereafter be used as a user-defined word.
+@item
+COBOL-WORDS RESERVE new-word
+Treat new-word as a COBOL keyword. It cannot be used by the program, either as a keyword or as a user-defined word.
+@end enumerate
 @comment ********************************************************************
 @comment ** 3.13 >>LEAP-SECONDS Directive                                  **
 @comment ********************************************************************
