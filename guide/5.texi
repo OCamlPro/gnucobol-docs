@@ -537,6 +537,12 @@ It also allows declaration of intrinsic-function-names that may be used without 
 The @code{REPOSITORY} paragraph is not allowed in a nested subprogram. A nested program inherits the @code{REPOSITORY} settings of its parent program.
 
 @item
+The @code{REPOSITORY} name can be stand alone, i.e., with no sub clauses associated with it.
+
+@item
+All sub clauses must end with a period for the last occurance, see examples.
+
+@item
 The
 @syntaxidx{INTRINSIC} clause allows you to flag one or more (or
 @syntaxidx{ALL}) built-in intrinsic functions as being usable without the need to code the keyword
@@ -548,7 +554,10 @@ As an alternative to using the
 @switchidx{-fintrinsics=ALL}.
 
 @item
-The @var{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, should you desire, you may specify an alias name by which you will reference that user-defined function.  Should you wish, you may also use the @code{AS} clause to provide an alias name for a built-in intrinsic function.
+The @var{function-prototype-name-1} option is required to specify the name of a user-defined function your program will be using.  Optionally, you may specify an alias name by which you will reference that user-defined function using @code{AS}.
+
+@item
+The @code{AS} clause in both cases above is to define the external name to be used for the internally (in COBOL) used function (e.g., a C function name, otherwise GnuCOBOL's own name translation will apply and only user-functions created by GnuCOBOL modules FUNCTION-ID. will be usable).
 
 @item
 The following example
@@ -559,8 +568,6 @@ enables all intrinsic functions to be specified without the use of the @code{FUN
 @item
 names two user-defined functions named @code{MY-FUNCTION-1} and @code{MY-FUNCTION-2} that will be used by the program and
 
-@item
-specifies the alias names @code{SIGMA} for the intrinsic function @code{STANDARD-DEVIATION} and @code{MF2} for @code{MY-FUNCTION-2}.
 @end itemize
 
 @example
@@ -568,7 +575,6 @@ REPOSITORY.
     FUNCTION ALL INTRINSIC
     FUNCTION MY-FUNCTION-1
     FUNCTION MY-FUNCTION-2 AS "MF2"
-    FUNCTION STANDARD-DEVIATION AS "SIGMA".
 @end example
 
 @example
