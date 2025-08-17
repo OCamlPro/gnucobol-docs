@@ -2567,12 +2567,12 @@ GnuCOBOL provides and supports built-in system subroutines of following categori
 +-------------------------------------------------------------------------------------+
 | Directory Routines                                                                  |
 +-------------------------------------------------------------------------------------+
-|CBL_GET_CURRENT_DIR  | Retrieves the fully-qualified pathname of current directory   |
-|CBL_CREATE_DIR       | With this routine you may create a new directory              |
-|C$MAKEDIR            | Same as CBL_CREATE_DIR                                        |
-|CBL_CHANGE_DIR       | Makes a directory-path the current directory                  |
-|C$CHDIR              | Same as CBL_CHANGE_DIR                                        |
-|CBL_DELETE_DIR       | This subroutine deletes an empty directory                    |
+| CBL_GET_CURRENT_DIR | Retrieves the fully-qualified pathname of current directory   |
+| CBL_CREATE_DIR      | With this routine you may create a new directory              |
+| C$MAKEDIR           | Same as CBL_CREATE_DIR                                        |
+| CBL_CHANGE_DIR      | Makes a directory-path the current directory                  |
+| C$CHDIR             | Same as CBL_CHANGE_DIR                                        |
+| CBL_DELETE_DIR      | This subroutine deletes an empty directory                    |
 +-------------------------------------------------------------------------------------+
 | File Routines                                                                       |
 +-------------------------------------------------------------------------------------+
@@ -2657,8 +2657,7 @@ GnuCOBOL provides and supports built-in system subroutines of following categori
 | CBL_GC_WAITPID      | Allows you to wait until another system process ended         |
 | C$GETPID            | Return the PID (process ID) of the executing GnuCOBOL program |
 | CBL_GC_FORK         | Allows you to fork the current COBOL process to a new one     |
-| CBL_RUNTIME_ERROR   ! >>> MORE INFORMATION REQUIRED FROM COMPILER PROGRAMMERS.  <<< !
-|                     !  Do not hold your breath on this one                          !
+| CBL_RUNTIME_ERROR   | exiting the runtime as a hard error                           |
 +-------------------------------------------------------------------------------------+
 | Operating System Routines                                                           |
 +-------------------------------------------------------------------------------------+
@@ -2741,7 +2740,7 @@ The following sections describe the various built-in subroutines.  @i{All subrou
 * CBL_READ_FILE.
 * CBL_READ_KBD_CHAR.
 * CBL_RENAME_FILE.
-* CBL_RUNTIME_ERROR.**
+* CBL_RUNTIME_ERROR.
 * CBL_SET_CSR_POS.
 * CBL_TOLOWER.
 * CBL_TOUPPER.
@@ -4149,7 +4148,20 @@ If the attempt to move the file fails (for example, it doesn't exist), the
 @page
 @newsubsection{CBL_RUNTIME_ERROR}
 @diagram{CBL_RUNTIME_ERROR Built-In Subroutine,SS-CBL_RUNTIME_ERROR,SS-CBL_RUNTIME_ERROR,None}
-Text to be added...
+Support for exiting the runtime from COBOL as a hard error (including possible [core-]dump and stacktrace).
+
+Used in hard, non-recoverable error cases, for example when you pre-catch runtime exceptions "that should never happen" yourself, or for example if an API/socket/whatever endpoint does not exist/is not reachable.
+
+First parameter item-1 is a pic x(4) comp-5 data item which must be zero. It is ignored in GnuCOBOL (we may add abcode and reasoncode as well as cleanup into the current first parameter at some later date). In any case for now it is "reserved for future use".
+
+Second parameter: an optional alphanumeric null-terminated error message to be outputted after a run-time message. The output leading to stderr, will be:
+libcob: prog.cob:12: error: Program abandoned at user request: Your error message here
+To produce no additional message, pass the reserved word OMITTED instead.
+
+Depending on compile-time flags and runtime options you get the "common" abort handling (possibly creation of dump file, creation of core-dump, stop within GDB, stack-trace output, ...) and also error procedures registered with CBL_ERROR_PROC.
+
+See also the "STOP ERROR" statement.
+
 
 @comment *********************************************************************
 @comment ** 8.2.47 CBL_SET_CSR_POS                                          **

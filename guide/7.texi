@@ -5386,6 +5386,19 @@ STOP RUN
 STOP RUN WITH ERROR STATUS 16
 @end example
 @end enumerate
+
+@item
+STOP ERROR is a dialect specific way to abort the runtime.
+
+Used in hard, non-recoverable error cases, for example when you pre-catch runtime exceptions "that should never happen" yourself, or for example if an API/socket/whatever endpoint does not exist/is not reachable.
+Depending on compile-time flags and runtime options you get the "common" abort handling (possibly creation of dump file, creation of core-dump, stop within GDB, stack-trace output, ...) and also error procedures registered with CBL_ERROR_PROC.
+
+This is one of the dialect specific.
+-fstop-error-statement is set to "unconformable" for anything but GCOS.
+You can override that with -fstop-error-statement=ok.
+
+See also CALL "CBL_RUNTIME_ERROR" routine.
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.44 STRING                                                  **
