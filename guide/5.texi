@@ -772,7 +772,7 @@ If no directory name is included (@code{datafile.dat}), the file must be in the 
 @item
 The
 @syntaxidx{FILE STATUS} or
-@syntaxidx{SORT STATUS} clause (they are both equivalent and only one or the other, if any, should be specified) is used to specify the name of a two-digit numeric data item into which an I/O status code will be saved after every I/O verb that is executed against the file.  This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. Note that the following list is complete as of v3.2: but more can be added and any tests should include one for non zeros as a catch all. See the copy book file filestat.cpy (which may not include all of these listed status codes). See sample version lower down.
+@syntaxidx{SORT STATUS} clause (they are both equivalent and only one or the other, if any, should be specified) is used to specify the name of a two-digit alpha/numeric data item into which an I/O status code will be saved after every I/O verb that is executed against the file.  This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. Note that the following list is complete as of v3.2: but more can be added and any tests should include one for non zeros as a catch all.  See two examples lower down.
 @anchoridx{File Status Codes}Possible status codes that can be returned to a @code{FILE STATUS} data item are as follows:
 
 @c dictionary{code, definitions}
@@ -883,8 +883,7 @@ File sharing failure
 Bad character
 
 @item 91
-File not available or Feature not available
- Or/And
+Feature not available  --
 For OPEN and CLOSE: means that the File I-O backend is not available (before 4.x his mostly means a GnuCOBOL compile-time configuration –without-db, afterwards it could also mean that the shared object for the backend configured at runtime for the specific file cannot be loaded).
 For REWRITE and for DELETE: means that File I-O statement isn't supported for the file's organization. This can happen if you run a statement that isn't supported by the runtime but not caught by the compiler (previously REWRITE to LINE SEQUENTIAL, for example, which was only supported later; or DELETE on any SEQUENTIAL file (soon to be caught in 3.x also for RECORD SEQUENTIAL) or '"more common" if an EXTFH call does this.
 
@@ -997,6 +996,130 @@ In Procedure Division :
 *>
  Eval-Msg-Exit.  exit section.
 *>************   ************
+*>
+
+@end verbatim
+
+And another from the pen of Vincent Coen :
+
+@verbatim
+
+In WS :
+
+*>
+*> Display Screen Positioning
+*>
+     03  WS-Env-Columns      pic 999         value zero.
+     03  ws-Env-Lines        pic 999         value zero.
+     03  ws-Lines            pic 9(4)  comp  value zero.
+     03  ws-21-Lines         pic 9(4)  comp  value zero.
+     03  ws-22-Lines         pic 9(4)  comp  value zero.
+     03  ws-23-Lines         pic 9(4)  comp  value zero.
+
+At start of prog PD :
+
+ AA010-Get-Screen-Attr.
+*>
+*> Set up for screen size
+*>
+     accept   WS-Env-Columns from Columns.
+     accept   WS-Env-Lines   from lines.
+     move     WS-Env-Lines   to WS-Lines.
+     subtract 1 from ws-lines giving ws-23-lines.
+     subtract 2 from ws-lines giving ws-22-lines.
+     subtract 3 from ws-lines giving ws-21-lines.
+
+Near the bottom of code :
+
+*>
+ ZZA-File-Status    section.
+*>*************************
+*>
+*>  File Status Checking Routines using standard Cobol file status values only.
+*>
+     move     "Unknown" to WS-Sys-Message.
+     evaluate s1
+              when "0" go to ZZA999-exit
+              when "1" go to zza999-exit
+              when "2" perform zza020-Check-Inv-Key-Status
+              when "3" perform zza030-Check-Perm-Err-Status
+              when "4" perform zza040-Look-Up-Error
+              when "5" perform zza050-Look-Up-Error
+              when "6" perform zza060-Look-Up-Error
+              when "7" perform zza070-Look-Up-Error
+              when "9" perform zza090-Look-Up-Error
+     end-evaluate.
+     move     "Unknown error status"                to WS-Sys-Message.
+     go       to zza998-Display-Message.   *> Do not stop/accept as in batch mode
+*>                                            Use zz997 instead to stop after a error msg.
+*>
+ zza020-Check-Inv-Key-Status.
+     evaluate s2
+              when "1" move "Invalid key"           to WS-Sys-Message
+              when "2" move "Writing dup key"       to WS-Sys-Message
+              when "3" move "No record found"       to WS-Sys-Message
+              when "4" move "Key boundary Violated" to WS-Sys-Message
+     end-evaluate.
+*>
+ zza030-Check-Perm-Err-Status.
+     evaluate s2
+              when "0" move "Permanent I/O error"   to WS-Sys-Message
+              when "1" move "Inconsistent filename" to WS-Sys-Message
+              when "4" move "Boundary violation"    to WS-Sys-Message
+              when "5" move "File not found"        to WS-Sys-Message
+              when "7" move "Permission denied"     to WS-Sys-Message
+              when "8" move "Closed with lock"      to WS-Sys-Message
+              when "9" move "Conflicting attribute" to WS-Sys-Message
+     end-evaluate.
+*>
+ zza040-Look-Up-Error.
+*>
+     evaluate s2
+              when "1" move "File already open"     to WS-Sys-Message
+              when "2" move "File not open"         to WS-Sys-Message
+              when "3" move "Read not done"         to WS-Sys-Message
+              when "4" move "Record overflow"       to WS-Sys-Message
+              when "6" move "Read error"            to WS-Sys-Message
+              when "7" move "Open Input Denied"     to WS-Sys-Message
+              when "8" move "Open Output Denied"    to WS-Sys-Message
+              when "9" move "Open I-O Denied"       to WS-Sys-Message
+     end-evaluate.
+*>
+ zza050-Look-Up-Error.
+     evaluate s2
+              when "1" move "Record locked"         to WS-Sys-Message
+              when "2" move "End of page"           to WS-Sys-Message
+              when "7" move "Linage spec Invalid"   to WS-Sys-Message
+     end-evaluate.
+*>
+ zza060-Look-Up-Error.
+     evaluate s2
+              when "1" move "File sharing failure"  to WS-Sys-Message
+     end-evaluate.
+*>
+ zza070-Look-Up-Error.
+     evaluate s2
+              when "1" move "Bad Character"         to WS-Sys-Message
+     end-evaluate.
+*>
+ zza090-Look-Up-Error.
+     evaluate s2
+              when "1" move "Feature not available" to WS-Sys-Message
+     end-evaluate.
+*>
+ zza997-Display-Message.
+     if       WS-Sys-Message not = spaces
+              display  WS-Sys-Message  at line ws-23-Lines col 41 with foreground-color COB-COLOR-RED
+              display  "EL006 Press return to continue"   at line ws-Lines col 01
+              accept   Accept-Reply at line ws-Lines col 32
+              display  space at line ws-23-Lines col 01 with erase eos.
+     go       to zza999-Exit.
+*>
+ zza998-Display-Message.                          *> As in batch mode do not stop
+     if       WS-Sys-Message not = spaces         *> could send it to log file ?
+              display  WS-Sys-Message  at line ws-23-Lines col 41 with foreground-color COB-COLOR-RED.
+*>
+ zza999-exit. exit section.
 *>
 
 @end verbatim
