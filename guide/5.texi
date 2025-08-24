@@ -885,7 +885,8 @@ Bad character
 @item 91
 File not available or Feature not available
  Or/And
-File io backend not available (before 4.x his mostly means a GnuCOBOL compile-time configuration --without-db, afterwards it could also mean that the shared object for the backend configured at runtime for the specific file cannot be loaded).
+For OPEN and CLOSE: means that the File I-O backend is not available (before 4.x his mostly means a GnuCOBOL compile-time configuration –without-db, afterwards it could also mean that the shared object for the backend configured at runtime for the specific file cannot be loaded).
+For REWRITE and for DELETE: means that File I-O statement isn't supported for the file's organization. This can happen if you run a statement that isn't supported by the runtime but not caught by the compiler (previously REWRITE to LINE SEQUENTIAL, for example, which was only supported later; or DELETE on any SEQUENTIAL file (soon to be caught in 3.x also for RECORD SEQUENTIAL) or '"more common" if an EXTFH call does this.
 
 @enddict{}
 
