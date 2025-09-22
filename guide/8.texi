@@ -2668,18 +2668,27 @@ GnuCOBOL provides and supports built-in system subroutines of following categori
 | EXTFH               | Callable File Handler, is primarily an API for file I-O       |
 
 | X"91"               | Routine capable of providing a wide variety of functions      |
-|  Function code 11   | Sets and/or clears all eight of the COBOL switches            |
-|  Function code 12   | Reads all eight of the COBOL switches                         |
+|  Function code 11   | Sets  all eight of the COBOL switches (0 - 7)                 |
+|  Function code 12   | Reads all eight of the COBOL switches (0 - 7)                 |
+|  Function code 13   | Allow access to runtime switches A - Z (11 - 36) - UNFINISHED |
+|  Function code 14   | Allow access to runtime switches A - Z (11 - 36) - UNFINISHED |
 |  Function code 16   | Retrieves the number of arguments passed to the program       |
+|  Function code 35   | Prepare for DOS EXEC call [ EXEC call "like DOS 4B call ]     |
+                         "in testing": EXEC call "like DOS 4B call"
+|                     |        - - -  UNFINISHED - - -                                |
 
->> The following are NOT supported within GnuCobol:
+|                                                                                     |
+>> GnuCOBOL 4 additionally provides (as the FD related file io settings a 4+ feature):
+|  Function code 46-47| Prepare for file specific settings LS NULLS - Enable / Disable|
+|  Function code 48-49| Prepare for file specific settings LS TABS - Enable / Disable |
 
-|  Function code 13-14| Allow access to runtime switches 1 - 26. 13 Read, 14 set      |
+>> The following two are NOT supported within GnuCobol at this time :
 |  Function code 15   | Checks to see if a program exists                             |
-|  Function code 35   | Prepare for DOS EXEC call                                     |
-|  Function code 46-49| Prepare for file specific settings LS NULLS/LS TABS           |
+|                     |                                                               |
 |  Function code 69   | Prepare for directory search                                  |
 +-------------------------------------------------------------------------------------+
+
+Note UNFINISHED means just that do not use unless you are helping to test GC v3.3++
 
 @end smallexample
 
