@@ -1,31 +1,39 @@
- level-number [ identifier-1 | FILLER ] [ IS GLOBAL|EXTERNAL ]
-                               ~~~~~~        ~~~~~~ ~~~~~~~~
- [ ANY LENGTH ]
-   ~~~ ~~~~~~
- [ ANY NUMERIC ]
+ level-number [ identifier-1 | FILLER ] [ IS GLOBAL|EXTERNAL [AS literal-2] ]
+                               ~~~~~~        ~~~~~~ ~~~~~~~~  ~~
+ { ANY LENGTH  }
+ { ~~~ ~~~~~~  }
+ { ANY NUMERIC }
    ~~~ ~~~~~~~
- [ BASED ]
-   ~~~~~
- [ BLANK WHEN ZERO ]
-   ~~~~~      ~~~~
+ { BASED       }
+ { ~~~~~       }
+ [ BLANK WHEN ZERO|ZEROES|ZEROS ]
+   ~~~~~      ~~~~ ~~~~~~ ~~~~~
  [ JUSTIFIED RIGHT ]
    ~~~~
- [ OCCURS [ integer-1 TO ] integer-2 TIMES
-   ~~~~~~             ~~   UNBOUNDED
-                           ~~~~~~~~~
-       [ DEPENDING ON identifier-3 ]
-         ~~~~~~~~~
-       [ ASCENDING|DESCENDING KEY IS identifier-4 ]
-         ~~~~~~~~~ ~~~~~~~~~~
-       [ INDEXED BY identifier-5 ] ]
-         ~~~~~~~
+ [ OCCURS integer-1 [ TO { integer-2 } ] TIMES [ DEPENDING ON identifier-2 ] ]
+ [ ~~~~~~             ~~ { UNBOUNDED }           ~~~~~~~~~                   ]
+ [                         ~~~~~~~~~                                         ]
+ [        [ { ASCENDING|DESCENDING KEY IS { identifier-3 }...}...]           ]
+ [            ~~~~~~~~~ ~~~~~~~~~~                                           ]
+ [        [ INDEXED BY { identifier-4 }...]                                  ]
+            ~~~~~~~
  [ PICTURE IS picture-string ]
    ~~~
- [ REDEFINES identifier-6 ]
+ [ REDEFINES identifier-5 ]
    ~~~~~~~~~
  [ SIGN IS LEADING|TRAILING [ SEPARATE CHARACTER ] ]
    ~~~~    ~~~~~~~ ~~~~~~~~   ~~~~~~~~
  [ SYNCHRONIZED|SYNCHRONISED [ LEFT|RIGHT ] ]
-   ~~~~        ~~~~           ~~~~ ~~~~~
- [ USAGE IS data-item-usage ] . [ LINKAGE-SECTION-Data-Item ]...
+   ~~~~         ~~~~           ~~~~ ~~~~~
+ [ USAGE IS data-item-usage ]
    ~~~~~
+ [ IS TYPEDEF ]
+      ~~~~~~~
+ [ TYPE TO type-name-1 ]
+   ~~~~
+ [ SAME AS identifier-6 ]
+   ~~~~
+ [ IS SPECIAL-NAMES { special-names-item }...]
+      ~~~~~~~~~~~~~
+ [ VALUE IS [ ALL ] literal-1 ] . [ LINCAGE-SECTION-Data-Item ]...
+   ~~~~~      ~~~
