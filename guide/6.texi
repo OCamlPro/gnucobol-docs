@@ -2188,6 +2188,24 @@ As far as enforcement goes, however, both alphabetic and numeric picture strings
 @item @samp{1}
 Defines storage for a single bit representing a boolean condition with a states of zero or 1, condition of off or on. Warning the level of implementation of this feature is compiler version specific starting with v3.1-RC-1.
 
+@verbatim
+
+Example of usage :
+
+WORKING-STORAGE SECTION.
+01 wBIT PIC 1(4) value b'1111111111111'.
+PROCEDURE DIVISION.
+    display wBIT ' ' function HEX-OF(wBIT) ' ' function BIT-OF(wBIT)
+    move b'1001' to wBIT
+    display wBIT ' ' function HEX-OF(wBIT) ' ' function BIT-OF(wBIT)
+
+the result will be:
+
+8191 38313931 00111000001100010011100100110001
+0009 30303039 00110000001100000011000000111001
+
+@end verbatim
+
 @item
 The following picture symbols may be used with numeric data items.
 @table @asis
