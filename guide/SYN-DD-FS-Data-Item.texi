@@ -1,18 +1,15 @@
- level-number [ identifier-1 | FILLER ] [ IS GLOBAL|EXTERNAL ]
-                               ~~~~~~        ~~~~~~ ~~~~~~~~
- [ BLANK WHEN ZERO ]
-   ~~~~~      ~~~~
+ level-number [ identifier-1 | FILLER ] [ IS GLOBAL ]
+                               ~~~~~~        ~~~~~~
+ [ BLANK WHEN ZERO|ZEROES|ZEROS ]
+   ~~~~~      ~~~~ ~~~~~~ ~~~~~
  [ JUSTIFIED RIGHT ]
    ~~~~
- [ OCCURS [ integer-1 TO ] integer-2 TIMES
-   ~~~~~~             ~~
-        [ DEPENDING ON identifier-2 ]
-          ~~~~~~~~~
-        [ STEP identifier-6 ]
-        [ ASCENDING|DESCENDING KEY IS identifier-3 ]
-          ~~~~~~~~~ ~~~~~~~~~~
-        [ INDEXED BY identifier-4 ] ]
-          ~~~~~~~
+ [ OCCURS integer-1 [ TO  integer-2 ] TIMES [ DEPENDING ON identifier-2 ] ]
+ [ ~~~~~~             ~~                      ~~~~~~~~~                   ]
+ [        [ { ASCENDING|DESCENDING KEY IS { identifier-3 }...}...]    ]
+ [            ~~~~~~~~~ ~~~~~~~~~~                                        ]
+ [        [ INDEXED BY { identifier-4 }...]                             ]
+            ~~~~~~~
  [ PICTURE IS picture-string ]
    ~~~
  [ REDEFINES identifier-5 ]
@@ -21,5 +18,15 @@
    ~~~~    ~~~~~~~ ~~~~~~~~   ~~~~~~~~
  [ SYNCHRONIZED|SYNCHRONISED [ LEFT|RIGHT ] ]
    ~~~~        ~~~~           ~~~~ ~~~~~
- [ USAGE IS data-item-usage ] . [ FILE-SECTION-Data-Item ]...
+ [ USAGE IS data-item-usage ] 
    ~~~~~
+ [ IS TYPEDEF ]
+      ~~~~~~~
+ [ TYPE TO type-name-1 ]
+   ~~~~
+ [ SAME AS identifier-6 ]
+   ~~~~
+ [ IS SPECIAL-NAMES { special-names-item }...]
+      ~~~~~~~~~~~~~
+ [ VALUE IS [ ALL ] literal-1 ] . [ FILE-SECTION-Data-Item ]...
+   ~~~~~      ~~~
