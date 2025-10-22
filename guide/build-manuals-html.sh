@@ -32,6 +32,8 @@ make info/gnucobqr.info
 make info/gnucobsp.info
 echo
 #
+#  These two do not work - too many errors.
+#
 #echo "GC manual build (HTML splitted)"
 #make HTML/gnucobpg.html
 #make HTML/gnucobpr.html
