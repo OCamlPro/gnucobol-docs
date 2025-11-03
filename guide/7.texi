@@ -701,7 +701,7 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 @detailmenu
 * DISPLAY UPON device
 * DISPLAY UPON COMMAND-LINE
-* DISPLAY UPON ENVIRONMENT-NAME
+* DISPLAY UPON ENVIRONMENT
 * DISPLAY data-item
 * DISPLAY data-item (Microsoft v1-v2)
 @end detailmenu
@@ -895,7 +895,7 @@ The reserved word @code{ON} is optional and may be omitted.  The presence or abs
 @item
 By accepting from
 @syntaxidx{ENVIRONMENT-VALUE}, you will be asking the GnuCOBOL run-time system to retrieve the value of the environment variable whose name is currently in the
-@syntaxidx{ENVIRONMENT-NAME} register.  A value may be placed into the @code{ENVIRONMENT-NAME} register using the @code{ENVIRONMENT-NAME} option of the @statementrefalt{DISPLAY,DISPLAY UPON ENVIRONMENT-NAME}.
+@syntaxidx{ENVIRONMENT-NAME} register.  A value may be placed into the @code{ENVIRONMENT-NAME} register using the @code{ENVIRONMENT-NAME} option of the @statementrefalt{DISPLAY,DISPLAY UPON ENVIRONMENT}.
 
 @item
 A simpler approach to retrieving an environment variables value is to use the
@@ -1510,7 +1510,7 @@ You can use extended attributes, useful for setting timeouts or positioning.
 @page
 @newsubsubsection{ACCEPT FROM EXCEPTION STATUS}
 @diagram{ACCEPT FROM EXCEPTION STATUS,PD-ACCEPT-9,PD-ACCEPT-9,None}
-This format of the @statement{ACCEPT} will receive the status for any exceptions resulting from a previous valid verb.
+This format of the @statement{ACCEPT} will receive the status for any exceptions resulting from a previous valid verb. The same results can be obtained by using ACCEPT FROM Runtime-Info.
 @enumerate
 @comment Syntactical Specifications:
 
@@ -1518,12 +1518,12 @@ This format of the @statement{ACCEPT} will receive the status for any exceptions
 The following is an example of usage:
 @verbatim
  In WS:
- 01  exception-status  pic 9(4).
+ 01  exception-status  pic x(4).
 ..
  In PD:
 
- ACCEPT unexpected-rounding  FROM EXCEPTION STATUS
- IF unexpected-rounding NOT EQUAL "0000" THEN
+@c   ACCEPT unexpected-rounding  FROM EXCEPTION STATUS
+ IF unexpected-rounding NOT = "0000" THEN
     DISPLAY "Unexpected rounding. Code " unexpected-rounding
              UPON SYSERR
  END-IF
@@ -2048,7 +2048,7 @@ Instead CBL_DELETE_FILE takes any "filename string" and only deletes exactly tha
 @menu
 * DISPLAY UPON device
 * DISPLAY UPON COMMAND-LINE
-* DISPLAY UPON ENVIRONMENT-NAME
+* DISPLAY UPON ENVIRONMENT
 * DISPLAY data-item
 * DISPLAY data-item (Microsoft)
 @end menu
@@ -2105,11 +2105,11 @@ Executing a @code{DISPLAY UPON COMMAND-LINE} will influence subsequent @code{ACC
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to the failure or success, respectively, of an attempt to display output to the specified item.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.12.3 DISPLAY UPON ENVIRONMENT-NAME                         **
+@comment ** 7.8.12.3 DISPLAY UPON ENVIRONMENT                               **
 @comment *********************************************************************
 @page
-@newsubsubsection{DISPLAY UPON ENVIRONMENT-NAME}
-@diagram{DISPLAY UPON ENVIRONMENT-NAME,PD-DISPLAY-3-Info,PD-DISPLAY-3-TeX,None}
+@newsubsubsection{DISPLAY UPON ENVIRONMENT}
+@diagram{DISPLAY UPON ENVIRONMENT,PD-DISPLAY-3-Info,PD-DISPLAY-3-Info,None}
 This form of the @statement{DISPLAY} can be used to create or modify environment variables.
 @enumerate
 @comment Syntactical Specifications:
