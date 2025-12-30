@@ -758,7 +758,10 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 * REWRITE
 * ROLLBACK
 * SEARCH
-* SEARCH ALL
+@detailmenu
+* SEARCH Serial
+* SEARCH Binary (ALL)
+@end detailmenu
 * SET
 @detailmenu
 * SET ENVIRONMENT
@@ -4654,6 +4657,14 @@ All locks currently being held for all open files will be released.
 @comment *********************************************************************
 @page
 @newsubsection{SEARCH}
+@menu
+* SEARCH Serial
+* SEARCH Binary (ALL)
+@end menu
+@comment *********************************************************************
+@comment ** 7.8.38.1 SEARCH  Serial                                         **
+@comment *********************************************************************
+@newsubsubsection{SEARCH Serial}
 @diagram{SEARCH,PD-SEARCH,PD-SEARCH,None}
 The @statement{SEARCH} is used to sequentially search a table, stopping either once a specific value is located within the table or when the table has been completely searched.
 @enumerate
@@ -4699,10 +4710,10 @@ If the search index now has a value less than or equal to the number of entries 
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 7.8.39 SEARCH ALL                                              **
+@comment ** 7.8.39 SEARCH Binary ALL                                        **
 @comment *********************************************************************
 @page
-@newsubsection{SEARCH ALL}
+@newsubsubsection{SEARCH ALL (Binary)}
 @diagram{SEARCH ALL,PD-SEARCH-ALL,PD-SEARCH-ALL,None}
 The @statement{SEARCH ALL} performs a binary, or half-interval, search against a sorted table.  This is generally @i{significantly} faster than performing a sequential @code{SEARCH} of a table, especially if the table contains a large number of entries.
 @enumerate
