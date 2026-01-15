@@ -1,42 +1,49 @@
-   DISPLAY { ERASE                                                   }
-   ~~~~~~~ { ~~~~~                                                   }
-           { [position-spec] {identifier-2 | literal-1 | ERASE } ... }
-                                                         ~~~~~
-           [ WITH [ BELL | BEEP ]
-             ~~~~   ~~~~   ~~~~
-                   [ BLANK { LINE|SCREEN } ]
-                     ~~~~~   ~~~~ ~~~~~~
-                   [ ERASE { EOL|EOS                       } ]
-                   [ ~~~~~ { ~~~ ~~~                       } ]
-                   [       { [TO END OF ] {LINE | SCREEN } } ]
-                                 ~~~       ~~~~   ~~~~~~
-                   [ BACKGROUND-COLOR|BACKGROUND-COLOUR IS|= integer-4|identifier-6]
-                     ~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~
-                   [ FOREGROUND-COLOR|FOREGROUND-COLOUR IS|= integer-5|identifier-7]
-                     ~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~
-                   [ HIGHLIGHT | LOWLIGHT ]  [ BLINK ]
-                     ~~~~~~~~~   ~~~~~~~~      ~~~~~
-                   [ REVERSE-VIDEO | REVERSE | REVERSED ]
-                     ~~~~~~~~~~~~~   ~~~~~~~   ~~~~~~~~
-                   [ OVERLINE ] [ UNDERLINE ]
-                     ~~~~~~~~     ~~~~~~~~~
-                   [ SCROLL [ UP   ] [ { integer-4    } { LINE|LINES } ] ]
-                   [ ~~~~~~ [ ~~   ] [ { identifier-5 }   ~~~~ ~~~~~   ] ]
-                   [        [ DOWN ]                                     ]
-                              ~~~~
-                   [ CONVERSION ]
-                     ~~~~~~~~~~
-                   [ SIZE IS  { integer-5    } ]
-                   [ ~~~~     { identifier-6 } ]
+ DISPLAY { position-spec { identifier-1 }... }
+ ~~~~~~~ {               { literal-1    }     }
+         {               { ERASE        }     }
+         {                 ~~~~~              }
+         { ERASE                              }
+         { ~~~~~                              }
 
-                   [ CONTROL  { literal-7    } ]
-                   [ ~~~~~~~  { identifier-7 } ]
+         [ WITH BELL | BEEP ]
+                ~~~~   ~~~~
+         [ WITH BLANK { LINE|SCREEN } ]
+                ~~~~~   ~~~~ ~~~~~~
+         [ WITH ERASE { EOL|EOS                       } ]
+         [      ~~~~~ { ~~~ ~~~                       } ]
+         [            { [TO END OF ] {LINE | SCREEN } } ]
+                            ~~~       ~~~~   ~~~~~~
+         [ WITH BACKGROUND-COLOR|BACKGROUND-COLOUR IS|= integer-4|identifier-6 ]
+                ~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~
+         [ WITH FOREGROUND-COLOR|FOREGROUND-COLOUR IS|= integer-5|identifier-7 ]
+                ~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~
+         [ WITH HIGHLIGHT | LOWLIGHT ]
+                ~~~~~~~~~   ~~~~~~~~
+         [ WITH BLINK ]
+                ~~~~~
+         [ WITH REVERSE-VIDEO | REVERSE | REVERSED ]
+                ~~~~~~~~~~~~~   ~~~~~~~   ~~~~~~~~
+         [ WITH OVERLINE ]
+                ~~~~~~~~
+		 [ WITH UNDERLINE ]
+                ~~~~~~~~~
+         [ WITH SCROLL [ UP   ] [ { integer-4    } { LINE|LINES } ] ]
+         [      ~~~~~~ [ ~~   ] [ { identifier-5 }   ~~~~ ~~~~~   ] ]
+         [             [ DOWN ]                                     ]
+                         ~~~~
+         [ WITH CONVERSION ]
+                ~~~~~~~~~~
+         [ WITH SIZE IS  { integer-5    } ]
+         [      ~~~~     { identifier-6 } ]
 
-                   [ { COLOUR | COLOR } IS { integer-8    } ]
-                   [   ~~~~~~   ~~~~~      { identifier-8 } ]    ]
+         [ WITH CONTROL  { literal-7    } ]
+         [      ~~~~~~~  { identifier-7 } ]
 
-   [ END-DISPLAY ]
-     ~~~~~~~~~~~
+         [ WITH [ COLOUR | COLOR } IS { integer-8    } ]
+         [      [ ~~~~~~   ~~~~~      { identifier-8 } ]
+
+ [ END-DISPLAY ]
+   ~~~~~~~~~~~
 
      where  position-spec is
      { (position-spec-num, position-spec-num) }
