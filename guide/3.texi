@@ -496,7 +496,53 @@ If the compiler is already in the specified mode, this statement will have no ef
 @page
 @newsection{>>TURN}
 @diagram{CDF >>TURN Directive,CDF-TURN,CDF-TURN,None}
-The directive will (de-)activate exception checks.
+The directive will activate or de-activate exception checks.
+@enumerate
+@item
+The default TURN directive is '>>TURN EC-ALL CHECKING OFF'.
+@item
+If the ON phrase is specified or implied, checking for the exception condition associated with exception-name-1 is enabled for the procedure division statements
+and procedure division headers that follow in the compilation group;
+if file-name-1 is specified, checking is enabled only for exception conditions associated with that file-name.
+Checking remains enabled for every qualifying procedure division statement and procedure division header that follows in the compilation group until it is disabled by a TURN directive with the OFF phrase.
+@item
+If the LOCATION phrase is specified, all information necessary to identify a source statement for the EXCEPTION-LOCATION, EXCEPTION-LOCATION-N,
+and EXCEPTION-STATEMENT functions is made available to the run unit.
+If the LOCATION phrase is not specified, the implementor shall specify whether this information is made available or not.
+@item
+If the OFF phrase is specified, checking for the exception condition associated with exception-name-1 is disabled for all procedure division statements
+and procedure division headers that follow in the compilation group and remains disabled until another TURN directive for exception-name-1 with the ON phrase is encountered;
+if file-name-1 is specified, checking is disabled only for exception conditions associated with that file-name.
+@end enumerate
+
+
+See also: the CBL_ERROR_PROC built-in system routine and EXCEPTION-STATUS, EXCEPTION-STATEMENT, EXCEPTION-LOCATION, EXCEPTION-FILE intrinsic functions.
+Note: the USE AFTER EC|EXCEPTION CONDITION of DECLARATIVES and the RAISE statement are not yet implemented.
+
+@verbatim
+        >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TEST.  *> sample for EC-BOUND overflow
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 TABLE01.
+   05 ELEM OCCURS 4 TIMES PIC X(5).
+01 IDX     pic 99 value 6.
+PROCEDURE DIVISION.
+DECLARATIVES.
+DECLARATIVE-1 SECTION.
+   USE AFTER EXCEPTION CONDITION EC-BOUND.
+	   DISPLAY "DECLARATIVE FOR EC-BOUND".
+   EXIT PROGRAM.
+END DECLARATIVES.
+
+MAIN-SECTION SECTION.
+DISPLAY "TURN EC-BOUND CHECKING ON".
+>>TURN EC-BOUND CHECKING ON
+MOVE "ABCDE" TO ELEM(IDX).
+STOP RUN.
+@end verbatim
+
 @comment ********************************************************************
 @comment ** 3.9 >>D Directive                                              **
 @comment ********************************************************************
