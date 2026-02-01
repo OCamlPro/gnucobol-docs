@@ -879,6 +879,73 @@ By accepting from
 
 @item
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to the failure or success, respectively, of an attempt to retrieve an @code{ARGUMENT-VALUE}.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
+@example
+Program Example:
+
+       >>SOURCE FREE
+ identification division.
+ program-id. TESTACCEPTARG.
+ data division.
+ working-storage section.
+ 01 wACC-CMD  PIC X(30) value ALL 'x'.
+ 01 wACCNR    PIC 9(03) value zero.
+ 01 wACC01    PIC X(10) value ALL 'x'.
+ 01 wACC02    PIC X(10) value ALL 'x'.
+ 01 wACC03    PIC X(10) value ALL 'x'.
+ 01 wACC04    PIC X(10) value ALL 'x'.
+ 01 wACC05    PIC X(10) value ALL 'x'.
+ 01 wACCxx    PIC X(10) value ALL 'x'.
+ procedure division.
+ accept  wACC-CMD from command-line.
+ display 'Command line: >' wACC-CMD '<'.
+ accept  wACCNR from argument-number.
+ if  wACCNR = 4
+     accept   wACC01 from argument-value
+     accept   wACC02 from argument-value
+     accept   wACC03 from argument-value
+     accept   wACC04 from argument-value
+     accept   wACC05 from argument-value
+               on escape display 'Accept Argument 5 does not exist'
+           not on escape display 'Accept Argument 5 no exception'
+     end-accept
+     display  wACCNR '-' wACC01'-' wACC02 '-' wACC03 '-' wACC04
+                     '-' wACC05
+     display  2 upon argument-number
+               on exception display 'Display Argument 2 does not exist'
+           not on exception display 'Display Argument 2 no exception'
+     end-display
+     accept   wACCxx from argument-value
+     display  'Arg 2= ' waccxx
+     display  5 upon argument-number
+               on exception display 'Display Argument 5 does not exist'
+           not on exception display 'Display Argument 5 no exception'
+     end-display
+     move     zero to wACCNR
+     accept   wACCNR from argument-number
+     display  'Arguments: ' wACCNR  end-display
+     accept   wACCxx from argument-value *> read the next argument
+               on escape display 'Argument does not exist'
+           not on escape display 'Argument no exception'
+     end-accept
+     display  'Next arg= ' wACCxx
+ else
+     display  '4 arguments are required. Arguments are: ' wACCNR
+ end-if
+ STOP RUN.
+
+Execute as follows: testacceptarg 1 2 3 4
+The result will be:
+Command line: >1 2 3 4                       <
+Accept Argument 5 does not exist
+004-1         -2         -3         -4         -xxxxxxxxxx
+Display Argument 2 no exception
+Arg 2= 2
+Display Argument 5 does not exist
+Arguments: 004
+Argument no exception
+Next arg= 3
+
+@end example
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.1.3 ACCEPT FROM ENVIRONMENT                                 **
@@ -1345,8 +1412,8 @@ You may specify other video attributes by adding the following values:
 You may also specify high intensity by adding "8" to the foreground color value.
 
 @item
-The OMITTED format of the @statement{ACCEPT} will wait for a keyboard event that terminates input; function keys, or Enter/Return, among others. 
-CRT STATUS (COB-CRT-STATUS @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} if not explicitly defined) is set with the keycode, listed in copy/screenio.cpy. 
+The OMITTED format of the @statement{ACCEPT} will wait for a keyboard event that terminates input; function keys, or Enter/Return, among others.
+CRT STATUS (COB-CRT-STATUS @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} if not explicitly defined) is set with the keycode, listed in copy/screenio.cpy.
 You can use extended attributes, useful for setting timeouts or positioning.
 It also handles a few other keycode terminations not normally used to complete an extended accept.
 
