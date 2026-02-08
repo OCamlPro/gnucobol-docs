@@ -2616,13 +2616,14 @@ GnuCOBOL provides and supports built-in system subroutines of following categori
 +-------------------------------------------------------------------------------------+
 | CBL_GET_SCR_SIZE    | Retrieve the current console screen size                      |
 | CBL_GC_SET_SCR_SIZE | Set the current console screen size                           |
+| CBL_GC_SCR_DUMP     | Writes the current contents of the screen to a dump file      |
+| CBL_GC_SCR_RESTORE  | Restore the screen from a dump file                           |
+| CBL_GC_WINDOW       | Implement multiple TUI (Text User Interface) window support   |
+| CBL_GET_CSR_POS     | Retrieve the current cursor location on the screen            |
+| CBL_SET_CSR_POS     | Set the current cursor position on the screen                 |
 | CBL_ALARM_SOUND     | Create a noise (a beep) using the internal speaker            |
 | CBL_BELL_SOUND      | Same as CBL_ALARM_SOUND                                       |
 | X"E5"               | Same as CBL_ALARM_SOUND                                       |
-| CBL_GC_SCR_DUMP     | Writes the current contents of the screen to a dump file      |
-| CBL_GC_SCR_RESTORE  | Restore the screen from a dump file                           |
-| CBL_GET_CSR_POS     | Retrieve the current cursor location on the screen            |
-| CBL_SET_CSR_POS     | Set the current cursor position on the screen                 |
 | X"E4"               | Use X"E4" to clear the screen                                 |
 +-------------------------------------------------------------------------------------+
 @end smallexample
@@ -2841,7 +2842,7 @@ If the subroutine is successful, a value of 0 will be returned in the
 @register{RETURN-CODE} value of 35 to be passed back.  Supplying less than two arguments will generate a 128
 @register{RETURN-CODE} value.
 @comment *********************************************************************
-@comment ** 8.2.6 C$GETPID}                                                 **
+@comment ** 8.2.6 C$GETPID                                                 **
 @comment *********************************************************************
 @page
 @newsubsection{C$GETPID}
@@ -3049,14 +3050,14 @@ Any characters in @var{data-item} after the @var{convert-length} point will rema
 
 If @var{convert-length} is negative or zero, no conversion will be performed.
 @comment *********************************************************************
-@comment ** 8.2.14B CBL_ALARM_SOUND                                         **
+@comment ** 8.2.15 CBL_ALARM_SOUND                                         **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_ALARM_SOUND}
 @diagram{CBL_ALARM_SOUND Built-In Subroutine,SS-CBL_ALARM_SOUND,SS-CBL_ALARM_SOUND,None}
 This routine will create a noise (a beep) using the internal speaker if present. Works the same as function CBL_BELL_SOUND and X"E5".
 @comment *********************************************************************
-@comment ** 8.2.15 CBL_AND                                                  **
+@comment ** 8.2.16 CBL_AND                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_AND}
@@ -3085,7 +3086,7 @@ A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
 
 @comment *********************************************************************
-@comment ** 8.2.14B CBL_BELL_SOUND                                          **
+@comment ** 8.2.17 CBL_BELL_SOUND                                          **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_BELL_SOUND}
@@ -3095,7 +3096,7 @@ This routine will create a noise (a beep) using the internal speaker if present.
 Works the same as function CBL_ALARM_SOUND and X"E5".
 
 @comment *********************************************************************
-@comment ** 8.2.16 CBL_CHANGE_DIR                                           **
+@comment ** 8.2.18 CBL_CHANGE_DIR                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_CHANGE_DIR}
@@ -3107,7 +3108,7 @@ The return code of the operation, which will be either 0=Success or 128=failure,
 
 The directory change remains in effect until the program terminates (in which the original current directory at the time the program was started will be automatically restored) or until another @code{CBL_CHANGE_DIR} or a @subpgmref{C$CHDIR} is executed.
 @comment *********************************************************************
-@comment ** 8.2.17 CBL_CHECK_FILE_EXIST                                     **
+@comment ** 8.2.19 CBL_CHECK_FILE_EXIST                                     **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_CHECK_FILE_EXIST}
@@ -3131,7 +3132,7 @@ The information is returned to the @var{file-info} argument, which is defined as
 If the subroutine is successful, a value of 0 will be returned in the @registerref{RETURN-CODE}. Failure  to retrieve the needed statistics on the file will cause a @register{RETURN-CODE} value of 35 to be passed back.  Supplying less than two arguments will generate a 128 @register{RETURN-CODE} value.
 
 @comment *********************************************************************
-@comment ** 8.2.18 CBL_CLOSE_FILE                                           **
+@comment ** 8.2.20 CBL_CLOSE_FILE                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_CLOSE_FILE}
@@ -3146,7 +3147,7 @@ If the subroutine is successful, a value of 0 will be returned in the
 
 An example of the use of OPEN, CLOSE, READ etc., can be found in Contribs program printcbl.cbl which is basically also in cobxref.cbl as program 3.
 @comment *********************************************************************
-@comment ** 8.2.19 CBL_COPY_FILE                                            **
+@comment ** 8.2.21 CBL_COPY_FILE                                            **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_COPY_FILE}
@@ -3158,7 +3159,7 @@ Both arguments may be alphanumeric literals or identifiers.
 If the attempt to copy the file fails (for example, it or the destination directory doesn't exist), the
 @registerref{RETURN-CODE} will be set to 128; on successful completion it will be set to 0.
 @comment *********************************************************************
-@comment ** 8.2.20 CBL_CREATE_DIR                                           **
+@comment ** 8.2.22 CBL_CREATE_DIR                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_CREATE_DIR}
@@ -3170,7 +3171,7 @@ Only the lowest-level directory (last) in the specified path can be created --- 
 The @registerref{RETURN-CODE} will be set to the return code of the operation;
 The value will be either 0 = Success or 128 = failure.
 @comment *********************************************************************
-@comment ** 8.2.21 CBL_CREATE_FILE                                          **
+@comment ** 8.2.23 CBL_CREATE_FILE                                          **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_CREATE_FILE}
@@ -3184,7 +3185,7 @@ A @var{file-handle} (@code{PIC X(4) USAGE COMP-X)} will be returned, for use on 
 The success or failure of the subroutine will be reported back in the
 @registerref{RETURN-CODE}, with a value of -1 indicating an invalid argument and a value of 0 indicating success.
 @comment *********************************************************************
-@comment ** 8.2.22 CBL_DELETE_DIR                                           **
+@comment ** 8.2.24 CBL_DELETE_DIR                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_DELETE_DIR}
@@ -3197,7 +3198,7 @@ Only the lowest-level directory (last) in the specified path will be deleted, an
 
 The @registerref{RETURN-CODE} will be set to the return code of the operation; the value will be either 0=Success or 128=failure.
 @comment *********************************************************************
-@comment ** 8.2.23 CBL_DELETE_FILE                                          **
+@comment ** 8.2.25 CBL_DELETE_FILE                                          **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_DELETE_FILE}
@@ -3207,7 +3208,7 @@ This routine deletes the file specified by the @var{file-path} argument (an alph
 If the attempt to delete the file fails (for example, it doesn't exist), the
 @registerref{RETURN-CODE} will be set to 128; on successful completion it will be set to 0.
 @comment *********************************************************************
-@comment ** 8.2.24 CBL_EQ                                                   **
+@comment ** 8.2.26 CBL_EQ                                                   **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_EQ}
@@ -3236,7 +3237,7 @@ Any bits in @var{item-2} after the 8*@var{byte-length} point will be unaffected.
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.2.25 CBL_ERROR_PROC                                           **
+@comment ** 8.2.27 CBL_ERROR_PROC                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_ERROR_PROC}
@@ -3308,7 +3309,7 @@ E:\Programs\Demos>
 
 @end example
 @comment *********************************************************************
-@comment ** 8.2.26 CBL_EXIT_PROC                                            **
+@comment ** 8.2.28 CBL_EXIT_PROC                                            **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_EXIT_PROC}
@@ -3371,7 +3372,7 @@ END PROGRAM ExitProc.
 
 @end example
 @comment *********************************************************************
-@comment ** 8.2.27 CBL_FLUSH_FILE                                           **
+@comment ** 8.2.29 CBL_FLUSH_FILE                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_FLUSH_FILE}
@@ -3380,7 +3381,7 @@ In Micro Focus COBOL, calling this subroutine flushes any as-yet unwritten buffe
 
 This routine is non-functional in GnuCOBOL.  It exists only to provide compatibility for applications that may have been developed for Micro Focus COBOL.
 @comment *********************************************************************
-@comment ** 8.2.28 CBL_GC_FORK                                             **
+@comment ** 8.2.30 CBL_GC_FORK                                             **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_FORK}
@@ -3453,7 +3454,7 @@ current system.
 
 @end example
 @comment *********************************************************************
-@comment ** 8.2.29 CBL_GC_GETOPT                                           **
+@comment ** 8.2.31 CBL_GC_GETOPT                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_GETOPT}
@@ -3572,7 +3573,7 @@ truncated option value in @code{opt-val} (because @code{opt-val} was too small)
 a regular answer from @code{getopt}
 @end table
 @comment *********************************************************************
-@comment ** 8.2.30 CBL_GC_HOSTED                                           **
+@comment ** 8.2.32 CBL_GC_HOSTED                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_HOSTED}
@@ -3691,7 +3692,7 @@ IDENTIFICATION DIVISION.
 
 Note that the legacy name of this routine that starts with @code{CBL_OC} is deprecated, as is @code{NANOSLEEP} but will still work. It is recommended that all library routines names starting with @code{CBL_OC} are replaced with @code{CBL_GC} to minimise issues.
 @comment *********************************************************************
-@comment ** 8.2.31 CBL_GC_NANOSLEEP                                        **
+@comment ** 8.2.33 CBL_GC_NANOSLEEP                                        **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_NANOSLEEP}
@@ -3708,7 +3709,7 @@ There are one @i{billion} nanoseconds in a second, so if you wanted to put the p
 
 Note that the legacy name of this routine starts with ``CBL_OC'' is deprecated, as is @code{HOSTED}, but will still work. It is recommended that all library routines names starting with ``CBL_OC'' are replaced with ``CBL_GC'' to minimise issues.
 @comment *********************************************************************
-@comment ** 8.2.32 CBL_GC_PRINTABLE                                        **
+@comment ** 8.2.34 CBL_GC_PRINTABLE                                        **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_PRINTABLE}
@@ -3720,7 +3721,7 @@ Those characters that are deemed printable (as defined by the character set used
 If no @var{char} argument is provided, a period (@samp{.}) will be used.
 
 @comment *********************************************************************
-@comment ** 8.2.xx CBL_GC_SCR_DUMP                                          **
+@comment ** 8.2.35 CBL_GC_SCR_DUMP                                          **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_SCR_DUMP}
@@ -3808,7 +3809,7 @@ DisplayMessageEx. exit.
 @end example
 
 @comment *********************************************************************
-@comment ** 8.2.xx CBL_GC_SCR_RESTORE                                       **
+@comment ** 8.2.36 CBL_GC_SCR_RESTORE                                       **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_SCR_RESTORE}
@@ -3817,7 +3818,7 @@ DisplayMessageEx. exit.
 Use this subroutine to restore the screen to the way it looked in the dump file which must have been created using the CBL_GC_SCR_DUMP function.
 
 @comment *********************************************************************
-@comment ** 8.2.32B CBL_GC_SET_SCR_SIZE                                     **
+@comment ** 8.2.37 CBL_GC_SET_SCR_SIZE                                     **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_SET_SCR_SIZE}
@@ -3837,7 +3838,7 @@ The following are possibly typical @var{no-of-lines} and @var{no-of-columns} def
 
 This system call will only work if the terminal program used is compatible for such operations and not all are.
 @comment *********************************************************************
-@comment ** 8.2.33 CBL_GC_WAITPID                                          **
+@comment ** 8.2.38 CBL_GC_WAITPID                                          **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GC_WAITPID}
@@ -3859,7 +3860,146 @@ MOVE     0 TO RETURN-CODE
 DISPLAY  'CBL_GC_WAITPID ended with status: ' WAIT-STS
 @end example
 @comment *********************************************************************
-@comment ** 8.2.34 CBL_GET_CSR_POS                                          **
+@comment ** 8.2.39 CBL_GC_WINDOW                                          **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_GC_WINDOW}
+@diagram{CBL_GC_WINDOW Built-In Subroutine,SS-CBL_GC_WINDOW,SS-CBL_GC_WINDOW,None}
+
+@code{CBL_GC_WINDOW} is a new callable function which implement multiple TUI (Text User Interface) window support. 
+It is available starting from GnuCOBOL 3.3. 
+Also there is a new copy member used to call them, GCWINDOW.CPY. 
+
+The functionality to support multiple TUI windows on the terminal screen has been implemented by making use of the panel libraries which are part of both PDCURSES and NCURSES variants. 
+Note that panels are NOT supported in X/OPEN CURSES. If panels are not supported then the functions implemented below will return a non-zero value in the COBOL RETURN-CODE. 
+Also note that if called with a parm of the wrong length it will return a non-zero value in the GnuCOBOL RETURN-CODE.
+
+Panels are TUI windows with the added feature of depth, so they can be stacked on top of each other, and only the visible portions of each window will be displayed. 
+Panels can be added, moved on the physical screen, moved to the top or bottom of the stack, made visible or not visible, and removed.
+
+For the implementation of this in GnuCOBOL, none of the curses functions / data structures are directly exposed to COBOL programs.  
+
+If called with "L" (List) command, this will return an array containing informations about all of the windows created by the function. 
+The order of the entries is their depth in the deck of windows. 
+Note that the hidden windows will be present after all of the non hidden windows. 
+
+Note restriction about hidden windows, the only allowable functions on a hidden window are "V" (Show) or "D" (Delete). See error codes 40 and 42 below.
+
+All of the functions require the WP-NUMBER to contain the number returned by the WP-NEW function.
+Note that the HIDDEN variable below is now bit switch in the WP-FLAGS field. It is required for the SHOW / HIDE functions.
+An example on how commands and parameteres are settled follows.
+
+@example
+ *> CBL_GC_WINDOW ROUTINE
+ *>
+ *> for all commands excluding L use:
+ *> call "CBL_GC_WINDOW" using WP-COMMAND WP-PARMS WP-RETCODE
+ *> only for command L use:
+ *> call "CBL_GC_WINDOW" using WP-COMMAND WL-LIST  WP-RETCODE
+ *>
+ *> COMMAND    NUM START-L START-C LINS COLS FG  BG  FLAGS  RETCODE
+ *> ---------- --- ------- ------- ---- ---- --- --- ------ -------
+ *> N NEW      ret   req     req   req  req  req req   -      ret
+ *> T TOP      req    -       -     -    -    -   -    -      ret
+ *> B BOTTOM   req    -       -     -    -    -   -    -      ret
+ *> D DELETE   req    -       -     -    -    -   -    -      ret
+ *> M MOVE     req   req     req    -    -    -   -    -      ret
+ *> I HIDE     req    -       -     -    -    -   -    -      ret
+ *> V SHOW     req    -       -     -    -    -   -    -      ret
+ *> G GET      req   ret     ret   ret  ret  ret ret  ret     ret
+ *> S SET      req    -       -     -    -   req req   -      ret
+ *> L LIST      -    ret     ret   ret  ret  ret ret  ret     ret
+ *> ---------- --- ------- ------- ---- ---- --- --- ------ --------
+ *> req= required, ret= returned
+ *> the window on TOP of the deck always has the focus
+
+ 01  WP-COMMAND      PIC X.    *> command
+     88  WP-NEW      VALUE 'N'.*> create new window on top of the deck
+     88  WP-TOP      VALUE 'T'.*> put the window on top of the deck
+     88  WP-BOTTOM   VALUE 'B'.*> put the window at bottom of the deck
+     88  WP-DELETE   VALUE 'D'.*> delete window from the deck
+     88  WP-MOVE     VALUE 'M'.*> move the window on screen
+     88  WP-HIDE     VALUE 'I'.*> make the window invisible (hide it)
+     88  WP-SHOW     VALUE 'V'.*> make visible a hidden window
+     88  WP-GET      VALUE 'G'.*> get settings & attributes of a window
+     88  WP-SET      VALUE 'S'.*> set video attributes of a window
+     88  WP-LIST     VALUE 'L'.*> get window's list with settings/attributes
+
+ *> communication area to manage information about a single window
+ 01  WP-PARMS.
+     03  WP-NUMBER           BINARY-SHORT.
+     66  WP-HANDLE renames   WP-NUMBER.
+     03  WP-SETTINGS.
+         05  WP-START-LINE   BINARY-SHORT.
+         05  WP-START-COL    BINARY-SHORT.
+         05  WP-LINES        BINARY-SHORT.
+         05  WP-COLUMNS      BINARY-SHORT.
+     03  WP-VIDEO-ATTRIBUTES.
+         05  WP-FG-COLOR     BINARY-SHORT.
+         05  WP-BG-COLOR     BINARY-SHORT.
+         05  WP-FLAGS        BINARY-SHORT.
+
+ *>  Optional flags for the windows
+ 78  WP-FLAG-HIDDEN   VALUE h'01'.
+ 78  WP-FLAG-NOSCROLL VALUE h'02'.
+ 78  WP-FLAG-NOWRAP   VALUE h'04'.
+
+*> communication area for information about list of windows
+*> low value = end of window list
+ 01  WL-LIST.
+     05  WL-WINDOW OCCURS 20 TIMES INDEXED BY WL-INDEX.
+         10  WL-DEPTH         BINARY-SHORT.
+         10  WL-NUMBER        BINARY-SHORT
+         66  WL-HANDLE renames WL-NUMBER.
+         10  WL-START-LINE    BINARY-SHORT.
+         10  WL-START-COL     BINARY-SHORT.
+         10  WL-LINES         BINARY-SHORT.
+         10  WL-COLUMNS       BINARY-SHORT.
+         10  WL-FG-COLOR      BINARY-SHORT.
+         10  WL-BG-COLOR      BINARY-SHORT.
+         10  WL-FLAGS         BINARY-SHORT.
+
+ 01  WP-RETCODE                    BINARY-INT.
+     88  WP-UNSUPPORTED             VALUE -1.
+     88  WP-DISABLED                VALUE -2.
+     88  WP-BAD-PARAMETER-LEN       VALUE -8.
+     88  WP-OK                      VALUE  0.
+     88  WP-LINE-EXCEEDS-MAX        VALUE  2.
+     88  WP-COL-EXCEEDS-MAX         VALUE  4.
+     88  WP-WIN-LINES-EXCEEDS-MAX   VALUE  6.
+     88  WP-WIN-COLS-EXCEEDS-MAX    VALUE  7.
+     88  WP-INVALID-BG-COLOR        VALUE  8.
+     88  WP-INVALID-FG-COLOR        VALUE  9.
+     88  WP-WIN-NUMBER-INVALID      VALUE 10.
+     88  WP-FG-BG-COLORS-ARE-SAME   VALUE 11.
+     88  WP-NO-MORE-WINDOWS-LEFT    VALUE 20.
+     88  WP-NEWWIN-FAILED           VALUE 22.
+     88  WP-NEW-PANEL-FAILED        VALUE 24.
+     88  WP-PAN-USRPTR-FAILED       VALUE 26.
+     88  WP-WINDOW-NOT-FOUND        VALUE 28.
+     88  WP-MOVE-WINDOW-FAILED      VALUE 29.
+     88  WP-SHOW-WINDOW-FAILED      VALUE 30.
+     88  WP-HIDE-WINDOW-FAILED      VALUE 32.
+     88  WP-TOP-WINDOW-FAILED       VALUE 34.
+     88  WP-BOTTOM-WINDOW-FAILED    VALUE 35.
+     88  WP-DELETE-WINDOW-FAILED    VALUE 36.
+     88  WP-DELETE-PANEL-FAILED     VALUE 38.
+     88  WP-WINDOW-IS-HIDDEN        VALUE 40.
+     88  WP-WINDOW-IS-NOT-HIDDEN    VALUE 42.
+     88  WP-WINDOW-MODE-IS-INVALID  VALUE 44.
+@end example
+
+Note that the following are bit masks for the WP-FLAGS field. 
+To modify the values you will need to use the B-OR to turn a bit on. 
+The B-XOR can be used to turn a bit off. 
+
+@example
+COMPUTE WP-FLAGS = WP-FLAGS B-OR  WP-FLAG-HIDDEN     turn bit on
+COMPUTE WP-FLAGS = WP-FLAGS B-XOR WP-FLAG-HIDDEN     turn bit off
+@end example
+
+@comment *********************************************************************
+@comment ** 8.2.40 CBL_GET_CSR_POS                                          **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GET_CSR_POS}
@@ -3878,7 +4018,7 @@ The following is a typical @var{cursor-locn-buffer} definition:
 
 Values of 1 (Line) and 1 (column) will be returned if GnuCOBOL was not generated to include screen I/O.
 @comment *********************************************************************
-@comment ** 8.2.35 CBL_GET_CURRENT_DIR                                      **
+@comment ** 8.2.41 CBL_GET_CURRENT_DIR                                      **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GET_CURRENT_DIR}
@@ -3897,7 +4037,7 @@ If the value specified for the @var{length} argument is LESS THAN the actual len
 If the routine is successful, a value of 0 will be returned to the
 @registerref{RETURN-CODE}.  If the routine failed because of a problem with an argument (such as a negative or 0 length), a value of 128 will result.  Finally, if the 1@sup{st} argument value is anything but zero, the routine will fail with a 129 value.
 @comment *********************************************************************
-@comment ** 8.2.36 CBL_GET_SCR_SIZE                                         **
+@comment ** 8.2.42 CBL_GET_SCR_SIZE                                         **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_GET_SCR_SIZE}
@@ -3921,7 +4061,7 @@ Zero values will be returned if the screen has not been initialized and values o
 
 Maximum values for BINARY-CHAR is 255 and any excess to this will be wrong so if lines or columns exceed 255, results will not be valid.
 @comment *********************************************************************
-@comment ** 8.2.37 CBL_IMP                                                  **
+@comment ** 8.2.43 CBL_IMP                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_IMP}
@@ -3949,7 +4089,7 @@ Any bits in @var{item-2} after the 8*@var{byte-length} point will be unaffected.
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.2.38 CBL_NIMP                                                 **
+@comment ** 8.2.44 CBL_NIMP                                                 **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_NIMP}
@@ -3977,7 +4117,7 @@ Any bits in @var{item-2} after the 8*@var{byte-length} point will be unaffected.
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.2.39 CBL_NOR                                                  **
+@comment ** 8.2.45 CBL_NOR                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_NOR}
@@ -4005,7 +4145,7 @@ Any bits in @var{item-2} after the 8*@var{byte-length} point will be unaffected.
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.2.40 CBL_NOT                                                  **
+@comment ** 8.2.46 CBL_NOT                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_NOT}
@@ -4021,7 +4161,7 @@ Any bits in @var{item-1} after the 8*@var{byte-length} point will be unaffected.
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.2.40B CBL_OC_GETOPT                                           **
+@comment ** 8.2.47 CBL_OC_GETOPT                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_OC_GETOPT}
@@ -4029,7 +4169,7 @@ A result of zero will be passed back in the
 Use function CBL_GC_GETOPT instead as redundant and will be removed.
 
 @comment *********************************************************************
-@comment ** 8.2.40C CBL_OC_HOSTED                                           **
+@comment ** 8.2.48 CBL_OC_HOSTED                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_OC_HOSTED}
@@ -4037,7 +4177,7 @@ Use function CBL_GC_GETOPT instead as redundant and will be removed.
 Use function CBL_GC_HOSTED instead as redundant and will be removed.
 
 @comment *********************************************************************
-@comment ** 8.2.40D CBL_OC_NANOSLEEP                                        **
+@comment ** 8.2.49 CBL_OC_NANOSLEEP                                        **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_OC_NANOSLEEP}
@@ -4045,7 +4185,7 @@ Use function CBL_GC_HOSTED instead as redundant and will be removed.
 Use function CBL_GC_NANOSLEEP instead as redundant and will be removed.
 
 @comment *********************************************************************
-@comment ** 8.2.42 CBL_OPEN_FILE                                            **
+@comment ** 8.2.50 CBL_OPEN_FILE                                            **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_OPEN_FILE}
@@ -4077,7 +4217,7 @@ A
 An example of the use of OPEN, CLOSE, READ etc., can be found in Contribs program printcbl.cbl which is basically also in cobxref.cbl as program 3.
 
 @comment *********************************************************************
-@comment ** 8.2.43 CBL_OR                                                   **
+@comment ** 8.2.51 CBL_OR                                                   **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_OR}
@@ -4105,7 +4245,7 @@ Any bits in @var{item-2} after the 8*@var{byte-length} point will be unaffected.
 A result of zero will be passed back in the
 @registerref{RETURN-CODE}.
 @comment *********************************************************************
-@comment ** 8.2.44 CBL_READ_FILE                                            **
+@comment ** 8.2.52 CBL_READ_FILE                                            **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_READ_FILE}
@@ -4122,7 +4262,7 @@ If the @var{flag} argument is specified as 128, the size of the file (in bytes) 
 Upon completion, the
 @registerref{RETURN-CODE} will be set to 0 if the read was successful or to 10 if an "end-of-file" condition occurred.  If a value of -1 is returned, a problem was identified with the subroutine arguments.
 @comment *********************************************************************
-@comment ** 8.2.45 CBL_READ_KBD_CHAR                                        **
+@comment ** 8.2.53 CBL_READ_KBD_CHAR                                        **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_READ_KBD_CHAR}
@@ -4137,7 +4277,7 @@ If @code{RETURNING} is not used the @code{RETURN-CODE} special register receives
 
 [Above information taken from MF WB manual].
 @comment *********************************************************************
-@comment ** 8.2.46 CBL_RENAME_FILE                                          **
+@comment ** 8.2.54 CBL_RENAME_FILE                                          **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_RENAME_FILE}
@@ -4152,7 +4292,7 @@ If the attempt to move the file fails (for example, it doesn't exist), the
 @registerref{RETURN-CODE} will be set to 128; on successful completion it will be set to 0.
 
 @comment *********************************************************************
-@comment ** 8.2.46B CBL_RUNTIME_ERROR                                       **
+@comment ** 8.2.55 CBL_RUNTIME_ERROR                                       **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_RUNTIME_ERROR}
@@ -4173,7 +4313,7 @@ See also the "STOP ERROR" statement.
 
 
 @comment *********************************************************************
-@comment ** 8.2.47 CBL_SET_CSR_POS                                          **
+@comment ** 8.2.56 CBL_SET_CSR_POS                                          **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_SET_CSR_POS}
@@ -4193,7 +4333,7 @@ The following is a typical @var{cursor-locn-buffer} definition:
 @end example
 
 @comment *********************************************************************
-@comment ** 8.2.49 CBL_TOLOWER                                              **
+@comment ** 8.2.57 CBL_TOLOWER                                              **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_TOLOWER}
@@ -4204,7 +4344,7 @@ The @var{convert-length} argument must be specified @syntaxrefalt{BY VALUE,CALL}
 
 If @var{convert-length} is negative or zero, no conversion will be performed.
 @comment *********************************************************************
-@comment ** 8.2.50 CBL_TOUPPER                                              **
+@comment ** 8.2.58 CBL_TOUPPER                                              **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_TOUPPER}
@@ -4215,7 +4355,7 @@ The @var{convert-length} argument must be specified @syntaxrefalt{BY VALUE,CALL}
 
 If @var{convert-length} is negative or zero, no conversion will be performed.
 @comment *********************************************************************
-@comment ** 8.2.51 CBL_WRITE_FILE                                           **
+@comment ** 8.2.59 CBL_WRITE_FILE                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_WRITE_FILE}
@@ -4232,7 +4372,7 @@ Currently, the only allowable value for the flags argument is 0.  This argument 
 Upon completion, the
 @registerref{RETURN-CODE} will be set to 0 if the write was successful or to 30 if an I/O error condition occurred.  If a value of -1 is returned, a problem was identified with the subroutine arguments.
 @comment *********************************************************************
-@comment ** 8.2.52 CBL_XOR                                                  **
+@comment ** 8.2.60 CBL_XOR                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_XOR}
@@ -4261,7 +4401,7 @@ A result of zero will be passed back in the
 
 
 @comment *********************************************************************
-@comment ** 8.2.53 EXTFH                                                    **
+@comment ** 8.2.61 EXTFH                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{EXTFH}
@@ -5972,7 +6112,7 @@ file's Key Definition Block.
 See the file NEWS for other details as implementation may varies between compiler versions.
 
 @comment *********************************************************************
-@comment ** 8.2.53 SYSTEM                                                   **
+@comment ** 8.2.62 SYSTEM                                                   **
 @comment *********************************************************************
 @page
 @newsubsection{SYSTEM}
@@ -5992,7 +6132,7 @@ To trap output from the executed command and process it within the GnuCOBOL prog
 The exit status of the executed command will be available in the @code{RETURN-CODE} special-register.
 
 @comment *********************************************************************
-@comment ** 8.2.54 X"91"                                                    **
+@comment ** 8.2.63 X"91"                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{X"91"}
@@ -6130,20 +6270,20 @@ Prepare for directory search.
 
 @end table
 @comment *********************************************************************
-@comment ** 8.2.55 X"E4"                                                    **
+@comment ** 8.2.64 X"E4"                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{X"E4"}
 @diagram{X"E4" Built-In Subroutine,SS-XE4,SS-XE4,None}
 Use @code{X"E4"} to clear the screen.  There are no arguments and no returned value.
 @comment *********************************************************************
-@comment ** 8.2.56 X"E5"                                                    **
+@comment ** 8.2.65 X"E5"                                                    **
 @comment *********************************************************************
 @newsubsection{X"E5"}
 @diagram{X"E5" Built-In Subroutine,SS-XE5,SS-XE5,None}
 The @code{X"E5"} routine will sound the PC ``bell''.  There are no arguments and no returned value. Works the same as function CBL_ALARM_SOUND and CBL_BELL_SOUND.
 @comment *********************************************************************
-@comment ** 8.2.57 X"F4"                                                    **
+@comment ** 8.2.66 X"F4"                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{X"F4"}
@@ -6161,7 +6301,7 @@ Typically, table is defined similarly to the following:
     05 Each-Byte OCCURS 8 TIMES USAGE BINARY-CHAR.
 @end example
 @comment *********************************************************************
-@comment ** 8.2.58 X"F5"                                                    **
+@comment ** 8.2.67 X"F5"                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{X"F5"}
