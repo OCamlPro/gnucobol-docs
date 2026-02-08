@@ -3866,28 +3866,28 @@ DISPLAY  'CBL_GC_WAITPID ended with status: ' WAIT-STS
 @newsubsection{CBL_GC_WINDOW}
 @diagram{CBL_GC_WINDOW Built-In Subroutine,SS-CBL_GC_WINDOW,SS-CBL_GC_WINDOW,None}
 
-@code{CBL_GC_WINDOW} is a new callable function which implement multiple TUI (Text User Interface) window support. 
-It is available starting from GnuCOBOL 3.3. 
-Also there is a new copy member used to call them, GCWINDOW.CPY. 
+@code{CBL_GC_WINDOW} is a new callable function which implement multiple TUI (Text User Interface) window support.
+It is available starting from GnuCOBOL 3.3.
+Also there is a new copy member used to call them, GCWINDOW.CPY.
 
-The functionality to support multiple TUI windows on the terminal screen has been implemented by making use of the panel libraries which are part of both PDCURSES and NCURSES variants. 
-Note that panels are NOT supported in X/OPEN CURSES. If panels are not supported then the functions implemented below will return a non-zero value in the COBOL RETURN-CODE. 
-Also note that if called with a parm of the wrong length it will return a non-zero value in the GnuCOBOL RETURN-CODE.
+The functionality to support multiple TUI windows on the terminal screen has been implemented by making use of the panel libraries which are part of both PDCURSES and NCURSES variants.
+Note that panels are NOT supported in X/OPEN CURSES. If panels are not supported then the functions implemented below will return a non-zero value in the COBOL RETURN-CODE.
+Also note that if called with a parameter of the wrong length it will return a non-zero value in the GnuCOBOL RETURN-CODE.
 
-Panels are TUI windows with the added feature of depth, so they can be stacked on top of each other, and only the visible portions of each window will be displayed. 
+Panels are TUI windows with the added feature of depth, so they can be stacked on top of each other, and only the visible portions of each window will be displayed.
 Panels can be added, moved on the physical screen, moved to the top or bottom of the stack, made visible or not visible, and removed.
 
-For the implementation of this in GnuCOBOL, none of the curses functions / data structures are directly exposed to COBOL programs.  
+For the implementation of this in GnuCOBOL, none of the curses functions / data structures are directly exposed to COBOL programs.
 
-If called with "L" (List) command, this will return an array containing informations about all of the windows created by the function. 
-The order of the entries is their depth in the deck of windows. 
-Note that the hidden windows will be present after all of the non hidden windows. 
+If called with "L" (List) command, this will return an array containing informations about all of the windows created by the function.
+The order of the entries is their depth in the deck of windows.
+Note that the hidden windows will be present after all of the non hidden windows.
 
 Note restriction about hidden windows, the only allowable functions on a hidden window are "V" (Show) or "D" (Delete). See error codes 40 and 42 below.
 
 All of the functions require the WP-NUMBER to contain the number returned by the WP-NEW function.
 Note that the HIDDEN variable below is now bit switch in the WP-FLAGS field. It is required for the SHOW / HIDE functions.
-An example on how commands and parameteres are settled follows.
+An example on how commands and parameters are settled follows.
 
 @example
  *> CBL_GC_WINDOW ROUTINE
@@ -3989,9 +3989,9 @@ An example on how commands and parameteres are settled follows.
      88  WP-WINDOW-MODE-IS-INVALID  VALUE 44.
 @end example
 
-Note that the following are bit masks for the WP-FLAGS field. 
-To modify the values you will need to use the B-OR to turn a bit on. 
-The B-XOR can be used to turn a bit off. 
+Note that the following are bit masks for the WP-FLAGS field.
+To modify the values you will need to use the B-OR to turn a bit on.
+The B-XOR can be used to turn a bit off.
 
 @example
 COMPUTE WP-FLAGS = WP-FLAGS B-OR  WP-FLAG-HIDDEN     turn bit on
