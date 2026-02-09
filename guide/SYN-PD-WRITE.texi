@@ -1,25 +1,39 @@
-   WRITE { record-name-1   [ FROM { identifier-1 } ] }
-   ~~~~~ {                 [ ~~~~ { literal-1    } ] }
-         {                                           }
-         { FILE file-name-1  FROM { identifier-1 }   }
-         { ~~~~              ~~~~ { literal-1    }   }
+Format 1. For Sequential and Line Sequential files:
+
+WRITE { record-name-1   [ FROM { identifier-1 } ] }
+~~~~~ {                 [ ~~~~ { literal-1    } ] }
+      {                                           }
+      { FILE file-name-1  FROM { identifier-1 }   }
+      { ~~~~              ~~~~ { literal-1    }   }
 
       [ { BEFORE } ADVANCING { { literal-2    } LINE|LINES } ]
-      [ { ~~~~~~ }           { { identifier-2              } ]
+      [ { ~~~~~~ }           { { identifier-2 }            } ]
       [ { AFTER  }           { PAGE                        } ]
       [   ~~~~~              { ~~~~                        } ]
-                             { mnemonic-name-1             } ]
+      [                      { mnemonic-name-1             } ]
 
       [ WITH [ NO ] LOCK ]
                ~~   ~~~~
-
       [ AT END-OF-PAGE|EOP imperative-statement-1 ]
            ~~~~~~~~~~~ ~~~
       [ NOT AT END-OF-PAGE|EOP imperative-statement-2 ]
         ~~~    ~~~~~~~~~~~ ~~~
+[ END-WRITE ]
+  ~~~~~~~~~
+
+Format 2. For Indexed and Relative files:
+
+WRITE { record-name-1   [ FROM { identifier-1 } ] }
+~~~~~ {                 [ ~~~~ { literal-1    } ] }
+      {                                           }
+      { FILE file-name-1  FROM { identifier-1 }   }
+      { ~~~~              ~~~~ { literal-1    }   }
+
+      [ WITH [ NO ] LOCK ]
+               ~~   ~~~~
       [ INVALID KEY imperative-statement-3 ]
         ~~~~~~~
       [ NOT INVALID KEY imperative-statement-4 ]
         ~~~ ~~~~~~~
- [ END-WRITE ]
-   ~~~~~~~~~
+[ END-WRITE ]
+  ~~~~~~~~~
