@@ -2593,6 +2593,17 @@ GnuCOBOL provides and supports built-in system subroutines of following categori
 | CBL_WRITE_FILE      | Writes n bytes of data to the byte-stream file                |
 | CBL_CLOSE_FILE      | Closes a byte stream file previously opened                   |
 +-------------------------------------------------------------------------------------+
+| Virtual Heap Routines                                                               |
++-------------------------------------------------------------------------------------+
+| CBL_OPEN_VFILE      | Opens a "virtual file" (heap)                                 |
+| CBL_WRITE_VFILE     | Writes bytes to heap; offset 4 byte binary                    |
+| CBL_READ_VFILE      | Reads bytes from heap; offset 4 byte binary                   |
+| CBL_CLOSE_VFILE     | Closes the heap handle                                        |
+| CBL_GC_OPEN_VFILE64 | Opens a "virtual file" (heap)                                 |
+| CBL_GC_WRITE_VFILE64| Writes bytes to heap; offset 8 byte binary                    |
+| CBL_GC_READ_VFILE64 | Reads bytes from heap; offset 8 byte binary                   |
+| CBL_GC_CLOSE_VFILE64| Closes the heap handle                                        |
++-------------------------------------------------------------------------------------+
 | Text Routines                                                                       |
 +-------------------------------------------------------------------------------------+
 | CBL_TOLOWER         | Convert the first "n" characters of a data-item to lower-case |
@@ -2612,6 +2623,10 @@ GnuCOBOL provides and supports built-in system subroutines of following categori
 | CBL_IMP             | Performs a bit-by-bit logical IMPLIES between 2 data items    |
 | CBL_NIMP            | Performs the NEGATION of a bit-by-bit logical IMPLIES         |
 +-------------------------------------------------------------------------------------+
+@end smallexample
+@page
+@smallexample
++-------------------------------------------------------------------------------------+
 | Screen Routines                                                                     |
 +-------------------------------------------------------------------------------------+
 | CBL_GET_SCR_SIZE    | Retrieve the current console screen size                      |
@@ -2625,10 +2640,6 @@ GnuCOBOL provides and supports built-in system subroutines of following categori
 | CBL_BELL_SOUND      | Same as CBL_ALARM_SOUND                                       |
 | X"E5"               | Same as CBL_ALARM_SOUND                                       |
 | X"E4"               | Use X"E4" to clear the screen                                 |
-+-------------------------------------------------------------------------------------+
-@end smallexample
-@page
-@smallexample
 +-------------------------------------------------------------------------------------+
 | Keyboard Routines                                                                   |
 +-------------------------------------------------------------------------------------+
@@ -2663,6 +2674,10 @@ GnuCOBOL provides and supports built-in system subroutines of following categori
 | Operating System Routines                                                           |
 +-------------------------------------------------------------------------------------+
 | SYSTEM              | Submits command to a command shell for execution              |
++-------------------------------------------------------------------------------------+
+@end smallexample
+@page
+@smallexample
 +-------------------------------------------------------------------------------------+
 | Miscellaneous Routines                                                              |
 +------------------------- -----------------------------------------------------------+
@@ -2735,6 +2750,7 @@ The following sections describe the various built-in subroutines.  @i{All subrou
 * CBL_GC_SCR_RESTORE.
 * CBL_GC_SET_SCR_SIZE.
 * CBL_GC_WAITPID.
+* CBL_GC_WINDOW.
 * CBL_GET_CSR_POS.
 * CBL_GET_CURRENT_DIR.
 * CBL_GET_SCR_SIZE.
@@ -2755,6 +2771,7 @@ The following sections describe the various built-in subroutines.  @i{All subrou
 * CBL_TOLOWER.
 * CBL_TOUPPER.
 * CBL_WRITE_FILE.
+* CBL_VIRTUAL_HEAP_ROUTINES.
 * CBL_XOR.
 * EXTFH.
 * SYSTEM.
@@ -4354,8 +4371,40 @@ This routine will convert the first @var{convert-length} (a numeric literal or d
 The @var{convert-length} argument must be specified @syntaxrefalt{BY VALUE,CALL}.  It specifies how many (leading) characters in data-item will be converted --- any characters after that will remain unchanged.
 
 If @var{convert-length} is negative or zero, no conversion will be performed.
+
 @comment *********************************************************************
-@comment ** 8.2.59 CBL_WRITE_FILE                                           **
+@comment ** 8.2.59 CBL_VIRTUAL_HEAP_ROUTINES                                       **
+@comment *********************************************************************
+@page
+@newsubsection{CBL_virtual_heap_routines}
+@diagram{CBL_VIRTUAL_HEAP_ROUTINES Built-In Subroutines,SS-CBL_VIRTUAL_HEAP_ROUTINES,SS-CBL_VIRTUAL_HEAP_ROUTINES,None}
+
+The VFILE functions provide functionality consistent with Microfocus / Fujitsu, but the heap is never paged to disk.
+The VFILE64 functions are a GnuCOBOL extension to allow for access beyond the 4 GB offset when using a 64 bit environment.
+They are available starting from GnuCOBOL 3.3.
+
+@verbatim
+CBL_OPEN_VFILE       opens a "virtual file" (heap)
+CBL_WRITE_VFILE      writes bytes to heap; offset 4 byte binary
+CBL_READ_VFILE       reads bytes from heap; offset 4 byte binary
+CBL_CLOSE_VFILE      closes the heap handle
+
+CBL_GC_OPEN_VFILE64  opens a "virtual file" (heap)
+CBL_GC_WRITE_VFILE64 writes bytes to heap; offset 8 byte binary
+CBL_GC_READ_VFILE64  reads bytes from heap; offset 8 byte binary
+CBL_GC_CLOSE_VFILE64 closes the heap handle
+
+
+01 heap-ID       PIC 9(4) COMP-5.
+01 heap-status   PIC X(2).        *> The area to store heap-status
+01 relative-addr PIC 9(4) COMP-5. *> The relative address in a heap
+01 data-len      PIC 9(4) COMP-5. *> The length of data to be read or written.
+01 strings       PIC X(n).        *> Area to store the read string or the string to be written 
+01 stat-code     PIC S(4) COMP-5. *> 0: Successful, other than 0: Failure
+@end verbatim
+
+@comment *********************************************************************
+@comment ** 8.2.60 CBL_WRITE_FILE                                           **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_WRITE_FILE}
@@ -4372,7 +4421,7 @@ Currently, the only allowable value for the flags argument is 0.  This argument 
 Upon completion, the
 @registerref{RETURN-CODE} will be set to 0 if the write was successful or to 30 if an I/O error condition occurred.  If a value of -1 is returned, a problem was identified with the subroutine arguments.
 @comment *********************************************************************
-@comment ** 8.2.60 CBL_XOR                                                  **
+@comment ** 8.2.61 CBL_XOR                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{CBL_XOR}
@@ -4401,7 +4450,7 @@ A result of zero will be passed back in the
 
 
 @comment *********************************************************************
-@comment ** 8.2.61 EXTFH                                                    **
+@comment ** 8.2.62 EXTFH                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{EXTFH}
@@ -6132,7 +6181,7 @@ To trap output from the executed command and process it within the GnuCOBOL prog
 The exit status of the executed command will be available in the @code{RETURN-CODE} special-register.
 
 @comment *********************************************************************
-@comment ** 8.2.63 X"91"                                                    **
+@comment ** 8.2.64 X"91"                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{X"91"}
@@ -6270,20 +6319,20 @@ Prepare for directory search.
 
 @end table
 @comment *********************************************************************
-@comment ** 8.2.64 X"E4"                                                    **
+@comment ** 8.2.65 X"E4"                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{X"E4"}
 @diagram{X"E4" Built-In Subroutine,SS-XE4,SS-XE4,None}
 Use @code{X"E4"} to clear the screen.  There are no arguments and no returned value.
 @comment *********************************************************************
-@comment ** 8.2.65 X"E5"                                                    **
+@comment ** 8.2.66 X"E5"                                                    **
 @comment *********************************************************************
 @newsubsection{X"E5"}
 @diagram{X"E5" Built-In Subroutine,SS-XE5,SS-XE5,None}
 The @code{X"E5"} routine will sound the PC ``bell''.  There are no arguments and no returned value. Works the same as function CBL_ALARM_SOUND and CBL_BELL_SOUND.
 @comment *********************************************************************
-@comment ** 8.2.66 X"F4"                                                    **
+@comment ** 8.2.67 X"F4"                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{X"F4"}
@@ -6301,7 +6350,7 @@ Typically, table is defined similarly to the following:
     05 Each-Byte OCCURS 8 TIMES USAGE BINARY-CHAR.
 @end example
 @comment *********************************************************************
-@comment ** 8.2.67 X"F5"                                                    **
+@comment ** 8.2.68 X"F5"                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{X"F5"}

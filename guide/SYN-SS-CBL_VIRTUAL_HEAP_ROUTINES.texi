@@ -1,0 +1,15 @@
+CALL "CBL_OPEN_VFILE"  USING          heap-ID heap-status RETURNING status-code.
+~~~~                   ~~~~~                              ~~~~~~~~~
+
+CALL "CBL_CLOSE_VFILE" USING BY VALUE heap-ID             RETURNING status-code.
+~~~~                   ~~~~~    ~~~~~                     ~~~~~~~~~
+
+CALL "CBL_WRITE_VFILE" USING BY VALUE heap-ID relative-addr data-len 
+~~~~                   ~~~~~    ~~~~~
+                             BY REFERENCE strings RETURNING stat-code.
+                                ~~~~~~~~~         ~~~~~~~~~
+
+CALL "CBL_READ_VFILE"  USING BY VALUE heap-ID relative-addr data-len 
+~~~~                   ~~~~~    ~~~~~ 
+                             BY REFERENCE strings RETURNING stat-code.
+                                ~~~~~~~~~         ~~~~~~~~~
