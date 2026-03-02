@@ -1344,28 +1344,40 @@ When FCOLOR is present, color-name specifies the foreground color of the ACCEPT 
 
 When BCOLOR is present, color-name specifies the background color of the DISPLAY field. This value is then used as the default value for subsequent ACCEPT statements in the program. The initial default for color-name is black.
 
-Following table contains a list of all the possible names for color-name.
+Following table contains a list of all the valid names for color-name.
 The left column contains the valid color name.
 The right column shows the color that appears when high intensity is specified (the default intensity).
-@page
 @verbatim
 
-	+--------------------------------------------------------------+
-	|                 Valid COBOL Color Names                      |
-	+-------------------+------------------------------------------+
-	|Valid Color Names  |  High-Intensity Color Values (Defaults)  |
-	+-------------------+------------------------------------------+
-	|Black              |  Gray                                    |
-	|Blue               |  Light Blue                              |
-	|Green              |  Light Green                             |
-	|Cyan               |  Light Cyan                              |
-	|Red                |  Light Red                               |
-	|Magenta            |  Light Magenta                           |
-	|Brown              |  Yellow                                  |
-	|White              |  High-Intensity White                    |
-	+-------------------+------------------------------------------+
+    +--------------------------------------------------------------+
+    |                Valid GnuCOBOL Color Names                    |
+    +-------------------+------------------------------------------+
+    |Valid Color Names  |  High-Intensity Color Values (Defaults)  |
+    +-------------------+------------------------------------------+
+    |Black              |  Gray                                    |
+    |Blue               |  Light Blue                              |
+    |Green              |  Light Green                             |
+    |Cyan               |  Light Cyan                              |
+    |Red                |  Light Red                               |
+    |Magenta            |  Light Magenta                           |
+    |Brown              |  Yellow                                  |
+    |White              |  High-Intensity White                    |
+    +-------------------+------------------------------------------+
+
+Sample program:
+
+       >>SOURCE FREE
+id division.
+program-id. prog.
+data division.
+working-storage section.
+01 wVAR pic x(10).
+procedure division.
+accept wVAR at 0101 with control "fcolor=white, bcolor=red, erase eos"
+stop run.
 
 @end verbatim
+
 @item
 COLOR Phrase
 
@@ -2345,11 +2357,11 @@ Characters that are not listed in the following table are output unchanged.
 	|lower-left corner  |        m(+)           |        M(+)           |
 	|plus               |        n(+)           |        N(+)           |
 	|horizontal line    |        q(-)           |        Q(-)           |
-	|left tee           |        t(+)           |        T(Š)           |
-	|right tee          |        u(Š)           |        U(Š)           |
+	|left tee           |        t(+)           |        T(+)           |
+	|right tee          |        u(+)           |        U(+)           |
 	|bottom tee         |        v(-)           |        V(-)           |
 	|top tee            |        w(-)           |        W(-)           |
-	|vertical line      |        x(Š)           |        X(Š)           |
+	|vertical line      |        x(|)           |        X(|)           |
 	+-------------------+-----------------------+-----------------------+
 
 @end verbatim
@@ -2418,7 +2430,7 @@ Sample program that demonstrates how boxes are drawn:
      DISPLAY "MQQQQVQQQQJ" LINE LIN COL 20, CONTROL graphcontrol.
 
 @end verbatim
-
+@item
 @syntaxidx{COLOUR} The COLOR phrase provides an alternate method for setting video attributes.
 Integer-8 must be a numeric literal. Identifier-8 must be a numeric data item.
 It also allows the specification of colors for screen fields and controls.
@@ -2469,7 +2481,6 @@ Sample program that demonstrates how COLOR is used.
         >>SOURCE FREE
 IDENTIFICATION DIVISION.
 PROGRAM-ID. COLOR1.
-*> Sample for using "COLOR" clause
 DATA DIVISION.
 WORKING-STORAGE SECTION.
 01 wLIN            PIC     99 value zero.
@@ -2499,30 +2510,31 @@ WORKING-STORAGE SECTION.
 01 wBackground-low-intensity  PIC 999999 value  65536.
 01 wBackground-high-intensity PIC 999999 value 131072.
 
- PROCEDURE DIVISION.
-  ADD 1 to WLIN
-  compute wCOLOR = wCyan-Fore + wWhite-Back + wUnderline
-  DISPLAY FUNCTION CONCATENATE ("XXX COLOR=" wCOLOR " XXXXXXXXX ")
-                    AT LINE wLIN COL 001 COLOR wCOLOR.
-  ADD 1 to WLIN
-  compute wCOLOR = wBrown-Fore + wRed-Back + wHighIntensity
-  DISPLAY FUNCTION CONCATENATE ("XXX COLOR=" wCOLOR " XXXXXXXXX ")
-                    AT LINE wLIN COL 001 COLOR wCOLOR.
-  ADD 1 to WLIN
-  compute wCOLOR = wBrown-Fore + wRed-Back + wHighIntensity + wReverseVideo
-  DISPLAY FUNCTION CONCATENATE ("XXX COLOR=" wCOLOR " XXXXXXXXX ")
-                    AT LINE wLIN COL 001 COLOR wCOLOR.
-  ADD 1 to WLIN
-  compute wCOLOR = wWhite-Fore + wGreen-Back + wBlink
-  DISPLAY FUNCTION CONCATENATE ("XXX COLOR="  wCOLOR " XXXXXXXXX ")
-                    AT LINE wLIN COL 001 COLOR wCOLOR.
-  STOP RUN.
+PROCEDURE DIVISION.
+ADD 1 to WLIN
+compute wCOLOR = wCyan-Fore + wWhite-Back + wUnderline
+DISPLAY FUNCTION CONCATENATE ("XXX COLOR=" wCOLOR " XXXXXXXXX ")
+				AT LINE wLIN COL 001 COLOR wCOLOR.
+ADD 1 to WLIN
+compute wCOLOR = wBrown-Fore + wRed-Back + wHighIntensity
+DISPLAY FUNCTION CONCATENATE ("XXX COLOR=" wCOLOR " XXXXXXXXX ")
+				AT LINE wLIN COL 001 COLOR wCOLOR.
+ADD 1 to WLIN
+compute wCOLOR = wBrown-Fore + wRed-Back + wHighIntensity + wReverseVideo
+DISPLAY FUNCTION CONCATENATE ("XXX COLOR=" wCOLOR " XXXXXXXXX ")
+				AT LINE wLIN COL 001 COLOR wCOLOR.
+ADD 1 to WLIN
+compute wCOLOR = wWhite-Fore + wGreen-Back + wBlink
+DISPLAY FUNCTION CONCATENATE ("XXX COLOR="  wCOLOR " XXXXXXXXX ")
+				AT LINE wLIN COL 001 COLOR wCOLOR.
+STOP RUN.
 
 @end verbatim
 
 @item
 @xref{ACCEPT data-item}, for additional information on the other @code{WITH} clause options.
 @end enumerate
+
 
 @item
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to the failure or success, respectively, of the screen I/O attempt.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
@@ -5881,41 +5893,25 @@ WORKING-STORAGE SECTION.
     05 Count-MI                 BINARY-CHAR.
     05 Tallying-Ctr             BINARY-CHAR.
 PROCEDURE DIVISION.
-P1. PERFORM UNTIL EXIT
-      DISPLAY "Enter Full Name (null quits):"
-          WITH NO ADVANCING
-      ACCEPT Full-Name
-      IF Full-Name = SPACES
-        EXIT PERFORM
-      END-IF
-      INITIALIZE Parsed-Info
-      UNSTRING Full-Name
-        DELIMITED BY ", "
-                  OR ","
-                  OR ALL SPACES
-        INTO Last-Name
-                 DELIMITER IN Delim-LN
-                 COUNT IN Count-LN
-             First-Name
-                 DELIMITER IN Delim-FN
-                 COUNT IN Count-FN
-             MI
-                 DELIMITER IN Delim-MI
-                 COUNT IN Count-MI
-        TALLYING Tallying-Ctr
-    DISPLAY "First-Name=" First-Name
-            " Delim='"    Delim-FN
-            "' Count="    Count-FN
-    DISPLAY "MI        =" MI "              "
-            " Delim='"    Delim-MI
-            "' Count="    Count-MI
-    DISPLAY "Last-Name =" Last-Name
-            " Delim='"    Delim-LN
-            "' Count="    Count-LN
-    DISPLAY "Tally=     " Tallying-Ctr
-  END-PERFORM
-  DISPLAY "Bye!"
-  STOP RUN   .
+PERFORM UNTIL EXIT
+   DISPLAY "Enter Full Name (null quits):" WITH NO ADVANCING
+   ACCEPT Full-Name
+   IF Full-Name = SPACES
+      EXIT PERFORM
+   END-IF
+   INITIALIZE Parsed-Info
+   UNSTRING Full-Name DELIMITED BY ", " OR "," OR ALL SPACES
+       INTO Last-Name  DELIMITER IN Delim-LN COUNT IN Count-LN
+            First-Name DELIMITER IN Delim-FN COUNT IN Count-FN
+            MI         DELIMITER IN Delim-MI COUNT IN Count-MI
+       TALLYING Tallying-Ctr
+   DISPLAY "First-Name=" First-Name " Delim='" Delim-FN "' Count=" Count-FN
+   DISPLAY "MI        =" MI         " Delim='" Delim-MI "' Count=" Count-MI
+   DISPLAY "Last-Name =" Last-Name  " Delim='" Delim-LN "' Count=" Count-LN
+   DISPLAY "Tally=     " Tallying-Ctr
+END-PERFORM
+DISPLAY "Bye!"
+STOP RUN   .
 @end example
 
 The following is sample output from the program:
