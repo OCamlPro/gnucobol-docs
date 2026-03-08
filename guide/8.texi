@@ -1505,7 +1505,9 @@ This function returns the minimum value from the specified list of numbers (each
 @page
 @newsubsection{MOD}
 @diagram{MOD Function,FN-MOD,FN-MOD,None}
-This function returns the value of @var{value} modulo @var{modulus} (essentially the remainder from the division of @var{value} by @var{modulus}).  Both arguments may be numeric data items or numeric literals.  Either (or both) may have a non-integer value.
+This function returns the value of @var{value} modulo @var{modulus} (essentially the remainder from the division of @var{value} by @var{modulus}).  Both arguments may be numeric data items or numeric literals.  Either (or both) may have a non-integer value which is an GnuCobol extension only.
+The default usage is 1) Argument-1 and argument-2 shall be integers, and the value of argument-2 shall not be zero.
+If this rule isn't matched, GnuCOBOL will internally change the arguments to have the same "scale" and ignore the decimal [e.g. if arg-1 is 1.234 and arg-2 is 0.5 GnuCOBOL will calculate 1234 / 500], but that isn't portable across compilers.
 @comment *********************************************************************
 @comment ** 8.1.58 MODULE-CALLER-ID                                         **
 @comment *********************************************************************
@@ -1929,7 +1931,7 @@ This function returns a pseudo-random non-integer value in the range 0>= to <1 (
 
 The purpose of the optional @var{seed} argument, is to initialize the chain of pseudo-random numbers that will be returned by the function.  Not only will calls to this function using the same @var{seed} value return the same pseudo-random number, but so will all subsequent executions of the function without a @var{seed}.  This is actually a good thing when you are testing your program because you can rely on always receiving the same sequence of ``random'' numbers if you always start using the same @var{seed}.
 
-The @var{seed} may be any form of literal or data item or arithmetic expression. If @var{seed} is numeric, its numeric value will serve as the seed value.  If @var{seed} is alphanumeric, a value for it will be determined as if it were used as an argument to @syntaxref{NUMVAL}.
+The @var{seed} may be any form of literal or data item or arithmetic expression but MUST be class numeric. Its numeric value will serve as the seed value.  A GnuCobol extension is: if @var{seed} is alphanumeric, a value for it will be determined as if it were used as an argument to @syntaxref{NUMVAL}.
 
 Take, for example, the following sample program:
 @verbatim
@@ -1970,7 +1972,7 @@ Once your program has been thoroughly tested, you'll want different sequences to
 
 The first 16 characters returned by the @syntaxref{CURRENT-DATE} function will be a number in the format @code{@var{YYYYMMDDhhmmssnn}}, where @code{@var{YYYYMMDD}} is the current calendar date and @code{@var{hhmmssnn}} is the current time of day to the one one-hundredth of a second.  Since two different executions of the program will never get identical @code{CURRENT-DATE} values (unless they are executed in extremely close time frames to one another), using those first sixteen characters as the @code{RANDOM} seed will guarantee that receiving a duplicate sequence of pseudo-random numbers in two different executions of the program will be @i{highly} unlikely.
 
-If you do not use a seed then the RANDOM function will automatically determine an internal different seed at each execution.
+If you do not use a seed then the RANDOM function will automatically determine an internal different seed at each execution using the NUMVAL function.
 
 Often you need to generate a random number between two numbers.
 Following example shows how to do it.
@@ -4399,7 +4401,7 @@ CBL_GC_CLOSE_VFILE64 closes the heap handle
 01 heap-status   PIC X(2).        *> The area to store heap-status
 01 relative-addr PIC 9(4) COMP-5. *> The relative address in a heap
 01 data-len      PIC 9(4) COMP-5. *> The length of data to be read or written.
-01 strings       PIC X(n).        *> Area to store the read string or the string to be written 
+01 strings       PIC X(n).        *> Area to store the read string or the string to be written
 01 stat-code     PIC S(4) COMP-5. *> 0: Successful, other than 0: Failure
 @end verbatim
 
