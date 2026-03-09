@@ -318,6 +318,31 @@ The @code{EVENT-STATUS} is used to identify which data item is to receive inform
 The @code{EVENT STATUS} clause is supported only as a definition but its use is currently incomplete.
 It will be fully usable when the "embedded-procedures" at the SCREEN SECTION entry level will be implemented.
 
+@item
+The @code{SYMBOLIC CONSTANT} clause associates a name with a symbolic constant (a literal or an integer).
+
+@example
+        >>SOURCE FREE
+ID DIVISION.
+PROGRAM-ID. PROG.
+ENVIRONMENT DIVISION. 
+CONFIGURATION SECTION.
+SPECIAL-NAMES.
+    SYMBOLIC CONSTANT CONST-1 IS '<CONST-1>'.
+    SYMBOLIC CONSTANT CONST-2     -1234.567890 
+                      CONST-3 IS '-CONST-3'.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 wAAA   PIC -Z(11)9.9(6).
+01 wXXX   PIC  X(20)VALUE CONST-1.
+PROCEDURE DIVISION.
+DISPLAY CONST-1  ' ' CONST-2 ' ' wXXX ' ' CONST-3
+compute wAAA = 100 * CONST-2
+display wAAA
+accept omitted
+STOP RUN.
+@end example
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 5.1.3.1 Alphabet-Name-Clause                                    **
@@ -401,9 +426,9 @@ OutputProc.
      display  SPACE
      display  "** SORTED DATA **".
      perform  with test after until exit
-              return   SORTFILE at end
-                       exit perform
-               end-return
+              return SORTFILE 
+                     at end exit perform
+              end-return
      display SORTDATA
      end-perform.
 
@@ -976,26 +1001,22 @@ In Working-Storage section :
 
 In Procedure Division :
 
-     rewrite  CUSTOMER-Record invalid key
-              display "Rewrite Customer Rec " at line ws-23-lines col 1
-              display CUSTOMER-FILE-STATUS  at line WS-23-Lines  col 22
-              move    CUSTOMER-FILE-STATUS to FS-Reply
-              perform evaluate-message
-              display ws-Eval-Msg at line ws-23-lines col 25 beep
-              display SL002       at line ws-lines col 1
-              accept  WS-No-Care  at line ws-lines col 33
-              display space    at line ws-23-lines col 1 with erase eos
+ rewrite  CUSTOMER-Record invalid key
+          display "Rewrite Customer Rec " at line ws-23-lines col 1
+          display CUSTOMER-FILE-STATUS  at line WS-23-Lines  col 22
+          move    CUSTOMER-FILE-STATUS to FS-Reply
+          perform evaluate-message
+          display ws-Eval-Msg at line ws-23-lines col 25 beep
+          display SL002       at line ws-lines col 1
+          accept  WS-No-Care  at line ws-lines col 33
+          display space       at line ws-23-lines col 1 with erase eos
      end-rewrite
 
 *>
- Evaluate-Message        Section.
-*>==============================
-*>
- copy "FileStat-Msgs.cpy" replacing MSG by ws-Eval-Msg
-                                    STATUS by fs-reply.
+ Evaluate-Message Section.
+ copy "FileStat-Msgs.cpy" replacing MSG by ws-Eval-Msg STATUS by fs-reply.
 *>
  Eval-Msg-Exit.  exit section.
-*>************   ************
 *>
 
 @end verbatim
@@ -1006,9 +1027,7 @@ And another from the pen of Vincent Coen :
 
 In WS :
 
-*>
 *> Display Screen Positioning
-*>
      03  WS-Env-Columns      pic 999         value zero.
      03  ws-Env-Lines        pic 999         value zero.
      03  ws-Lines            pic 9(4)  comp  value zero.
@@ -1019,9 +1038,7 @@ In WS :
 At start of prog PD :
 
  AA010-Get-Screen-Attr.
-*>
 *> Set up for screen size
-*>
      accept   WS-Env-Columns from Columns.
      accept   WS-Env-Lines   from lines.
      move     WS-Env-Lines   to WS-Lines.
@@ -1034,9 +1051,7 @@ Near the bottom of code :
 *>
  ZZA-File-Status    section.
 *>*************************
-*>
 *>  File Status Checking Routines using standard Cobol file status values only.
-*>
      move     "Unknown" to WS-Sys-Message.
      evaluate s1
               when "0" go to ZZA999-exit
@@ -1052,7 +1067,6 @@ Near the bottom of code :
      move     "Unknown error status"                to WS-Sys-Message.
      go       to zza998-Display-Message.   *> Do not stop/accept as in batch mode
 *>                                            Use zz997 instead to stop after a error msg.
-*>
  zza020-Check-Inv-Key-Status.
      evaluate s2
               when "1" move "Invalid key"           to WS-Sys-Message
@@ -1073,7 +1087,6 @@ Near the bottom of code :
      end-evaluate.
 *>
  zza040-Look-Up-Error.
-*>
      evaluate s2
               when "1" move "File already open"     to WS-Sys-Message
               when "2" move "File not open"         to WS-Sys-Message
