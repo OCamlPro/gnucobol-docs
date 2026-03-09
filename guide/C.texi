@@ -1,5 +1,5 @@
 @comment *********************************************************************
-@comment ** C. Word Lists, by feature and function.                         **
+@comment ** C. Reserved Word Lists.                                         **
 @comment *********************************************************************
 @newappendix{Grouped Word Lists by feature and function}
 The following is the complete list of ALL reserved words
@@ -16,37 +16,78 @@ You can get the list for a given @var{dialect} by calling
 @code{cobc -std=@var{dialect} --list-reserved}.
 
 @include cbrese.tex
-
+@comment *********************************************************************
+@comment ** D. Intrinsic Functions.                                         **
+@comment *********************************************************************
 @newappendix{List of Intrinsic Functions}
 The following list of intrinsic functions was extracted from
 @code{cobc --list-intrinsics} and shows the names of the available
 functions, an implementation note and the number of parameters.
 
 @include cbintr.tex
-
+@comment *********************************************************************
+@comment ** E. System Routines.                                             **
+@comment *********************************************************************
 @newappendix{System routines}
 The following list of system routines was extracted from
 @code{cobc --list-system} and shows the names of the available
 system routines along with the number of parameters.
 
 @include cbsyst.tex
-
+@comment *********************************************************************
+@comment ** F. System Names (Mnemonics).                                    **
+@comment *********************************************************************
 @newappendix{System names}
 The following list of system names was extracted from
 @code{cobc --list-mnemonics} and shows the system names categorized
 by their type.
 
 @include cbmnem.tex
-
+@comment *********************************************************************
+@comment ** G. Exceptions Names.                                            **
+@comment *********************************************************************
 @newappendix{Exceptions}
 The following list of exceptions names was extracted from
 @code{cobc --list-exceptions} and shows the names by type and if those are fatal (leads to a program abort)..
 
-All of those can be activated and deactivated, both directly and at group level, using -fec.
+
+
+EC Hierarchy and Levels.
+
+Exception Conditions follow a hierarchical structure that allows errors to be handled at 3 different levels from the most general to the most detailed:
+
+Level 1: EC-ALL (The Root Node)
+
+This is the highest level. By triggering or handling EC-ALL, all possible exceptions definable in the language are included.
+
+
+Level 2: Exception Categories (e.g., EC-I-O, EC-DATA)
+
+They represent logical groups of errors. For example: EC-I-O: All file-related errors (open, read, write).
+
+EC-DATA: Data errors, such as format incompatibility.
+
+EC-BOUND: Bounds violation errors (e.g., array index out of range).
+
+
+Level 3: Specific Exceptions (e.g., EC-I-O-FILE-NOT-FOUND)
+
+This is the most detailed level. It allows you to handle a specific error without affecting other errors in the same category.
+
+Example: EC-I-O-AT-END only detects the end of file, while EC-I-O would also detect hardware or permission errors.
+
+
+Level Control Syntax.
+You can decide which levels to monitor in your program using the >>TURN directive:
+Selectively enabled: use EC-OVERFLOW to activates monitoring only for overflows.
+Specifically disabled: use EC-I-O-AT-END to ignore the end-of-file condition while keeping other I/O exceptions active.
+
+All of those can be activated and deactivated, both directly and at group level, also using -fec.
 
 @verbatim
 
 Exception Name
+
 EC-ALL
   EC-ARGUMENT
     EC-ARGUMENT-FUNCTION (f)
@@ -223,7 +264,6 @@ EC-ALL
     EC-XML-IMP (f)
   EC-JSON
     EC-JSON-IMP (f)
-
 
 @end verbatim
 
