@@ -1112,15 +1112,19 @@ Figurative constants are reserved words that may be used as literals anywhere th
 05 FILLER                PIC 9(10) VALUE ZEROS.
    ...
 MOVE SPACES TO Employee-Name
+
 @end example
 
 But this is not:
 @example
 
 CALL "SUBPGM" USING SPACES
+
 @end example
 
 The following are the GnuCOBOL figurative constants and their respective equivalent values.
+
+
 @table @asis
 @item @code{ZERO}
 This figurative constant has a value of numeric 0 (zero).  @code{ZEROS} and @code{ZEROES} are both synonyms of @code{ZERO}.
@@ -1130,6 +1134,8 @@ This figurative constant has a value of one or more space characters.  @code{SPA
 
 @item @code{QUOTE}
 This figurative constant has a value of one or more double-quote characters (").  @code{QUOTES} is a synonym of @code{QUOTE}.
+
+Option -fsingle-quote change to single quote (apostrophe) for QUOTE; default is double quote.
 
 @item @code{LOW-VALUE}
 This figurative constant has a value of one or more of whatever character occupies the lowest position in the program's collating sequence as defined in the @syntaxref{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set).  @code{LOW-VALUES} is a synonym of @code{LOW-VALUE}.
@@ -1171,7 +1177,8 @@ Semicolon (@samp{;})
 @idx{; (Punctuation)}
 
 The semicolon symbol can be used as a separator in all cases where the comma, or even a space separator can be used.
-A semi colon can also help to overcome the issue when separating Cobol text elements and has the advantage of not being mis-typed as can the period vs comma problem. As in the above example, CALL "SUBROUTINE" USING 1; 2.  Where the semicolon is used instead of the comma but it must be pointed out that the usage for either should really just be a space, i.e., CALL "SUBROUTINE" USING 1 2.
+A semi colon can also help to overcome the issue when separating Cobol text elements and has the advantage of not being mis-typed as can the period vs comma problem. 
+As in the above example, CALL "SUBROUTINE" USING 1; 2.  Where the semicolon is used instead of the comma but it must be pointed out that the usage for either should really just be a space, i.e., CALL "SUBROUTINE" USING 1 2.
 
 Reducing the risk of the problem altogether as the semicolon just acts the same way as the space but in this case as a white space.
 @end enumerate
@@ -1223,7 +1230,7 @@ In the above examples, a comma is used as a separator character between the two 
 @comment *********************************************************************
 @comment ** 2.2.2 Qualification of Data Names                               **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{Qualification of Data Names}
 COBOL allows data names to be duplicated within a program, provided references to those data names may be made in such a manner as to make those references unique through a process known as qualification.
 
@@ -1253,7 +1260,7 @@ The reserved word @code{IN} may be used in lieu of @code{OF}.
 @comment *********************************************************************
 @comment ** 2.2.3 Reference Modifiers                                       **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{Reference Modifiers}
 @diagram{Reference Modifier (Format 1),PD-Ref-Mod-1,PD-Ref-Mod-1,None}
 @diagram{Reference Modifier (Format 2),PD-Ref-Mod-2,PD-Ref-Mod-2,None}
@@ -1507,7 +1514,7 @@ Now observe the following code, which will execute the @code{150-Process-Hex-Val
 @comment *********************************************************************
 @comment ** 2.2.6.3 Sign Conditions                                         **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{Sign Conditions}
 @diagram{Sign-Condition,PD-Sign-Cond,PD-Sign-Cond,None}
 
@@ -1525,7 +1532,7 @@ The @code{NOT} option reverses the @code{TRUE}/@code{FALSE} value of the conditi
 @comment *********************************************************************
 @comment ** 2.2.6.4 Switch-Status Conditions                                **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{Switch-Status Conditions}
 In the @code{SPECIAL-NAMES} paragraph, an external switch name can be associated with one or more condition names.  These condition names may then be used to test the ON/OFF status of the external switch.
 
@@ -1574,13 +1581,13 @@ When comparing strings, the comparison is made based upon the program's collatin
 By default, the program's @code{COLLATING SEQUENCE} will, however, be based entirely on the bit-pattern values of the various characters.
 
 @item
-There is no functional difference between using the wordy version (@code{IS EQUAL TO}, @code{IS LESS THAN}, @dots{}) versus the symbolic version (@code{=}, @code{<}, @dots{}) of the actual relation operators. The same applies to (@code{IS NOT EQUAL TO} versus the symbolic version (@code{<>}).
+There is no functional difference between using the wordy version (@code{IS EQUAL TO}, @code{IS LESS THAN}, @dots{}) versus the symbolic version (@code{=}, @code{<}, @dots{}) of the actual relation operators.
+ The same applies to (@code{IS NOT EQUAL TO} versus the symbolic version (@code{<>}).
 
 @end enumerate
 
+As an example, we can write:
 @example
-
-As an example, we can write
 if AAA <> 0 is the same as if AAA not = 0
 if AAA not <> 0 is the same as if AAA = 0 - (although meaning a bit obscure).
 
@@ -1589,7 +1596,7 @@ if AAA not <> 0 is the same as if AAA = 0 - (although meaning a bit obscure).
 @comment *********************************************************************
 @comment ** 2.2.6.6 Combined Conditions                                     **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{Combined Conditions}
 @diagram{Combined Condition,PD-Comb-Cond,PD-Comb-Cond,None}
 
@@ -1630,7 +1637,7 @@ Evaluates to @code{FALSE}
 @comment *********************************************************************
 @comment ** 2.2.6.7 Negated Conditions                                      **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{Negated Conditions}
 @diagram{Negated Condition,PD-Neg-Cond,PD-Neg-Cond,None}
 
@@ -1656,14 +1663,14 @@ Evaluates to @code{FALSE AND (FALSE AND TRUE)} which evaluates to @code{FALSE}
 @comment *********************************************************************
 @comment ** 2.2.7 Use of Periods                                            **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{Use of Periods}
 All COBOL implementations distinguish between sentences and statements in the procedure division.  A
 @define{Statement} is a single executable COBOL instruction.  For example, these are all statements:
 
 @example
 MOVE SPACES TO Employee-Address
-ADD 1 TO Record-Counter
+ADD  1      TO Record-Counter
 DISPLAY "Record-Counter=" Record-Counter
 @end example
 
@@ -1671,9 +1678,9 @@ Some COBOL statements have a @i{scope of applicability} associated with them whe
 
 @example
 IF Loan-Balance < 10000
-    MULTIPLY Loan-Balance BY 0.04 GIVING Interest
+   MULTIPLY Loan-Balance BY 0.04  GIVING Interest
 ELSE
-    MULTIPLY Loan-Balance BY 0.045 GIVING Interest
+   MULTIPLY Loan-Balance BY 0.045 GIVING Interest
 DISPLAY "Interest Amount = " Interest
 @end example
 
@@ -1697,13 +1704,14 @@ A COBOL
 
 @example
 IF Loan-Balance < 10000
-    MULTIPLY Loan-Balance BY 0.04 GIVING Interest
+   MULTIPLY Loan-Balance BY 0.04  GIVING Interest
 ELSE
-    MULTIPLY Loan-Balance BY 0.045 GIVING Interest.
+   MULTIPLY Loan-Balance BY 0.045 GIVING Interest.
 DISPLAY "Interest Amount = " Interest
 @end example
 
-See the period at the end of the second @syntaxref{MULTIPLY}?  That is what terminates the scope of the @code{IF}, thus making the @code{DISPLAY} statement's execution completely independent of the @code{TRUE}/@code{FALSE} status of the @code{IF}.
+See the period at the end of the second @syntaxref{MULTIPLY} ?  
+That is what terminates the scope of the @code{IF}, thus making the @code{DISPLAY} statement's execution completely independent of the @code{TRUE}/@code{FALSE} status of the @code{IF}.
 @comment *********************************************************************
 @comment ** 2.2.8 Use of VERB/END-VERB Constructs                           **
 @comment *********************************************************************
@@ -1825,7 +1833,7 @@ If the @code{SELECT} of a file is coded with a @code{FILE STATUS} clause, @code{
 @comment *********************************************************************
 @comment ** 2.2.9.2 Record Locking                                          **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{Record Locking}
 Record-locking is supported by advanced file-management software built-in to the GnuCOBOL implementation you are using.  This software provides a single point-of-control for access to files --- usually @code{ORGANIZATION INDEXED} files.  One such runtime package capable of doing this is the Berkeley Database (BDB) package --- a package frequently used in GnuCOBOL builds to support indexed files.
 

@@ -14,7 +14,7 @@ There's no particular order of importance to the topics presented here.
 * COMPUTE Versus ADD-SUBTRACT-MULTIPLY-DIVIDE.
 @end menu
 @comment *********************************************************************
-@comment ** 12.1,Marking Changes in Programs                                **
+@comment ** 12.1 Marking Changes in Programs                                **
 @comment *********************************************************************
 @newsection{Marking Changes in Programs}
 Historically in the early 60's programs were first punched on to paper tape and by the mid 60's that was replaced almost totally, by punched cards although paper tape was still used by programmers for the odd few changes to their sources held on magnetic tape or disk as a portable paper tape punch could be put in your pocket. Now the problem with punched cards were there was 2,000 cards per box and that they could and did, get dropped. So, cc (column) 1 through 6 had the card sequence number in and that way if a box was dropped they could be feed in to a card sorter to be fixed. This was after the cards was cleaned up so that they were all in the same direction which one corner cut out helped.
@@ -152,7 +152,8 @@ The ``-FSM-'' acronyms make it easier to locate the description of the 01-item t
 @comment ** 12.3 Table Subscripting versus Table Indexing                   **
 @comment *********************************************************************
 @newsection{Table Subscripting versus Table Indexing}
-The elements of a table may be referenced either using a subscript or an index.  Syntactically, this is coded using parenthesis, as per the following three examples, all of which store the letter @samp{A} into the 17th occurrence of a data item named WS-Output-Image-TXT:
+The elements of a table may be referenced either using a subscript or an index.  
+Syntactically, this is coded using parenthesis, as per the following three examples, all of which store the letter @samp{A} into the 17th occurrence of a data item named WS-Output-Image-TXT:
 @enumerate
 @item
 @t{MOVE 'A' TO WS-Output-Image-TXT (17)}
@@ -195,6 +196,21 @@ Whew!
 
 If references to table elements are not going to be performed many, many times it probably won't make much difference whether you use indexing or subscripting.
 
+The index-value (starting position of data item) is calculated using the formula:
+@example
+
+   index-value = ((occurrence-number - 1) * occurrence-length) + 1
+
+01 WS-CUSTOMER-TABLE. 
+   03 WS-CUSTOMER OCCURS 100 TIMES INDEXED BY WS-CUST-IDX.
+      05 WS-CODE         PIC X(03).       
+      05 WS-NAME         PIC X(20).
+
+@end example
+For the second occurrence of WS-CUSTOMER, the binary value in WS-CUST-IDX is ((2 - 1) * 23) + 1, which is 24. 
+So, when accessing WS-CUSTOMER(2), the data is retrieved starting at 24th byte, 23 bytes of lenght. 
+
+
 If you are comfortable with the C programming language, you might find the following simple GnuCOBOL program useful in exploring the differences between subscripting and indexing:
 
 @example
@@ -202,20 +218,18 @@ IDENTIFICATION DIVISION.
 PROGRAM-ID.  SUBVSINDEX.
 DATA DIVISION.
 WORKING-STORAGE SECTION.
-01  WS-TABLE-SUB                BINARY-LONG.
-01  WS-TABLE.
-    05 WS-TABLE-ENTRY           OCCURS 20 TIMES
-                                INDEXED BY WS-TABLE-IDX
-                                PIC X(1).
+01 WS-TABLE-SUB      BINARY-LONG.
+01 WS-TABLE.
+   05 WS-TABLE-ENTRY OCCURS 20 TIMES INDEXED BY WS-TABLE-IDX PIC X.
 PROCEDURE DIVISION.
 000-Main SECTION.
-E1. MOVE 'A' TO WS-TABLE-ENTRY (17)
+E1. MOVE 'A' TO WS-TABLE-ENTRY(17)
     .
-E2. MOVE 17 TO WS-TABLE-SUB
-    MOVE 'A' TO WS-TABLE-ENTRY (WS-TABLE-SUB)
+E2. MOVE 17  TO WS-TABLE-SUB
+    MOVE 'A' TO WS-TABLE-ENTRY(WS-TABLE-SUB)
     .
 E3. SET WS-TABLE-IDX TO 17
-    MOVE 'A' TO WS-TABLE-ENTRY (WS-TABLE-SUB)
+    MOVE 'A' TO WS-TABLE-ENTRY(WS-TABLE-SUB)
     .
 @end example
 
