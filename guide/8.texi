@@ -1154,8 +1154,7 @@ Given the date format "YYYYMMDD" and the value "143951", which represents the da
 
 @var{argument-3} shall be a value in standard numeric time form.
 
-@var{argument-4} is an integer specifying the offset from UTC expressed in minutes. If specified but have a value equal or less than 1439.
-
+@var{argument-4} is an integer specifying the offset from UTC expressed in minutes. If specified must have a value equal or less than 1439.
 Note: The offset value 1439 represents 23 hours 59 minutes which is one minutes less than a day.
 
 @var{argument-4} must not be specified if the time portion in @var{argument-1} is neither a UTC nor an offset format.
@@ -1505,13 +1504,13 @@ This function returns the minimum value from the specified list of numbers (each
 @page
 @newsubsection{MOD}
 @diagram{MOD Function,FN-MOD,FN-MOD,None}
-This function returns the value of @var{value} modulo @var{modulus} (essentially the remainder from the division of @var{value} by @var{modulus}).  
+This function returns the value of @var{value} modulo @var{modulus} (essentially the remainder from the division of @var{value} by @var{modulus}).
 
-Both arguments may be numeric data items or numeric literals.  
+Both arguments may be numeric data items or numeric literals.
 
 Either (or both) may have a non-integer value which is an GnuCobol extension only.
 The default usage is: @var{value} and @var{modulus} shall be integers, and the value of @var{modulus} shall not be zero.
-If this rule isn't matched, GnuCOBOL will internally change the arguments to have the same "scale" and ignore the decimal 
+If this rule isn't matched, GnuCOBOL will internally change the arguments to have the same "scale" and ignore the decimal
 [e.g. if arg-1 is 1.234 and arg-2 is 0.5 GnuCOBOL will calculate 1234 / 500], but that isn't portable across compilers.
 @comment *********************************************************************
 @comment ** 8.1.58 MODULE-CALLER-ID                                         **
@@ -1936,8 +1935,8 @@ This function returns a pseudo-random non-integer value in the range 0 >= to < 1
 
 The purpose of the optional @var{seed} argument, is to initialize the chain of pseudo-random numbers that will be returned by the function.  Not only will calls to this function using the same @var{seed} value return the same pseudo-random number, but so will all subsequent executions of the function without a @var{seed}.  This is actually a good thing when you are testing your program because you can rely on always receiving the same sequence of ``random'' numbers if you always start using the same @var{seed}.
 
-The @var{seed} may be any form of literal or data item or arithmetic expression but MUST be class numeric. 
-Its numeric value will serve as the seed value.  
+The @var{seed} may be any form of literal or data item or arithmetic expression but MUST be class numeric.
+Its numeric value will serve as the seed value.
 
 GnuCOBOL has an extension that if that rule is not met it internally calls FUNCTION @syntaxref{NUMVAL} on the given argument and passes that as a seed.
 
@@ -1971,17 +1970,17 @@ Every time this program is executed, it will produce the same output, because th
 
 @end verbatim
 
-Once your program has been thoroughly tested, you'll want different sequences to be generated each time the program runs.  
+Once your program has been thoroughly tested, you'll want different sequences to be generated each time the program runs.
 One possible way to accomplish this is to use a @var{seed} that is likely to be different every time the program is executed, as is likely to be the case if the first @code{MOVE} statement in the previous example were replaced by this:
 
 @verbatim
 MOVE RANDOM(FUNCTION CURRENT-DATE(1:16)) TO Pseudo-Random-Number
 @end verbatim
 
-The first 16 characters returned by the @syntaxref{CURRENT-DATE} function will be a number in the format @code{@var{YYYYMMDDhhmmssnn}}, 
-where @code{@var{YYYYMMDD}} is the current calendar date and @code{@var{hhmmssnn}} is the current time of day to the one one-hundredth of a second.  
-Since two different executions of the program will never get identical @code{CURRENT-DATE} values 
-(unless they are executed in extremely close time frames to one another), using those first sixteen characters 
+The first 16 characters returned by the @syntaxref{CURRENT-DATE} function will be a number in the format @code{@var{YYYYMMDDhhmmssnn}},
+where @code{@var{YYYYMMDD}} is the current calendar date and @code{@var{hhmmssnn}} is the current time of day to the one one-hundredth of a second.
+Since two different executions of the program will never get identical @code{CURRENT-DATE} values
+(unless they are executed in extremely close time frames to one another), using those first sixteen characters
 as the @code{RANDOM} seed will guarantee that receiving a duplicate sequence of pseudo-random numbers in two different executions of the program will be @i{highly} unlikely.
 
 If you do not use a seed then the RANDOM function will automatically determine an internal different seed at each execution using the NUMVAL function.
@@ -2308,7 +2307,7 @@ All arguments must be numeric data items or numeric literals.
 
 @var{argument-2} must be a positive non-zero integer
 
-Returned value is a boolean item of usage bit that has the same bit configuration as the binary representation of the value of @var{argument-1}, where the rightmost boolean position is the low-order binary digit. The boolean value is zero-filled or truncated on the left, if necessary, in order to return a boolean item whose length is specified by @var{argument-2} in therms of boolean positions.
+Returned value is a boolean item of usage bit that has the same bit configuration as the binary representation of the value of @var{argument-1}, where the rightmost boolean position is the low-order binary digit. The boolean value is zero-filled or truncated on the left, if necessary, in order to return a boolean item whose length is specified by @var{argument-2} in terms of boolean positions.
 @comment *********************************************************************
 @comment ** 8.1.104 CHAR-NATIONAL                                            **
 @comment *********************************************************************
@@ -2334,8 +2333,7 @@ A character string is returned with each national character of @var{argument-1} 
 
 If @var{argument-2} is specified, the alphanumeric substitution character is returned for each national character in @var{argument-1} that has no corresponding alphanumeric character representation.
 
-If @var{argument-2} is un-specified, and @var{argument-1} contains a national character for which there is no corresponding alphanumeric character representation, an substitution character is used as the corresponding alphanumeric character and the EC-DATA-CONVERSION exception condition is set.
-
+If @var{argument-2} is un-specified, and @var{argument-1} contains a national character for which there is no corresponding alphanumeric character representation, a substitution character is used as the corresponding alphanumeric character and the EC-DATA-CONVERSION exception condition is set.
 The length of the returned value is the number of character positions of usage display required to hold the converted argument and depends on the number of characters contained in @var{argument-1}.
 @comment *********************************************************************
 @comment ** 8.1.106 EXCEPTION-FILE-N                                        **
@@ -2345,8 +2343,7 @@ The length of the returned value is the number of character positions of usage d
 @diagram{EXCEPTION-FILE-N Function,FN-EXCEPTION-FILE-N,FN-EXCEPTION-FILE-N,NOT-YET-IMPLEMENTED}
 @code{EXCEPTION-FILE-N} returns a national character string that is the I/O status value and file-name of the file connector, if any, associated with the last exception status.
 
-The value returned has a length that is based on its contents and the concents are as follows:
-
+The value returned has a length that is based on its contents and the contents are as follows:
 If the last exception status is not an @code{EC-I-O} exception condition, the returned value is two national zeros.
 
 The returned value is two national spaces when the last exception status indicates an @code{EC-I-O} exception condition that originates from one of the following statements:
@@ -2484,10 +2481,10 @@ The returned value is:
 @item =
 the arguments compare equal,
 
-@item -=.:
+@item <
 @var{argument-1} is less than @var{argument-2},
 
-@item :>
+@item >
 @var{argument-1} is greater than @var{argument-2}.
 @end table
 
@@ -3417,7 +3414,7 @@ This routine is non-functional in GnuCOBOL.  It exists only to provide compatibi
 @page
 @newsubsection{CBL_GC_FORK}
 @diagram{CBL_GC_FORK Built-In Subroute,SS-CBL_GC_FORK,SS-CBL_GC_FORK,None}
-CBL_GC_FORK allows you to fork the current COBOL process to a new one.
+@code{CBL_GC_FORK} allows you to fork the current COBOL process to a new one.
 
 The current content of the process's storage (including LOCAL-STORAGE) will be identical, any file handles get invalid in the new process, positions and file and record locks are only available to the original process.
 
@@ -3428,16 +3425,6 @@ Parameters: none
 Returns: @code{pid} (the child process gets '0' returned, the calling process gets the @code{pid} of the created child).
 
 Negative values are returned for system dependant error codes and -1 if the function is not available on the current system.
-
-@code{CBL_GC_FORK} allows you to fork the current COBOL process to a new one. The
-current content of the process' storage (including @code{LOCAL-STORAGE}) will be
-identical, any file handles get invalid in the new process, positions and
-file / record locks are only available to the original process.
-This system routine is not available on Windows (exception: @command{gcc} on Cygwin).
-Parameters: none Returns: @code{pid} (the child process gets 0 returned, the calling
-process gets the @code{pid} of the created children). Negative values are returned for
-system dependant error codes and -1 if the function is not available on the
-current system.
 
 @example
  IDENTIFICATION DIVISION.

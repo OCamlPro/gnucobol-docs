@@ -1009,7 +1009,7 @@ The various @code{AT} clauses provide a means of positioning the cursor to a spe
 The @code{LINE} and @code{COLUMN} clauses provide one mechanism for specifying the line and column position to which the cursor will be positioned before allowing the user to enter data.  In the absence of one or the other, a value of 1 will be assumed for the one that is missing.  The author's personal preference, however, is to explicitly code both.
 
 @item
-The @var{literal-3} or @var{identifier-4} value, if specified, must be a four- or six-digit value with the 1@sup{st} half of the number indicating the line where the cursor should be positioned and the second half indicating the column.  You may code only one of each clause on any @code{ACCEPT}.
+The @var{integer-3} or @var{identifier-4} value, if specified, must be a four- or six-digit value with the 1@sup{st} half of the number indicating the line where the cursor should be positioned and the second half indicating the column.  You may code only one of each clause on any @code{ACCEPT}.
 @end enumerate
 
 @item
@@ -2705,7 +2705,7 @@ The @statement{ENTRY} when coding using FIXED format source must start within ar
 An example:
 
 IDENTIFICATION DIVISION.
-PROGRAM ID. MAINPROG. 
+PROGRAM ID. MAINPROG.
 ...
 DATA DIVISION.
 FILE SECTION.
@@ -2720,28 +2720,28 @@ FD SALES-FILE.
 01 SALES-REC.
    02 SOLD-PT-NO   PIC X(10).
    02 SOLD-PART    PIC X(30).
-   02 SOLD-QTY     PIC 9(6). 
+   02 SOLD-QTY     PIC 9(6).
 ...
 PROCEDURE DIVISION.
-MAIN-PARA-001. 
+MAIN-PARA-001.
 ...
 IF SOLD-QTY IS NOT EQUAL TO ZERO
-   CALL "SUBPRO1-ENTRY" USING INV-REC, SALES-REC. 
+   CALL "SUBPRO1-ENTRY" USING INV-REC, SALES-REC.
 ...
 STOP RUN.
 
 Following is the subprogram:
 
 IDENTIFICATION DIVISION.
-PROGRAM-ID. SUBPRO1. 
+PROGRAM-ID. SUBPRO1.
 ...
 DATA DIVISION.
 FILE SECTION.
 FD PRINT-FILE.
-01 P-REC PIC X(132). 
+01 P-REC PIC X(132).
 ...
 WORKING-STORAGE SECTION.
-01 HEADER. 
+01 HEADER.
 ...
 01 WRITE-SALES.
    02 FILLER       PIC X(15)     VALUE SPACES.
@@ -2753,7 +2753,7 @@ WORKING-STORAGE SECTION.
    02 FILLER       PIC X(5)      VALUE SPACES.
    02 GROSS-SALES  PIC $Z(10).99 VALUE ZEROS.
    02 FILLER       PIC X(5)      VALUE SPACES.
-   02 GROSS-PROFIT PIC $9(10).99. 
+   02 GROSS-PROFIT PIC $9(10).99.
 ...
 LINKAGE SECTION.
 01 ORIGINAL.
@@ -2766,9 +2766,9 @@ LINKAGE SECTION.
    02 SOLD-NUM     PIC X(10).
    02 SOLD-NAME    PIC X(30).
    02 QTY-SOLD     PIC 9(6).
-   
+
 PROCEDURE DIVISION.
-SUB-PARA-001. 
+SUB-PARA-001.
 ...
 CALC-PARA-100.
 ENTRY "SUBPRO1-ENTRY" USING ORIGINAL, SALES.
@@ -2779,7 +2779,7 @@ ENTRY "SUBPRO1-ENTRY" USING ORIGINAL, SALES.
    MOVE PT-NAME TO NAME.
    WRITE P-REC FROM HEADER      AFTER ADVANCING 1 LINES.
    WRITE P-REC FROM WRITE-SALES AFTER ADVANCING 3 LINES.
-   GOBACK. 
+   GOBACK.
 ...
 @end smallexample
 
@@ -3093,7 +3093,7 @@ This usage of the @statement{EXIT} simply provides a common ``GO TO'' end point 
         UNTIL EOF-On-Input-File.
 @dots{}
 100-Process-A-Transaction.
-    READ Input-File 
+    READ Input-File
 	     AT END SET EOF-On-Input-File TO TRUE
                 GO TO 199-Exit
     END-READ.
@@ -3129,7 +3129,7 @@ The following shows how the previous example could have been coded without a @co
         UNTIL EOF-On-Input-File.
 @dots{}
 100-Process-A-Transaction.
-    READ Input-File 
+    READ Input-File
 	     AT END SET EOF-On-Input-File TO TRUE
                 EXIT PARAGRAPH
     END-READ.
@@ -3157,7 +3157,7 @@ This last example shows the final modification to the previous examples by using
 
 @example
 PERFORM FOREVER
-    READ Input-File 
+    READ Input-File
 	     AT END EXIT PERFORM
     END-READ
     IF Input-Rec of Input-File = SPACES
@@ -4148,7 +4148,7 @@ The contents of the @var{identifier-1} data item will not be changed, unless tha
 @page
 @newsubsubsection{MOVE CORRESPONDING}
 @diagram{MOVE CORRESPONDING,PD-MOVE-2,PD-MOVE-2,None}
-The @statement{MOVE CORRESPONDING} similarly-named items from one group item to another.
+The @statement{MOVE CORRESPONDING} moves similarly-named items from one group item to another.
 @enumerate
 @comment Syntactical Specifications:
 @item
@@ -5062,20 +5062,20 @@ WORKING-STORAGE SECTION.
 01  PGMSUB-PGM       pic X(8)  value 'PGMSUB'.
 01  wCOMMON-AREA     EXTERNAL.
     05  wCOMMAND     pic X(05).
-    05  wDATA.                   
+    05  wDATA.
         07 wFILLER1  pic X(20).
         07 wCOUNT    pic 9(06).
-        07 wFILLER2  pic X(74).           
+        07 wFILLER2  pic X(74).
 PROCEDURE DIVISION.
-display space display 'PGMMAIN - START OF MAIN PROGRAM.' 
-move zero      to wCOUNT 
+display space display 'PGMMAIN - START OF MAIN PROGRAM.'
+move zero      to wCOUNT
 set PGMSUB-PTR to entry PGMSUB-PGM
-move 'OPEN '   to wCOMMAND 
+move 'OPEN '   to wCOMMAND
 call PGMSUB-PTR
 move 'WRITE'   to wCOMMAND
-perform until wCOUNT >= 13 
+perform until wCOUNT >= 13
     compute   wCOUNT  = wCOUNT + 1
-    move ' Record Num ......: ' to wFILLER1 
+    move ' Record Num ......: ' to wFILLER1
     move space                  to wFILLER2
     call PGMSUB-PTR
 end-perform
@@ -5097,16 +5097,16 @@ SELECT PGMSUB-FILE  ASSIGN TO 'PGMSUB.TXT'
 DATA DIVISION.
 FILE SECTION.
 FD  PGMSUB-FILE.
-01  PGMSUB-REC       PIC X(80). 
+01  PGMSUB-REC       PIC X(80).
 WORKING-STORAGE SECTION.
 01  wCOMMON-AREA     EXTERNAL.
     05  wCOMMAND     pic X(5).
-    05  wDATA.                   
+    05  wDATA.
         07 wFILLER1  pic X(20).
         07 wCOUNT    pic 9(06).
-        07 wFILLER2  pic X(74).     
+        07 wFILLER2  pic X(74).
 PROCEDURE DIVISION.
-evaluate wCOMMAND             
+evaluate wCOMMAND
     when 'OPEN ' Open Output PGMSUB-FILE
          display space display 'at time: ' Function CURRENT-DATE(09:08) ' PGMSUB - open  '
     when 'WRITE' Write PGMSUB-REC from wDATA
@@ -5791,10 +5791,9 @@ Both @var{identifier-1} and @var{identifier-2} must be numeric unedited data ite
 @var{identifier-3} must be a numeric (edited or unedited) data item.
 
 @item
-The optional @syntaxref{ROUNDED} clause available to each @var{identifier-2} will control how non-integer results will be saved.
-
+The optional @syntaxref{ROUNDED} clause available to each @var{identifier-3} will control how non-integer results will be saved.
 @item
-The optional @code{ON SIZE ERROR} and @code{NOT ON SIZE ERROR} clauses may be used to detect and react to the failure or success, respectively, of an attempt to perform a calculation.  In this case, failure is defined as being an @var{identifier-2} with an insufficient number of digit positions available to the left of any implied decimal point.  @xref{ON SIZE ERROR + NOT ON SIZE ERROR}, for additional information.
+The optional @code{ON SIZE ERROR} and @code{NOT ON SIZE ERROR} clauses may be used to detect and react to the failure or success, respectively, of an attempt to perform a calculation.  In this case, failure is defined as being an @var{identifier-3} with an insufficient number of digit positions available to the left of any implied decimal point.  @xref{ON SIZE ERROR + NOT ON SIZE ERROR}, for additional information.
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.45.3 SUBTRACT CORRESPONDING                                **
