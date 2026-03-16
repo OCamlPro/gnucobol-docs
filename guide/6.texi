@@ -893,21 +893,24 @@ Here is usage examples of the option arithmetic-expression
 Here is another example of using the option arithmetic-expression.
 @verbatim
 
-       PROGRAM-ID. TESTCONST.
-       ENVIRONMENT DIVISION.
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01 A   CONSTANT 2.
-       01 B   CONSTANT ( (3 + 2) * A).
-       01 CON CONSTANT (A ** B).
-       01 MYDATA PIC X(CON).
-       PROCEDURE DIVISION.
-        DISPLAY CON
-        ACCEPT omitted
-        MOVE "123456789012345678901234567890" TO MYDATA
-         DISPLAY MYDATA
-        ACCEPT omitted
-        GOBACK.
+        >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTCONST.
+ENVIRONMENT DIVISION.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 A   CONSTANT 2.
+01 B   CONSTANT ( (3 + 4 / 2) * A). *> value = 10 
+01 CON CONSTANT (A ** B).           *> value = 1024
+01 MYDATA PIC X(CON).
+PROCEDURE DIVISION.
+  DISPLAY A ' ' B ' ' CON
+  move all "1234567890" to MYDATA
+  move ">" to MYDATA(1:1)
+  move "<" to MYDATA(CON:1)
+  DISPLAY MYDATA
+  ACCEPT omitted
+  GOBACK.
 
 @end verbatim
 
@@ -1075,8 +1078,8 @@ Constants defined in this way become undefined once an @code{END PROGRAM} or @co
 @item
 NEXT gives the integer value representing the offset at which the next byte of storage that follows the previous data declaration.
 
-@example
-Following sample program shows some definitions -
+@smallexample
+Following a couple of sample programs: 
 
 ID DIVISION.
 PROGRAM-ID. TEST78.
@@ -1108,7 +1111,38 @@ PROCEDURE DIVISION.
     DISPLAY 'HHH= ' HHH
     STOP RUN.
 
-@end example
+        >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTCONST1.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+78 wCONST VALUE 2 *  (23 + 3) + (10 / 2)  .
+01 wCONST2 constant (23 + 3**32) .
+01 wCONST3 constant (12 + wCONST2)**22 - wCONST.
+78 wCONST4 value    (wCONST + 1 AND wCONST3) OR  123  321  AND wCONST**2.
+01 wCONST5 constant (wCONST4    OR  wCONST2) AND 123 -321.23 AND wCONST4.
+01 wCONST6 constant B'0001'     AND B'1000'.
+01 wVAR02  PIC 9(30)V99 value zero.
+01 wVAR03  PIC 9(30)V99 value zero.
+01 wVAR04  PIC 9(30)V99 value zero.
+01 wVAR09  PIC 999      value wCONST4.
+PROCEDURE DIVISION.
+MAIN-PROCEDURE.
+    DISPLAY "wCONST .........: " wCONST
+    COMPUTE wVAR02 = (23 + 3**32)
+    DISPLAY "wVAR02 .........: " wVAR02
+    DISPLAY "wCONST2 ........: " wCONST2
+    COMPUTE wVAR03 = (12 + wCONST2)**22 - wCONST
+    DISPLAY "wVAR03 .........: " wVAR03
+    DISPLAY "wCONST3 ........: " wCONST3
+    DISPLAY "wCONST4 ........: " wCONST4
+    DISPLAY "wCONST5 ........: " wCONST5
+    DISPLAY "wVAR09 .........: " wVAR09
+    DISPLAY "wCONST6 ........: " wCONST6
+    accept omitted
+    STOP RUN.
+
+@end smallexample
 
 @end enumerate
 @comment *********************************************************************
@@ -2154,10 +2188,11 @@ The reserved word @code{PICTURE} may be abbreviated as @code{PIC}.  Most program
 A picture clause may only be specified on an elementary item.
 
 @item
-A @var{picture-string} is a sequence of the special symbols @samp{$}, @samp{*}, @samp{+}, @samp{,}, @samp{-}, @samp{.}, @samp{/}, @samp{0} (zero), @samp{1}, @samp{9}, @samp{A}, @samp{B}, @code{CR}, @code{DB}, @samp{S}, @samp{V}, @samp{P}, @samp{X} and @samp{Z}.
+A @var{picture-string} is a sequence of the special symbols @samp{$}, @samp{*}, @samp{+}, @samp{,}, @samp{-}, @samp{.}, @samp{/}, @samp{0} (zero), @samp{1}, @samp{9}, @samp{A}, @samp{B}, @code{CR}, @code{DB}, @samp{N}, @samp{S}, @samp{V}, @samp{P}, @samp{X} and @samp{Z}.
 
 @item
-In general, each picture symbol represents either a single character in storage or a single decimal digit.  There are a few exceptions, and they will be discussed as needed.
+In general, each picture symbol represents either a single character in storage or a single decimal digit.  
+There are a few exceptions, and they will be discussed as needed.
 
 @item
 When a @var{picture-string} contains a repeated sequence of symbols --- @code{PIC 9999/99/99} --- for example, the repetition can be specified using a parenthetic repeat count, as in @code{PIC 9(4)/9(2)/9(2)}.  Using repeat counts is optional and their use (or not) is entirely at the discretion of the programmer.  Many programmers use repetition for small sequences (@code{PIC XXX}) and repeat counts for larger ones (@code{PIC 9(9)}.
@@ -2170,7 +2205,9 @@ Defines storage reserved for a single alphabetic character (@samp{A}-@samp{Z}, @
 
 @item @samp{N}
 Defines storage reserved for a single character in the computer's
-@define{National Character set}.  Support for national character sets in GnuCOBOL is currently only partially implemented, and the compile- and run-time effect of using the @samp{N} picture symbol is the same as if @code{X(2)} had been coded, with the additional effect that such a field will qualify as a @code{NATIONAL} or @code{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
+@define{National Character set}.  
+It is similar to alphanumeric, but using an extended character set, e.g. UTF-8.
+Support for national character sets in GnuCOBOL is currently only partially implemented, and the compile- and run-time effect of using the @samp{N} picture symbol is the same as if @code{X(2)} had been coded, with the additional effect that such a field will qualify as a @code{NATIONAL} or @code{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
 
 @item @samp{X}
 Defines storage reserved for a single alphanumeric character (any character).
@@ -3382,13 +3419,129 @@ TABLE 3
 |NATIONAL              | While syntactically recognized |    --    |   --    | --    |
 |~~~~~~~~              | it is not supported by GnuCOBOL|          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
+|BIT                   | While syntactically recognized |    --    |   --    | --    |
+|~~~                   | it is not supported by GnuCOBOL|          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|type-name-1           | User defined DATA TYPE         |    --    |   --    | --    |
+|                      | see also the TYPEDEF clause    |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
 @end smallexample
 @page
 
 @item
-@t{USAGE IS type-name-1}@*@t{~~~~~ ~~}
+Binary data (integer or floating-point) can be stored in either a @i{Big-Endian} or @i{Little-Endian} form.
 
-This USAGE clause indicates that the data description of the subject of the entry is specified by a user-defined data type. The user-defined data type is defined using the TYPEDEF clause, which is described in TYPEDEF clause.
+Big-endian data allocation calls for the bytes that comprise a binary item to be allocated such that the least-significant byte is the right-most byte.  For example, a four-byte binary item having a value of decimal 20 would be big-endian allocated as 00000014 (shown in hexadecimal notation).
+
+Little-endian data allocation calls for the bytes that comprise a binary item to be allocated such that the least-significant byte is the left-most byte.  For example, a four-byte binary item having a value of decimal 20 would be little-endian allocated as 14000000 (shown in hexadecimal notation).
+
+All CPUs are capable of @i{understanding} big-endian format, which makes it the @i{most compatible} form of binary storage across computer systems.
+
+Some CPUs --- such as the Intel/AMD i386/x64 architecture processors used in most Windows PCs --- prefer to process binary data stored in a little-endian format.  Since that format is more efficient on those systems, it is referred to as the @i{native} binary format.
+
+On a system supporting only one format of binary storage (generally, that would be big-endian), the terms @i{most efficient} and @i{native} format are synonymous.
+
+@item
+Data items that have the
+@syntaxidx{UNSIGNED} attribute explicitly coded, or @code{DISPLAY}, @code{PACKED-DECIMAL}, @code{COMP-5}, @code{COMP-X} items that do not have an @samp{S} symbol in their picture clause cannot preserve negative values that may be stored into them.  Storing a negative value into such a field will actually result in the sign being stripped, essentially saving the absolute value in the data item.
+
+@item
+Packed-decimal (@i{i.e.} @code{USAGE PACKED-DECIMAL}, @code{USAGE COMP-3} or @code{USAGE COMP-6}) data is stored as a series of bytes such that each byte contains two 4-bit fields, referred to as @dfn{nibbles} (since they comprise half a ``byte'', they're just ``nibbles'' --- don't groan, I don't just make this stuff up!).  Each nibble represents a @samp{9} in the @code{PICTURE} and each holds a single decimal digit encoded as its binary value (0 = 0000, 1 = 0001, @dots{} , 9 = 1001).
+
+The @i{last} byte of a @code{PACKED-DECIMAL} or @code{COMP-3} data item will always have its left nibble corresponding to the last @samp{9} in the @code{PICTURE} and its right nibble reserved as a sign indicator.  This sign indicator is always present regardless of whether or not the @code{PICTURE} included an @samp{S} symbol.
+
+The @i{first} byte of the data item will contain an unused left nibble if the @code{PICTURE} had an even number of @samp{9} symbols in it.
+
+The sign indicator will have a value of a hexadecimal A through F.  Traditional packed decimal encoding rules call for hexadecimal values of F, A, C or E (``FACE'') in the sign nibble to indicate a positive value and B or D to represent a negative value (hexadecimal digits 0-9 are undefined).  Testing with a Windows MinGW/GnuCOBOL implementation shows that --- in fact --- hex digit D represents a negative number and any other hexadecimal digit denotes a positive number.  Therefore, a @code{PIC S9(3) COMP-3} packed-decimal field with a value of -15 would be stored internally as a hexadecimal 015D in GnuCOBOL.
+
+If you attempt to store a negative number into a packed decimal field that has no @samp{S} in its @code{PICTURE}, the absolute value of the negative number will actually be stored.
+
+@code{USAGE COMP-6} does not allow for negative values, therefore no sign nibble will be allocated.  A @code{USAGE COMP-6} data item containing an odd number of @samp{9} symbols in its @code{PICTURE} will leave its leftmost nibble unused.
+
+@item
+The @code{USAGE} specifications @code{FLOAT-DECIMAL-16} and @code{FLOAT-DECIMAL-34} will encode data using IEEE 754 @i{Decimal64} and @i{Decimal128} format, respectively.  The former allows for up to 16 digits of exact precision while the latter offers 34.  The phrase ``exact precision'' is used because the traditional binary renderings of decimal real numbers in a floating-point format (@code{FLOAT-LONG} and @code{FLOAT-SHORT}, for example) only yield an approximation of the actual value because many decimal fractions cannot be precisely rendered in binary.  The Decimal64 and Decimal128 renderings, however, render decimal real numbers in encoded decimal form in much the same way that @code{PACKED-DECIMAL} renders a decimal integer in digit-by-digit decimal form.  The exact manner in which this rendering is performed is complex (Wikipedia has an excellent article on the subject --- just search for @i{Decimal64}).
+
+@item
+GnuCOBOL stores @code{FLOAT-DECIMAL-16} and @code{FLOAT-DECIMAL-34} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
+
+@item
+The @code{USAGE} specifications @code{FLOAT-LONG} and @code{FLOAT-SHORT} use the IEEE 754 @i{Binary64} and @i{Binary32} formats, respectively.  These are binary encodings of real decimal numbers, and as such cannot represent every possible value between the minimum and maximum values in the range for those usages.  Wikipedia has an excellent article on the Binary64 and Binary32 encoding schemes --- just search on @i{Binary32} or @i{Binary64}.
+
+GnuCOBOL stores @code{FLOAT-LONG} and @code{FLOAT-SHORT} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
+
+@item
+A @code{USAGE} clause specified at the group item level will apply that @code{USAGE} to all subordinate data items, except those that themselves have a @code{USAGE} clause.
+
+@item
+The only @code{USAGE} that is allowed in the report section is @code{USAGE DISPLAY}.
+
+@item
+USAGE BIT (not yet implemented [-Wpending]) is used to define Boolean data items. 
+While standard COBOL typically handles data at the byte level, this specific clause allows you to manage individual bits, which is highly efficient for flags, switches, and logical states.
+You must use PIC 1 (or PIC 11...11 or PIC 1(n)) where each "1" represents a single bit.
+
+Boolean values are assigned using Boolean literals: B"1" or b"1" for true/on and B"0" or b"0" for false/off.
+@example
+
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01  SWITCH-FLAGS.
+    05  IS-ACTIVE    PIC 1 USAGE BIT.
+    05  IS-VALID     PIC 1 USAGE BIT.
+    05  IS-COMPLETE  PIC 1 USAGE BIT.
+
+PROCEDURE DIVISION.
+    MOVE B"1" TO IS-ACTIVE.
+    IF IS-ACTIVE = B"1"
+       DISPLAY "System is active."
+    END-IF.
+
+@end example
+
+GnuCOBOL provides built-in functions for complex bit operations: B-AND, B-OR, B-XOR, B-NOT: perform bitwise logical operations.
+
+BOOLEAN-OF-INTEGER: Converts a numeric value into its binary bit representation.
+
+INTEGER-OF-BOOLEAN: Converts a sequence of bits back into a standard integer. 
+
+Why use USAGE BIT ? It is primarily used for interoperability with other languages (like C or Java) that use bit-fields, or for memory optimization in large arrays of status flags.
+
+@item
+@code{HANDLE OF} are stored as 4 byte binary integers and behave like numbers when used. These data items are used to store the handle of a dynamically created object such as a floating window or a graphical control. They come in two forms: generic (when you omit the OF phrase), typed when you include the OF phrase. You may use HANDLE data items only when explicitly allowed, or as part of a MOVE statement, a CALL statement (as a parameter), or in a Boolean expression. The implementation of USAGE HANDLE in GnuCOBOL is currently not of practical use but is needed for a future implementation of the use of graphical "objects" such as floating windows or graphic controls.
+
+It's main purpose is currently supporting migrations from ACUCOBOL-GT, as it is used in lots of "parsed and internally handled but not yet supported in the runtime" parts.
+
+A example of usage follows using gnucobol v3.2 :
+
+@example
+
+ID DIVISION.
+PROGRAM-ID. TESTHANDLE.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 H0 usage HANDLE              value 999999999.
+01 H1 usage HANDLE OF VARIANT   value    1.
+01 H2 usage HANDLE OF SUBWINDOW value    2.
+01 H3 usage HANDLE OF WINDOW    value -123.
+01 H4 usage HANDLE OF THREAD    value -123.
+PROCEDURE DIVISION.
+    DISPLAY H0 ' ' H1 ' ' H2 ' '  H3 ' ' H4
+    DISPLAY 'H1 ' FUNCTION HEX-OF(H1)
+    STOP RUN.
+
+Produces :
+
++999999999 +000000001 +000000002 -000000123 -000000123
+H1 01000000
+
+@end example
+
+
+@item
+@t{USAGE IS type-name-1}@*@t{~~~~~   }
+
+This USAGE clause indicates that the data description of the subject of the entry is specified by a user-defined data type. 
+The user-defined data type is defined using the TYPEDEF clause, which is described in TYPEDEF clause.
 
 @example
 
@@ -3464,83 +3617,6 @@ Example 3:
 
 @end example
 
-@item
-Binary data (integer or floating-point) can be stored in either a @i{Big-Endian} or @i{Little-Endian} form.
-
-Big-endian data allocation calls for the bytes that comprise a binary item to be allocated such that the least-significant byte is the right-most byte.  For example, a four-byte binary item having a value of decimal 20 would be big-endian allocated as 00000014 (shown in hexadecimal notation).
-
-Little-endian data allocation calls for the bytes that comprise a binary item to be allocated such that the least-significant byte is the left-most byte.  For example, a four-byte binary item having a value of decimal 20 would be little-endian allocated as 14000000 (shown in hexadecimal notation).
-
-All CPUs are capable of @i{understanding} big-endian format, which makes it the @i{most compatible} form of binary storage across computer systems.
-
-Some CPUs --- such as the Intel/AMD i386/x64 architecture processors used in most Windows PCs --- prefer to process binary data stored in a little-endian format.  Since that format is more efficient on those systems, it is referred to as the @i{native} binary format.
-
-On a system supporting only one format of binary storage (generally, that would be big-endian), the terms @i{most efficient} and @i{native} format are synonymous.
-
-@item
-Data items that have the
-@syntaxidx{UNSIGNED} attribute explicitly coded, or @code{DISPLAY}, @code{PACKED-DECIMAL}, @code{COMP-5}, @code{COMP-X} items that do not have an @samp{S} symbol in their picture clause cannot preserve negative values that may be stored into them.  Storing a negative value into such a field will actually result in the sign being stripped, essentially saving the absolute value in the data item.
-
-@item
-Packed-decimal (@i{i.e.} @code{USAGE PACKED-DECIMAL}, @code{USAGE COMP-3} or @code{USAGE COMP-6}) data is stored as a series of bytes such that each byte contains two 4-bit fields, referred to as @dfn{nibbles} (since they comprise half a ``byte'', they're just ``nibbles'' --- don't groan, I don't just make this stuff up!).  Each nibble represents a @samp{9} in the @code{PICTURE} and each holds a single decimal digit encoded as its binary value (0 = 0000, 1 = 0001, @dots{} , 9 = 1001).
-
-The @i{last} byte of a @code{PACKED-DECIMAL} or @code{COMP-3} data item will always have its left nibble corresponding to the last @samp{9} in the @code{PICTURE} and its right nibble reserved as a sign indicator.  This sign indicator is always present regardless of whether or not the @code{PICTURE} included an @samp{S} symbol.
-
-The @i{first} byte of the data item will contain an unused left nibble if the @code{PICTURE} had an even number of @samp{9} symbols in it.
-
-The sign indicator will have a value of a hexadecimal A through F.  Traditional packed decimal encoding rules call for hexadecimal values of F, A, C or E (``FACE'') in the sign nibble to indicate a positive value and B or D to represent a negative value (hexadecimal digits 0-9 are undefined).  Testing with a Windows MinGW/GnuCOBOL implementation shows that --- in fact --- hex digit D represents a negative number and any other hexadecimal digit denotes a positive number.  Therefore, a @code{PIC S9(3) COMP-3} packed-decimal field with a value of -15 would be stored internally as a hexadecimal 015D in GnuCOBOL.
-
-If you attempt to store a negative number into a packed decimal field that has no @samp{S} in its @code{PICTURE}, the absolute value of the negative number will actually be stored.
-
-@code{USAGE COMP-6} does not allow for negative values, therefore no sign nibble will be allocated.  A @code{USAGE COMP-6} data item containing an odd number of @samp{9} symbols in its @code{PICTURE} will leave its leftmost nibble unused.
-
-@item
-The @code{USAGE} specifications @code{FLOAT-DECIMAL-16} and @code{FLOAT-DECIMAL-34} will encode data using IEEE 754 @i{Decimal64} and @i{Decimal128} format, respectively.  The former allows for up to 16 digits of exact precision while the latter offers 34.  The phrase ``exact precision'' is used because the traditional binary renderings of decimal real numbers in a floating-point format (@code{FLOAT-LONG} and @code{FLOAT-SHORT}, for example) only yield an approximation of the actual value because many decimal fractions cannot be precisely rendered in binary.  The Decimal64 and Decimal128 renderings, however, render decimal real numbers in encoded decimal form in much the same way that @code{PACKED-DECIMAL} renders a decimal integer in digit-by-digit decimal form.  The exact manner in which this rendering is performed is complex (Wikipedia has an excellent article on the subject --- just search for @i{Decimal64}).
-
-@item
-GnuCOBOL stores @code{FLOAT-DECIMAL-16} and @code{FLOAT-DECIMAL-34} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
-
-@item
-The @code{USAGE} specifications @code{FLOAT-LONG} and @code{FLOAT-SHORT} use the IEEE 754 @i{Binary64} and @i{Binary32} formats, respectively.  These are binary encodings of real decimal numbers, and as such cannot represent every possible value between the minimum and maximum values in the range for those usages.  Wikipedia has an excellent article on the Binary64 and Binary32 encoding schemes --- just search on @i{Binary32} or @i{Binary64}.
-
-GnuCOBOL stores @code{FLOAT-LONG} and @code{FLOAT-SHORT} data items using either Big-Endian or Little-Endian form, whichever is native to the system.
-
-@item
-A @code{USAGE} clause specified at the group item level will apply that @code{USAGE} to all subordinate data items, except those that themselves have a @code{USAGE} clause.
-
-@item
-The only @code{USAGE} that is allowed in the report section is @code{USAGE DISPLAY}.
-
-@item
-@code{Handles} are stored as 4 byte binary integers and behave like numbers when used. These data items are used to store the handle of a dynamically created object such as a floating window or a graphical control. They come in two forms: generic (when you omit the OF phrase), typed when you include the OF phrase. You may use HANDLE data items only when explicitly allowed, or as part of a MOVE statement, a CALL statement (as a parameter), or in a Boolean expression. The implementation of USAGE HANDLE in GnuCOBOL is currently not of practical use but is needed for a future implementation of the use of graphical "objects" such as floating windows or graphic controls.
-
-It's main purpose is currently supporting migrations from ACUCOBOL-GT, as it is used in lots of "parsed and internally handled but not yet supported in the runtime" parts.
-
-A example of usage follows using gnucobol v3.2 :
-
-
-@example
-
-ID DIVISION.
-PROGRAM-ID. TESTHANDLE.
-DATA DIVISION.
-WORKING-STORAGE SECTION.
-01 H0 usage HANDLE              value 999999999.
-01 H1 usage HANDLE OF VARIANT   value    1.
-01 H2 usage HANDLE OF SUBWINDOW value    2.
-01 H3 usage HANDLE OF WINDOW    value -123.
-01 H4 usage HANDLE OF THREAD    value -123.
-PROCEDURE DIVISION.
-    DISPLAY H0 ' ' H1 ' ' H2 ' '  H3 ' ' H4
-    DISPLAY 'H1 ' FUNCTION HEX-OF(H1)
-    STOP RUN.
-
-Produces :
-
-+999999999 +000000001 +000000002 -000000123 -000000123
-H1 01000000
-
-@end example
 @end enumerate
 
 @comment *********************************************************************
@@ -3703,7 +3779,7 @@ Example 2: Table value clause with Initialize
   01 Group-Items.
      03                  value "Implicit Filler".
      03  filler    pic 1 value B"1".
-     03  Var-Table occurs 10 times pic 9
+     03  Var-Table occurs 10 times pic 9 
                    value 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, (1) to (10).
   . . .
    initialize Group-Items with filler All to value.
