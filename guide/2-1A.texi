@@ -992,9 +992,9 @@ Debugging statements may be compiled either by specifying the @switch{-fdebuggin
 @comment *********************************************************************
 @newsubsection{Literals}
 Literals are constant values that will not change during the execution of a program.  
-There are five types of literals --- Alphanumeric, Numeric, Boolean, National and Figurative.
+There are following types of literals --- Alphanumeric, Numeric, Boolean, National and Figurative.
 
-Note: ACUCOBOL numeric literals: B#.. for binary, O#.. for octal, and X#.. and H#.. for hexadecimal not yet implemented.
+Note: ACUCOBOL numeric literals: B#.. for binary, O#.. for octal, and X#.. and H#.. for hexadecimal are not yet implemented.
 
 @comment *********************************************************************
 @comment ** 2.1.19.1 Alphanumeric Literals                                  **
@@ -1006,6 +1006,8 @@ Note: ACUCOBOL numeric literals: B#.. for binary, O#.. for octal, and X#.. and H
 Alphanumeric literals may take any of the following forms:
 @itemize @bullet
 @item
+Alphanumeric Standard literals  
+
 A sequence of characters enclosed by a pair of single-quote (@samp{'}) or a pair of double-quote (@samp{"})
 @idx{' (Apostrophe)}
 @idx{" (Quote)}
@@ -1013,11 +1015,17 @@ A sequence of characters enclosed by a pair of single-quote (@samp{'}) or a pair
 @item
 @define{Alphanumeric Hexadecimal Literal}
 @idx{Alphanumeric Literal (Hexadecimal)}
-A literal prefixed with letter @samp{H} (upper H or h lower-case) or @samp{X} (upper X or x lower-case). 
-@code{H"@var{ hex character }"} or @code{X"@var{ hex character }"}
+
+A literal prefixed with letter @samp{X} (Use upper X or lower-case x). 
+@code{X"@var{ hex character }"}
+
+A hexadecimal alphanumeric literal is a character-string whose value represents a hexadecimal value. 
+A hexadecimal alphanumeric literal represents the literal value as a hexadecimal character.
+Hexadecimal character must consist of characters between 0 and 9 or A to F or a to f. 
+Two consecutive characters represent a single character code or part of a character code from the computer character set.
 
 @item
-Null terminated literals (Z-literals)
+Null terminated literals using @code{Z"@var{characters}"}.
 @idx{Null Terminated Literals}
 
 A literal formed according to the same rules as for a string literal (above), but prefixed with the letter @samp{Z} (upper- or lower-case) constitutes a zero-delimited string literal.  These literals differ from ordinary string literals in that they will be explicitly terminated with a byte of hexadecimal value 00.  These
@@ -1027,8 +1035,8 @@ A literal formed according to the same rules as for a string literal (above), bu
 @item
 Raw C string using @code{L"@var{characters}"}.
 
-That is a GnuCOBOL extension. 
-The RAW C STRING are similar but not completely identical to Z-literals: they keep \ and ? - two symbols that can be relevant to output special sequences, 
+This is a GnuCOBOL extension. 
+The RAW C STRING literals are similar but not completely identical to Z-literals: they keep \ and ? - two symbols that can be relevant to output special sequences, 
 including but not limited to "\t" and "\n". If they are seen in any literal, the output during codegen escapes those 
 -> VALUE "\t" contains this text, while VALUE L"\t" contains 0x09, a tabulator.
 
@@ -1040,7 +1048,7 @@ RAW-C-Strings are passed "nearly unchanged" - they keep their C meaning, so the 
 nearly because content like MOVE L'"data"' TO VAR is still partially replaced - that's "\"data\"\x00 as a C literal.
 The " are still escaped to not break the intermediate C.
 
-PLUS we now have a new literal type - L"whatever". We can now pass float BY VALUE. This will NOT escape backslash (and ampersand) in the literal.
+We now have this new literal type - L"whatever". We can now pass float BY VALUE. This will NOT escape backslash (and ampersand) in the literal.
 
 @example
 
@@ -1052,15 +1060,17 @@ CALL STATIC "printf" USING L"%f\n" BY VALUE VAR.
 
 Note that VAR should(must) be FLOAT-LONG (aka. DOUBLE) as the arguments to "printf" expect double values.
 
-@end itemize
-
 
 An alphanumeric literal is not valid for use in arithmetic expressions unless it is first converted to its numeric computational equivalent; 
 there are three numeric conversion intrinsic functions built into GnuCOBOL that can perform this conversion --- @syntaxref{NUMVAL}, @syntaxref{NUMVAL-C} and @syntaxref{NUMVAL-F}.
 
-
+@item
 Concatenation expression using &.
+
 Alphanumeric literals too long to fit on a single line may be continued to the next line in one of two ways:
+
+@end itemize
+
 @enumerate
 @item
 If you are using Fixed Format Mode, the alphanumeric literal can be run right up to and including column 72.  The literal may then be continued on the next line anywhere after column 11 by coding another quote or apostrophe (whichever was used to begin the literal originally).  The continuation line must also have a hyphen (-)
@@ -1068,7 +1078,7 @@ If you are using Fixed Format Mode, the alphanumeric literal can be run right up
 @idx{Continuation (- in Column 7)}
 @end enumerate
 
-@smallexample
+@example
 @t{         1         2         3         4         5         6         7   }
 @t{1234567890123456789012345678901234567890123456789012345678901234567890123}
 @t{ }
@@ -1076,23 +1086,25 @@ If you are using Fixed Format Mode, the alphanumeric literal can be run right up
 @t{      -                                                "ong literal that}
 @t{      -                                                " must be continu}
 @t{      -                                                "ed.".}
-@end smallexample
+@end example
 
 @enumerate 2
 @item
-Regardless of whether the compiler is operating in Fixed or Free Format Mode, GnuCOBOL allows alphanumeric literals to be broken up into separate fragments.  These fragments have their own beginning and ending quote/apostrophe characters and are ``glued together'' at compilation time using @samp{&}
+Regardless of whether the compiler is operating in Fixed or Free Format Mode, GnuCOBOL allows alphanumeric literals to be broken up into separate fragments.  
+These fragments have their own beginning and ending quote/apostrophe characters and are ``glued together'' at compilation time using @samp{&}
+
 @idx{& (Literal Concatenation)}
 @idx{Literal Concatenation (&)}
 @end enumerate
 
-@smallexample
+@example
 @t{         1         2         3         4         5         6         7   }
 @t{1234567890123456789012345678901234567890123456789012345678901234567890123}
 @t{ }
 @t{      01  LONG-LITERAL-VALUE-DEMO      PIC X(60) VALUE "This is a" &}
 @t{                                        " long literal that must " &}
 @t{                                                    "be continued.".}
-@end smallexample
+@end example
 
 If your program is using Free Format Mode, there's less need to continue long alphanumeric literals because statements may be as long as 255 characters.
 
@@ -1104,30 +1116,45 @@ A numeric literal is a character-string whose characters represent a numeric val
 @idx{Literals (Numeric)}
 @itemize @bullet
 @item
-Fixed point literals:
+Numeric Fixed point literals.
 
-- Fixed point integers such as 1, 56, 2192 or -54.
+- Integers. An integer literal is a fixed-point numeric literal that contains no decimal point such as 1, 56, 2192 or -54.
 
-- Fixed point non-integer values such as 1.317 or -2.95.
+- Non-integer values such as 1.317 or -2.95.
 
 @item
-Floating-point literals:
+Numeric Floating-point literals.
 
+A floating-point numeric literal is formed from two fixed-point numeric literals separated by the letter 'E' or 'e' without intervening spaces.
 Values using @samp{E@var{nn}} notation such as @code{9.92E25}, representing @math{9.92 @ x@ 10@sup{25}} (10 raised to the 25th power) or @code{5.7E-14}, representing @math{5.7@ x@ 10@sup{-14}} (10 raised to the -14th power).  
 Both the mantissa (the number before the @samp{E}) and the exponent (the number after the @samp{E}) may be explicitly specified as positive (with a @samp{+}), negative (with a @samp{-}) or unsigned (and therefore implicitly positive).  
 A floating-point literals value must be within the range @math{-1.7@ x@ 10@sup{308}}  to @math{+1.7@ x@ 10@sup{308}} with no more than 15 decimal digits of precision.
+
+@item
+@define{Numeric Hexadecimal Literal}
+@idx{Numeric Literal (Hexadecimal)}
+
+A literal prefixed with letter @samp{H} (Use upper H or lower-case h). 
+@code{H"@var{ hex character }"} 
+
+A hexadecimal numeric literal is a character-string (up to 8 bytes are numeric-binary hexadecimal literals as COMP-5 is stored) whose value represents a hexadecimal value. 
+A hexadecimal numeric literal represents the literal value as a hexadecimal character.
+Hexadecimal character must consist of characters between 0 and 9 or A to F or a to f. 
+Two consecutive characters represent a single character code or part of a character code from the computer character set.
+You can assign it to numbers, compare them numeric (which only makes sense with integer, not with decimals) or even calculate with it.
+Example:
+@verbatim
+compute wTEST-9 = H'01' + H'02'  gives  +000003
+@end verbatim
 
 @comment @item
 @comment Hexadecimal numeric literals
 @idx{Hexadecimal Numeric Literal}
 @idx{Numeric Literal (Hexadecimal)}
-
 @comment @item
 @comment Binary using B#0 or 1.
-
 @comment @item
 @comment Octal using O#0 - 7. (That is the letter @samp{O}).
-
 @comment @item
 @comment Hexadecimal number using @code{H#} or @code{X#} @samp{0} - @samp{F}.
 
@@ -1136,19 +1163,27 @@ A floating-point literals value must be within the range @math{-1.7@ x@ 10@sup{3
 Numeric literals may be split across lines just as alphanumeric literals are, using either of the above techniques and both reserved and user-defined words can be split across lines too (using the first technique).  The continuation of numeric literals and user-defined/reserved words is provided merely to provide compatibility with older COBOL versions and programs, but should not be used with new programs --- it just makes for ugly-looking programs.
 
 @comment *********************************************************************
-@comment ** 2.1.19.3 Boolean Literals                                       **
+@comment ** 2.1.19.3 Boolean (Binary) Literals                                       **
 @comment *********************************************************************
-@newsubsubsection{Boolean Literals}
-A Boolean literal is a literal value represented by a Boolean character, it must consist of characters "0" and "1" only.
+@newsubsubsection{Boolean (Binary) Literals}
+A Boolean literal or a Binary Literal is a literal value represented by a Boolean / Binary character, it must consist of characters "0" and "1" only.
 
 @itemize @bullet
 
 @item
-Boolean Literals (Standard) @code{B"@var{ boolean character }"}.
+Boolean Literals (Standard) @code{B"@var{boolean character}"}.
+Boolean character shall be '0' or '1', from the computer's coded character set.
 
 @item
-Boolean Literals (Hexadecimal) @code{BX"@var{ hex character }"}.
+Boolean Literals (Hexadecimal) @code{BX"@var{hex character}"}.
 
+Hexadecimal character shall be a hexadecimal digit between '0' and '9' or 'A' to 'F' (or 'a' to 'f'). 
+Each hexadecimal digit has the following boolean equivalent value: '0' is B”0000”, '1' is B”0001”, '2' is
+B”0010”, '3' is B”0011”, '4' is B”0100”, '5' is B”0101”, '6' is B”0110”, '7' is B”0111”, '8' is B”1000”, '9' is
+B”1001”, 'A' is B”1010”, 'B' is B”1011”, 'C' is B”1100”, 'D' is B”1101”, 'E' is B”1110”, 'F' is B”1111”.
+
+The value of the literal is the value of an equivalent boolean literal formed by replacing each
+hexadecimal digit by its boolean equivalent value, and replacing the leading BX” separator with the B” separator.
 @end itemize
 
 @comment *********************************************************************
@@ -1156,17 +1191,81 @@ Boolean Literals (Hexadecimal) @code{BX"@var{ hex character }"}.
 @comment *********************************************************************
 @newsubsubsection{National Literals}
 A National literal represents a literal value using the national character set.
-
+A national nonnumeric literal is a character-string whose value is represented by national characters.
 
 @itemize @bullet
 
 @item
-National Literals (Standard) @code{N"@var{ character }"} or @code{NC"@var{ character }"}.
+National (Standard) Literals  @code{N"@var{character}"} or @code{NC"@var{character}"}.
 
 @item
-National Literals (Hexadecimal)  @code{NX"@var{ hex character }"}.
+National (Hexadecimal) Literals   @code{NX"@var{hex character}"}.
 
+Hexadecimal character shall be a hexadecimal digit between '0' and '9' or 'A' to 'F' (or 'a' to 'f'). 
 @end itemize
+
+@comment *********************************************************************
+@comment ** 2.1.19.5 Literals Summary                                       **
+@comment *********************************************************************
+@newsubsubsection{Literals Summary}
+
+@verbatim
++-----------------------------------------------------------------------------+
+| Definition                    |  Sample   | Sample       | Admitted         |
+|                               |  USAGE    | data         | Characters       |
++-----------------------------------------------------------------------------+
+| ALPHANUMERIC LITERALS                                                       |
+|-----------------------------------------------------------------------------+
+| Standard with Quote           | PIC X(n)  | "12XY"       |computer char.set |
+| Standard with Apostrophe      | PIC X(n)  | '12XY'       |computer char.set |
+| Hexadecimal with "X"          | PIC X(n)  | X"4A4b4c"    | 0..9  A..F  a..f |
+| Hexadecimal with "x"          | PIC X(n)  | x"DEAD"      | 0..9  A..F  a..f |
+| Null terminated with "Z"      | PIC X(n)  | Z"12xy"      |computer char.set |
+| Null terminated with "z"      | PIC X(n)  | z"12xy"      |computer char.set |
+| Null terminated with "& x"00" | PIC X(n)  | "12xy"& x"00"|computer char.set |
+| Raw C string with "L"         | DOUBLE(?) | L"12xy"      |                  |
+| Raw C string with "l"         | DOUBLE(?) | l"12xy"      |                  |
++-----------------------------------------------------------------------------+
+| NUMERIC LITERALS                                                            |
++-----------------------------------------------------------------------------+
+| Fixed point Integer           |  PIC 9(n) | -1234        | 0..9  + -        |
+| Fixed point Decimal           |  9(n)V9(m)| -1234.56     | 0..9  + - .      |
+| Floating Point                |  COMP-1   | +1234.56E+12 | 0..9  + - . E e  |
+| Hexadecimal with "H"          |  PIC 9(n) | H"4A4b4c"    | 0..9  A..F  a..f |
+| Hexadecimal with "h"          |  PIC 9(n) | h"DEAD"      | 0..9  A..F  a..f |
++-----------------------------------------------------------------------------+
+| BOOLEAN (BINARY) LITERALS                                                   |
++-----------------------------------------------------------------------------+
+| Standard with "B"             |  PIC 1(n) | B"0111"      | 0 and 1          |
+| Standard with "b"             |  PIC 1(n) | b"0111"      | 0 and 1          |
+| Hexadecimal with "BX"         |  PIC 1(8) | BX"1f1A"     | 0..9  A..F  a..f |
+| Hexadecimal with "bx"         |  PIC 1(8) | bx"1F1A"     | 0..9  A..F  a..f |  
++-----------------------------------------------------------------------------+
+| NATIONAL LITERALS                                                           |
++-----------------------------------------------------------------------------+
+| Standard with "N"             |  PIC N(n) | N"12Xy"      | National char.set|
+| Standard with "n"             |  PIC N(n) | n"12XY"      | National char.set|
+| Standard with "NC"            |  PIC N(n) | NC"12XY"     | National char.set|
+| Hexadecimal with "NX"         |  PIC N(n) | NX"0F1a"     | 0..9  A..F  a..f |
+| Hexadecimal with "nx"         |  PIC N(n) | NX"0F1a"     | 0..9  A..F  a..f |
++-----------------------------------------------------------------------------+
+
+
+
++-----------------------------------------------------------------------------+
+| ACUCOBOL LITERALS                                                           |
++-----------------------------------------------------------------------------+
+| Boolean (Binary)              |  PIC ??   | B#0101       | 0 and 1          |
+| Octal                         |  PIC ??   | O#0123       | 0 to 7           |
+| Alpahnumerix hexadecimal      |  PIC ??   | X#DEAD       | 0..9  A..F  a..f |
+| Numeric Hexadecimal           |  PIC ??   | H#0F1a       | 0..9  A..F  a..f |
++-----------------------------------------------------------------------------+
+| HP LITERALS                                                                 |
++-----------------------------------------------------------------------------+
+| Octal                         |  PIC ??   | %4567        | 0 to 7           |
++-----------------------------------------------------------------------------+
+
+@end verbatim
 
 @smallexample
         >>SOURCE FREE
@@ -1177,81 +1276,81 @@ CONFIGURATION SECTION.
 REPOSITORY. FUNCTION ALL INTRINSIC.
 DATA DIVISION.
 WORKING-STORAGE SECTION.
-01 wTEST-X PIC  X(06).     *> ALPHANUMERIC
-01 wTEST-I PIC s9(06).     *> NUMERIC FIXED POINT INTEGER
-01 wTEST-9 PIC s9(06)V99.  *> NUNERIC FIXED-POINT DECIMAL
-01 wTEST-F COMP-1.         *> NUMERIC FLOATING-POINT
-01 wTEST-1 PIC  1(8).      *> BOOLEAN
-01 wTEST-N PIC  N(4).      *> NATIONAL
-
+01 wT-X PIC  X(06).     *> ALPHANUMERIC
+01 wT-I PIC s9(06).     *> NUMERIC INTEGER
+01 wT-9 PIC s9(06)V99.  *> NUNERIC FIXED-POINT
+01 wT-F     COMP-1.     *> NUMERIC FLOATING-POINT
+01 wT-1 PIC  1(8).      *> BOOLEAN
+01 wT-N PIC  N(4).      *> NATIONAL
 PROCEDURE DIVISION.
 display "- ALPHANUMERIC -- PIC X(6) -------------------"
-move "12XY"        to wTEST-X display CONCAT('"12XY"   CHAR ' wTEST-X '   HEX ' HEX-OF(wTEST-X) ) '     STANDARD with Quote'
-move '12XY'        to wTEST-X display CONCAT('''12XY''   CHAR ' wTEST-X '   HEX ' HEX-OF(wTEST-X) ) '     STANDARD with Apostrophe'
-move Z'12xy'       to wTEST-x display CONCAT('Z''12xy''  CHAR ' wTEST-x '   HEX ' HEX-OF(wTEST-X) )  '     NULL TERMINATED with "Z" '
-move z"12xy"       to wTEST-x display CONCAT('z"12xy"  CHAR ' wTEST-x '   HEX '   HEX-OF(wTEST-X) )  '     NULL TERMINATED with "z" '
-move '12xy'& x'00' to wTEST-x display CONCAT('00''12xy'' CHAR ' wTEST-x '   HEX ' HEX-OF(wTEST-X) )  '     NULL TERMINATED with "& x"00" '
-move L'12xy'       to wTEST-x display CONCAT('L''12xy''  CHAR ' wTEST-x '   HEX ' HEX-OF(wTEST-X) )  '     RAW C STRING with L'
-move l'12xy'       to wTEST-x display CONCAT('l''12xy''  CHAR ' wTEST-x '   HEX ' HEX-OF(wTEST-X) )  '     RAW C STRING with l'
-move X'4A4b4c'     to wTEST-x display CONCAT('X''4A4b4C''CHAR ' wTEST-x '   HEX ' HEX-OF(wTEST-X) )  '     HEXADECIMAL with X' *> 4A4B4C = ASCII JKL
-move x'DEAD'       to wTEST-x display CONCAT('x''DEAD''  CHAR ' wTEST-x '   HEX ' HEX-OF(wTEST-X) )  '     HEXADECIMAL with x' *> DEAD = number 57005
+move "12XY"        to wT-X display '"12XY"   CHAR '   wT-X '   HEX ' HEX-OF(wT-X)  ' STD with Quote'
+move '12XY'        to wT-X display '''12XY''   CHAR ' wT-X '   HEX ' HEX-OF(wT-X)  ' STD with Apostrophe'
+move Z'12xy'       to wT-x display 'Z''12xy''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' NULL TERM with "Z" '
+move z"12xy"       to wT-x display 'z"12xy"  CHAR ' wT-x '   HEX '   HEX-OF(wT-X)  ' NULL TERM with "z" '
+move '12xy'& x'00' to wT-x display '00''12xy'' CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' NULL TERM with "& x"00" '
+move L'12xy'       to wT-x display 'L''12xy''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' RAW C STR with L'
+move l'12xy'       to wT-x display 'l''12xy''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' RAW C STR with l'
+*> 4A4B4C = ASCII JKL, DEAD = number 57005
+move X'4A4b4c'     to wT-x display 'X''4A4b4C''CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' HEXADEC with X' 
+move x'DEAD'       to wT-x display 'x''DEAD''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' HEXADEC with x' 
 display "- NUMERIC -------------------------------------"
-move  -1234        to wTEST-I display CONCAT('s9(6)    CHAR ' wTEST-I '   HEX ' HEX-OF(wTEST-I) ) ' Fixed point Integer'
-move  -1234.56     to wTEST-9 display CONCAT('s9(6)V99 CHAR ' wTEST-9 ' HEX ' HEX-OF(wTEST-9) )   ' Fixed point Decimal'
-move  +1234.56e+12 to wTEST-F display CONCAT('COMP-1   CHAR ' wTEST-F ' HEX ' HEX-OF(wTEST-F) )   ' Floating point positive with e'
-move  -1234.56E-12 to wTEST-F display CONCAT('COMP-1   CHAR ' wTEST-F ' HEX ' HEX-OF(wTEST-F) )   ' Floating point negative with E'  
-move H'DEAD'       to wTEST-9 display CONCAT('H''DEAD''  CHAR ' wTEST-9 ' HEX ' HEX-OF(wTEST-9) )  ' Hexadecimal numeric with H' *> DEAD = number 57005
-move h'4a4B4C'     to wTEST-9 display CONCAT('h''4a4B4C''CHAR ' wTEST-9 ' HEX ' HEX-OF(wTEST-9) )  ' Hexadecimal numeric with h' *> 4A4B4C = ASCII JKL
+move  -1234        to wT-I display 's9(6)    CHAR '   wT-I '      HEX '  HEX-OF(wT-I)  '     Fixed P.Integer'
+move  -1234.56     to wT-9 display 's9(6)V99 CHAR '   wT-9 '   HEX '     HEX-OF(wT-9)  ' Fixed P.decimal'
+move  +1234.56e+12 to wT-F display 'COMP-1   CHAR '   wT-F '  HEX '      HEX-OF(wT-F)  ' Float.P.positive with e'
+move  -1234.56E-12 to wT-F display 'COMP-1   CHAR '   wT-F ' HEX '       HEX-OF(wT-F)  ' Float.P.negative with E'  
+move H'DEAD'       to wT-X display 'H''DEAD''  CHAR ' wT-X '       HEX ' HEX-OF(wT-X)  ' Hexadec num with H'  
+move h'4a4B4C'     to wT-X display 'h''4a4B4C''CHAR ' wT-X '       HEX ' HEX-OF(wT-X)  ' Hexadec num with h' 
 display "- BOOLEAN ------- PIC 1(8) ---------------------"
-move B'0111'  to wTEST-1 display CONCAT('B''0111''  CHAR ' wTEST-1 ' HEX ' HEX-OF(wTEST-1) ) ' Standard with B' *> only 0, 1
-move b'0111'  to wTEST-1 display CONCAT('b''0111''  CHAR ' wTEST-1 ' HEX ' HEX-OF(wTEST-1) ) ' Standard with b'
-move BX'1f1A' to wTEST-1 display CONCAT('BX''1f1A'' CHAR ' wTEST-1 ' HEX ' HEX-OF(wTEST-1) ) ' Hexadecimal with BX' *> only 0 to F
-move bx'1F1A' to wTEST-1 display CONCAT('bx''1F1A'' CHAR ' wTEST-1 ' HEX ' HEX-OF(wTEST-1) ) ' Hexadecimal with bx'
+move B'0111'  to wT-1 display 'B''0111''  CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Std with B'  
+move b'0111'  to wT-1 display 'b''0111''  CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Std with b'
+move BX'1f1A' to wT-1 display 'BX''1f1A'' CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Hexadec with BX'  
+move bx'1F1A' to wT-1 display 'bx''1F1A'' CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Hexadec with bx' 
 display "- NATIONAL ------- PIC N(4) ---------------------"
-move N'2Xy'   to wTEST-N display CONCAT('N''2Xy''   CHAR ' wTEST-N '  HEX ' HEX-OF(wTEST-N) ) ' Standard with N'  
-move n'12Xy'  to wTEST-N display CONCAT('n''12XY''  CHAR ' wTEST-N '  HEX ' HEX-OF(wTEST-N) ) ' Standard with n'
-move NC'12XY' to wTEST-N display CONCAT('NC''12XY'' CHAR ' wTEST-N '  HEX ' HEX-OF(wTEST-N) ) ' Standard with nC'
-move NX'0F1a' to wTEST-N display CONCAT('NX''0F1a'' CHAR ' wTEST-N '  HEX ' HEX-OF(wTEST-N) ) ' Hexadecimal with NX' *> only 0 to F
-move nx'0F1a' to wTEST-N display CONCAT('nx''0F1a'' CHAR ' wTEST-N '  HEX ' HEX-OF(wTEST-N) ) ' Hexadecimal with nx'
+move N'2Xy'   to wT-N display 'N''2Xy''   CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Std with N'  
+move n'12Xy'  to wT-N display 'n''12XY''  CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Std with n'
+move NC'12XY' to wT-N display 'NC''12XY'' CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Std with NC'
+move NX'0F1a' to wT-N display 'NX''0F1a'' CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Hexadec with NX'  
+move nx'0F1a' to wT-N display 'nx''0F1a'' CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Hexadec with nx'
 accept omitted
 STOP RUN.
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
+
 The program displays:
 
 - ALPHANUMERIC -- PIC X(6) -------------------
-"12XY"   CHAR 12XY     HEX 313258592020     STANDARD with Quote
-'12XY'   CHAR 12XY     HEX 313258592020     STANDARD with Apostrophe
-Z'12xy'  CHAR 12xy     HEX 313278790020     NULL TERMINATED with "Z"
-z"12xy"  CHAR 12xy     HEX 313278790020     NULL TEMINATED with "z"
-00'12xy' CHAR 12xy     HEX 313278790020     NULL TERMINATED with "& x"00"
-L'12xy'  CHAR 12xy     HEX 313278790020     RAW C STRING with L
-l'12xy'  CHAR 12xy     HEX 313278790020     RAW C STRING with l
-X'4A4b4C'CHAR JKL      HEX 4A4B4C202020     HEXADECIMAL with X
-x'DEAD'  CHAR Ì¡       HEX DEAD20202020     HEXADECIMAL with x
+"12XY"   CHAR 12XY     HEX 313258592020 STD with Quote
+'12XY'   CHAR 12XY     HEX 313258592020 STD with Apostrophe
+Z'12xy'  CHAR 12xy     HEX 313278790020 NULL TERM with "Z"
+z"12xy"  CHAR 12xy     HEX 313278790020 NULL TERM with "z"
+00'12xy' CHAR 12xy     HEX 313278790020 NULL TERM with "& x"00"
+L'12xy'  CHAR 12xy     HEX 313278790020 RAW C STR with L
+l'12xy'  CHAR 12xy     HEX 313278790020 RAW C STR with l
+X'4A4b4C'CHAR JKL      HEX 4A4B4C202020 HEXADEC with X
+x'DEAD'  CHAR Ì¡       HEX DEAD20202020 HEXADEC with x
 - NUMERIC -------------------------------------
-s9(6)    CHAR 00123t   HEX 303031323374     Integer
-s9(6)V99 CHAR 0012345v HEX 3030313233343576 Fixed Point
-COMP-1   CHAR mZîX     HEX 6D5A8C58         Floating point positive with e
-COMP-1   CHAR 8¡®░     HEX 38ADA9B0         Floating point negative with E
-H'DEAD'  CHAR 05700500 HEX 3035373030353030 Hexadecimal numeric with H
-h'4a4B4C'CHAR 86894000 HEX 3836383934303030 Hexadecimal numeric with h
+s9(6)    CHAR -001234      HEX 303031323374     Fixed P.Integer
+s9(6)V99 CHAR -001234.56   HEX 3030313233343576 Fixed P.decimal
+COMP-1   CHAR 1.23456E+15  HEX 6D5A8C58 Floating P.positive with e
+COMP-1   CHAR -1.23456E-09 HEX 38ADA9B0 Floating P.negative with E
+H'DEAD'  CHAR 57005        HEX 353730303520 Hexadec num with H
+h'4a4B4C'CHAR 486894       HEX 343836383934 Hexadec num with h
 - BOOLEAN ------- PIC 1(8) ---------------------
-B'0111'  CHAR 00000007 HEX 3030303030303037 Standard with B
-b'0111'  CHAR 00000007 HEX 3030303030303037 Standard with b
-BX'1f1A' CHAR 00007962 HEX 3030303037393632 Hexadecimal with BX
-bx'1F1A' CHAR 00007962 HEX 3030303037393632 Hexadecimal with bx
+B'0111'  CHAR 00000007 HEX 3030303030303037 Std with B
+b'0111'  CHAR 00000007 HEX 3030303030303037 Std with b
+BX'1f1A' CHAR 00007962 HEX 3030303037393632 Hexadec with BX
+bx'1F1A' CHAR 00007962 HEX 3030303037393632 Hexadec with bx
 - NATIONAL ------- PIC N(4) ---------------------
-N'2Xy'   CHAR  2 X y    HEX 0032005800792020 Standard with N
-n'12XY'  CHAR  1 2 X y  HEX 0031003200580079 Standard with n
-NC'12XY' CHAR  1 2 X Y  HEX 0031003200580059 Standard with nC
-NX'0F1a' CHAR ☼→        HEX 0F1A202020202020 Hexadecimal with NX
-nx'0F1a' CHAR ☼→        HEX 0F1A202020202020 Hexadecimal with nx
+N'2Xy'   CHAR  2 X y    HEX 0032005800792020 Std with N
+n'12XY'  CHAR  1 2 X y  HEX 0031003200580079 Std with n
+NC'12XY' CHAR  1 2 X Y  HEX 0031003200580059 Std with NC
+NX'0F1a' CHAR ☼→        HEX 0F1A202020202020 Hexadec with NX
+nx'0F1a' CHAR ☼→        HEX 0F1A202020202020 Hexadec with nx
 
 @end smallexample
 
 
 @comment *********************************************************************
-@comment ** 2.1.19.5 Figurative Constants                                   **
+@comment ** 2.1.19.6 Figurative Constants                                   **
 @comment *********************************************************************
 @newsubsubsection{Figurative Constants}
 Figurative constants are reserved words that may be used as literals anywhere the figurative constants value could be interpreted as an arbitrarily long sequence of the characters in question.  When a specific length is required, such as would be the case with an argument to a subprogram, a figurative constant may not be used.  Thus, the following are valid uses of figurative constants:
@@ -1273,26 +1372,26 @@ CALL "SUBPGM" USING SPACES
 The following are the GnuCOBOL figurative constants and their respective equivalent values.
 
 @table @asis
-@item @code{ZERO}
+@item @code{[ ALL ] ZERO}
 This figurative constant has a value of numeric 0 (zero).  @code{ZEROS} and @code{ZEROES} are both synonyms of @code{ZERO}.
 
-@item @code{SPACE}
+@item @code{[ ALL ] SPACE}
 This figurative constant has a value of one or more space characters.  @code{SPACES} is a synonym of @code{SPACE}.
 
-@item @code{QUOTE}
+@item @code{[ ALL ] QUOTE}
 This figurative constant has a value of one or more double-quote characters (").  @code{QUOTES} is a synonym of @code{QUOTE}.
 
 Option -fsingle-quote change to single quote (apostrophe) for QUOTE; default is double quote.
 
-@item @code{LOW-VALUE}
+@item @code{[ ALL ] LOW-VALUE}
 This figurative constant has a value of one or more of whatever character occupies the lowest position in the program's collating sequence as defined in the @syntaxref{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set).  @code{LOW-VALUES} is a synonym of @code{LOW-VALUE}.
 
 When the character set in use is ASCII with no collating sequence modifications, the @code{LOW-VALUES} figurative constant value is the ASCII @code{NUL} character.  Because character sets can be redefined, however, you should not rely on this fact. Use the @code{NULL} figurative constant instead.
 
-@item @code{HIGH-VALUE}
+@item @code{[ ALL ] HIGH-VALUE}
 This figurative constant has a value of one or more of whatever character occupies the highest position in the program's collating sequence as defined in the @code{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set).  @code{HIGH-VALUES} is a synonym of @code{HIGH-VALUE}.
 
-@item @code{NULL}
+@item @code{[ ALL ] NULL}
 A character comprised entirely of zero-bits (regardless of the programs collating sequence). @code{NULLS} is a synonym of @code{NULL}.
 
 @item @code{ALL literal}
@@ -1583,6 +1682,8 @@ c) When the sequence of evaluation is not specified by parentheses, the evaluati
 @comment @page
 @newsubsection{Conditional Expressions}
 Conditional expressions are expressions which identify the circumstances under which a program may take an action or cease taking an action.  As such, conditional expressions produce a value of @code{TRUE} or @code{FALSE}.
+They can be used in the following verbs: @code{IF} , @code{PERFORM} in the @code{UNTIL ...} clause and in the @code{VARYING ... UNTIL ...} clause
+and @code{SEARCH} in the @code{WHEN ...} clause.
 
 There are seven types of conditional expressions, as discussed in the following sections.
 @comment *********************************************************************

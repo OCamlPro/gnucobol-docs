@@ -51,8 +51,7 @@ Options:
   -t <file>              generate and place a program listing into <file>
   --tlines=<lines>       specify lines per page in listing, default = 55
   -P[=<dir or file>]     generate preprocessed program listing (.lst)
-  -X, --Xref             generate cross reference through 'cobxref'
-                         (V. Coen's 'cobxref' must be in path)
+  -X, --Xref             Specify cross reference in listing
   -I <directory>         add <directory> to copy/include search path
   -L <directory>         add <directory> to library search path
   -l <lib>               link the library <lib>
@@ -60,6 +59,7 @@ Options:
   -Q <options>           add <options> to the C link phase
   -D <define>            define <define> for COBOL compilation
   -K <entry>             generate CALL to <entry> as static
+  --coverage             Instrument generated binaries for coverage
   --conf=<file>          user-defined dialect configuration; see -std
   --list-reserved        display reserved words
   --list-intrinsics      display intrinsic functions
@@ -68,6 +68,9 @@ Options:
   --list-system          display system routines
   --save-temps[=<dir>]   save intermediate files
                          * default: current directory
+  -MT <target>           set/add target file used in dependency list
+  -MF <file>             place dependency list into <file>
+
   -ext <extension>       add file extension for resolving COPY
 
 Warning options:
@@ -339,10 +342,9 @@ Compiler dialect configuration options:
   -fpicture-l=<support>  PICTURE string with 'L' character
 	where <support> is one of the following:
 	'ok', 'warning', 'archaic', 'obsolete', 'skip', 'ignore', 'error', 'unconformable'
-
-	-fnot-reserved=<word>     word to be taken out of the reserved words list
+	-fnot-reserved=<word>  word to be taken out of the reserved words list
  -freserved=<word>         word to be added to reserved words list
- -freserved=<word>:<alias>	word to be added to reserved words list as alias
+ -freserved=<word>:<alias> word to be added to reserved words list as alias
  -fnot-register=<word>     special register to disable
- -fregister=<word> or <word>:<definition>  special register to enable
+ -fregister=<word> or <word>:<definition>, where definition uses backslash escape special register to enable
 
