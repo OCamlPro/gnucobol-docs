@@ -991,8 +991,8 @@ Debugging statements may be compiled either by specifying the @switch{-fdebuggin
 @comment ** 2.1.19 Literals                                                 **
 @comment *********************************************************************
 @newsubsection{Literals}
-Literals are constant values that will not change during the execution of a program.  
-There are following types of literals --- Alphanumeric, Numeric, Boolean, National and Figurative.
+Literals are constant values that will not change during the execution of a program.
+There are five types of literals --- Alphanumeric, Numeric, Boolean, National and Figurative.
 
 Note: ACUCOBOL numeric literals: B#.. for binary, O#.. for octal, and X#.. and H#.. for hexadecimal are not yet implemented.
 
@@ -1006,7 +1006,7 @@ Note: ACUCOBOL numeric literals: B#.. for binary, O#.. for octal, and X#.. and H
 Alphanumeric literals may take any of the following forms:
 @itemize @bullet
 @item
-Alphanumeric Standard literals  
+Alphanumeric Standard literals
 
 A sequence of characters enclosed by a pair of single-quote (@samp{'}) or a pair of double-quote (@samp{"})
 @idx{' (Apostrophe)}
@@ -1016,12 +1016,12 @@ A sequence of characters enclosed by a pair of single-quote (@samp{'}) or a pair
 @define{Alphanumeric Hexadecimal Literal}
 @idx{Alphanumeric Literal (Hexadecimal)}
 
-A literal prefixed with letter @samp{X} (Use upper X or lower-case x). 
+A literal prefixed with letter @samp{X} (Use upper X or lower-case x).
 @code{X"@var{ hex character }"}
 
-A hexadecimal alphanumeric literal is a character-string whose value represents a hexadecimal value. 
+A hexadecimal alphanumeric literal is a character-string whose value represents a hexadecimal value.
 A hexadecimal alphanumeric literal represents the literal value as a hexadecimal character.
-Hexadecimal character must consist of characters between 0 and 9 or A to F or a to f. 
+Hexadecimal character must consist of characters between 0 and 9 or A to F or a to f.
 Two consecutive characters represent a single character code or part of a character code from the computer character set.
 
 @item
@@ -1035,16 +1035,16 @@ A literal formed according to the same rules as for a string literal (above), bu
 @item
 Raw C string using @code{L"@var{characters}"}.
 
-This is a GnuCOBOL extension. 
-The RAW C STRING literals are similar but not completely identical to Z-literals: they keep \ and ? - two symbols that can be relevant to output special sequences, 
-including but not limited to "\t" and "\n". If they are seen in any literal, the output during codegen escapes those 
+This is a GnuCOBOL extension.
+The RAW C STRING literals are similar but not completely identical to Z-literals: they keep \ and ? - two symbols that can be relevant to output special sequences,
+including but not limited to "\t" and "\n". If they are seen in any literal, the output during codegen escapes those
 -> VALUE "\t" contains this text, while VALUE L"\t" contains 0x09, a tabulator.
 
 The COBOL programmer writes MOVE "\t" TO VAR" - and expects VAR to contain a character "\" and another "t" to be there.
 But "\" is an escaping character in C, so if cobc would use the C literal "\t" then there would be a single x'09' inside the data.
 To circumvent this, cobc escapes any literals in its intermediate C form to match the COBOL expectation (in this case use a "\\t" C literal).
 
-RAW-C-Strings are passed "nearly unchanged" - they keep their C meaning, so the result would be identical to COBOL's  x'0900'; 
+RAW-C-Strings are passed "nearly unchanged" - they keep their C meaning, so the result would be identical to COBOL's  x'0900';
 nearly because content like MOVE L'"data"' TO VAR is still partially replaced - that's "\"data\"\x00 as a C literal.
 The " are still escaped to not break the intermediate C.
 
@@ -1061,7 +1061,7 @@ CALL STATIC "printf" USING L"%f\n" BY VALUE VAR.
 Note that VAR should(must) be FLOAT-LONG (aka. DOUBLE) as the arguments to "printf" expect double values.
 
 
-An alphanumeric literal is not valid for use in arithmetic expressions unless it is first converted to its numeric computational equivalent; 
+An alphanumeric literal is not valid for use in arithmetic expressions unless it is first converted to its numeric computational equivalent;
 there are three numeric conversion intrinsic functions built into GnuCOBOL that can perform this conversion --- @syntaxref{NUMVAL}, @syntaxref{NUMVAL-C} and @syntaxref{NUMVAL-F}.
 
 @item
@@ -1090,7 +1090,7 @@ If you are using Fixed Format Mode, the alphanumeric literal can be run right up
 
 @enumerate 2
 @item
-Regardless of whether the compiler is operating in Fixed or Free Format Mode, GnuCOBOL allows alphanumeric literals to be broken up into separate fragments.  
+Regardless of whether the compiler is operating in Fixed or Free Format Mode, GnuCOBOL allows alphanumeric literals to be broken up into separate fragments.
 These fragments have their own beginning and ending quote/apostrophe characters and are ``glued together'' at compilation time using @samp{&}
 
 @idx{& (Literal Concatenation)}
@@ -1126,20 +1126,20 @@ Numeric Fixed point literals.
 Numeric Floating-point literals.
 
 A floating-point numeric literal is formed from two fixed-point numeric literals separated by the letter 'E' or 'e' without intervening spaces.
-Values using @samp{E@var{nn}} notation such as @code{9.92E25}, representing @math{9.92 @ x@ 10@sup{25}} (10 raised to the 25th power) or @code{5.7E-14}, representing @math{5.7@ x@ 10@sup{-14}} (10 raised to the -14th power).  
-Both the mantissa (the number before the @samp{E}) and the exponent (the number after the @samp{E}) may be explicitly specified as positive (with a @samp{+}), negative (with a @samp{-}) or unsigned (and therefore implicitly positive).  
+Values using @samp{E@var{nn}} notation such as @code{9.92E25}, representing @math{9.92 @ x@ 10@sup{25}} (10 raised to the 25th power) or @code{5.7E-14}, representing @math{5.7@ x@ 10@sup{-14}} (10 raised to the -14th power).
+Both the mantissa (the number before the @samp{E}) and the exponent (the number after the @samp{E}) may be explicitly specified as positive (with a @samp{+}), negative (with a @samp{-}) or unsigned (and therefore implicitly positive).
 A floating-point literals value must be within the range @math{-1.7@ x@ 10@sup{308}}  to @math{+1.7@ x@ 10@sup{308}} with no more than 15 decimal digits of precision.
 
 @item
 @define{Numeric Hexadecimal Literal}
 @idx{Numeric Literal (Hexadecimal)}
 
-A literal prefixed with letter @samp{H} (Use upper H or lower-case h). 
-@code{H"@var{ hex character }"} 
+A literal prefixed with letter @samp{H} (Use upper H or lower-case h).
+@code{H"@var{ hex character }"}
 
-A hexadecimal numeric literal is a character-string (up to 8 bytes are numeric-binary hexadecimal literals as COMP-5 is stored) whose value represents a hexadecimal value. 
+A hexadecimal numeric literal is a character-string (up to 8 bytes are numeric-binary hexadecimal literals as COMP-5 is stored) whose value represents a hexadecimal value.
 A hexadecimal numeric literal represents the literal value as a hexadecimal character.
-Hexadecimal character must consist of characters between 0 and 9 or A to F or a to f. 
+Hexadecimal character must consist of characters between 0 and 9 or A to F or a to f.
 Two consecutive characters represent a single character code or part of a character code from the computer character set.
 You can assign it to numbers, compare them numeric (which only makes sense with integer, not with decimals) or even calculate with it.
 Example:
@@ -1163,7 +1163,7 @@ compute wTEST-9 = H'01' + H'02'  gives  +000003
 Numeric literals may be split across lines just as alphanumeric literals are, using either of the above techniques and both reserved and user-defined words can be split across lines too (using the first technique).  The continuation of numeric literals and user-defined/reserved words is provided merely to provide compatibility with older COBOL versions and programs, but should not be used with new programs --- it just makes for ugly-looking programs.
 
 @comment *********************************************************************
-@comment ** 2.1.19.3 Boolean (Binary) Literals                                       **
+@comment ** 2.1.19.3 Boolean (Binary) Literals                              **
 @comment *********************************************************************
 @newsubsubsection{Boolean (Binary) Literals}
 A Boolean literal or a Binary Literal is a literal value represented by a Boolean / Binary character, it must consist of characters "0" and "1" only.
@@ -1177,7 +1177,7 @@ Boolean character shall be '0' or '1', from the computer's coded character set.
 @item
 Boolean Literals (Hexadecimal) @code{BX"@var{hex character}"}.
 
-Hexadecimal character shall be a hexadecimal digit between '0' and '9' or 'A' to 'F' (or 'a' to 'f'). 
+Hexadecimal character shall be a hexadecimal digit between '0' and '9' or 'A' to 'F' (or 'a' to 'f').
 Each hexadecimal digit has the following boolean equivalent value: '0' is B”0000”, '1' is B”0001”, '2' is
 B”0010”, '3' is B”0011”, '4' is B”0100”, '5' is B”0101”, '6' is B”0110”, '7' is B”0111”, '8' is B”1000”, '9' is
 B”1001”, 'A' is B”1010”, 'B' is B”1011”, 'C' is B”1100”, 'D' is B”1101”, 'E' is B”1110”, 'F' is B”1111”.
@@ -1187,7 +1187,7 @@ hexadecimal digit by its boolean equivalent value, and replacing the leading BX�
 @end itemize
 
 @comment *********************************************************************
-@comment ** 2.1.19.4 National Literals                                       **
+@comment ** 2.1.19.4 National Literals                                      **
 @comment *********************************************************************
 @newsubsubsection{National Literals}
 A National literal represents a literal value using the national character set.
@@ -1201,7 +1201,7 @@ National (Standard) Literals  @code{N"@var{character}"} or @code{NC"@var{charact
 @item
 National (Hexadecimal) Literals   @code{NX"@var{hex character}"}.
 
-Hexadecimal character shall be a hexadecimal digit between '0' and '9' or 'A' to 'F' (or 'a' to 'f'). 
+Hexadecimal character shall be a hexadecimal digit between '0' and '9' or 'A' to 'F' (or 'a' to 'f').
 @end itemize
 
 @comment *********************************************************************
@@ -1239,7 +1239,7 @@ Hexadecimal character shall be a hexadecimal digit between '0' and '9' or 'A' to
 | Standard with "B"             |  PIC 1(n) | B"0111"      | 0 and 1          |
 | Standard with "b"             |  PIC 1(n) | b"0111"      | 0 and 1          |
 | Hexadecimal with "BX"         |  PIC 1(8) | BX"1f1A"     | 0..9  A..F  a..f |
-| Hexadecimal with "bx"         |  PIC 1(8) | bx"1F1A"     | 0..9  A..F  a..f |  
+| Hexadecimal with "bx"         |  PIC 1(8) | bx"1F1A"     | 0..9  A..F  a..f |
 +-----------------------------------------------------------------------------+
 | NATIONAL LITERALS                                                           |
 +-----------------------------------------------------------------------------+
@@ -1284,34 +1284,58 @@ WORKING-STORAGE SECTION.
 01 wT-N PIC  N(4).      *> NATIONAL
 PROCEDURE DIVISION.
 display "- ALPHANUMERIC -- PIC X(6) -------------------"
-move "12XY"        to wT-X display '"12XY"   CHAR '   wT-X '   HEX ' HEX-OF(wT-X)  ' STD with Quote'
-move '12XY'        to wT-X display '''12XY''   CHAR ' wT-X '   HEX ' HEX-OF(wT-X)  ' STD with Apostrophe'
-move Z'12xy'       to wT-x display 'Z''12xy''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' NULL TERM with "Z" '
-move z"12xy"       to wT-x display 'z"12xy"  CHAR ' wT-x '   HEX '   HEX-OF(wT-X)  ' NULL TERM with "z" '
-move '12xy'& x'00' to wT-x display '00''12xy'' CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' NULL TERM with "& x"00" '
-move L'12xy'       to wT-x display 'L''12xy''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' RAW C STR with L'
-move l'12xy'       to wT-x display 'l''12xy''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' RAW C STR with l'
+move "12XY"        to wT-X
+display '"12XY"   CHAR '   wT-X '   HEX ' HEX-OF(wT-X)  ' STD with Quote'
+move '12XY'        to wT-X
+display '''12XY''   CHAR ' wT-X '   HEX ' HEX-OF(wT-X)  ' STD with Apostrophe'
+move Z'12xy'       to wT-x
+display 'Z''12xy''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' NULL TERM with "Z" '
+move z"12xy"       to wT-x
+display 'z"12xy"  CHAR ' wT-x '   HEX '   HEX-OF(wT-X)  ' NULL TERM with "z" '
+move '12xy'& x'00' to wT-x
+display '00''12xy'' CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' NULL TERM with "& x"00" '
+move L'12xy'       to wT-x
+display 'L''12xy''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' RAW C STR with L'
+move l'12xy'       to wT-x
+display 'l''12xy''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' RAW C STR with l'
 *> 4A4B4C = ASCII JKL, DEAD = number 57005
-move X'4A4b4c'     to wT-x display 'X''4A4b4C''CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' HEXADEC with X' 
-move x'DEAD'       to wT-x display 'x''DEAD''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' HEXADEC with x' 
+move X'4A4b4c'     to wT-x
+display 'X''4A4b4C''CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' HEXADEC with X'
+move x'DEAD'       to wT-x
+display 'x''DEAD''  CHAR ' wT-x '   HEX ' HEX-OF(wT-X)  ' HEXADEC with x'
 display "- NUMERIC -------------------------------------"
-move  -1234        to wT-I display 's9(6)    CHAR '   wT-I '      HEX '  HEX-OF(wT-I)  '     Fixed P.Integer'
-move  -1234.56     to wT-9 display 's9(6)V99 CHAR '   wT-9 '   HEX '     HEX-OF(wT-9)  ' Fixed P.decimal'
-move  +1234.56e+12 to wT-F display 'COMP-1   CHAR '   wT-F '  HEX '      HEX-OF(wT-F)  ' Float.P.positive with e'
-move  -1234.56E-12 to wT-F display 'COMP-1   CHAR '   wT-F ' HEX '       HEX-OF(wT-F)  ' Float.P.negative with E'  
-move H'DEAD'       to wT-X display 'H''DEAD''  CHAR ' wT-X '       HEX ' HEX-OF(wT-X)  ' Hexadec num with H'  
-move h'4a4B4C'     to wT-X display 'h''4a4B4C''CHAR ' wT-X '       HEX ' HEX-OF(wT-X)  ' Hexadec num with h' 
+move  -1234        to wT-I
+display 's9(6)    CHAR '   wT-I '      HEX '  HEX-OF(wT-I)  '     Fixed P.Integer'
+move  -1234.56     to wT-9
+display 's9(6)V99 CHAR '   wT-9 '   HEX '     HEX-OF(wT-9)  ' Fixed P.decimal'
+move  +1234.56e+12 to wT-F
+display 'COMP-1   CHAR '   wT-F '  HEX '      HEX-OF(wT-F)  ' Float.P.positive with e'
+move  -1234.56E-12 to wT-F
+display 'COMP-1   CHAR '   wT-F ' HEX '       HEX-OF(wT-F)  ' Float.P.negative with E'
+move H'DEAD'       to wT-X
+display 'H''DEAD''  CHAR ' wT-X '       HEX ' HEX-OF(wT-X)  ' Hexadec num with H'
+move h'4a4B4C'     to wT-X
+display 'h''4a4B4C''CHAR ' wT-X '       HEX ' HEX-OF(wT-X)  ' Hexadec num with h'
 display "- BOOLEAN ------- PIC 1(8) ---------------------"
-move B'0111'  to wT-1 display 'B''0111''  CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Std with B'  
-move b'0111'  to wT-1 display 'b''0111''  CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Std with b'
-move BX'1f1A' to wT-1 display 'BX''1f1A'' CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Hexadec with BX'  
-move bx'1F1A' to wT-1 display 'bx''1F1A'' CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Hexadec with bx' 
+move B'0111'  to wT-1
+display 'B''0111''  CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Std with B'
+move b'0111'  to wT-1
+display 'b''0111''  CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Std with b'
+move BX'1f1A' to wT-1
+display 'BX''1f1A'' CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Hexadec with BX'
+move bx'1F1A' to wT-1
+display 'bx''1F1A'' CHAR ' wT-1 ' HEX ' HEX-OF(wT-1)  ' Hexadec with bx'
 display "- NATIONAL ------- PIC N(4) ---------------------"
-move N'2Xy'   to wT-N display 'N''2Xy''   CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Std with N'  
-move n'12Xy'  to wT-N display 'n''12XY''  CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Std with n'
-move NC'12XY' to wT-N display 'NC''12XY'' CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Std with NC'
-move NX'0F1a' to wT-N display 'NX''0F1a'' CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Hexadec with NX'  
-move nx'0F1a' to wT-N display 'nx''0F1a'' CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Hexadec with nx'
+move N'2Xy'   to wT-N
+display 'N''2Xy''   CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Std with N'
+move n'12Xy'  to wT-N
+display 'n''12XY''  CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Std with n'
+move NC'12XY' to wT-N
+display 'NC''12XY'' CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Std with NC'
+move NX'0F1a' to wT-N
+display 'NX''0F1a'' CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Hexadec with NX'
+move nx'0F1a' to wT-N
+display 'nx''0F1a'' CHAR ' wT-N '  HEX ' HEX-OF(wT-N)  ' Hexadec with nx'
 accept omitted
 STOP RUN.
 
@@ -1434,7 +1458,7 @@ Semicolon (@samp{;})
 @idx{; (Punctuation)}
 
 The semicolon symbol can be used as a separator in all cases where the comma, or even a space separator can be used.
-A semi colon can also help to overcome the issue when separating Cobol text elements and has the advantage of not being mis-typed as can the period vs comma problem. 
+A semi colon can also help to overcome the issue when separating Cobol text elements and has the advantage of not being mis-typed as can the period vs comma problem.
 As in the above example, CALL "SUBROUTINE" USING 1; 2.  Where the semicolon is used instead of the comma but it must be pointed out that the usage for either should really just be a space, i.e., CALL "SUBROUTINE" USING 1 2.
 
 Reducing the risk of the problem altogether as the semicolon just acts the same way as the space but in this case as a white space.
@@ -1969,7 +1993,7 @@ ELSE
 DISPLAY "Interest Amount = " Interest
 @end example
 
-See the period at the end of the second @syntaxref{MULTIPLY} ?  
+See the period at the end of the second @syntaxref{MULTIPLY} ?
 That is what terminates the scope of the @code{IF}, thus making the @code{DISPLAY} statement's execution completely independent of the @code{TRUE}/@code{FALSE} status of the @code{IF}.
 @comment *********************************************************************
 @comment ** 2.2.8 Use of VERB/END-VERB Constructs                           **
