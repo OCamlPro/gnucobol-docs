@@ -4,10 +4,12 @@
 
  $DEFINE
  $DISPLAY ON|OFF
+ 
  $IF
- $ELIF
  $ELSE
+ $ELIF
  $ELSE-IF
+ 
  $END
  $SET
 
@@ -25,18 +27,34 @@
 
  Additional Micro-Focus directives accepted :
 
- ADDRSV | ADD-RSV literal-1
- ADDSYN | ADD-SYN literal-1 = literal-2
- ASSIGN  "EXTERNAL" | "DYNAMIC"
- BOUND
- CALLFH  literal-1
- COMP1  |  COMP-1  "BINARY" | "FLOAT"
- FOLDCOPYNAME | FOLD-COPY-NAME  AS "UPPER" | "LOWER"
- MAKESYN  |  MAKE-SYN
- NOBOUND  |  NO-BOUND
- NOFOLDCOPYNAME  |  NOFOLD-COPY-NAME  |  NO-FOLD-COPY-NAME
- OVERRIDE  literal-1 = literal-2
- REMOVE  literal-1
- SOURCEFORMAT | SOURCE-FORMAT "FIXED" | "FREE" | "VARIABLE"
- SSRANGE "2"
- NOSSRANGE  |  NO-SSRANGE
++---------------------------------------------------------------------------+
+| Explicit Reserved Word Control                                            |
++---------------------------------------------------------------------------+
+| ADDRSV|ADD-RSV literal-1                              | Add reserved word | 
+| ADDSYN|ADD-SYN literal-1 = literal-2                  | Add synonym       |
+| MAKESYN|MAKE-SYN                                      | Make synonymous   |
+| OVERRIDE  literal-1 = literal-2                       | Change meaning    |
+| REMOVE  literal-1                                     | Make unreserved   |
++---------------------------------------------------------------------------+
+| Choosing Run-time Behavior                                                |
++---------------------------------------------------------------------------+
+| ASSIGN  "EXTERNAL"|"DYNAMIC"                       |                      | 
+| FOLDCOPYNAME|FOLD-COPY-NAME  AS "UPPER"|"LOWER"    | Fold COPY-file names |  
+| NOFOLDCOPYNAME|NOFOLD-COPY-NAME|NO-FOLD-COPY-NAME  |                      |
++---------------------------------------------------------------------------+
+| Behavior Affecting Speed                                                  |
++---------------------------------------------------------------------------+
+| BOUND                                      | Bound checking of subscripts | 
+| NOBOUND|NO-BOUND                           |                              |  
++---------------------------------------------------------------------------+
+| File handling 
++---------------------------------------------------------------------------+
+| CALLFH  literal-1                          | External file handler        |
++---------------------------------------------------------------------------+
+| Others
++---------------------------------------------------------------------------+
+| COMP1|COMP-1 "BINARY"|"FLOAT"                      | Computational subset |
+| SOURCEFORMAT|SOURCE-FORMAT "FIXED"|"FREE"|"VARIABLE"                      |
+| SSRANGE "2"                                        |                      |
+| NOSSRANGE|NO-SSRANGE                               |                      |
++---------------------------------------------------------------------------+

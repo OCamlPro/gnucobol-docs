@@ -533,6 +533,7 @@ This is a video feature that is dependent upon the curses package built into you
 The actual results of extended color codes depends on the terminal's capabilities and the underlying screenio library (and for PDCurses also the setting of COB_LEGACY parameter).
 
 With PDcurses library in a Windows operating system, you can use additional color codes, from 8 to 15, both for Foreground and for Background.
+
 In that case in a GnuCOBOL program you can use a palette with all following color codes (classic color codes from 0 to 7 and extended color codes from 8 to 15):
 
 @verbatim
@@ -546,16 +547,14 @@ In that case in a GnuCOBOL program you can use a palette with all following colo
 78 COB-COLOR-MAGENTA       VALUE  5.
 *> 78 COB-COLOR-YELLOW     VALUE  6.
 78 COB-COLOR-BROWN         VALUE  6. *> Previous value for YELLOW
-78 COB-COLOR-DARK-GREY     VALUE  7.
-
+78 COB-COLOR-LIGHT-GREY    VALUE  7. *> Previous value for WHITE
 *> Extended colors
-78 COB-COLOR-LIGHT-GREY    VALUE  8.
+78 COB-COLOR-DARK-GREY     VALUE  8.
 78 COB-COLOR-LIGHT-BLUE    VALUE  9.
 78 COB-COLOR-LIGHT-GREEN   VALUE 10.
 78 COB-COLOR-LIGHT-CYAN    VALUE 11.
 78 COB-COLOR-LIGHT-RED     VALUE 12.
-78 COB-COLOR-LIGHT-MAGENTA VALUE 13.
-78 COB-COLOR-PINK          VALUE 13. *> same code as LIGHT-MAGENTA
+78 COB-COLOR-PINK          VALUE 13. *> same as LIGHT-MAGENTA
 78 COB-COLOR-YELLOW        VALUE 14.
 78 COB-COLOR-WHITE         VALUE 15.
 @end verbatim
@@ -644,6 +643,8 @@ The rows of each block are numbered with the background color while columns are 
 
 
 The GnuCOBOL Color Palette with extended colors:
+
+
 @center @image{paletteext,5.5in}
 
 @end iftex
@@ -1132,13 +1133,19 @@ Numeric Fixed point literals.
 Numeric Floating-point literals.
 
 A floating-point numeric literal is formed from two fixed-point numeric literals separated by the letter 'E' or 'e' without intervening spaces.
+
 It is expressed in the format " mantissa * ( 10**exponent ) ".
+
 The mantissa part consists of a sign, an integer part, a decimal point and a decimal part.
+
 The exponent part consists of a sign and an exponent.
+
 The number of digits in the integer part and decimal part of the mantissa part must be between 1 and 16.
 The number of digits in the exponent must be 1 or 2.
+
 Values using @samp{E@var{nn}} notation such as @code{9.92E25}, representing @math{9.92 @ x@ 10@sup{25}} (10 raised to the 25th power) or @code{5.7E-14}, representing @math{5.7@ x@ 10@sup{-14}} (10 raised to the -14th power).
 Both the mantissa (the number before the @samp{E}) and the exponent (the number after the @samp{E}) may be explicitly specified as positive (with a @samp{+}), negative (with a @samp{-}) or unsigned (and therefore implicitly positive).
+
 A floating-point literals value must be within the range @math{-1.7@ x@ 10@sup{308}}  to @math{+1.7@ x@ 10@sup{308}} with no more than 15 decimal digits of precision.
 
 @item
@@ -1148,9 +1155,13 @@ Numeric Hexadecimal Literals using @code{H"@var{hex character}"}
 A literal prefixed with letter @samp{H} (upper or lower-case).
 
 A hexadecimal numeric literal is a character-string (up to 8 bytes are numeric-binary hexadecimal literals as COMP-5 is stored) whose value represents a hexadecimal value.
+
 A hexadecimal numeric literal represents the literal value as a hexadecimal character.
+
 Hexadecimal character must consist of characters between 0 and 9 or A to F or a to f.
+
 Two consecutive characters represent a single character code or part of a character code from the computer character set.
+
 You can assign it to numbers, compare them numeric (which only makes sense with integer, not with decimals) or even calculate with it.
 Example:
 @verbatim
@@ -1182,6 +1193,7 @@ A Boolean literal or a Binary Literal is a literal value represented by a Boolea
 
 @item
 Boolean Standard Literals using @code{B"@var{boolean character}"}.
+
 Boolean character shall be '0' or '1', from the computer's coded character set.
 
 @item
