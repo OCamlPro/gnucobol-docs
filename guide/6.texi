@@ -891,8 +891,7 @@ Here is usage examples of the option arithmetic-expression
 @end verbatim
 
 Here is another example of using the option arithmetic-expression.
-@verbatim
-
+@smallexample
         >>SOURCE FREE
 IDENTIFICATION DIVISION.
 PROGRAM-ID. TESTCONST.
@@ -911,12 +910,10 @@ PROCEDURE DIVISION.
   DISPLAY MYDATA
   ACCEPT omitted
   GOBACK.
-
-@end verbatim
+@end smallexample
 
 Here is the listing of a GnuCOBOL program that uses 01-level constants to display the length (in bytes) of the various picture-less usage types.
-@verbatim
-
+@smallexample
        IDENTIFICATION DIVISION.
        PROGRAM-ID. Usage-Lengths.
        DATA DIVISION.
@@ -954,10 +951,10 @@ Here is the listing of a GnuCOBOL program that uses 01-level constants to displa
            DISPLAY "PROGRAM-POINTER:  " Len-PROGRAM-POINTER
            STOP RUN.
 
-@end verbatim
+@end smallexample
 
 The output of this program, on a Windows 7 system with a 32-bit MinGW build of GnuCOBOL is:
-@verbatim
+@smallexample
 
     On this system, with this build of GnuCOBOL, the
     PICTURE-less USAGE's have these lengths (in bytes):
@@ -998,7 +995,7 @@ PROGRAM-POINTER:  8
 
 Spot the differences between 32 and 64 bit.
 
-@end verbatim
+@end smallexample
 @comment *********************************************************************
 @comment ** 6.8.2 66-Level Data Items                                       **
 @comment *********************************************************************
@@ -2660,35 +2657,31 @@ If data-name-1 describes a group item:
 @item
 the subject of the entry is a group whose subordinate elements have the same names, descriptions, and hierarchy as the subordinate elements of data-name-1, the level numbers of items subordinate to that group are adjusted, if necessary, to preserve the hierarchy of data-name-1, level numbers in the resulting hierarchy may exceed 49.
 
-@example
-
+@smallexample
        IDENTIFICATION   DIVISION.
        PROGRAM-ID.      prog.
        DATA             DIVISION.
-
        WORKING-STORAGE  SECTION.
        01 MESSAGE-TEXT-2 EXTERNAL.
-            02 MAIN-FILE-NAME     PIC X(50).
-            02 FILLER REDEFINES MAIN-FILE-NAME.
-                05 FILLER PIC 9999.
-            02 MAIN-FILE-NAME-2.
-                05 FILLER PIC 9999.
-                05 DETAIL-NO PIC 9999.
-           02 FILLER         SAME AS MAIN-FILE-NAME.
+          02 MAIN-FILE-NAME     PIC X(50).
+          02 FILLER REDEFINES MAIN-FILE-NAME.
+             05 FILLER PIC 9999.
+          02 MAIN-FILE-NAME-2.
+             05 FILLER PIC 9999.
+             05 DETAIL-NO PIC 9999.
+          02 FILLER       SAME AS MAIN-FILE-NAME.
        77 OUTPUT-NAME     SAME AS DETAIL-NO GLOBAL.
        01 Z-MESSAGE-T2    SAME AS MAIN-FILE-NAME-2.
        01 Z-MESSAGE-T3.
-             49 MT3                    SAME AS MESSAGE-TEXT-2.
-             49 MT3-REN  REDEFINES MT3 SAME AS MESSAGE-TEXT-2.
-
+           49 MT3                    SAME AS MESSAGE-TEXT-2.
+           49 MT3-REN  REDEFINES MT3 SAME AS MESSAGE-TEXT-2.
        PROCEDURE DIVISION.
            DISPLAY MAIN-FILE-NAME OF MESSAGE-TEXT-2
            DISPLAY DETAIL-NO      OF Z-MESSAGE-T2
            DISPLAY MAIN-FILE-NAME OF MT3
            DISPLAY OUTPUT-NAME
            GOBACK.
-
-@end example
+@end smallexample
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.42 SECURE                                                   **
@@ -2995,8 +2988,7 @@ The TYPE clause shall not be specified in the same data description entry with a
 @item
 Figure 1. Example Showing How TYPEDEF and TYPE Clauses Can Be Used
 
-@example
-
+@smallexample
    IDENTIFICATION   DIVISION.
    PROGRAM-ID.      prog.
    DATA             DIVISION.
@@ -3028,39 +3020,35 @@ Figure 1. Example Showing How TYPEDEF and TYPE Clauses Can Be Used
       DISPLAY OUTPUT-NAME
       GOBACK.
 
-@end example
+@end smallexample
 @item
 Figure 2. Example Showing How TYPEDEF and TYPE Clauses Can Be Used
 
-@example
-
-     DATA DIVISION.
-     FILE SECTION.
-
-     FD PRT-FILE.
-     01 PRT-REC.
-        05 PRT-RECORD                PIC X(132).
-     01 INVE-TYP-T IS TYPEDEF        PIC S9(3) VALUE 0.
-        88 INVE-TYP-BOOK             VALUE 4, 5.
-        88 INVE-TYP-BOOK-001         VALUE 4.
-        88 INVE-TYP-BOOK-002         VALUE 5.
-        88 INVE-TYP-CLOTHES          VALUE 1, 2, 3.
-        88 INVE-TYP-CLOTHES-SWEATERS VALUE 1.
-        88 INVE-TYP-CLOTHES-SOCKS    VALUE 2.
-        88 INVE-TYP-CLOTHES-PANTS    VALUE 3.
-
+@smallexample
+    DATA DIVISION.
+    FILE SECTION.
+    FD PRT-FILE.
+    01 PRT-REC.
+       05 PRT-RECORD                PIC X(132).
+    01 INVE-TYP-T IS TYPEDEF        PIC S9(3) VALUE 0.
+       88 INVE-TYP-BOOK             VALUE 4, 5.
+       88 INVE-TYP-BOOK-001         VALUE 4.
+       88 INVE-TYP-BOOK-002         VALUE 5.
+       88 INVE-TYP-CLOTHES          VALUE 1, 2, 3.
+       88 INVE-TYP-CLOTHES-SWEATERS VALUE 1.
+       88 INVE-TYP-CLOTHES-SOCKS    VALUE 2.
+       88 INVE-TYP-CLOTHES-PANTS    VALUE 3.
     FD DATA-IN.
     01 DATA-IN-REC.
        05 INVE-TYP          TYPE INVE-TYP-T.
        05 FILLER            PIC X(80).
 
     WORKING-STORAGE SECTION.
-    01 ARTI-PRICE-T TYPEDEF PIC S9(4)V9(2) value 0.
-    01 ARTI-COLOR-T TYPEDEF PIC S9(2) VALUE 1.
-       88 ARTI-COLOR-BLUE   VALUE 1.
-       88 ARTI-COLOR-RED    VALUE 2.
-       88 ARTI-COLOR-GREEN  VALUE 3.
-
+    01 ARTI-PRICE-T   TYPEDEF PIC S9(4)V9(2) value 0.
+    01 ARTI-COLOR-T   TYPEDEF PIC S9(2) VALUE 1.
+       88 ARTI-COLOR-BLUE     VALUE 1.
+       88 ARTI-COLOR-RED      VALUE 2.
+       88 ARTI-COLOR-GREEN    VALUE 3.
     01 ARTI-SIZE-T    TYPEDEF PIC S9(2) VALUE 10.
     01 ARTI-COUNTER-T TYPEDEF PIC S9(6) VALUE 0.
     01 ARTI-B-T       TYPEDEF.
@@ -3088,23 +3076,19 @@ Figure 2. Example Showing How TYPEDEF and TYPE Clauses Can Be Used
        05 FILLER       PIC X(20).
        05 BOOK-TITLE   PIC X(40).
        05 FILLER       PIC X(14).
-
-    01 BOOK-001       TYPE BOOK-ARTI.
-    01 BOOK-002       TYPE BOOK-ARTI.
-    01 SWEATERS-COUNT TYPE ARTI-COUNTER-T.
-    01 SOCKS-COUNT    TYPE ARTI-COUNTER-T.
-    01 PANTS-COUNT    TYPE ARTI-COUNTER-T.
-    01 BOOK-001-COUNT TYPE ARTI-COUNTER-T.
-    01 BOOK-002-COUNT TYPE ARTI-COUNTER-T.
-    01 CLOTHES-COUNT  TYPE ARTI-COUNTER-T.
-    01 BOOK-COUNT     TYPE ARTI-COUNTER-T.
-
-@end example
+    01 BOOK-001        TYPE BOOK-ARTI.
+    01 BOOK-002        TYPE BOOK-ARTI.
+    01 SWEATERS-COUNT  TYPE ARTI-COUNTER-T.
+    01 SOCKS-COUNT     TYPE ARTI-COUNTER-T.
+    01 PANTS-COUNT     TYPE ARTI-COUNTER-T.
+    01 BOOK-001-COUNT  TYPE ARTI-COUNTER-T.
+    01 BOOK-002-COUNT  TYPE ARTI-COUNTER-T.
+    01 CLOTHES-COUNT   TYPE ARTI-COUNTER-T.
+    01 BOOK-COUNT      TYPE ARTI-COUNTER-T.
+@end smallexample
 @end enumerate
-This syntax is valid in the following sections:
-@code{REPORT}
+As Format 2. This syntax is valid in the following sections: @code{REPORT}
 
-As Format 2
 @enumerate
 @item
 This clause defines the type of report group that is being defined for a report.
@@ -3211,20 +3195,16 @@ The reserved word @code{IS} is optional and may be omitted.  The presence or abs
 The following tables summarize the USAGE specifications available in GnuCOBOL.
 @comment page
 @smallexample
-
 TABLE 1
 +----------------------+--------------------------------+----------+---------+-------+
 | USAGE                |  RANGE                         | STORAGE  |NEGATIVE | PIC   |
 |                      |  OF VALUES                     | FORMAT   |ALLOWED? | USED? |
 +----------------------+--------------------------------+----------+---------+-------+
-|[DISPLAY]             | Depends on PICTURE. One char.  |Characters|if PIC   | Yes   |
-| ~~~~~~~              | per X,A,9, period, $,Z,0,*, S  |          |contains |       |
-|                      | if SEPARATE CHARACTER specified|          |'S'      |       |
-|                      | +, - or B symbol in PICTURE;   |          |         |       |
-|                      | Add 2 more bytes if DB or CR   |          |         |       |
-|                      | editing symbol is used         |          |         |       |
-|                      | Max picture is 9(38).          |          |         |       |
-|                      | or Picture X(2147483646)       |          |         |       |
+|[ DISPLAY ]           | Max Picture is 9(38)           |Characters|if PIC   | Yes   |
+|  ~~~~~~~             | or Picture X(2147483646)       |          |cont. 'S'|       |
++----------------------+--------------------------------+----------+---------+-------+
+| DISPLAY-1            | While syntactically recognized |Characters|         | Yes   |
+| ~~~~~~~~~            | not yet supported by GnuCOBOL  |(DBCS)    |         | PIC N |
 +----------------------+--------------------------------+----------+---------+-------+
 |COMP                  | Defined by the quantity of     |Compatible|if PIC 9 | Yes   |
 |COMPUTATIONAL         | '9's  and the presence/absence |Binary    |contains |       |
@@ -3235,25 +3215,28 @@ TABLE 1
 |                      | Negative number are represented|          |         |       |
 |                      | as the two's complement of the |          |         |       |
 |                      | positive number with the same  |          |         |       |
-|                      | absolute value.                |          |         |       |
-|                      | Max picture is 9(18)           |          |         |       |
+|                      | absolute value. Max pic 9(18)  |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
 |COMP-1                | Approximately                  | Native   | Yes     | No    |
 |COMPUTATIONAL-1       |   -3.4028235 * 10**38          | IEEE 754 |         |       |
 |FLOAT-SHORT           | to 3.4028235 * 10**38          | Binary32 |         |       |
 |~~~~~~~~~~~           | size = 4 bytes = 32bits:       | Floating |         |       |
-|FLOAT                 |                                | -point   |         |       |
+|FLOAT                 | 1 sign; 8 exponent; 23 fraction| -point   |         |       |
 |~~~~~                 |                                |          |         |       |
-|COMP-9                | 1 sign; 8 exponent; 23 fraction|          |         |       |
+|COMP-9                | 32-bit IEEE Single Precision   |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
 |COMP-2                | Approximately                  | Native   | Yes     | No    |
 |COMPUTATIONAL-2       |   -1.797693134862316 * 10**308 | IEEE 754 |         |       |
 |FLOAT-LONG            | to 1.797693134862316 * 10**308 | Binary64 |         |       |
-|~~~~~~~~~~            |                                | Floating |         |       |
-|DOUBLE                |                                | -point   |         |       |
+|~~~~~~~~~~            | size = 8 bytes = 64 bits:      | Floating |         |       |
+|DOUBLE                | 1 sign; 1 exponent; 62 fraction| -point   |         |       |
 |~~~~~~                |                                |          |         |       |
-|COMP-10               | size = 8 bytes = 64 bits:      |          |         |       |
-|COMP-15               | 1 sign; 1 exponent; 62 fraction|          |         |       |
+|COMP-10, COMP-15      | 64-bit IEEE Double Precision   |          |         |       |
++----------------------+--------------------------------+----------+---------+-------+
+|FLOAT-EXTENDED        | While syntactically recognized | Native   | Yes     | No    |
+|~~~~~~~~~~~~~~        | not yet supported by GnuCOBOL  | IEEE 754 |         |       |
+|                      |                                | Binary128|         |       |
+|                      | 128-bit IEEE Quad Precision    | Fl.point |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
 @end smallexample
 @page
@@ -3416,11 +3399,14 @@ TABLE 3
 |PROCEDURE-POINTER     |                                | Integer  |         |       |
 |~~~~~~~~~~~~~~~~~     |                                |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-|NATIONAL              | While syntactically recognized |    --    |   --    | --    |
-|~~~~~~~~              | it is not supported by GnuCOBOL|          |         |       |
+|FUNCTION-POINTER      | While syntactically recognized |    --    | No      | No    |
+|~~~~~~~~~~~~~~~~      | it is not supported by GnuCOBOL|          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
-|BIT                   | While syntactically recognized |    --    |   --    | --    |
-|~~~                   | it is not supported by GnuCOBOL|          |         |       |
+|NATIONAL              | While syntactically recognized |    --    |   --    | Yes   |
+|~~~~~~~~              | it is not supported by GnuCOBOL|          |         | PIC N |
++----------------------+--------------------------------+----------+---------+-------+
+|BIT                   | While syntactically recognized |    --    |   --    | Yes   |
+|~~~                   | it is not supported by GnuCOBOL|          |         | PIC 1 |
 +----------------------+--------------------------------+----------+---------+-------+
 |type-name-1           | User defined DATA TYPE         |    --    |   --    | --    |
 |                      | see also the TYPEDEF clause    |          |         |       |
@@ -3514,7 +3500,6 @@ It's main purpose is currently supporting migrations from ACUCOBOL-GT, as it is 
 A example of usage follows using gnucobol v3.2 :
 
 @example
-
 ID DIVISION.
 PROGRAM-ID. TESTHANDLE.
 DATA DIVISION.
@@ -3543,8 +3528,7 @@ H1 01000000
 This USAGE clause indicates that the data description of the subject of the entry is specified by a user-defined data type. 
 The user-defined data type is defined using the TYPEDEF clause, which is described in TYPEDEF clause.
 
-@example
-
+@smallexample
 Example 1:
 
 01 struct-1     TYPEDEF.
@@ -3614,8 +3598,7 @@ Example 3:
        COPY SERVERFIELDS.
    01 T-A                      USAGE W102-TYPE.
    01 T-N                      USAGE W102-TYPE.
-
-@end example
+@end smallexample
 
 @end enumerate
 

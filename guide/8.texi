@@ -240,12 +240,12 @@ The GnuCOBOL intrinsic functions can be grouped into following categories:
 | SIGN(number)               | Returns -1 if number <0, 0 if number =0, 1 if number >0|
 | SQRT(argument-1)           | Returns the square root of argument-1                  |
 | SUM(number-1[,number-2]...)| Returns the sum of number-n arguments                  |
-| ACOS(argument-1)           | Returns the arccosine of argument-1 (cosine value)     |
-| ASIN(argument-1)           | Returns the arcsine of argument-1 (sine value)         |
-| ATAN(argument-1)           | Returns the arctangent of argument-1 (tangent value)   |
-| COS(argument-1)            | Returns the cosine of argument-1 (in radians)          |
 | SIN(argument-1)            | Returns the sine of argument-1 (in radians)            |
+| COS(argument-1)            | Returns the cosine of argument-1 (in radians)          |
 | TAN(argument-1)            | Returns the tangent of argument-1 (in radians)         |
+| ASIN(argument-1)           | Returns the arcsine (in radians) of argument-1         |
+| ACOS(argument-1)           | Returns the arccosine (in radians) of argument-1       |
+| ATAN(argument-1)           | Returns the arctangent (in radians) of argument-1      |
 +-------------------------------------------------------------------------------------+
 | STATISTICAL FUNCTIONS                                                               |
 +-------------------------------------------------------------------------------------+
@@ -264,16 +264,16 @@ The GnuCOBOL intrinsic functions can be grouped into following categories:
 +-------------------------------------------------------------------------------------+
 | COMBINED-DATETIME(days,seconds) Returns 7 dig.as value of days, 5 digits as seconds |
 | CURRENT-DATE               | Returns the current date and time                      |
+| INTEGER-OF-DATE(date)      | Convert from YYYYMMDD to the num.of days since 16001231|
 | DATE-OF-INTEGER(argument-1)| Returns a numeric calendar date in YYYYMMDD format     |
-| DATE-TO-YYYYMMDD(...)      | Convert 6-digit date yymmdd to an 8-digit date yyymmdd |
+| INTEGER-OF-DAY(date)       | Convert from YYYYDDD  to the num.of days since 16001231|
 | DAY-OF-INTEGER(argument-1) | Returns a calendar date in YYYYDDD format              |
+| DATE-TO-YYYYMMDD(...)      | Convert 6-digit date yymmdd to an 8-digit date yyymmdd |
 | DAY-TO-YYYYDDD(...)        | Convert 5-digit date yyddd  to a  7-digit date yyyyddd |
 | FORMATTED-CURRENT-DATE(arg-1)Returns current date/time from the system at runtime   |
 | FORMATTED-DATE(arg-1,arg-2)| Convert an integer date form to a date in the req.fmt  |
 | FORMATTED-DATETIME(arg-n..)| Uses a timedate form to convert in integer and num.time|
 | FORMATTED-TIME (arg-n,...) | Converts seconds past midnight with optional offset    |
-| INTEGER-OF-DATE(date)      | Convert from YYYYMMDD to the num.of days since 16001231|
-| INTEGER-OF-DAY(date)       | Convert from YYYYDDD  to the num.of days since 16001231|
 | INTEGER-OF-FORMATTED-DATE(args..)Converts a date to integer date form               |
 | SECONDS-FROM-FORMATTED-TIME( Format,time) decodes the string,ret.the number of secs |
 | SECONDS-PAST-MIDNIGHT      | Returns curr.time of day as num.seconds since midnight |
@@ -489,7 +489,7 @@ The supported intrinsic functions are listed in the following sections, along wi
 @page
 @newsubsection{ABS}
 @diagram{ABS Function,FN-ABS,FN-ABS,None}
-This function determines and returns the absolute value of @var{number} (a numeric literal or data item) supplied as an argument.
+This function determines and returns the absolute value of @var{argument-1} (a numeric literal or a numeric data item).
 
 Note that @code{ABSOLUTE-VALUE} has an alias for this function.
 @comment *********************************************************************
@@ -498,13 +498,16 @@ Note that @code{ABSOLUTE-VALUE} has an alias for this function.
 @page
 @newsubsection{ACOS}
 @diagram{ACOS Function,FN-ACOS,FN-ACOS,None}
-The @code{ACOS} function determines and returns the trigonometric arc-cosine, or inverse cosine, of @var{cosine} value (a numeric literal or data item) supplied as an argument.
+The @code{ACOS} function determines and returns a numeric value of an angle in radians that approximates the trigonometric arc-cosine, 
+or inverse cosine, of @var{argument-1} (a numeric literal or a numeric data item from -1 to +1).
 
-The result will be an angle, expressed in radians.  You may convert this to an angle measured in degrees, as follows:
+The returned value is an angle, expressed in radians, greater than or equal to zero and less than or equal to "PI" (from 0 to 180 degrees).
 
+You can convert radians to degrees as follows:
 @example
-COMPUTE @var{degrees} = ( @var{radians} * 180 ) / FUNCTION PI
+COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
 @end example
+
 @comment *********************************************************************
 @comment ** 8.1.3 ANNUITY                                                   **
 @comment *********************************************************************
@@ -576,26 +579,32 @@ When the value of Interest-Rate is not zero, the value of the function is the ap
 @page
 @newsubsection{ASIN}
 @diagram{ASIN Function,FN-ASIN,FN-ASIN,None}
-The @code{ASIN} function determines and returns the trigonometric arc-sine, or inverse sine, of @var{sine} value (a numeric literal or data item) supplied as an argument.
+The @code{ASIN} function determines and returns a numeric value of an angle in radians that approximates the trigonometric arc-sine, 
+or inverse sine, of @var{argument-1} (a numeric literal or a numeric data item from -1 to +1).
 
-The result will be an angle, expressed in radians.  You may convert this to an angle measured in degrees, as follows:
+The returned value is an angle, expressed in radians, greater than or equal to –PI/2 and less than or equal to +PI/2 (from -90 to +90 degrees).
 
+You can convert radians to degrees as follows:
 @example
-COMPUTE @var{degrees} = ( @var{radians} * 180 ) / FUNCTION PI
+COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
 @end example
+
 @comment *********************************************************************
 @comment ** 8.1.5 ATAN                                                      **
 @comment *********************************************************************
 @page
 @newsubsection{ATAN}
 @diagram{ATAN Function,FN-ATAN,FN-ATAN,None}
-Use this function to determine and return the trigonometric arc-tangent, or inverse tangent, of @var{tangent} value (a numeric literal or data item) supplied as an argument.
+The @code{ATAN} function determines and returns a numeric value of an angle in radians that approximates the trigonometric arc-tangent, 
+or inverse tangent, of @var{argument-1} (a numeric literal or a numeric data item from -infinity to +infinity).
 
-The result will be an angle, expressed in radians.  You may convert this to an angle measured in degrees, as follows:
+The returned value is an angle, expressed in radians, greater than (but not equal to) –PI/2 and less than (but not equal to) +PI/2 (from -90 to +90 degrees).
 
+You can convert radians to degrees as follows:
 @example
-COMPUTE @var{degrees} = ( @var{radians} * 180 ) / FUNCTION PI
+COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
 @end example
+
 @comment *********************************************************************
 @comment ** 8.1.6 BIT-OF                                                  **
 @comment *********************************************************************
@@ -831,12 +840,14 @@ Function CONTENT-OF is a GnuCOBOL extention.
 @page
 @newsubsection{COS}
 @diagram{COS Function,FN-COS,FN-COS,None}
-The @code{COS} function determines and returns the trigonometric cosine of @var{angle} (a numeric literal or data item) supplied as an argument.
+The @code{COS} function determines and returns a numeric value that approximates the cosine of an angle, 
+expressed in radians, that is specified by @var{argument-1} (a numeric literal or a numeric data item).
 
-@var{angle} is assumed to be a value expressed in radians.  If you need to determine the cosine of an angle measured in degrees, you first need to convert that angle to radians as follows:
+The returned value is greater than or equal to –1 and less than or equal to +1.
 
+If you need to determine the cosine of an angle measured in degrees, you first need to convert that angle to radians as follows:
 @example
-COMPUTE @var{radians} = ( @var{degrees} * FUNCTION PI) / 180
+COMPUTE @var{radians} = ( @var{degrees} / 180 ) * FUNCTION PI
 @end example
 @comment *********************************************************************
 @comment ** 8.1.15 CURRENCY-SYMBOL                                          **
@@ -2058,13 +2069,16 @@ The @code{SIGN} function returns a -1 if the value of @var{number} (a numeric li
 @page
 @newsubsection{SIN}
 @diagram{SIN Function,FN-SIN,FN-SIN,None}
-This function determines and returns the trigonometric sine of @var{angle} (a numeric literal or numeric data item).
+The @code{SIN} function determines and returns a numeric value that approximates the sine of an angle, 
+expressed in radians, that is specified by @var{argument-1} (a numeric literal or a numeric data item).
 
-The @var{angle} is assumed to be a value expressed in radians.  If you need to determine the sine of an angle measured in degrees, you first need to convert that angle to radians as follows:
+The returned value is greater than or equal to –1 and less than or equal to +1.
 
+If you need to determine the sine of an angle measured in degrees, you first need to convert that angle to radians as follows:
 @example
-COMPUTE @var{radians} = ( @var{degrees} * FUNCTION PI) / 180
+COMPUTE @var{radians} = ( @var{degrees} / 180 ) * FUNCTION PI
 @end example
+
 @comment *********************************************************************
 @comment ** 8.1.85 SQRT                                                    **
 @comment *********************************************************************
@@ -2151,13 +2165,14 @@ The @code{SUM} function returns a value that is the sum of @var{number-n} argume
 @page
 @newsubsection{TAN}
 @diagram{TAN Function,FN-TAN,FN-TAN,None}
-This function determines and returns the trigonometric tangent of @var{angle} (a numeric literal or numeric data item).
+The @code{TAN} function determines and returns a numeric value that approximates the trigonometric tangent of an angle, 
+expressed in radians, that is specified by @var{argument-1} (a numeric literal or a numeric data item).
 
-The @var{angle} is assumed to be a value expressed in radians.  If you need to determine the tangent of an angle measured in degrees, you first need to convert that angle to radians as follows:
-
+If you need to determine the tangent of an angle measured in degrees, you first need to convert that angle to radians as follows:
 @example
-COMPUTE @var{radians} = ( @var{degrees} * FUNCTION PI) / 180
+COMPUTE @var{radians} = ( @var{degrees} / 180 ) * FUNCTION PI
 @end example
+
 @comment *********************************************************************
 @comment ** 8.1.92 TEST-DATE-YYYYMMDD                                       **
 @comment *********************************************************************
