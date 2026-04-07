@@ -499,7 +499,7 @@ Note that @code{ABSOLUTE-VALUE} has an alias for this function.
 @newsubsection{ACOS}
 @diagram{ACOS Function,FN-ACOS,FN-ACOS,None}
 The @code{ACOS} function determines and returns a numeric value of an angle in radians that approximates the trigonometric arc-cosine, 
-or inverse cosine, of @var{argument-1} (a numeric literal or a numeric data item from -1 to +1).
+or inverse cosine, of @var{argument-1} (a numeric literal, a numeric data item or an arithmetic expression with value from -1 to +1).
 
 The returned value is an angle, expressed in radians, greater than or equal to zero and less than or equal to "PI" (from 0 to 180 degrees).
 
@@ -507,6 +507,34 @@ You can convert radians to degrees as follows:
 @example
 COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
 @end example
+
+@smallexample
+       >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTACOS. *> SAMPLE PROGRAM
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 wDegrees PIC s999v999999999999999999999999999999.
+PROCEDURE DIVISION.
+display 'a.ACOS   0: ' FUNCTION ACOS(0)  
+compute wDegrees = (FUNCTION ACOS(0) / FUNCTION PI) * 180
+display '  Degrees : ' wDegrees
+display 'b.ACOS  +1: ' FUNCTION ACOS(+1)  
+compute wDegrees = (FUNCTION ACOS(+1) / FUNCTION PI) * 180
+display '  Degrees : ' wDegrees
+display 'c.ACOS  -1: ' FUNCTION ACOS(-1)  
+compute wDegrees = (FUNCTION ACOS(-1) / FUNCTION PI) * 180
+display '  Degrees : ' wDegrees
+ACCEPT OMITTED STOP RUN.
+
+Output:
+a.ACOS   0: 1.57079632679489661923132169163975144209858469968755291048747229615390820314310449931401741267106
+  Degrees : +090.000000000000000000000000000000
+b.ACOS  +1: 000000000
+  Degrees : +000.000000000000000000000000000000
+c.ACOS  -1: 3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534212
+  Degrees : +180.000000000000000000000000000000
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 8.1.3 ANNUITY                                                   **
@@ -580,14 +608,42 @@ When the value of Interest-Rate is not zero, the value of the function is the ap
 @newsubsection{ASIN}
 @diagram{ASIN Function,FN-ASIN,FN-ASIN,None}
 The @code{ASIN} function determines and returns a numeric value of an angle in radians that approximates the trigonometric arc-sine, 
-or inverse sine, of @var{argument-1} (a numeric literal or a numeric data item from -1 to +1).
+or inverse sine, of @var{argument-1} (a numeric literal, a numeric data item or an arithmetic expression with value from -1 to +1).
 
-The returned value is an angle, expressed in radians, greater than or equal to –PI/2 and less than or equal to +PI/2 (from -90 to +90 degrees).
+The returned value is an angle, expressed in radians, greater than or equal to – PI/2 and less than or equal to + PI/2 (from -90 to +90 degrees).
 
 You can convert radians to degrees as follows:
 @example
 COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
 @end example
+
+@smallexample
+       >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTASIN. *> SAMPLE PROGRAM
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 wDegrees PIC s999v999999999999999999999999999999.
+PROCEDURE DIVISION.
+display 'a.ASIN   0: ' FUNCTION ASIN(0)  
+compute wDegrees = (FUNCTION ASIN(0) / FUNCTION PI) * 180
+display '  Degrees : ' wDegrees
+display 'b.ASIN  +1: ' FUNCTION ASIN(+1)  
+compute wDegrees = (FUNCTION ASIN(+1) / FUNCTION PI) * 180
+display '  Degrees : ' wDegrees
+display 'c.ASIN  -1: ' FUNCTION ASIN(-1)  
+compute wDegrees = (FUNCTION ASIN(-1) / FUNCTION PI) * 180
+display '  Degrees : ' wDegrees
+ACCEPT OMITTED STOP RUN.
+
+Output:
+a.ASIN   0: 000000000
+  Degrees : +000.000000000000000000000000000000
+b.ASIN  +1: 1.57079632679489661923132169163975144209858469968755291048747229615390820314310449931401741267106
+  Degrees : +090.000000000000000000000000000000
+c.ASIN  -1: -1.57079632679489661923132169163975144209858469968755291048747229615390820314310449931401741267106
+  Degrees : -090.000000000000000000000000000000
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 8.1.5 ATAN                                                      **
@@ -596,14 +652,42 @@ COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
 @newsubsection{ATAN}
 @diagram{ATAN Function,FN-ATAN,FN-ATAN,None}
 The @code{ATAN} function determines and returns a numeric value of an angle in radians that approximates the trigonometric arc-tangent, 
-or inverse tangent, of @var{argument-1} (a numeric literal or a numeric data item from -infinity to +infinity).
+or inverse tangent, of @var{argument-1} (a numeric literal, a numeric data item or an arithmetic expression with value from -infinity to +infinity).
 
-The returned value is an angle, expressed in radians, greater than (but not equal to) –PI/2 and less than (but not equal to) +PI/2 (from -90 to +90 degrees).
+The returned value is an angle, expressed in radians, greater than (but not equal to) – PI/2 and less than (but not equal to) + PI/2 (from -90 to +90 degrees).
 
 You can convert radians to degrees as follows:
 @example
 COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
 @end example
+
+@smallexample
+       >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTATAN. *> SAMPLE PROGRAM
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 wDegrees PIC s999v999999999999999999999999999999.
+PROCEDURE DIVISION.
+display 'a.ATAN   0: ' FUNCTION ATAN(0)  
+compute wDegrees = (FUNCTION ATAN(0) / FUNCTION PI) * 180
+display '  Degrees : ' wDegrees
+display 'b.ATAN  +1: ' FUNCTION ATAN(+1)  
+compute wDegrees = (FUNCTION ATAN(+1) / FUNCTION PI) * 180
+display '  Degrees : ' wDegrees
+display 'c.ATAN  -1: ' FUNCTION ATAN(-1)  
+compute wDegrees = (FUNCTION ATAN(-1) / FUNCTION PI) * 180
+display '  Degrees : ' wDegrees
+ACCEPT OMITTED STOP RUN.
+
+Output:
+a.ATAN   0: 000000000
+  Degrees : +000.000000000000000000000000000000
+b.ATAN  +1: 0.785398163397448309615660845819875721049292349843776455243736148076954101571552249657008706335529
+  Degrees : +044.999999999999999999999999999999
+c.ATAN  -1: -0.785398163397448309615660845819875721049292349843776455243736148076954101571552249657008706335529
+  Degrees : -044.999999999999999999999999999999
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 8.1.6 BIT-OF                                                  **
@@ -719,7 +803,6 @@ Produces:
     2
     3
     a
-
 @end example
 
 @comment *********************************************************************
@@ -841,14 +924,54 @@ Function CONTENT-OF is a GnuCOBOL extention.
 @newsubsection{COS}
 @diagram{COS Function,FN-COS,FN-COS,None}
 The @code{COS} function determines and returns a numeric value that approximates the cosine of an angle, 
-expressed in radians, that is specified by @var{argument-1} (a numeric literal or a numeric data item).
+expressed in radians, that is specified by @var{argument-1} (a numeric literal, a numeric data item or an arithmetic expression).
 
-The returned value is greater than or equal to –1 and less than or equal to +1.
+The returned value is:
+@example
+-1 <= "returned-value" <= +1 
+@end example
 
 If you need to determine the cosine of an angle measured in degrees, you first need to convert that angle to radians as follows:
 @example
 COMPUTE @var{radians} = ( @var{degrees} / 180 ) * FUNCTION PI
 @end example
+For example, the angles 0, 90, 180, and 360 degrees correspond to 0, PI/2, PI, and 2PI radians, respectively.
+@smallexample
+       >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTCOS. *> SAMPLE PROGRAM
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 wRESULT  PIC s99v9999999999999999999999999999999.
+01 wRadians PIC s999v999999999999999999999999999999.
+PROCEDURE DIVISION.
+compute wRadians rounded = (  0 / 180  * FUNCTION PI)
+move FUNCTION COS(wRadians) to wRESULT
+DISPLAY 'a. COS   0: ' wRESULT
+display 'b. COS   0: ' FUNCTION COS(wRadians)  
+display 'c. COS   0: ' FUNCTION COS (  0 / 180  * FUNCTION PI)  
+compute wRadians rounded = (90 / 180  * FUNCTION PI)
+move FUNCTION COS(wRadians) to wRESULT
+DISPLAY 'a. COS  90: ' wRESULT
+display 'b. COS  90: ' FUNCTION COS(wRadians)  
+display 'c. COS  90: ' FUNCTION COS ( 90 / 180  * FUNCTION PI)  
+compute wRadians rounded = (180 / 180  * FUNCTION PI)
+move FUNCTION COS(wRadians) to wRESULT
+DISPLAY 'a. COS 180: ' wRESULT
+display 'b. COS 180: ' FUNCTION COS(wRadians)  
+display 'c. COS 180: ' FUNCTION COS (180 / 180  * FUNCTION PI)   
+ACCEPT OMITTED STOP RUN.
+
+a. COS   0: +01.0000000000000000000000000000000
+b. COS   0: 000000001
+c. COS   0: 000000001
+a. COS  90: -00.0000000000000000000000000000002
+b. COS  90: -.000000000000000000000000000000248557901415300312447089512527703846091796856895500685982587326382105466833141286072737454653224
+c. COS  90: -.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000146600892595674335884667645307769522470888413732029593575944127485794864903073944722017768852552
+a. COS 180: -00.9999999999999999999999999999999
+b. COS 180: -0.999999999999999999999999999999999999999999999999999999999999876437939288043701869080329790702566
+c. COS 180: -000000001
+@end smallexample
 @comment *********************************************************************
 @comment ** 8.1.15 CURRENCY-SYMBOL                                          **
 @comment *********************************************************************
@@ -1300,7 +1423,6 @@ A particular use of this function could also to find the day of the week for a d
 See the following example.
 
 @example
-
 IDENTIFICATION DIVISION.
 PROGRAM-ID. TESTINTEGEROFDATE.
 DATA DIVISION.
@@ -1320,8 +1442,6 @@ PROCEDURE DIVISION.
   end-evaluate
   display 'Today ' wDATE ' IS ' wDOFW
   STOP RUN.
-
-
 @end example
 
 @comment *********************************************************************
@@ -1873,7 +1993,6 @@ $$ presentvalue = \sum_{i=1}**N
 Example of function in use :
 
 @verbatim
-
          >>SOURCE FREE
 IDENTIFICATION DIVISION.
 PROGRAM-ID. PPresValue.
@@ -1962,7 +2081,6 @@ STOP RUN.
 
 Every time this program is executed, it will produce the same output, because the same sequence of pseudo-random numbers will be generated:
 @verbatim
-
 0.5441364
 0.047651578
 0.77186662
@@ -1990,7 +2108,6 @@ Often you need to generate a random number between two numbers.
 Following example shows how to do it.
 
 @verbatim
-
         >>source free
 IDENTIFICATION DIVISION.
 PROGRAM-ID. RANDOM-IN-RANGE.
@@ -2070,14 +2187,57 @@ The @code{SIGN} function returns a -1 if the value of @var{number} (a numeric li
 @newsubsection{SIN}
 @diagram{SIN Function,FN-SIN,FN-SIN,None}
 The @code{SIN} function determines and returns a numeric value that approximates the sine of an angle, 
-expressed in radians, that is specified by @var{argument-1} (a numeric literal or a numeric data item).
+expressed in radians, that is specified by @var{argument-1} (a numeric literal, a numeric data item or an arithmetic expression).
 
-The returned value is greater than or equal to –1 and less than or equal to +1.
+The returned value is:
+@example
+-1 <= "returned-value" <= +1 
+@end example
 
 If you need to determine the sine of an angle measured in degrees, you first need to convert that angle to radians as follows:
 @example
 COMPUTE @var{radians} = ( @var{degrees} / 180 ) * FUNCTION PI
 @end example
+For example, the angles 0, 90, 180, and 360 degrees correspond to 0, PI/2, PI, and 2PI radians, respectively.
+@smallexample
+       >>SOURCE FREE
+IDENTIFICATION DIVISION. *> SAMPLE PROGRAM
+PROGRAM-ID. TESTSIN.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 wRESULT  PIC s99v9999999999999999999999999999999.
+01 wRadians PIC s999v999999999999999999999999999999.
+PROCEDURE DIVISION.
+compute wRadians rounded = (  0 / 180  * FUNCTION PI)
+move FUNCTION SIN(wRadians) to wRESULT
+DISPLAY 'a. SIN   0: ' wRESULT
+display 'b. SIN   0: ' FUNCTION SIN(wRadians)  
+display 'c. SIN   0: ' FUNCTION SIN (  0 / 180  * FUNCTION PI)  
+compute wRadians rounded = (90 / 180  * FUNCTION PI)
+move FUNCTION SIN(wRadians) to wRESULT
+DISPLAY 'a. SIN  90: ' wRESULT
+display 'b. SIN  90: ' FUNCTION SIN(wRadians)  
+display 'c. SIN  90: ' FUNCTION SIN ( 90 / 180  * FUNCTION PI)  
+compute wRadians rounded = (180 / 180  * FUNCTION PI)
+move FUNCTION SIN(wRadians) to wRESULT
+DISPLAY 'a. SIN 180: ' wRESULT
+display 'b. SIN 180: ' FUNCTION SIN(wRadians)  
+display 'c. SIN 180: ' FUNCTION SIN (180 / 180  * FUNCTION PI)  
+ACCEPT OMITTED STOP RUN.
+
+Output:
+a. SIN   0: +00.0000000000000000000000000000000
+b. SIN   0: 000000000
+c. SIN   0: 000000000
+a. SIN  90: +00.9999999999999999999999999999999
+b. SIN  90: 0.999999999999999999999999999999999999999999999999999999999999969109484822010925467270082447675642
+c. SIN  90: 000000001
+a. SIN 180: -00.0000000000000000000000000000004
+b. SIN 180: -.000000000000000000000000000000497115802830600624894179025055407692183593713791001371965174637408047681109389828428819578507325
+c. SIN 180: -.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000293201785191348671769335290615539044941776827464059187151888254971589729806147889444035537705105
+@end smallexample
+
+
 
 @comment *********************************************************************
 @comment ** 8.1.85 SQRT                                                    **
@@ -2166,12 +2326,51 @@ The @code{SUM} function returns a value that is the sum of @var{number-n} argume
 @newsubsection{TAN}
 @diagram{TAN Function,FN-TAN,FN-TAN,None}
 The @code{TAN} function determines and returns a numeric value that approximates the trigonometric tangent of an angle, 
-expressed in radians, that is specified by @var{argument-1} (a numeric literal or a numeric data item).
+expressed in radians, that is specified by @var{argument-1} (a numeric literal, a numeric data item or an arithmetic expression).
 
 If you need to determine the tangent of an angle measured in degrees, you first need to convert that angle to radians as follows:
 @example
 COMPUTE @var{radians} = ( @var{degrees} / 180 ) * FUNCTION PI
 @end example
+For example, the angles 0, 90, 180, and 360 degrees correspond to 0, PI/2, PI, and 2PI radians, respectively.
+@smallexample
+       >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTTAN. *> SAMPLE PROGRAM
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+*> 01 wRESULT  PIC s999999999999999v999.
+01 wRESULT  COMP-2.
+01 wRadians PIC s999v999999999999999999999999999999.
+PROCEDURE DIVISION.
+compute wRadians rounded = (  0 / 180  * FUNCTION PI)
+move FUNCTION TAN(wRadians) to wRESULT
+DISPLAY 'a. TAN   0: ' wRESULT
+display 'b. TAN   0: ' FUNCTION TAN(wRadians)  
+display 'c. TAN   0: ' FUNCTION TAN (  0 / 180  * FUNCTION PI)  
+compute wRadians rounded = (45 / 180  * FUNCTION PI)
+move FUNCTION TAN(wRadians) to wRESULT
+DISPLAY 'a. TAN  45: ' wRESULT
+display 'b. TAN  45: ' FUNCTION TAN(wRadians)  
+display 'c. TAN  45: ' FUNCTION TAN ( 45 / 180  * FUNCTION PI)  
+compute wRadians rounded = (90 / 180  * FUNCTION PI)
+move FUNCTION TAN(wRadians) to wRESULT
+DISPLAY 'a. TAN  90: ' wRESULT
+display 'b. TAN  90: ' FUNCTION TAN(wRadians)  
+display 'c. TAN  90: ' FUNCTION TAN ( 90 / 180  * FUNCTION PI)  
+ACCEPT OMITTED STOP RUN.
+
+Output:
+a. TAN   0: 0
+b. TAN   0: 000000000
+c. TAN   0: 000000000
+a. TAN  45: 1
+b. TAN  45: 1.00000000000000000000000000000024855790141530031244708951252773473660697484597003341590013965842
+c. TAN  45: 000000001
+a. TAN  90: -4.023207447061442E+30
+b. TAN  90: -4023207447061442195699607700869.1017020635004603780792854954210435558831701825450723174164966234
+c. TAN  90: -0682124086896252906477125843001012900873635340395944960796714825965664542783567559961486449405413
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 8.1.92 TEST-DATE-YYYYMMDD                                       **
