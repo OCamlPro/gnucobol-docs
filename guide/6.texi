@@ -2185,7 +2185,7 @@ The reserved word @code{PICTURE} may be abbreviated as @code{PIC}.  Most program
 A picture clause may only be specified on an elementary item.
 
 @item
-A @var{picture-string} is a sequence of the special symbols @samp{$}, @samp{*}, @samp{+}, @samp{,}, @samp{-}, @samp{.}, @samp{/}, @samp{0} (zero), @samp{1}, @samp{9}, @samp{A}, @samp{B}, @code{CR}, @code{DB}, @samp{N}, @samp{S}, @samp{V}, @samp{P}, @samp{X} and @samp{Z}.
+A @var{picture-string} is a sequence of the special symbols @samp{$}, @samp{*}, @samp{+}, @samp{,}, @samp{-}, @samp{.}, @samp{/}, @samp{0} (zero), @samp{1}, @samp{9}, @samp{A}, @samp{B}, @code{CR}, @code{DB}, @samp{N}, @samp{U}, @samp{S}, @samp{V}, @samp{P}, @samp{X} and @samp{Z}.
 
 @item
 In general, each picture symbol represents either a single character in storage or a single decimal digit.  
@@ -2200,18 +2200,51 @@ This first set of picture symbols defines the basic data type of a data item.  E
 @item @samp{A}
 Defines storage reserved for a single alphabetic character (@samp{A}-@samp{Z}, @samp{a}-@samp{z}).
 
+@item @samp{X}
+Defines storage reserved for a single alphanumeric character (any character).
+
+@item @samp{9}
+Defines storage reserved for a single numeric digit character (@samp{0}-@samp{9}).
+
 @item @samp{N}
 Defines storage reserved for a single character in the computer's
 @define{National Character set}.  
 It is similar to alphanumeric, but using an extended character set, e.g. UTF-8.
 Support for national character sets in GnuCOBOL is currently only partially implemented, and the compile- and run-time effect of using the @samp{N} picture symbol is the same as if @code{X(2)} had been coded, with the additional effect that such a field will qualify as a @code{NATIONAL} or @code{NATIONAL-EDITED} field on an @syntaxref{INITIALIZE} statement.
 
-@item @samp{X}
-Defines storage reserved for a single alphanumeric character (any character).
-
-@item @samp{9}
-Defines storage reserved for a single numeric digit character (@samp{0}-@samp{9}).
+@item @samp{U}
+@code{PIC U} from the upcoming ISO COBOL 2027 standard is used for UTF-8 support, a single U may have more than one byte (for example Umlauts, Emoji, Kanji, ...).
+The two ways to define items: @code{PIC U(n)} = up to N UTF-8 characters (GnuCOBOL always reserves n*4 bytes) or @code{PIC U BYTE-LENGTH m} = exactly m bytes, up to m UTF-8 characters, but may contain less.
+Note that while already usable for different things in GnuCOBOL, the support in the current version is limited/unfinished - the size is handled correctly and the data is handled on the byte-position only. 
+There's no explicit conversion between PIC U / X / N available (U and N are identical for most of ASCII 7 bit values, N is "compatible" in most of that range as well (with an additional low-value before/after the byte).
 @end table
+
+@smallexample
+         >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTPICTUREU.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 wU01   PIC U(06) VALUE ALl '*'.
+01 wU02   PIC U(06) VALUE '12ABC'.
+PROCEDURE DIVISION.
+move '12' to wU01(1:2)
+move '34' to wU01(5:2)
+display '....+....1....+....2....+....3....+....4....+....5....+....6....+....7'
+display wU01
+display function HEX-OF(wU01)
+display wU02
+display function HEX-OF(wU02) 
+accept omitted STOP RUN.
+
+OUTPUT:
+....+....1....+....2....+....3....+....4....+....5....+....6....+....7
+12**34******************
+31322A2A33342A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A
+12ABC
+313241424320202020202020202020202020202020202020
+
+@end smallexample
 
 Typically, only one kind of each of those symbols is used in the same picture clause, but that isn't a requirement.  Data items that, of the three symbols above, use nothing but @samp{A} picture symbols are known as
 @define{Alphabetic Data Items} while those that use @samp{9} picture symbols without any @samp{A} or @samp{X} symbols (or those that have a @code{USAGE} without a @code{PICTURE}) are known as
@@ -2224,7 +2257,7 @@ As far as enforcement goes, however, both alphabetic and numeric picture strings
 
 @item @samp{1}
 Defines storage for a single bit representing a boolean condition with a states of zero or 1, condition of off or on. Warning the level of implementation of this feature is compiler version specific starting with v3.1-RC-1.
-
+See also USAGE BIT in this document.
 @verbatim
 
 Example of usage :
@@ -3224,7 +3257,7 @@ TABLE 1
 |~~~~~~~~~~~           | size = 4 bytes = 32bits:       | Floating |         |       |
 |FLOAT                 | 1 sign; 8 exponent; 23 fraction| -point   |         |       |
 |~~~~~                 |                                |          |         |       |
-|COMP-9                | 32-bit IEEE Single Precision   |          |         |       |
+|COMP-9(GCOS)          | 32-bit IEEE Single Precision   |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
 |COMP-2                | Approximately                  | Native   | Yes     | No    |
 |COMPUTATIONAL-2       |   -1.797693134862316 * 10**308 | IEEE 754 |         |       |
@@ -3232,7 +3265,7 @@ TABLE 1
 |~~~~~~~~~~            | size = 8 bytes = 64 bits:      | Floating |         |       |
 |DOUBLE                | 1 sign; 1 exponent; 62 fraction| -point   |         |       |
 |~~~~~~                |                                |          |         |       |
-|COMP-10, COMP-15      | 64-bit IEEE Double Precision   |          |         |       |
+|COMP-10,COMP-15(GCOS) | 64-bit IEEE Double Precision   |          |         |       |
 +----------------------+--------------------------------+----------+---------+-------+
 |FLOAT-EXTENDED        | While syntactically recognized | Native   | Yes     | No    |
 |~~~~~~~~~~~~~~        | not yet supported by GnuCOBOL  | IEEE 754 |         |       |
@@ -3425,33 +3458,8 @@ TABLE 3
 @end smallexample
 @page
 
-@comment @item
-@comment
-@comment Binary data (integer or floating-point) can be stored in either a @i{Big-Endian} or @i{Little-Endian} form.
-@comment
-@comment Big-endian data allocation calls for the bytes that comprise a binary item to be allocated such that the least-significant byte is the right-most byte.  For example, a four-byte binary item having a value of decimal 20 would be big-endian allocated as 00000014 (shown in hexadecimal notation).
-@comment
-@comment Little-endian data allocation calls for the bytes that comprise a binary item to be allocated such that the least-significant byte is the left-most byte.  For example, a four-byte binary item having a value of decimal 20 would be little-endian allocated as 14000000 (shown in hexadecimal notation).
-@comment
-@comment All CPUs are capable of @i{understanding} big-endian format, which makes it the @i{most compatible} form of binary storage across computer systems.
-@comment
-@comment Some CPUs --- such as the Intel/AMD i386/x64 architecture processors used in most Windows PCs --- prefer to process binary data stored in a little-endian format.  Since that format is more efficient on those systems, it is referred to as the @i{native} binary format.
-@comment
-@comment On a system supporting only one format of binary storage (generally, that would be big-endian), the terms @i{most efficient} and @i{native} format are synonymous.
-@comment
-@comment @item
-@comment COMP Versus COMP-5. 
-@comment 
-@comment For integer fields COMP specifies the storage of half word, full word, or double word (2, 4, and 8 bytes, respectively). 
-@comment However, an additional limitation based on the number of decimal digits in the PICTURE clause applies.
-@comment 
-@comment Example: PIC S9(4) COMP has a signed half-word storage (2 bytes), but it limits the values to the range of -9999 though +9999 due to the four '9' in the PICTURE clause.
-@comment
-@comment To eliminate that limitation, use COMP-5. This usage, though the same as COMP, allows the whole range of values representable by a particular number of storage bytes. 
-@comment Example: PIC S9(4) COMP-5 has a half-word storage and allows the range of values of -32768 though +32767.
-
 @item 
-COMPUTATIONAL ITEMS.
+Computational items.
 
 @enumerate A
 @item
@@ -3459,34 +3467,35 @@ The @code{USAGE DISPLAY} of numeric values store each digit represented by the c
 A @code{PIC 999} field that contains the value 456 is stored in 3 bytes, each one containing one digit.
 Machines can perform the computations significantly faster on base-2 (binary) numbers that base-10 numbers. 
 If a number is stored in binary format, it can be used in computations directly. 
-You can use @code{USAGE COMP} or @code{BINARY} to change the storage format from character/text to binary format.
+You can use @code{USAGE COMPUTATIONAL} or @code{USAGE COMP} or @code{BINARY} to change the storage format from character/text to binary format.
 
 @item
-@code{COMPUTATIONAL} (BINARY) is one of the most powerful and performance-critical data types in COBOL, representing numeric values in the computer's native binary format rather than the traditional decimal representations that COBOL is known for. 
+@code{COMPUTATIONAL} is one of the most powerful and performance-critical data types in COBOL, representing numeric values in the computer's native binary format rather than the traditional decimal representations that COBOL is known for. 
 This data type provides significant advantages in terms of storage efficiency, computational speed, and memory utilization, making it indispensable for high-performance applications, system programming, and scenarios where processing millions of records requires optimal resource usage.
 
-@code{COMP} (Computational) is the only generic binary @code{USAGE} defined by the ISO COBOL standard. 
+@code{COMPUTATIONAL} or @code{COMP} is the only generic binary @code{USAGE} defined by the ISO COBOL standard. 
 But the standard does not mandate how the data should be stored; it leaves it up to the compiler implementer. 
-This created the need to also define other standards: @code{COMP-1}, @code{COMP-2}, @code{COMP-3}, @code{COMP-4}, @code{COMP-5}, @code{COMP-6}.
+This created the need to also define some other @code{USAGE}, example: @code{COMP-1}, @code{COMP-2}, @code{COMP-3}, @code{COMP-4}, @code{COMP-5}, @code{COMP-6}.
 
-By COBOL standard, this form is an implementation depedent form. 
+By COBOL standard, this @code{USAGE COMP} is an implementation depedent form. 
 Usually one of the fastest native forms, but not that safe when transferring data between machines, even those compiled with the same version of GnuCOBOL, as it depends on hardware platform.
 
 @item
 Endianness or Byte Order.
 
-There are two possible orders in which bytes can be stored in memory.
+There are two possible Byte Orders in which bytes can be stored in memory.
 
-Either you store byte containing the MSB (most significant byte) as the leftmost byte (Big Endian) or at the rightmost byte (Little Endian). 
+Either you store byte containing the most significant byte (MSB) as the leftmost byte (named Big Endian) or at the rightmost byte (named Little Endian). 
 
-IBM mainframe processors use Big Endian and intel machines use little endian format to store numbers in memory.
-Big Endian machine store MSB in lower address im memory and little endian machine stores MSB in higher address in memory.
+IBM mainframe processors use Big Endian and Intel machines use Little Endian format to store numbers in memory.
+Big Endian machine store MSB in lower address in memory and Little Endian machine stores MSB in higher address in memory.
 
 Example:
 To store the 4-byte hexadecimal number 0x12345678:
 @verbatim
-Big-Endian:    12 34 56 78 (Stored as written)
-Little-Endian: 78 56 34 12 (Reversed) 
+memory address: 01 02 03 04 
+Big-Endian:     12 34 56 78 (Stored as written)
+Little-Endian:  78 56 34 12 (Reversed) 
 
 @end verbatim
 
@@ -3516,10 +3525,10 @@ Address +3     0x12 (MSB)
 @end verbatim
 It is used by Intel (x86), AMD, and most modern desktops, laptops and embedded MicroController Unit.
 
-BE Vs LE becomes critical for example, in the following cases:
-Networking TCP/IP: the internet uses Big Endian. Without proper byte conversion, data sent from a Little Endian system will be misinterpreted.
-Binary File Sharing: Opening a binary file created on a Big Endian system on a Little Endian machine can corrupt values unless handled correctly.
-Low-Level Programming: In C, assembly, or embedded systems, incorrect assumptions about byte order lead to subtle and dangerous bugs.
+BE vs LE becomes critical for example, in the following cases:
+A) Networking TCP/IP: the internet uses Big Endian. Without proper byte conversion, data sent from a Little Endian system will be misinterpreted;
+B) Binary File Sharing: Opening a binary file created on a Big Endian system on a Little Endian machine can corrupt values unless handled correctly;
+C) Low-Level Programming: In C, assembly, or embedded systems, incorrect assumptions about byte order lead to subtle and dangerous bugs.
 
 Without defined endianness, a computer trying to read data created by another might interpret the bytes in reverse order, 
 leading to completely wrong numerical values or corrupted files. 
@@ -3527,32 +3536,29 @@ This is particularly critical in network communication between different types o
 and the other Big Endian (e.g., network server).
 
 @item
-COMP. 
+@code{USAGE COMP}. 
 
-In the original ANSI COBOL standards, @code{COMP} ( short for @code{COMPUTATIONAL} ) was defined very loosely. 
-It simply meant "a format efficient for calculation." hardware vendors implemented COMP differently to suit their own CPUs.
+In the original ANSI COBOL standards, @code{COMP} (short for @code{COMPUTATIONAL}) was defined very loosely. 
+It simply meant "a format efficient for calculation". Hardware vendors implemented @code{USAGE COMP} differently to suit their own CPUs.
 IBM is Big Endian. By default, GnuCOBOL stores @code{COMP} and @code{BINARY} data in Big Endian order.
 
 @item
-COMP-4. 
+@code{USAGE COMP-4}.  
 
-Was specifically introduced by several vendors (and later adopted by IBM) to explicitly mean Binary (Big Endian).
+Was specifically introduced by several vendors (and later adopted by IBM) to explicitly mean Binary Big Endian storage.
 Other compiler makers (like Micro Focus or Fujitsu) wanted their COBOL to be compatible with IBM's.
 IBM decided that @code{COMP}, @code{COMP-4}, and the keyword @code{BINARY} would all point to the same internal binary representation.
 Because millions of lines of code were already written using @code{COMP} and others using @code{COMP-4}, 
 compiler vendors kept both keywords to ensure that old programs would still compile without errors.
-Today, they are simply synonyms. In a modern compiler, there is zero performance or functional difference between writing @code{COMP} or @code{COMP}
 
-@code{COMP-4} was introduced later as a specific way to define Big Endian Binary storage. 
-@code{COMP-4} values are stored in a machine-independent format. 
-Over time, most compilers (like IBM Enterprise COBOL and Micro Focus) made @code{COMP-4} a synonym for @code{COMP}.
-It is machine-independent, binary number with the storage size dictated by the PICTURE clause (2, 4 or 8 bytes). 
-@code{COMP} and @code{COMP-4} and @code{BINARY} are the same. 
+@code{COMP-4} is machine-independent, binary number with the storage size (2, 4 or 8 bytes) dictated by the number of 9s in the @code{PICTURE} clause . 
+@code{COMP} and @code{COMP-4} and @code{BINARY} are simply synonyms. there is zero performance or functional difference between them.
 
 @item
-COMP-5.
+@code{USAGE COMP-5}. 
 
-It is a Native binary item (Big Endian or Little Endian). To overcome the limitations of @code{COMP}, IBM introduced @code{COMP-5}, which allows binary fields to behave like native binary integers. 
+It is a "Native Binary Item" ( can be Big Endian or Little Endian). 
+To overcome the limitations of @code{COMP}, IBM introduced @code{COMP-5}, which allows binary fields to behave like native binary integers. 
 This means the value range is determined by the binary field size, not the number of '9s' in the picture clause.
 @code{COMP} or @code{COMP-4} truncates based on the decimal value defined in the picture clause, while @code{COMP-5} truncates based on the binary field size.
 
@@ -3561,22 +3567,19 @@ rather than being limited to the value implied by the number of 9s in the @code{
 When you move or store numeric data into a @code{COMP-5} item, truncation occurs at the binary field size rather than at the COBOL @code{PICTURE} size limit. 
 @code{COMP-5} is thus particularly useful for binary data items that originate in non-COBOL programs where the data might not conform to a COBOL @code{PICTURE} clause.
 
-@code{COMP} specifies the storage of half word, full word, or double word (2, 4, and 8 bytes, respectively). 
-Even though @code{PIC S9(4) COMP} has a signed half-word storage, it limits the values to the range of -9999 through +9999 due to the four decimal places in the @code{PICTURE} clause.
-You can use COMP-5 to eliminate the limitation.
+@code{COMP} or @code{COMP-4} or @code{COMP-5} specifies the storage of half word, full word, or double word (2, 4, and 8 bytes, respectively). 
+Even though @code{PIC S9(4) COMP-4} has a signed half-word storage, it limits the values to the range of -9999 through +9999 due to the four decimal places in the @code{PICTURE} clause.
+You can use @code{COMP-5} to eliminate the limitation.
 For example, @code{PIC S9(4) COMP-5}  has a half-word storage and allows the range of values of -32768 through +32767.
 
 @item
-In most modern COBOL environments, especially on IBM Mainframes, @code{COMP} and @code{COMP-4} are technically identical. 
 If you need to write code that will compile on different machines, using @code{COMP-5} (Native Binary) is often preferable
 to take advantage of the specific processor architecture (as Little Endian on Intel or Big endian on Mainframe).
 
 @code{COMP-5} is primarily used to communicate with external programs that expect native data storage. 
 A @code{VALUE} clause for a @code{COMP-5} data item is stored in a machine-independent format and is adjusted when it is loaded into the data item. 
-This ensures that the value is the same from machine to machine.
 
 The format of a @code{COMP-5} data item is identical to a @code{COMP-4} data item, except that the data is stored in a machine-dependent native format. 
-It is stored in an order that iral to the host machine. 
 For example, a @code{PIC S9(4) COMP-5} data item is equivalent to a 16-bit binary word on the host machine, and a @code{PIC S9(4) COMP-5} item is equivalent to a 32-bit word. 
 Data stored in a @code{COMP-5} field may not be transportable to other machines because different machines have different natural byte-orderings. 
 On many machines (Mainframe, 68000, most RISC), @code{COMP-5} is identical to @code{COMP-4}. 
@@ -3599,15 +3602,12 @@ in HEX notation:
 @end verbatim
 
 @item
-Compiler options.
+GnuCOBOL related COMPILER OPTIONS.
+
 @code{COMP-5} always represents Native binary, so BE or LE will be depending upon the platform you use.
 Compiler flag determines whether plain @code{COMP} was @code{COMP-4} or @code{COMP-5} (native).
 The TRUNC(BIN) compiler option causes all binary data items (@code{USAGE BINARY}, @code{COMP}, @code{COMP-4}) to be handled as if they were declared @code{USAGE COMP-5}.
 This kind of compiler option will be available across all ANSI compliant platforms which support COBOL. 
-
-
-@item
-GnuCOBOL related COMPILER OPTIONS
 
 -fbinary-byteorder=<value> binary byte order, may be one of: native, big-endian applies only to BINARY, COMP, and COMP-4 items.
 
@@ -3645,11 +3645,10 @@ binary-size: 1-2-4-8
 A compile time test, using the Compiler Directive Facility is available with a predefined ENDIAN symbol. 
 It will hold BIG or LITTLE at compile time.
 @verbatim
-
 >>IF ENDIAN = "BIG"
    big endian code
 >>END-IF
-
+... 
 >>IF ENDIAN = "LITTLE"
    little endian code
 >>END-IF
@@ -3675,55 +3674,54 @@ DATA  DIVISION. WORKING-STORAGE SECTION.
 01  sCOMP5   PIC s9(8) COMP-5.
 PROCEDURE DIVISION.
 move     h'1234' to  wCOMP wCOMP4 wCOMP5
-display 'wCOMP    ' wCOMP  ' HEX ' hex-of(wCOMP)  ' BIT ' bit-of(wCOMP)  ' LEN ' length(wCOMP)
-display 'wCOMP4   ' wCOMP4 ' HEX ' hex-of(wCOMP4) ' BIT ' bit-of(wCOMP4) ' LEN ' length(wCOMP4)
-display 'wCOMP5 '   wCOMP5 ' HEX ' hex-of(wCOMP5) ' BIT ' bit-of(wCOMP5) ' LEN ' length(wCOMP5)
+display 'wCOMP    ' wCOMP  ' HEX ' hex-of(wCOMP)  ' BIT ' bit-of(wCOMP)  ' L ' length(wCOMP)
+display 'wCOMP4   ' wCOMP4 ' HEX ' hex-of(wCOMP4) ' BIT ' bit-of(wCOMP4) ' L ' length(wCOMP4)
+display 'wCOMP5 '   wCOMP5 ' HEX ' hex-of(wCOMP5) ' BIT ' bit-of(wCOMP5) ' L ' length(wCOMP5)
 display space
 move     +789258 to  sCOMP sCOMP4 sCOMP5
-display 'sCOMP    ' sCOMP  ' HEX ' hex-of(sCOMP)  ' BIT ' bit-of(sCOMP)  ' LEN ' length(sCOMP)
-display 'sCOMP4   ' sCOMP4 ' HEX ' hex-of(sCOMP4) ' BIT ' bit-of(sCOMP4) ' LEN ' length(sCOMP4)
-display 'sCOMP5 '   sCOMP5 ' HEX ' hex-of(sCOMP5) ' BIT ' bit-of(sCOMP5) ' LEN ' length(sCOMP5)
+display 'sCOMP    ' sCOMP  ' HEX ' hex-of(sCOMP)  ' BIT ' bit-of(sCOMP)  ' L ' length(sCOMP)
+display 'sCOMP4   ' sCOMP4 ' HEX ' hex-of(sCOMP4) ' BIT ' bit-of(sCOMP4) ' L ' length(sCOMP4)
+display 'sCOMP5 '   sCOMP5 ' HEX ' hex-of(sCOMP5) ' BIT ' bit-of(sCOMP5) ' L ' length(sCOMP5)
 display space
 move     -789258 to  sCOMP sCOMP4 sCOMP5
-display 'sCOMP    ' sCOMP  ' HEX ' hex-of(sCOMP)  ' BIT ' bit-of(sCOMP)  ' LEN ' length(sCOMP)
-display 'sCOMP4   ' sCOMP4 ' HEX ' hex-of(sCOMP4) ' BIT ' bit-of(sCOMP4) ' LEN ' length(sCOMP4)
-display 'sCOMP5 '   sCOMP5 ' HEX ' hex-of(sCOMP5) ' BIT ' bit-of(sCOMP5) ' LEN ' length(sCOMP5)
+display 'sCOMP    ' sCOMP  ' HEX ' hex-of(sCOMP)  ' BIT ' bit-of(sCOMP)  ' L ' length(sCOMP)
+display 'sCOMP4   ' sCOMP4 ' HEX ' hex-of(sCOMP4) ' BIT ' bit-of(sCOMP4) ' L ' length(sCOMP4)
+display 'sCOMP5 '   sCOMP5 ' HEX ' hex-of(sCOMP5) ' BIT ' bit-of(sCOMP5) ' L ' length(sCOMP5)
 display space
 move     +15 to  sCOMP sCOMP4 sCOMP5
-display 'sCOMP    ' sCOMP  ' HEX ' hex-of(sCOMP)  ' BIT ' bit-of(sCOMP)  ' LEN ' length(sCOMP)
-display 'sCOMP4   ' sCOMP4 ' HEX ' hex-of(sCOMP4) ' BIT ' bit-of(sCOMP4) ' LEN ' length(sCOMP4)
-display 'sCOMP5 '   sCOMP5 ' HEX ' hex-of(sCOMP5) ' BIT ' bit-of(sCOMP5) ' LEN ' length(sCOMP5)
+display 'sCOMP    ' sCOMP  ' HEX ' hex-of(sCOMP)  ' BIT ' bit-of(sCOMP)  ' L ' length(sCOMP)
+display 'sCOMP4   ' sCOMP4 ' HEX ' hex-of(sCOMP4) ' BIT ' bit-of(sCOMP4) ' L ' length(sCOMP4)
+display 'sCOMP5 '   sCOMP5 ' HEX ' hex-of(sCOMP5) ' BIT ' bit-of(sCOMP5) ' L ' length(sCOMP5)
 display space
 move     -15 to  sCOMP sCOMP4 sCOMP5
-display 'sCOMP    ' sCOMP  ' HEX ' hex-of(sCOMP)  ' BIT ' bit-of(sCOMP)  ' LEN ' length(sCOMP)
-display 'sCOMP4   ' sCOMP4 ' HEX ' hex-of(sCOMP4) ' BIT ' bit-of(sCOMP4) ' LEN ' length(sCOMP4)
-display 'sCOMP5 '   sCOMP5 ' HEX ' hex-of(sCOMP5) ' BIT ' bit-of(sCOMP5) ' LEN ' length(sCOMP5)
+display 'sCOMP    ' sCOMP  ' HEX ' hex-of(sCOMP)  ' BIT ' bit-of(sCOMP)  ' L ' length(sCOMP)
+display 'sCOMP4   ' sCOMP4 ' HEX ' hex-of(sCOMP4) ' BIT ' bit-of(sCOMP4) ' L ' length(sCOMP4)
+display 'sCOMP5 '   sCOMP5 ' HEX ' hex-of(sCOMP5) ' BIT ' bit-of(sCOMP5) ' L ' length(sCOMP5)
 accept omitted STOP RUN.
 
 Output:
 
-wCOMP    00004660 HEX 00001234 BIT 00000000000000000001001000110100 LEN 4
-wCOMP4   00004660 HEX 00001234 BIT 00000000000000000001001000110100 LEN 4
-wCOMP5 0000004660 HEX 34120000 BIT 00110100000100100000000000000000 LEN 4
+wCOMP    00004660 HEX 00001234 BIT 00000000000000000001001000110100 L 4
+wCOMP4   00004660 HEX 00001234 BIT 00000000000000000001001000110100 L 4
+wCOMP5 0000004660 HEX 34120000 BIT 00110100000100100000000000000000 L 4
 
-sCOMP    +00789258 HEX 000C0B0A BIT 00000000000011000000101100001010 LEN 4
-sCOMP4   +00789258 HEX 000C0B0A BIT 00000000000011000000101100001010 LEN 4
-sCOMP5 +0000789258 HEX 0A0B0C00 BIT 00001010000010110000110000000000 LEN 4
+sCOMP    +00789258 HEX 000C0B0A BIT 00000000000011000000101100001010 L 4
+sCOMP4   +00789258 HEX 000C0B0A BIT 00000000000011000000101100001010 L 4
+sCOMP5 +0000789258 HEX 0A0B0C00 BIT 00001010000010110000110000000000 L 4
 
-sCOMP    -00789258 HEX FFF3F4F6 BIT 11111111111100111111010011110110 LEN 4
-sCOMP4   -00789258 HEX FFF3F4F6 BIT 11111111111100111111010011110110 LEN 4
-sCOMP5 -0000789258 HEX F6F4F3FF BIT 11110110111101001111001111111111 LEN 4
+sCOMP    -00789258 HEX FFF3F4F6 BIT 11111111111100111111010011110110 L 4
+sCOMP4   -00789258 HEX FFF3F4F6 BIT 11111111111100111111010011110110 L 4
+sCOMP5 -0000789258 HEX F6F4F3FF BIT 11110110111101001111001111111111 L 4
 
-sCOMP    +00000015 HEX 0000000F BIT 00000000000000000000000000001111 LEN 4
-sCOMP4   +00000015 HEX 0000000F BIT 00000000000000000000000000001111 LEN 4
-sCOMP5 +0000000015 HEX 0F000000 BIT 00001111000000000000000000000000 LEN 4
+sCOMP    +00000015 HEX 0000000F BIT 00000000000000000000000000001111 L 4
+sCOMP4   +00000015 HEX 0000000F BIT 00000000000000000000000000001111 L 4
+sCOMP5 +0000000015 HEX 0F000000 BIT 00001111000000000000000000000000 L 4
 
-sCOMP    -00000015 HEX FFFFFFF1 BIT 11111111111111111111111111110001 LEN 4
-sCOMP4   -00000015 HEX FFFFFFF1 BIT 11111111111111111111111111110001 LEN 4
-sCOMP5 -0000000015 HEX F1FFFFFF BIT 11110001111111111111111111111111 LEN 4
+sCOMP    -00000015 HEX FFFFFFF1 BIT 11111111111111111111111111110001 L 4
+sCOMP4   -00000015 HEX FFFFFFF1 BIT 11111111111111111111111111110001 L 4
+sCOMP5 -0000000015 HEX F1FFFFFF BIT 11110001111111111111111111111111 L 4
 
 @end smallexample
-@item
 
 @end enumerate
 
@@ -3820,7 +3818,7 @@ PROCEDURE DIVISION.
     DISPLAY 'H1 ' FUNCTION HEX-OF(H1)
     STOP RUN.
 
-Produces :
+Output:
 +999999999 +000000001 +000000002 -000000123 -000000123
 H1 01000000
 
