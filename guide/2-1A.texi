@@ -285,7 +285,7 @@ COBOL is no exception, although it does include some very powerful string manipu
 @item Concatenate two or more strings
 @itemize @bullet
 @item
-@intrinsicref{CONCATENATE}.
+@intrinsicref{CONCAT}.
 
 @item
 @statementref{STRING}.
@@ -545,7 +545,6 @@ In that case in a GnuCOBOL program you can use a palette with all following colo
 78 COB-COLOR-CYAN          VALUE  3.
 78 COB-COLOR-RED           VALUE  4.
 78 COB-COLOR-MAGENTA       VALUE  5.
-*> 78 COB-COLOR-YELLOW     VALUE  6.
 78 COB-COLOR-BROWN         VALUE  6. *> Previous value for YELLOW
 78 COB-COLOR-LIGHT-GREY    VALUE  7. *> Previous value for WHITE
 *> Extended colors
@@ -1399,7 +1398,6 @@ nx'0F1a' CHAR ☼→        HEX 0F1A202020202020 Hexadec with nx
 @newsubsubsection{Figurative Constants}
 Figurative constants are reserved words that may be used as literals anywhere the figurative constants value could be interpreted as an arbitrarily long sequence of the characters in question.  When a specific length is required, such as would be the case with an argument to a subprogram, a figurative constant may not be used.  Thus, the following are valid uses of figurative constants:
 @example
-
 05 FILLER PIC 9(10) VALUE ZEROS.
    ...
 MOVE SPACES TO Employee-Name
@@ -1408,7 +1406,6 @@ MOVE SPACES TO Employee-Name
 
 But this is not:
 @example
-
 CALL "SUBPGM" USING SPACES
 
 @end example
@@ -1416,37 +1413,32 @@ CALL "SUBPGM" USING SPACES
 The following are the GnuCOBOL figurative constants and their respective equivalent values.
 
 @table @asis
-@item @code{[ ALL ] ZERO}
-This figurative constant has a value of numeric 0 (zero).  @code{ZEROS} and @code{ZEROES} are both synonyms of @code{ZERO}.
+@item @code{[ ALL ] ZERO|ZEROS|ZEROES}
+This figurative constant has a value of numeric 0 (zero).  
 
-@item @code{[ ALL ] SPACE}
-This figurative constant has a value of one or more space characters.  @code{SPACES} is a synonym of @code{SPACE}.
+@item @code{[ ALL ] SPACE|SPACES}
+This figurative constant has a value of one or more space characters.   
 
-@item @code{[ ALL ] QUOTE}
-This figurative constant has a value of one or more double-quote characters (").  @code{QUOTES} is a synonym of @code{QUOTE}.
+@item @code{[ ALL ] QUOTE|QUOTES}
+This figurative constant has a value of one or more double-quote characters (").   
+Option -fsingle-quote change to single quote (apostrophe) for QUOTE.
 
-Option -fsingle-quote change to single quote (apostrophe) for QUOTE; default is double quote.
+@item @code{[ ALL ] LOW-VALUE|LOW-VALUES}
+This figurative constant has a value of one or more of whatever character occupies the lowest position in the program's collating sequence as defined in the @syntaxref{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set). 
+When the character set in use is ASCII with no collating sequence modifications, the @code{LOW-VALUE} figurative constant value is the ASCII @code{NUL} character.  Because character sets can be redefined, however, you should not rely on this fact. Use the @code{NULL} figurative constant instead.
 
-@item @code{[ ALL ] LOW-VALUE}
-This figurative constant has a value of one or more of whatever character occupies the lowest position in the program's collating sequence as defined in the @syntaxref{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set).  @code{LOW-VALUES} is a synonym of @code{LOW-VALUE}.
-
-When the character set in use is ASCII with no collating sequence modifications, the @code{LOW-VALUES} figurative constant value is the ASCII @code{NUL} character.  Because character sets can be redefined, however, you should not rely on this fact. Use the @code{NULL} figurative constant instead.
-
-@item @code{[ ALL ] HIGH-VALUE}
+@item @code{[ ALL ] HIGH-VALUE|HIGH-VALUES}
 This figurative constant has a value of one or more of whatever character occupies the highest position in the program's collating sequence as defined in the @code{OBJECT-COMPUTER} paragraph or --- if no such specification was made --- in whatever default character set the program is using (typically, this is the ASCII character set).  @code{HIGH-VALUES} is a synonym of @code{HIGH-VALUE}.
 
-@item @code{[ ALL ] NULL}
-A character comprised entirely of zero-bits (regardless of the programs collating sequence). @code{NULLS} is a synonym of @code{NULL}.
+@item @code{[ ALL ] NULL|NULLS}
+A character comprised entirely of zero-bits (regardless of the programs collating sequence).  
 
-@item @code{ALL literal}
-Repeats the literal written after ALL.
-A literal written with the ALL literal clause must be: nonnumeric literal, hexadecimal nonnumeric literal, national nonnumeric literal, Boolean literal, or an associated symbolic literal.
-
-A figurative constant cannot be specified in an ALL literal clause.
+@item @code{ALL literal|constant}
+Repeats the value of literal or constant (a 01 level or 78 level) written after ALL.
+A literal or constant written with the ALL literal clause must be: nonnumeric literal, hexadecimal nonnumeric literal, national nonnumeric literal, Boolean literal, or an associated symbolic literal.
 
 @item @code{[ ALL ] symbolic-character}
 Has one of the following values depending on context: a symbolic-character, a repeats a symbolic-character.
-
 Programmers may create their own figurative constants via the @syntaxrefalt{SYMBOLIC CHARACTERS,Symbolic-Characters-Clause} clause of the @syntaxref{SPECIAL-NAMES} paragraph.
 
 @end table
