@@ -10,9 +10,9 @@ There are two types of supported CDF statements in GnuCOBOL --- Text Manipulatio
 
 The CDF text manipulation statements @code{COPY} and @code{REPLACE} are used to introduce new code into programs either with or without changes, or may be used to modify existing statements already in the program.  Text manipulation statements are always terminated with a period.
 
-CDF directives, denoted by the presence of a @code{>>} character sequence as part of the statement name itself, influence the process of program compilation.
+CDF compiler directives, denoted by the presence of a @code{>>} character sequence as part of the statement name itself, influence the process of program compilation.
 
-Compiler directives are @i{never} terminated with a period.
+CDF compiler directives are @i{never} terminated with a period.
 
 The compiler command-line option @option{-D} offers additional control (@pxref{cobc - The GnuCOBOL Compiler}).
 @menu
@@ -34,30 +34,7 @@ The compiler command-line option @option{-D} offers additional control (@pxref{c
 * $ Directives.
 @end menu
 @comment *********************************************************************
-@comment ** 3.1 >>CALL-CONVENTION                                           **
-@comment *********************************************************************
-@page
-@newsection{>>CALL-CONVENTION}
-@diagram{CDF >>CALL-CONVENTION,CDF-CALL,CDF-CALL,None}
-This directive instructs the compiler how to treat references to program names and may be used to determine other details for interacting with a function or program. There are four options with COBOL being the default.
-@table @code
-
-@item COBOL
-The program name is treated as a COBOL word that maps to the externalised name program to be called, cancelled or referenced in the program-address-identifier, applying the same mapping rules as for a program name for which no @code{AS} phrase is specified.
-(The is the default.)
-
-@item EXTERN
-The program name is treated as an external reference.
-
-@item STDCALL
-Allows system standard calling conventions (as opposed to GnuCOBOL calling conventions) to be used when calling a subroutine.  The definition of what constitutes ``system standard'' may vary from operating system to operating system.  Use of this requires special knowledge about the linkage requirements of subroutines you are intending to @code{CALL}.  Subroutines written in GnuCOBOL do not need this option.
-
-@item STATIC
-Causes the linkage to the subroutine to be performed in such a way as to require the subroutine to be statically-linked with the calling program.  Note that this enables static-linking to be used on a subroutine-by-subroutine selective basis. Or in other words - The program name is called as a included element and not dynamically which is the normal default.
-
-@end table
-@comment *********************************************************************
-@comment ** 3.2 COPY                                                        **
+@comment ** 3.1 COPY                                                        **
 @comment *********************************************************************
 @page
 @newsection{COPY}
@@ -123,7 +100,7 @@ Using this, you may replace character sequences that occur at the beginning (see
 @end table
 @end enumerate
 @comment *********************************************************************
-@comment ** 3.3 REPLACE                                                     **
+@comment ** 3.2 REPLACE                                                     **
 @comment *********************************************************************
 @page
 @newsection{REPLACE}
@@ -197,7 +174,71 @@ If Replace Mode is currently active, a @code{REPLACE LAST OFF.} will replace the
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 3.4 >>DEFINE Directive                                          **
+@comment ** 3.3 >>CALL-CONVENTION                                           **
+@comment *********************************************************************
+@page
+@newsection{>>CALL-CONVENTION}
+@diagram{CDF >>CALL-CONVENTION,CDF-CALL,CDF-CALL,None}
+This directive instructs the compiler how to treat references to program names and may be used to determine other details for interacting with a function or program. There are four options with COBOL being the default.
+@table @code
+
+@item COBOL
+The program name is treated as a COBOL word that maps to the externalised name program to be called, cancelled or referenced in the program-address-identifier, applying the same mapping rules as for a program name for which no @code{AS} phrase is specified.
+(The is the default.)
+
+@item EXTERN
+The program name is treated as an external reference.
+
+@item STDCALL
+Allows system standard calling conventions (as opposed to GnuCOBOL calling conventions) to be used when calling a subroutine.  The definition of what constitutes ``system standard'' may vary from operating system to operating system.  Use of this requires special knowledge about the linkage requirements of subroutines you are intending to @code{CALL}.  Subroutines written in GnuCOBOL do not need this option.
+
+@item STATIC
+Causes the linkage to the subroutine to be performed in such a way as to require the subroutine to be statically-linked with the calling program.  Note that this enables static-linking to be used on a subroutine-by-subroutine selective basis. Or in other words - The program name is called as a included element and not dynamically which is the normal default.
+
+@end table
+@comment ********************************************************************
+@comment ** 3.4 >>COBOL-WORDS Directive                                    **
+@comment ********************************************************************
+@page
+@newsection{>>COBOL-WORDS}
+@diagram{CDF >>COBOL-WORDS Directive,CDF-COBOL-WORDS,CDF-COBOL-WORDS,None}
+The directive allows a new word to be recognised by the Cobol compiler and can be used multiple times.
+@enumerate
+@item
+COBOL-WORDS EQUATE keyword WITH alias makes alias a synonym for keyword.
+@item
+COBOL-WORDS UNDEFINE keyword
+keyword is removed from the COBOL grammar (can then be a user-defined word). Use of it in a program as normal keyword will provoke a syntax error from the compiler, which may be used to enforce not using its syntax.
+@item
+COBOL-WORDS SUBSTITUTE keyword BY new-word
+keyword is deleted as a keyword from the grammar, replaced by new-word. keyword may thereafter be used as a user-defined word.
+@item
+COBOL-WORDS RESERVE new-word
+Treat new-word as a COBOL keyword. It cannot be used by the program, either as a keyword or as a user-defined word.
+@end enumerate
+@comment ********************************************************************
+@comment ** 3.5 >>D Directive                                              **
+@comment ********************************************************************
+@page
+@newsection{>>D}
+@diagram{CDF >>D Directive,CDF-DEBUG,CDF-DEBUG,None}
+The directive removes all floating debug lines if debug mode not active. Otherwise will ignore the directive part of the line.
+These debug lines will only be compiled if the  compiler switch -fdebugging-line is used:
+ `cobc yourprogram.cob  -x  -fdebugging-line `
+
+Note that it will also be compiled if WITH DEBUGGING MODE is coded.
+
+These debug lines will be compiled with at least one of the following ways:
+
+if the  compiler switch -fdebugging-line is used as following sample:
+`cobc yourprogram.cob  -x  -fdebugging-line `
+ by adding the WITH DEBUGGING MODE clause to the SOURCE-COMPUTER paragraph.
+if you set the  run-time environment variable   COB_SET_DEBUG.
+
+A handy trick for those that like to write code that be compiled in both FIXED and FREE forms, is to place the directive in column 5, 6 and 7 meaning you write DEBUG line compiler directives with the >>D starting in column 5 (so the D ends up in column 7 useful for FIXED mode):
+
+@comment *********************************************************************
+@comment ** 3.6 >>DEFINE Directive                                          **
 @comment *********************************************************************
 @page
 @newsection{>>DEFINE}
@@ -228,8 +269,15 @@ The @syntaxidx{PARAMETER} option is used to create a variable whose value is tha
 @item
 In the absence of the @syntaxidx{OVERRIDE} option, @var{cdf-variable-1} must not yet have been defined.  When the @code{OVERRIDE} option is specified, @var{cdf-variable-1} will be created with the specified value, if it had not yet been defined.  If it had already been defined, it will be redefined with the new value.
 @end enumerate
+@comment ********************************************************************
+@comment ** 3.7 >>>DISPLAY Directive                                       **
+@comment ********************************************************************
+@page
+@newsection{>>DISPLAY}
+@diagram{CDF >>DISPLAY Directive,CDF-DISPLAY,CDF-DISPLAY,None}
+The directive is a v1.0 extension and will display messages during compilation.
 @comment *********************************************************************
-@comment ** 3.5 >>IF Directive                                              **
+@comment ** 3.8 >>IF Directive                                              **
 @comment *********************************************************************
 @page
 @newsection{>>IF}
@@ -364,9 +412,39 @@ character set:
 >>IF CHARSET = "UNKNOWN" ...
 
 @end verbatim
-
+@comment ********************************************************************
+@comment ** 3.9 >>LEAP-SECONDS Directive                                   **
+@comment ********************************************************************
+@page
+@newsection{>>LEAP-SECONDS}
+@diagram{CDF >>LEAP-SECONDS Directive,CDF-LEAP,CDF-LEAP,CDF-LEAP}
+Allows for more than 60 seconds per minute.
+@comment ********************************************************************
+@comment ** 3.10 >>LISTING Directive                                       **
+@comment ********************************************************************
+@page
+@newsection{>>LISTING}
+@diagram{CDF >>LISTING Directive,CDF-LISTING,CDF-LISTING,None}
+The directive allows the program listing to be de-activated.
+@comment ********************************************************************
+@comment ** 3.11 >>PAGE Directive                                          **
+@comment ********************************************************************
+@page
+@newsection{>>PAGE}
+@diagram{CDF >>PAGE Directive,CDF-PAGE,CDF-PAGE,None}
+The PAGE directive specifies page ejection and provides documentation for the source listing.
+@enumerate
+@item
+Comment-Text may contain any character in the computers standard character coded set except for control characters.
+@item
+Comment-Text is not checked for syntax and only serves as documentation.
+@item
+if a source listing is being produced a PAGE directive shall cause page ejection followed by listing of the PAGE directive.
+@item
+If a listing is not being produced the directive will have no effect.
+@end enumerate
 @comment *********************************************************************
-@comment ** 3.6 >>REF-MOD-ZERO-LENGTH Directive                           **
+@comment ** 3.12 >>REF-MOD-ZERO-LENGTH Directive                            **
 @comment *********************************************************************
 @page
 @newsection{>>REF-MOD-ZERO-LENGTH}
@@ -384,7 +462,7 @@ In most cases programmers intend that reference-modification does not result in 
 @end enumerate
 
 @comment *********************************************************************
-@comment ** 3.7 >>SET Directive                                             **
+@comment ** 3.13 >>SET Directive                                            **
 @comment *********************************************************************
 @page
 @newsection{>>SET}
@@ -462,7 +540,7 @@ That means that moving to another compiler may well involve chages to your sourc
 @end table
 @end enumerate
 @comment *********************************************************************
-@comment ** 3.8 >>SOURCE Directive                                          **
+@comment ** 3.14 >>SOURCE Directive                                         **
 @comment *********************************************************************
 @page
 @newsection{>>SOURCE}
@@ -515,7 +593,7 @@ You may also use the @directive{>>SET} to perform this function.
 If the compiler is already in the specified mode, this statement will have no effect.
 @end enumerate
 @comment *********************************************************************
-@comment ** 3.9 >>TURN Directive                                            **
+@comment ** 3.15 >>TURN Directive                                           **
 @comment *********************************************************************
 @page
 @newsection{>>TURN}
@@ -568,125 +646,68 @@ STOP RUN.
 @end verbatim
 
 @comment ********************************************************************
-@comment ** 3.10 >>D Directive                                              **
+@comment ** 3.16 Other Compiler Directives                                 **
 @comment ********************************************************************
 @page
-@newsection{>>D}
-@diagram{CDF >>D Directive,CDF-DEBUG,CDF-DEBUG,None}
-The directive removes all floating debug lines if debug mode not active. Otherwise will ignore the directive part of the line.
-These debug lines will only be compiled if the  compiler switch -fdebugging-line is used:
- `cobc yourprogram.cob  -x  -fdebugging-line `
+@newsection{Other Compiler Directives}
+There are other COBOL compiler directives (or options) that vary among vendors to accommodate the different architectures (Mainframe, Unix, Windows) and supported dialects.
+To insert directives directly into the source code, each vendor uses a specific "control statement" that must usually appear before the IDENTIFICATION DIVISION.
 
-Note that it will also be compiled if WITH DEBUGGING MODE is coded.
+Here is a summary of the main "control statements" for main vendors.
+In addition to the CDF directives from the COBOL ISO standards, GnuCOBOL supports some of them for compatibility reasons.
+@verbatim
 
-These debug lines will be compiled with at least one of the following ways:
++-------------------------------------------------------------------+
+| COMMAND         VENDOR     EXAMPLE                                |
++-------------------------------------------------------------------+
+| CBL or  PROCESS IBM        CBL OPT(2),SSRANGE,NODYNAM,XREF        |
+|*CBL or *CONTROL IBM                                               |
+|                                                                   |
+| $               MICROFOCUS $SET SOURCEFORMAT"FIXED"               |
+|                                                                   |
+| @OPTIONS        ACUCOBOL                                          |
+| @DIRECTIVES     ACUCOBOL                                          |
+|                                                                   |
+| @OPTIONS        FUJITSU    @OPTIONS FIXED,ALPHAL(WORD),CHECK(ALL) |
+| @DIRECTIVES     FUJITSU                                           |
++-------------------------------------------------------------------+
+@end verbatim
 
-if the  compiler switch -fdebugging-line is used as following sample:
-`cobc yourprogram.cob  -x  -fdebugging-line `
- by adding the WITH DEBUGGING MODE clause to the SOURCE-COMPUTER paragraph.
-if you set the  run-time environment variable   COB_SET_DEBUG.
-
-A handy trick for those that like to write code that be compiled in both FIXED and FREE forms, is to place the directive in column 5, 6 and 7 meaning you write DEBUG line compiler directives with the >>D starting in column 5 (so the D ends up in column 7 useful for FIXED mode):
-
 @comment ********************************************************************
-@comment ** 3.11 >>>DISPLAY Directive                                      **
+@comment ** 3.16.1 *CBL Directive                                          **
 @comment ********************************************************************
-@page
-@newsection{>>DISPLAY}
-@diagram{CDF >>DISPLAY Directive,CDF-DISPLAY,CDF-DISPLAY,None}
-The directive is a v1.0 extension and will display messages during compilation.
-@comment ********************************************************************
-@comment ** 3.12 >>PAGE Directive                                          **
-@comment ********************************************************************
-@page
-@newsection{>>PAGE}
-@diagram{CDF >>PAGE Directive,CDF-PAGE,CDF-PAGE,None}
-The PAGE directive specifies page ejection and provides documentation for the source listing.
-@enumerate
-@item
-Comment-Text may contain any character in the computers standard character coded set except for control characters.
-@item
-Comment-Text is not checked for syntax and only serves as documentation.
-@item
-if a source listing is being produced a PAGE directive shall cause page ejection followed by listing of the PAGE directive.
-@item
-If a listing is not being produced the directive will have no effect.
-@end enumerate
-@comment ********************************************************************
-@comment ** 3.13 >>LISTING Directive                                       **
-@comment ********************************************************************
-@page
-@newsection{>>LISTING}
-@diagram{CDF >>LISTING Directive,CDF-LISTING,CDF-LISTING,None}
-The directive allows the program listing to be de-(activated).
-@comment ********************************************************************
-@comment ** 3.14 >>COBOL-WORDS Directive                                   **
-@comment ********************************************************************
-@page
-@newsection{>>COBOL-WORDS}
-@diagram{CDF >>COBOL-WORDS Directive,CDF-COBOL-WORDS,CDF-COBOL-WORDS,None}
-The directive allows a new word to be recognised by the Cobol compiler and can be used multiple times.
-@enumerate
-@item
-COBOL-WORDS EQUATE keyword WITH alias makes alias a synonym for keyword.
-@item
-COBOL-WORDS UNDEFINE keyword
-keyword is removed from the COBOL grammar (can then be a user-defined word). Use of it in a program as normal keyword will provoke a syntax error from the compiler, which may be used to enforce not using its syntax.
-@item
-COBOL-WORDS SUBSTITUTE keyword BY new-word
-keyword is deleted as a keyword from the grammar, replaced by new-word. keyword may thereafter be used as a user-defined word.
-@item
-COBOL-WORDS RESERVE new-word
-Treat new-word as a COBOL keyword. It cannot be used by the program, either as a keyword or as a user-defined word.
-@end enumerate
-@comment ********************************************************************
-@comment ** 3.15 >>LEAP-SECONDS Directive                                  **
-@comment ********************************************************************
-@page
-@newsection{>>LEAP-SECONDS}
-@diagram{CDF >>LEAP-SECONDS Directive,CDF-LEAP,CDF-LEAP,CDF-LEAP}
-Allows for more than 60 seconds per minute.
-@comment ********************************************************************
-@comment ** 3.16 *CBL Directive                                            **
-@comment ********************************************************************
-@page
-@newsection{*CBL}
+@newsubsection{*CBL Directive}
 @diagram{CDF *CBL Directive,CDF-CBL,CDF-CBL,None}
 The *CBL (or *CONTROL) statement is used to specify compiler options directly within the source code to control compiler listings.
-
-This option is currently not implemented, at least with v3.2.
+The compiler detects and checks the syntax but, this option is currently not implemented, at least with GnuCOBOL v3.2.
 
 It is usually placed before the IDENTIFICATION DIVISION statement.
-
-It allows you to enable/disable options such as SOURCE, LIST or MAP, even at specific points in the program.
-
+It allows you to enable/disable SOURCE, LIST and MAP options, even at specific points in the program.
 It can begin in any column starting with column 8.
-
 The line must contain *CBL (or *CONTROL) followed by options separated by spaces or commas.
 It must be the only statement on the line, and continuation onto subsequent lines is not permitted.
 The statement can end with a period.
+@enumerate
+@item
+@code{SOURCE} - Source Code Listing
 
-
-SOURCE - Source Code Listing
-
-Lists statements that control the listing of the input source text lines.
+Control the listing of the input source text lines.
 If a *CBL NOSOURCE statement is encountered and SOURCE has been requested as a compilation option,
 printing of the source listing is suppressed from this point on.
 
+@item
+@code{LIST} - Object Code Listing
 
-LIST - Object Code Listing
-
-Use the LIST compiler option to produce a listing of the assembler-language expansion of your source code.
-
+LIST compiler option produce a listing of the assembler-language expansion of your source code.
 Default is: NOLIST.
-Any *CCBL (or *CONTROL) LIST or NOLIST statements that you code in the PROCEDURE DIVISION have no effect.
+Any *CBL (or *CONTROL) LIST or NOLIST statements that you code in the PROCEDURE DIVISION have no effect.
 They are treated as comments. The compiler always produces an object code listing.
 The LIST and NOLIST options of the *CONTROL (or *CBL) statement are syntax checked but have no effect on the object code listing.
 
+@item
+@code{MAP} - Storage Map Listing
 
-MAP - Storage Map Listing
-
-Lists statements that control the listing of storage map entries occurring in the DATA DIVISION.
+Control the listing of storage map entries occurring in the DATA DIVISION.
 If a *CBL NOMAP statement is encountered, and MAP has been requested as a compilation option, listing of storage map entries is suppressed from this point on.
 For example, either of the following sets of statements produces a storage map listing in which FIELD-A and FIELD-B will not appear:
 @verbatim
@@ -695,11 +716,13 @@ For example, either of the following sets of statements produces a storage map l
     02  FIELD-B
 *CBL MAP
 @end verbatim
+@end enumerate
+
 @comment ********************************************************************
-@comment ** 3.17 Other Directives                                          **
+@comment ** 3.16.2 $ and @OPTIONS Directive                                **
 @comment ********************************************************************
-@page
-@newsection{Other Directives}
+@newsubsection{$ and OPTIONS Directive}
+
 @diagram{CDF $ Directive,CDF-DOLLAR,CDF-DOLLAR,None}
 Offers support for MF Compiler Directives.
 @iftex
