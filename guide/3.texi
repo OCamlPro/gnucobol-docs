@@ -3,34 +3,61 @@
 @comment *********************************************************************
 @newchapter{CDF - Compiler Directing Facility}
 The Compiler Directing Facility, or CDF, is a means of controlling the compilation of GnuCOBOL programs.  CDF provides a mechanism for dynamically setting or resetting certain compiler switches, introducing new source code from one or more source code libraries, making dynamic source code modifications and conditionally processing or ignoring source statements altogether.  This is accomplished via a series of special CDF statements and directives that will appear in the program source code.
-
 When the compiler is operating in Fixed Format Mode, all CDF statements must begin in column seven (7) or beyond.
-
 There are two types of supported CDF statements in GnuCOBOL --- Text Manipulation Statements and Compiler Directives.
 
 The CDF text manipulation statements @code{COPY} and @code{REPLACE} are used to introduce new code into programs either with or without changes, or may be used to modify existing statements already in the program.  Text manipulation statements are always terminated with a period.
 
 CDF compiler directives, denoted by the presence of a @code{>>} character sequence as part of the statement name itself, influence the process of program compilation.
-
 CDF compiler directives are @i{never} terminated with a period.
-
 The compiler command-line option @option{-D} offers additional control (@pxref{cobc - The GnuCOBOL Compiler}).
+@smallexample
+
++--------------------------------------------------------------------------------------------+
+| Text manipulation statements                                                               |
++--------------------------------------------------------------------------------------------+
+| COPY                  | Import copybooks (source code) into a program                      |
+| REPLACE               | Change all or part of program source code elements                 |
++--------------------------------------------------------------------------------------------+
+| Compiler Directives                                                                        |
++--------------------------------------------------------------------------------------------+
+| >>CALL-CONVENTION     | How to treat references to program names                           |
+|                       | and other details for interacting with a function or program       |
+| >>COBOL-WORDS         | Allows a new word to be recognised by the compiler                 |
+| >>D                   | Mark floating debug lines that will be compiled or not             |
+| >>DEFINE              | Create CDF variable or constant for other CDF statements           |
+| >>DISPLAY             | Display a text message during compilation                          |
+| >>IF                  | Causes the compiler to process or ignore COBOL source statements,  |
+|                       | CDF text manipulation statements or CDF directives based on        |
+|                       | CDF variables                                                      |
+| >>LEAP-SECONDS        | Syntactically recognized but is otherwise non-functional           |
+| >>LISTING             | Allows the program listing to be de-activated                      |
+| >>PAGE                | Cause page ejection and documentation for the source listing       |
+| >>REF-MOD-ZERO-LENGTH | Specifies whether resultant data items may have zero-length or not | 
+| >>SET                 | Provides an alternate means of performing the actions of >>DEFINE  |
+|                       | and >>SOURCE directives, as well as a means of controlling the     |
+|                       | compiler’s -free switch, -fixed switch and -ffold-copy switch      |
+|                       | from within program source code                                    |
+| >>SOURCE              | Puts the compiler into FIXED or FREE source-code format mode       |
+| >>TURN                | The directive will activate or de-activate exception checks        |
++--------------------------------------------------------------------------------------------+
+@end smallexample
 @menu
-* >>CALL-CONVENTION.
 * COPY.
 * REPLACE.
+* >>CALL-CONVENTION.
+* >>COBOL-WORDS.
+* >>D.
 * >>DEFINE.
+* >>DISPLAY.
 * >>IF.
+* >>LEAP-SECONDS.
+* >>LISTING.
+* >>PAGE.
 * >>REF-MOD-ZERO-LENGTH.
 * >>SET.
 * >>SOURCE.
 * >>TURN.
-* >>D.
-* >>DISPLAY.
-* >>PAGE.
-* >>LISTING.
-* >>COBOL-WORDS.
-* >>LEAP-SECONDS.
 * $ Directives.
 @end menu
 @comment *********************************************************************

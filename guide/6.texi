@@ -1317,9 +1317,9 @@ This syntax is valid in the following sections:
 Data items declared with the @code{ANY LENGTH} or @code{ANY NUMERIC} attribute have no fixed compile-time length.  
 Such items may only be defined in the linkage section of a subprogram as they may only serve as subroutine argument descriptions.  
 
-These items must have a @syntaxref{PICTURE} clause that specifies exactly one A, X, U or 1 symbol for @code{ANY LENGTH}.
+For @code{ANY LENGTH} these items must have a @syntaxref{PICTURE} clause that specifies exactly one A, X, U or 1 symbol.
 
-These items must have a @syntaxref{PICTURE} clause that specifies exactly one 9 symbol for @code{ANY NUMERIC}.
+For @code{ANY NUMERIC} these items must have a @syntaxref{PICTURE} clause that specifies exactly one 9 symbol.
 
 @enumerate
 @item
@@ -1404,9 +1404,10 @@ The @code{BASED} clause may only be used on level 01 and level 77 data items.
 @comment *********************************************************************
 @comment ** 6.9.5 BELL                                                      **
 @comment *********************************************************************
+@page
 @newsubsection{BELL}
 @diagram{BELL Attribute,DD-BELL,DD-BELL,None}
-This syntax is valid in the following sect 	ions:
+This syntax is valid in the following sections:
 @code{SCREEN}
 @enumerate
 @item
@@ -1635,7 +1636,7 @@ This syntax is valid in the following sections:
 
 This clause is used to specify either the data item a screen section field is to obtain its value from when the screen is displayed, or a literal that will specify the value of that same field.
 @enumerate
-@item The @code{FROM}, @syntaxref{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
+@item The @code{FROM}, @syntaxref{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses aren't mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.16 FULL                                                     **
@@ -2889,7 +2890,7 @@ This clause logically attaches a screen section data item to another data item d
 The @code{TO} clause is used to define a data-entry field with no initial value; when a value is entered, it will be saved to the specified identifier.
 
 @item
-The @syntaxref{FROM}, @code{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
+The @syntaxref{FROM}, @code{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses aren't mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.42 TYPE                                                     **
@@ -3822,6 +3823,7 @@ This syntax is valid in the following sections:
 @code{SCREEN}
 
 This clause logically attaches a screen section data item to another data item defined elsewhere in the data division.
+It identifies data to be used both as the destination in an ACCEPT screen statement and the source for a DISPLAY screen statement.
 @enumerate
 @item
 When the screen item whose definition this clause is part of is displayed, the value currently in @var{identifier-1} will be automatically moved into the screen item first.
@@ -3830,7 +3832,8 @@ When the screen item whose definition this clause is part of is displayed, the v
 When the screen item whose definition this clause is part of (or its parent) is accepted, the current contents of the screen item will be saved back to @var{identifier-1} at the conclusion of the @code{ACCEPT}.
 
 @item
-The @syntaxref{FROM}, @syntaxref{TO}, @code{USING} and @syntaxref{VALUE} clauses are mutually-exclusive in any screen section data item's definition.
+Specifying the USING clause is equivalent to specifying both the TO and FROM clauses, each specifying the same identifier.
+The @syntaxref{FROM}, @syntaxref{TO}, @code{USING} and @syntaxref{VALUE} clauses aren't mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
 @comment ** 6.9.47 VALUE                                                    **
