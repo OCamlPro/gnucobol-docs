@@ -333,7 +333,7 @@ Declarative procedures may not reference any other procedures defined outside th
 @comment *********************************************************************
 @newsubsection{AT END + NOT AT END}
 @diagram{AT END,PD-AT-END,PD-AT-END,None}
-@code{AT END} clauses may be specified on @syntaxref{READ}, @syntaxref{RETURN}, @syntaxref{SEARCH} and @syntaxref{SEARCH ALL} statements.
+@code{AT END} clauses may be specified on @syntaxref{READ}, @syntaxref{RETURN}, @syntaxref{SEARCH} statements (Serial Search and Binary Search).
 @enumerate
 @item
 The following points pertain to the use of these clauses on @syntaxref{READ} and @syntaxref{RETURN} statements:
@@ -350,7 +350,7 @@ A @code{NOT AT END} clause will cause @var{imperative-statement-2} to be execute
 @end enumerate
 
 @item
-The following points pertain to the use of these clauses on @syntaxref{SEARCH} and @syntaxref{SEARCH ALL} statements:
+The following points pertain to the use of these clauses on @syntaxref{SEARCH} statements (Serial Search and Binary Search):
 @enumerate A
 @item
 An @code{AT END} clause detects and handles the case where either form of table search has failed to locate an entry that satisfies the search conditions being used.
@@ -1020,13 +1020,13 @@ The @var{integer-3} or @var{identifier-4} value, if specified, must be a four- o
 The following @var{Attribute-Specification} clauses are allowed on the @code{ACCEPT} statement; many of those are also allowed for @code{SCREEN SECTION} data items but not all of them.  A particular @var{Attribute-Specification} may be used only once in any @code{ACCEPT}:
 @itemize @bullet
 @item
-@syntaxref{AUTO}, @syntaxref{AUTO-SKIP}, @syntaxref{AUTOTERMINATE}, @code{TAB}
+@syntaxref{AUTO}
 
 @item
 @syntaxref{BACKGROUND-COLOR}
 
 @item
-@syntaxref{BEEP}, @syntaxref{BELL}
+@syntaxref{BELL}
 
 @item
 @syntaxref{BLINK}
@@ -1035,7 +1035,7 @@ The following @var{Attribute-Specification} clauses are allowed on the @code{ACC
 @syntaxref{FOREGROUND-COLOR}
 
 @item
-@syntaxref{FULL}, @syntaxidx{LENGTH-CHECK}
+@syntaxref{FULL}
 
 @item
 @syntaxref{HIGHLIGHT}
@@ -1053,7 +1053,7 @@ The following @var{Attribute-Specification} clauses are allowed on the @code{ACC
 @syntaxref{PROMPT}
 
 @item
-@syntaxref{REQUIRED}, @syntaxref{EMPTY-CHECK}
+@syntaxref{REQUIRED}
 
 @item
 @syntaxref{REVERSE-VIDEO}
@@ -1062,7 +1062,7 @@ The following @var{Attribute-Specification} clauses are allowed on the @code{ACC
 @comment @code{SIZE}
 
 @item
-@syntaxref{SECURE}, @syntaxref{NO-ECHO}
+@syntaxref{SECURE}
 
 @item
 @syntaxref{UNDERLINE}
@@ -2249,7 +2249,7 @@ The following @var{Attribute-Specification} clauses are allowed on the @code{DIS
 @syntaxref{BACKGROUND-COLOR}
 
 @item
-@syntaxref{BEEP}, @syntaxref{BELL}
+@syntaxref{BELL}
 
 @item
 @syntaxref{BLANK}
@@ -5015,7 +5015,7 @@ As an example, use SET ENVIRONMENT 'COB_HIDE_CURSOR' TO 'TRUE' to make the curso
 Environment variables created or changed from within GnuCOBOL programs will be available to any sub-shell processes spawned by that program (i.e. @code{CALL "SYSTEM"}) but will not be known to the shell or console window that started the GnuCOBOL program.
 @end enumerate
 
-This is a much simpler and more readable means of setting environment variables than by using the @statementref{DISPLAY UPON ENVIRONMENT-NAME}.  For example, these two code sequences produce identical results:
+This is a much simpler and more readable means of setting environment variables than by using the @statementref{DISPLAY UPON ENVIRONMENT}.  For example, these two code sequences produce identical results:
 
 @example
 DISPLAY "VARNAME" UPON ENVIRONMENT-NAME
