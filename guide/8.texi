@@ -883,9 +883,10 @@ Given the integer date form value "143951", which represents the date 15 Februar
 @diagram{CONCAT Function,FN-CONCATENATE,FN-CONCATENATE,None}
 This function concatenates the @var{argument-1}, @var{argument-2}, @dots{} (group items, @code{USAGE DISPLAY} elementary items and/or alphanumeric literals) together into a single string result.
 
-If a numeric literal or @code{PIC 9} identifier is specified as an argument, decimal points, if any, will be removed and negative signs in @code{PIC S9} fields or numeric literals will be inserted as defined by the @syntaxref{SIGN IS} clause (or absence thereof) of the field.  Numeric literals are processed as if @code{SIGN IS TRAILING SEPARATE} were in effect.
+If a numeric literal or @code{PIC 9} identifier is specified as an argument, decimal points, if any, will be removed and negative signs in @code{PIC S9} fields or numeric literals will be inserted as defined by the @syntaxref{SIGN} clause (or absence thereof) of the field.  
+Numeric literals are processed as if @code{SIGN IS TRAILING SEPARATE} were in effect.
 
-Note that @code{CONCATENATE} has an alias for this function. CONCATENATE is a GnuCOBOL extension. 
+Note that @code{CONCATENATE} (a GnuCOBOL extension) is an alias for this function.  
 
 @comment *********************************************************************
 @comment ** 8.1.12 CONTENT-LENGTH                                           **
@@ -1144,8 +1145,8 @@ Since this function has no arguments, no parenthesis should be specified.
 
 The documentation of the @subpgmref{CBL_ERROR_PROC} built-in subroutine illustrates the use of this function.
 
-An alternative to the use of EXCEPTION-STATUS intrinsic function is to use the
-PROCEDURE DIVISION statement: ACCEPT identifier-1 FROM EXCEPTION STATUS END-ACCEPT.
+An alternative to the use of @code{EXCEPTION-STATUS} intrinsic function is to use the
+PROCEDURE DIVISION statement: @code{ACCEPT identifier-1 FROM EXCEPTION STATUS END-ACCEPT}.
 
 The following are the error type strings, and their corresponding exception codes and descriptions.
 @anchoridx{Error Exception Codes}@anchoridx{Error Type Strings}
@@ -1444,7 +1445,7 @@ Once in that form, mathematical operations may be performed against the internal
 A particular use of this function could also to find the day of the week for a date.
 See the following example.
 
-@example
+@smallexample
 IDENTIFICATION DIVISION.
 PROGRAM-ID. TESTINTEGEROFDATE.
 DATA DIVISION.
@@ -1464,7 +1465,7 @@ PROCEDURE DIVISION.
   end-evaluate
   display 'Today ' wDATE ' IS ' wDOFW
   STOP RUN.
-@end example
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 8.1.39 INTEGER-OF-DAY                                           **
@@ -1733,7 +1734,7 @@ Since this function has no arguments, no parenthesis should be specified.
 
 The following sample program uses all the MODULE- Functions:
 
-@example
+@smallexample
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DEMOMODULE.
 ENVIRONMENT DIVISION.
@@ -1751,11 +1752,11 @@ PROCEDURE DIVISION.
     DISPLAY "MODULE-TIME           = [" MODULE-TIME @samp{]}
     STOP RUN
     .
-@end example
+@end smallexample
 
 The program produces this output when executed:
 
-@example
+@smallexample
 MODULE-CALLER-ID = []
 MODULE-DATE = [20180522]
 MODULE-FORMATTED-DATE = [May 22 2018 12:43:14]
@@ -1763,7 +1764,7 @@ MODULE-ID = [DEMOMODULE]
 MODULE-PATH = [/home/vince/cobolsrc/ACAS/demomodule]
 MODULE-SOURCE = [demomodule.cbl]
 MODULE-TIME = [124314]
-@end example
+@end smallexample
 @comment *********************************************************************
 @comment ** 8.1.65 MONETARY-DECIMAL-POINT                                   **
 @comment *********************************************************************
@@ -2199,9 +2200,11 @@ Since this function has no arguments, no parenthesis should be specified.
 @comment ** 8.1.84 SIGN                                                     **
 @comment *********************************************************************
 @page
-@newsubsection{SIGN}
+@newsubsection{SIGN.}
 @diagram{SIGN Function,FN-SIGN,FN-SIGN,None}
 The @code{SIGN} function returns a -1 if the value of @var{number} (a numeric literal or numeric data item) is negative, a zero if the value of @var{number} is exactly zero and a 1 if the value of @var{number} if greater than 0.
+
+Caution. Please do not confuse the @code{SIGN} Intrinsic Function with the @code{SIGN} clause of Data Division.
 @comment *********************************************************************
 @comment ** 8.1.85 SIN                                                      **
 @comment *********************************************************************
@@ -2342,12 +2345,14 @@ move     function SUBSTITUTE-CASE (WS-Dest-File-Path,
 @end verbatim
 
 @comment *********************************************************************
-@comment ** 8.1.91 SUM                                                      **
+@comment ** 8.1.91 SUM.                                                      **
 @comment *********************************************************************
 @page
-@newsubsection{SUM}
+@newsubsection{SUM.}
 @diagram{SUM Function,FN-SUM,FN-SUM,None}
 The @code{SUM} function returns a value that is the sum of @var{number-n} arguments (these may be numeric data items or numeric literals).
+
+Caution. Please do not confuse the @code{SUM} Intrinsic Function with the @code{SUM} clause of Data Division.
 @comment *********************************************************************
 @comment ** 8.1.92 TAN                                                      **
 @comment *********************************************************************
