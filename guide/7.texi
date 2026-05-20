@@ -814,7 +814,6 @@ As part of the @code{TIMES} clause of a @statementref{PERFORM}.
 * ACCEPT FROM DATE/TIME
 * ACCEPT FROM Screen-Info
 * ACCEPT FROM Runtime-Info
-* ACCEPT OMITTED
 * ACCEPT FROM EXCEPTION STATUS
 @end menu
 @comment *********************************************************************
@@ -949,6 +948,34 @@ Argument no exception
 Next arg= 3
 
 @end example
+
+@item
+Argument-number assigned to 0 gives the actual OS command used to start the process from argument-value. 
+Function module-id instead gives the internal program-id.
+In the following case TESTACCEPTARG2.COB is the source filename.
+program-id is actually "SAMPLE3" in the code.
+
+@example
+               >>SOURCE FREE
+       identification division.
+       program-id. SAMPLE3.
+       data division.
+       working-storage section.
+       01 wProgname pic x(32).
+       procedure division.
+       display 0        upon argument-number
+       accept wProgname from argument-value
+       display "argument-value zero >" wProgname "<"
+       display "function module-id  >" function module-id "<"
+       accept omitted
+       goback.
+       end program SAMPLE3.
+
+The result will be:
+
+argument-value zero >C:\yourfolder\TESTACCEPTARG2.exe  <
+function module-id  >SAMPLE3<
+@end example
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.1.3 ACCEPT FROM ENVIRONMENT                                 **
@@ -1004,13 +1031,34 @@ The reserved words @code{TIMEOUT} and @code{TIME-OUT} are interchangeable.
 If @var{identifier-1} is defined in the @syntaxref{SCREEN SECTION}, any @code{AT}, @var{Attribute-Specification}, @code{LOWER}, @code{UPPER} or @code{SCROLL} clauses will be ignored.  In these cases, an implied @syntaxrefalt{DISPLAY,DISPLAY data-item} of @var{identifier-1} will occur before input is accepted.  Coding an explicit @code{DISPLAY identifier-1} before an @code{ACCEPT identifier-1} is redundant and will incur the performance penalty of painting the screen contents twice.
 
 @item
-The various @code{AT} clauses provide a means of positioning the cursor to a specific spot on the screen before the screen is read.  One or the other (but not both) may be used, as follows:
+The various @code{AT} clauses provide a means of positioning the cursor to a specific spot on the screen before the screen is read.  
+One or the other (but not both) may be used, as follows:
 @enumerate A
 @item
-The @code{LINE} and @code{COLUMN} clauses provide one mechanism for specifying the line and column position to which the cursor will be positioned before allowing the user to enter data.  In the absence of one or the other, a value of 1 will be assumed for the one that is missing.  The author's personal preference, however, is to explicitly code both.
+The @code{LINE} and @code{COLUMN} clauses provide one mechanism for specifying the line and column position to which the cursor will be positioned before allowing the user to enter data.  
+In the absence of one or the other, a value of 1 will be assumed for the one that is missing.  
+The suggested preference, however, is to explicitly code both.
 
 @item
 The @var{integer-3} or @var{identifier-4} value, if specified, must be a four- or six-digit value with the 1@sup{st} half of the number indicating the line where the cursor should be positioned and the second half indicating the column.  You may code only one of each clause on any @code{ACCEPT}.
+
+@item
+If you don't want to explicitly specify the @code{LINE} for the subsequent @code{ACCEPT}, 
+you can use @code{LINE 0} extension, which gives something like the usual @code{ACCEPT} behaviour. 
+Namely, @code{LINE 0} positions the @code{ACCEPT} at the line following the last @code{ACCEPT}.
+The same behavior occurs when the @var{integer-3} or @var{identifier-4} value is specified (a four- or six-digit value) as 00nn or 000nnn.
+
+@item
+If you don't want to explicitly specify the @code{COLUMN} for the subsequent @code{ACCEPT}, 
+you can use @code{COLUMN 0} extension, which gives something like the usual @code{ACCEPT} behaviour. 
+Namely, @code{COLUMN 0} positions the @code{ACCEPT} at the column following the last @code{ACCEPT}.
+The same behavior occurs when the @var{integer-3} or @var{identifier-4} value is specified (a four- or six-digit value) as nn00 or nnn000.
+
+@item
+You can also use both @code{LINE 0} and @code{COLUMN 0} extension, which gives something like the usual @code{ACCEPT} behaviour. 
+Namely, @code{COLUMN 0} positions the @code{ACCEPT} at the same line but column following the last @code{ACCEPT}.
+The same behavior occurs when the @var{integer-3} or @var{identifier-4} value is specified (a four- or six-digit value as 0000 or 000000.
+
 @end enumerate
 
 @item
@@ -1079,22 +1127,14 @@ The
 
 @item
 The
-@syntaxidx{SCROLL} option will cause the entire contents of the screen to be scrolled @code{UP} or @code{DOWN} by the specified number of lines before any value is displayed on the screen.  It is syntactically allowable to specify a @code{SCROLL UP} clause as well as a @code{SCROLL DOWN} clause.  In such an instance, it is the last one specified that will be honoured.  If no @code{LINES} specification is made, @code{1 LINE} will be assumed. These two options cannot be used in Screen Section.
-
-@comment @item
-@comment The @code{SIZE} specifies size of Variable to accept from the screen. identifier-11 or integer-8 must be numeric. 'SIZE <greater than="" zero="">' If identifier-11 or integer-8 is less than the length of the variable then only the 'SIZE' number of characters accept into the field. Variable pads with spaces after 'SIZE' to the end of the field. If integer-11 or integer-8 is greater than the variable, then the screen pads with spaces after variable to the 'SIZE' length 'SIZE ZERO' is '<size option="" not="" specified="">'. The variable accepts to its field length </size></greater>
-
-@comment @item
-@comment The size of @var{identifier-1} to accept from the screen.
-
-@comment @var{identifier-11} or @var{integer-8} must be numeric.
+@syntaxidx{SCROLL} option will cause the entire contents of the screen to be scrolled @code{UP} or @code{DOWN} by the specified number of lines before any value is displayed on the screen.  It is syntactically allowable to specify a @code{SCROLL UP} clause as well as a @code{SCROLL DOWN} clause.  In such an instance, it is the last one specified that will be honoured.  If no @code{LINES} specification is made, @code{1 LINE} will be assumed. 
+These two options cannot be used in Screen Section.
 
 @item
-The @code{SIZE} specifies size of Variable to accept from the screen. identifier-11 or integer-8 must be numeric.
+The @code{SIZE} specifies size of Variable to accept from the screen. @var{identifier-11} or @var{integer-8} must be numeric.
 
-@comment @vtable @option
 
-@item @code{SIZE} <greater than zero>
+@code{SIZE} <greater than zero>
 
 If @var{identifier-11} or @var{integer-8} is less than the length of
 @var{identifier-1} then only the @code{SIZE} number of characters accept
@@ -1104,17 +1144,9 @@ into the field.
 If @var{identifier-11} or @var{integer-8} is greater than @var{identifier-1},
 then the screen pads with spaces after @var{identifier-1} to the @code{SIZE} length.
 
-@item
 @code{SIZE ZERO} or @code{SIZE} <option not specified>
 
 The @var{identifier-1} accepts to its field length.
-
-@comment @var{identifier-11} or @var{integer-8} must be numeric.
-
-@comment @end vtable
-
-
-
 
 @item
 The
@@ -1352,20 +1384,20 @@ The left column contains the valid color name.
 The right column shows the color that appears when high intensity is specified (the default intensity).
 @verbatim
 
-    +--------------------------------------------------------------+
-    |                Valid GnuCOBOL Color Names                    |
-    +-------------------+------------------------------------------+
-    |Valid Color Names  |  High-Intensity Color Values (Defaults)  |
-    +-------------------+------------------------------------------+
-    |Black              |  Gray                                    |
-    |Blue               |  Light Blue                              |
-    |Green              |  Light Green                             |
-    |Cyan               |  Light Cyan                              |
-    |Red                |  Light Red                               |
-    |Magenta            |  Light Magenta                           |
-    |Brown              |  Yellow                                  |
-    |White              |  High-Intensity White                    |
-    +-------------------+------------------------------------------+
++--------------------------------------------------------------+
+|                Valid GnuCOBOL Color Names                    |
++-------------------+------------------------------------------+
+|Valid Color Names  |  High-Intensity Color Values (Defaults)  |
++-------------------+------------------------------------------+
+|Black              |  Gray                                    |
+|Blue               |  Light Blue                              |
+|Green              |  Light Green                             |
+|Cyan               |  Light Cyan                              |
+|Red                |  Light Red                               |
+|Magenta            |  Light Magenta                           |
+|Brown              |  Yellow                                  |
+|White              |  High-Intensity White                    |
+ -------------------+------------------------------------------+
 
 Sample program:
 
@@ -1393,34 +1425,34 @@ You may make combinations by adding the appropriate values together.  The follow
 
 @verbatim
 
-	+--------+--------------+-------------+
-	|Color   |  Foreground  | Background  |
-	+--------+--------------+-------------+
-	|Black   |      1       |     32      |
-	|Blue    |      2       |     64      |
-	|Green   |      3       |     96      |
-	|Cyan    |      4       |    128      |
-	|Red     |      5       |    160      |
-	|Magenta |      6       |    192      |
-	|Brown   |      7       |    224      |
-	|White   |      8       |    256      |
-	+--------+--------------+-------------+
++--------+--------------+-------------+
+|Color   |  Foreground  | Background  |
++--------+--------------+-------------+
+|Black   |      1       |     32      |
+|Blue    |      2       |     64      |
+|Green   |      3       |     96      |
+|Cyan    |      4       |    128      |
+|Red     |      5       |    160      |
+|Magenta |      6       |    192      |
+|Brown   |      7       |    224      |
+|White   |      8       |    256      |
++--------+--------------+-------------+
 
 @end verbatim
 @item
 You may specify other video attributes by adding the following values:
 @verbatim
 
-	+-------------------------+--------+
-	|Reverse video            |   1024 |
-	|Low intensity            |   2048 |
-	|High intensity           |   4096 |
-	|Underline                |   8192 |
-	|Blink                    |  16384 |
-	|Protected                |  32768 |
-	|Background low-intensity |  65536 |
-	|Background high-intensity| 131072 |
-	+-------------------------+--------+
++-------------------------+--------+
+|Reverse video            |   1024 |
+|Low intensity            |   2048 |
+|High intensity           |   4096 |
+|Underline                |   8192 |
+|Blink                    |  16384 |
+|Protected                |  32768 |
+|Background low-intensity |  65536 |
+|Background high-intensity| 131072 |
++-------------------------+--------+
 
 @end verbatim
 @item
@@ -2462,16 +2494,16 @@ You may specify other video attributes by adding the following values:
 
 @verbatim
 
-    +-------------------------+--------+
-    |Reverse video            |   1024 |
-    |Low intensity            |   2048 |
-    |High intensity           |   4096 |
-    |Underline                |   8192 |
-    |Blink                    |  16384 |
-    |Protected                |  32768 |
-    |Background low-intensity |  65536 |
-    |Background high-intensity| 131072 |
-    +-------------------------+--------+
++-------------------------+--------+
+|Reverse video            |   1024 |
+|Low intensity            |   2048 |
+|High intensity           |   4096 |
+|Underline                |   8192 |
+|Blink                    |  16384 |
+|Protected                |  32768 |
+|Background low-intensity |  65536 |
+|Background high-intensity| 131072 |
++-------------------------+--------+
 
 @end verbatim
 @item

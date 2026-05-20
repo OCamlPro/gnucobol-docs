@@ -1212,6 +1212,7 @@ Executing the statement @code{SET @var{condition-name-1} TO FALSE} will cause @v
 * GLOBAL.
 * GROUP INDICATE.
 * HIGHLIGHT.
+* INITIAL.
 * JUSTIFIED.
 * LEFTLINE.
 * LENGTH-CHECK.
@@ -1272,38 +1273,37 @@ Following table lists all the CLAUSES permitted in which SECTIONS of DATA DIVISI
 | 17. GLOBAL                       |    X       X       X               X            |
 | 18. GROUP INDICATE               |                                    X            |
 | 19. HIGHLIGHT                    |                                            X    |
-| 20. JUSTIFIED                    |    X       X       X       X       X       X    |
-| 21. LEFTLINE                     |                                            X    |
-| 22. LINE                         |                                    X       X    |
-| 23. LOWLIGHT                     |                                            X    |
-| 24. NEXT GROUP                   |                                    X            |
-| 25. OCCURS                       |    X       X       X       X       X       X    |
-| 26. OVERLINE                     |                                            X    |
-| 27. PICTURE                      |    X       X       X       X       X       X    |
-| 28. PRESENT WHEN                 |                                    X            |
-| 29. PROMPT                       |                                            X    |
-| 30. REDEFINES                    |    X       X       X       X                    |
-| 31. RENAMES                      |    X       X       X       X                    |
-| 32. REQUIRED|EMPTY-CHECK         |                                            X    |
-| 33. REVERSE-VIDEO                |                                            X    |
-| 34. SAME AS                      |            X                                    |
-| 35. SECURE|NO-ECHO|NO ECHO|OFF   |                                            X    |
-| 36. SIGN                         |    X       X       X       X       X       X    |
-| 37. SOURCE                       |                                    X            |
-| 38. SPECIAL-NAMES                |            X       X                            |
-| 39. SUM                          |                                    X            |
-| 40. SYNCHRONIZED                 |    X       X       X       X                    |
-| 41. TO                           |                                            X    |
-| 42. TYPE                         |    X       X       X       X       X       X    |
-| 43. TYPEDEF                      |    X       X       X       X                    |
-| 44. UNDERLINE                    |                                            X    |
+| 20. INITIAL                      |                                            X
+| 21. JUSTIFIED                    |    X       X       X       X       X       X    |
+| 22. LEFTLINE                     |                                            X    |
+| 23. LINE                         |                                    X       X    |
+| 24. LOWLIGHT                     |                                            X    |
+| 25. NEXT GROUP                   |                                    X            |
+| 26. OCCURS                       |    X       X       X       X       X       X    |
+| 27. OVERLINE                     |                                            X    |
+| 28. PICTURE                      |    X       X       X       X       X       X    |
+| 29. PRESENT WHEN                 |                                    X            |
+| 30. PROMPT                       |                                            X    |
+| 31. REDEFINES                    |    X       X       X       X                    |
+| 32. RENAMES                      |    X       X       X       X                    |
+| 33. REQUIRED|EMPTY-CHECK         |                                            X    |
+| 34. REVERSE-VIDEO                |                                            X    |
+| 35. SAME AS                      |            X                                    |
+| 36. SECURE|NO-ECHO|NO ECHO|OFF   |                                            X    |
+| 37. SIGN                         |    X       X       X       X       X       X    |
+| 38. SOURCE                       |                                    X            |
+| 39. SPECIAL-NAMES                |            X       X                            |
+| 40. SUM                          |                                    X            |
+| 41. SYNCHRONIZED                 |    X       X       X       X                    |
+| 42. TO                           |                                            X    |
+| 43. TYPE                         |    X       X       X       X       X       X    |
+| 44. TYPEDEF                      |    X       X       X       X                    |
+| 45. UNDERLINE                    |                                            X    |
 | 45. USAGE                        |    X       X       X       X       X            |
 | 46. USING                        |                                            X    |
 | 47. VALUE                        |    X       X       X       X       X       X    |
 +----------------------------------+-------------------------------------------------+
 @end smallexample
-@comment * LOWER.
-@comment * UPPER.
 
 @comment *********************************************************************
 @comment ** 6.9.1 ANY LENGTH                                                **
@@ -1321,6 +1321,8 @@ For @code{ANY LENGTH} these items must have a @syntaxref{PICTURE} clause that sp
 
 For @code{ANY NUMERIC} these items must have a @syntaxref{PICTURE} clause that specifies exactly one 9 symbol.
 
+@code{ANY NUMERIC} handles any integer or fixed-point but no floating-point.
+
 @enumerate
 @item
 The @code{ANY LENGTH} clause is COBOL ISO Standard, the @code{ANY NUMERIC} clause is a GnuCOBOL extension.
@@ -1332,6 +1334,50 @@ the type is determined (and someday checked with EC-PROGRAM-ARGS) by the picture
 They are determined by checking the caller's definition, which therefore MUST be either a GnuCOBOL module or a C program that uses api functions to create COBOL fields.
 
 @end enumerate
+
+@smallexample
+identification division.
+program-id. prog1.
+data division.
+working-storage section.
+01  myitems.
+        03 myitem1 pic x(10).
+        03 myitem2 pic 9.
+procedure division.
+a-main1 section.
+        move 'hello' to myitem1
+        move 8 to myitem2
+        display 'a-main1 prog1'
+        display 'a-main1 myitem1 ' myitem1
+        display 'a-main1 myitem2 ' myitem2
+        call 'prog2' using "testlit"
+        display 'bye'
+        accept myitem1.
+        goback.
+        end program prog1.
+identification division.
+program-id. prog2.
+data division.
+working-storage section.
+01  myitems.
+        03 myitem1 pic x(10).
+        03 myitem2 pic 9.
+linkage section.
+01   testvar pic x ANY LENGTH.
+procedure division using testvar.
+a-main1 section.
+        move 'goodbye' to myitem1
+        move 4 to myitem2
+        display 'a-main1 prog2'
+        display 'a-main1 myitem1 ' myitem1
+        display 'a-main1 myitem2 ' myitem2
+        display '>' testvar '<'
+        display 'goback to prog1'
+        goback.
+        end program prog2.
+@end smallexample
+
+
 @comment *********************************************************************
 @comment ** 6.9.2 AUTO                                                      **
 @comment *********************************************************************
@@ -1733,8 +1779,67 @@ This clause, along with @syntaxref{LOWLIGHT}, are intended to provide a three-le
 @end enumerate
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
+
 @comment *********************************************************************
-@comment ** 6.9.20 JUSTIFIED                                                **
+@comment ** 6.9.20 INITIAL                                                  **
+@comment *********************************************************************
+@page
+@newsubsection{INITIAL}
+@diagram{INITIAL Attribute,DD-INITIAL,DD-INITIAL,None}
+This syntax is valid in the following sections:
+@code{SCREEN}
+
+This clause can only be used on screen fields that accept user input (those that have the USING clause or the TO clause).
+It forces the runtime to re-initialize that specific screen field to its defined @code{VALUE} 
+(or empty if no value is set) every time the @code{DISPLAY} statement is executed.
+This ensures that the screen field does not retain data from a previous @code{ACCEPT} operation, 
+which is critical when reusing forms or displaying the same screen section multiple times within a program.
+
+@enumerate
+@item
+The @code{INITIAL} clause guarantees that a field displays its initial value, not the last accepted value, whenever @code{DISPLAY} is executed.
+@item
+When @code{DISPLAY} acts on an item with the @code{INITIAL} clause, GnuCOBOL ignores any data currently in the associated WORKING-STORAGE SECTION data item 
+and uses the @code{VALUE} clause defined within the SCREEN SECTION definition.
+The @code{INITIAL} clause is typically used in conjunction with the @code{VALUE} clause in the SCREEN SECTION 
+(which defines the default, literal value)
+@item
+When a screen item with the @code{INITIAL} phrase is displayed, 
+GnuCOBOL ignores any data currently in the associated data item and uses the @code{VALUE} clause from the SCREEN SECTION definition.
+@item
+This clause is essential for applications that toggle between different input forms, 
+ensuring that a user sees a "clean" form every time a specific @code{DISPLAY} statement is executed.
+@end enumerate
+
+@smallexample
+        >>SOURCE FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. TESTSCREENINITIAL.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 CUSTOMER-NAME1 PIC X(10) value 'CUSTO1'.
+01 CUSTOMER-NAME2 PIC X(10) value 'CUST02'.
+01 CUSTOMER-NAME3 PIC X(10) value 'CUST03'.
+01 CUSTOMER-NAME4 PIC X(10) value 'CUST04'.
+SCREEN SECTION.
+01 CUSTOMER-SCREEN AUTO.
+   03 wLABEL      PIC X(30)  LINE  2 COL 1        "first ACCEPT".
+   03                        LINE  4 COL 1  VALUE "Name1.....: ".
+   03 ENTRY-NAME1 PIC X(10), LINE  4 COL 20 USING CUSTOMER-NAME1  INITIAL.
+   03                        LINE  6 COL 1  VALUE "Name2.....: ".
+   03 ENTRY-NAME2 PIC X(10), LINE  6 COL 20 USING CUSTOMER-NAME2  INITIAL 'ENTRY02'. 
+   03                        LINE  8 COL 1  VALUE "Name3.....: ".
+   03 ENTRY-NAME3 PIC X(10), LINE  8 COL 20 USING CUSTOMER-NAME3  INITIAL VALUE 'ENTRY03'.  
+   03                        LINE 10 COL 1  VALUE "Name3.....: ".
+   03 ENTRY-NAME4 PIC X(10), LINE 10 COL 20 USING CUSTOMER-NAME4  INITIAL.  
+PROCEDURE DIVISION.
+ACCEPT CUSTOMER-SCREEN
+STOP RUN.
+@end smallexample
+
+
+@comment *********************************************************************
+@comment ** 6.9.21 JUSTIFIED                                                **
 @comment *********************************************************************
 @page
 @newsubsection{JUSTIFIED}
@@ -1817,7 +1922,7 @@ MOVE 'ABCDEFGHI' TO A
 @end cartouche
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.21 LEFTLINE                                                 **
+@comment ** 6.9.22 LEFTLINE                                                 **
 @comment *********************************************************************
 @page
 @newsubsection{LEFTLINE}
@@ -1840,7 +1945,7 @@ Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will dep
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 
 @comment *********************************************************************
-@comment ** 6.9.22 LINE                                                     **
+@comment ** 6.9.23 LINE                                                     **
 @comment *********************************************************************
 @page
 @newsubsection{LINE}
@@ -1896,7 +2001,7 @@ If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO
 @end enumerate
 
 @comment *********************************************************************
-@comment ** 6.9.23 LOWLIGHT                                                 **
+@comment ** 6.9.24 LOWLIGHT                                                 **
 @comment *********************************************************************
 @page
 @newsubsection{LOWLIGHT}
@@ -1912,7 +2017,7 @@ This clause, along with @syntaxref{HIGHLIGHT}, are intended to provide a three-l
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
-@comment ** 6.9.24 NEXT GROUP                                               **
+@comment ** 6.9.25 NEXT GROUP                                               **
 @comment *********************************************************************
 @page
 @newsubsection{NEXT GROUP}
@@ -1948,7 +2053,7 @@ The effects of @code{NEXT GROUP} will be in addition to any line spacing defined
 @end enumerate
 
 @comment *********************************************************************
-@comment ** 6.9.25 OCCURS                                                   **
+@comment ** 6.9.26 OCCURS                                                   **
 @comment *********************************************************************
 @page
 @newsubsection{OCCURS}
@@ -2074,7 +2179,7 @@ And then using @code{STEP} and @code{VARYING}:
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.26 OVERLINE                                                 **
+@comment ** 6.9.27 OVERLINE                                                 **
 @comment *********************************************************************
 @page
 @newsubsection{OVERLINE}
@@ -2096,7 +2201,7 @@ Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will dep
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
-@comment ** 6.9.27 PICTURE                                                  **
+@comment ** 6.9.28 PICTURE                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{PICTURE}
@@ -2448,7 +2553,7 @@ When multiple floating symbols are coded, even if there is only one of them used
 
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.28 PRESENT WHEN                                             **
+@comment ** 6.9.29 PRESENT WHEN                                             **
 @comment *********************************************************************
 @page
 @newsubsection{PRESENT WHEN}
@@ -2468,7 +2573,7 @@ If the condition-name has a value of @code{TRUE}, the group will be presented.
 @xref{Condition Names}, for more information.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.29 PROMPT                                                   **
+@comment ** 6.9.30 PROMPT                                                   **
 @comment *********************************************************************
 @page
 @newsubsection{PROMPT}
@@ -2490,7 +2595,7 @@ Prompt characters will be automatically transformed into spaces upon input.
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 @comment *********************************************************************
-@comment ** 6.9.30 REDEFINES                                                **
+@comment ** 6.9.31 REDEFINES                                                **
 @comment *********************************************************************
 @page
 @newsubsection{REDEFINES}
@@ -2526,7 +2631,7 @@ No @syntaxref{VALUE} clause may be defined on the object data item, and no data 
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.31 RENAMES                                                  **
+@comment ** 6.9.32 RENAMES                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{RENAMES}
@@ -2549,7 +2654,7 @@ The @var{identifier-1} and @var{identifier-2} data items, along with all data it
 @xref{66-Level Data Items}, for additional information on the @code{RENAMES} clause.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.32 REQUIRED                                                 **
+@comment ** 6.9.33 REQUIRED                                                 **
 @comment *********************************************************************
 @page
 @newsubsection{REQUIRED}
@@ -2571,7 +2676,7 @@ The @statementref{ACCEPT data-item} will ignore the Enter key and any other curs
 In order to be functional, this attribute must be supported by the underlying ``curses'' package your GnuCOBOL implementation was built with.  As of this time, the ``PDCurses'' package (used for native Windows or MinGW builds) does not support @code{REQUIRED} and @code{EMPTY-CHECK}.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.33 REVERSE-VIDEO                                            **
+@comment ** 6.9.34 REVERSE-VIDEO                                            **
 @comment *********************************************************************
 @page
 @newsubsection{REVERSE-VIDEO}
@@ -2584,7 +2689,7 @@ The @code{REVERSE-VIDEO} attribute swaps the specified or implied @syntaxref{FOR
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 
 @comment *********************************************************************
-@comment ** 6.9.34 SAME AS                                                  **
+@comment ** 6.9.35 SAME AS                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{SAME AS}
@@ -2647,7 +2752,7 @@ the subject of the entry is a group whose subordinate elements have the same nam
 @end smallexample
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.35 SECURE                                                   **
+@comment ** 6.9.36 SECURE                                                   **
 @comment *********************************************************************
 @page
 @newsubsection{SECURE}
@@ -2677,7 +2782,7 @@ This clause may only be used on a field allowing data entry (a field containing 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 
 @comment *********************************************************************
-@comment ** 6.9.36 SIGN                                                   **
+@comment ** 6.9.37 SIGN                                                   **
 @comment *********************************************************************
 @page
 @newsubsection{SIGN}
@@ -2721,7 +2826,7 @@ Neither the presence of an encoded digit (see above) nor an actual @samp{+} or @
 @end enumerate
 
 @comment *********************************************************************
-@comment ** 6.9.37 SOURCE                                                   **
+@comment ** 6.9.38 SOURCE                                                   **
 @comment *********************************************************************
 @page
 @newsubsection{SOURCE}
@@ -2750,7 +2855,7 @@ The @code{ROUNDED} option comes into play should the number of digits to the rig
 @end enumerate
 
 @comment *********************************************************************
-@comment ** 6.9.38 SPECIAL-NAMES.                                           **
+@comment ** 6.9.39 SPECIAL-NAMES.                                           **
 @comment *********************************************************************
 @page
 @newsubsection{SPECIAL-NAMES.}
@@ -2775,7 +2880,7 @@ Next an example of usage.
 @end enumerate
 
 @comment *********************************************************************
-@comment ** 6.9.39 SUM                                                   **
+@comment ** 6.9.40 SUM                                                   **
 @comment *********************************************************************
 @page
 @newsubsection{SUM}
@@ -2837,7 +2942,7 @@ If, however, you want to reset the @code{SUM} counter only when the control foot
 @end enumerate
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.40 SYNCHRONIZED                                              **
+@comment ** 6.9.41 SYNCHRONIZED                                              **
 @comment *********************************************************************
 @page
 @newsubsection{SYNCHRONIZED}
@@ -2876,7 +2981,7 @@ The following illustrates the allocation of a group of data items both without a
 @end iftex
 
 @comment *********************************************************************
-@comment ** 6.9.41 TO                                                       **
+@comment ** 6.9.42 TO                                                       **
 @comment *********************************************************************
 @page
 @newsubsection{TO}
@@ -2893,7 +2998,7 @@ The @code{TO} clause is used to define a data-entry field with no initial value;
 The @syntaxref{FROM}, @code{TO}, @syntaxref{USING} and @syntaxref{VALUE} clauses aren't mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.42 TYPE                                                     **
+@comment ** 6.9.43 TYPE                                                     **
 @comment *********************************************************************
 @page
 @newsubsection{TYPE}
@@ -3057,7 +3162,7 @@ The various report groups that constitute a report may be defined in any order.
 @xref{RWCS Lexicon}, for a description of the seven different types of report groups.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.43 TYPEDEF                                                  **
+@comment ** 6.9.44 TYPEDEF                                                  **
 @comment *********************************************************************
 @page
 @newsubsection{TYPEDEF}
@@ -3093,7 +3198,7 @@ The TYPE clause can be specified in the same data description entry as the TYPED
 In FILE SECTION, a data description entry declared at level number 1 that includes a TYPEDEF clause is not a record description entry.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.44 UNDERLINE                                                **
+@comment ** 6.9.45 UNDERLINE                                                **
 @comment *********************************************************************
 @page
 @newsubsection{UNDERLINE}
@@ -3116,7 +3221,7 @@ Whether or not this clause operates on Cygwin or UNIX/Linux/OSX systems will dep
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
 
 @comment *********************************************************************
-@comment ** 6.9.45 USAGE                                                    **
+@comment ** 6.9.46 USAGE                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{USAGE}
@@ -3814,7 +3919,7 @@ Example 3:
 @end enumerate
 
 @comment *********************************************************************
-@comment ** 6.9.46 USING                                                    **
+@comment ** 6.9.47 USING                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{USING}
@@ -3836,7 +3941,7 @@ Specifying the USING clause is equivalent to specifying both the TO and FROM cla
 The @syntaxref{FROM}, @syntaxref{TO}, @code{USING} and @syntaxref{VALUE} clauses aren't mutually-exclusive in any screen section data item's definition.
 @end enumerate
 @comment *********************************************************************
-@comment ** 6.9.47 VALUE                                                    **
+@comment ** 6.9.48 VALUE                                                    **
 @comment *********************************************************************
 @page
 @newsubsection{VALUE}
