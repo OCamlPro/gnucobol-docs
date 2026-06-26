@@ -1273,7 +1273,7 @@ Following table lists all the CLAUSES permitted in which SECTIONS of DATA DIVISI
 | 17. GLOBAL                       |    X       X       X               X            |
 | 18. GROUP INDICATE               |                                    X            |
 | 19. HIGHLIGHT                    |                                            X    |
-| 20. INITIAL                      |                                            X
+| 20. INITIAL                      |                                            X    |
 | 21. JUSTIFIED                    |    X       X       X       X       X       X    |
 | 22. LEFTLINE                     |                                            X    |
 | 23. LINE                         |                                    X       X    |
@@ -1317,11 +1317,10 @@ This syntax is valid in the following sections:
 Data items declared with the @code{ANY LENGTH} or @code{ANY NUMERIC} attribute have no fixed compile-time length.  
 Such items may only be defined in the linkage section of a subprogram as they may only serve as subroutine argument descriptions.  
 
-For @code{ANY LENGTH} these items must have a @syntaxref{PICTURE} clause that specifies exactly one A, X, U or 1 symbol.
+@code{ANY LENGTH} items must have a @syntaxref{PICTURE} clause that specifies exactly one A, X, U or 1 symbol.
 
-For @code{ANY NUMERIC} these items must have a @syntaxref{PICTURE} clause that specifies exactly one 9 symbol.
-
-@code{ANY NUMERIC} handles any integer or fixed-point but no floating-point.
+@code{ANY NUMERIC} items must have a @syntaxref{PICTURE} clause that specifies exactly one 9 symbol.
+@code{ANY NUMERIC} handles integers or fixed-point but no floating-point.
 
 @enumerate
 @item
@@ -1338,43 +1337,33 @@ They are determined by checking the caller's definition, which therefore MUST be
 @smallexample
 identification division.
 program-id. prog1.
-data division.
-working-storage section.
+data division. working-storage section.
 01  myitems.
-        03 myitem1 pic x(10).
-        03 myitem2 pic 9.
+    03 myitem1 pic x(10).
+    03 myitem2 pic 9.
 procedure division.
 a-main1 section.
-        move 'hello' to myitem1
-        move 8 to myitem2
+        move 'hello' to myitem1   move 8 to myitem2
         display 'a-main1 prog1'
-        display 'a-main1 myitem1 ' myitem1
-        display 'a-main1 myitem2 ' myitem2
+        display 'a-main1 myitem1 ' myitem1 display 'a-main1 myitem2 ' myitem2
         call 'prog2' using "testlit"
-        display 'bye'
-        accept myitem1.
-        goback.
-        end program prog1.
+        display 'bye'              accept myitem1.
+        goback. end program prog1.
 identification division.
 program-id. prog2.
-data division.
-working-storage section.
+data division. working-storage section.
 01  myitems.
-        03 myitem1 pic x(10).
-        03 myitem2 pic 9.
+    03 myitem1 pic x(10).
+    03 myitem2 pic 9.
 linkage section.
 01   testvar pic x ANY LENGTH.
 procedure division using testvar.
 a-main1 section.
-        move 'goodbye' to myitem1
-        move 4 to myitem2
+        move 'goodbye' to myitem1  move 4 to myitem2
         display 'a-main1 prog2'
-        display 'a-main1 myitem1 ' myitem1
-        display 'a-main1 myitem2 ' myitem2
-        display '>' testvar '<'
-        display 'goback to prog1'
-        goback.
-        end program prog2.
+        display 'a-main1 myitem1 ' myitem1 display 'a-main1 myitem2 ' myitem2
+        display '>' testvar '<'            display 'goback to prog1'
+        goback. end program prog2.
 @end smallexample
 
 
@@ -1382,7 +1371,7 @@ a-main1 section.
 @comment ** 6.9.2 AUTO                                                      **
 @comment *********************************************************************
 @page
-@newsubsection{AUTO}
+@newsubsection{AUTO, AUTO-SKIP}
 @diagram{AUTO Attribute,DD-AUTO,DD-AUTO,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1398,7 +1387,7 @@ The @code{AUTO} clause is COBOL ISO Standard, the @code{AUTO-SKIP} and @code{AUT
 @comment *********************************************************************
 @comment ** 6.9.3 BACKGROUND-COLOR                                          **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{BACKGROUND-COLOR}
 @diagram{BACKGROUND-COLOR Attribute,DD-BACKGROUND-COLOR,DD-BACKGROUND-COLOR,None}
 This syntax is valid in the following sections:
@@ -1413,18 +1402,17 @@ The reserved word @code{IS} is optional and may be omitted.  The presence or abs
 The reserved words @code{BACKGROUND-COLOR} and @code{BACKGROUND-COLOUR} are interchangeable.
 
 @item
-You specify colors by number (0-7), or by using the constant names provided in the @file{screenio.cpy} copybook (provided with all GnuCOBOL source distributions).
+You specify colors by number (0-7 and 8-15), or by using the constant names provided in the @file{screenio.cpy} copybook (provided with all GnuCOBOL source distributions).
 
 @item
-Colors may also be specified using a numeric non-edited identifier whose value is in the range 0-7.
+Colors may also be specified using a numeric non-edited identifier whose value is in the range 0-7 and 8-15.
 @end enumerate
 
 For composite @code{DISPLAY}'s, the attributes are always only applied to the previous source-item but the following also allows a change by variable or literal @i{i.e.}
 
 @verbatim
 DISPLAY "Name: "   BACKGROUND-COLOR COB-YELLOW
-         NAME-VAR  BACKGROUND-COLOR COB-BLACK
-END-DISPLAY
+         NAME-VAR  BACKGROUND-COLOR COB-BLACK   END-DISPLAY
 @end verbatim
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
@@ -1450,8 +1438,8 @@ The @code{BASED} clause may only be used on level 01 and level 77 data items.
 @comment *********************************************************************
 @comment ** 6.9.5 BELL                                                      **
 @comment *********************************************************************
-@page
-@newsubsection{BELL}
+@comment @page
+@newsubsection{BELL, BEEP}
 @diagram{BELL Attribute,DD-BELL,DD-BELL,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1485,7 +1473,7 @@ This clause is useful when one screen section item is being displayed over the t
 @comment *********************************************************************
 @comment ** 6.9.7 BLANK WHEN ZERO                                          **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{BLANK WHEN ZERO}
 @diagram{BLANK-WHEN-ZERO Attribute,DD-BLANK-WHEN-ZERO,DD-BLANK-WHEN-ZERO,None}
 This syntax is valid in the following sections:
@@ -1502,7 +1490,7 @@ This clause may only be used on a @code{PIC 9} data item with a @syntaxref{USAGE
 @comment *********************************************************************
 @comment ** 6.9.8 BLINK                                                    **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{BLINK}
 @diagram{BLINK Attribute,DD-BLINK,DD-BLINK,None}
 This syntax is valid in the following sections:
@@ -1563,7 +1551,7 @@ If a screen data item's description includes the @syntaxref{FROM}, @syntaxref{TO
 @comment *********************************************************************
 @comment ** 6.9.10 CONSTANT                                                 **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{CONSTANT}
 @diagram{CONSTANT Attribute,DD-CONSTANT,DD-CONSTANT,None}
 This syntax is valid in the following sections:
@@ -1602,7 +1590,7 @@ This clause is useful when one screen section item is being displayed over the t
 @comment *********************************************************************
 @comment ** 6.9.12 EXTERNAL                                                 **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{EXTERNAL}
 @diagram{EXTERNAL Attribute,DD-EXTERNAL,DD-EXTERNAL,None}
 This syntax is valid in the following sections:
@@ -1649,7 +1637,7 @@ The reserved words @code{IS}, @code{SET}, @code{TO} and @code{WHEN} are optional
 @comment *********************************************************************
 @comment ** 6.9.14 FOREGROUND-COLOR                                         **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{FOREGROUND-COLOR}
 @diagram{FOREGROUND-COLOR Attribute,DD-FOREGROUND-COLOR,DD-FOREGROUND-COLOR,None}
 This syntax is valid in the following sections:
@@ -1664,10 +1652,10 @@ The reserved word @code{IS} is optional and may be omitted.  The presence or abs
 The reserved words @code{FOREGROUND-COLOR} and @code{FOREGROUND-COLOUR} are interchangeable.
 
 @item
-You specify colors by number (0-7), or by using the constant names provided in the @file{screenio.cpy} copybook (which is provided with all GnuCOBOL source distributions).
+You specify colors by number (0-7 and 8-15), or by using the constant names provided in the @file{screenio.cpy} copybook (which is provided with all GnuCOBOL source distributions).
 
 @item
-Colors may also be specified using a numeric non-edited identifier whose value is in the range 0-7.
+Colors may also be specified using a numeric non-edited identifier whose value is in the range 0-7 and 8-15.
 @end enumerate
 
 @xref{Color Palette and Video Attributes}, for more information on screen colors and video attributes.
@@ -1687,8 +1675,8 @@ This clause is used to specify either the data item a screen section field is to
 @comment *********************************************************************
 @comment ** 6.9.16 FULL                                                     **
 @comment *********************************************************************
-@page
-@newsubsection{FULL}
+@comment @page
+@newsubsection{FULL, LENGTH-CHECK}
 @diagram{FULL Attribute,DD-FULL,DD-FULL,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -1766,7 +1754,7 @@ On the first presentation of the detail group after any control break occurs.
 @comment *********************************************************************
 @comment ** 6.9.19 HIGHLIGHT                                                **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{HIGHLIGHT}
 @diagram{HIGHLIGHT Attribute,DD-HIGHLIGHT,DD-HIGHLIGHT,None}
 This syntax is valid in the following sections:
@@ -2019,7 +2007,7 @@ This clause, along with @syntaxref{HIGHLIGHT}, are intended to provide a three-l
 @comment *********************************************************************
 @comment ** 6.9.25 NEXT GROUP                                               **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{NEXT GROUP}
 @diagram{NEXT-GROUP Clause,DD-NEXT-GROUP,DD-NEXT-GROUP,None}
 This syntax is valid in the following sections:
@@ -2215,9 +2203,6 @@ The picture clause defines the class (numeric, alphabetic or alphanumeric), size
 The reserved word @code{IS} is optional and may be omitted.  The presence or absence of this word has no effect upon the program.
 
 @item
-The reserved word @code{PICTURE} may be abbreviated as @code{PIC}.  Most programmers prefer to use the latter.
-
-@item
 A picture clause may only be specified on an elementary item.
 
 @item
@@ -2251,7 +2236,7 @@ Support for national character sets in GnuCOBOL is currently only partially impl
 @item @samp{U}
 @code{PIC U} from the upcoming ISO COBOL 2027 standard is used for UTF-8 support, a single U may have more than one byte (for example Umlauts, Emoji, Kanji, ...).
 The two ways to define items: @code{PIC U(n)} = up to N UTF-8 characters (GnuCOBOL always reserves n*4 bytes) or @code{PIC U BYTE-LENGTH m} = exactly m bytes, up to m UTF-8 characters, but may contain less.
-Note that while already usable for different things in GnuCOBOL, the support in the current version is limited/unfinished - the size is handled correctly and the data is handled on the byte-position only. 
+While already usable for different things in GnuCOBOL, the support in the current version is limited/unfinished - the size is handled correctly and the data is handled on the byte-position only. 
 There's no explicit conversion between PIC U / X / N available (U and N are identical for most of ASCII 7 bit values, N is "compatible" in most of that range as well (with an additional low-value before/after the byte).
 @end table
 
@@ -2282,7 +2267,7 @@ OUTPUT:
 
 @end smallexample
 
-Typically, only one kind of each of those symbols is used in the same picture clause, but that isn't a requirement.  Data items that, of the three symbols above, use nothing but @samp{A} picture symbols are known as
+Only one kind of each of those symbols is used in the same picture clause, but that isn't a requirement.  Data items that, of the three symbols above, use nothing but @samp{A} picture symbols are known as
 @define{Alphabetic Data Items} while those that use @samp{9} picture symbols without any @samp{A} or @samp{X} symbols (or those that have a @code{USAGE} without a @code{PICTURE}) are known as
 @define{Numeric Data Items}.  All other data items are referred to as
 @define{Alphanumeric Data Items}.
@@ -2294,10 +2279,9 @@ As far as enforcement goes, however, both alphabetic and numeric picture strings
 @item @samp{1}
 Defines storage for a single bit representing a boolean condition with a states of zero or 1, condition of off or on. Warning the level of implementation of this feature is compiler version specific starting with v3.1-RC-1.
 See also USAGE BIT in this document.
-@verbatim
+@smallexample
 
 Example of usage :
-
 WORKING-STORAGE SECTION.
 01 wBIT PIC 1(4) value b'1111111111111'.
 PROCEDURE DIVISION.
@@ -2306,11 +2290,10 @@ PROCEDURE DIVISION.
     display wBIT ' ' function HEX-OF(wBIT) ' ' function BIT-OF(wBIT)
 
 the result will be:
-
 8191 38313931 00111000001100010011100100110001
 0009 30303039 00110000001100000011000000111001
 
-@end verbatim
+@end smallexample
 
 @item
 The following picture symbols may be used with numeric data items.
@@ -2326,7 +2309,7 @@ The @samp{P} symbol may only be used at the beginning or end of a picture clause
 
 All computations and @syntaxref{MOVE} operations involving such a data item will behave as if the zeros were actually there.
 
-For example, let's say you need to allocate a data item that contains however many millions of dollars of revenue your company has in gross revenues this year:
+Let's say you need to allocate a data item that contains however many millions of dollars of revenue your company has in gross revenues this year:
 
 @t{01  Gross-Revenue    PIC 9(9).}
 
@@ -2369,49 +2352,46 @@ The following are the fixed insertion editing symbols that may be specified in a
 
 @item @samp{B}
 The @samp{B} editing symbol introduces a blank into the field value for each occurrence.
-
 Multiple @samp{B} symbols may be coded.
 
 The following example will format a ten digit number (presumably a telephone number) into a @samp{### ### ####} layout:
-@verbatim
+@smallexample
     ...
         05 Phone-Number       PIC 9(3)B9(3)B9(4).
     ...
         MOVE 5185551212 TO Phone-Number
         DISPLAY Phone-Number
-@end verbatim
+@end smallexample
 
 This code will display @samp{518 555 1212}.
 
 @item @samp{0}
 The @samp{0} (zero) editing symbol introduces one ``0'' character into the field value for each occurrence in the picture string.
-
 Multiple @samp{0} symbols may be coded.
 
 Here's an example:
-@verbatim
+@smallexample
     ...
         05  Output-Item     PIC 909090909.
     ...
         MOVE 12345 TO Output-Item
         DISPLAY Output-Item
-@end verbatim
+@end smallexample
 
 The above will display @samp{102030405}.
 
 @item @samp{/}
 The @samp{/} editing symbol inserts one ``/'' character into the field value for each occurrence in the picture string.
-
 Multiple @samp{/} symbols may be coded.
 
 This editing symbol is most-frequently used to format dates, as follows:
-@verbatim
+@smallexample
     ...
         05  Year-Month-Day   PIC 9(4)/9(2)/9(2).
     ...
         MOVE 20140207 TO Year-Month-Day
         DISPLAY Year-Month-Day
-@end verbatim
+@end smallexample
 
 This example displays @samp{2014/02/07}.
 @end table
@@ -2421,11 +2401,9 @@ The following are the numeric formatting symbols that may be specified in a pict
 @table @asis
 @item @samp{.}
 The @samp{.} symbol inserts a decimal point into a numeric field value.  When the contents of a numeric data item sending field are moved into a receiving data item whose picture clause contains the @samp{.} editing symbol, implied (@samp{V}) or actual decimal point in the sending data item or literal, respectively, will be aligned with the @samp{.} symbol in the receiving field.  Digits are then transferred from the sending to the receiving field outward from the sending field's @samp{V} or @samp{.}, truncating sending digits if there aren't enough positions in the receiving field.  Any digit positions in the receiving field that don't receive digits from the sending field, if any, will be set to 0.
-
 The @samp{.} symbol is not allowed in conjunction with @samp{N}.
-
 An example will probably help:
-@verbatim
+@smallexample
     ...
     05  Source-Field   PIC 9(2)V9 VALUE 7.2.
     05  Dest-Field     PIC 9(5).9(2).
@@ -2436,7 +2414,7 @@ An example will probably help:
     DISPLAY Dest-Field
     MOVE Source-Field TO Dest-Field
     DISPLAY Dest-Field
-@end verbatim
+@end smallexample
 
 The example will display three results --- @samp{34567.89}, @samp{00019.00} and @samp{00007.20}.
 
@@ -2448,7 +2426,7 @@ The @samp{,} symbol serves as a thousands separator.  Many times, you'll see lar
 The @samp{,} symbol is not allowed in conjunction with @samp{N}.
 
 Here's an example:
-@verbatim
+@smallexample
     ...
     05  My-Lottery-Winnings   PIC 9(3),9(3),9(3).
     ...
@@ -2457,14 +2435,14 @@ Here's an example:
 
     This produces 012,345
 
-@end verbatim
+@end smallexample
 
 The value @samp{12,345} (a very disappointing one for my retirement plans, but a good thousands separator demo) will be displayed.  Notice how, since the first comma wasn't needed due to the meagre amount I won, it is ignored.
 @end table
 
 If desired, you may reverse the roles of the @samp{.} and @samp{,} editing symbols by specifying @code{DECIMAL POINT IS COMMA} in the @syntaxref{SPECIAL-NAMES} paragraph.
 
-@verbatim
+@smallexample
     ...
         05  My-Lottery-Winnings   PIC zzz,zzz,zz9.
     ...
@@ -2475,29 +2453,25 @@ If desired, you may reverse the roles of the @samp{.} and @samp{,} editing symbo
 
     Notice that there is no leading zeros when using the picture Z.
 
-@end verbatim
+@end smallexample
 
 @item
 The following are insertion symbols.  They are used to insert an extra character (two in the case of @code{CR} and @code{DB}) to signify the sign (positive or negative) of the numeric value that is moved into the field whose picture string contains one of these symbols, or the fact that the data item represents a currency (money) amount.  Only one of the @samp{+}, @samp{-}, @code{CR} or @code{DB} symbols may be used in a picture clause. In this context, when any of these symbols are used in a @var{picture-string}, they must be at the end.  The @samp{+}, @samp{-} and/or currency symbols may also be used as floating editing symbols at the @i{beginning} of the @var{picture-string} --- a subject that will be covered in the next numbered paragraph.
 @table @asis
 @item @samp{+}
 If the value of the numeric value moved into the field is positive (0 or greater), a @samp{+} character will be inserted.  If the value is negative (less than 0), a @samp{-} character is inserted.
-
 The @samp{+} symbol is not allowed in conjunction with @samp{N}.
 
 @item @samp{-}
 If the value of the numeric value moved into the field is positive (0 or greater), a space will be inserted.  If the value is negative (less than 0), a @samp{-} character is inserted.
-
 The @samp{-} symbol is not allowed in conjunction with @samp{N}.
 
 @item @code{CR}
 This symbol is coded as the two characters @samp{C} and @samp{R}.  If the value of the numeric value moved into the field is positive (0 or greater), two spaces will be inserted.  If the value is negative (less than 0), the characters @code{CR} (credit) are inserted.
-
 The @code{CR} symbol is not allowed in conjunction with @samp{N}.
 
 @item @code{DB}
 This symbol is coded as the two characters @samp{D} and @samp{B}.  If the value of the numeric value moved into the field is positive (0 or greater), two spaces will be inserted.  If the value is negative (less than 0), the characters @code{DB} (debit) are inserted.
-
 The @code{DB} symbol is not allowed in conjunction with @samp{N}.
 
 @item @samp{$}
@@ -2575,7 +2549,7 @@ If the condition-name has a value of @code{TRUE}, the group will be presented.
 @comment *********************************************************************
 @comment ** 6.9.30 PROMPT                                                   **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{PROMPT}
 @diagram{PROMPT Clause,DD-PROMPT,DD-PROMPT,None}
 This syntax is valid in the following sections:
@@ -2656,8 +2630,8 @@ The @var{identifier-1} and @var{identifier-2} data items, along with all data it
 @comment *********************************************************************
 @comment ** 6.9.33 REQUIRED                                                 **
 @comment *********************************************************************
-@page
-@newsubsection{REQUIRED}
+@comment @page
+@newsubsection{REQUIRED, EMPTY-CHECK}
 @diagram{REQUIRED Attribute,DD-REQUIRED,DD-REQUIRED,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
@@ -2755,7 +2729,7 @@ the subject of the entry is a group whose subordinate elements have the same nam
 @comment ** 6.9.36 SECURE                                                   **
 @comment *********************************************************************
 @page
-@newsubsection{SECURE}
+@newsubsection{SECURE, NO-ECHO}
 @diagram{SECURE Attribute,DD-SECURE,DD-SECURE,None}
 This syntax is valid in the following sections:
 @code{SCREEN}
