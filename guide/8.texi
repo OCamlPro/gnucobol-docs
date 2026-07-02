@@ -38,7 +38,6 @@ STANDARD-COMPARE
 
 Date and Time Formats
 ~~~~~~~~~~~~~~~~~~~~~
-
 @end verbatim
 
 For functions @code{FORMATTED-CURRENT-DATE}, @code{FORMATTED-DATE}, @code{FORMATTED-TIME} and @code{FORMATTED-DATETIME}, the format literal argument indicates the format of the date or time value that is the result of the function. The result of the function will have the same type as its format literal, which can be alphanumeric, national or UTF-8.
@@ -51,7 +50,6 @@ The permissible format strings are listed as follows. For a full description of 
 
 Integer Date Form:
 ~~~~~~~~~~~~~~~~~
-
 @end verbatim
 
 A value in integer date form is a positive integer that represents the number of days since 31 December, 1600 in the Gregorian calendar.
@@ -62,7 +60,6 @@ It must be greater than zero and less than or equal to the value of FUNCTION INT
 
 Standard Date Form:
 ~~~~~~~~~~~~~~~~~~
-
 @end verbatim
 
 A value in standard date form is an integer of the form YYYYMMDD, calculated using (YYYY * 10,000) + (MM * 100) + DD, where:
@@ -77,7 +74,6 @@ DD represents a day and must be an integer in the range [01, 31], valid for the 
 
 Julian Date Form:
 ~~~~~~~~~~~~~~~~
-
 @end verbatim
 
 A value in Julian date form is an integer of the form YYYYDDD, calculated using (YYYY * 1000) + DDD, where:
@@ -90,23 +86,23 @@ DDD represents the day of the year. It must be a positive integer in the range [
 
 UTC Offset Value:
 ~~~~~~~~~~~~~~~~
-
 @end verbatim
 
 A UTC offset value is an integer representation of offset from UTC (Coordinated Universal Time) expressed in minutes. The value must be greater than or equal to -1439 and less than or equal to 1439.
 
 Note: The offset value 1439 represents 23 hours 59 minutes, which is one minute less than a day.
 
+@verbatim
+
 Standard numeric time form
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+@end verbatim
 A value in standard numeric time form is a numeric value representing seconds past midnight. The value must be greater than or equal to zero and less than 86,400
 
 @verbatim
 
 Date and Time Formats:
 ~~~~~~~~~~~~~~~~~~~~~
-
 @end verbatim
 
 For functions @code{FORMATTED-CURRENT-DATE}, @code{FORMATTED-DATE}, @code{FORMATTED-TIME} and @code{FORMATTED-DATETIME}, the format literal argument indicates the format of the date or time value that is the result of the function. The result of the function will have the same type as its format literal, which can be alphanumeric, national or UTF-8.
@@ -119,12 +115,10 @@ The permissible format strings are listed as follows. For a full description of 
 
 Field Sizes
 ~~~~~~~~~~~
-
 Caution must be applied when using the above processes in that the data size used for days, MUST be in excess of any requirements in the future but in particular for the years 2038 onwards so that dates expressed as days from 1601 are not exceeded by the field format, i.e., 32 bit fields or larger must be used. e.g., 2038 - 1600 = 438 years, x 365.25 = 159,980 days, requires 4 bytes minimum as only 2 bytes provide for 64k only - far too small.  Always assume that any application will be in use far beyond your expectations as proven by the year 2000 millennium bug that caused a lot of issues in 1999. Not that I can complain as I made a lot of money fixing such issues for various sites :)
 
 Date formats            Format literals
 ~~~~~~~~~~~~            ~~~~~~~~~~~~~~~
-
 Basic calendar date     YYYYMMDD
 Extended calendar date  YYYY-MM-DD
 Basic ordinal date      YYYYDDD
@@ -134,7 +128,6 @@ Extended week date      YYYY-Www-D
 
 Integer-seconds time formats:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Integer-seconds time formats            Format literals
 
 Basic local time                        hhmmss
@@ -146,8 +139,8 @@ Extended offset time                   	hh:mm:ss+hh:mm
 
 Fractional-seconds time formats:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Fractional-seconds time formats         Format literals
+
 Basic local time                        hhmmss.ssss
 Extended local time                     hh:mm:ss.ssss
 Basic Coordinated Universal Time (UTC) 	hhmmss.ssssZ
@@ -163,7 +156,6 @@ Note: The period is used as the decimal separator, and four "s" characters after
 
 Value Meanings and Limits:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-
 The permissible date and time formats have the following meanings and limits:
 
 Format    Meaning and limits
@@ -191,12 +183,10 @@ Z         UTC time indicator
 
 Value Meanings and Limits:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-
 The permissible date and time formats have the following meanings and limits:
 
 Format 	Meaning and Limits:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 YYYY      Year, 1601-9999
 MM        Month, 01-12
 DD        Day of month, 01-{28|29|30|31} dependent on month sub-field
@@ -484,25 +474,23 @@ The supported intrinsic functions are listed in the following sections, along wi
 
 @end menu
 @comment *********************************************************************
-@comment ** 8.1.1 ABS                                                       **
+@comment ** 8.1.1 ABS, ABSOLUTE-VALUE                                                       **
 @comment *********************************************************************
 @page
-@newsubsection{ABS}
+@newsubsection{ABS, ABSOLUTE-VALUE}
 @diagram{ABS Function,FN-ABS,FN-ABS,None}
 This function determines and returns the absolute value of @var{argument-1} (a numeric literal or a numeric data item).
-
 Note that @code{ABSOLUTE-VALUE} has an alias for this function.
 @comment *********************************************************************
 @comment ** 8.1.2 ACOS                                                      **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{ACOS}
 @diagram{ACOS Function,FN-ACOS,FN-ACOS,None}
 The @code{ACOS} function determines and returns a numeric value of an angle in radians that approximates the trigonometric arc-cosine,
 or inverse cosine, of @var{argument-1} (a numeric literal, a numeric data item or an arithmetic expression with value from -1 to +1).
 
 The returned value is an angle, expressed in radians, greater than or equal to zero and less than or equal to @code{PI} (from 0 to 180 degrees).
-
 You can convert radians to degrees as follows:
 @example
 COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
@@ -513,8 +501,7 @@ COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
        >>SOURCE FREE
 IDENTIFICATION DIVISION.
 PROGRAM-ID. TESTACOS. *> SAMPLE PROGRAM
-DATA DIVISION.
-WORKING-STORAGE SECTION.
+DATA DIVISION. WORKING-STORAGE SECTION.
 01 wDegrees PIC s999v999999999999999999999999999999.
 PROCEDURE DIVISION.
 display 'a.ACOS   0: ' FUNCTION ACOS(0)
@@ -596,11 +583,11 @@ GOBACK.
 @item
 Other additional documentation:
 
-@item
 When the value of Interest-Rate is zero, the value returned by the function is the approximation of:
-(1 / Number-Periods)
+@code{(1 / Number-Periods)}.
+
 When the value of Interest-Rate is not zero, the value of the function is the approximation of:
-(Interest-Rate / (1 - (1 + Interest-Rate) ** (- (Number-Periods))))
+@code{(Interest-Rate / (1 - (1 + Interest-Rate) ** (- (Number-Periods) )))}.
 
 @end enumerate
 
@@ -626,8 +613,7 @@ COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
        >>SOURCE FREE
 IDENTIFICATION DIVISION.
 PROGRAM-ID. TESTASIN. *> SAMPLE PROGRAM
-DATA DIVISION.
-WORKING-STORAGE SECTION.
+DATA DIVISION. WORKING-STORAGE SECTION.
 01 wDegrees PIC s999v999999999999999999999999999999.
 PROCEDURE DIVISION.
 display 'a.ASIN   0: ' FUNCTION ASIN(0)
@@ -673,8 +659,7 @@ COMPUTE @var{degrees} = ( @var{radians} / FUNCTION PI ) * 180
        >>SOURCE FREE
 IDENTIFICATION DIVISION.
 PROGRAM-ID. TESTATAN. *> SAMPLE PROGRAM
-DATA DIVISION.
-WORKING-STORAGE SECTION.
+DATA DIVISION. WORKING-STORAGE SECTION.
 01 wDegrees PIC s999v999999999999999999999999999999.
 PROCEDURE DIVISION.
 display 'a.ATAN   0: ' FUNCTION ATAN(0)
@@ -875,10 +860,10 @@ Example
 Given the integer date form value "143951", which represents the date 15 February 1995, and the standard numeric time form value "18867.812479168304", which represents the time "05:14:27.812479168304", the returned value would be exactly "143951.1886781247".
 
 @comment *********************************************************************
-@comment ** 8.1.11 CONCAT                                                    **
+@comment ** 8.1.11 CONCAT, CONCATENATE                                               **
 @comment *********************************************************************
-@page
-@newsubsection{CONCAT}
+@comment @page
+@newsubsection{CONCAT, CONCATENATE}
 @diagram{CONCAT Function,FN-CONCATENATE,FN-CONCATENATE,None}
 This function concatenates the @var{argument-1}, @var{argument-2}, @dots{} (group items, @code{USAGE DISPLAY} elementary items and/or alphanumeric literals) together into a single string result.
 
@@ -1154,82 +1139,56 @@ The following are the error type strings, and their corresponding exception code
 
 @item @code{0202}
 @tab @code{EC-BOUND-ODO} @tab @code{OCCURS @dots{} DEPENDING} ON data item out of bounds
-
 @item @code{0204}
 @tab @code{EC-BOUND-PTR} @tab Data-pointer contains an address that is out of bounds
-
 @item @code{0205}
 @tab @code{EC-BOUND-REF-MOD} @tab Reference modifier out of bounds
-
 @item @code{0207}
 @tab @code{EC-BOUND-SUBSCRIPT} @tab Subscript out of bounds
-
 @item @code{0303}
 @tab @code{EC-DATA-INCOMPATIBLE} @tab Incompatible data exception
-
 @item @code{0500}
 @tab @code{EC-I-O} @tab input-output exception
-
 @item @code{0501}
 @tab @code{EC-I-O-AT-END} @tab I-O status @code{1x}
-
 @item @code{0502}
 @tab @code{EC-I-O-EOP} @tab An end of page condition occurred
-
 @item @code{0504}
 @tab @code{EC-I-O-FILE-SHARING} @tab I-O status @code{6x}
-
 @item @code{0505}
 @tab @code{EC-I-O-IMP} @tab I-O status @code{9x}
-
 @item @code{0506}
 @tab @code{EC-I-O-INVALID-KEY} @tab I-O status @code{2x}
-
 @item @code{0508}
 @tab @code{EC-I-O-LOGIC-ERROR} @tab I-O status @code{4x}
-
 @item @code{0509}
 @tab @code{EC-I-O-PERMANENT-ERROR} @tab I-O status @code{3x}
-
 @item @code{050A}
 @tab @code{EC-I-O-RECORD-OPERATION} @tab I-O status @code{5x}
-
 @item @code{0601}
 @tab @code{EC-IMP-ACCEPT} @tab Implementation-defined accept condition
-
 @item @code{0602}
 @tab @code{EC-IMP-DISPLAY} @tab Implementation-defined display condition
-
 @item @code{0A00}
 @tab @code{EC-OVERFLOW} @tab Overflow condition
-
 @item @code{0A02}
 @tab @code{EC-OVERFLOW-STRING} @tab @code{STRING} overflow condition
-
 @item @code{0A03}
 @tab @code{EC-OVERFLOW-UNSTRING} @tab @code{UNSTRING} overflow condition
-
 @item @code{0B05}
 @tab @code{EC-PROGRAM-NOT-FOUND} @tab Called program not found
-
 @item @code{0D03}
 @tab @code{EC-RANGE-INSPECT-SIZE} @tab Size of replace item in inspect differs
-
 @item @code{1000}
 @tab @code{EC-SIZE} @tab Size error exception
-
 @item @code{1004}
 @tab @code{EC-SIZE-OVERFLOW} @tab Arithmetic overflow in calculation
-
 @item @code{1005}
 @tab @code{EC-SIZE-TRUNCATION} @tab Significant digits truncated in store
-
 @item @code{1007}
 @tab @code{EC-SIZE-ZERO-DIVIDE} @tab Division by zero
-
 @item @code{1202}
 @tab @code{EC-STORAGE-NOT-ALLOC} @tab The data-pointer specified in a @code{FREE} statement does not identify currently allocated storage
-
 @item @code{1203}
 @tab @code{EC-STORAGE-NOT-AVAIL} @tab The amount of storage requested by an @*@code{ALLOCATE} statement is not available
 @end multitable
@@ -1943,7 +1902,7 @@ Leading and/or trailing spaces are allowed, as are spaces before and/or after an
 @comment *********************************************************************
 @comment ** 8.1.73 ORD                                                      **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{ORD}
 @diagram{ORD Function,FN-ORD,FN-ORD,None}
 This function returns the ordinal position in the program character set (usually @sc{ASCII}) corresponding to the 1@sup{st} character of @var{char} argument (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal).
@@ -1961,7 +1920,7 @@ The following code is an alternative approach when you just wish to convert an @
 @comment *********************************************************************
 @comment ** 8.1.74 ORD-MAX                                                  **
 @comment *********************************************************************
-@comment @page
+@page
 @newsubsection{ORD-MAX}
 @diagram{ORD-MAX Function,FN-ORD-MAX,FN-ORD-MAX,None}
 This function returns the ordinal position in the argument list corresponding to the @var{char-n} whose 1@sup{st} character has the highest position in the program collating sequence (usually @sc{ASCII}).
@@ -1979,7 +1938,7 @@ For example, assuming the program is using the standard @sc{ASCII} collating seq
 @comment *********************************************************************
 @comment ** 8.1.76 PI                                                       **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{PI}
 @diagram{PI Function,FN-PI,FN-PI,None}
 This function returns the mathematical constant @i{PI}.  The maximum precision with which this value may be returned is 3.1415926535897932384626433832795029.
@@ -1992,21 +1951,16 @@ Since this function has no arguments, no parenthesis should be specified.
 @newsubsection{PRESENT-VALUE}
 @diagram{PRESENT-VALUE Function,FN-PRESENT-VALUE,FN-PRESENT-VALUE,None}
 The @code{PRESENT-VALUE} function returns a value that approximates the present value of a series of future period-end amounts specified by the various @var{value-n} arguments at a discount rate specified by the @var{rate} argument.
-
 All arguments are numeric data items and/or numeric literals.
 @iftex
 
-The following equation summarizes how present value is calculated, where @i{N} is the number of @var{value} arguments:
+The following equation and example summarizes how present value is calculated, where @i{N} is the number of @var{value} arguments:
 @tex
 $$ presentvalue = \sum_{i=1}**N
 \left (value_i
 \over (1+rate)**i\right) $$
 @end tex
 @end iftex
-@enumerate
-
-@item
-Example of function in use :
 
 @smallexample
          >>SOURCE FREE
@@ -2016,8 +1970,7 @@ PROGRAM-ID. PPresValue.
 *> You rent the machine at 350 USD per year per 5 years (= 1750).
 *> The program calculates (NET)PRESENT VALUE of 1750
 *> when the discount rate is 1%, 2% up to 10%.
-DATA DIVISION.
-WORKING-STORAGE SECTION.
+DATA DIVISION. WORKING-STORAGE SECTION.
 01  PaymentsNum      constant as   5.
 01  PaymentsAmount   constant as 350.
 01  Expenditure      PIC 999999V99 value 1500.
@@ -2028,7 +1981,6 @@ WORKING-STORAGE SECTION.
     05 PaymentAmount PIC S9999V99 OCCURS PaymentsNum TIMES VALUE PaymentsAmount.
 01  PresValue        PIC  9(6)V99  value zero.
 01  NET-PresValue    PIC S9(6)V99  value zero.
-
 PROCEDURE DIVISION.
 COMPUTE TOTAL-CASH-FLOW =
     FUNCTION SUM (PaymentAmount(1) PaymentAmount(2) PaymentAmount(3)
@@ -2036,7 +1988,6 @@ COMPUTE TOTAL-CASH-FLOW =
 DISPLAY SPACE
 DISPLAY   'Expenditure: ' Expenditure ' Total Cashflow: ' TOTAL-CASH-FLOW
 DISPLAY SPACE
-
 PERFORM 10 TIMES
   COMPUTE DiscountRate  = DiscountRate + 0.01
   COMPUTE DiscountRateP = DiscountRate * 100
@@ -2047,19 +1998,16 @@ PERFORM 10 TIMES
   DISPLAY 'DiscountRate: ' DiscountRateP '%   PresValue: ' PresValue
           ' NET-PresValue: ' NET-PresValue
 END-PERFORM
-ACCEPT omitted
-GOBACK.
-
+ACCEPT omitted GOBACK.
 @end smallexample
 
+@enumerate
 @item
 This is a case where passing parameters to the intrinsic function PRESENT-VALUE would need the ability to indicate "ALL" and then write the statement as:
-
-@item
-FUNCTION PRESENT-VALUE (DiscountRate PaymentAmount(ALL) )
-
-@item
-GnuCOBOL does not have this feature (ALL parameter) i.,e has NOT YET been implemented.
+@verbatim
+FUNCTION PRESENT-VALUE(DiscountRate PaymentAmount(ALL))
+@end verbatim
+This feature (ALL parameter) has not  yet been implemented.
 @end enumerate
 @comment *********************************************************************
 @comment ** 8.1.78 RANDOM                                                   **
@@ -2077,7 +2025,7 @@ Its numeric value will serve as the seed value.
 GnuCOBOL has an extension that if that rule is not met it internally calls FUNCTION @syntaxref{NUMVAL} on the given argument and passes that as a seed.
 
 Take, for example, the following sample program:
-@verbatim
+@smallexample
 
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DEMORANDOM.
@@ -2092,25 +2040,24 @@ PERFORM 4 TIMES
     DISPLAY Pseudo-Random-Number
 END-PERFORM
 STOP RUN.
-
-@end verbatim
+@end smallexample
 
 Every time this program is executed, it will produce the same output, because the same sequence of pseudo-random numbers will be generated:
-@verbatim
+@smallexample
 0.5441364
 0.047651578
 0.77186662
 0.056523036
 0.63045478
 
-@end verbatim
+@end smallexample
 
 Once your program has been thoroughly tested, you'll want different sequences to be generated each time the program runs.
 One possible way to accomplish this is to use a @var{seed} that is likely to be different every time the program is executed, as is likely to be the case if the first @code{MOVE} statement in the previous example were replaced by this:
 
-@verbatim
+@smallexample
 MOVE RANDOM(FUNCTION CURRENT-DATE(1:16)) TO Pseudo-Random-Number
-@end verbatim
+@end smallexample
 
 The first 16 characters returned by the @syntaxref{CURRENT-DATE} function will be a number in the format @code{@var{YYYYMMDDhhmmssnn}},
 where @code{@var{YYYYMMDD}} is the current calendar date and @code{@var{hhmmssnn}} is the current time of day to the one one-hundredth of a second.
@@ -2123,7 +2070,7 @@ If you do not use a seed then the RANDOM function will automatically determine a
 Often you need to generate a random number between two numbers.
 Following example shows how to do it.
 
-@verbatim
+@smallexample
         >>source free
 IDENTIFICATION DIVISION.
 PROGRAM-ID. RANDOM-IN-RANGE.
@@ -2144,7 +2091,7 @@ perform 10 times
 end-perform
 accept omitted
 STOP RUN.
-@end verbatim
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 8.1.79 RANGE                                                    **
@@ -2187,16 +2134,14 @@ The @var{format} argument is a string (a group item, @code{USAGE DISPLAY} elemen
 @newsubsection{SECONDS-PAST-MIDNIGHT}
 @diagram{SECONDS-PAST-MIDNIGHT Function,FN-SECS-PAST-MIDNIGHT,FN-SECS-PAST-MIDNIGHT,None}
 This function returns the current time of day expressed as the total number of elapsed seconds since midnight.
-
 Since this function has no arguments, no parenthesis should be specified.
 @comment *********************************************************************
 @comment ** 8.1.84 SIGN                                                     **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{SIGN.}
 @diagram{SIGN Function,FN-SIGN,FN-SIGN,None}
 The @code{SIGN} function returns a -1 if the value of @var{number} (a numeric literal or numeric data item) is negative, a zero if the value of @var{number} is exactly zero and a 1 if the value of @var{number} if greater than 0.
-
 Caution. Please do not confuse the @code{SIGN} Intrinsic Function with the @code{SIGN} clause of Data Division.
 @comment *********************************************************************
 @comment ** 8.1.85 SIN                                                      **
@@ -2295,23 +2240,16 @@ Returns the length --- in bytes --- of the specified @code{string} (a group item
 @newsubsection{SUBSTITUTE}
 @diagram{SUBSTITUTE Function,FN-SUBSTITUTE,FN-SUBSTITUTE,None}
 This function parses @var{string}, replacing all occurrences of @var{from-n} strings with the corresponding @var{to-n} strings.
-
 The @var{from-n} strings must match sequences in @var{string} exactly with regard to value and case.
-
 A @var{from-n} string does not have to be the same length as its corresponding @var{to-n} string.
-
 All arguments are group items, @code{USAGE DISPLAY} elementary items or alphanumeric literals.
-
 A null @var{to-n} string will be treated as a single space.
 
 When using Variables in place of @var{string} attention to NOT wanting Leading or trailing spaces usage of function TRIM needs to be utilised as failure to do so will result in variables treated with any unwanted spaces leading and/or trailing, i.e.,
-@verbatim
-
-move     function SUBSTITUTE      (WS-Dest-File-Path,
-                    function TRIM (WS-Inbound-Path),
-                    function TRIM (WS-Desc-Path))
-                               to WS-Dest-File-Path
-@end verbatim
+@smallexample
+move function SUBSTITUTE(WS-Dest-File-Path, function TRIM(WS-Inbound-Path),
+     function TRIM(WS-Desc-Path)) to WS-Dest-File-Path
+@end smallexample
 @comment *********************************************************************
 @comment ** 8.1.90 SUBSTITUTE-CASE                                          **
 @comment *********************************************************************
@@ -2323,22 +2261,17 @@ The @code{SUBSTITUTE-CASE} function operates the same as the @syntaxref{SUBSTITU
 All arguments are group items, @code{USAGE DISPLAY} elementary items or alphanumeric literals.
 
 When using Variables in place of @var{string} attention to NOT wanting Leading or trailing spaces usage of function TRIM needs to be utilised as failure to do so will result in variables treated with any unwanted spaces leading and/or trailing, i.e.,
-@verbatim
-
-move     function SUBSTITUTE-CASE (WS-Dest-File-Path,
-                    function TRIM (WS-Inbound-Path),
-                    function TRIM (WS-Desc-Path))
-                               to WS-Dest-File-Path
-@end verbatim
-
+@smallexample
+move function SUBSTITUTE-CASE(WS-Dest-File-Path, function TRIM(WS-Inbound-Path),
+     function TRIM(WS-Desc-Path)) to WS-Dest-File-Path
+@end smallexample
 @comment *********************************************************************
 @comment ** 8.1.91 SUM.                                                      **
 @comment *********************************************************************
-@page
+@comment page
 @newsubsection{SUM.}
 @diagram{SUM Function,FN-SUM,FN-SUM,None}
 The @code{SUM} function returns a value that is the sum of @var{number-n} arguments (these may be numeric data items or numeric literals).
-
 Caution. Please do not confuse the @code{SUM} Intrinsic Function with the @code{SUM} clause of Data Division.
 @comment *********************************************************************
 @comment ** 8.1.92 TAN                                                      **
@@ -2403,7 +2336,6 @@ c. TAN  90: -06821240868962529064771258430010129008736353403959449607967148259
 @newsubsection{TEST-DATE-YYYYMMDD}
 @diagram{TEST-DATE-YYYYMMDD Function,FN-TEST-DATE-YYYYMMDD,FN-TEST-DATE-YYYYMMDD,None}
 This function determines if the supplied @var{date} argument (a numeric integer data item or literal) is a valid date.
-
 A valid date is one of the form yyyymmdd in the range 1601/01/01 to 9999/12/31, with no more than the expected maximum number of days in the month, accounting for leap year.
 
 If the @var{date} is valid, a 0 value is returned.  If it isn't, a value of 1, 2 or 3 is returned signalling the problem lies with the year, month or day, respectively.
@@ -2414,14 +2346,13 @@ If the @var{date} is valid, a 0 value is returned.  If it isn't, a value of 1, 2
 @newsubsection{TEST-DAY-YYYYDDD}
 @diagram{TEST-DAY-YYYYDDD Function,FN-TEST-DAY-YYYYDDD,FN-TEST-DAY-YYYYDDD,None}
 This function determines if the supplied @var{date} (a numeric integer data item or literal) is a valid date.
-
 A valid date is one of the form @code{yyyyddd} in the range 1601001 to 9999365.  Leap year is accounted for in determining the maximum number of days in a year.
 
 If the date is valid, a 0 value is returned.  If it isn't, a value of 1 or 2 is returned signalling the problem lies with the year or day, respectively.
 @comment *********************************************************************
 @comment ** 8.1.95 TEST-FORMATTED-DATETIME                                  **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{TEST-FORMATTED-DATETIME}
 @diagram{TEST-FORMATTED-DATETIME Function,FN-TEST-FORMATTED-DATETIME,FN-TEST-FORMATTED-DATETIME,None}
 @code{TEST-FORMATTED-DATETIME} tests whether a date literal representing a date, a time or a combined date and time is valid according to the specified format.
@@ -2430,16 +2361,12 @@ If the date is valid, a 0 value is returned.  If it isn't, a value of 1 or 2 is 
 
 @var{argument-2} must be a data item of the same type as @var{argument-1}.
 
-Returned value:
+Returned value: if no format or range problems occur during evaluation of @var{argument-2} according to the format in @var{argument-1}, the returned value is zero. Otherwise the returned value is the ordinal character position at which the first error in @var{argument-2} was detected.
 
-If no format or range problems occur during evaluation of @var{argument-2} according to the format in @var{argument-1}, the returned value is zero. Otherwise the returned value is the ordinal character position at which the first error in @var{argument-2} was detected.
-
-Example
-
-Using the following arguments, it will generates a return value of 5, as the fifth character of argument-2 ("4") contains an incorrect value for the first digit of the month representation.
-
+Example: using the following arguments, it will generates a return value of 5, as the fifth character of argument-2 ("4") contains an incorrect value for the first digit of the month representation.
+@smallexample
 FUNCTION TEST-FORMATTED-DATETIME("YYYYMMDD", "20124523")
-
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 8.1.96 TEST-NUMVAL                                              **
@@ -2448,7 +2375,6 @@ FUNCTION TEST-FORMATTED-DATETIME("YYYYMMDD", "20124523")
 @newsubsection{TEST-NUMVAL}
 @diagram{TEST-NUMVAL Function,FN-TEST-NUMVAL,FN-TEST-NUMVAL,None}
 The @code{TEST-NUMVAL} function evaluates @var{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) for being appropriate for use as the @var{string} argument to a @syntaxref{NUMVAL} function, returning to a integer a zero value if it is appropriate otherwise if one or more characters are in error, the position of the first character in error or the length of the field plus one for other cases such as all spaces.
-
 Note that these errors include but are not limited to: argument (@var{string}) is zero length, contains only spaces or contains valid characters but is incomplete, such as the string @samp{+.}.
 @comment *********************************************************************
 @comment ** 8.1.97 TEST-NUMVAL-C                                            **
@@ -2457,9 +2383,7 @@ Note that these errors include but are not limited to: argument (@var{string}) i
 @newsubsection{TEST-NUMVAL-C}
 @diagram{TEST-NUMVAL-C Function,FN-TEST-NUMVAL-C,FN-TEST-NUMVAL-C,None}
 This function evaluates @var{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) for being appropriate for use as the @var{string} argument to a @syntaxref{NUMVAL-C} function, returning to a integer a zero value if it is appropriate otherwise if one or more characters are in error, the position of the first character in error or the length of the field plus one for other cases such as all spaces.
-
 Note that these errors include but are not limited to: argument (@var{string}) is zero length, contains only spaces or contains valid characters but is incomplete, such as the string @samp{+.}.
-
 The optional @var{symbol} argument serves the same function --- and has the same default and possible values --- as the corresponding argument of the @code{NUMVAL-C} function.
 @comment *********************************************************************
 @comment ** 8.1.98 TEST-NUMVAL-F                                            **
@@ -2468,7 +2392,6 @@ The optional @var{symbol} argument serves the same function --- and has the same
 @newsubsection{TEST-NUMVAL-F}
 @diagram{TEST-NUMVAL-F Function,FN-TEST-NUMVAL-F,FN-TEST-NUMVAL-F,None}
 This function evaluates @var{string} (a group item, @code{USAGE DISPLAY} elementary item or alphanumeric literal) for being appropriate for use as the @var{string} argument to a @syntaxref{NUMVAL-F} function, returning to a integer a zero value if it is appropriate otherwise if one or more characters are in error, the position of the first character in error or the length of the field plus one for other cases such as all spaces.
-
 Note that these errors include but are not limited to: argument (string) is zero length, contains only spaces or contains valid characters but is incomplete, such as the string @samp{+.}.
 @comment *********************************************************************
 @comment ** 8.1.99 TRIM                                                     **
@@ -2671,7 +2594,9 @@ The length of the returned value is the number of character positions of usage n
 Neither @var{argument-1} nor @var{argument-2} shall be a zero-length literal.
 
 @item
-@var{ordering-name-1}, if specified, shall be associated with a cultural ordering table in the @code{ORDER TABLE} clause of the @code{SPECIAL-NAMES} paragraph. @var{ordering-name-1} identifies the ordering table to be used for the comparison. If @var{ordering-name-1} is not specified, the default ordering table `ISO14651_2010_TABLE1' described in Appendix A of ISO/IEC 14651:2011 shall be used.
+@var{ordering-name-1}, if specified, shall be associated with a cultural ordering table in the @code{ORDER TABLE} clause of the @code{SPECIAL-NAMES} paragraph. 
+It identifies the ordering table to be used for the comparison. 
+If @var{ordering-name-1} is not specified, the default ordering table `ISO14651_2010_TABLE1' described in Appendix A of ISO/IEC 14651:2011 shall be used.
 
 @item
 @var{argument-4}, if specified, shall be a positive nonzero integer.
@@ -2695,13 +2620,11 @@ For purposes of comparison, trailing spaces are truncated from the operands exce
 
 @item
 @var{argument-1} and @var{argument-2} are compared in accordance with the ordering table and ordering level being used.
-
 @i{Note}: This comparison is culturally sensitive and the default ordering table is acceptable for most cultures. It is not
 necessarily a character-by-character comparison and not necessarily a case-sensitive comparison. In order to use this
 function, users should understand the types of comparisons specified by ISO/IEC 14651:2D11 and the ordering tables in
 use for their installation.
 
-@page
 @item
 The returned value is:
 
@@ -3304,13 +3227,11 @@ This routine will create a noise (a beep) using the internal speaker if present.
 @comment @page
 @newsubsection{CBL_BELL_SOUND}
 @diagram{CBL_BELL_SOUND Built-In Subroutine,SS-CBL_BELL_SOUND,SS-CBL_BELL_SOUND,None}
-This routine will create a noise (a beep) using the internal speaker if present.
-
-Works the same as function CBL_ALARM_SOUND and X"E5".
+This routine works the same as function CBL_ALARM_SOUND and X"E5".
 @comment *********************************************************************
 @comment ** 8.2.16 CBL_AND                                                  **
 @comment *********************************************************************
-@page
+@comment @page 
 @newsubsection{CBL_AND}
 @diagram{CBL_AND Built-In Subroutine,SS-CBL_AND,SS-CBL_AND,None}
 @multitable @columnfractions 0.3 0.7
@@ -3586,12 +3507,9 @@ PROCEDURE DIVISION.
     CALL "CBL_EXIT_PROC" USING 0, Exit-Proc-Address
     IF RETURN-CODE NOT = 0
         DISPLAY 'Error: Could not register Exit Procedure'
-    END-IF
-    .
+    END-IF.
 099-Now-Test-Exit-Proc.
-    DISPLAY
-        'Executing a STOP RUN...'
-    END-DISPLAY
+    DISPLAY 'Executing a STOP RUN...' END-DISPLAY
     GOBACK.
 END PROGRAM demoexitproc.
 
@@ -3614,12 +3532,11 @@ PROCEDURE DIVISION.
     DISPLAY '***    ' Display-Date '  ' Display-Time '    ***'
     GOBACK.
 END PROGRAM ExitProc.
-
 @end smallexample
 @comment *********************************************************************
 @comment ** 8.2.29 CBL_FLUSH_FILE                                           **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{CBL_FLUSH_FILE}
 @diagram{CBL_FLUSH_FILE Built-In Subroutine,SS-CBL_FLUSH_FILE,SS-CBL_FLUSH_FILE,None}
 In Micro Focus COBOL, calling this subroutine flushes any as-yet unwritten buffers for the (output) file whose file-handle is specified as the argument to disk.
@@ -3694,7 +3611,7 @@ Negative values are returned for system dependant error codes and -1 if the func
 
 The usage of this system routine is described by the following example.
 
-@example
+@smallexample
  IDENTIFICATION DIVISION.
  PROGRAM-ID. PROG.
  DATA DIVISION.
@@ -3711,7 +3628,7 @@ The usage of this system routine is described by the following example.
  01  RETURN-CHAR         PIC X(4).
  01  OPT-VAL             PIC X(10).
  01  COUNTER             PIC 9 VALUE 0.
-@end example
+@end smallexample
 
 We first need to define the necessary fields for @code{getopt}'s @code{shortoptions}, @code{longoptions}, longoption index (@code{longind}), long-only-option (@code{long-only})
 and also the fields for return values @code{return-char} and @code{opt-val} (arbitrary
@@ -3743,7 +3660,7 @@ records.
 
 Now we have the tools to run @code{CBL_GC_GETOPT} within the procedure division.
 
-@example
+@smallexample
 PROCEDURE DIVISION.
      MOVE     "version" to OPTIONNAME (1).
      MOVE     0 TO HAS-VALUE (1).
@@ -3761,7 +3678,7 @@ PROCEDURE DIVISION.
               DISPLAY OPT-VAL END-DISPLAY
      END-PERFORM
      STOP RUN.
-@end example
+@end smallexample
 
 The example shows how we initialize all parameters and call the routine until
 @code{CBL_GC_GETOPT} runs out of options and returns -1.
@@ -4053,7 +3970,7 @@ DisplayMessageEx. exit.
 @comment *********************************************************************
 @comment ** 8.2.36 CBL_GC_SCR_RESTORE                                       **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{CBL_GC_SCR_RESTORE}
 @diagram{CBL_GC_SCR_RESTORE Built-In Subroutine,SS-CBL_GC_SCR_RESTORE,SS-CBL_GC_SCR_RESTORE,None}
 
@@ -4073,16 +3990,16 @@ The size data must be in binary form or any other numeric forms to be accepted.
 
 The following are possibly typical @var{no-of-lines} and @var{no-of-columns} definitions:
 
-@example
+@smallexample
 01  NO-OF-LINES             USAGE BINARY-CHAR UNSIGNED.
 01  NO-OF-COLUMNS           USAGE BINARY-CHAR UNSIGNED.
-@end example
+@end smallexample
 
 This system call will only work if the terminal program used is compatible for such operations and not all are.
 @comment *********************************************************************
 @comment ** 8.2.38 CBL_GC_WAITPID                                          **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{CBL_GC_WAITPID}
 @diagram{CBL_GC_WAITPID Built-In Subroutine,SS-CBL_GC_WAITPID,SS-CBL_GC_WAITPID,None}
 
@@ -4648,7 +4565,7 @@ Upon completion, the
 @comment *********************************************************************
 @comment ** 8.2.61 CBL_XOR                                                  **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{CBL_XOR}
 @diagram{CBL_XOR Built-In Subroutine,SS-CBL_XOR,SS-CBL_XOR,None}
 @multitable @columnfractions 0.3 0.7
@@ -6422,24 +6339,21 @@ Each occurrence that is set to a value of zero prior to the @code{CALL X"91"} wi
 
 Values other than 0 or 1 will be ignored.
 
-@example
+@smallexample
 
 Syntax:
-
 FN-Status          set to 0 if the function is successful, else 1.
 X91-function       set to 11.
 Group-item         group-item with -
 Switch-flags       values ( 0 or 1 ) for each of the 8 switches.
 
 Parameters:
-
 01  FN-Return-Code   pic x comp-x.
 01  x91-function     pic x comp-x.
 01  Group-item.
 01  Switch-Flags     pic x comp-x occurs 8
 
 Code example:
-
 77 fn-Return-Code pic x comp-x.
 77 x91-function   pic x comp-x value 11.
 01 Group-item.
@@ -6448,8 +6362,7 @@ Code example:
 move 1 to switch-flags(1).
 call x"91" using fn-Return-Code, x91-Function, Group-item
 ...
-
-@end example
+@end smallexample
 
 @item 12
 Reads all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}) and debug switches as prorammable 0 - 7.
@@ -6459,29 +6372,25 @@ The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @cod
 Each of the 1@sup{st} eight occurrences of the array will be set to either 0 or 1 --- 1 if the corresponding switch is set, 0 otherwise.
 
 
-@example
+@smallexample
 
 Syntax:
-
 FN-Status          set to 0 if the function is successful, else 1.
 X91-function       set to 12.
 Group-item         group-item to receive -
 Switch-flags       value of each of the switches set.
 
 Parameters:
-
 01  FN-Return-Code   pic x comp-x.
 01  x91-function     pic x comp-x.
 01  Group-item.
 01  Switch-Flags     pic x comp-x occurs 8
 
 Code example:
-
 ...
 special-names.
 switch 1 is switch-1.
 ...
-
 
 77 fn-Return-Code pic x comp-x.
 77 x91-function   pic x comp-x value 12.
@@ -6491,19 +6400,16 @@ switch 1 is switch-1.
 set switch-1 to on
 call x"91" using fn-Return-Code, x91-function, Group-item.
 ...
-
-@end example
+@end smallexample
 
 @item 16
 Retrieves the number of arguments passed to the program executing the @code{CALL X"91"}, saving that number into the @var{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} or {USAGE COMP-X} is recommended).
 
-@example
+@smallexample
 Usage:
-
 call x"91" using fn-status, x91-function, num-params.
 
 Parameters:
-
 01  Fn-status        pic x comp-x
 01  x91-function     pic x comp-x
 01  num-params       pic x comp-x
@@ -6513,7 +6419,7 @@ Fn-status       Set to 0 if the function is successful, else 1.
 X91-function    Set to 16.
 num-params      Receives the number of parameters on the Procedure Division USING / CHAINING statement.
 
-@end example
+@end smallexample
 
 @end itemize
 
