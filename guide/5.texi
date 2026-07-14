@@ -810,103 +810,70 @@ The
 
 @item 00
 Success
-
 @item 02
 Success (Duplicate Record Key Written)
-
 @item 04
 Success (Incomplete)
-
 @item 05
 Success (Optional File Not Found)
-
 @item 06
 Multiple records (in LS)
-
 @item 07
 Success (No Unit)
-
 @item 09
 Success LS Bad Data
-
 @item 10
 End of file reached if reading forward or beginning-of-file reached if reading backward
-
 @item 14
 Out of key range
-
 @item 21
 Key invalid
-
 @item 22
 Key already exists
-
 @item 23
 Key not found
-
 @item 24
 Key boundary violation
-
 @item 30
 Permanent I/O error
-
 @item 31
 Inconsistent filename
-
 @item 34
 Boundary violation
-
 @item 35
 File not found
-
 @item 37
 Permission denied
-
 @item 38
 Closed with lock
-
 @item 39
 Conflicting attribute
-
 @item 41
 File already open
-
 @item 42
 File not open
-
 @item 43
 Read not done
-
 @item 44
 Record overflow
-
 @item 46
 Read error
-
 @item 47
 @code{OPEN INPUT} denied (insufficient permissions to read file)
-
 @item 48
 @code{OPEN OUTPUT} denied (insufficient permissions to write to file)
-
 @item 49
 @code{OPEN I-O} denied (insufficient permissions to read and/or write file)
-
 @item 51
 Record locked
-
 @item 52
 End of page
-
 @item 57
 @code{LINAGE} bad specification (I-O linage)
-
 @item 61
 File sharing failure
-
 @item 71
 Bad character
-
 @item 91
 Feature not available  --
 For OPEN and CLOSE: means that the File I-O backend is not available (before 4.x his mostly means a GnuCOBOL compile-time configuration –without-db, afterwards it could also mean that the shared object for the backend configured at runtime for the specific file cannot be loaded).
@@ -917,14 +884,9 @@ For REWRITE and for DELETE: means that File I-O statement isn't supported for th
 @item
 Sample copy book member, suggest that you copy this content to say FileStat-Msgs.cpy and save in your copy book folder.
 
-@verbatim
+@smallexample
 
 *> ***************************************************************
-*> ** Author: Gary L. Cutler                                    **
-*> **         CutlerGL@gmail.com                                **
-*> ** Amendments Vincent B. Coen                                **
-*> **         vbcoen@gmail.com                                  **
-*> **                                                           **
 *> ** This copybook defines an EVALUATE statement capable of    **
 *> ** translating two-digit FILE-STATUS codes to a message.     **
 *> **                                                           **
@@ -932,14 +894,7 @@ Sample copy book member, suggest that you copy this content to say FileStat-Msgs
 *> ** the MSG and STATUS identifiers to                         **
 *> ** the names your program needs.                             **
 *> Such as replacing STATUS by fs-reply msg by exception-msg.   **
-*>                                                              **
-*> ** chg 09/08/23 vbc for missing statuses.                    **
-*> ** Chg 11/12/23 vbc for missing/new statuses.                **
-*> ** Chg 10/04/25 vbc match all quotes & spacing/layout.       **
-*> ** chg to FREE format.                                       **
-*> ** Chg 24/08/25 vbc #91 description.                         **
 *> ***************************************************************
-*>
      EVALUATE STATUS
           WHEN 00 MOVE 'Success                  ' TO MSG
           WHEN 02 MOVE 'Success Duplicate        ' TO MSG
@@ -979,11 +934,11 @@ Sample copy book member, suggest that you copy this content to say FileStat-Msgs
                   MOVE 'Unknown File Status      ' TO MSG
      END-EVALUATE.
 
-@end verbatim
+@end smallexample
 
 @item One sample code defining and using this copy book in a free format program source.
 
-@verbatim
+@smallexample
 
 In Working-Storage section :
 
@@ -991,13 +946,11 @@ In Working-Storage section :
      03  WS-Eval-Msg     pic x(25)       value spaces.
      03  Fs-Reply        pic xx.
      03  WS-No-Care      pic x.
-
  .....
 
  01  Error-Messages.
 *> System Wide
      03  SL002          pic x(31) value "SL002 Note error and hit return".
-
 
 In Procedure Division :
 
@@ -1012,19 +965,15 @@ In Procedure Division :
           display space       at line ws-23-lines col 1 with erase eos
      end-rewrite
 
-*>
  Evaluate-Message Section.
  copy "FileStat-Msgs.cpy" replacing MSG by ws-Eval-Msg STATUS by fs-reply.
-*>
+
  Eval-Msg-Exit.  exit section.
-*>
+@end smallexample
 
-@end verbatim
+And another from the pen of Vincent Coen:
 
-And another from the pen of Vincent Coen :
-
-@verbatim
-
+@smallexample
 In WS :
 
 *> Display Screen Positioning
@@ -1048,9 +997,7 @@ At start of prog PD :
 
 Near the bottom of code :
 
-*>
  ZZA-File-Status    section.
-*>*************************
 *>  File Status Checking Routines using standard Cobol file status values only.
      move     "Unknown" to WS-Sys-Message.
      evaluate s1
@@ -1066,7 +1013,7 @@ Near the bottom of code :
      end-evaluate.
      move     "Unknown error status"                to WS-Sys-Message.
      go       to zza998-Display-Message.   *> Do not stop/accept as in batch mode
-*>                                            Use zz997 instead to stop after a error msg.
+                                        Use zz997 instead to stop after a error msg.
  zza020-Check-Inv-Key-Status.
      evaluate s2
               when "1" move "Invalid key"           to WS-Sys-Message
@@ -1074,7 +1021,7 @@ Near the bottom of code :
               when "3" move "No record found"       to WS-Sys-Message
               when "4" move "Key boundary Violated" to WS-Sys-Message
      end-evaluate.
-*>
+
  zza030-Check-Perm-Err-Status.
      evaluate s2
               when "0" move "Permanent I/O error"   to WS-Sys-Message
@@ -1085,7 +1032,7 @@ Near the bottom of code :
               when "8" move "Closed with lock"      to WS-Sys-Message
               when "9" move "Conflicting attribute" to WS-Sys-Message
      end-evaluate.
-*>
+
  zza040-Look-Up-Error.
      evaluate s2
               when "1" move "File already open"     to WS-Sys-Message
@@ -1097,29 +1044,29 @@ Near the bottom of code :
               when "8" move "Open Output Denied"    to WS-Sys-Message
               when "9" move "Open I-O Denied"       to WS-Sys-Message
      end-evaluate.
-*>
+
  zza050-Look-Up-Error.
      evaluate s2
               when "1" move "Record locked"         to WS-Sys-Message
               when "2" move "End of page"           to WS-Sys-Message
               when "7" move "Linage spec Invalid"   to WS-Sys-Message
      end-evaluate.
-*>
+
  zza060-Look-Up-Error.
      evaluate s2
               when "1" move "File sharing failure"  to WS-Sys-Message
      end-evaluate.
-*>
+
  zza070-Look-Up-Error.
      evaluate s2
               when "1" move "Bad Character"         to WS-Sys-Message
      end-evaluate.
-*>
+
  zza090-Look-Up-Error.
      evaluate s2
               when "1" move "Feature not available" to WS-Sys-Message
      end-evaluate.
-*>
+
  zza997-Display-Message.
      if       WS-Sys-Message not = spaces
               display  WS-Sys-Message  at line ws-23-Lines col 41 with foreground-color COB-COLOR-RED
@@ -1127,15 +1074,14 @@ Near the bottom of code :
               accept   Accept-Reply at line ws-Lines col 32
               display  space at line ws-23-Lines col 01 with erase eos.
      go       to zza999-Exit.
-*>
+
  zza998-Display-Message.                          *> As in batch mode do not stop
      if       WS-Sys-Message not = spaces         *> could send it to log file ?
               display  WS-Sys-Message  at line ws-23-Lines col 41 with foreground-color COB-COLOR-RED.
-*>
- zza999-exit. exit section.
-*>
 
-@end verbatim
+ zza999-exit. exit section.
+
+@end smallexample
 
 @item
 The @syntaxidx{SHARING} clause defines the conditions under which the program will be willing (or not) to allow other programs executing at the same time to access the file.  @xref{File Sharing}, for the details.
@@ -1474,10 +1420,12 @@ While coding only a single file name (the repeated @var{file-name-1} item) is sy
 @item
 The effect of this statement will be to cause the specified files to share the same I/O buffer in memory.  These buffers can sometimes get quite large, and by having multiple files share the same buffer memory you may significantly cut down the amount of memory the program is using (thus making ``room'' for more procedural code or data).  If you do use this feature, take care to ensure that no more than one of the specified files are ever OPEN simultaneously.
 @end enumerate
+
+
 @comment *********************************************************************
 @comment ** 5.2.3 MULTIPLE FILE Statement                                   **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{MULTIPLE FILE}
 @diagram{I-O-CONTROL MULTIPLE FILE,ED-IO-CONTROL-MULT,ED-IO-CONTROL-MULT,ED-IO-CONTROL-MULT}
 @iftex

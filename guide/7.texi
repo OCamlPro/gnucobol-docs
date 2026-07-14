@@ -408,7 +408,7 @@ Neither @var{data-item-1} nor @var{data-item-2} may have an @syntaxref{OCCURS} c
 
 Observe the definitions of data items @samp{Q} and @samp{Y}@dots{}
 
-@example
+@smallexample
 01  Q.                           01  Y.
     03 X.                            02 A         PIC X(1).
        05 A         PIC 9(1).        02 G1.
@@ -431,7 +431,7 @@ Observe the definitions of data items @samp{Q} and @samp{Y}@dots{}
        05 J.                                  05 M.
           10 K.
              15 M   PIC X(1).
-@end example
+@end smallexample
 
 The following are the valid @code{CORRESPONDING} matches, assuming the statement @code{MOVE CORRESPONDING X TO Y} is being executed (there are no valid corresponding matches for @code{ADD CORRESPONDING} or @code{SUBTRACT CORRESPONDING} because every potential match up violates rule #4):
 
@@ -879,7 +879,7 @@ By accepting from
 
 @item
 The optional @code{ON EXCEPTION} and @code{NOT ON EXCEPTION} clauses may be used to detect and react to the failure or success, respectively, of an attempt to retrieve an @code{ARGUMENT-VALUE}.  @xref{ON EXCEPTION + NOT ON EXCEPTION}, for additional information.
-@example
+@smallexample
 Program Example:
 
        >>SOURCE FREE
@@ -947,7 +947,7 @@ Arguments: 004
 Argument no exception
 Next arg= 3
 
-@end example
+@end smallexample
 
 @item
 Argument-number assigned to 0 gives the actual OS command used to start the process from argument-value. 
@@ -955,7 +955,7 @@ Function module-id instead gives the internal program-id.
 In the following case TESTACCEPTARG2.COB is the source filename.
 program-id is actually "SAMPLE3" in the code.
 
-@example
+@smallexample
                >>SOURCE FREE
        identification division.
        program-id. SAMPLE3.
@@ -975,7 +975,7 @@ The result will be:
 
 argument-value zero >C:\yourfolder\TESTACCEPTARG2.exe  <
 function module-id  >SAMPLE3<
-@end example
+@end smallexample
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.1.3 ACCEPT FROM ENVIRONMENT                                 **
@@ -1970,7 +1970,7 @@ When a @syntaxref{ORGANIZATION LINE SEQUENTIAL} or @syntaxref{LINE ADVANCING} fi
 @comment *********************************************************************
 @comment ** 7.8.8 COMMIT                                                   **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{COMMIT}
 @diagram{COMMIT,PD-COMMIT,PD-COMMIT,None}
 The @statement{COMMIT} performs an @code{UNLOCK} against every currently-open file, but does not close any of the files.
@@ -2006,7 +2006,7 @@ The optional @code{ON SIZE ERROR} and @code{NOT ON SIZE ERROR} clauses may be us
 @item
 The COMPUTE verb can also be used to evaluate boolean expressions. See the  following example:
 
-@verbatim
+@smallexample
 
        >>SOURCE FREE
 IDENTIFICATION DIVISION.
@@ -2016,7 +2016,6 @@ WORKING-STORAGE SECTION.
 01 A pic 9 comp-x value B'00000101'.
 01 B pic 9 comp-x value B'00000011'.
 01 c pic 9        value LOW-VALUE.
-
 PROCEDURE DIVISION.
   display space
   display '   a          b     c        a                 b          c    '
@@ -2040,14 +2039,12 @@ PROCEDURE DIVISION.
           NOT    ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
   accept omitted
   STOP RUN.
-
-@end verbatim
+@end smallexample
 
 @item
 and in particular with the boolean shift operators, see the following example:
 
-@verbatim
-
+@smallexample
          >>SOURCE FREE
 IDENTIFICATION DIVISION.
 PROGRAM-ID. TESTBOOLEANSHIFT.
@@ -2056,7 +2053,6 @@ WORKING-STORAGE SECTION.
 01 A pic 9 comp-x value B'00000001'.
 01 B pic 9 comp-x value B'00000101'.
 01 c pic 9        value LOW-VALUE.
-
 PROCEDURE DIVISION.
   display space
   display '   a            b     c        a                   b          c    '
@@ -2080,8 +2076,7 @@ PROCEDURE DIVISION.
           B-SHIFT-RC ' FUNCTION BIT-Of(b) ' = ' FUNCTION BIT-OF(c)
   accept omitted
   STOP RUN.
-
-@end verbatim
+@end smallexample
 
 @end enumerate
 @comment *********************************************************************
@@ -2913,47 +2908,43 @@ If the @var{Selection-Object} is a @var{partial-expression}, then the conditiona
 @item
 Here is a sample program that illustrates the EVALUATE statement.
 
-@example
+@smallexample
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DEMOEVALUATE.
 DATA DIVISION.
 WORKING-STORAGE SECTION.
 01  Test-Digit PIC 9(1).
-    88 Digit-Is-Odd VALUE 1, 3, 5, 7, 9.
+    88 Digit-Is-Odd   VALUE 1, 3, 5, 7, 9.
     88 Digit-Is-Prime VALUE 1, 3, 5, 7.
 PROCEDURE DIVISION.
-P1. PERFORM UNTIL EXIT
-    DISPLAY "Enter a digit (0 Quits): "
-        WITH NO ADVANCING
+PERFORM UNTIL EXIT
+    DISPLAY "Enter a digit (0 Quits): " WITH NO ADVANCING
     ACCEPT Test-Digit
-    IF Test-Digit = 0
-        EXIT PERFORM
-    END-IF
+    IF Test-Digit = 0 EXIT PERFORM END-IF
     EVALUATE Digit-Is-Odd ALSO Digit-Is-Prime
-    WHEN TRUE ALSO FALSE
-        DISPLAY Test-Digit " is ODD"   WITH NO ADVANCING
-    WHEN TRUE ALSO TRUE
-        DISPLAY Test-Digit " is PRIME" WITH NO ADVANCING
-    WHEN FALSE ALSO ANY
-        DISPLAY Test-Digit " is EVEN"  WITH NO ADVANCING
+		WHEN TRUE ALSO FALSE
+			DISPLAY Test-Digit " is ODD"   WITH NO ADVANCING
+		WHEN TRUE ALSO TRUE
+			DISPLAY Test-Digit " is PRIME" WITH NO ADVANCING
+		WHEN FALSE ALSO ANY
+			DISPLAY Test-Digit " is EVEN"  WITH NO ADVANCING
     END-EVALUATE
     EVALUATE Test-Digit
-    WHEN < 5
-        DISPLAY " and it's small too"
-    WHEN < 8
-        DISPLAY " and it's medium too"
-    WHEN OTHER
-        DISPLAY " and it's large too"
+		WHEN < 5
+			DISPLAY " and it's small too"
+		WHEN < 8
+			DISPLAY " and it's medium too"
+		WHEN OTHER
+			DISPLAY " and it's large too"
     END-EVALUATE
 END-PERFORM
 DISPLAY "Bye!"
-STOP RUN
-.
-@end example
+STOP RUN.
+@end smallexample
 
 Console output when run (user input follows the colons on the prompts for input):
 
-@example
+@smallexample
 Enter a digit (0 Quits): 1
 1 is PRIME and it's small too
 Enter a digit (0 Quits): 2
@@ -2974,7 +2965,7 @@ Enter a digit (0 Quits): 9
 9 is ODD and it's large too
 Enter a digit (0 Quits): 0
 Bye!
-@end example
+@end smallexample
 @end enumerate
 
 @comment *********************************************************************
@@ -3411,7 +3402,7 @@ The following example shows how @code{GO TO ... DEPENDING ON} may be used in a r
 @multitable @columnfractions 0.5 0.5
 @headitem GO TO DEPENDING ON @tab EVALUATE
 @item
-@verbatim
+@smallexample
     GO TO
       ACCT-TYPE-1
       ACCT-TYPE-2
@@ -3428,9 +3419,9 @@ Acct-Type-2.
 Acct-Type-3.
     <<< Handle Acct Type 3 >>>
 All-Done.
-@end verbatim
+@end smallexample
 @tab
-@verbatim
+@smallexample
 EVALUATE Acct-Type
 WHEN 1
     <<< Handle Acct Type 1 >>>
@@ -3441,7 +3432,7 @@ WHEN 3
 WHEN OTHER
     <<< Invalid Acct Type >>>
 END-EVALUATE.
-@end verbatim
+@end smallexample
 @end multitable
 
 @item
@@ -4013,8 +4004,7 @@ A separator period
 @end enumerate
 @end enumerate
 
-@verbatim
-
+@smallexample
    IDENTIFICATION DIVISION.
    PROGRAM-ID. JSONGEN.
    ENVIRONMENT DIVISION.
@@ -4049,8 +4039,7 @@ A separator period
        display "JSON DOCUMENT = "
        display PAYLOAD-JSON
        GOBACK.
-
-@end verbatim
+@end smallexample
 
 
 
@@ -4178,7 +4167,7 @@ The contents of the @var{identifier-1} data item will not be changed, unless tha
 @comment *********************************************************************
 @comment ** 7.8.27.2 MOVE CORRESPONDING                                    **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{MOVE CORRESPONDING}
 @diagram{MOVE CORRESPONDING,PD-MOVE-2,PD-MOVE-2,None}
 The @statement{MOVE CORRESPONDING} moves similarly-named items from one group item to another.
@@ -4715,7 +4704,7 @@ The
 @comment *********************************************************************
 @comment ** 7.8.33 RELEASE                                                 **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{RELEASE}
 @diagram{RELEASE,PD-RELEASE,PD-RELEASE,None}
 The @statement{RELEASE} adds a new record to a sort work file.
@@ -5176,7 +5165,7 @@ If the @code{ADDRESS OF} clause is absent after the @code{TO}, the contents of @
 @comment *********************************************************************
 @comment ** 7.8.40.4 SET Index                                              **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{SET Index}
 @diagram{SET Index,PD-SET-4,PD-SET-4,None}
 This statement assigns a value to a @code{USAGE INDEX} data item.
@@ -5207,7 +5196,7 @@ The typical usage when @var{identifier-1} is a @code{USAGE INDEX} data item is t
 @comment *********************************************************************
 @comment ** 7.8.40.6 SET Condition Name                                     **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{SET Condition Name}
 @diagram{SET Condition Name,PD-SET-6-Info,PD-SET-6-Info,None}
 The @statement{SET @var{Condition Name}} provides one method of specifying the @code{TRUE} / @code{FALSE} value of a level-88 condition name.
@@ -5244,7 +5233,7 @@ Switches may be tested via the @statementref{IF} and a Switch-Status Condition. 
 @comment *********************************************************************
 @comment ** 7.8.40.8 SET ATTRIBUTE                                          **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{SET ATTRIBUTE}
 @diagram{SET ATTRIBUTE,PD-SET-8,PD-SET-8,None}
 The @statement{SET ATTRIBUTE} may be used to modify one or more attributes of a screen section data item at run-time.
@@ -5279,7 +5268,7 @@ This action resets the global exception object completely (FUNCTION EXCEPTION-@{
 @comment *********************************************************************
 @comment ** 7.8.40.10 SET Identifier                                         **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsubsection{SET Indentifier}
 @diagram{SET Indentifier,PD-SET-10,PD-SET-10,None}
 The @statement{SET Identifier} will set the the specified identifier.
@@ -5412,9 +5401,9 @@ Warning: This has not yet been implemented (as of 1 November 2025).
 * Table SORT
 @end menu
 @comment *********************************************************************
-@comment ** 7.8.41.1 File-Based SORT                                        **
+@comment ** 7.8.41.1 File SORT                                        **
 @comment *********************************************************************
-@newsubsubsection{File-Based SORT}
+@newsubsubsection{File SORT}
 @diagram{File-Based SORT,PD-SORT-1-Info,PD-SORT-1-Info,PD-DUPLICATES}
 This format of the @statement{SORT} is designed to sort large volumes of data according to one or more key fields.
 @enumerate

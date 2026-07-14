@@ -2337,7 +2337,6 @@ c. TAN  90: -06821240868962529064771258430010129008736353403959449607967148259
 @diagram{TEST-DATE-YYYYMMDD Function,FN-TEST-DATE-YYYYMMDD,FN-TEST-DATE-YYYYMMDD,None}
 This function determines if the supplied @var{date} argument (a numeric integer data item or literal) is a valid date.
 A valid date is one of the form yyyymmdd in the range 1601/01/01 to 9999/12/31, with no more than the expected maximum number of days in the month, accounting for leap year.
-
 If the @var{date} is valid, a 0 value is returned.  If it isn't, a value of 1, 2 or 3 is returned signalling the problem lies with the year, month or day, respectively.
 @comment *********************************************************************
 @comment ** 8.1.94 TEST-DAY-YYYYDDD                                         **
@@ -2347,7 +2346,6 @@ If the @var{date} is valid, a 0 value is returned.  If it isn't, a value of 1, 2
 @diagram{TEST-DAY-YYYYDDD Function,FN-TEST-DAY-YYYYDDD,FN-TEST-DAY-YYYYDDD,None}
 This function determines if the supplied @var{date} (a numeric integer data item or literal) is a valid date.
 A valid date is one of the form @code{yyyyddd} in the range 1601001 to 9999365.  Leap year is accounted for in determining the maximum number of days in a year.
-
 If the date is valid, a 0 value is returned.  If it isn't, a value of 1 or 2 is returned signalling the problem lies with the year or day, respectively.
 @comment *********************************************************************
 @comment ** 8.1.95 TEST-FORMATTED-DATETIME                                  **
@@ -2363,7 +2361,7 @@ If the date is valid, a 0 value is returned.  If it isn't, a value of 1 or 2 is 
 
 Returned value: if no format or range problems occur during evaluation of @var{argument-2} according to the format in @var{argument-1}, the returned value is zero. Otherwise the returned value is the ordinal character position at which the first error in @var{argument-2} was detected.
 
-Example: using the following arguments, it will generates a return value of 5, as the fifth character of argument-2 ("4") contains an incorrect value for the first digit of the month representation.
+Example: using following arguments will generates a ret.value of 5, as the fifth char of argument-2 ("4") contains an incorrect value for the first digit of the month representation.
 @smallexample
 FUNCTION TEST-FORMATTED-DATETIME("YYYYMMDD", "20124523")
 @end smallexample
@@ -4474,7 +4472,7 @@ See also the "STOP ERROR" statement.
 @comment *********************************************************************
 @comment ** 8.2.56 CBL_SET_CSR_POS                                          **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{CBL_SET_CSR_POS}
 @diagram{CBL_SET_CSR_POS Build-In Subroutine,SS-CBL_SET_CSR_POS,SS-CBL_SET_CSR_POS,None}
 Set current cursor position on terminal.
@@ -4482,14 +4480,13 @@ Set current cursor position on terminal.
 This subroutine will set the cursor location on the screen, using a 2-byte value into the supplied @var{cursor-locn-buffer}.  The first byte of @var{cursor-locn-buffer} is for the line (row) location while the second sets the column location.
 
 The two byte data block must be in binary form, and will be based upon starting values of 0, meaning that if the routine is called with a value of (14,11) cursor will be located at line 15, column 12.
-
 The following is a typical @var{cursor-locn-buffer} definition:
 
-@example
+@smallexample
 01  CURSOR-LOCN-BUFFER.
     05 CURSOR-LINE          USAGE BINARY-CHAR UNSIGNED.
     05 CURSOR-COLUMN        USAGE BINARY-CHAR UNSIGNED.
-@end example
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 8.2.57 CBL_TOLOWER                                              **
