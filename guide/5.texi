@@ -165,7 +165,7 @@ The
 
 @item
 The
-@syntaxidx{LOCALE} clause may be used to associate external OS-defined locale names (@var{literal-2}) with an internal name (@var{locale-name-1}) that may then be referenced within the program.  Locale names are defined by the Operating System and/or C compiler GnuCOBOL will be utilizing on your computer.
+@syntaxidx{LOCALE} clause may be used to associate external OS-defined locale names (@var{literal-3}) with an internal name (@var{locale-name-1}) that may then be referenced within the program.  Locale names are defined by the Operating System and/or C compiler GnuCOBOL will be utilizing on your computer.
 
 @item
 The following is the list of possible locale codes, for example, that would be available on a Windows computer running a GnuCOBOL version that was built utilizing the MinGW Unix-emulator and the GNU C compiler (gcc):
@@ -250,6 +250,19 @@ yo_NG
 zh_CN, zh_HK, zh_MO, zh_SG, zh_TW, zu_ZA
 @end table
 
+Sample of use:
+
+@smallexample
+
+   ENVIRONMENT DIVISION.
+   CONFIGURATION SECTION.
+        SOURCE-COMPUTER. ibmpc.
+        OBJECT-COMPUTER. ibmpc CLASSIFICATION brazil.
+        SPECIAL-NAMES.   
+            LOCALE brazil "pt_BR.UTF-8".   
+
+@end smallexample
+
 @item
 The
 @syntaxidx{NUMERIC SIGN TRAILING SEPARATE} specification causes all signed numeric @code{USAGE DISPLAY} data items to be created as if the @code{SIGN IS TRAILING SEPARATE CHARACTER} clause was included in their definitions.
@@ -286,7 +299,7 @@ The @code{CSP} positioning option stands for ``No Spacing''.  Testing on a MinGW
 @item
 The @code{SCREEN CONTROL} IS identifier-4 must refer to a Working-Storage field defined as follows:
 
-@example
+@smallexample
 
 01 identifier-4.
     03 ACCEPT-CONTROL PIC 9.
@@ -294,7 +307,7 @@ The @code{SCREEN CONTROL} IS identifier-4 must refer to a Working-Storage field 
     03 CONTROL-HANDLE USAGE HANDLE.
     03 CONTROL-ID     PIC X(2) COMP-X.
 
-@end example
+@end smallexample
 
 The @code{SCREEN CONTROL} clause is supported only as a definition but its use is currently incomplete.
 It will be fully usable when the "embedded-procedures" at the SCREEN SECTION entry level will be implemented.
@@ -302,7 +315,7 @@ It will be fully usable when the "embedded-procedures" at the SCREEN SECTION ent
 @item
 The @code{EVENT-STATUS} is used to identify which data item is to receive information about screen events, identifier-3 must refer to a Working-Storage field defined as follows:
 
-@example
+@smallexample
 
 01 identifier-3.
    03 EVENT-TYPE           PIC X(4) COMP-X.
@@ -313,7 +326,7 @@ The @code{EVENT-STATUS} is used to identify which data item is to receive inform
    03 EVENT-DATA-2         USAGE SIGNED-LONG.
    03 EVENT-ACTION         PIC X COMP-X.
 
-@end example
+@end smallexample
 
 The @code{EVENT STATUS} clause is supported only as a definition but its use is currently incomplete.
 It will be fully usable when the "embedded-procedures" at the SCREEN SECTION entry level will be implemented.
@@ -321,7 +334,8 @@ It will be fully usable when the "embedded-procedures" at the SCREEN SECTION ent
 @item
 The @code{SYMBOLIC CONSTANT} clause associates a name with a numeric or an alphanumeric literal (alphanumeric is a GnuCOBOL extension).
 
-@example
+@smallexample
+
         >>SOURCE FREE
 ID DIVISION.
 PROGRAM-ID. PROG.
@@ -341,7 +355,8 @@ compute wAAA = 100 * CONST-2
 display wAAA
 accept omitted
 STOP RUN.
-@end example
+
+@end smallexample
 
 @end enumerate
 @comment *********************************************************************
