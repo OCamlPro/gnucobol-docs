@@ -4368,10 +4368,37 @@ The third and fourth arguments would specify a locking mode and device specifica
 
 The final argument (@var{handle}) is a @code{PIC X(4) USAGE COMP-X} item that will receive the handle to the file.  That handle is used on all other byte-stream functions to reference this specific file.
 
-A
-@registerref{RETURN-CODE} value of -1 indicates an invalid argument, while a value of 0 indicates success.  A value of 35 means the file does not exist.
+A @registerref{RETURN-CODE} value of -1 indicates an invalid argument, while a value of 0 indicates success.  A value of 35 means the file does not exist.
 
 An example of the use of OPEN, CLOSE, READ etc., can be found in Contribs program printcbl.cbl which is basically also in cobxref.cbl as program 3.
+
+NOTE.
+
+A byte-stream file opened in input-output mode (access-mode = 3) can be used with true dynamic access.
+
+After creating a file with CBL_CREATE_FILE and closing it with CBL_CLOSE_FILE the file can be opened in input-output mode (access-mode = 3) for writing with CBL_WRITE_FILE and reading with CBL_READ_FILE in any kind of sequence with any offset and buffer length. 
+The same definitions for offset, length, flags and buffer can be shared by these routines.
+For retrieving the file size a CBL_READ_FILE can be used with the read-flag set to 128. 
+In this case the buffer is not filled, instead the file size is returned in the offset variable. 
+This procedure can be used to append additional records to the file, addressing the space immediately after the last record.
+
+To read from the file and fill the buffer with the content of the file from the given offset with the given length the read-flag has to be set to zero.
+Records can be written even outside the file boundary. 
+In this case a CBL_WRITE_FILE will fill gaps in the file with the necessary number of hex 00 bytes. 
+If the file is 100 byte long and the CBL_WRITE_FILE is executed with an offset of 120 the 20 bytes between offset 100 and 120 are filled with hex 00, after this the contents of the buffer are written in the given length.
+The gaps filled with hex 00 can be addressed like any other space in the file.
+Updates can be executed with CBL_READ_FILE and CBL_WRITE_FILE in input-output open-mode (access-mode = 3). 
+The buffer can be altered and rewritten at the same position, as long as offset and length are not changed.
+The special register RETURN-CODE usually returns the known codes for error-evaluation in the COBOL file system, i.e. 35 for the attempt to open a non-existent file, zero for a successful operation, 30 for permanent i-o error, etc. 
+Only exception is -1 which means one of the parameters is wrong.
+
+Warning. The only problem encountered during read tests is the file system return code for EOF, code 10. 
+Repeated CBL_READ_FILE in input-output mode (access-mode = 3) never returned any file error. 
+Even if the offset of the read went far beyond the file boundary the RETURN-CODE was always zero. 
+In input mode (access-mode = 1) the EOF condition was only returned on an empty file (length 0 bytes). 
+It is good advice to use a counter or intercept the offset to work around this problem.
+Conclusion: with the exception of the EOF problem the byte-stream file routines can be used like the ones introduced once by Micro Focus.
+
 
 @comment *********************************************************************
 @comment ** 8.2.51 CBL_OR                                                   **
