@@ -590,11 +590,11 @@ When the value of Interest-Rate is not zero, the value of the function is the ap
 @code{(Interest-Rate / (1 - (1 + Interest-Rate) ** (- (Number-Periods) )))}.
 
 @end enumerate
-
+ 
 @comment *********************************************************************
 @comment ** 8.1.4 ASIN                                                      **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{ASIN}
 @diagram{ASIN Function,FN-ASIN,FN-ASIN,None}
 The @code{ASIN} function determines and returns a numeric value of an angle in radians that approximates the trigonometric arc-sine,
@@ -870,7 +870,7 @@ This function concatenates the @var{argument-1}, @var{argument-2}, @dots{} (grou
 If a numeric literal or @code{PIC 9} identifier is specified as an argument, decimal points, if any, will be removed and negative signs in @code{PIC S9} fields or numeric literals will be inserted as defined by the @syntaxref{SIGN} clause (or absence thereof) of the field.
 Numeric literals are processed as if @code{SIGN IS TRAILING SEPARATE} were in effect.
 
-Note that @code{CONCATENATE} (a GnuCOBOL extension) is an alias for this function.
+Note that @code{CONCATENATE} (a GnuCOBOL extension) is an alias for this @code{CONCAT} function.
 
 @comment *********************************************************************
 @comment ** 8.1.12 CONTENT-LENGTH                                           **
@@ -1116,7 +1116,7 @@ The documentation of the @subpgmref{CBL_ERROR_PROC} built-in subroutine illustra
 @comment *********************************************************************
 @comment ** 8.1.25 EXCEPTION-STATUS                                         **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{EXCEPTION-STATUS}
 @diagram{EXCEPTION-STATUS Function,FN-EXCEPTION-STATUS,FN-EXCEPTION-STATUS,None}
 This function returns the error type (a text string --- see column 2 of the upcoming table for the possible values) from the most-recent COBOL statement that generated an exception condition.
@@ -1285,13 +1285,11 @@ If the first argument has the format "YYMMDDThhmmss.ss+hhmm", the second argumen
 
 @var{argument-3} is an integer specifying the offset from UTC expressed in minutes. If specified but have a value equal or less than 1439.
 
-Note: The offset value 1439 represents 23 hours 59 minutes which is one minutes less than a day.
+The offset value 1439 represents 23 hours 59 minutes which is one minutes less than a day.
 
 @var{argument-3} must not be specified if the time portion in @var{argument-1} is neither a UTC nor an offset format.
 
-Returned value :
-
-Is a representation of the standard numeric time contained in @var{argument-2} according to the format in @var{argument-1}.
+Returned value : Is a representation of the standard numeric time contained in @var{argument-2} according to the format in @var{argument-1}.
 
 If the format in @var{argument-1} indicates that the returned value is to be expressed in UTC, the time portion of the returned value reflects the adjustment of the value in @var{argument-2} by the offset in @var{argument-3}.
 
@@ -1303,24 +1301,21 @@ If the first argument has the format "hhmmss.ss+hhmm", the second argument the v
 @comment *********************************************************************
 @comment ** 8.1.33 FRACTION-PART                                            **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{FRACTION-PART}
 @diagram{FRACTION-PART Function,FN-FRACTION-PART,FN-FRACTION-PART,None}
-This function returns that portion of @var{number} (a numeric data item or a numeric literal) that occurs to the right of the decimal point.  @code{FRACTION-PART(3.1415)}, for example, returns a value of 0.1415.  This function is equivalent to the expression:
+This function returns that portion of @var{number} (a numeric data item or a numeric literal) that occurs to the right of the decimal point.  
+@code{FRACTION-PART(3.1415)}, for example, returns a value of @code{0.1415}.  
+This function is equivalent to the expression:
 
 @example
 @var{number} -- FUNCTION INTEGER-PART(@var{number})
 
-Example:
-display "base - " FUNCTION FRACTION-PART(FLOATER).
-Gives
-base - 000.456789
-
+Example: display "base - " FUNCTION FRACTION-PART(FLOATER).
+Gives:   base - 000.456789
 @end example
-@enumerate
-@item
+
 When moved to a variable, it MUST have a preceding 'V' in the PICTURE, i.e., PIC v(4).
-@end enumerate
 @comment ******************************************************************
 @comment ** 8.1.34 HEX-OF                                               **
 @comment ******************************************************************
@@ -2719,10 +2714,12 @@ Early versions of Micro Focus COBOL allowed programmers to access various runtim
 
 Most of the call-by-number routines have evolved into even more powerful call-by-name routines, many of which are supported by GnuCOBOL.
 
-Some of the original call-by-number routines never evolved call-by-name equivalents; GnuCOBOL supports some of these routines. See all currently used in Appendix's C and D. (Items marked as **).
+Some of the original call-by-number routines never evolved call-by-name equivalents; GnuCOBOL supports some of these routines. See all currently used in Appendix's C and D. 
 
-GnuCOBOL provides and supports built-in system subroutines of following categories:
 @page
+GnuCOBOL provides and supports built-in system subroutines of following categories:
+
+
 @smallexample
 +-------------------------------------------------------------------------------------+
 | Directory Routines                                                                  |
