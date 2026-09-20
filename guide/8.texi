@@ -289,7 +289,7 @@ The GnuCOBOL intrinsic functions can be grouped into following categories:
 | CONCAT(arg-1,arg-2 ...) | Concatenates arg-1,arg-2, .. into a single string result  |
 | CONCATENATE             | Same as CONCAT                                            |
 | CONTENT-LENGTH(arg-1)   | Scans for a NUL byte delimiter and returns the length     |
-| CONTENT-OF ptr{length}  | Returns a char.field of data addressed by pointer         |
+| CONTENT-OF(ptr@{length@}) | Returns a char.field of data addressed by pointer         |
 | HEX-OF(arg-1)           | Returns a string of hexadecimal representation of arg-1   |
 | HEX-TO-CHAR(arg-1)      | Returns a string of characters representation from arg-1  |
 | HIGHEST-ALGEBRAIC(num-id) Returns highest value could possibly be stored in num-id  |
@@ -477,7 +477,7 @@ The supported intrinsic functions are listed in the following sections, along wi
 @comment ** 8.1.1 ABS, ABSOLUTE-VALUE                                                       **
 @comment *********************************************************************
 @page
-@newsubsection{ABS, ABSOLUTE-VALUE}
+@newsubsection{ABS}
 @diagram{ABS Function,FN-ABS,FN-ABS,None}
 This function determines and returns the absolute value of @var{argument-1} (a numeric literal or a numeric data item).
 Note that @code{ABSOLUTE-VALUE} has an alias for this function.
@@ -863,7 +863,7 @@ Given the integer date form value "143951", which represents the date 15 Februar
 @comment ** 8.1.11 CONCAT, CONCATENATE                                               **
 @comment *********************************************************************
 @comment @page
-@newsubsection{CONCAT, CONCATENATE}
+@newsubsection{CONCAT}
 @diagram{CONCAT Function,FN-CONCATENATE,FN-CONCATENATE,None}
 This function concatenates the @var{argument-1}, @var{argument-2}, @dots{} (group items, @code{USAGE DISPLAY} elementary items and/or alphanumeric literals) together into a single string result.
 
@@ -4737,7 +4737,7 @@ i. Process any data in the the Record Area and the FCD output fields
 
 
 Use the following syntax to call the File Handler from COBOL:
-@code CALL "EXTFH" USING opcode fcd
+@code{CALL "EXTFH" USING opcode fcd}
 where opcode is a PIC X(2) COMP-X field specifying the operation code.
 
 
@@ -4764,7 +4764,7 @@ The structure of the FCD is defined below, bit 7 is always the leftmost bit.
 
 When using COBOL, this and the following pointers are USAGE POINTER items,
 set using a statement of the form:
-@code SET POINTER TO ADDRESS OF data item
+@code{SET POINTER TO ADDRESS OF data item}
 
 where:
 
@@ -6235,7 +6235,7 @@ program. An example FCD COBOL definition is supplied in a file called xfhfcd3.cp
 This definition (that takes up no physical memory) can then be mapped onto the
 FCD you want to read or alter using the following SET statement in your program:
 
-@code SET ADDRESS OF fcd TO ADDRESS OF fh--fcd OF namefile
+@code{SET ADDRESS OF fcd TO ADDRESS OF fh--fcd OF namefile}
 
 where the parameters are:
 
@@ -6249,7 +6249,7 @@ item fcd become the fields of the FCD of the file referenced in the SET statemen
 
 Similarly, you can access the Key Definition Block by:
 
-@code  SET ADDRESS OF kda TO ADDRESS OF fh--keydef OF namefile
+@code{SET ADDRESS OF kda TO ADDRESS OF fh--keydef OF namefile}
 
 where the parameters are:
 
@@ -6354,7 +6354,7 @@ The original Micro Focus version of this routine is capable of providing a wide 
 @item 11
 Sets and/or clears all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}).  @xref{SPECIAL-NAMES}, for an explanation of those switches. Also referred to as programmable 0 - 7.
 
-The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR} or {USAGE COMP-X}.
+The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR} or @code{USAGE COMP-X}.
 
 Each occurrence that is set to a value of zero prior to the @code{CALL X"91"} will cause the corresponding switch to be cleared.  Each occurrence set to 1 prior to the @code{CALL X"91"} will cause the corresponding switch to be set.
 
@@ -6388,7 +6388,7 @@ call x"91" using fn-Return-Code, x91-Function, Group-item
 @item 12
 Reads all eight of the COBOL switches (@code{SWITCH-1} through @code{SWITCH-8}) and debug switches as prorammable 0 - 7.
 
-The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR} or {USAGE COMP-X}.
+The @var{variable-arg} argument should be an @code{OCCURS 8 TIMES} table of @code{USAGE BINARY-CHAR} or @code{USAGE COMP-X}.
 
 Each of the 1@sup{st} eight occurrences of the array will be set to either 0 or 1 --- 1 if the corresponding switch is set, 0 otherwise.
 
@@ -6424,7 +6424,8 @@ call x"91" using fn-Return-Code, x91-function, Group-item.
 @end smallexample
 
 @item 16
-Retrieves the number of arguments passed to the program executing the @code{CALL X"91"}, saving that number into the @var{variable-arg} argument.  That should be a binary numeric data item (@code{USAGE BINARY-CHAR} or {USAGE COMP-X} is recommended).
+Retrieves the number of arguments passed to the program executing the @code{CALL X"91"}, saving that number into the @var{variable-arg} argument.
+That should be a binary numeric data item (@code{USAGE BINARY-CHAR} or @code{USAGE COMP-X} is recommended).
 
 @smallexample
 Usage:

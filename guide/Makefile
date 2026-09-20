@@ -1,6 +1,5 @@
 .PHONY: force-update \
-	pdf pdf-a4 pdf-letter \
-	html info \
+	publish publish-qr publish-css
 	clean pdf-clean html-clean info-clean maintainer-clean
 
 SOURCES_COMMON = Macros.texi fdl.texi $(wildcard [LNS]*-*.texi)
@@ -126,27 +125,19 @@ info-clean:
 	@rm -rvf info/gnucob*.info
 
 
-publish: HTML/gnucobpg.html $(CSS)
+publish: HTML/gnucobpg.html
 	test "$(WWW)"
 	scp HTML/gnucobpg.html $(WWW)
-	scp css/gnucobpg.css   $(WWW)/css/
-	scp js/tree.js         $(WWW)/js/
 
-publish-css: HTML/gnucobpg.html $(CSS)
-	test "$(WWW)"
-	scp css/gnucobpg.css    $(WWW)/css/
-	scp js/tree.js          $(WWW)/js/
-
-publish-css: HTML/gnucobpr.html $(CSS)
-	test "$(WWW)"
-	scp css/gnucobpr.css    $(WWW)/css/
-	scp js/tree.js          $(WWW)/js/
-
-publish: HTML/gnucobpr.html $(CSS)
+publish-qr: HTML/gnucobpr.html
 	test "$(WWW)"
 	scp HTML/gnucobpr.html $(WWW)
-	scp css/gnucobpr.css   $(WWW)/css/
-	scp js/tree.js         $(WWW)/js/
+
+publish-css: $(CSS)
+	test "$(WWW)"
+	scp css/gnucobpg.css    $(WWW)/css/
+	scp css/gnucobpr.css    $(WWW)/css/
+	scp js/tree.js          $(WWW)/js/
 
 tags: TAGS
 TAGS:

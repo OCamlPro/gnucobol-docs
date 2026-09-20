@@ -3356,7 +3356,7 @@ If a @code{GO TO} is executed within the scope of@dots{}
 ...a procedural @syntaxref{PERFORM}, and @var{procedure-name-1} lies outside the scope of that @code{PERFORM}, the @code{PERFORM} is terminated as control of execution transfers to @var{procedure-name-1}.
 
 @item
-...a @statementref{MERGE} @code{OUTPUT PROCEDURE} or within the scope of either an @code{INPUT PROCEDURE} or @code{OUTPUT PROCEDURE} of a @statementrefalt{SORT,File-Based SORT}, and @var{procedure-name-1} lies outside the scope of that procedure, the @code{SORT} or @code{MERGE} operation is terminated as control of execution transfers to @var{procedure-name-1}.  Any sorted or merged data accumulated to that point is lost.
+...a @statementref{MERGE} @code{OUTPUT PROCEDURE} or within the scope of either an @code{INPUT PROCEDURE} or @code{OUTPUT PROCEDURE} of a @statementrefalt{SORT,File SORT}, and @var{procedure-name-1} lies outside the scope of that procedure, the @code{SORT} or @code{MERGE} operation is terminated as control of execution transfers to @var{procedure-name-1}.  Any sorted or merged data accumulated to that point is lost.
 @end enumerate
 @item
 A @code{GO TO ENTRY} is an GnuCOBOL special purpose extension for use with various GnuCobol tools and is not part of any current ISO standard. See also @code{ENTRY}.
@@ -3395,7 +3395,7 @@ If control of execution is transferred to a procedure named on the statement, an
 ...a procedural @syntaxref{PERFORM}, and @var{procedure-name-1} lies outside the scope of that @code{PERFORM}, the @code{PERFORM} is terminated as control of execution transfers to the procedure named on the statement.
 
 @item
-...a @statementref{MERGE} @code{OUTPUT PROCEDURE} or within the scope of either an @code{INPUT PROCEDURE} or @code{OUTPUT PROCEDURE} of a @statementrefalt{SORT,File-Based SORT}, and @var{procedure-name-1} lies outside the scope of that procedure, the @code{SORT} or @code{MERGE} operation is terminated as control of execution transfers to the procedure named on the statement.  Any sorted or merged data accumulated to that point is lost.
+...a @statementref{MERGE} @code{OUTPUT PROCEDURE} or within the scope of either an @code{INPUT PROCEDURE} or @code{OUTPUT PROCEDURE} of a @statementrefalt{SORT,File SORT}, and @var{procedure-name-1} lies outside the scope of that procedure, the @code{SORT} or @code{MERGE} operation is terminated as control of execution transfers to the procedure named on the statement.  Any sorted or merged data accumulated to that point is lost.
 @end enumerate
 
 @item
@@ -4136,7 +4136,7 @@ A @statementref{GO TO} that transfers control out of the output procedure will t
 
 An output procedure should be terminated in the same way a procedural @statement{PERFORM} would be.  Usually, this action will be taken once the @statement{RETURN} indicates that all records in the merge work file have been processed, but termination could occur at @i{any} time --- via an @statementref{EXIT} --- if required.
 
-Neither a file-based @statementrefalt{SORT,File-Based SORT} nor another @statement{MERGE} may be executed within the scope of the procedures comprising the output procedure unless those statements utilize a different sort or merge work file.
+Neither a file-based @statementrefalt{SORT,File SORT} nor another @statement{MERGE} may be executed within the scope of the procedures comprising the output procedure unless those statements utilize a different sort or merge work file.
 
 @item
 Once the output procedure terminates, or the last @var{file-name-3} file has been populated with merged data, the output phase --- and the @statement{MERGE} itself --- is complete.
@@ -4718,7 +4718,7 @@ The @statement{RELEASE} adds a new record to a sort work file.
 @comment Semantic Specifications:
 
 @item
-This statement is valid only within the @code{INPUT PROCEDURE} of a file-based @statementrefalt{SORT,File-Based SORT}.
+This statement is valid only within the @code{INPUT PROCEDURE} of a file-based @statementrefalt{SORT,File SORT}.
 
 @item
 The specified @var{record-name-1} must be a record defined to the sort description (@syntaxrefalt{SD,File/Sort-Description}) of the sort work file being processed by the current sort.
@@ -4765,7 +4765,7 @@ The reserved words @code{AT} and @code{RECORD} are optional and may be omitted. 
 @comment Semantic Specifications:
 
 @item
-The @statement{RETURN} is valid only within the @code{OUTPUT PROCEDURE} of a file-based @syntaxrefalt{SORT,File-Based SORT} or a @statementref{MERGE} statement.
+The @statement{RETURN} is valid only within the @code{OUTPUT PROCEDURE} of a file-based @syntaxrefalt{SORT,File SORT} or a @statementref{MERGE} statement.
 
 @item
 The @var{sort-file-name-1} file must be a sort- or merge work file defined with a @syntaxrefalt{SD,File/Sort-Description}, not an @code{FD}.
@@ -5310,7 +5310,9 @@ This definition (that takes up no physical memory) can then be mapped onto the F
 
 @example
 
-SET ADDRESS OF { identifier-1 } TO ADDRESS OF FH--FCD OF indexedfile
+SET ADDRESS OF @{ identifier-1 @} TO ADDRESS OF FH--FCD OF indexedfile
+
+@end example
 
 Where the parameters are:
 a. identifier-1 The name of the FCD definition in the Linkage Section of your
@@ -5323,7 +5325,11 @@ in the SET statement.
 
 Similarly, you can access the Key Definition Block by:
 
-SET ADDRESS OF { identifier-2 } TO ADDRESS OF FH--KEYDEF OF indexedfile
+@example
+
+SET ADDRESS OF @{ identifier-2 @} TO ADDRESS OF FH--KEYDEF OF indexedfile
+
+@end example
 
 Where the parameters are:
 a. identifier-2  the name of the key definition Block in the Linkage Section
@@ -5334,7 +5340,6 @@ to its Key Definition Block.
 
 See also EXTFH  in this document and FH--FCD and FH--KEYDEF into the NEWS
 file.
-@end example
 
 @comment *********************************************************************
 @comment ** 7.8.40.12 SET TO SIZE OF                                        **
