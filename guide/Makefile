@@ -68,13 +68,13 @@ HTML_OPT = --css-ref=$(CSS) --no-headers \
 	--set-customization-variable 'EXTRA_HEAD=$(EXTRA_HEAD)'
 INFO_OPT =
 
-html: HTML/gnucobsp.html HTML/gnucobqr.html HTML/gnucobpg.html \
+html: HTML/gnucobpg.html HTML/gnucobqr.html HTML/gnucobsp.html \
 	HTML/gnucobpr.html \
 	HTML/gnucobpg/index.html \
+#	HTML/gnucobqr/index.html \
+#	HTML/gnucobsp/index.html \
 	HTML/gnucobpr/index.html
 
-# FIXME index.html overlaps with INDEX.html created by the INDEX note
-# FIX:  Who cares about split HTML anyway? Just drop it.
 HTML/gnucobpg/index.html: $(SOURCES)
 	@mkdir -p $(dir $@)
 	makeinfo -v -o $(dir $@) $(WARNING) \
@@ -84,6 +84,17 @@ HTML/gnucobpr/index.html: $(SOURCES_PR)
 	@mkdir -p $(dir $@)
 	makeinfo -v -o $(dir $@) $(WARNING) \
 		--html            $(HTML_OPT) gnucobpr.texi
+
+# note setup for split files
+#HTML/gnucobqr/index.html: $(SOURCES_QR)
+#	@mkdir -p $(dir $@)
+#	makeinfo -v -o $(dir $@) $(WARNING) \
+#		--html            $(HTML_OPT) gnucobqr.texi
+#
+#HTML/gnucobsp/index.html: $(SOURCES_SP)
+#	@mkdir -p $(dir $@)
+#	makeinfo -v -o $(dir $@) $(WARNING) \
+#		--html            $(HTML_OPT) gnucobsp.texi
 
 info: info/gnucobsp.info info/gnucobqr.info info/gnucobpg.info /
 	info/gnucobpr.info
