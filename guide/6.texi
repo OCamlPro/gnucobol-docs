@@ -797,9 +797,12 @@ This is the standard mode for GnuCOBOL and other compilers but not for RM COBOL.
 TAB cannot be used together with the AUTO / AUTO-SKIP and AUTOTERMINATE clauses.
 
 @item
+OCCURS. Have that as pending: the compiler supports that, but the runtime does not handle it yet.
+
+@item
 The @code{INITIAL} clause indicates that at the time of ACCEPT of the SCREEN, the cursor will be positioned on this field.
 
-@verbatim
+@smallexample
 Example:
        >>source free
  IDENTIFICATION  DIVISION.
@@ -820,7 +823,7 @@ Example:
      ACCEPT  scr *> cursor is on field with INITIAL clause
      STOP RUN.
 
-@end verbatim
+@end smallexample
 
 @end enumerate
 @comment *********************************************************************
@@ -2134,6 +2137,11 @@ The COBOL standard says that the @code{OCCURS} clause cannot be specified in a d
 GnuCOBOL supports, as a extension available in several compilers, the @code{OCCURS} clause at levels 01 and 77. Depending on -std, this may be downgraded to a warning or be without a diagnostic. Example, -std=ibm-strict and -std=cobol2002.
 
 @item
+Format 4 OCCURS (SCREEN SECTION). 
+
+Have that as pending: the compiler supports that, but the runtime does not handle it yet.
+
+@item
 The following points apply to an @code{OCCURS} used in the report section:
 @enumerate A
 @item
@@ -2160,12 +2168,14 @@ First, the ``Hard Way'':
 
 And then using @code{STEP} and @code{VARYING}:
 
+
 @example
 10 COL 7  OCCURS 4 TIMES STEP 10 VARYING QTR FROM 1 BY 1
           PIC $(7)9.99 SOURCE SALES(QTR).
 @end example
 @end enumerate
 @end enumerate
+
 @comment *********************************************************************
 @comment ** 6.9.27 OVERLINE                                                 **
 @comment *********************************************************************
