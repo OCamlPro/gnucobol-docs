@@ -816,6 +816,7 @@ is used to specify the name of a two character alphanumeric data item into which
 This does not actually allocate the data item --- you must define the item yourself somewhere in the data division. 
 Note that the following list is complete as of v3.2: but more can be added and any tests should include one for non zeros as a catch all.  
 See two examples lower down.
+
 @anchoridx{File Status Codes}Possible status codes that can be returned to a @code{FILE STATUS} data item are as follows.
 
 @c dictionary{code, definitions}
@@ -905,64 +906,64 @@ See two examples lower down.
 
 @enddict{}
 
-
+@sp 1
 FILE STATUS codes are grouped into categories, first digit position of the code indicates the classification category.
+@sp 2
 
-
-Category: 0x SUCCESS
+Category: @code{0x SUCCESS}
 
 Operation completed successfully.
 
 Action: Continue processing.
 
-
+@sp 1
 Category: @code{1x AT END} condition with unsuccessful completion
 
 Sequential read reached end of file or top of file or optional file not present. A sequential READ statement was unsuccessfully executed as a result of an AT END.
 
 Action: Exit read loop; handle EOF. Use the AT END phrase in the READ statement to enable the program to detect whether an at end condition has occurred.
 
-
+@sp 1
 Category: @code{2x INVALID KEY} condition with unsuccessful completion
 
 The statement was unsuccessfully executed as a result of an invalid key. Keyed operation failed: duplicate key, key not found, or sequence error. Use the INVALID KEY phrase in the input-output statement to enable the program to detect whether an invalid key condition has occurred.
 
 Action: Check key and logic; handle duplicate or missing record.
 
-
+@sp 1
 Category: @code{3x PERMANENT ERROR} condition with unsuccessful completion
 
 The statement was unsuccessfully executed as the result of an error that precluded further processing of the file. Any specified exception procedures are executed. The permanent error condition remains in effect for all subsequent input-output operations on the file unless an implementor-defined technique is invoked to correct the permanent error condition. Serious I/O or system error (e.g. disk failure, file not found at OPEN).
 
 Action: Do not retry same op; log and recover or abend.
 
-
+@sp 1
 Category: @code{4x LOGICAL ERROR} condition with unsuccessful completion
 
 The statement was unsuccessfully executed as a result of an improper sequence of input-output operations that were performed on the file or as a result of violating a limit defined by the user. Programmer or logic error (e.g. wrong OPEN mode, invalid request).
 
 Action: Fix program logic.
 
-
+@sp 1
 Category: @code{5x RECORD OPERATION CONFLICT}  with unsuccessful completion
 
 The input-output statement was unsuccessfully executed as a result of the record being locked by another file connector.
 
 Action: Fix program logic.
 
-
+@sp 1
 Category: @code{6x FILE SHARING CONFLICT} with unsuccessful completion 
 
 The statement was unsuccessfully executed as a result of the file being locked by another file connector.
 
 Action: Fix program logic.
 
-
+@sp 1
 Category: @code{7x RECORD CONTENT ERROR} with unsuccessful completion
 
 The statement was unsuccessfully executed as a result of the record content not conforming to specified requirements.
 
-
+@sp 1
 Category: @code{9x IMPLEMENTOR DEFINED} condition with unsuccessful completion
 
 The statement was unsuccessfully executed as a result of a condition that is specified by the implementor.
@@ -970,12 +971,10 @@ COBOL runtime or implementer-defined error.
 
 Action: Check documentation; possible bug or environment issue.
 
-
-
+@sp 2
 GnuCOBOL implements the FILE STATUS codes defined in the ISO standard:
 
 @verbatim
-
 +------------------------------------------------------------+ 
 | First Byte   |  0    1    2    3    4    5    6    7    9  | 
 +--------------+---------------------------------------------+ 
@@ -992,14 +991,62 @@ GnuCOBOL implements the FILE STATUS codes defined in the ISO standard:
 +------------------------------------------------------------+ 
 
 @end verbatim
+@page
+
+Below is the complete list of all FILE STATUS codes, followed by a detailed explanation of each individual code.
+@verbatim
+
++---------------------------------------------------+ 
+|             GnuCOBOL  FILE STATUS                 |
++---------------------------------------------------+ 
+|  00  | SUCCESSFUL COMPLETION. NO ERROR.           |        
+|  02  | SUCCESS. DUPLICATE KEY.                    |
+|  04  | SUCCESS. RECORD LENGTH MISMATCH.           |
+|  05  | SUCCESS. OPTIONAL FILE IS NOT PRESENT.     |
+|  06  | SUCCESS. EOF NOT DETECTED FOR A LS FILE.   |
+|  07  | FILE NOT ON TAPE.                          |
+|  09  | BAD CHARACTER ON A LS FILE.                |
+|  10  | END OF FILE.                               |
+|  14  | RELATIVE KEY OUT OF RANGE.                 |
+|  21  | INDEX SEQUENCE ERROR. INVALID KEY.         |
+|  22  | KEY ALREADY EXIST. DUPLICATE KEY.          |
+|  23  | KEY NOT FOUND.                             |
+|  24  | BOUNDARY VIOLATION (on FILE).              |
+|  30  | PERMANENT I/O ERROR.                       |
+|  31  | INCONSISTENT FILENAME.                     |
+|  34  | BOUNDARY VIOLATION (on DISK).              |
+|  35  | FILE NOT FOUND.                            |
+|  37  | PERMISSION DENIED.                         |
+|  38  | OPEN ON A LOCKED FILE.                     |
+|  39  | CONFLICTING FILE ATTRIBUTES.               |
+|  41  | FILE IS ALREADY OPEN.                      |
+|  42  | FILE IS NOT OPEN.                          |
+|  43  | READ NOT DONE.                             |
+|  44  | BOUNDARY VIOLATION (on RECORD)             |       
+|  46  | PRECEDING READ OR START FAILED.            |
+|  47  | FILE NOT OPEN IN INPUT OR I-O MODE.        |
+|  48  | FILE NOT OPEN IN OUTPUT OR I-O MODE.       |
+|  49  | FILE NOT OPEN IN  I-O MODE.                |
+|  51  | RECORD LOCKED.                             |
+|  52  | END OF PAGE.                               |
+|  57  | LINAGE BAD SPECIFICATION.                  |
+|  61  | FILE SHARING FAILURE.                      |
+|  71  | BAD CHARACTER ON A LINE SEQ.FILE.          |
+|  91  | FEATURE NOT AVAILABLE.                     |
++---------------------------------------------------+ 
+
+@end verbatim
 
 
+@page
+@sp 1
 @code{Code: 00 SUCCESSFUL COMPLETION. NO ERROR.}
+
 Statements: ALL
 
 Meaning: the statement was successfully executed and no further information is available concerning the input-output operation.
 
-
+@sp 1
 @code{Code: 02 SUCCESS. DUPLICATE KEY.}
 
 Statements: READ, WRITE, REWRITE
@@ -1017,7 +1064,7 @@ is equal to the value of the same key in the prior record in the file.
 c. For a REWRITE or a WRITE statement, the record just written created a duplicate key value for at least 
 one alternate record key for which duplicates are allowed.
 
-
+@sp 1
 @code{Code: 04 SUCCESS. RECORD LENGTH MISMATCH.}
 
 Statements: READ
@@ -1026,7 +1073,7 @@ Meaning: A READ statement is successfully executed but the physical record from 
 or longer than the minimum or maximum length of records allowed for that file. The size of the record just read does not agree 
 with the size specified in the program FD. The record is truncated or padded with spaces/zeros.
 
-
+@sp 1
 @code{Code: 05 SUCCESS. OPTIONAL FILE IS NOT PRESENT.}
 
 Statements: OPEN, DELETE FILE
@@ -1045,15 +1092,15 @@ a. One of the following status occurred where the OPTIONAL clause in the SELECT 
 b. For a DELETE FILE statement, the referenced file is not present, the execution of the statement is successful 
 and the file status is set to ‘05’.
 
-
-@code{Code: 06 SUCCESS. EOF NOT DETECTED FOR A LS FILE.}
+@sp 1
+@code{Code: 06 SUCCESS. EOF NOT DETECTED FOR A LINE SEQ.FILE.}
 
 Statements: READ
 
-Meaning: also named: Multiple record on LS file. A READ statement for a line sequential file has successfully executed 
+Meaning: also named: Multiple record on Line Sequential file. A READ statement for a line sequential file has successfully executed 
 but a line/record delimiter or the end-of-file has not been detected.
 
-
+@sp 1
 @code{Code: 07 FILE NOT ON TAPE.}
 
 Statements: OPEN, CLOSE
@@ -1061,7 +1108,7 @@ Statements: OPEN, CLOSE
 Meaning: you are using one of "tape" clauses: OPEN WITH NO REWIND o REVERSED, CLOSE WITH NO REWIND,CLOSE REEL / UNIT, CLOSE FOR REMOVAL 
 but the file is not on tape. Note GnuCOBOL accepts tape clauses but does not support them.
 
-
+@sp 1
 @code{Code: 09 BAD CHARACTER ON A LINE SEQ.FILE.}
 
 Statements: READ
@@ -1071,7 +1118,7 @@ one or more characters that are not in the implementor-defined character set for
 You can disable this check for READ (and WRITE) at runtime by setting the variable: COB_LS_VALIDATE=FALSE or COB_LS_NULLS=TRUE. 
 See also FILE STATUS 71.
 
-
+@sp 1
 @code{Code: 10 END OF FILE.}
 
 Statements READ 
@@ -1085,7 +1132,7 @@ b. PREVIOUS was specified and the beginning of the file has been reached
 c. The first READ statement was executed for a non-existent optional input file. 
 That is, a file with the OPTIONAL clause specified was opened in INPUT mode but the file was not created.
 
-
+@sp 1
 @code{Code: 14 RELATIVE KEY OUT OF RANGE.}
 
 Statements: READ
@@ -1093,7 +1140,7 @@ Statements: READ
 Meaning: a sequential READ statement is attempted for a relative file and the number of digits in the relative record number 
 (the key) is larger than the size of the relative key data item described for the file. 
 
-
+@sp 1
 @code{Code: 21 INDEX SEQUENCE ERROR. INVALID KEY.}
 
 Statements: DELETE, WRITE, REWRITE
@@ -1107,7 +1154,7 @@ and the execution of the next REWRITE statement for that file.
 
 c.The ascending sequence requirements for successive record key values are violated. 
 
-
+@sp 1
 @code{Code: 22 KEY ALREADY EXIST. DUPLICATE KEY.}
 
 Statements: WRITE, REWRITE
@@ -1121,7 +1168,7 @@ b. to write a record that would create a duplicate prime record key in an indexe
 c. to write or rewrite a record that would create a duplicate alternate record key 
 when the WITH DUPLICATES phrase is not specified for that alternate record key in an indexed file.
 
-
+@sp 1
 @code{Code: 23 KEY NOT FOUND.}
 
 Statements: READ, DELETE, WRITE, REWRITE, START
@@ -1132,7 +1179,7 @@ a. to randomly access a key that does not exist in the file;
 
 b. to execute a START or random READ statement on a file described as optional and the file is not present; 
 
-
+@sp 1
 @code{Code: 24 BOUNDARY VIOLATION (on FILE).}
 
 Statements: WRITE, REWRITE, SORT GIVING, MERGE GIVING
@@ -1147,7 +1194,7 @@ in the relative record number is larger than the size of the relative key data i
 
 c. the disk is full.
 
-
+@sp 1
 @code{Code: 30 PERMANENT I/O ERROR.}
 
 Statements: ALL
@@ -1157,7 +1204,7 @@ the input-output operation. Generic file system error or severely corrupted file
 
 Action: check the operating system logs or folder permissions.
 
-
+@sp 1
 @code{Code: 31 INCONSISTENT FILENAME.}
 
 Statements: OPEN
@@ -1174,7 +1221,7 @@ does not match the actual structure of the file stored on the system.
 c. Incorrect Environment Variable Assignment: The physical file name mapped via the ASSIGN clause 
 (or through environment variables like DD_ or COB_FILE_PATH) points to an invalid object or the wrong file type.
 
-
+@sp 1
 @code{Code: 34 BOUNDARY VIOLATION (on DISK).}
 
 Statements: WRITE, REWRITE, SORT GIVING, MERGE GIVING, CLOSE
@@ -1189,7 +1236,7 @@ or the specific file system (for example, file size limits on FAT32).
 
 c. User Quota Limits: The user account executing the program has exceeded its assigned disk space quota on the system. 
 
-
+@sp 1
 @code{Code: 35 FILE NOT FOUND.}
 
 Statements: OPEN, SORT
@@ -1198,7 +1245,7 @@ Meaning: an OPEN statement with the INPUT, I-O, or EXTEND phrase is attempted on
 
 Action: check the associated variable or the literal name in the ASSIGN clause. If the file might not exist initially, use OPEN OPTIONAL.
 
-
+@sp 1
 @code{Code 37 PERMISSION DENIED.}
 
 Statements: OPEN, SORT, DELETE FILE
@@ -1218,14 +1265,14 @@ b. an OPEN statement or DELETE FILE statement is attempted on a file and insuffi
 The ability to detect this is processor dependent.
 Open or DELETE FILE permissions denied. Attempted on a protected or read-only file (as determined by the operating system) for writing.
 
-
+@sp 1
 @code{Code: 38 OPEN ON A LOCKED FILE.}
 
 Statements: OPEN
 
 Meaning: an OPEN statement has been tried for a file for which CLOSE WITH LOCK was executed before.
 
-
+@sp 1
 @code{Code: 39 CONFLICTING FILE ATTRIBUTES.}
 
 Statements: OPEN, DELETE FILE
@@ -1238,21 +1285,21 @@ the prime record key, the alternate record keys, the code set, the maximum recor
 and the blocking factor. and the actual file structure on disk.
 Regenerate the file with the correct structure, or update the ORGANIZATION IS and RECORD CONTAINS clauses in the COBOL source.
 
-
+@sp 1
 @code{Code: 41 FILE IS ALREADY OPENED.}
 
 Statements: OPEN, DELETE FILE
 
 Meaning: an OPEN statement or a DELETE FILE statement  has been tried for a file which is already open.
 
-
+@sp 1
 @code{Code: 42 FILE IS NOT OPEN.}
 
 Statements: CLOSE, UNLOCK
 
 Meaning: A CLOSE or UNLOCK statement hase been tried for a file which is already closed or never opened.
 
-
+@sp 1
 @code{Code: 43 READ NOT DONE.} 
 
 Statements: DELETE, REWRITE
@@ -1262,7 +1309,7 @@ through prior to the execution of a DELETE RECORD or REWRITE statement through t
 
 Action: issue a successful READ before invoking a REWRITE or DELETE on the same record.
 
-
+@sp 1
 @code{Code: 44 BOUNDARY VIOLATION (on RECORD) / RECORD SIZE MISMATCH.} 
 
 Statements: WRITE, REWRITE
@@ -1271,7 +1318,7 @@ Meaning: an attempt was made to rewrite a record to a file and the record was no
 Or an attempt was made to write or rewrite a record that was larger 
 than the largest or smaller than the smallest record allowed by the RECORD IS VARYING clause of the associated file.
 
-
+@sp 1
 @code{Code: 46 PRECEDING READ OR START FAILED.} 
 
 Statements: READ
@@ -1282,49 +1329,49 @@ Meaning: a sequential READ is attempted on a file open in the input or I-O mode 
 
 - The preceding READ statement caused an AT END condition.
 
-
+@sp 1
 @code{Code: 47 FILE NOT OPENED IN INPUT OR I-O MODE.} 
 
 Statements: READ, START
 
 Meaning: the execution of a READ or START statement was attempted on a file not open in INPUT or I-O mode.
 
-
+@sp 1
 @code{Code: 48 FILE NOT OPENED IN OUTPUT OR I-O MODE.} 
 
 Statements: WRITE
 
 meaning: The execution of a WRITE statement was attempted on a file not open in the I-O, OUTPUT, or EXTEND mode.
 
-
+@sp 1
 @code{Code: 49 FILE NOT OPENED IN  I-O MODE.} 
 
 Statements: DELETE,  REWRITE
 
 Meaning: the execution of a DELETE or REWRITE statement was attempted on a file not open in the I-O mode.
 
-
+@sp 1
 @code{Code: 51 RECORD LOCKED.} 
 
 Statements: READ
 
 Meaning: the statement is unsuccessful due to an attempt to access a record that is currently locked by another process.
 
-
+@sp 1
 @code{Code: 52 END OF PAGE.} 
 
 Statements: WRITE
 
 Meaning: a WRITE operation on a PRINT file failed after End-of-Page.
 
-
+@sp 1
 @code{Code: 57 LINAGE BAD SPECIFICATION.} 
 
 Statements: OPEN
 
 Meaning: an OPEN operation failed because the LINAGE description was incorrect.
 
-
+@sp 1
 @code{Code: 61 FILE SHARING FAILURE.} 
 
 Statements: OPEN
@@ -1343,7 +1390,7 @@ e. an attempt is made to open a file in the output mode and the file is currentl
 
 f. an attempt is made to open a file that has currently been locked by another process.
 
-
+@sp 1
 @code{Code: 71 BAD CHARACTER ON A LINE SEQ.FILE.}  
 
 Statements: WRITE, REWRITE
@@ -1353,7 +1400,7 @@ not in the implementor-defined character set for the file. The write or rewrite 
 You can disable this check for WRITE or REWRITE (and READ) at runtime by setting the variable:  
 @code{COB_LS_VALIDATE=FALSE} or @code{COB_LS_NULLS=TRUE}. See also FILE STATUS 09.
 
-
+@sp 1
 @code{Code: 91 FEATURE NOT AVAILABLE.}  
 Statements: OPEN, CLOSE, REWRITE, DELETE
 Meaning: for OPEN and CLOSE: means that the File I-O backend is not available 
@@ -1364,7 +1411,7 @@ This can happen if you run a statement that isn’t supported by the runtime but
 (previously REWRITE to LINE SEQUENTIAL, for example, which was only supported later; or DELETE on any SEQUENTIAL file 
 (soon to be caught in 3.x also for RECORD SEQUENTIAL) or ’"more common" if an EXTFH call does this.
 
-
+@sp 3
 Note: 
 
 
@@ -1374,7 +1421,7 @@ More info at the intrinsic function "EXCEPTION-STATUS" (@pxref{EXCEPTION-STATUS}
 and its equivalent "ACCEPT FROM EXCEPTION STATUS" (@pxref{ACCEPT FROM Runtime-Info}) 
 Other more info at the intrinsic function "EXCEPTION-FILE" (@pxref{EXCEPTION-FILE}) 
 and at the intrinsic function "EXCEPTION-FILE-N" (@pxref{EXCEPTION-FILE-N}).
-
+@sp 1
 2. FILE STATUS categories are connected to Exception-names and exception conditions
 
 @verbatim
@@ -1391,10 +1438,10 @@ EC-I-O-RECORD-CONTENT   Fatal  3   File status "7x"
 EC-I-O-IMP              Imp    3   File status "9x"
 
 @end verbatim
-
+@sp 1
 3. The FILE STATUS code also determines whether the USE AFTER STANDARD EXCEPTION procedure, 
 into DECLARATIVES section (@pxref{DECLARATIVES}), associated with that file is executed. 
-
+@sp 2
 If the USE AFTER STANDARD EXCEPTION procedure associated with the file exists 
 and the FILE STATUS is other than "succeed", the procedure is executed.
 
@@ -1441,7 +1488,7 @@ Sample copy book member, suggest that you copy this content to say FileStat-Msgs
       WHEN 52 MOVE 'END OF PAGE.                            ' TO MSG
       WHEN 57 MOVE 'LINAGE BAD SPECIFICATION.               ' TO MSG
       WHEN 61 MOVE 'FILE SHARING FAILURE.                   ' TO MSG
-      WHEN 71 MOVE 'BAD CHARACTER ON A LINE SEQ. FILE.      ' TO MSG
+      WHEN 71 MOVE 'BAD CHARACTER ON A LINE SEQ.FILE.       ' TO MSG
       WHEN 91 MOVE 'FEATURE NOT AVAILABLE.                  ' TO MSG
       WHEN OTHER
               MOVE 'UNKNOWN FILE STATUS CODE.               ' TO MSG
