@@ -1932,14 +1932,23 @@ An extension of @code{CALL} allows a call to a @var{Program-Pointer-1} which is 
 @newsubsection{CANCEL}
 @diagram{CANCEL,PD-CANCEL,PD-CANCEL,None}
 The @statement{CANCEL} unloads the dynamically-loadable subprogram module containing the entry-point specified as @var{literal-1} or @var{identifier-1} from memory.
+
 @enumerate
 @item
-If a dynamically-loadable module unloaded by the @statement{CANCEL} is subsequently re-executed, all data division storage for that module will once again be in its initial state.
+If a dynamically-loadable module unloaded by the @statement{CANCEL} is subsequently re-executed, 
+all data division storage for that module will once again be in its initial state.
 
 @item
 Whether the
 @statement{CANCEL} actually physically unloads a dynamically-loaded module or simply marks it as logically-unloaded depends on the use and value of the
 @envvarruntimeref{COB_PHYSICAL_CANCEL}.
+
+@item
+Since the @statement{CANCEL} applies only to dynamically-loadable subprogram modules, 
+it will have no effect if the subroutine is statically linked with the calling program.
+
+For further details, @pxref{CALL}, @pxref{Dynamic vs Static Subprograms}.
+
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.7 CLOSE                                                     **
