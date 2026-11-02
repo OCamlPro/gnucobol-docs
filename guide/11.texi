@@ -65,18 +65,22 @@ Subprograms (either subroutines or user-defined functions) can be implemented in
 These are subprograms that are coded as the only COBOL program in their @topic{Compilation Unit}.
 
 @item @itemdfn{Contained Subprograms}
-These are subprograms which occur in the same Compilation Unit as a main program and/or other subprograms.  Each contained subprogram is separated from the next via an @code{END PROGRAM} marker line.  As an example@dots{}
+These are subprograms which occur in the same Compilation Unit as a main program and/or other subprograms.  
+Each contained subprogram is separated from the next via an @code{END PROGRAM} marker line.  As an example@dots{}
 
-@example
+@smallexample
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. SUB1.
 @dots{}
 END PROGRAM SUB1.
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. SUB2.
 @dots{}
 END PROGRAM SUB2.
-@end example
+
+@end smallexample
 
 Program source code may be concatenated as shown here, provided an @code{END PROGRAM} marker naming the @code{PROGRAM-ID} of the just-completed program is used to separate one program from another.
 
@@ -89,7 +93,8 @@ When multiple programs occur in a source file, it is assumed that the programs a
 @item @itemdfn{Nested Subprograms}
 It is also possible to create source files where GnuCOBOL programs are nested inside each other.  Take for example these four GnuCOBOL programs:
 
-@example
+@smallexample
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. PROG1.
 @dots{}
@@ -106,7 +111,8 @@ PROGRAM-ID. PROG4.
 @dots{}
 END PROGRAM PROG4.
 END PROGRAM PROG1.
-@end example
+
+@end smallexample
 
 Here we see that @code{PROG2} is nested inside of @code{PROG1} because there is no @code{END PROGRAM} marker separating them.  This means that data items or files defined within @code{PROG1} can be used within @code{PROG2} simply by attaching the @syntaxref{GLOBAL} attribute to them back in @code{PROG1} when they are defined.
 
@@ -330,7 +336,7 @@ Execution will resume back in the calling program at the point where the returne
 @comment *********************************************************************
 @comment ** 11.6 Sharing Data Between Calling and Called Programs           **
 @comment *********************************************************************
-@page
+@comment @page
 @newsection{Sharing Data Between Calling and Called Programs}
 @menu
 * Subprogram Arguments.
@@ -431,7 +437,8 @@ Another way in which a data item may be shared between a calling program (@i{A})
 
 Here's a small example:
 
-@example
+@smallexample
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DemoGLOBAL.
 ENVIRONMENT DIVISION.
@@ -439,28 +446,26 @@ DATA DIVISION.
 WORKING-STORAGE SECTION.
 01  Arg GLOBAL                     PIC X(10).
 PROCEDURE DIVISION.
-000-Main.
     MOVE ALL "X" TO Arg
     CALL "DemoSub" END-CALL
     DISPLAY "DemoGLOBAL: " Arg END-DISPLAY
-    GOBACK
-    .
+    GOBACK.
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DemoSub.
 PROCEDURE DIVISION.
-000-Main.
     MOVE ALL "*" TO Arg.
-    GOBACK
-    .
+    GOBACK.
 END PROGRAM DemoSub.
 END PROGRAM DemoGLOBAL.
-@end example
+
+@end smallexample
 
 When the program runs, it produces the output:
 
-@example
+@smallexample
+
 DemoGLOBAL: **********
-@end example
+@end smallexample
 @comment *********************************************************************
 @comment ** 11.6.3 EXTERNAL Data Items                                       **
 @comment *********************************************************************
@@ -470,7 +475,8 @@ The final way in which a data item may be shared between a calling program (@i{A
 
 Here's a demonstration:
 
-@example
+@smallexample
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DemoEXTERNAL.
 ENVIRONMENT DIVISION.
@@ -478,12 +484,10 @@ DATA DIVISION.
 WORKING-STORAGE SECTION.
 01  Arg EXTERNAL                PIC X(10).
 PROCEDURE DIVISION.
-000-Main.
     MOVE ALL "X" TO Arg
     CALL "DemoSub" END-CALL
     DISPLAY "DemoEXTERNAL: " Arg END-DISPLAY
-    GOBACK
-    .
+    GOBACK.
 END PROGRAM DemoEXTERNAL.
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DemoSub.
@@ -491,56 +495,54 @@ DATA DIVISION.
 WORKING-STORAGE SECTION.
 01  Arg EXTERNAL                PIC X(10).
 PROCEDURE DIVISION.
-000-Main.
     MOVE ALL "*" TO Arg.
-    GOBACK
-    .
+    GOBACK.
 END PROGRAM DemoSub.
-@end example
+
+@end smallexample
 
 When the program runs, it produces the output:
 
-@example
+@smallexample
+
 DemoEXTERNAL: **********
-@end example
+
+@end smallexample
 @comment *********************************************************************
 @comment ** 11.7 Recursive Subprograms                                       **
 @comment *********************************************************************
 @newsection{Recursive Subprograms}
 
-A subroutine may @code{CALL} itself, either directly or indirectly from another subroutine or user-defined function that it @code{CALL}s.  Any subroutine that indulges in this sort of behaviour (called recursion) is called a
-@define{Recursive Subprogram}.
+A subroutine may @code{CALL} itself, either directly or indirectly from another subroutine or user-defined function 
+that it @code{CALL}s.  Any subroutine that indulges in this sort of behaviour (called recursion) is called a @define{Recursive Subprogram}.
 
-Any GnuCOBOL subroutine can be recursively invoked only if it is defined to the GnuCOBOL compiler as @i{being} a recursive subroutine.  This is accomplished by adding the @code{RECURSIVE} attribute to its @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION}.
+Any GnuCOBOL subroutine can be recursively invoked only if it is defined to the GnuCOBOL compiler as @i{being} a recursive subroutine.  
+This is accomplished by adding the @code{RECURSIVE} attribute to its @syntaxrefalt{PROGRAM-ID,IDENTIFICATION DIVISION}.
 
 All User-defined functions are automatically capable of being executed recursively.
 
-Here is an example of a main program (DEMOFACT) that calls both a subprogram (SUB) and a user-defined function (FUNC) to compute the factorial value of a number.
+Here is an example of a main program (DEMOFACT) that calls both a subprogram (RECURSIVESUB) 
+and a user-defined function (RECURSIVEFUNC) to compute the factorial value of a number.
 
-@example
+@smallexample
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DEMOFACT.
 ENVIRONMENT DIVISION.
 CONFIGURATION SECTION.
-REPOSITORY.
-    FUNCTION RECURSIVEFUNC.
+REPOSITORY. FUNCTION RECURSIVEFUNC.
 DATA DIVISION.
 WORKING-STORAGE SECTION.
 01  Result    USAGE BINARY-LONG.
 01  Arg       USAGE BINARY-LONG.
 PROCEDURE DIVISION.
-000-Main.
     MOVE 6 TO Arg
-    CALL "RECURSIVESUB"
-        USING BY CONTENT Arg
-        RETURNING Result
-    DISPLAY Arg "! = "
-            Result
-    DISPLAY Arg "! = "
-            RECURSIVEFUNC(Arg)
-    GOBACK
-    .
+    CALL "RECURSIVESUB" USING BY CONTENT Arg RETURNING Result
+    DISPLAY Arg "! = " Result
+    DISPLAY Arg "! = " RECURSIVEFUNC(Arg)
+    GOBACK.
 END PROGRAM DEMOFACT.
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. RECURSIVESUB RECURSIVE.
 DATA DIVISION.
@@ -551,30 +553,20 @@ WORKING-STORAGE SECTION.
 LINKAGE SECTION.
 01  Arg         USAGE BINARY-LONG.
 PROCEDURE DIVISION USING Arg.
-000-Main.
-    DISPLAY "Entering SUB"
-            " Arg=" Arg
+    DISPLAY "Entering SUB Arg=" Arg
     IF Arg = 1
       MOVE 1 TO Result
-      DISPLAY "Leaving SUB"
-              " Returning " Result
+      DISPLAY "Leaving SUB" " Returning " Result
     ELSE
-      SUBTRACT 1 FROM Arg
-          GIVING Next-Arg
-      CALL "RECURSIVESUB"
-           USING BY CONTENT Next-Arg
-           RETURNING Next-Result
-      COMPUTE Result =
-              Arg * Next-Result
-      DISPLAY "Leaving SUB"
-              " Returning "
-              Result "=" Arg "*"
-              Next-Result
+      SUBTRACT 1 FROM Arg GIVING Next-Arg
+      CALL "RECURSIVESUB" USING BY CONTENT Next-Arg RETURNING Next-Result
+      COMPUTE Result = Arg * Next-Result
+      DISPLAY "Leaving SUB Returning " Result "=" Arg "*" Next-Result
     END-IF
     MOVE Result TO RETURN-CODE
-    GOBACK
-    .
+    GOBACK.
 END PROGRAM RECURSIVESUB.
+
 IDENTIFICATION DIVISION.
 FUNCTION-ID. RECURSIVEFUNC.
 ENVIRONMENT DIVISION.
@@ -583,29 +575,24 @@ DATA DIVISION.
 WORKING-STORAGE SECTION.
 LINKAGE SECTION.
 01  Arg     USAGE BINARY-LONG.
-01  Result  USAGE BINARY-LONG
-            SIGNED.
-PROCEDURE DIVISION USING Arg
-               RETURNING Result.
-000-Main.
-    DISPLAY "Entering FUNC"
-            " Arg=" Arg
+01  Result  USAGE BINARY-LONG SIGNED.
+PROCEDURE DIVISION USING Arg RETURNING Result.
+    DISPLAY "Entering FUNC Arg=" Arg
     IF Arg = 1
       MOVE 1 TO Result
     ELSE
-      COMPUTE Result = Arg *
-              RECURSIVEFUNC(Arg - 1)
+      COMPUTE Result = Arg * RECURSIVEFUNC(Arg - 1)
     END-IF
-    DISPLAY "Leaving FUNC"
-            " Returning " Result
-    GOBACK
-    .
+    DISPLAY "Leaving FUNC Returning " Result
+    GOBACK.
 END FUNCTION RECURSIVEFUNC.
-@end example
+
+@end smallexample
 
 When DEMOFACT is executed, the output shown below is generated.
 
-@example
+@smallexample
+
 E:\Programs\Demos>demofact
 Entering RECURSIVESUB Arg=+0000000006
 Entering RECURSIVESUB Arg=+0000000005
@@ -633,7 +620,7 @@ Leaving RECURSIVEFUNC Returning +0000000024
 Leaving RECURSIVEFUNC Returning +0000000120
 Leaving RECURSIVEFUNC Returning +0000000720
 +0000000006! = +0000000720
-@end example
+@end smallexample
 @comment *********************************************************************
 @comment ** 11.8 Combining GnuCOBOL and C Programs                          **
 @comment *********************************************************************
@@ -660,17 +647,27 @@ Like most other implementations of the COBOL language, GnuCOBOL utilizes a run-t
 
 Both languages store strings as a fixed-length continuous sequence of characters.
 
-COBOL stores these character sequences up to a specific quantity limit imposed by the @syntaxref{PICTURE} clause of the data item.  For example: @code{01  LastName   PIC X(15).}.
+COBOL stores these character sequences up to a specific quantity limit imposed by the @syntaxref{PICTURE} clause of the data item.  
+For example: @code{01  LastName   PIC X(15).}.
 
-There is never an issue of exactly what the length of a string contained in a @syntaxrefalt{USAGE DISPLAY,USAGE} data item is --- there are always exactly how ever many characters as were allowed for by the @code{PICTURE} clause.  In the example above, @code{LastName} will always contain exactly fifteen characters; of course, there may be anywhere from 0 to 15 trailing SPACES as part of the current LastName value.
+There is never an issue of exactly what the length of a string contained in a @syntaxrefalt{USAGE DISPLAY,USAGE} 
+data item is --- there are always exactly how ever many characters as were allowed for by the @code{PICTURE} clause.  
+In the example above, @code{LastName} will always contain exactly fifteen characters; of course, 
+there may be anywhere from 0 to 15 trailing SPACES as part of the current LastName value.
 
-C actually has no ``string'' data type; it stores strings as an array of @code{char} data type items where each element of the array is a single character.  Being an array, there is an upper limit to how many characters may be stored in a given ``string''.  For example:
+C actually has no ``string'' data type; it stores strings as an array of @code{char} data type items where each element of the array is a single character.  
+Being an array, there is an upper limit to how many characters may be stored in a given ``string''.  For example:
 
 @example
 char lastName[15]; /* 15 chars: lastName[0] through lastName[14] */
 @end example
 
-C provides a robust set of string-manipulation functions to copy strings from one char array to another, search strings for certain characters, compare one char array to another, concatenate char arrays and so forth.  To make these functions possible, it was necessary to be able to define the logical end of a string.  C accomplishes this via the expectation that all strings (char arrays) will be terminated by a NULL character (@code{x'00'}).  Of course, no one forces a programmer to do this, but if [s]he ever expects to use any of the C standard functions to manipulate that string they had @i{better} be null-terminating their strings!
+C provides a robust set of string-manipulation functions to copy strings from one char array to another, search strings for certain characters, 
+compare one char array to another, concatenate char arrays and so forth.  To make these functions possible, 
+it was necessary to be able to define the logical end of a string.  
+C accomplishes this via the expectation that all strings (char arrays) will be terminated by a NULL character (@code{x'00'}).  
+Of course, no one forces a programmer to do this, but if [s]he ever expects to use any of the C standard functions 
+to manipulate that string they had @i{better} be null-terminating their strings!
 
 So, GnuCOBOL programmers expecting to pass strings to or receive strings from C programs had best be prepared to deal with the null-termination issue, as follows:
 @enumerate
@@ -698,7 +695,7 @@ INSPECT Data-From-a-C-Program
 @end example
 @end enumerate
 @comment *********************************************************************
-@comment ** 11.8.3 Matching C Data Types with GnuCOBOL USAGE's               **
+@comment ** 11.8.3 Matching C Data Types with GnuCOBOL USAGE's              **
 @comment *********************************************************************
 @newsubsection{Matching C Data Types with GnuCOBOL USAGE's}
 
@@ -733,7 +730,8 @@ N/A (no GnuCOBOL equivalent) @tab long double
 @end multitable
 @comment tex-style @caption{C and COBOL Datatypes}
 @end float
-These sizes conform to the COBOL standard and the minimum sizes of the COBOL types are the same as the minimum sizes of the corresponding C data types. There's no official compatibility between them. Note that values in square braces '[]' are the defaults.
+These sizes conform to the COBOL standard and the minimum sizes of the COBOL types are the same as the minimum sizes of the corresponding C data types. 
+There's no official compatibility between them. Note that values in square braces '[ ]' are the defaults.
 @comment *********************************************************************
 @comment ** 11.8.4 GnuCOBOL Main Programs CALLing C Subprograms             **
 @comment *********************************************************************
@@ -742,6 +740,7 @@ These sizes conform to the COBOL standard and the minimum sizes of the COBOL typ
 Here's a sample of a GnuCOBOL program that CALLs a C subprogram.
 @smallformat
 @verbatim
+
 COBOL Calling Program               C Called Program
 ==================================  ===============================
 IDENTIFICATION DIVISION.            #include <stdio.h>
@@ -767,8 +766,8 @@ PROCEDURE DIVISION.                   printf("Arg1=%s\n",arg1);
     DISPLAY 'Arg3=' Arg3
     DISPLAY 'Returned value='
             RETURN-CODE
-    STOP RUN
-    .
+    STOP RUN.
+	
 @end verbatim
 @end smallformat
 
@@ -809,6 +808,7 @@ Did you notice the output showing the contents of @code{Arg1} after the subrouti
 Now, the roles of the two languages in the previous section will be reversed, having a C main program execute a GnuCOBOL subprogram.
 @smallformat
 @verbatim
+
 C Calling Program                              GNU-COBOL Called Program
 =============================================  =================================
 #include <libcob.h> /* COB RUN-TIME */         IDENTIFICATION DIVISION.
@@ -831,8 +831,8 @@ int main (int argc, char **argv) {             DATA DIVISION.
                                                    MOVE 'Y' TO Arg2 (1:1)
                                                    MOVE 987654321 TO Arg3
                                                    MOVE 2 TO RETURN-CODE
-                                                   GOBACK
-                                                   .
+                                                   GOBACK.
+
 @end verbatim
 @end smallformat
 

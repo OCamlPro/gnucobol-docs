@@ -96,22 +96,22 @@ Options:
                          <dialect> can be one of:
                          default
                          acu             ACUCOBOL-GT compatibility
-                         acu-strict      ACUCOBOL-GT compatibility         - strict
+                         acu-strict      ACUCOBOL-GT compatibility       - strict
                          bs2000          BS2000 COBOL compatibility (back again)
-                         bs2000-strict   BS2000 COBOL compatibility        - strict
+                         bs2000-strict   BS2000 COBOL compatibility      - strict
                          cobol85         COBOL (19) 85 Standard
                          cobol2002       COBOL 2002 Standard
                          cobol2014       COBOL 2014 Standard
-                         gcos-strict     GCOS  COBOL compatibility         - strict
+                         gcos-strict     GCOS  COBOL compatibility       - strict
                          gcos            GCOS  COBOL compatibility
                          ibm             IBM COBOL compatibility
-                         ibm-strict      IBM COBOL compatibility           - strict
+                         ibm-strict      IBM COBOL compatibility         - strict
                          mf              Micro Focus COBOL compatibility
-                         mf-strict       Micro Focus COBOL compatibility   - strict
+                         mf-strict       Micro Focus COBOL compatibility - strict
                          mvs             MVS/VM COBOL compatibility
-                         mvs-strict      MVS/VM COBOL compatibility        - strict
+                         mvs-strict      MVS/VM COBOL compatibility      - strict
                          rm              RM-COBOL compatibility
-                         rm-strict       RM-COBOL compatibility            - strict
+                         rm-strict       RM-COBOL compatibility          - strict
                          xopen           X/Open COBOL Standard
 
                          See configuration files in directory config and more detail
@@ -336,8 +336,8 @@ Compiler dialect configuration options:
   -fmove-ibm             MOVE operates as on IBM (left to right, byte by byte)
   -fperform-osvs         exit point of any currently executing perform is recognized
                          if reached
-  -farithmetic-osvs      limit precision in intermediate results to precision of final
-                         result (less accurate)
+  -farithmetic-osvs      limit precision in intermediate results to precision of
+                         final result (less accurate)
   -fconstant-folding     evaluate constant expressions at compile time
   -fhostsign             allow hexadecimal value 'F' for NUMERIC test of signed
                          PACKED DECIMAL field
@@ -505,8 +505,8 @@ Compiler dialect configuration options:
   -fmissing-statement=<support>
                          missing statement (e.g. empty IF / PERFORM)
   -fmissing-period=<support>
-                         missing period in PROCEDURE DIVISION (when reference format
-                         supports Area A enforcement)
+                         missing period in PROCEDURE DIVISION (when reference
+                         format supports Area A enforcement)
   -fzero-length-literals=<support>
                          zero-length literals, e.g. '' and ""
   -fxml-generate-extra-phrases=<support>
@@ -637,11 +637,11 @@ Later, when you wish to compile a calling program and combine any needed assembl
 
 @center @code{cobc -x mainprog.cbl sprog1.s}
 @comment *********************************************************************
-@comment ** 10.1.1.1 -X GnuCOBOL Compiler option -Xref                      **
+@comment ** 10.1.2 cobc option -Xref an example                            **
 @comment *********************************************************************
 @newsubsection{cobc option -Xref an example}
 The following shows the output from using -Xref.
-@verbatim
+@smallexample
 
    Using the internal -Xref as extra options -X -t prog.list :
 
@@ -680,7 +680,7 @@ LINE    PG/LN  A...B............................................................
 000026  000024         10  FILLER PIC X(01).
 000027  000027 PROCEDURE        DIVISION.
 000028  000028     STOP RUN.
-GnuCOBOL 3.1.2.0        prog.cbl             Thu Nov 25 15:31:52 2021  Page 0002
+GnuCOBOL 3.1.2.0        prog.cbl             Thu Nov 25 15:31:52 2021  Page 0002
 
 NAME                           DEFINED                REFERENCES
 
@@ -703,7 +703,7 @@ FLD3                           23     not referenced
 FLD4                           24     not referenced
 FLD2                           25     not referenced
 
-GnuCOBOL 3.1.2.0        prog.cbl             Thu Nov 25 15:31:52 2021  Page 0003
+GnuCOBOL 3.1.2.0        prog.cbl             Thu Nov 25 15:31:52 2021  Page 0003
 
 LABEL                          DEFINED                REFERENCES
 
@@ -711,9 +711,10 @@ E prog                         27
 
 0 warnings in compilation group
 0 errors in compilation group
-@end verbatim
+
+@end smallexample
 @comment *********************************************************************
-@comment ** 10.1.1.2 Cross reference using cobxref                          **
+@comment ** 10.1.3 Cross reference using cobxref                          **
 @comment *********************************************************************
 @newsubsection{ Cross Reference listing using cobxref}
 This program is found in the contrib area or by itself in Sourceforge under its own name
@@ -724,11 +725,10 @@ The following shows the output from using @code{cobxref} with the same program e
 Note that cobxref also reports the COPY depth which can be up to 9 and includes the program
 being compiled as depth 1.
 
-@verbatim
+@smallexample
 Using cobxref with command cobxref prog.cbl :
 
-ACS Cobol Xref v2.02.03          Dictionary File for PROG    25/11/2021  15:22:00:04
-                                  Page    1
+Cobol Xref v2.02.03   Dictionary File for PROG    25/11/2021  15:22:00:04    Page    1
 
      1  000001 IDENTIFICATION   DIVISION.
      2  000002 PROGRAM-ID.      prog.
@@ -762,14 +762,12 @@ ACS Cobol Xref v2.02.03          Dictionary File for PROG    25/11/2021  15:22:0
     30  000027 PROCEDURE        DIVISION.
     31  000028     STOP RUN.
     32        *>>>Info: Total Copy Depth Used = 02
-ACS Cobol Xref v2.02.03          Dictionary File for PROG    25/11/2021  15:22:00:04
-                                  Page    2
+Cobol Xref v2.02.03 Dictionary File for PROG    25/11/2021  15:22:00:04  Page    2
 Symbols of Module: PROG (PROG)
 ------------------------------
 
 Data Section (WORKING-STORAGE)  Defn     Locations
--------------------------------+---------------------------------------------------------------
-
+-------------------------------+------------------------------------------
 FL1                             000012W
 FL2                             000013W
 FL3                             000014W
@@ -791,17 +789,16 @@ I                               000008W  000022
 J                               000009W  000028
 M                               000010W  000028
 SETUP-REC                       000011W
-ACS Cobol Xref v2.02.03          Dictionary File for PROG    25/11/2021  15:22:00:04
-                                  Page    3
+Cobol Xref v2.02.03  Dictionary File for PROG    25/11/2021  15:22:00:04  Page    3
 Symbols of Module: PROG (PROG)
 ------------------------------
 Procedure                       Defn     Locations
--------------------------------+---------------------------------------------------------------
+-------------------------------+---------------------------------------------
 
 None
-@end verbatim
+@end smallexample
 @comment *********************************************************************
-@comment ** 10.1.2 Compilation Time Environment Variables                    **
+@comment ** 10.1.4 Compilation Time Environment Variables                    **
 @comment *********************************************************************
 @newsubsection{Compilation Time Environment Variables}
 @anchoridx{Environment Variables: Compilation-Time}
@@ -856,7 +853,7 @@ cobc -i
 @end multitable
 @end cartouche
 @comment *********************************************************************
-@comment ** 10.1.3 Predefined Compilation Variables                          **
+@comment ** 10.1.5 Predefined Compilation Variables                          **
 @comment *********************************************************************
 @newsubsection{Predefined Compilation Variables}
 GnuCOBOL defines compilation variables when certain conditions are true.
@@ -950,9 +947,9 @@ The size of a @code{COMP} @var{item} is determined according to the GnuCOBOL sch
 @end table
 @end table
 @comment *********************************************************************
-@comment ** 10.1.4 Locating Copybooks                                        **
+@comment ** 10.1.6 Locating Copybooks                                        **
 @comment *********************************************************************
-@page
+@comment @page
 @newsubsection{Locating Copybooks}
 The GnuCOBOL compiler will attempt to locate copybooks by searching for them in the following folders.  The search will occur in the sequence shown below, and will terminate once a copybook is found.
 @enumerate
@@ -1020,7 +1017,7 @@ Case-folding may also be turned on and off within the program source code using 
 
 
 @comment *********************************************************************
-@comment ** 10.1.5 Compiler Configuration Files                              **
+@comment ** 10.1.7 Compiler Configuration Files                              **
 @comment *********************************************************************
 @newsubsection{Compiler Configuration Files}
 GnuCOBOL uses compiler configuration files to define various options that will control the compilation process.  These configuration files are specified using the
@@ -1366,7 +1363,7 @@ reserved:	ZEROS=ZERO
 @comment *********************************************************************
 @comment ** 10.2 Running Programs                                            **
 @comment *********************************************************************
-@page
+@comment @page
 @newsection{Running Programs}
 Once GnuCOBOL programs have been compiled into either directly-executable programs (created via the @switch{-x}) or dynamically-loadable libraries (created via the @switch{-m}), those programs may be executed from any shell environment.  The exact manner in which the two are executed will differ, as described in the upcoming sections.
 @comment *********************************************************************
@@ -1665,7 +1662,7 @@ When viewing, note the Default settings.
 #                       without prefix
 #                    %L is replaced by Line number, right justified, length 6
 #                    %S is replaced by statement type and name
-#                    %F is replaced by source file name 
+#                    %F is replaced by source file name
 #          Example:  TRACE_FORMAT  "Line: %L %S"
 #             Note:  format of GC2.2 and older:
 #                    "PROGRAM-ID: %I 	Line: %L 	%S"
@@ -1693,7 +1690,7 @@ When viewing, note the Default settings.
 #                        the process before libcob does any cleanup; preserve
 #                        full internal handling of COBOL runtime errors
 #                    2   is identical to 1, but on runtime errors explicit
-#                        raises SIGABRT after displaying it along with the  
+#                        raises SIGABRT after displaying it along with the
 #                        stacktrace and after doing minimal cleanup
 #                    3   similar to 2, but instead of raising SIGABRT execute
 #                        "gcore -a -o NAME $$" (where $$ is the process id and
@@ -1754,7 +1751,7 @@ When viewing, note the Default settings.
 #   Parameter name:  stats_file
 #          Purpose:  to define where COBOL I/O statistics should be written
 #                    The file is appended to
-#             Type:  string 
+#             Type:  string
 #          Default:  stderr
 #          Example:  STATS_FILE  ${HOME}/mystats.txt
 
@@ -1875,7 +1872,7 @@ When viewing, note the Default settings.
 # Environment name:  COB_VARREL_FORMAT
 #   Parameter name:  varrel_format
 #          Purpose:  declare format to be used for variable length relative files
-#             Type:  gc   means 'size_t' record length (local machine) precedes 
+#             Type:  gc   means 'size_t' record length (local machine) precedes
 #                         maximum length data record
 #                    mf   means file is in Micro Focus format
 #                    b32  means Big-Endian 32-bit 'int' record length precedes data
@@ -1897,8 +1894,8 @@ When viewing, note the Default settings.
 #                    l64  means 8 byte record length (little-endian)
 #                    mf   means Micro Focus default
 #                    gc   means 'size_t' with record length precedes data record
-#          Default:  gc  
-#             NOTE:  'gc' results in files which cannot be used if copied between 
+#          Default:  gc
+#             NOTE:  'gc' results in files which cannot be used if copied between
 #                         machines of different hardware architecture
 #          Example:  FIXREL_FORMAT B32
 
@@ -1915,12 +1912,12 @@ When viewing, note the Default settings.
 #   Parameter name:  file_dictionary
 #          Purpose:  define when a file format description is written
 #                    is written to 'asgname.dd'
-#             Type:  false   means never write 
-#                    no      means never write 
+#             Type:  false   means never write
+#                    no      means never write
 #                    true    means write for BDB or LMDB only
 #                    min     means write for BDB or LMDB only
-#                    always  means write for all file types 
-#                    max     means write for all file types 
+#                    always  means write for all file types
+#                    max     means write for all file types
 #          Default:  min
 #          Example:  file_dictionary always
 
@@ -2015,7 +2012,7 @@ When viewing, note the Default settings.
 #                    read - files opened as SHARE READ ONLY
 #                    all  - files opened as SHARE ALL OTHERS
 #                    no   - files opened as SHARE NO OTHERS
-#          Default:  none 
+#          Default:  none
 #          Example:  share_mode = ALL
 
 # Environment name:  COB_RETRY_MODE
@@ -2025,21 +2022,21 @@ When viewing, note the Default settings.
 #                    none    - nothing overrides application code
 #                    never   - I/O is never retried
 #                    forever - I/O will be retried until success
-#          Default:  none 
+#          Default:  none
 #          Example:  retry_mode = never
 
 # Environment name:  COB_RETRY_TIMES
 #   Parameter name:  retry_times
-#          Purpose:  Defines how many times I/O should be retried 
+#          Purpose:  Defines how many times I/O should be retried
 #             Type:  integer
-#          Default:  0 
+#          Default:  0
 #          Example:  retry_times = 10
 
 # Environment name:  COB_RETRY_SECONDS
 #   Parameter name:  retry_seconds
-#          Purpose:  Defines how many seconds I/O should be retried 
+#          Purpose:  Defines how many seconds I/O should be retried
 #             Type:  integer
-#          Default:  0 
+#          Default:  0
 #          Example:  retry_seconds = 6
 
 # Environment name:  COB_KEYCHECK
@@ -2056,7 +2053,7 @@ When viewing, note the Default settings.
 #                    default - yes, if the low level I/O routine handles it
 #                    never   - Even if 02 is return from xISAM, ignore it
 #                    always  - fisam/foci/fodbc should do extra work to compute
-#          Default:  default 
+#          Default:  default
 #          Example:  dups_ahead = never
 
 # Environment name:  COB_SYNC
@@ -2354,14 +2351,14 @@ When viewing, note the Default settings.
 # LS_OPTIONS for LINE SEQUENTIAL, LA_OPTIONS for LINE ADVANCING SEQUENTIAL
 # If none of these are present, it then checks for IO_OPTIONS
 #
-# Then an additional check is done for IO_asgnmame where 'asgname' was 
+# Then an additional check is done for IO_asgnmame where 'asgname' was
 # the ASSIGN EXTERNAL name used in the program
 #
-# The environment variable (or dictionary file) may contain any of the 
+# The environment variable (or dictionary file) may contain any of the
 # following keywords, separated by spaces and/or commas
 #
-# You can specify just the keyword and it is assumed to mean set to true, 
-# or no-keyword (or no_keyword or nokeyword) which means set to false, 
+# You can specify just the keyword and it is assumed to mean set to true,
+# or no-keyword (or no_keyword or nokeyword) which means set to false,
 # or keyword=true or keyword=false.  The valid keywords are:
 # Keyword       Meaning
 # =========     ======================================================
@@ -2373,7 +2370,7 @@ When viewing, note the Default settings.
 # recsz         The size for fixed size record file
 # maxsz         Maximum record size for variable length records
 # minsz         Minimum record size for variable length records
-# ls_nulls      Do NUL insertion before characters less than a SPACE, 
+# ls_nulls      Do NUL insertion before characters less than a SPACE,
 #               Default: false
 # ls_validate   Validate data for LINE Sequential Files, Default: true
 # crlf          Lines end with CR LF (Windows format for text files)
@@ -2398,8 +2395,8 @@ When viewing, note the Default settings.
 # format=ixhandler  INDEXED file format: CISAM,DISAM,VBISAM,VBCISAM,OCI,ODBC,BDB,LMDB
 # format=auto   INDEXED file format is determined by inspecting the file
 # dups_ahead=   default,never,always
-# rollback=     yes, no 
-#               (OCI & ODBC will 'autocommit' each update is not defined and not APPLY COMMIT) 
+# rollback=     yes, no
+#               (OCI & ODBC will 'autocommit' each update is not defined and not APPLY COMMIT)
 #               (fileio will handle COMMIT/ROLLBACK for all other files)
 # nkeys=n       number of indexes
 # key1=(loc:len)     loc (zero relative) of key, len of key
@@ -2408,7 +2405,7 @@ When viewing, note the Default settings.
 #  ---- For INDEXED BDB files -----
 # big_endian    Set internal 'int' byte order to BIG ENDIAN
 # little_endian Set internal 'int' byte order to LITTLE ENDIAN
-# 
+#
 
 @end verbatim
 @comment *********************************************************************
@@ -2433,7 +2430,8 @@ Before continuing, it's worth making the point that we're @i{not} talking about 
 
 The following program compares the performance of performing arithmetic operations (in a totally non-scientific, non-rigorous way) against data items with a @syntaxref{USAGE} of @code{DISPLAY}, @code{COMP} and @code{BINARY-LONG}.  It was actually my intent when I first wrote the program to merely demonstrate the relative performance differences between different types of numeric data storage, and it certainly met that objective.
 
-@example
+@smallexample
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DEMOMATH.
 DATA DIVISION.
@@ -2460,35 +2458,31 @@ PROCEDURE DIVISION.
         ADD 7 TO Display-Item
     END-PERFORM
     PERFORM 100-Determine-Time-Diff
-    DISPLAY 'USAGE DISPLAY: ' Time-Diff ' SECONDS'
-    .
+    DISPLAY 'USAGE DISPLAY: ' Time-Diff ' SECONDS'.
 020-Test-Usage-COMP.
     ACCEPT Begin-Time FROM TIME
     PERFORM Repeat-Count TIMES
         ADD 7 TO Comp-Item
     END-PERFORM
     PERFORM 100-Determine-Time-Diff
-    DISPLAY 'USAGE COMP:    ' Time-Diff ' SECONDS'
-    .
+    DISPLAY 'USAGE COMP:    ' Time-Diff ' SECONDS'.
 040-Test-Usage-BINARY.
     ACCEPT Begin-Time FROM TIME
     PERFORM Repeat-Count TIMES
         ADD 7 TO Binary-Item
     END-PERFORM
     PERFORM 100-Determine-Time-Diff
-    DISPLAY 'USAGE BINARY:  ' Time-Diff ' SECONDS'
-    .
+    DISPLAY 'USAGE BINARY:  ' Time-Diff ' SECONDS'.
 099-Done.
-    STOP RUN
-    .
+    STOP RUN.
 100-Determine-Time-Diff.
     ACCEPT End-Time FROM TIME
     COMPUTE Time-Diff =
       ( (ET-HH * 360000 + ET-MM * 6000 + ET-SS * 100 + ET-HU)
       - (BT-HH * 360000 + BT-MM * 6000 + BT-SS * 100 + BT-HU) )
-      / 100
-    .
-@end example
+      / 100.
+
+@end smallexample
 @* Each data item has 7 added to it ten @i{million} times.
 
 The time (to one-one-hundredth of a second) will be retrieved before and after each test and the difference between the two is displayed.  This is why the computations were done so many times --- it was to make sure the timing was measurable with only a 1/100 second ``stopwatch''.
@@ -2553,7 +2547,7 @@ USAGE DISPLAY:   1.67 SECONDS
 USAGE COMP:      0.01 SECONDS
 USAGE BINARY:    0.00 SECONDS
 @end example
-@* All tests above carried out under Linux with a AMD FX8350 under very low loading prior to the test. 
+@* All tests above carried out under Linux with a AMD FX8350 under very low loading prior to the test.
 @iftex
 @sp 3
 @center ------------------------------------------------------------
