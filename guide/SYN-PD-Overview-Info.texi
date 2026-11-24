@@ -1,9 +1,23 @@
-PROCEDURE DIVISION  
-~~~~~~~~~ ~~~~~~~~   
+PROCEDURE DIVISION  [ { STATIC          } ] [ WITH { STDCALL } LINKAGE ]  
+~~~~~~~~~ ~~~~~~~~    { ~~~~~~          }     ~~~~ { ~~~~~~~ } ~~~~~~~      
+                      { STDCALL         }          { C       }          
+                      { ~~~~~~~         }          { ~       }          
+                      { C               }          { PASCAL  }          
+                      { ~               }           ~~~~~~            
+                      { PASCAL          }  
+                      { ~~~~~~          }  
+                      { EXTERN          }  
+                      { ~~~~~~          }  
+                      { mnemonic-name-1 }  
+
     [ { USING Subprogram-Argument... | CHAINING Main-Program-Argument... ] 
-        ~~~~~                           ~~~~~~~~                       
-    [ RETURNING identifier-1 ] .
-      ~~~~~~~~~
+        ~~~~~                          ~~~~~~~~                       
+
+    [ RETURNING { identifier-1 } ] .
+      ~~~~~~~~~ { OMITTED      }
+                  ~~~~~~~
+
+
 
    [ DECLARATIVES.                 
      ~~~~~~~~~~~~                   
@@ -11,6 +25,7 @@ PROCEDURE DIVISION
              
      END DECLARATIVES. ]
      ~~~ ~~~~~~~~~~~~
+
 
    [ [ Section-name1 SECTION. ]             
                      ~~~~~~~               
