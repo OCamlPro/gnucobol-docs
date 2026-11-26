@@ -4,6 +4,20 @@
 @newchapter{PROCEDURE DIVISION}
 @diagram{PROCEDURE DIVISION,PD-Overview-Info,PD-Overview-Info,None}
 The @code{PROCEDURE DIVISION} of any GnuCOBOL program marks the point where all executable code is written.
+
+Rules for the WITH PhraseNotes on the call-convention-phrase and the linkage-phrase.
+
+The WITH phrase specifies the calling conventions for a called program. If the WITH phrase is omitted, the COBOL
+calling conventions are applied.
+
+The WITH phrase must not be written in the Procedure Division header of a nested program.
+
+The WITH phrase can only be used in the Procedure Division header of a program definition.
+
+The calling conventions between the calling and called programs must be the same. If they are different, the execution result is undefined.
+
+In a single separately compiled program, the Procedure Division header of the outermost program must be the same as the WITH phrase in the ENTRY statement.
+
 @menu
 * PROCEDURE DIVISION USING.
 * PROCEDURE DIVISION CHAINING.
@@ -1332,12 +1346,14 @@ COPY @file{screenio.cpy}.
 @end example
 
 @item
-Once that has been done, every (extended) ACCEPT, will return a value in COB_CRT_STATUS reflecting mouse activity, when such activity occurs.
-The applicable values are shown in screenio.cpy under ?Exception keys for mouse handling?.
-If you define a variable in SPECIAL NAMES as follows:
+Once that has been done, every (extended) @code{ACCEPT}, will return a value in @code{COB_CRT_STATUS} reflecting mouse activity, when such activity occurs.
+The applicable values are shown in screenio.cpy under 'Exception keys for mouse handling'.
+If you define a variable in @code{SPECIAL NAMES} as follows:
 @verbatim
+
 SPECIAL-NAMES.
    CURSOR IS data-name.   *> where data-name is PIC 9(4) or 9(6).
+   
 @end verbatim
 
 @item
@@ -1347,37 +1363,43 @@ The cursor or mouse position will be returned as well. The position is expressed
 Numeric keypad keys are not recognizable on Windows MinGW/PDCurses builds of GnuCOBOL, regardless of the number lock settings.  Windows Cygwin/NCurses builds recognize numeric keypad inputs properly.  Although not tested during the preparation of this documentation, I would expect native Windows builds using PDCurses to behave as MinGW builds do and native Unix builds using NCurses to behave as do Cygwin builds.
 
 @item
-The optional @code{EXCEPTION-STATUS} clause may be used to detect exceptions from a prior arithmetic verb such as COMPUTE to recover any errors produced. These are recovered using the function @code{EXCEPTION-STATUS}.
+The optional @code{EXCEPTION-STATUS} clause may be used to detect exceptions from a prior arithmetic verb such as @code{COMPUTE} to recover any errors produced. 
+These are recovered using the function @code{EXCEPTION-STATUS}.
 
 @item
-The use of @syntaxidx{CONTROL} The value of literal-8 and identifier-8 in the CONTROL phrase is used to specify a dynamic option list.
+The use of @syntaxidx{CONTROL} The value of @code{literal-8} and @code{identifier-12} in the @code{CONTROL} phrase is used to specify a dynamic option list.
 The value must be a character-string consisting of a series of keywords delimited by commas;
 Some keywords allow assignment of a value by following the keyword with an equal sign and the value.
 Blanks are ignored in the character-string. Lowercase letters are treated as uppercase letters within keywords.
 Keywords specified override corresponding static options specified as phrases for the same identifier-1.
 Keywords may be specified in any order. Keywords, which specify options that do not apply to the statement, are ignored.
 
-The keywords that affect an ACCEPT statement are
-BEEP, BLINK, ECHO, PROMPT, REVERSE, TAB, UNDERLINE, UPDATE, ERASE, ERASE EOL, ERASE EOS,
+The keywords that affect an @code{ACCEPT} statement are
+@code{BEEP, BLINK, ECHO, PROMPT, REVERSE, TAB, UNDERLINE, UPDATE, ERASE, ERASE EOL, ERASE EOS,
 HIGH, LOW, UPPER, NO BEEP, NO BLINK, NO ECHO, NO PROMPT, NO REVERSE, NO TAB, NO UNDERLINE,
-NO UPDATE, NO ERASE.
+NO UPDATE, NO ERASE} .
 
-The meanings of these keywords when they appear in the value of the CONTROL phrase operand are the same as the corresponding phrases which may be written as static options of the ACCEPT statement, with the addition of the negative forms to allow suppression of statically declared options.
+The meanings of these keywords when they appear in the value of the @code{CONTROL} phrase operand are the same as the corresponding phrases which may be written as static options of the ACCEPT statement, with the addition of the negative forms to allow suppression of statically declared options.
 
-The keywords UNDERLINE and UPPER are not available as static options of the ACCEPT statement.
-When specified, UPPER causes all lowercase alphabetic characters contained in the screen field to be changed to uppercase alphabetic characters before input data conversion and storing in the receiving field.
+The keywords @code{UNDERLINE} and @code{UPPER} are not available as static options of the @code{ACCEPT} statement.
+When specified, @code{UPPER} causes all lowercase alphabetic characters contained in the screen field to be changed to uppercase alphabetic characters before input data conversion and storing in the receiving field.
 
-When specified, UNDERLINE causes the field on the screen to be shown in underlined mode, provided the terminal supports that mode.
+When specified,  @code{UNDERLINE} causes the field on the screen to be shown in underlined mode, provided the terminal supports that mode.
 
-GnuCOBOL provides two additional keywords in the CONTROL phrase that affect an ACCEPT field.
+GnuCOBOL provides two additional keywords in the @code{CONTROL} phrase that affect an @code{ACCEPT} field.
 
-1. FCOLOR = color-name
 
-When FCOLOR is present, color-name specifies the foreground color of the ACCEPT field. This name is then used as the default value for subsequent ACCEPT statements in the program. The initial default for color-name is white.
+1. @code{FCOLOR} = color-name
 
-2. BCOLOR = color-name
+When @code{FCOLOR} is present, color-name specifies the foreground color of the @code{ACCEPT} field. 
+This name is then used as the default value for subsequent @code{ACCEPT} statements in the program. The initial default for color-name is white.
 
-When BCOLOR is present, color-name specifies the background color of the DISPLAY field. This value is then used as the default value for subsequent ACCEPT statements in the program. The initial default for color-name is black.
+
+2. @code{BCOLOR} = color-name
+
+When @code{BCOLOR} is present, color-name specifies the background color of the @code{ACCEPT} field. 
+This value is then used as the default value for subsequent @code{ACCEPT} statements in the program. The initial default for color-name is black.
+
 
 Following table contains a list of all the valid names for color-name.
 The left column contains the valid color name.
@@ -1414,10 +1436,10 @@ stop run.
 @end verbatim
 
 @item
-COLOR Phrase
+@code{COLOR} Phrase
 
-The COLOR phrase provides an alternate method for setting video attributes.
-Integer-9 must be a numeric literal. Identifier-9 must be a numeric data item.
+The @code{COLOR} phrase provides an alternate method for setting video attributes.
+@code{Integer-9} must be a numeric literal. @code{Identifier-13} must be a numeric data item.
 It also allows the specification of colors for screen fields and controls.
 They can be set to different numeric values to express various combinations of colors and video attributes.
 
@@ -1459,8 +1481,8 @@ You may specify other video attributes by adding the following values:
 You may also specify high intensity by adding "8" to the foreground color value.
 
 @item
-The OMITTED format of the @statement{ACCEPT} will wait for a keyboard event that terminates input; function keys, or Enter/Return, among others.
-CRT STATUS (COB-CRT-STATUS @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} if not explicitly defined) is set with the keycode, listed in copy/screenio.cpy.
+The @code{OMITTED} format of the @statement{ACCEPT} will wait for a keyboard event that terminates input; function keys, or Enter/Return, among others.
+@syntaxrefalt{CRT STATUS,SPECIAL-NAMES} if not explicitly defined) is set with the keycode, listed in copy/screenio.cpy.
 You can use extended attributes, useful for setting timeouts or positioning.
 It also handles a few other keycode terminations not normally used to complete an extended accept.
 
@@ -1481,7 +1503,8 @@ COB-SCR-KEY-END
 @page
 @newsubsubsection{ACCEPT data-item (Microsoft v1-v2)}
 @diagram{ACCEPT data-item,PD-ACCEPT-4-Microsoft,PD-ACCEPT-4-Microsoft,None}
-This format of the @statement{ACCEPT} is used to retrieve data from a working storage item using the Microsoft format from v1 and v2 compilers (MsDos). See previous ACCEPT data-Item for detailed information.
+This format of the @statement{ACCEPT} is used to retrieve data from a working storage item using the Microsoft format from v1 and v2 compilers (MsDos). 
+See previous @code{ACCEPT data-Item} for detailed information.
 
 @comment *********************************************************************
 @comment ** 7.8.1.5 ACCEPT FROM DATE/TIME                                  **
@@ -1509,12 +1532,12 @@ The data retrieved from the system and the format in which it is structured will
 @end multitable
 
 @item When using one of @option{--std=acu} or @option{--std=acu-strict},
-ACCEPT FROM TIME data-item with data-item providing more than 12 digits behaves as if
-ACCEPT FROM MICROSECOND-TIME data-item is used (six decimal places for fractional seconds).
+@code{ACCEPT FROM TIME data-item} with data-item providing more than 12 digits behaves as if
+@code{ACCEPT FROM MICROSECOND-TIME data-item} is used (six decimal places for fractional seconds).
 
 @item Consider using the standard @code{FUNCTION FORMATTED-CURRENT-DATE} if you need a
 high precision (up to eight decimal places for fractional seconds).
-
+ 
 @end enumerate
 @comment *********************************************************************
 @comment ** 7.8.1.6 ACCEPT FROM Screen-Info                                **
@@ -1558,18 +1581,22 @@ See the documentation on the @subpgmref{CBL_GET_SCR_SIZE} for another way to ret
 
 @item
 The
-@syntaxidx{ESCAPE KEY} option may be used after an ACCEPT data-item has been used to retrieve data off a formatted screen. The result returned, will be the four-digit key id of the special key that was pressed to terminate the ACCEPT data-item (a 0000 is returned for the Enter key).
+@syntaxidx{ESCAPE KEY} option may be used after an @code{ACCEPT data-item} has been used to retrieve data off a formatted screen. 
+The result returned, will be the four-digit key id of the special key that was pressed to terminate the @code{ACCEPT data-item} 
+(a 0000 is returned for the Enter key).
 
-If you specify the CRT STATUS is Identifier-1 clause in SPECIAL NAMES, then for an ACCEPT data-item, the system sets a code in the identifier-1 field that indicates which key ended the ACCEPT data-item.
+If you specify the @code{CRT STATUS is Identifier-1} clause in @code{SPECIAL NAMES}, then for an @code{ACCEPT data-item}, 
+the system sets a code in the @code{identifier-1} field that indicates which key ended the @code{ACCEPT data-item}.
 
-If the CRT STATUS clause IS identifier-1 is not specified in SPECIAL NAMES. then within the program, you can write two consecutive ACCEPTs:
+If the @code{CRT STATUS is Identifier-1} clause is not specified in @code{SPECIAL NAMES}, then within the program, you can write two consecutive ACCEPTs:
 @example
 
 ACCEPT data-item
 ACCEPT identifier-1 FROM ESCAPE KEY
+
 @end example
 
-In this way in the identifier-1 field you will have the return code which indicates which key completed the ACCEPT data-item.
+In this way in the @code{Identifier-1} field you will have the return code which indicates which key completed the @code{ACCEPT data-item}.
 
 @end enumerate
 @comment *********************************************************************
@@ -1600,7 +1627,9 @@ The following points pertain to the use of the
 @syntaxidx{USER NAME} option:
 @enumerate A
 @item
-The returned result is the userid that was used to login to the system with, and not any actual first and/or last name of the user in question (unless, of course, that is the information used as a logon id). It is not the PID or UID numbers but the name associated with the UID under *nix based systems.
+The returned result is the userid that was used to login to the system with, 
+and not any actual first and/or last name of the user in question (unless, of course, that is the information used as a logon id). 
+It is not the PID or UID numbers but the name associated with the UID under *nix based systems.
 
 @item
 @var{identifier-1} should be defined large enough to receive the longest user-name on the system.
@@ -1612,27 +1641,7 @@ If insufficient space is allocated, the returned value will be truncated.
 If excess space is allocated, the returned value will be padded with spaces (to the right).
 @end enumerate
 @end enumerate
-@comment *********************************************************************
-@comment ** 7.8.1.8 ACCEPT OMITTED                                          **
-@comment *********************************************************************
-@comment  @page
-@comment  @newsubsubsection{ACCEPT OMITTED}
-@comment  @diagram{ACCEPT OMITTED,PD-ACCEPT-8,PD-ACCEPT-8,None}
-@comment  This format of the @statement{ACCEPT} will wait for a keyboard event that terminates input; function keys, or Enter/Return, among others. CRT STATUS (COB-CRT-STATUS @syntaxrefalt{CRT STATUS,SPECIAL-NAMES} if not explicitly defined) is set with the keycode, listed in copy/screenio.cpy. It also handles a few other keycode terminations not normally used to complete an extended accept.
-@comment  @enumerate
-@comment Syntactical Specifications:
-@comment  @item
-@comment  The following are examples of keycodes that can be used:
-@comment  @verbatim
-@comment  COB-SCR-INSERT
-@comment  COB-SCR-DELETE
-@comment  COB-SCR-BACKSPACE
-@comment  COB-SCR-KEY-HOME
-@comment  COB-SCR-KEY-END
-@comment  @end verbatim
-@comment  @item
-@comment  You can use extended attributes, useful for setting timeouts or positioning.
-@comment  @end enumerate
+
 @comment *********************************************************************
 @comment ** 7.8.2 ADD                                                       **
 @comment *********************************************************************
@@ -1856,22 +1865,25 @@ Note that bit 0 is the right-most bit in the binary value.
 @multitable @columnfractions .03 .15 .33 .33
 @headitem Bit @tab Supported @tab Meaning if 0 @tab Meaning if 1
 @item 0
-@tab No @tab Arguments will be passed in right-to-left sequence @tab Arguments will be passed in left-to-right sequence.
+@tab No @tab Parameter order. Right to left. Arguments will be passed in right-to-left sequence @tab Left to right. Arguments will be passed in left-to-right sequence.
 @item 1
-@tab No @tab The calling program will flush processed arguments from the argument stack.@tab The called program (subroutine) will flush processed arguments from the argument stack.
+@tab No @tab Stack manipulation. Caller removes params. The calling program will flush processed arguments from the argument stack.@tab Callee removes params. The called program (subroutine) will flush processed arguments from the argument stack.
 @item 2
-@tab Yes @tab The
+@tab Yes @tab RETURN-CODE update. The
 @registerrefalt{RETURN-CODE,Special Registers} will be updated in addition to any @code{RETURNING} or @code{GIVING} data item. @tab The
 @registertext{RETURN-CODE} will not be updated (but any @code{RETURNING} or @code{GIVING} data item still will).
 @item 3
-@tab Yes @tab If @code{CALL @var{literal}} is used, the subroutine will be located and linked in with the calling program at compile time or may be dynamically located and loaded at execution time, depending on compiler switch settings and operating system capabilities.  @tab If @code{CALL @var{literal}} is used, the subroutine can only be located and linked with the calling program at compilation time.
+@tab Yes @tab Linking behaviour. If @code{CALL @var{literal}} is used, the subroutine will be located and linked in with the calling program at compile time or may be dynamically located and loaded at execution time, depending on compiler switch settings and operating system capabilities.  @tab Static CALL linking. If @code{CALL @var{literal}} is used, the subroutine can only be located and linked with the calling program at compilation time.
 @item 4
-@tab No @tab OS/2 ``OPTLINK'' conventions will not be used to CALL the subprogram. @tab OS/2 ``OPTLINK'' conventions will be used to CALL the subprogram.
+@tab No @tab OS/2 Optlink. OS/2 ``OPTLINK'' conventions will not be used to CALL the subprogram. @tab OS/2 ``OPTLINK'' conventions will be used to CALL the subprogram.
 @item 5
-@tab No @tab Windows 16-bit ``thunking'' will not be in effect. @tab Windows 16-bit ``thunking'' will be used to call the subroutine as a DLL.
+@tab No @tab Thunked to 16 bit. Windows 16-bit ``thunking'' will not be in effect. No thunk. @tab Windows 16-bit ``thunking'' will be used to call the subroutine as a DLL.
 @item 6
-@tab Yes @tab The @code{STDCALL} convention will not be used. @tab The @code{STDCALL} convention, required to use the Microsoft Win32 API,  will be used.
+@tab Yes @tab STDCALL convention. The @code{STDCALL} convention will not be used (CDECL used). @tab The @code{STDCALL} convention, required to use the Microsoft Win32 API,  will be used.
 @end multitable
+
+Sample: CALL-CONVENTION 74 (binary: 01001010) means: STDCALL convention, Static CALL linking, Callee removes params from stack. 
+Useful if, on Windows 32-bit, you use @code{SPECIAL-NAMES. CALL-CONVENTION 74 IS WINAPI and then CALL WINAPI "MessageBoxA" using ...}
 
 Using the @code{STATIC} option on a @code{CALL} statement is equivalent to using @code{CALL-CONVENTION 8} (only bit 3 set).
 
@@ -1880,6 +1892,21 @@ Using the @code{STDCALL} option on a @code{CALL} statement is equivalent to usin
 
 @item
 The value of @var{literal-1} or @var{identifier-1} is the entry-point of the subprogram you wish to call.
+
+@item
+The WITH phrase indicates that the object program is called according to the specified calling conventions. 
+If the WITH phrase is omitted, the COBOL calling convention is applied. These calling conventions include:
+
+- COBOL calling convention
+
+- C calling convention (@code{WITH C LINKAGE})
+
+- PASCAL calling convention (@code{WITH PASCAL LINKAGE})
+
+- STDCALL calling convention (@code{WITH STDCALL LINKAGE})
+
+The calling conventions between the calling and called programs must be identical. If they are different, the execution result is undefined.
+The WITH phrase must not be used in calling a nested program.
 
 @item
 When you call a subroutine using @var{identifier-1}, you are forcing the runtime system to call a dynamically-loadable subprogram.  The contents of @var{identifier-1} will be the entry-point name within that module.  If this is the @i{first} call to any entry-point within the module being made at run-time, the contents of @var{identifier-1} must be the primary entry-point name of the module (which must also match the filename, minus any OS-mandated extension) of the executable file comprising the module).
@@ -2348,21 +2375,28 @@ Keywords may be specified in any order.
 Keywords, which specify options that do not apply to the statement, are ignored.
 
 @item
-The keywords that affect a DISPLAY statement are
-BEEP, BLINK, HIGH, LOW, CONVERT, REVERSE, UNDERLINE, ERASE, ERASE EOL, ERASE EOS,
-NO ERASE, NO BEEP, NO BLINK, NO CONVERT, NO REVERSE, NO UNDERLINE.
-The meanings of these keywords when they appear in the value of the CONTROL phrase operand are the same as the corresponding phrases which may be written as static options of the DISPLAY statement, with the addition of the negative forms to allow suppression of statically declared options.
+The keywords that affect a @code{DISPLAY} statement are
+@code{BEEP, BLINK, HIGH, LOW, CONVERT, REVERSE, UNDERLINE, ERASE, ERASE EOL, ERASE EOS,
+NO ERASE, NO BEEP, NO BLINK, NO CONVERT, NO REVERSE, NO UNDERLINE} .
+The meanings of these keywords when they appear in the value of the @code{CONTROL} 
+phrase operand are the same as the corresponding phrases which may be written as static options of the @code{DISPLAY} statement, 
+with the addition of the negative forms to allow suppression of statically declared options.
 
 @item
-GnuCOBOL provides three additional keywords in the CONTROL phrase that affect a DISPLAY field.
-1. FCOLOR = color-name
-When FCOLOR is present, color-name specifies the foreground color of the DISPLAY field.
-This name is then used as the default value for subsequent DISPLAY statements in the program.
+GnuCOBOL provides three additional keywords in the @code{CONTROL} phrase that affect a @code{DISPLAY} field.
+
+1. @code{FCOLOR} = color-name
+When @code{FCOLOR} is present, color-name specifies the foreground color of the @code{DISPLAY} field.
+This name is then used as the default value for subsequent @code{DISPLAY} statements in the program.
+
 The initial default for color-name is white.
-2. BCOLOR = color-name
-When BCOLOR is present, color-name specifies the background color of the DISPLAY field.
-This value is then used as the default value for subsequent DISPLAY statements in the program.
+
+2. @code{BCOLOR} = color-name
+When @code{BCOLOR} is present, color-name specifies the background color of the @code{DISPLAY} field.
+This value is then used as the default value for subsequent @code{DISPLAY} statements in the program.
+
 The initial default for color-name is black.
+
 Following table contains a list of all the possible names for color-name.
 The left column contains the valid color name.
 The right column shows the color that appears when high intensity is specified (the default intensity).
@@ -2386,7 +2420,7 @@ The right column shows the color that appears when high intensity is specified (
 
 @end verbatim
 @item
-@syntaxidx{GRAPHICS} The GRAPHICS keyword causes the characters in following table to be translated to line draw characters.
+The @syntaxidx{GRAPHICS} keyword causes the characters in following table to be translated to line draw characters.
 Characters that are not listed in the following table are output unchanged.
 
 @verbatim
@@ -2414,9 +2448,8 @@ If the requested line draw characters are not available, the runtime system uses
 If double-line characters are requested and only single-line characters are available, they are used.
 If no line draw characters are available, then plus-characters, vertical bars, and dashes are used.
 
-@verbatim
-
 Sample program that demonstrates how boxes are drawn:
+@smallexample
 
       >>SOURCE FREE
  IDENTIFICATION   DIVISION.
@@ -2427,12 +2460,10 @@ Sample program that demonstrates how boxes are drawn:
      88  success  VALUE 'Y', 'y'.
  77  LIN-START    PIC 99    COMP-5.
  77  LIN          PIC 99    COMP-5.
- 01  scr1 PIC X(75)
-         VALUE 'Enter "y" if you see line draw characters. '
-         & 'The first set (single/double)'.
- 01  scr2 PIC X(75)
-         VALUE 'uses HIGHLIGHT, the second uses '
-         & 'LOWLIGHT, BLINK and MAGENTA.'.
+ 01  scr1 PIC X(75) VALUE 'Enter "y" if you see line draw characters. '
+                        & 'The first set (single/double)'.
+ 01  scr2 PIC X(75) VALUE 'uses HIGHLIGHT, the second uses '
+                        & 'LOWLIGHT, BLINK and MAGENTA.'.
  01  graphcontrol PIC X(50) VALUE 'HIGH, GRAPHICS'.
  PROCEDURE DIVISION.
       MOVE 2 TO LIN
@@ -2473,10 +2504,10 @@ Sample program that demonstrates how boxes are drawn:
      ADD  1 TO LIN
      DISPLAY "MQQQQVQQQQJ" LINE LIN COL 20, CONTROL graphcontrol.
 
-@end verbatim
+@end smallexample
 @item
 @syntaxidx{COLOUR} The COLOR phrase provides an alternate method for setting video attributes.
-Integer-8 must be a numeric literal. Identifier-8 must be a numeric data item.
+Integer-8 must be a numeric literal. Identifier-10 must be a numeric data item.
 It also allows the specification of colors for screen fields and controls.
 They can be set to different numeric values to express various combinations of colors and video attributes.
 You may make combinations by adding the appropriate values together.
@@ -2518,9 +2549,9 @@ You may specify other video attributes by adding the following values:
 @item
 You may also specify high intensity by adding "8" to the foreground color value.
 
-@verbatim
-
 Sample program that demonstrates how COLOR is used.
+
+@smallexample
 
         >>SOURCE FREE
 IDENTIFICATION DIVISION.
@@ -2573,7 +2604,7 @@ DISPLAY FUNCTION CONCATENATE ("XXX COLOR="  wCOLOR " XXXXXXXXX ")
         AT LINE wLIN COL 001 COLOR wCOLOR.
 STOP RUN.
 
-@end verbatim
+@end smallexample
 
 @item
 @xref{ACCEPT data-item}, for additional information on the other @code{WITH} clause options.
@@ -3121,7 +3152,7 @@ When this form of an @statement{EXIT} is used, it must be the only statement in 
 @item
 This usage of the @statement{EXIT} simply provides a common ``GO TO'' end point for a series of procedures, as may be seen in the following example:
 
-@example
+@smallexample
 01  Switches.
     05 Input-File-Switch PIC X(1).
        88 EOF-On-Input-File VALUE ``Y'' FALSE ``N''.
@@ -3140,7 +3171,7 @@ This usage of the @statement{EXIT} simply provides a common ``GO TO'' end point 
     END-IF.
     <<@var{process the record just read}>>
 199-Exit. EXIT.
-@end example
+@end smallexample
 
 @item
 In this case, the @statement{EXIT} takes no other run-time action.
@@ -3157,7 +3188,7 @@ If an @statement{EXIT PARAGRAPH} or @statement{EXIT SECTION} resides @i{outside}
 
 @item
 The following shows how the previous example could have been coded without a @code{GO TO} by utilizing an @statement{EXIT PARAGRAPH}.
-@example
+@smallexample
 01  Switches.
     05 Input-File-Switch PIC X(1).
        88 EOF-On-Input-File VALUE ``Y'' FALSE ``N''.
@@ -3175,7 +3206,7 @@ The following shows how the previous example could have been coded without a @co
         EXIT PARAGRAPH *> IGNORE BLANK RECORDS!
     END-IF.
     <<@var{process the record just read}>>
-@end example
+@end smallexample
 @end enumerate
 
 @item
@@ -3193,7 +3224,7 @@ An @statement{EXIT PERFORM} will terminate the in-line PERFORM outright, transfe
 @item
 This last example shows the final modification to the previous examples by using an in-line @code{PERFORM} along with @code{EXIT PERFORM} and @code{EXIT PERFORM CYCLE} statements:
 
-@example
+@smallexample
 PERFORM FOREVER
     READ Input-File
 	     AT END EXIT PERFORM
@@ -3203,7 +3234,7 @@ PERFORM FOREVER
     END-IF
     <<@var{process the record just read}>>
 END PERFORM
-@end example
+@end smallexample
 @end enumerate
 
 @item
@@ -3578,7 +3609,7 @@ If a @code{DEFAULT} clause is specified, any remaining uninitialized members of 
 @item
 The following example may help your understanding of how the @statement{INITIALIZE} works.  The sample code makes use of the @command{COBDUMP} program to dump the storage that is (or is not) being initialized.  @xref{COBDUMP,COBDUMP,COBDUMP,gnucobsp,GnuCOBOL Sample Programs}, for a source and cross-reference listing of the @command{COBDUMP} program.
 
-@example
+@smallexample
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DemoInitialize.
 DATA DIVISION.
@@ -3631,32 +3662,42 @@ PROCEDURE DIVISION.
 100-Init-Item-1.
     MOVE HIGH-VALUES TO Item-1
     .
-@end example
+@end smallexample
 
 When executed, this program produces the following output:
 
 @smallexample
+
 MOVE HIGH-VALUES TO Item-1
+
 <-Addr-> Byte <---------------- Hexadecimal ----------------> <---- Char ---->
 ======== ==== =============================================== ================
 00404058    1 FF FF FF FF FF FF FF FF FF                      .........
 
+
 INITIALIZE Item-1
+
 <-Addr-> Byte <---------------- Hexadecimal ----------------> <---- Char ---->
 ======== ==== =============================================== ================
 00404058    1 FF 30 00 20 20 2F 20 30 30                      .0.  / 00
 
+
 INITIALIZE Item-1 WITH @code{FILLER}
+
 <-Addr-> Byte <---------------- Hexadecimal ----------------> <---- Char ---->
 ======== ==== =============================================== ================
 00404058    1 20 30 00 20 20 2F 20 30 30                       0.  / 00
 
+
 INITIALIZE Item-1 ALL TO VALUE
+
 <-Addr-> Byte <---------------- Hexadecimal ----------------> <---- Char ---->
 ======== ==== =============================================== ================
 00404058    1 2A 2A FF 43 5A 5A 20 FF FF                      **.CZZ ..
 
+
 INITIALIZE Item-1 REPLACING NUMERIC BY 1
+
 <-Addr-> Byte <---------------- Hexadecimal ----------------> <---- Char ---->
 ======== ==== =============================================== ================
 00404058    1 FF 31 01 FF FF FF FF 31 31                      .1.....11
@@ -4277,7 +4318,7 @@ It must be noted that when NEXT SENTENCE is specified with END-IF, control does 
 Another equivalent definition is the following: when NEXT SENTENCE is specified, control passes to an implicit CONTINUE statement immediately preceding the next separator period.
 This clause is classed as archaic" and in any event there a better ways of logically doing the same function.
 
-@example
+@smallexample
 
 Sample program.
 
@@ -4297,7 +4338,7 @@ PROCEDURE DIVISION.
   display 'Ending .............'
   stop run.
 
-@end example
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 7.8.29 OPEN                                                     **
@@ -4494,68 +4535,86 @@ Return to step C.
 @end enumerate
 
 @item
-Most @code{@var{VARYING-Clause}}s have no @code{AFTER} specified.  Those that do, however, are establishing a loop-within-a-loop situation where the process described above in steps (@samp{A}) through (@samp{F}) will take place from the @code{AFTER}, and those six processing steps actually replace step C of the @code{VARYING}.  This ``nesting'' process can continue indefinitely, with each additional @code{AFTER}.
+Most @code{@var{VARYING-Clause}}s have no @code{AFTER} specified.  
+Those that do, however, are establishing a loop-within-a-loop situation where the process described above in steps (@samp{A}) through (@samp{F}) 
+will take place from the @code{AFTER}, and those six processing steps actually replace step C of the @code{VARYING}.  
+This ``nesting'' process can continue indefinitely, with each additional @code{AFTER}.
 @end enumerate
 
-An example should really help you see this at work.  Observe the following code which defines a two-dimensional (3 row by 4 column) table and a pair of numeric data items to be used to subscript references to each element of the table:
+An example should really help you see this at work.  Observe the following code which defines a two-dimensional (3 row by 4 column) table 
+and a pair of numeric data items to be used to subscript references to each element of the table:
 
 @example
+
 01  PERFORM-DEMO.
     05 PD-ROW             OCCURS 3 TIMES.
        10 PD-COL          OCCURS 4 TIMES
           15 PD           PIC X(1).
 01  PD-Col-No             PIC 9 COMP.
 01  PD-Row-No             PIC 9 COMP.
+
 @end example
 
 Let's say the 3x4 ``grid'' defined by the above structure has these values:
 
 @example
+
 A B C D
 E F G H
 I J K L
+
 @end example
 
 This code will display @code{ABCDEFGHIJKL} on the console output window:
 
 @example
+
 PERFORM WITH TEST AFTER
         VARYING PD-Row-No FROM 1 BY 1 UNTIL PD-Row-No = 3
           AFTER PD-Col-No FROM 1 BY 1 UNTIL PD-Col-No = 4
     DISPLAY PD (PD-Row-No, PD-Col-No) WITH NO ADVANCING
 END-PERFORM
+
 @end example
 
 While this code will display @code{AEIBFJCGKDHL} on the console output window:
 
 @example
+
 PERFORM WITH TEST AFTER
         VARYING PD-Col-No FROM 1 BY 1 UNTIL PD-Col-No = 4
           AFTER PD-Row-No FROM 1 BY 1 UNTIL PD-Row-No = 3
     DISPLAY PD (PD-Row-No, PD-Col-No) WITH NO ADVANCING
 END-PERFORM
+
 @end example
 
 While we're looking at sample code, this code displays @code{ABCEFG}:
 
 @example
+
 PERFORM
         VARYING PD-Row-No FROM 1 BY 1 UNTIL PD-Row-No = 3
           AFTER PD-Col-No FROM 1 BY 1 UNTIL PD-Col-No = 4
     DISPLAY PD (PD-Row-No, PD-Col-No) WITH NO ADVANCING
 END-PERFORM
+
 @end example
 
-By removing the @code{WITH TEST} clause, the statement is now assuming @code{WITH TEST BEFORE}.  Since testing now happens @i{before} the @statement{DISPLAY} gets executed, when PD-Row-No is 3 and PD-Col-No is 4 the @statement{DISPLAY} won't be executed.
+By removing the @code{WITH TEST} clause, the statement is now assuming @code{WITH TEST BEFORE}.  
+Since testing now happens @i{before} the @statement{DISPLAY} gets executed, when PD-Row-No is 3 and PD-Col-No is 4 the @statement{DISPLAY} won't be executed.
 
-Most COBOL programmers, when using @code{WITH TEST BEFORE} explicitly or implicitly have developed the habit of using @samp{>} rather than @samp{=} on @code{UNTIL} clauses.  This would make the sample code:
+Most COBOL programmers, when using @code{WITH TEST BEFORE} explicitly or implicitly have developed the habit of using @samp{>} rather than @samp{=} 
+on @code{UNTIL} clauses.  This would make the sample code:
 
 @example
+
 PERFORM
         VARYING PD-Row-No FROM 1 BY 1 UNTIL PD-Row-No > 3
           AFTER PD-Col-No FROM 1 BY 1 UNTIL PD-Col-No > 4
     DISPLAY PD (PD-Row-No, PD-Col-No) WITH NO ADVANCING
 END-PERFORM
+
 @end example
 
 With this change, @code{ABCDEFGHIJKL} is once again displayed.
@@ -5053,6 +5112,7 @@ Environment variables created or changed from within GnuCOBOL programs will be a
 This is a much simpler and more readable means of setting environment variables than by using the @statementref{DISPLAY UPON ENVIRONMENT}.  For example, these two code sequences produce identical results:
 
 @example
+
 DISPLAY "VARNAME" UPON ENVIRONMENT-NAME
 DISPLAY "VALUE" UPON ENVIRONMENT-VALUE
 
@@ -5102,12 +5162,14 @@ WORKING-STORAGE SECTION.
         07 wFILLER1  pic X(20).
         07 wCOUNT    pic 9(06).
         07 wFILLER2  pic X(74).
+		
 PROCEDURE DIVISION.
 display space display 'PGMMAIN - START OF MAIN PROGRAM.'
 move zero      to wCOUNT
 set PGMSUB-PTR to entry PGMSUB-PGM
 move 'OPEN '   to wCOMMAND
 call PGMSUB-PTR
+
 move 'WRITE'   to wCOMMAND
 perform until wCOUNT >= 13
     compute   wCOUNT  = wCOUNT + 1
@@ -5115,12 +5177,15 @@ perform until wCOUNT >= 13
     move space                  to wFILLER2
     call PGMSUB-PTR
 end-perform
+
 move 'CLOSE'    to wCOMMAND
 call PGMSUB-PTR
+
 display space display 'PGMMAIN - END OF MAIN PROGRAM.'
 accept omitted
 STOP RUN.
 END PROGRAM TESTPROCEDUREPOINTER.
+
 
 IDENTIFICATION DIVISION.
 PROGRAM-ID. PGMSUB.
@@ -5141,6 +5206,7 @@ WORKING-STORAGE SECTION.
         07 wFILLER1  pic X(20).
         07 wCOUNT    pic 9(06).
         07 wFILLER2  pic X(74).
+		
 PROCEDURE DIVISION.
 evaluate wCOMMAND
     when 'OPEN ' Open Output PGMSUB-FILE
@@ -5287,9 +5353,8 @@ This action resets the global exception object completely (FUNCTION EXCEPTION-@{
 @diagram{SET Indentifier,PD-SET-10,PD-SET-10,None}
 The @statement{SET Identifier} will set the the specified identifier.
 
-@example
-
 Example of use:
+@smallexample
 
 IDENTIFICATION DIVISION.
 PROGRAM-ID. SETSAMPLE.
@@ -5304,7 +5369,7 @@ PROCEDURE DIVISION.
     SET BG-COLOR FG-COLOR TO GREEN
     SET wABC              TO 'ABC'
     STOP RUN.
-@end example
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 7.8.40.11 SET FCD and KEY DEFINITION BLOCK                       **
@@ -5357,9 +5422,9 @@ file.
 @newsubsubsection{SET TO SIZE OF}
 @diagram{SET TO SIZE OF,PD-SET-12,PD-SET-12,None}
 
-@example
-
 See example program.
+
+@smallexample
 
 ID DIVISION.
 PROGRAM-ID. TESTSET.
@@ -5375,7 +5440,7 @@ SET wSIZE1 wSIZE2 TO SIZE OF '1234567890'.
 DISPLAY wSIZE1 ' ' wSIZE2.
 STOP RUN.
 
-@end example
+@end smallexample
 
 @comment *********************************************************************
 @comment ** 7.8.40.13 SET LOCALE                                            **
@@ -5499,6 +5564,7 @@ SORT Sort-File
     ASCENDING  KEY Transaction-Date
     ASCENDING  KEY Account-Number
     DESCENDING KEY Transaction-Amount
+	
 @end example
 
 The effect of this statement will be to sort all transactions into ascending order of the date the transaction took place (oldest first, newest last).  Unless the business running this program is going out of business, there are most-likely many transactions for any given date.  Therefore, within each grouping of transactions all with the same date, transactions will be sub-sorted into ascending sequence of the account number the transactions apply to.  Since it's quite possible there might be multiple transactions for an account on any given date, a third level sub-sort will arrange all transactions for the same account on the same date into descending sequence of the actual amount of the transaction (largest first, smallest last).  If two or more transactions of $100.00 were recorded for account #12345 on the 31@sup{st} of August 2009, those transactions will be retained in the order in which they were loaded into the sort work file.
@@ -5695,6 +5761,7 @@ STOP RUN
 @item
 @example
 STOP RUN WITH ERROR STATUS 16
+
 @end example
 @end enumerate
 
@@ -6071,6 +6138,7 @@ The optional @code{ON OVERFLOW} and @code{NOT ON OVERFLOW} clauses may be used t
 The following sample program illustrates the @statement{UNSTRING} statement.
 
 @smallexample
+
 IDENTIFICATION DIVISION.
 PROGRAM-ID. DEMOUNSTRING.
 DATA DIVISION.
@@ -6106,12 +6174,14 @@ PERFORM UNTIL EXIT
    DISPLAY "Tally=     " Tallying-Ctr
 END-PERFORM
 DISPLAY "Bye!"
-STOP RUN   .
+STOP RUN.
+
 @end smallexample
 
 The following is sample output from the program:
 
 @smallexample
+
 Enter Full Name (null quits):Cutler, Gary L
 First-Name=Gary            Delim=' ' Count=+004
 MI        =L               Delim=' ' Count=+001
@@ -6129,6 +6199,7 @@ Last-Name =Munster         Delim=' ' Count=+007
 Tally=     +002
 Enter Full Name (null quits):
 Bye!
+
 @end smallexample
 @comment *********************************************************************
 @comment ** 7.8.51 WRITE                                                   **
@@ -6228,6 +6299,7 @@ Both the source and receive data items must be declared in program's Data Divisi
 @enumerate
 @comment Syntactical Specifications:
 
+@sp 2
 GENERATE.
 @item
 Identifier-1 is an alphanumeric data item, it will contain the generated XML document output.
@@ -6249,8 +6321,8 @@ Names of data items that contain characters that are illegal in XML version 1.0 
 The XML declaration (header) is not generated. No extra white space, new line, etc. is inserted to make the generated XML more readable.
 @end enumerate
 
+@sp 2
 FROM.
-
 @item
 The group or elementary data item identifier-2 is to be converted to the XML document.
 identifier-2 must not be described with the RENAMES clause.
@@ -6304,6 +6376,7 @@ Any remaining instances of the five special characters & (ampersand), (apostroph
 Trailing spaces and leading zeroes are eliminated. Values converted from signed numeric values have their leading space removed if the value is positive. Values converted from numeric items have leading zeroes eliminated (after any initial minus sign). This is up to but not including the digit immediately before the actual or implied decimal point. Trailing zeroes after a decimal point are retained. For example: 012.340 becomes -12.340; 0000.45 becomes 0.45 ; 0013 becomes 13 ;  0000 becomes 0.
 Character values from alphabetic, alphanumeric data items have either trailing or leading spaces removed, depending on whether the corresponding data items have left or right justification, respectively left being the default. Trailing spaces are removed from values whose corresponding data items do not specify the JUSTIFIED clause. Leading spaces are removed from values whose data items do specify the JUSTIFIED clause. If a character value consists solely of spaces, all spaces are removed but one.
 
+@sp 2
 COUNT IN.
 @item
 Identifier-3 contains the count of generated XML characters. It must be an integer data item and normally contains a length of the generated XML document in bytes.
@@ -6312,6 +6385,7 @@ Use the COUNT IN phrase to determine the total number of character positions, in
 @item
 Identifier-1, identifier-2, identifier-3 must not overlap each other.
 
+@sp 2
 XML-CODE.
 @item
 After execution of the XML GENERATE statement, the special register XML-CODE contains either zero, which indicates successful completion, or a non-zero exception code.
@@ -6395,6 +6469,7 @@ The code generates the following XML document:
 
 @end smallexample
 
+@sp 2
 ENCODING, XML-DECLARATION
 @item
 You can code the ENCODING phrase of the XML GENERATE statement to specify the coded character set identifier CCSID of the generated XML document. If you do not use the ENCODING phrase, the document encoding is determined by the category of the receiving data item and by the CODEPAGE compiler option.
@@ -6440,6 +6515,7 @@ CCSID	    Description
 
 @end verbatim
 
+@sp 2
 ATTRIBUTES.
 @item
 You can use the ATTRIBUTES phrase of the XML GENERATE statement to have each elementary data item included in the generated XML document to be expressed as an attribute of the XML element that corresponds to its immediately superordinate data item, rather than as a child element.
@@ -6467,6 +6543,8 @@ The code would then generate the following XML document, in which wNAME and wDEP
 </wXML-INPUT>
 
 @end verbatim
+
+@sp 2
 NAMESPACE and NAMESPACE-PREFIX
 @item
 Use the NAMESPACE phrase to identify a namespace for the generated XML document. If the NAMESPACE phrase is not specified, or if identifier-4 has length zero or contains all spaces, the element names of XML documents produced by the XML GENERATE statement are not in any namespace.
@@ -6528,6 +6606,7 @@ If you do not specify a namespace, the element names in the generated XML docume
 
 @end verbatim
 
+@sp 2
 NAME.
 @item
 Allows you to supply element and attribute names.
@@ -6536,6 +6615,7 @@ Identifier-6 must reference identifier-2 or one of its subordinate data items. I
 @item
 Literal-6 must be an alphanumeric literal containing the attribute or element name to be generated in the XML document corresponding to identifier-6. It must be a valid XML local name.
 
+@sp 2
 TYPE.
 @item
 Allows you to control attribute and element generation.
@@ -6594,6 +6674,8 @@ You likely want to change the COBOL variable names to all lower case or use the 
      DISPLAY "4. [" x(1:TOTAL-CHAR)  "]".
 
 @end smallexample
+
+@sp 2
 SUPPRESS
 @item
 Optionally, you can code the SUPPRESS phrase to specify whether individual data items are generated based on whether or not they meet certain criteria.
@@ -6602,7 +6684,6 @@ If the SUPPRESS phrase is specified, identifier-1 must be large enough to contai
 With the generic-suppression-phrase, elementary items subordinate to identifier-2 that are not otherwise ignored by XML GENERATE operations are identified generically for potential suppression.
 @item
 Either items of class numeric, if the NUMERIC keyword is specified, or items that are not of class numeric, if the NONNUMERIC keyword is specified, or both, might be suppressed.
-
 @item
 If the ATTRIBUTE keyword is specified, only items that would be expressed in the generated XML document as an XML attribute are identified for potential suppression.
 @item
@@ -6679,6 +6760,7 @@ At termination of an XML GENERATE statement, special register XML-CODE contains 
 @item
 If no exception conditions arise during generation of the XML document, control is passed to imperative-statement-2, if specified, or to the end of the XML GENERATE statement. If an ON EXCEPTION phrase is specified, it is ignored. Special register XML-CODE contains a zero after the XML GENERATE statement has finished executing.
 
+@sp 2
 END-XML
 
 @item
@@ -6692,6 +6774,7 @@ An END-XML phrase at the same level of nesting
 A separator period
 @end enumerate
 
+@sp 2
 NESTED XML GENERATE STATEMENTS.
 @item
 When a given XML GENERATE statement appears as imperative-statement-1 or
